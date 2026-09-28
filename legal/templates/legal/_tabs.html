@@ -1,0 +1,5 @@
+{% load i18n %}
+<ul class="nav nav-pills legal-tabs mb-3">
+	<li class="nav-item"><a class="nav-link {% if tab == 'kazu' %}active{% endif %}" href="{% url 'legal-kazu-list' %}"><i class="fa fa-balance-scale"></i> {% trans "Kazu Legál" %}</a></li>
+	<li class="nav-item"><a class="nav-link {% if tab == 'vault' %}active{% endif %}" href="{% url 'legal-vault' %}"><i class="fa fa-archive"></i> {% trans "Document Vault" %}</a></li>
+</ul>

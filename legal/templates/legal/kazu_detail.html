@@ -1,0 +1,94 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'legal-kazu-list' %}">{% trans "KAZU LEGÁL" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ objects|upper }}</li>
+	</ol>
+	{% with obj=objects %}
+	<div class="page-head d-flex justify-content-between align-items-start flex-wrap">
+		<div>
+			<h2 class="mb-1">{{ obj }}</h2>
+			<div>{% include 'kazu/badge_status.html' %} {% include 'kazu/badge_status_kazu.html' %}</div>
+			<p class="text-muted mb-0 mt-1">{% if obj.titulu %}{{ obj.titulu }} · {% endif %}{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.munisipiu }}</p>
+		</div>
+		<div class="mb-2">
+			<a href="{% url 'kazu-detail' obj.pk %}" class="btn btn-outline-rbr btn-sm"><i class="fa fa-folder-open"></i> {% trans "Detalla kazu" %}</a>
+			<a href="{% url 'legal-dossier' obj.pk %}" class="btn btn-rbr btn-sm" target="_blank" rel="noopener"><i class="fa fa-print"></i> {% trans "Dossier (PDF)" %}</a>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-8">
+			<!-- Dokumentu legál -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<div class="d-flex justify-content-between align-items-center">
+					<h3 class="h-line mb-2">{% trans "Dokumentu Legál" %}</h3>
+					{% if can_edit %}<a href="{% url 'legal-kazu-dok-add' obj.pk %}" class="btn btn-sm btn-rbr"><i class="fa fa-upload"></i> {% trans "Aumenta" %}</a>{% endif %}
+				</div>
+				{% for d in dokumentu %}
+				<div class="doc-item">
+					<i class="fa {% if d.ext == 'pdf' %}fa-file-pdf-o{% elif d.ext == 'docx' %}fa-file-word-o{% else %}fa-file-image-o{% endif %} doc-ikon"></i>
+					<div class="flex-fill">
+						<a href="{% url 'legal-dok-detail' d.pk %}"><b>{{ d.titulu }}</b></a>
+						{% if d.konfidensial %}<span class="badge badge-dark"><i class="fa fa-lock"></i> {% trans "Konfidensiál" %}</span>{% endif %}
+						<br><small class="text-muted">{{ d.get_kategoria_display }} · v{{ d.versaun }} · {{ d.data_dokumentu|date:"d/m/Y"|default:"-" }} · {{ d.tamanu|filesizeformat }}</small>
+					</div>
+					<a href="{% url 'legal-dok-download' d.pk %}" class="btn btn-sm btn-outline-rbr" title="{% trans "Download" %}" aria-label="{% trans "Download" %}"><i class="fa fa-download"></i></a>
+				</div>
+				{% empty %}<p class="text-muted small mb-0">{% trans "Seidauk iha dokumentu legál." %}</p>{% endfor %}
+			</div></div>
+
+			<!-- Nota legál -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<div class="d-flex justify-content-between align-items-center">
+					<h3 class="h-line mb-2">{% trans "Nota no Prazu" %}</h3>
+					{% if can_edit %}<a href="{% url 'legal-nota-add' obj.pk %}" class="btn btn-sm btn-rbr"><i class="fa fa-plus"></i> {% trans "Aumenta" %}</a>{% endif %}
+				</div>
+				<ul class="timeline">
+				{% for n in nota %}
+					<li class="{% if n.atrazu %}bad{% endif %}">
+						<div class="d-flex justify-content-between">
+							<b>{{ n.get_tipu_display }}</b>
+							{% if can_edit %}<a href="{% url 'legal-nota-update' n.pk %}" class="small"><i class="fa fa-pencil"></i> {% trans "Edita" %}</a>{% endif %}
+						</div>
+						{% if n.prazu %}<span class="badge {% if n.remata %}badge-success{% elif n.atrazu %}badge-danger{% else %}badge-warning{% endif %}"><i class="fa fa-calendar"></i> {{ n.prazu|date:"d/m/Y" }}{% if n.remata %} · {% trans "Remata" %}{% elif n.atrazu %} · {% trans "Atrazu" %}{% endif %}</span>{% endif %}
+						{% if n.konfidensial %}<span class="badge badge-dark"><i class="fa fa-lock"></i> {% trans "Konfidensiál" %}</span>{% endif %}
+						<div class="pre-line mt-1">{{ n.testu }}</div>
+						<small class="text-muted">{{ n.created_at|date:"d/m/Y H:i" }} · {{ n.created_by.pesoaluser.pesoal|default:n.created_by.username|default:"-" }}</small>
+					</li>
+				{% empty %}<li class="text-muted">{% trans "Seidauk iha nota." %}</li>{% endfor %}
+				</ul>
+			</div></div>
+		</div>
+
+		<div class="col-lg-4">
+			{% if can_status_kazu %}
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Status Kazu" %}</h3>
+				<form method="post" action="{% url 'kazu-status-kazu' obj.pk %}">{% csrf_token %}
+					<input type="hidden" name="next" value="{{ request.get_full_path }}">
+					<select name="status_kazu" class="custom-select mb-2" aria-label="{% trans "Status Kazu" %}">
+						{% for code, label in status_kazu_choices %}<option value="{{ code }}" {% if obj.status_kazu == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+					</select>
+					<input type="text" name="nota" class="form-control mb-2" placeholder="{% trans "Nota (opsionál)" %}" maxlength="255">
+					<button type="submit" class="btn btn-outline-rbr btn-block"><i class="fa fa-save"></i> {% trans "Atualiza Status Kazu" %}</button>
+				</form>
+			</div></div>
+			{% endif %}
+
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Rezumu Kazu" %}</h3>
+				<table class="table table-sm table-detail mb-0">
+					<tr><th>{% trans "Tipu" %}</th><td>{% for t in obj.tipu_konflitu.all %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}</td></tr>
+					<tr><th>{% trans "Data Akontesimentu" %}</th><td>{{ obj.data_akontesimentu|date:"d/m/Y"|default:"-" }}</td></tr>
+					<tr><th>{% trans "Uma-Kain" %}</th><td>{{ obj.total_uma_kain }}</td></tr>
+					<tr><th>{% trans "Total Ema" %}</th><td>{{ obj.total_afetadu }}</td></tr>
+					<tr><th>{% trans "Evidénsia" %}</th><td>{{ obj.foto_count }} {% trans "foto" %} · {{ obj.video_count }} {% trans "vídeo" %}</td></tr>
+				</table>
+			</div></div>
+		</div>
+	</div>
+	{% endwith %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'legal-dok-detail' objects.pk %}">{{ objects.titulu|upper|truncatechars:40 }}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="row">
+		<div class="col-sm-12">
+			<form method="POST" id="VersaunForm" enctype="multipart/form-data" novalidate>
+			{% csrf_token %}
+			<div class="card card-rbr shadow-sm pt-1 rounded">
+				<div class="card-header card-header-rbr">{{ legend|upper }} · {{ objects.titulu }} (v{{ objects.versaun }} → v{{ objects.versaun|add:1 }})</div>
+				<div class="card-body">
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+			</form>
+		</div> <!--end col-->
+	</div> <!--end row-->
+{% endblock %}

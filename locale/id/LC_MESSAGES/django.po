@@ -1748,3 +1748,369 @@ msgstr ""
 "Peta dasar (batas munisipiu) berfungsi offline. Saat online, pilih Street "
 "atau Satelit di ikon lapisan (kanan atas). Batas disederhanakan, hanya untuk"
 " visualisasi."
+
+#: legal/models.py
+msgid "Aksaun Seluk"
+msgstr "Tindakan Lain"
+
+#: legal/models.py
+msgid "Análize Legál"
+msgstr "Analisis Hukum"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkiva"
+msgstr "Arsipkan"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkiva dokumentu ne'e? Sei la hamoos, maibé la mosu tan iha lista."
+msgstr ""
+"Arsipkan dokumen ini? Tidak dihapus, tetapi tidak muncul lagi di daftar."
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkivadu"
+msgstr "Diarsipkan"
+
+#: legal/models.py
+msgid "Arkivu"
+msgstr "Arsip"
+
+#: legal/models.py
+msgid "Asesu Vault"
+msgstr "Akses Vault"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Atrazu"
+msgstr "Terlambat"
+
+#: legal/models.py
+msgid "Audiénsia / Tribunál"
+msgstr "Sidang / Pengadilan"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Aumenta"
+msgstr "Tambah"
+
+#: legal/views/vault_v.py
+msgid "Aumenta Dokumentu"
+msgstr "Tambah Dokumen"
+
+#: legal/views/vault_v.py
+msgid "Aumenta Dokumentu Legál"
+msgstr "Tambah Dokumen Hukum"
+
+#: legal/views/nota_v.py
+msgid "Aumenta Nota Legál"
+msgstr "Tambah Catatan Hukum"
+
+#: legal/templates/legal/vault.html
+msgid "Buka títulu, ID kazu…"
+msgstr "Cari judul, ID kasus…"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "DOCUMENT VAULT"
+msgstr "BRANKAS DOKUMEN"
+
+#: legal/templates/legal/dossier.html
+msgid "DOSSIER KAZU"
+msgstr "BERKAS KASUS"
+
+#: legal/models.py
+msgid "Data dokumentu"
+msgstr "Tanggal dokumen"
+
+#: legal/models.py
+msgid "Desizaun Tribunál / Autoridade"
+msgstr "Putusan Pengadilan / Otoritas"
+
+#: legal/views/vault_v.py
+msgid "Detalla Dokumentu"
+msgstr "Detail Dokumen"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Detalla kazu"
+msgstr "Detail kasus"
+
+#: legal/views/vault_v.py
+msgid "Document Vault"
+msgstr "Brankas Dokumen"
+
+#: legal/views/vault_v.py
+msgid "Document Vault Legál"
+msgstr "Brankas Dokumen Hukum"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Dokumentu"
+msgstr "Dokumen"
+
+#: legal/views/vault_v.py
+msgid "Dokumentu arkiva ona."
+msgstr "Dokumen diarsipkan."
+
+#: legal/services.py
+msgid "Dokumentu ne'e la atuál."
+msgstr "Dokumen ini bukan versi terbaru."
+
+#: legal/views/vault_v.py
+msgid "Dokumentu rai ona iha vault."
+msgstr "Dokumen disimpan di brankas."
+
+#: legal/templates/legal/kazu_list.html
+msgid "Dossier"
+msgstr "Berkas"
+
+#: legal/views/kazu_v.py
+msgid "Dossier %(kode)s"
+msgstr "Berkas %(kode)s"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Dossier (PDF)"
+msgstr "Berkas (PDF)"
+
+#: legal/views/kazu_v.py
+msgid "Dossier Legál"
+msgstr "Berkas Hukum"
+
+#: legal/models.py
+msgid "Download"
+msgstr "Unduh"
+
+#: legal/views/nota_v.py
+msgid "Edita Nota Legál"
+msgstr "Ubah Catatan Hukum"
+
+#: legal/templates/legal/dossier.html
+msgid "Fila"
+msgstr "Kembali"
+
+#: legal/templates/legal/dokumentu_form.html
+msgid ""
+"File rai iha vault seguru: asesu liuhusi login deit, kada download rejista, "
+"no sistema kalkula SHA-256 atu prova file la muda."
+msgstr ""
+"File disimpan di brankas aman: akses hanya lewat login, setiap unduhan "
+"dicatat, dan sistem menghitung SHA-256 untuk membuktikan file tidak berubah."
+
+#: legal/forms.py
+msgid "File versaun foun"
+msgstr "File versi baru"
+
+#: legal/templates/legal/dossier.html
+msgid "Imprime / Rai PDF"
+msgstr "Cetak / Simpan PDF"
+
+#: legal/templates/legal/vault.html
+msgid "Jerál"
+msgstr "Umum"
+
+#: legal/templates/legal/vault.html
+msgid "Jerál deit"
+msgstr "Umum saja"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "KAZU LEGÁL"
+msgstr "KASUS HUKUM"
+
+#: legal/templates/legal/dossier.html
+msgid "KONFIDENSIÁL — ba uzu legál no advokasia deit. Labele fahe ba públiku."
+msgstr ""
+"RAHASIA — hanya untuk keperluan hukum dan advokasi. Tidak boleh disebarkan "
+"ke publik."
+
+#: legal/models.py
+msgid "Karta / Reklamasaun"
+msgstr "Surat / Pengaduan"
+
+#: legal/models.py
+msgid "Kategoria"
+msgstr "Kategori"
+
+#: legal/templates/legal/vault.html
+msgid "Kategoria: Hotu"
+msgstr "Kategori: Semua"
+
+#: legal/services.py
+msgid "Kazu %(kode)s tama faze Aksaun Legál."
+msgstr "Kasus %(kode)s masuk tahap Aksi Hukum."
+
+#: legal/views/kazu_v.py
+msgid "Kazu Legál"
+msgstr "Kasus Hukum"
+
+#: legal/views/kazu_v.py
+msgid "Kazu iha Prosesu Legál"
+msgstr "Kasus dalam Proses Hukum"
+
+#: legal/models.py
+msgid "Konfidensiál"
+msgstr "Rahasia"
+
+#: legal/models.py
+msgid "Konsellu ba Komunidade"
+msgstr "Nasihat untuk Komunitas"
+
+#: legal/services.py
+msgid ""
+"Konteúdu file la hanesan ho extensaun (.%(ext)s). File bele estraga ka "
+"falsu."
+msgstr ""
+"Isi file tidak sesuai ekstensi (.%(ext)s). File mungkin rusak atau palsu."
+
+#: legal/models.py
+msgid "Kontratu / Akordu"
+msgstr "Kontrak / Perjanjian"
+
+#: legal/templates/legal/kazu_list.html
+msgid "La iha kazu iha filtru ne'e."
+msgstr "Tidak ada kasus untuk filter ini."
+
+#: notification/models.py
+msgid "Legál (aksaun / prazu)"
+msgstr "Hukum (aksi / tenggat)"
+
+#: legal/models.py
+msgid "Lei / Regulamentu"
+msgstr "Undang-undang / Peraturan"
+
+#: legal/models.py
+msgid "Mamuk = dokumentu jerál (lei, regulamentu)"
+msgstr "Kosong = dokumen umum (undang-undang, peraturan)"
+
+#: legal/models.py
+msgid "Mediasaun"
+msgstr "Mediasi"
+
+#: legal/models.py
+msgid "Nota Legál"
+msgstr "Catatan Hukum"
+
+#: legal/views/nota_v.py
+msgid "Nota legál atualiza ona."
+msgstr "Catatan hukum diperbarui."
+
+#: legal/views/nota_v.py
+msgid "Nota legál rai ona."
+msgstr "Catatan hukum disimpan."
+
+#: legal/templates/legal/dossier.html
+msgid "Nota no Prazu"
+msgstr "Catatan dan Tenggat"
+
+#: legal/models.py
+msgid "Ofisiál Legál no Superadmin deit mak bele haree"
+msgstr "Hanya Petugas Hukum dan Superadmin yang bisa melihat"
+
+#: legal/forms.py
+msgid "PDF, JPG, PNG ka DOCX · máximu 20 MB"
+msgstr "PDF, JPG, PNG atau DOCX · maksimum 20 MB"
+
+#: legal/templates/legal/dossier.html
+msgid "Prazu"
+msgstr "Tenggat"
+
+#: legal/tasks.py
+msgid "Prazu %(tipu)s kazu %(kode)s: %(data)s (loron %(n)s tan)."
+msgstr "Tenggat %(tipu)s kasus %(kode)s: %(data)s (%(n)s hari lagi)."
+
+#: legal/models.py
+msgid "Prazu / Data audiénsia"
+msgstr "Tenggat / Tanggal sidang"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Prazu tuir mai"
+msgstr "Tenggat berikutnya"
+
+#: legal/templates/legal/dossier.html
+msgid "Prepara husi"
+msgstr "Disiapkan oleh"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Razaun arkivu (obrigatóriu)"
+msgstr "Alasan arsip (wajib)"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Rejistu Asesu"
+msgstr "Catatan Akses"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Rezumu Kazu"
+msgstr "Ringkasan Kasus"
+
+#: legal/models.py
+msgid "SHA-256"
+msgstr "SHA-256"
+
+#: legal/forms.py
+msgid "Saida mak muda?"
+msgstr "Apa yang berubah?"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Seidauk iha dokumentu legál."
+msgstr "Belum ada dokumen hukum."
+
+#: legal/templates/legal/vault.html
+msgid "Seidauk iha dokumentu."
+msgstr "Belum ada dokumen."
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Seidauk iha nota."
+msgstr "Belum ada catatan."
+
+#: legal/models.py
+msgid "Seluk"
+msgstr "Lainnya"
+
+#: legal/models.py
+msgid "Sertifikadu / Títulu Rai"
+msgstr "Sertifikat / Hak Tanah"
+
+#: legal/models.py
+msgid "Sistema sei haruka lembrete loron 3 antes"
+msgstr "Sistem akan mengirim pengingat 3 hari sebelumnya"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Status Kazu: Hotu"
+msgstr "Status Kasus: Semua"
+
+#: legal/templates/legal/dossier.html
+msgid "Títulu"
+msgstr "Judul"
+
+#: legal/models.py
+msgid "Títulu dokumentu"
+msgstr "Judul dokumen"
+
+#: legal/models.py
+msgid "Upload husi"
+msgstr "Diunggah oleh"
+
+#: legal/models.py
+msgid "Versaun"
+msgstr "Versi"
+
+#: legal/views/vault_v.py
+msgid "Versaun %(v)s rai ona."
+msgstr "Versi %(v)s disimpan."
+
+#: legal/views/vault_v.py
+msgid "Versaun Foun"
+msgstr "Versi Baru"
+
+#: legal/views/vault_v.py
+msgid "Versaun Foun Dokumentu"
+msgstr "Versi Baru Dokumen"
+
+#: legal/models.py
+msgid "Versaun foun"
+msgstr "Versi baru"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Versaun tuan. Iha versaun foun liu."
+msgstr "Versi lama. Ada versi yang lebih baru."
+
+#: legal/templates/legal/dossier.html
+msgid "foto"
+msgstr "foto"
+
+#: legal/templates/legal/dossier.html
+msgid "vídeo"
+msgstr "video"

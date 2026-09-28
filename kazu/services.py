@@ -170,4 +170,7 @@ def change_status_kazu(kazu, user, status_kazu, nota=''):
 	kazu.status_kazu = status_kazu
 	kazu.save(update_fields=['status_kazu'])
 	_historia(kazu, user, antes, status_kazu, nota, tipu=KazuHistoria.KAZU)
+	if status_kazu == 'AKSAUN_LEGAL':
+		from legal.services import notifika_aksaun_legal      # import iha laran: evita import sirkulár
+		notifika_aksaun_legal(kazu, user)
 	return kazu

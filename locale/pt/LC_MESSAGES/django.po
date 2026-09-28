@@ -1762,3 +1762,371 @@ msgstr ""
 "O mapa base (fronteiras dos municípios) funciona offline. Quando online, "
 "escolha Street ou Satélite no ícone de camadas (canto superior direito). "
 "Fronteiras simplificadas, apenas para visualização."
+
+#: legal/models.py
+msgid "Aksaun Seluk"
+msgstr "Outra Ação"
+
+#: legal/models.py
+msgid "Análize Legál"
+msgstr "Análise Jurídica"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkiva"
+msgstr "Arquivar"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkiva dokumentu ne'e? Sei la hamoos, maibé la mosu tan iha lista."
+msgstr ""
+"Arquivar este documento? Não será apagado, mas deixará de aparecer na lista."
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkivadu"
+msgstr "Arquivado"
+
+#: legal/models.py
+msgid "Arkivu"
+msgstr "Arquivo"
+
+#: legal/models.py
+msgid "Asesu Vault"
+msgstr "Acesso ao Cofre"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Atrazu"
+msgstr "Em atraso"
+
+#: legal/models.py
+msgid "Audiénsia / Tribunál"
+msgstr "Audiência / Tribunal"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Aumenta"
+msgstr "Adicionar"
+
+#: legal/views/vault_v.py
+msgid "Aumenta Dokumentu"
+msgstr "Adicionar Documento"
+
+#: legal/views/vault_v.py
+msgid "Aumenta Dokumentu Legál"
+msgstr "Adicionar Documento Jurídico"
+
+#: legal/views/nota_v.py
+msgid "Aumenta Nota Legál"
+msgstr "Adicionar Nota Jurídica"
+
+#: legal/templates/legal/vault.html
+msgid "Buka títulu, ID kazu…"
+msgstr "Pesquisar título, ID do caso…"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "DOCUMENT VAULT"
+msgstr "COFRE DE DOCUMENTOS"
+
+#: legal/templates/legal/dossier.html
+msgid "DOSSIER KAZU"
+msgstr "DOSSIÊ DO CASO"
+
+#: legal/models.py
+msgid "Data dokumentu"
+msgstr "Data do documento"
+
+#: legal/models.py
+msgid "Desizaun Tribunál / Autoridade"
+msgstr "Decisão do Tribunal / Autoridade"
+
+#: legal/views/vault_v.py
+msgid "Detalla Dokumentu"
+msgstr "Detalhe do Documento"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Detalla kazu"
+msgstr "Detalhe do caso"
+
+#: legal/views/vault_v.py
+msgid "Document Vault"
+msgstr "Cofre de Documentos"
+
+#: legal/views/vault_v.py
+msgid "Document Vault Legál"
+msgstr "Cofre de Documentos Jurídicos"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Dokumentu"
+msgstr "Documento"
+
+#: legal/views/vault_v.py
+msgid "Dokumentu arkiva ona."
+msgstr "Documento arquivado."
+
+#: legal/services.py
+msgid "Dokumentu ne'e la atuál."
+msgstr "Este documento não é a versão atual."
+
+#: legal/views/vault_v.py
+msgid "Dokumentu rai ona iha vault."
+msgstr "Documento guardado no cofre."
+
+#: legal/templates/legal/kazu_list.html
+msgid "Dossier"
+msgstr "Dossiê"
+
+#: legal/views/kazu_v.py
+msgid "Dossier %(kode)s"
+msgstr "Dossiê %(kode)s"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Dossier (PDF)"
+msgstr "Dossiê (PDF)"
+
+#: legal/views/kazu_v.py
+msgid "Dossier Legál"
+msgstr "Dossiê Jurídico"
+
+#: legal/models.py
+msgid "Download"
+msgstr "Descarregar"
+
+#: legal/views/nota_v.py
+msgid "Edita Nota Legál"
+msgstr "Editar Nota Jurídica"
+
+#: legal/templates/legal/dossier.html
+msgid "Fila"
+msgstr "Voltar"
+
+#: legal/templates/legal/dokumentu_form.html
+msgid ""
+"File rai iha vault seguru: asesu liuhusi login deit, kada download rejista, "
+"no sistema kalkula SHA-256 atu prova file la muda."
+msgstr ""
+"O ficheiro fica num cofre seguro: acesso só com login, cada descarga é "
+"registada e o sistema calcula o SHA-256 para provar que o ficheiro não foi "
+"alterado."
+
+#: legal/forms.py
+msgid "File versaun foun"
+msgstr "Ficheiro da nova versão"
+
+#: legal/templates/legal/dossier.html
+msgid "Imprime / Rai PDF"
+msgstr "Imprimir / Guardar PDF"
+
+#: legal/templates/legal/vault.html
+msgid "Jerál"
+msgstr "Geral"
+
+#: legal/templates/legal/vault.html
+msgid "Jerál deit"
+msgstr "Só gerais"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "KAZU LEGÁL"
+msgstr "CASOS JURÍDICOS"
+
+#: legal/templates/legal/dossier.html
+msgid "KONFIDENSIÁL — ba uzu legál no advokasia deit. Labele fahe ba públiku."
+msgstr ""
+"CONFIDENCIAL — apenas para uso jurídico e advocacia. Não divulgar ao "
+"público."
+
+#: legal/models.py
+msgid "Karta / Reklamasaun"
+msgstr "Carta / Reclamação"
+
+#: legal/models.py
+msgid "Kategoria"
+msgstr "Categoria"
+
+#: legal/templates/legal/vault.html
+msgid "Kategoria: Hotu"
+msgstr "Categoria: Todas"
+
+#: legal/services.py
+msgid "Kazu %(kode)s tama faze Aksaun Legál."
+msgstr "O caso %(kode)s entrou na fase de Ação Jurídica."
+
+#: legal/views/kazu_v.py
+msgid "Kazu Legál"
+msgstr "Casos Jurídicos"
+
+#: legal/views/kazu_v.py
+msgid "Kazu iha Prosesu Legál"
+msgstr "Casos em Processo Jurídico"
+
+#: legal/models.py
+msgid "Konfidensiál"
+msgstr "Confidencial"
+
+#: legal/models.py
+msgid "Konsellu ba Komunidade"
+msgstr "Aconselhamento à Comunidade"
+
+#: legal/services.py
+msgid ""
+"Konteúdu file la hanesan ho extensaun (.%(ext)s). File bele estraga ka "
+"falsu."
+msgstr ""
+"O conteúdo do ficheiro não corresponde à extensão (.%(ext)s). O ficheiro "
+"pode estar danificado ou ser falso."
+
+#: legal/models.py
+msgid "Kontratu / Akordu"
+msgstr "Contrato / Acordo"
+
+#: legal/templates/legal/kazu_list.html
+msgid "La iha kazu iha filtru ne'e."
+msgstr "Não há casos neste filtro."
+
+#: notification/models.py
+msgid "Legál (aksaun / prazu)"
+msgstr "Jurídico (ação / prazo)"
+
+#: legal/models.py
+msgid "Lei / Regulamentu"
+msgstr "Lei / Regulamento"
+
+#: legal/models.py
+msgid "Mamuk = dokumentu jerál (lei, regulamentu)"
+msgstr "Vazio = documento geral (lei, regulamento)"
+
+#: legal/models.py
+msgid "Mediasaun"
+msgstr "Mediação"
+
+#: legal/models.py
+msgid "Nota Legál"
+msgstr "Nota Jurídica"
+
+#: legal/views/nota_v.py
+msgid "Nota legál atualiza ona."
+msgstr "Nota jurídica atualizada."
+
+#: legal/views/nota_v.py
+msgid "Nota legál rai ona."
+msgstr "Nota jurídica guardada."
+
+#: legal/templates/legal/dossier.html
+msgid "Nota no Prazu"
+msgstr "Notas e Prazos"
+
+#: legal/models.py
+msgid "Ofisiál Legál no Superadmin deit mak bele haree"
+msgstr "Só o Oficial Jurídico e o Superadmin podem ver"
+
+#: legal/forms.py
+msgid "PDF, JPG, PNG ka DOCX · máximu 20 MB"
+msgstr "PDF, JPG, PNG ou DOCX · máximo 20 MB"
+
+#: legal/templates/legal/dossier.html
+msgid "Prazu"
+msgstr "Prazo"
+
+#: legal/tasks.py
+msgid "Prazu %(tipu)s kazu %(kode)s: %(data)s (loron %(n)s tan)."
+msgstr "Prazo %(tipu)s do caso %(kode)s: %(data)s (faltam %(n)s dias)."
+
+#: legal/models.py
+msgid "Prazu / Data audiénsia"
+msgstr "Prazo / Data da audiência"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Prazu tuir mai"
+msgstr "Próximo prazo"
+
+#: legal/templates/legal/dossier.html
+msgid "Prepara husi"
+msgstr "Preparado por"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Razaun arkivu (obrigatóriu)"
+msgstr "Motivo do arquivo (obrigatório)"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Rejistu Asesu"
+msgstr "Registo de Acessos"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Rezumu Kazu"
+msgstr "Resumo do Caso"
+
+#: legal/models.py
+msgid "SHA-256"
+msgstr "SHA-256"
+
+#: legal/forms.py
+msgid "Saida mak muda?"
+msgstr "O que mudou?"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Seidauk iha dokumentu legál."
+msgstr "Ainda não há documentos jurídicos."
+
+#: legal/templates/legal/vault.html
+msgid "Seidauk iha dokumentu."
+msgstr "Ainda não há documentos."
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Seidauk iha nota."
+msgstr "Ainda não há notas."
+
+#: legal/models.py
+msgid "Seluk"
+msgstr "Outro"
+
+#: legal/models.py
+msgid "Sertifikadu / Títulu Rai"
+msgstr "Certificado / Título de Terra"
+
+#: legal/models.py
+msgid "Sistema sei haruka lembrete loron 3 antes"
+msgstr "O sistema enviará um lembrete 3 dias antes"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Status Kazu: Hotu"
+msgstr "Estado do Caso: Todos"
+
+#: legal/templates/legal/dossier.html
+msgid "Títulu"
+msgstr "Título"
+
+#: legal/models.py
+msgid "Títulu dokumentu"
+msgstr "Título do documento"
+
+#: legal/models.py
+msgid "Upload husi"
+msgstr "Carregado por"
+
+#: legal/models.py
+msgid "Versaun"
+msgstr "Versão"
+
+#: legal/views/vault_v.py
+msgid "Versaun %(v)s rai ona."
+msgstr "Versão %(v)s guardada."
+
+#: legal/views/vault_v.py
+msgid "Versaun Foun"
+msgstr "Nova Versão"
+
+#: legal/views/vault_v.py
+msgid "Versaun Foun Dokumentu"
+msgstr "Nova Versão do Documento"
+
+#: legal/models.py
+msgid "Versaun foun"
+msgstr "Nova versão"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Versaun tuan. Iha versaun foun liu."
+msgstr "Versão antiga. Existe uma versão mais recente."
+
+#: legal/templates/legal/dossier.html
+msgid "foto"
+msgstr "fotos"
+
+#: legal/templates/legal/dossier.html
+msgid "vídeo"
+msgstr "vídeo"

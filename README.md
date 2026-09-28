@@ -30,6 +30,7 @@ notification/   # notifikasaun 🔔 + email (api/ hanesan pola SGDS)
 kazu/           # kazu: formuláriu, status, verifikasaun (Admin) + aprovasaun (Superadmin), evidénsia, istória
 report/         # dashboard, gráfiku (templates/chart/*.js), mapa (templates/maps/), lista, eksporta Excel — api/ + views/
 sinkron/        # app offline Investigadór (/sinkron/) + API sinkron JWT (api/) — regra iha services.py
+legal/          # Document Vault, nota/prazu legál, dossier imprime — regra iha services.py
 locale/         # tradusaun: tet, pt, en, id
 tools/          # extract_lian.py (ekstrai testu tradusaun)
 docs/           # SPESIFIKASAUN.md, DEPLOY.md, manuál formasaun
@@ -47,6 +48,7 @@ pip install -r requirements.txt
 cp .env.example .env            # depois muda SECRET_KEY iha .env
 python manage.py migrate
 python manage.py setup_smkre    # role (5), opsaun padronizadu, 14 munisípiu, 65 postu
+python manage.py setup_horariu  # knaar automátiku kada loron (Celery Beat)
 python manage.py compile_lian   # tradusaun .po → .mo
 python manage.py kria_superadmin --email ita@redebarai.org --naran "Naran Ita"
 python manage.py kria_dadus_demo   # (opsionál, DEBUG deit) kazu [DEMO] ba teste dashboard/mapa
@@ -110,6 +112,16 @@ def PesoalList(request):
 
 API: `POST /api/auth/token/` · `GET /api/sinkron/opsaun/` · `GET|POST /api/sinkron/kazu/` · `POST /api/sinkron/kazu/<id>/evidensia/` · `POST /api/sinkron/kazu/<id>/haruka/`
 
+## ⚖️ Legál (Document Vault)
+
+- **Ofisiál Legál / Superadmin:** upload dokumentu (PDF, JPG, PNG, DOCX ≤ 20 MB), versaun foun, arkivu (ho razaun), nota no prazu.
+- **Admin / Analista:** haree no download (dokumentu **konfidensiál** la mosu).
+- Kazu tenke **verifika uluk**. Status kazu → *Aksaun Legál* = notifikasaun ba equipa legál.
+- Kada file: tipu verifika tuir konteúdu, **SHA-256** rai, kada upload/download **rejista** (se, bainhira, IP). File la iha `/media/` — download liuhusi login deit.
+- Prazu / audiénsia: lembrete automátiku loron 3 antes (`legal.tasks.lembra_prazu`, 07:00).
+- **Dossier (PDF):** pájina A4 ho kop Rede ba Rai → *Imprime / Rai PDF*.
+- Auditoria: `python manage.py verifika_vault` (kalkula fali SHA-256 file hotu).
+
 ## 🌐 Lian
 
 - Testu fonte iha kódigu mak **Tetun**. File hotu iha `locale/`: `tet/`, `pt/`, `en/`, `id/` (`LC_MESSAGES/django.po`).
@@ -144,5 +156,5 @@ Haree **[docs/DEPLOY.md](docs/DEPLOY.md)** (PostgreSQL, Gunicorn, Nginx, Celery,
 - [x] **Faze 2** — Kazu: formuláriu, status rua, **Verifika (Admin) → Aprova (Superadmin)**, istória, evidénsia, notifikasaun
 - [x] **Faze 3** — Dashboard, gráfiku, mapa hotspot/pin (GeoJSON lokál + OSM), lista DataTables, eksporta Excel (openpyxl) / PDF
 - [x] **Faze 4** — Offline PWA: IndexedDB enkriptadu (PIN AES-256), formuláriu pasu 6, GPS ≤ 50 m, kámera deit, sinkron idempotente
-- [ ] **Faze 5** — Legál (Document Vault), test, deploy
+- [x] **Faze 5** — Legál: Document Vault (SHA-256, versaun, rejistu asesu), nota + lembrete prazu, dossier PDF; prontu ba deploy
 - [ ] **Faze 6** — Portal Públiku (anónimu, tuir suku)

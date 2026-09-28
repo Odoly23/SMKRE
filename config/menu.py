@@ -15,7 +15,7 @@ MENU = [
 	('dashboard', 'report-dash', 'fa-bar-chart', _('Dashboard'), rbac.ROLE_DASHBOARD),
 	('mapa', 'report-mapa', 'fa-map', _('Mapa'), rbac.ROLE_DASHBOARD),
 	('relatoriu', 'report-list', 'fa-file-text', _('Relatóriu'), rbac.ROLE_RELATORIU),
-	('legal', 'legal-vault', 'fa-balance-scale', _('Legál'), rbac.ROLE_LEGAL),
+	('legal', 'legal-kazu-list', 'fa-balance-scale', _('Legál'), rbac.ROLE_LEGAL),
 	('user', 'pesoal-list', 'fa-users', _('Utilizador'), rbac.ROLE_USER_MANAGE),
 	('offline', 'offline-list', 'fa-mobile', _('Offline'), rbac.ROLE_USER_MANAGE),
 ]

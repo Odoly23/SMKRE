@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext as _
 from config.decorators import allowed_users
-from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, INVESTIGADOR
+from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES
@@ -59,6 +59,7 @@ def KazuDetail(request, uuid):
 		'actions': available_actions(request.user, objects),
 		'can_edit': can_edit(request.user, objects),
 		'can_status_kazu': group in ROLE_STATUS_KAZU and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
+		'can_legal': group in ROLE_LEGAL and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
 		'action_form': ActionForm(), 'status_kazu_form': StatusKazuForm(initial={'status_kazu': objects.status_kazu}),
 		'status_kazu_choices': STATUS_KAZU_CHOICES,
 		'title': str(objects), 'legend': _('Detalla Kazu')

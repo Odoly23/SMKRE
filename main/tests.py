@@ -64,3 +64,15 @@ class MediaTest(TestCase):
 		self.client.force_login(make_user(ADMIN))
 		self.assertEqual(self.client.get('/media/pesoal/../../smkre/settings.py').status_code, 404)
 		self.assertEqual(self.client.get('/media/seluk/x.png').status_code, 404)
+
+
+class ServiceWorkerTest(TestCase):
+	def test_precache_kobre_aset_app_offline(self):
+		# Aset hotu ne'ebé /sinkron/ uza tenke iha lista precache SW (loos mós ho naran hash iha production)
+		import re
+		js = self.client.get('/sw.js').content.decode()
+		self.assertNotIn('__SW_ASSETS__', js)
+		app = self.client.get('/sinkron/').content.decode()
+		refs = re.findall(r'(?:src|href)="(/static/[^"]+)"', app)
+		self.assertTrue(refs)
+		self.assertEqual([r for r in refs if r not in js], [])

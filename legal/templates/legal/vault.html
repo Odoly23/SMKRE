@@ -1,0 +1,65 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		{% if can_edit %}<a href="{% url 'legal-dok-add' %}" class="btn btn-rbr mb-2"><i class="fa fa-upload"></i> {% trans "Aumenta Dokumentu" %}</a>{% endif %}
+	</div>
+	{% include 'legal/_tabs.html' with tab='vault' %}
+
+	<form method="get" class="card card-rbr mb-3">
+		<div class="card-body py-3">
+			<div class="form-row align-items-center">
+				<div class="col-md-5 mb-2"><input type="search" name="q" value="{{ q }}" class="form-control" placeholder="{% trans "Buka títulu, ID kazu…" %}" aria-label="{% trans "Buka" %}"></div>
+				<div class="col-6 col-md-3 mb-2">
+					<select name="kategoria" class="custom-select" aria-label="{% trans "Kategoria" %}">
+						<option value="">{% trans "Kategoria: Hotu" %}</option>
+						{% for code, label in kategoria_choices %}<option value="{{ code }}" {% if f_kategoria == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+					</select>
+				</div>
+				<div class="col-6 col-md-2 mb-2">
+					<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="jeral" name="jeral" value="1" {% if request.GET.jeral %}checked{% endif %}><label class="custom-control-label" for="jeral">{% trans "Jerál deit" %}</label></div>
+				</div>
+				<div class="col-md-2 mb-2"><button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-filter"></i> {% trans "Filtra" %}</button></div>
+			</div>
+		</div>
+	</form>
+
+	<div class="card card-rbr">
+		<div class="card-body">
+			<div class="table-responsive table-cards">
+				<table class="table table-sm table-hover">
+					<thead><tr>
+						<th>{% trans "Dokumentu" %}</th><th>{% trans "Kategoria" %}</th><th>{% trans "Kazu" %}</th>
+						<th>{% trans "Versaun" %}</th><th>{% trans "Data upload" %}</th><th></th>
+					</tr></thead>
+					<tbody>
+					{% for d in objects %}
+					<tr>
+						<td data-label="{% trans "Dokumentu" %}"><a href="{% url 'legal-dok-detail' d.pk %}"><b>{{ d.titulu }}</b></a>{% if d.konfidensial %} <span class="badge badge-dark"><i class="fa fa-lock"></i></span>{% endif %}<br><small class="text-muted">{{ d.ext|upper }} · {{ d.tamanu|filesizeformat }}</small></td>
+						<td data-label="{% trans "Kategoria" %}">{{ d.get_kategoria_display }}</td>
+						<td data-label="{% trans "Kazu" %}">{% if d.kazu %}<a href="{% url 'legal-kazu' d.kazu_id %}">{{ d.kazu }}</a>{% else %}<span class="text-muted">{% trans "Jerál" %}</span>{% endif %}</td>
+						<td data-label="{% trans "Versaun" %}">v{{ d.versaun }}</td>
+						<td data-label="{% trans "Data upload" %}">{{ d.uploaded_at|date:"d/m/Y" }}<br><small class="text-muted">{{ d.uploaded_by.pesoaluser.pesoal|default:d.uploaded_by.username|default:"-" }}</small></td>
+						<td class="text-right"><a href="{% url 'legal-dok-download' d.pk %}" class="btn btn-sm btn-outline-rbr" aria-label="{% trans "Download" %}"><i class="fa fa-download"></i></a></td>
+					</tr>
+					{% empty %}
+					<tr><td colspan="6" class="text-center text-muted">{% trans "Seidauk iha dokumentu." %}</td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			{% if objects.has_other_pages %}
+			<nav aria-label="{% trans "Pájina" %}"><ul class="pagination pagination-sm justify-content-center mb-0">
+				{% if objects.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ objects.previous_page_number }}&q={{ q|urlencode }}&kategoria={{ f_kategoria }}">‹</a></li>{% endif %}
+				<li class="page-item disabled"><span class="page-link">{{ objects.number }} / {{ objects.paginator.num_pages }}</span></li>
+				{% if objects.has_next %}<li class="page-item"><a class="page-link" href="?page={{ objects.next_page_number }}&q={{ q|urlencode }}&kategoria={{ f_kategoria }}">›</a></li>{% endif %}
+			</ul></nav>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

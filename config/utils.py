@@ -22,5 +22,9 @@ def send_html_email(subject, template, context, to):
 
 
 def get_client_ip(request):
+	# Iha kotuk Nginx: IP ikus iha X-Forwarded-For mak Nginx rasik hatama (ida dahuluk bele falsu husi kliente).
+	# La iha proxy (dev): REMOTE_ADDR.
 	xff = request.META.get('HTTP_X_FORWARDED_FOR')
-	return xff.split(',')[0].strip() if xff else request.META.get('REMOTE_ADDR')
+	if xff and settings.BEHIND_PROXY:
+		return xff.split(',')[-1].strip()
+	return request.META.get('REMOTE_ADDR') or None

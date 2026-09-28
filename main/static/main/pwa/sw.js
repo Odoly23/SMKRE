@@ -3,28 +3,10 @@
    - App offline /sinkron/: rede uluk, se offline → kópia iha cache (pájina la iha dadus privadu)
    - Pájina seluk: rede uluk, se offline → /offline/ (dadus privadu LA rai iha cache)
    Dadus kazu offline iha IndexedDB (enkriptadu ho PIN), la iha cache ne'e. */
-const VERSION = 'smkre-v2';
+const VERSION = 'smkre-' + '__SW_VERSAUN__';     // Django hatama (main/views.py → service_worker)
 const STATIC_CACHE = VERSION + '-static';
 const APP_URL = '/sinkron/';
-const PRECACHE = [
-	'/offline/',
-	APP_URL,
-	'/static/main/css/bootstrap.min.css',
-	'/static/main/css/main.css',
-	'/static/main/css/fonts.css',
-	'/static/main/font-awesome/css/font-awesome.min.css',
-	'/static/main/font-awesome/fonts/fontawesome-webfont.woff2',
-	'/static/main/js/jquery.min.js',
-	'/static/main/js/bootstrap.bundle.min.js',
-	'/static/main/js/main.js',
-	'/static/main/images/logo.png',
-	'/static/main/images/favicon.png',
-	'/static/main/offline/offline.css',
-	'/static/main/offline/smkre_kripto.js',
-	'/static/main/offline/smkre_db.js',
-	'/static/main/offline/smkre_kamera.js',
-	'/static/main/offline/smkre_offline.js',
-];
+const PRECACHE = ['/offline/', APP_URL].concat('__SW_ASSETS__');
 
 self.addEventListener('install', (event) => {
 	// Kada file ida-ida: file ida lakon la halo instalasaun hotu falla

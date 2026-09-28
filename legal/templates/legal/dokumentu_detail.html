@@ -1,0 +1,65 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'legal-vault' %}">{% trans "DOCUMENT VAULT" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	{% with d=objects %}
+	<div class="page-head">
+		<h2 class="mb-1">{{ d.titulu }} <small class="text-muted">v{{ d.versaun }}</small></h2>
+		{% if d.arkivadu %}<div class="alert alert-secondary small mb-2"><i class="fa fa-archive"></i> {% trans "Arkivadu" %}: {{ d.arkivu_razaun }} · {{ d.arkivu_at|date:"d/m/Y H:i" }}</div>
+		{% elif not d.atual %}<div class="alert alert-warning small mb-2"><i class="fa fa-history"></i> {% trans "Versaun tuan. Iha versaun foun liu." %}</div>{% endif %}
+	</div>
+	<div class="row">
+		<div class="col-lg-7">
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<table class="table table-sm table-detail">
+					<tr><th>{% trans "Kategoria" %}</th><td>{{ d.get_kategoria_display }}</td></tr>
+					<tr><th>{% trans "Kazu" %}</th><td>{% if d.kazu %}<a href="{% url 'legal-kazu' d.kazu_id %}">{{ d.kazu }}</a>{% else %}{% trans "Jerál" %}{% endif %}</td></tr>
+					<tr><th>{% trans "Data dokumentu" %}</th><td>{{ d.data_dokumentu|date:"d/m/Y"|default:"-" }}</td></tr>
+					<tr><th>{% trans "Konfidensiál" %}</th><td>{% if d.konfidensial %}<i class="fa fa-lock"></i> {% trans "Sin" %}{% else %}{% trans "Lae" %}{% endif %}</td></tr>
+					<tr><th>{% trans "File" %}</th><td>{{ d.ext|upper }} · {{ d.tamanu|filesizeformat }}</td></tr>
+					<tr><th>SHA-256</th><td><code class="small text-break">{{ d.sha256 }}</code></td></tr>
+					<tr><th>{% trans "Upload husi" %}</th><td>{{ d.uploaded_by.pesoaluser.pesoal|default:d.uploaded_by.username|default:"-" }} · {{ d.uploaded_at|date:"d/m/Y H:i" }}</td></tr>
+				</table>
+				{% if d.deskrisaun %}<p class="pre-line mb-2">{{ d.deskrisaun }}</p>{% endif %}
+				<div class="form-row">
+					<div class="col-sm mb-2"><a href="{% url 'legal-dok-download' d.pk %}" class="btn btn-rbr btn-block"><i class="fa fa-download"></i> {% trans "Download" %}</a></div>
+					{% if can_edit and d.atual and not d.arkivadu %}
+					<div class="col-sm mb-2"><a href="{% url 'legal-dok-versaun' d.pk %}" class="btn btn-outline-rbr btn-block"><i class="fa fa-upload"></i> {% trans "Versaun Foun" %}</a></div>
+					{% endif %}
+				</div>
+				{% if can_edit and d.atual and not d.arkivadu %}
+				<form method="post" action="{% url 'legal-dok-arkivu' d.pk %}" class="js-confirm mt-2" data-confirm="{% trans "Arkiva dokumentu ne'e? Sei la hamoos, maibé la mosu tan iha lista." %}">{% csrf_token %}
+					<div class="input-group">
+						<input type="text" name="razaun" class="form-control" placeholder="{% trans "Razaun arkivu (obrigatóriu)" %}" required minlength="5" maxlength="255" aria-label="{% trans "Razaun" %}">
+						<div class="input-group-append"><button class="btn btn-outline-secondary" type="submit"><i class="fa fa-archive"></i> {% trans "Arkiva" %}</button></div>
+					</div>
+				</form>
+				{% endif %}
+			</div></div>
+		</div>
+		<div class="col-lg-5">
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Versaun" %}</h3>
+				<ul class="list-unstyled mb-0">
+				{% for v in versaun %}
+					<li class="mb-1">{% if v.pk == d.pk %}<b>{% else %}<a href="{% url 'legal-dok-detail' v.pk %}">{% endif %}v{{ v.versaun }} · {{ v.uploaded_at|date:"d/m/Y H:i" }}{% if v.pk == d.pk %}</b>{% else %}</a>{% endif %}
+						<br><small class="text-muted">{{ v.uploaded_by.pesoaluser.pesoal|default:v.uploaded_by.username|default:"-" }}</small></li>
+				{% endfor %}
+				</ul>
+			</div></div>
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Rejistu Asesu" %}</h3>
+				<ul class="list-unstyled small mb-0">
+				{% for a in asesu %}
+					<li class="mb-1"><b>{{ a.get_aksaun_display }}</b> · {{ a.at|date:"d/m/Y H:i" }}<br><span class="text-muted">{{ a.user.pesoaluser.pesoal|default:a.user.username|default:"-" }}{% if a.ip %} · {{ a.ip }}{% endif %}</span></li>
+				{% empty %}<li class="text-muted">-</li>{% endfor %}
+				</ul>
+			</div></div>
+		</div>
+	</div>
+	{% endwith %}
+{% endblock %}

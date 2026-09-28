@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
@@ -53,4 +54,8 @@ def KazuStatusKazu(request, uuid):
 		messages.success(request, _('Status kazu atualiza ona.'))
 	except ValidationError as e:
 		messages.error(request, ' '.join(e.messages))
+	# Fila ba pájina orijen (ex. pájina Legál) se link seguru
+	next_url = request.POST.get('next', '')
+	if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+		return redirect(next_url)
 	return redirect('kazu-detail', uuid=uuid)

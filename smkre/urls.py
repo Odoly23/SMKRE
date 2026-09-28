@@ -11,6 +11,7 @@ urlpatterns = [
 	path('kazu/', include('kazu.urls')),
 	path('report/', include('report.urls')),
 	path('sinkron/', include('sinkron.urls')),
+	path('legal/', include('legal.urls')),
 
 	# API
 	path('api/notif/', include('notification.api.urls')),

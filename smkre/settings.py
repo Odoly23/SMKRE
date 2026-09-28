@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 	'kazu.apps.KazuConfig',
 	'report.apps.ReportConfig',
 	'sinkron.apps.SinkronConfig',
+	'legal.apps.LegalConfig',
 
 	'django_cleanup.apps.CleanupConfig',      # hamoos file tuan automátiku (tenke ikus)
 ]
@@ -235,6 +236,10 @@ AXES_COOLOFF_TIME = timedelta(minutes=30)
 AXES_LOCKOUT_PARAMETERS = [['username', 'ip_address']]
 AXES_RESET_ON_SUCCESS = True
 AXES_LOCKOUT_TEMPLATE = 'home/lockout.html'
+AXES_CLIENT_IP_CALLABLE = 'config.utils.get_client_ip'   # IP loos iha kotuk Nginx
+
+# Server iha kotuk Nginx (production): IP kliente husi X-Forwarded-For ne'ebé Nginx hatama
+BEHIND_PROXY = env('BEHIND_PROXY', default=not DEBUG, cast=bool)
 
 # Autorizasaun offline (loron)
 OFFLINE_PERMISSION_DAYS = env('OFFLINE_PERMISSION_DAYS', default=7, cast=int)

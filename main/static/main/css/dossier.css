@@ -1,0 +1,32 @@
+/* Dossier kazu — pájina imprime A4 (Rede ba Rai) */
+body { background: #e9ecef; font-family: 'Lato', Arial, sans-serif; color: #222; font-size: 12.5px; }
+.barra { position: sticky; top: 0; z-index: 5; background: #0E8A68; padding: 8px 12px; text-align: right; }
+.folha { background: #fff; max-width: 210mm; margin: 16px auto; padding: 16mm 14mm; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+.kop { display: flex; align-items: center; gap: 12px; border-bottom: 3px solid #0E8A68; padding-bottom: 8px; }
+.kop h1 { font-size: 20px; margin: 0; color: #0E8A68; letter-spacing: 2px; font-weight: 900; }
+.kop p { margin: 0; font-size: 11px; color: #555; }
+.kop-dir { margin-left: auto; text-align: right; font-size: 12px; }
+.konf { background: #6B1E23; color: #fff; text-align: center; font-weight: 700; font-size: 10.5px; padding: 3px; margin: 8px 0 12px; }
+h2 { font-size: 13.5px; color: #0B7358; border-bottom: 1px solid #cfe3da; padding-bottom: 2px; margin: 14px 0 6px; text-transform: uppercase; }
+.tab { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+.tab th, .tab td { border: 1px solid #d5ddd8; padding: 3px 6px; vertical-align: top; }
+.tab th { background: #f1f6f3; width: 18%; font-weight: 700; }
+.hash { font-family: monospace; font-size: 9px; word-break: break-all; }
+.nw { white-space: nowrap; }
+.sub { margin: 2px 0 4px; }
+.pre-line { white-space: pre-line; }
+.fotos { display: flex; flex-wrap: wrap; gap: 6px; }
+.fotos figure { width: 31%; margin: 0; }
+.fotos img { width: 100%; height: 120px; object-fit: cover; border: 1px solid #ccc; }
+.fotos figcaption { font-size: 9.5px; color: #555; }
+.rodape { margin-top: 18px; border-top: 1px solid #ccc; padding-top: 6px; font-size: 10px; color: #666; text-align: center; }
+
+@page { size: A4; margin: 12mm; }
+@media print {
+	body { background: #fff; }
+	.no-print { display: none !important; }
+	.folha { box-shadow: none; margin: 0; padding: 0; max-width: none; }
+	h2 { break-after: avoid; }
+	.tab tr, .fotos figure { break-inside: avoid; }
+	.konf { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

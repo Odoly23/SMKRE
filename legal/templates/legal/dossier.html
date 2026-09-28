@@ -1,0 +1,101 @@
+{% load static i18n %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:'tet' }}">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ title }} | Rede ba Rai</title>
+	<meta name="author" content="Onosio, Ricardo, Olavio">
+	<meta name="robots" content="noindex, nofollow">
+	<link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/fonts.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/dossier.css' %}">
+</head>
+<body>
+{% with obj=objects %}
+<div class="no-print barra">
+	<button type="button" class="btn btn-success btn-sm" id="btn-print">{% trans "Imprime / Rai PDF" %}</button>
+	<a href="{% url 'legal-kazu' obj.pk %}" class="btn btn-light btn-sm">{% trans "Fila" %}</a>
+</div>
+
+<div class="folha">
+	<header class="kop">
+		<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" width="70" height="70">
+		<div>
+			<h1>REDE BA RAI</h1>
+			<p>Timor-Leste<br>redebarai.org</p>
+		</div>
+		<div class="kop-dir">
+			<b>{% trans "DOSSIER KAZU" %}</b><br>{{ obj.kode }}<br>
+			<small>{{ agora|date:"d/m/Y H:i" }}</small>
+		</div>
+	</header>
+	<p class="konf">{% trans "KONFIDENSIÁL — ba uzu legál no advokasia deit. Labele fahe ba públiku." %}</p>
+
+	<h2>1. {% trans "Identifikasaun no Fatin" %}</h2>
+	<table class="tab">
+		<tr><th>{% trans "ID Kazu" %}</th><td>{{ obj.kode }}</td><th>{% trans "Status Kazu" %}</th><td>{{ obj.get_status_kazu_display }}</td></tr>
+		<tr><th>{% trans "Títulu" %}</th><td colspan="3">{{ obj.titulu|default:"-" }}</td></tr>
+		<tr><th>{% trans "Data Relatóriu" %}</th><td>{{ obj.data_relatoriu|date:"d/m/Y"|default:"-" }}</td><th>{% trans "Data Akontesimentu" %}</th><td>{{ obj.data_akontesimentu|date:"d/m/Y"|default:"-" }}</td></tr>
+		<tr><th>{% trans "Fatin" %}</th><td colspan="3">{{ obj.aldeia|default:"" }}{% if obj.aldeia %}, {% endif %}{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.postu|default:"" }}{% if obj.postu %}, {% endif %}{{ obj.munisipiu }}</td></tr>
+		<tr><th>{% trans "Koordenada GPS" %}</th><td>{% if obj.latitude %}{{ obj.latitude }}, {{ obj.longitude }} (± {{ obj.gps_akurasia|default:"?" }} m){% else %}-{% endif %}</td><th>{% trans "Status Dadus" %}</th><td>{{ obj.get_status_display }}</td></tr>
+	</table>
+
+	<h2>2. {% trans "Informasaun Insidente" %}</h2>
+	<table class="tab">
+		<tr><th>{% trans "Tipu Konflitu Rai" %}</th><td>{% for t in obj.tipu_konflitu.all %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}{% if obj.tipu_seluk %} ({{ obj.tipu_seluk }}){% endif %}</td></tr>
+		<tr><th>{% trans "Tipu Rai" %}</th><td>{{ obj.tipu_rai|default:"-" }}</td></tr>
+	</table>
+	<p class="pre-line">{{ obj.deskrisaun|default:"-" }}</p>
+	{% for i in obj.insidente.all %}
+	<p class="sub">• <b>{{ i.tipu_eviksaun }}</b> — {% trans "Loron avizu" %}: {{ i.loron_avizu|default:"-" }} · {% trans "Forsa seguransa" %}: {% if i.forsa_seguransa %}{% trans "Sin" %}{% else %}{% trans "Lae" %}{% endif %}{% if i.estragu %} · {{ i.estragu }}{% endif %}</p>
+	{% endfor %}
+
+	<h2>3. {% trans "Atór Envolvidu no Populasaun Afetada" %}</h2>
+	<table class="tab">
+		<tr><th>{% trans "Uma-Kain" %}</th><th>{% trans "Total Ema" %}</th><th>{% trans "Mane" %}</th><th>{% trans "Feto" %}</th><th>{% trans "Labarik" %}</th><th>{% trans "Katuas-Ferik" %}</th><th>{% trans "Defisiénsia" %}</th></tr>
+		{% for af in obj.afetadu.all %}<tr><td>{{ af.uma_kain|default:"-" }}</td><td>{{ af.total_ema|default:"-" }}</td><td>{{ af.mane|default:"-" }}</td><td>{{ af.feto|default:"-" }}</td><td>{{ af.labarik|default:"-" }}</td><td>{{ af.katuas_ferik|default:"-" }}</td><td>{{ af.defisiensia|default:"-" }}</td></tr>
+		{% empty %}<tr><td colspan="7">-</td></tr>{% endfor %}
+	</table>
+	{% for a in obj.ator.all %}<p class="sub">• <b>{{ a.tipu_ator }}</b>{% if a.naran %} — {{ a.naran }}{% endif %}{% if a.papel %}: {{ a.papel }}{% endif %}</p>{% endfor %}
+
+	<h2>4. {% trans "Estragu, Nesesidade no Konsentimentu" %}</h2>
+	<table class="tab">
+		<tr><th>{% trans "Estragu Patrimóniu" %}</th><td>{% for e in obj.estragu.all %}{{ e.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}{% if obj.estragu_seluk %} · {{ obj.estragu_seluk }}{% endif %}</td></tr>
+		<tr><th>{% trans "Nesesidade Urjente" %}</th><td>{% for n in obj.nesesidade.all %}{{ n.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}</td></tr>
+		<tr><th>{% trans "Konsentimentu" %}</th><td>{% if obj.konsentimentu %}{% trans "Sin" %}{% else %}{% trans "Lae" %}{% endif %}</td></tr>
+	</table>
+
+	<h2>5. {% trans "Evidénsia" %}</h2>
+	<div class="fotos">
+		{% for e in obj.evidensia.all %}{% if e.is_image %}<figure><img src="{{ e.file.url }}" alt=""><figcaption>{{ e.get_tipu_display }} · {{ e.uploaded_at|date:"d/m/Y H:i" }}</figcaption></figure>{% endif %}{% endfor %}
+	</div>
+	<p class="sub">{% trans "Total" %}: {{ obj.foto_count }} {% trans "foto" %} · {{ obj.video_count }} {% trans "vídeo" %}</p>
+
+	<h2>6. {% trans "Dokumentu Legál" %}</h2>
+	<table class="tab">
+		<tr><th>{% trans "Dokumentu" %}</th><th>{% trans "Kategoria" %}</th><th>{% trans "Data" %}</th><th>SHA-256</th></tr>
+		{% for d in dokumentu %}<tr><td>{{ d.titulu }} (v{{ d.versaun }})</td><td>{{ d.get_kategoria_display }}</td><td>{{ d.data_dokumentu|date:"d/m/Y"|default:"-" }}</td><td class="hash">{{ d.sha256 }}</td></tr>
+		{% empty %}<tr><td colspan="4">-</td></tr>{% endfor %}
+	</table>
+
+	<h2>7. {% trans "Nota no Prazu" %}</h2>
+	{% for n in nota %}<p class="sub">• <b>{{ n.get_tipu_display }}</b>{% if n.prazu %} — {% trans "Prazu" %}: {{ n.prazu|date:"d/m/Y" }}{% if n.remata %} ({% trans "Remata" %}){% endif %}{% endif %}<br><span class="pre-line">{{ n.testu }}</span></p>
+	{% empty %}<p class="sub">-</p>{% endfor %}
+
+	<h2>8. {% trans "Istória" %}</h2>
+	<table class="tab">
+		{% for h in historia %}<tr><td class="nw">{{ h.created_at|date:"d/m/Y H:i" }}</td><td>{{ h.user.pesoaluser.pesoal|default:h.user.username|default:"-" }}</td>
+		<td>{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% elif h.nota == 'SINKRON' %}{% trans "Sinkron husi HP" %}{% else %}{% trans "Edita" %}{% endif %}{% else %}{{ h.status_antes_label }} → {{ h.status_foun_label }}{% if h.nota %} · {{ h.nota }}{% endif %}{% endif %}</td></tr>{% endfor %}
+	</table>
+
+	<footer class="rodape">
+		{% trans "Prepara husi" %}: {{ user_naran }} · {{ agora|date:"d/m/Y H:i" }} · SMKRE — Sistema Monitorizasaun Konflitu Rai no Eviksaun
+	</footer>
+</div>
+{% endwith %}
+<script nonce="{{ request.csp_nonce }}">
+document.getElementById('btn-print').addEventListener('click', function () { window.print(); });
+</script>
+</body>
+</html>

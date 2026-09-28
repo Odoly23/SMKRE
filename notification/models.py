@@ -6,6 +6,7 @@ TIPU_CHOICES = [
 	('KAZU_FOUN', _('Kazu foun')),
 	('KAZU_STATUS', _('Status kazu muda')),
 	('OFFLINE', _('Autorizasaun offline')),
+	('LEGAL', _('Legál (aksaun / prazu)')),
 	('SISTEMA', _('Sistema')),
 ]
 

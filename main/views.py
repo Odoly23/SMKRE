@@ -85,11 +85,29 @@ def manifest(request):
 	}, content_type='application/manifest+json')
 
 
+# Aset ne'ebé service worker rai iha cache (app offline). URL husi static() → loos mós ho naran hash (production).
+SW_ASSETS = [
+	'main/css/bootstrap.min.css', 'main/css/main.css', 'main/css/fonts.css',
+	'main/font-awesome/css/font-awesome.min.css', 'main/font-awesome/fonts/fontawesome-webfont.woff2',
+	'main/js/jquery.min.js', 'main/js/bootstrap.bundle.min.js', 'main/js/main.js',
+	'main/images/logo.png', 'main/images/favicon.png', 'main/images/icon-192.png',
+	'main/fonts/lato-latin-400-normal.woff2', 'main/fonts/lato-latin-700-normal.woff2',
+	'main/fonts/montserrat-latin-700-normal.woff2',
+	'main/offline/offline.css', 'main/offline/smkre_kripto.js', 'main/offline/smkre_db.js',
+	'main/offline/smkre_kamera.js', 'main/offline/smkre_offline.js',
+]
+
+
 @cache_control(no_cache=True)
 def service_worker(request):
-	# Service worker tenke serve husi raiz "/" atu kontrola pájina hotu
+	# Service worker tenke serve husi raiz "/" atu kontrola pájina hotu.
+	# Lista aset + versaun cache hatama iha ne'e: aset muda → hash muda → cache foun automátiku.
+	import hashlib, json
+	assets = [static(a) for a in SW_ASSETS]
+	versaun = hashlib.sha256('|'.join(assets).encode()).hexdigest()[:10]
 	path = settings.BASE_DIR / 'main' / 'static' / 'main' / 'pwa' / 'sw.js'
-	response = HttpResponse(path.read_text(encoding='utf-8'), content_type='application/javascript')
+	js = path.read_text(encoding='utf-8').replace("'__SW_VERSAUN__'", json.dumps(versaun)).replace("'__SW_ASSETS__'", json.dumps(assets))
+	response = HttpResponse(js, content_type='application/javascript')
 	response['Service-Worker-Allowed'] = '/'
 	return response
 

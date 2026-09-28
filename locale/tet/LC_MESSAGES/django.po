@@ -1858,3 +1858,368 @@ msgstr ""
 "Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, hili "
 "Street ka Satélite iha ikon kamada (leten-los). Fronteira simplifikadu, ba "
 "vizualizasaun deit."
+
+#: legal/models.py
+msgid "Aksaun Seluk"
+msgstr "Aksaun Seluk"
+
+#: legal/models.py
+msgid "Análize Legál"
+msgstr "Análize Legál"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkiva"
+msgstr "Arkiva"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkiva dokumentu ne'e? Sei la hamoos, maibé la mosu tan iha lista."
+msgstr "Arkiva dokumentu ne'e? Sei la hamoos, maibé la mosu tan iha lista."
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Arkivadu"
+msgstr "Arkivadu"
+
+#: legal/models.py
+msgid "Arkivu"
+msgstr "Arkivu"
+
+#: legal/models.py
+msgid "Asesu Vault"
+msgstr "Asesu Vault"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Atrazu"
+msgstr "Atrazu"
+
+#: legal/models.py
+msgid "Audiénsia / Tribunál"
+msgstr "Audiénsia / Tribunál"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Aumenta"
+msgstr "Aumenta"
+
+#: legal/views/vault_v.py
+msgid "Aumenta Dokumentu"
+msgstr "Aumenta Dokumentu"
+
+#: legal/views/vault_v.py
+msgid "Aumenta Dokumentu Legál"
+msgstr "Aumenta Dokumentu Legál"
+
+#: legal/views/nota_v.py
+msgid "Aumenta Nota Legál"
+msgstr "Aumenta Nota Legál"
+
+#: legal/templates/legal/vault.html
+msgid "Buka títulu, ID kazu…"
+msgstr "Buka títulu, ID kazu…"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "DOCUMENT VAULT"
+msgstr "DOCUMENT VAULT"
+
+#: legal/templates/legal/dossier.html
+msgid "DOSSIER KAZU"
+msgstr "DOSSIER KAZU"
+
+#: legal/models.py
+msgid "Data dokumentu"
+msgstr "Data dokumentu"
+
+#: legal/models.py
+msgid "Desizaun Tribunál / Autoridade"
+msgstr "Desizaun Tribunál / Autoridade"
+
+#: legal/views/vault_v.py
+msgid "Detalla Dokumentu"
+msgstr "Detalla Dokumentu"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Detalla kazu"
+msgstr "Detalla kazu"
+
+#: legal/views/vault_v.py
+msgid "Document Vault"
+msgstr "Document Vault"
+
+#: legal/views/vault_v.py
+msgid "Document Vault Legál"
+msgstr "Document Vault Legál"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Dokumentu"
+msgstr "Dokumentu"
+
+#: legal/views/vault_v.py
+msgid "Dokumentu arkiva ona."
+msgstr "Dokumentu arkiva ona."
+
+#: legal/services.py
+msgid "Dokumentu ne'e la atuál."
+msgstr "Dokumentu ne'e la atuál."
+
+#: legal/views/vault_v.py
+msgid "Dokumentu rai ona iha vault."
+msgstr "Dokumentu rai ona iha vault."
+
+#: legal/templates/legal/kazu_list.html
+msgid "Dossier"
+msgstr "Dossier"
+
+#: legal/views/kazu_v.py
+msgid "Dossier %(kode)s"
+msgstr "Dossier %(kode)s"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Dossier (PDF)"
+msgstr "Dossier (PDF)"
+
+#: legal/views/kazu_v.py
+msgid "Dossier Legál"
+msgstr "Dossier Legál"
+
+#: legal/models.py
+msgid "Download"
+msgstr "Download"
+
+#: legal/views/nota_v.py
+msgid "Edita Nota Legál"
+msgstr "Edita Nota Legál"
+
+#: legal/templates/legal/dossier.html
+msgid "Fila"
+msgstr "Fila"
+
+#: legal/templates/legal/dokumentu_form.html
+msgid ""
+"File rai iha vault seguru: asesu liuhusi login deit, kada download rejista, "
+"no sistema kalkula SHA-256 atu prova file la muda."
+msgstr ""
+"File rai iha vault seguru: asesu liuhusi login deit, kada download rejista, "
+"no sistema kalkula SHA-256 atu prova file la muda."
+
+#: legal/forms.py
+msgid "File versaun foun"
+msgstr "File versaun foun"
+
+#: legal/templates/legal/dossier.html
+msgid "Imprime / Rai PDF"
+msgstr "Imprime / Rai PDF"
+
+#: legal/templates/legal/vault.html
+msgid "Jerál"
+msgstr "Jerál"
+
+#: legal/templates/legal/vault.html
+msgid "Jerál deit"
+msgstr "Jerál deit"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "KAZU LEGÁL"
+msgstr "KAZU LEGÁL"
+
+#: legal/templates/legal/dossier.html
+msgid "KONFIDENSIÁL — ba uzu legál no advokasia deit. Labele fahe ba públiku."
+msgstr ""
+"KONFIDENSIÁL — ba uzu legál no advokasia deit. Labele fahe ba públiku."
+
+#: legal/models.py
+msgid "Karta / Reklamasaun"
+msgstr "Karta / Reklamasaun"
+
+#: legal/models.py
+msgid "Kategoria"
+msgstr "Kategoria"
+
+#: legal/templates/legal/vault.html
+msgid "Kategoria: Hotu"
+msgstr "Kategoria: Hotu"
+
+#: legal/services.py
+msgid "Kazu %(kode)s tama faze Aksaun Legál."
+msgstr "Kazu %(kode)s tama faze Aksaun Legál."
+
+#: legal/views/kazu_v.py
+msgid "Kazu Legál"
+msgstr "Kazu Legál"
+
+#: legal/views/kazu_v.py
+msgid "Kazu iha Prosesu Legál"
+msgstr "Kazu iha Prosesu Legál"
+
+#: legal/models.py
+msgid "Konfidensiál"
+msgstr "Konfidensiál"
+
+#: legal/models.py
+msgid "Konsellu ba Komunidade"
+msgstr "Konsellu ba Komunidade"
+
+#: legal/services.py
+msgid ""
+"Konteúdu file la hanesan ho extensaun (.%(ext)s). File bele estraga ka "
+"falsu."
+msgstr ""
+"Konteúdu file la hanesan ho extensaun (.%(ext)s). File bele estraga ka "
+"falsu."
+
+#: legal/models.py
+msgid "Kontratu / Akordu"
+msgstr "Kontratu / Akordu"
+
+#: legal/templates/legal/kazu_list.html
+msgid "La iha kazu iha filtru ne'e."
+msgstr "La iha kazu iha filtru ne'e."
+
+#: notification/models.py
+msgid "Legál (aksaun / prazu)"
+msgstr "Legál (aksaun / prazu)"
+
+#: legal/models.py
+msgid "Lei / Regulamentu"
+msgstr "Lei / Regulamentu"
+
+#: legal/models.py
+msgid "Mamuk = dokumentu jerál (lei, regulamentu)"
+msgstr "Mamuk = dokumentu jerál (lei, regulamentu)"
+
+#: legal/models.py
+msgid "Mediasaun"
+msgstr "Mediasaun"
+
+#: legal/models.py
+msgid "Nota Legál"
+msgstr "Nota Legál"
+
+#: legal/views/nota_v.py
+msgid "Nota legál atualiza ona."
+msgstr "Nota legál atualiza ona."
+
+#: legal/views/nota_v.py
+msgid "Nota legál rai ona."
+msgstr "Nota legál rai ona."
+
+#: legal/templates/legal/dossier.html
+msgid "Nota no Prazu"
+msgstr "Nota no Prazu"
+
+#: legal/models.py
+msgid "Ofisiál Legál no Superadmin deit mak bele haree"
+msgstr "Ofisiál Legál no Superadmin deit mak bele haree"
+
+#: legal/forms.py
+msgid "PDF, JPG, PNG ka DOCX · máximu 20 MB"
+msgstr "PDF, JPG, PNG ka DOCX · máximu 20 MB"
+
+#: legal/templates/legal/dossier.html
+msgid "Prazu"
+msgstr "Prazu"
+
+#: legal/tasks.py
+msgid "Prazu %(tipu)s kazu %(kode)s: %(data)s (loron %(n)s tan)."
+msgstr "Prazu %(tipu)s kazu %(kode)s: %(data)s (loron %(n)s tan)."
+
+#: legal/models.py
+msgid "Prazu / Data audiénsia"
+msgstr "Prazu / Data audiénsia"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Prazu tuir mai"
+msgstr "Prazu tuir mai"
+
+#: legal/templates/legal/dossier.html
+msgid "Prepara husi"
+msgstr "Prepara husi"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Razaun arkivu (obrigatóriu)"
+msgstr "Razaun arkivu (obrigatóriu)"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Rejistu Asesu"
+msgstr "Rejistu Asesu"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Rezumu Kazu"
+msgstr "Rezumu Kazu"
+
+#: legal/models.py
+msgid "SHA-256"
+msgstr "SHA-256"
+
+#: legal/forms.py
+msgid "Saida mak muda?"
+msgstr "Saida mak muda?"
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Seidauk iha dokumentu legál."
+msgstr "Seidauk iha dokumentu legál."
+
+#: legal/templates/legal/vault.html
+msgid "Seidauk iha dokumentu."
+msgstr "Seidauk iha dokumentu."
+
+#: legal/templates/legal/kazu_detail.html
+msgid "Seidauk iha nota."
+msgstr "Seidauk iha nota."
+
+#: legal/models.py
+msgid "Seluk"
+msgstr "Seluk"
+
+#: legal/models.py
+msgid "Sertifikadu / Títulu Rai"
+msgstr "Sertifikadu / Títulu Rai"
+
+#: legal/models.py
+msgid "Sistema sei haruka lembrete loron 3 antes"
+msgstr "Sistema sei haruka lembrete loron 3 antes"
+
+#: legal/templates/legal/kazu_list.html
+msgid "Status Kazu: Hotu"
+msgstr "Status Kazu: Hotu"
+
+#: legal/templates/legal/dossier.html
+msgid "Títulu"
+msgstr "Títulu"
+
+#: legal/models.py
+msgid "Títulu dokumentu"
+msgstr "Títulu dokumentu"
+
+#: legal/models.py
+msgid "Upload husi"
+msgstr "Upload husi"
+
+#: legal/models.py
+msgid "Versaun"
+msgstr "Versaun"
+
+#: legal/views/vault_v.py
+msgid "Versaun %(v)s rai ona."
+msgstr "Versaun %(v)s rai ona."
+
+#: legal/views/vault_v.py
+msgid "Versaun Foun"
+msgstr "Versaun Foun"
+
+#: legal/views/vault_v.py
+msgid "Versaun Foun Dokumentu"
+msgstr "Versaun Foun Dokumentu"
+
+#: legal/models.py
+msgid "Versaun foun"
+msgstr "Versaun foun"
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Versaun tuan. Iha versaun foun liu."
+msgstr "Versaun tuan. Iha versaun foun liu."
+
+#: legal/templates/legal/dossier.html
+msgid "foto"
+msgstr "foto"
+
+#: legal/templates/legal/dossier.html
+msgid "vídeo"
+msgstr "vídeo"

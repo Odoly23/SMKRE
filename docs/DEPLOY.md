@@ -48,12 +48,16 @@ EMAIL_HOST_PASSWORD=<App Password Gmail>
 DEFAULT_FROM_EMAIL=SMKRE Rede ba Rai <...>
 CELERY_ALWAYS_EAGER=False
 USE_REDIS_CACHE=True
+BEHIND_PROXY=True
 ADMIN_URL=<url-segredu>/
 ```
+
+> `BEHIND_PROXY=True`: IP kliente husi `X-Forwarded-For` ne'ebé Nginx hatama (ba rejistu asesu vault no limite login django-axes).
 
 ```bash
 python manage.py migrate
 python manage.py setup_smkre
+python manage.py setup_horariu      # knaar automátiku kada loron (Celery Beat)
 python manage.py compile_lian
 python manage.py collectstatic --noinput
 python manage.py kria_superadmin --email ... --naran "..."
@@ -100,7 +104,12 @@ ExecStart=/srv/smkre/Env/bin/celery -A smkre beat -l info
 Restart=always
 ```
 
-Iha Django admin → *Periodic tasks*: aumenta `users.tasks.check_offline_permission` kada loron (ezemplu 06:00).
+Knaar kada loron rejista automátiku ho `python manage.py setup_horariu`:
+
+| Oras | Knaar |
+|---|---|
+| 06:00 | `users.tasks.check_offline_permission` — hamate autorizasaun offline remata + lembrete |
+| 07:00 | `legal.tasks.lembra_prazu` — lembrete prazu / audiénsia legál (loron 3 antes) |
 
 ```bash
 sudo chown -R www-data:www-data /srv/smkre/logs /srv/smkre/media
@@ -138,10 +147,11 @@ sudo certbot --nginx -d smkre.redebarai.org      # HTTPS obrigatóriu (GPS + kam
 
 ```bash
 0 2 * * * pg_dump -U smkre smkre | gzip > /srv/backup/smkre-$(date +\%F).sql.gz
-0 3 * * * tar czf /srv/backup/media-$(date +\%F).tgz -C /srv/smkre media
+0 3 * * * tar czf /srv/backup/media-$(date +\%F).tgz -C /srv/smkre media      # foto, vídeo, Document Vault (media/legal)
+0 4 1 * * cd /srv/smkre && Env/bin/python manage.py verifika_vault >> logs/seguransa.log 2>&1   # kada fulan: SHA-256 vault
 ```
 
-Rai backup mós iha fatin seluk (la'ós server hanesan).
+Rai backup mós iha fatin seluk (la'ós server hanesan). **Teste restore** dala ida kada fulan 3: restore ba server teste no loke kazu ida ho evidénsia.
 
 ## 8. Atualiza versaun
 
@@ -149,5 +159,21 @@ Rai backup mós iha fatin seluk (la'ós server hanesan).
 cd /srv/smkre && git pull
 source Env/bin/activate && pip install -r requirements.txt
 python manage.py migrate && python manage.py compile_lian && python manage.py collectstatic --noinput
+python manage.py setup_horariu && python manage.py check --deploy
 sudo systemctl restart smkre smkre-celery smkre-beat
 ```
+
+App offline iha HP atualiza automátiku: service worker hetan versaun foun bainhira aset muda (hash `collectstatic`).
+
+## 9. Lista verifikasaun antes loke ba utilizador
+
+- [ ] `python manage.py check --deploy` → la iha problema
+- [ ] `python manage.py test` → OK hotu
+- [ ] HTTPS ativu (certbot) — kámera, GPS no app offline presiza HTTPS
+- [ ] `.env`: `DEBUG=False`, `SECRET_KEY` foun, `ADMIN_URL` segredu, `BEHIND_PROXY=True`
+- [ ] Email SMTP teste (haluha password → email to'o)
+- [ ] `setup_horariu` la'o; `smkre-beat` ativu (`systemctl status smkre-beat`)
+- [ ] Backup cron + teste restore dala ida
+- [ ] Login ho konta kada papél (superadmin, admin, analista, ofisiál legál, investigadór)
+- [ ] Investigadór: autorizasaun offline → `/sinkron/` iha HP → kazu teste → sinkron
+- [ ] Hamoos kazu `[DEMO]` (se iha)

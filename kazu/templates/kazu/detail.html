@@ -98,6 +98,9 @@
 				</ul>
 			</div></div>
 
+			{% if can_legal %}
+			<a href="{% url 'legal-kazu' obj.pk %}" class="btn btn-outline-rbr btn-block mb-3"><i class="fa fa-balance-scale"></i> {% trans "Dossier Legál" %}</a>
+			{% endif %}
 			{% if can_status_kazu %}
 			<div class="card card-rbr mb-3"><div class="card-body">
 				<h3 class="h-line">{% trans "Status Kazu" %}</h3>
