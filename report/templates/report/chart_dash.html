@@ -1,0 +1,83 @@
+{% extends "main/layout.html" %}
+{% load static i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'report-dash' %}">{% trans "DASHBOARD" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="text-center mb-2 mt-1">
+				<h3 class="text-muted">{{ legend|upper }}</h3>
+			</div>
+		</div>
+	</div>
+	{% include 'report/_filter.html' %}
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr">{% trans "Kazu tuir Munisípiu" %}</div>
+				<div class="card-body">
+					<figure class="highcharts-figure">
+						<div id="chart_mun"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr">{% trans "Tendénsia Kazu (fulan 12)" %}</div>
+				<div class="card-body">
+					<figure class="highcharts-figure">
+						<div id="chart_tendensia"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-maroon">{% trans "Kazu tuir Tipu Konflitu" %}</div>
+				<div class="card-body">
+					<figure class="highcharts-figure">
+						<div id="chart_tipu"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-dark2">{% trans "Kazu tuir Status" %}</div>
+				<div class="card-body">
+					<figure class="highcharts-figure">
+						<div id="chart_status"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 mb-3">
+			<div class="card card-rbr">
+				<div class="card-header card-header-rbr">{% trans "Populasaun Afetada tuir Munisípiu" %}</div>
+				<div class="card-body">
+					<figure class="highcharts-figure">
+						<div id="chart_afetadu"></div>
+					</figure>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block scripts %}
+{% include 'report/_chart_assets.html' %}
+	<script nonce="{{ request.csp_nonce }}">
+		{% include 'chart/chart_mun.js' %}
+		{% include 'chart/chart_tendensia.js' %}
+		{% include 'chart/chart_tipu.js' %}
+		{% include 'chart/chart_status.js' %}
+		{% include 'chart/chart_afetadu.js' %}
+	</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "main/layout.html" %}
+{% load static i18n %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'main/datatables/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'main/datatables/css/buttons.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'main/datatables/css/responsive.bootstrap4.min.css' %}">
+{% endblock %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'report-dash' %}">{% trans "DASHBOARD" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }} <small class="text-muted">({{ objects|length }})</small></h2>
+		<a href="{% url 'report-export-excel' %}?{{ export_query }}" class="btn btn-rbr mb-2 no-print"><i class="fa fa-file-excel-o"></i> {% trans "Excel kompletu" %}</a>
+	</div>
+	<div class="card card-rbr">
+		<div class="card-body">
+			<table class="table table-sm table-hover dt-responsive nowrap w-100" id="example" data-title="{{ legend }}">
+				<thead><tr>
+					<th>{% trans "ID Kazu" %}</th><th>{% trans "Data" %}</th><th>{% trans "Munisípiu" %}</th><th>{% trans "Suku" %}</th>
+					<th>{% trans "Tipu Kazu" %}</th><th>{% trans "Uma-Kain" %}</th><th>{% trans "Status Dadus" %}</th><th>{% trans "Status Kazu" %}</th><th>{% trans "Investigadór" %}</th>
+				</tr></thead>
+				<tbody>
+				{% for obj in objects %}
+				<tr>
+					<td><a href="{% url 'kazu-detail' obj.pk %}">{{ obj }}</a>{% if obj.urjente %} <span class="badge badge-urjente">!</span>{% endif %}</td>
+					<td data-order="{{ obj.data_relatoriu|date:'Y-m-d' }}">{{ obj.data_relatoriu|date:"d/m/Y" }}</td>
+					<td>{{ obj.munisipiu }}</td>
+					<td>{{ obj.suku|default:"-" }}</td>
+					<td>{% for t in obj.tipu_konflitu.all %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+					<td class="text-right">{{ obj.total_uma_kain }}</td>
+					<td>{{ obj.get_status_display }}</td>
+					<td>{{ obj.get_status_kazu_display }}</td>
+					<td>{{ obj.created_by.pesoaluser.pesoal|default:obj.created_by.username }}</td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{{ dt_lang|json_script:"dt-lang" }}
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'main/datatables/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/jszip.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/pdfmake.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/vfs_fonts.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'main/datatables/js/buttons.print.min.js' %}"></script>
+	<script type="text/javascript" nonce="{{ request.csp_nonce }}">
+		$(document).ready(function() {
+			var title = $('#example').data('title');
+			$('#example').DataTable({
+				responsive: true,
+				pageLength: 25,
+				order: [[1, 'desc']],
+				language: JSON.parse(document.getElementById('dt-lang').textContent),
+				dom: "<'row'<'col-md-6'B><'col-md-6'f>>rt<'row'<'col-md-5'i><'col-md-7'p>>",
+				buttons: [
+					{ extend: 'excelHtml5', className: 'btn btn-sm btn-outline-rbr', text: '<i class="fa fa-file-excel-o"></i> Excel', title: title },
+					{ extend: 'pdfHtml5', className: 'btn btn-sm btn-outline-rbr', text: '<i class="fa fa-file-pdf-o"></i> PDF', title: 'SMKRE · ' + title, orientation: 'landscape', pageSize: 'A4' },
+					{ extend: 'print', className: 'btn btn-sm btn-outline-rbr', text: '<i class="fa fa-print"></i> Print', title: 'SMKRE · ' + title }
+				]
+			});
+		} );
+	</script>
+{% endblock %}

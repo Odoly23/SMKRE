@@ -28,6 +28,7 @@ custom/         # master data: Munisípiu, Postu, Suku, Aldeia, opsaun padroniza
 users/          # Pesoal + PesoalUser, konta, password, autorizasaun offline, API JWT
 notification/   # notifikasaun 🔔 + email (api/ hanesan pola SGDS)
 kazu/           # kazu: formuláriu, status, verifikasaun (Admin) + aprovasaun (Superadmin), evidénsia, istória
+report/         # dashboard, gráfiku (templates/chart/*.js), mapa hotspot, lista, eksporta Excel — api/ + views/
 locale/         # tradusaun: tet, pt, en, id
 tools/          # extract_lian.py (ekstrai testu tradusaun)
 docs/           # SPESIFIKASAUN.md, DEPLOY.md, manuál formasaun
@@ -47,6 +48,7 @@ python manage.py migrate
 python manage.py setup_smkre    # role (5), opsaun padronizadu, 14 munisípiu, 65 postu
 python manage.py compile_lian   # tradusaun .po → .mo
 python manage.py kria_superadmin --email ita@redebarai.org --naran "Naran Ita"
+python manage.py kria_dadus_demo   # (opsionál, DEBUG deit) kazu [DEMO] ba teste dashboard/mapa
 python manage.py runserver
 ```
 
@@ -119,7 +121,7 @@ Haree **[docs/DEPLOY.md](docs/DEPLOY.md)** (PostgreSQL, Gunicorn, Nginx, Celery,
 
 - [x] **Faze 1** — Fundasaun: estrutura, settings, RBAC, utilizador, password/email, autorizasaun offline, JWT, notifikasaun, layout mobile first, lian 4
 - [x] **Faze 2** — Kazu: formuláriu, status rua, **Verifika (Admin) → Aprova (Superadmin)**, istória, evidénsia, notifikasaun
-- [ ] **Faze 3** — Dashboard, mapa hotspot, tendénsia, eksporta PDF/Excel
+- [x] **Faze 3** — Dashboard, gráfiku, mapa hotspot/pin (GeoJSON lokál + OSM), lista DataTables, eksporta Excel (openpyxl) / PDF
 - [ ] **Faze 4** — Offline PWA: IndexedDB enkriptadu (PIN), GPS, kamera, sinkron
 - [ ] **Faze 5** — Legál (Document Vault), test, deploy
 - [ ] **Faze 6** — Portal Públiku (anónimu, tuir suku)

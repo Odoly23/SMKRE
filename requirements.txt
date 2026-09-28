@@ -19,3 +19,4 @@ polib>=1.2                  # compila tradusaun (.po → .mo) la presiza gettext
 # Production
 psycopg[binary]>=3.1        # PostgreSQL
 gunicorn>=22.0
+openpyxl>=3.1                 # eksporta Excel

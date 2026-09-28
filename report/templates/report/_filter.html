@@ -1,0 +1,24 @@
+{% load i18n %}
+<form method="get" class="card card-rbr mb-3 filter-bar no-print">
+	<div class="card-body py-2">
+		<div class="form-row align-items-center">
+			<div class="col-6 col-md-3 mb-1">
+				<select name="munisipiu" class="custom-select" aria-label="{% trans "Munisípiu" %}">
+					<option value="">{% trans "Munisípiu: Hotu" %}</option>
+					{% for m in munisipiu_list %}<option value="{{ m.pk }}" {% if request.GET.munisipiu == m.pk|stringformat:"s" %}selected{% endif %}>{{ m.name }}</option>{% endfor %}
+				</select>
+			</div>
+			<div class="col-6 col-md-3 mb-1">
+				<select name="tipu" class="custom-select" aria-label="{% trans "Tipu Konflitu Rai" %}">
+					<option value="">{% trans "Tipu: Hotu" %}</option>
+					{% for t in tipu_list %}<option value="{{ t.pk }}" {% if request.GET.tipu == t.pk|stringformat:"s" %}selected{% endif %}>{{ t.name }}</option>{% endfor %}
+				</select>
+			</div>
+			<div class="col-6 col-md-2 mb-1">
+				<input type="number" name="tinan" min="2000" max="2100" value="{{ request.GET.tinan }}" class="form-control" placeholder="{% trans "Tinan" %}" aria-label="{% trans "Tinan" %}">
+			</div>
+			<div class="col-6 col-md-2 mb-1"><button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-filter"></i> {% trans "Filtra" %}</button></div>
+			<div class="col-12 col-md-2 mb-1"><a href="?" class="btn btn-outline-rbr btn-block">{% trans "Hamoos filtru" %}</a></div>
+		</div>
+	</div>
+</form>

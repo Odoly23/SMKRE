@@ -1537,3 +1537,253 @@ msgstr "AUTORIZASAUN OFFLINE"
 #: users/templates/users/form.html
 msgid "LISTA UTILIZADOR"
 msgstr "LISTA UTILIZADOR"
+
+#: report/utils.py
+msgid "(filtra husi _MAX_)"
+msgstr "(filtra husi _MAX_)"
+
+#: report/utils.py
+msgid "Buka:"
+msgstr "Buka:"
+
+#: report/templates/report/list.html
+msgid "DASHBOARD"
+msgstr "DASHBOARD"
+
+#: report/views/dash_v.py
+msgid "Dashboard Relatóriu"
+msgstr "Dashboard Relatóriu"
+
+#: report/utils.py
+msgid "Download CSV"
+msgstr "Download CSV"
+
+#: report/utils.py
+msgid "Download Excel"
+msgstr "Download Excel"
+
+#: report/utils.py
+msgid "Download JPEG"
+msgstr "Download JPEG"
+
+#: report/utils.py
+msgid "Download PDF"
+msgstr "Download PDF"
+
+#: report/utils.py
+msgid "Download PNG"
+msgstr "Download PNG"
+
+#: report/utils.py
+msgid "Download SVG"
+msgstr "Download SVG"
+
+#: report/templates/report/list.html
+msgid "Excel kompletu"
+msgstr "Excel kompletu"
+
+#: report/views/dash_v.py
+msgid "Gráfiku"
+msgstr "Gráfiku"
+
+#: report/views/dash_v.py
+msgid "Gráfiku no Tendénsia"
+msgstr "Gráfiku no Tendénsia"
+
+#: report/templates/report/_filter.html
+msgid "Hamoos filtru"
+msgstr "Hamoos filtru"
+
+#: report/api/views.py
+msgid "Haree Detalla"
+msgstr "Haree Detalla"
+
+#: report/utils.py
+msgid "Haree ekran tomak"
+msgstr "Haree ekran tomak"
+
+#: report/utils.py
+msgid "Haree tabela dadus"
+msgstr "Haree tabela dadus"
+
+#: report/utils.py
+msgid "Hatudu _MENU_"
+msgstr "Hatudu _MENU_"
+
+#: report/templates/report/mapa.html
+msgid "Hotspot"
+msgstr "Hotspot"
+
+#: report/utils.py
+msgid "Imprime gráfiku"
+msgstr "Imprime gráfiku"
+
+#: report/utils.py
+msgid "Karrega…"
+msgstr "Karrega…"
+
+#: report/templates/report/dash.html
+msgid "Kazu Eviksaun Aktivu"
+msgstr "Kazu Eviksaun Aktivu"
+
+#: report/templates/report/dash.html
+msgid "Kazu Remata"
+msgstr "Kazu Remata"
+
+#: report/templates/report/mapa.html
+msgid "Kazu barak (≥ 15)"
+msgstr "Kazu barak (≥ 15)"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Investigadór"
+msgstr "Kazu tuir Investigadór"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Munisípiu"
+msgstr "Kazu tuir Munisípiu"
+
+#: report/templates/report/chart_dash.html
+msgid "Kazu tuir Status"
+msgstr "Kazu tuir Status"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Tinan"
+msgstr "Kazu tuir Tinan"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Tipu Konflitu"
+msgstr "Kazu tuir Tipu Konflitu"
+
+#: report/utils.py
+msgid "La hetan dadus"
+msgstr "La hetan dadus"
+
+#: report/utils.py
+msgid "La iha dadus"
+msgstr "La iha dadus"
+
+#: report/templates/report/mapa.html
+msgid "Lejenda"
+msgstr "Lejenda"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Eviksaun Aktivu"
+msgstr "Lista Kazu Eviksaun Aktivu"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Hotu"
+msgstr "Lista Kazu Hotu"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Investigadór %(s)s"
+msgstr "Lista Kazu Investigadór %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Munisípiu %(s)s"
+msgstr "Lista Kazu Munisípiu %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Status %(s)s"
+msgstr "Lista Kazu Status %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Tinan %(s)s"
+msgstr "Lista Kazu Tinan %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Tipu %(s)s"
+msgstr "Lista Kazu Tipu %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Urjente"
+msgstr "Lista Kazu Urjente"
+
+#: report/views/mapa_v.py
+msgid "Mapa Konflitu Rai"
+msgstr "Mapa Konflitu Rai"
+
+#: report/views/mapa_v.py
+msgid "Mapa Konflitu Rai — Timor-Leste"
+msgstr "Mapa Konflitu Rai — Timor-Leste"
+
+#: report/templates/report/mapa.html
+msgid ""
+"Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, kamada "
+"OpenStreetMap aumenta automátiku. Fronteira simplifikadu, ba vizualizasaun "
+"deit."
+msgstr ""
+"Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, kamada "
+"OpenStreetMap aumenta automátiku. Fronteira simplifikadu, ba vizualizasaun "
+"deit."
+
+#: report/utils.py
+msgid "Menu gráfiku"
+msgstr "Menu gráfiku"
+
+#: report/templates/report/mapa.html
+msgid "Modu mapa"
+msgstr "Modu mapa"
+
+#: report/templates/report/mapa.html
+msgid "Offline: mapa baze deit"
+msgstr "Offline: mapa baze deit"
+
+#: report/templates/report/mapa.html
+msgid "Pin kada kazu"
+msgstr "Pin kada kazu"
+
+#: report/templates/report/dash.html
+msgid "Populasaun Afetada tuir Munisípiu"
+msgstr "Populasaun Afetada tuir Munisípiu"
+
+#: report/utils.py
+msgid "Sai husi ekran tomak"
+msgstr "Sai husi ekran tomak"
+
+#: report/utils.py
+msgid "Subar tabela dadus"
+msgstr "Subar tabela dadus"
+
+#: report/templates/report/chart_dash.html
+msgid "Tendénsia Kazu (fulan 12)"
+msgstr "Tendénsia Kazu (fulan 12)"
+
+#: report/templates/report/mapa.html
+msgid "Tinan"
+msgstr "Tinan"
+
+#: report/templates/report/dash.html
+msgid "Total"
+msgstr "Total"
+
+#: report/templates/report/dash.html
+msgid "Uma-Kain Afetadu"
+msgstr "Uma-Kain Afetadu"
+
+#: report/templates/report/mapa.html
+msgid "Uma-kain"
+msgstr "Uma-kain"
+
+#: report/utils.py
+msgid "_START_–_END_ husi _TOTAL_"
+msgstr "_START_–_END_ husi _TOTAL_"
+
+#: report/templates/report/mapa.html
+msgid "kazu"
+msgstr "kazu"
+
+#: report/templates/chart/chart_tendensia.js
+msgid "Deslokamentu / Eviksaun"
+msgstr "Deslokamentu / Eviksaun"
+
+#: report/templates/chart/chart_afetadu.js
+msgid "Ema"
+msgstr "Ema"
+
+#: report/templates/chart/chart_tendensia.js
+msgid "Total kazu"
+msgstr "Total kazu"
+
+#: report/templates/chart/chart_afetadu.js
+msgid "ema"
+msgstr "ema"

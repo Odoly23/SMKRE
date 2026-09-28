@@ -125,7 +125,8 @@ Alur tombol: klik notifikasi 🔔 → detail kasus → tombol di bawah (Verifika
 
 ```
 smkre/ main/ config/ custom/ users/ notification/      ← tahap 1 (selesai)
-kazu/ sinkron/ report/ legal/ publiku/                 ← tahap berikutnya
+kazu/ report/                                          ← tahap 2–3 (selesai)
+sinkron/ legal/ publiku/                               ← tahap berikutnya
 locale/ logs/ media/ docs/ tools/ templates/
 ```
 
@@ -139,7 +140,7 @@ CSP (tanpa inline script, pakai nonce), Permissions-Policy (kamera dan GPS hanya
 
 1. ✅ Fondasi
 2. ✅ Kasus (form 6 bagian), verifikasi dua tingkat, riwayat, evidénsia, notifikasi
-3. Dashboard, peta, laporan, export
+3. ✅ Dashboard, grafik, peta hotspot/pin, laporan, export Excel/PDF
 4. Offline PWA (IndexedDB terenkripsi, PIN, GPS, kamera, sinkron)
 5. Legal (Document Vault), uji coba, deploy
 6. Portal Publik

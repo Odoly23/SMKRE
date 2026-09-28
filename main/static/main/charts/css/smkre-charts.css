@@ -1,0 +1,13 @@
+/* Kór Rede ba Rai ba Highcharts (styledMode). Karrega HAFOIN highcharts.css */
+:root, .highcharts-light {
+	--highcharts-color-0: #0E8A68;
+	--highcharts-color-1: #6B1E23;
+	--highcharts-color-2: #82DA36;
+	--highcharts-color-3: #3b5bdb;
+	--highcharts-color-4: #E0A800;
+	--highcharts-color-5: #16B78A;
+	--highcharts-color-6: #6c757d;
+	--highcharts-color-7: #20c997;
+	--highcharts-color-8: #fd7e14;
+	--highcharts-color-9: #343a40;
+}

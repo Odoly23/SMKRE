@@ -33,7 +33,7 @@ def collect():
 		if any(part in SKIP for part in path.parts) or not path.is_file():
 			continue
 		rel = str(path.relative_to(BASE))
-		if path.suffix in ('.html', '.txt'):
+		if path.suffix in ('.html', '.txt') or (path.suffix == '.js' and 'templates' in path.parts):
 			src = path.read_text(encoding='utf-8')
 			for rx in (TPL_TRANS, TPL_TRANS1, TPL_UNDERSCORE):
 				for m in rx.finditer(src):

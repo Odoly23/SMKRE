@@ -295,3 +295,24 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--rbr-teal); outl
 .stat b { display: block; font-size: 1.6rem; font-family: 'Montserrat', sans-serif; }
 .stat span { font-size: .78rem; }
 .grid-full { grid-column: 1 / -1; }
+
+/* ═══ RELATÓRIU / GRÁFIKU ═══ (kór gráfiku iha charts/css/smkre-charts.css) */
+.highcharts-figure { margin: 0; min-height: 320px; }
+.highcharts-background { fill: transparent; }
+.card-header-rbr.bg-maroon { background: var(--rbr-maroon); }
+.card-header-rbr.bg-dark2 { background: #343a40; }
+.table-num td:last-child, .table-num th:last-child { text-align: right; }
+.kpi small { display: block; font-size: .72rem; opacity: .85; }
+.filter-bar .custom-select, .filter-bar .form-control { min-height: 40px; }
+/* Mapa */
+#mapa { height: 70vh; min-height: 420px; border-radius: 12px; border: 1px solid var(--border); background: #cfe6f3; }
+.map-legend { background: #fff; padding: 8px 10px; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,.2); font-size: 12px; line-height: 1.6; }
+.map-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.hot-label { background: transparent; border: 0; box-shadow: none; font-weight: 700; color: #fff; text-align: center; }
+.leaflet-popup-content { font-family: 'Lato', sans-serif; }
+.leaflet-popup-content .btn { min-height: 32px; color: #fff; }
+.mode-toggle .btn.active { background: var(--rbr-teal-dk); color: #fff; }
+/* DataTables */
+.dt-buttons .btn { min-height: 36px; margin-right: 4px; }
+div.dataTables_wrapper div.dataTables_filter input { min-height: 38px; }
+@media print { .topbar, .main-navbar, .bnav, #sidebar, .main-footer, .no-print, .dt-buttons, .dataTables_filter { display: none !important; } body { padding: 0; } }

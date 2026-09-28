@@ -1,0 +1,130 @@
+{% extends "main/layout.html" %}
+{% load static i18n humanize %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		<div class="mb-2 no-print">
+			<a href="{% url 'report-chart' %}?{{ request.GET.urlencode }}" class="btn btn-outline-rbr"><i class="fa fa-bar-chart"></i> {% trans "Gráfiku" %}</a>
+			<a href="{% url 'report-mapa' %}" class="btn btn-outline-rbr"><i class="fa fa-map"></i> {% trans "Mapa" %}</a>
+			<a href="{% url 'report-export-excel' %}?{{ request.GET.urlencode }}" class="btn btn-rbr"><i class="fa fa-file-excel-o"></i> Excel</a>
+		</div>
+	</div>
+	{% include 'report/_filter.html' %}
+
+	<div class="stat-row mb-3">
+		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="stat" style="background:#0E8A68"><b>{{ total|intcomma }}</b><span>{% trans "Total Kazu" %}</span></a>
+		<a href="{% url 'report-list-aktivu' %}?{{ request.GET.urlencode }}" class="stat" style="background:#6B1E23"><b>{{ tot_aktivu|intcomma }}</b><span>{% trans "Kazu Eviksaun Aktivu" %}</span></a>
+		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="stat" style="background:#16B78A"><b>{{ tot_uma_kain|intcomma }}</b><span>{% trans "Uma-Kain Afetadu" %}</span></a>
+		<a href="{% url 'report-status-list' 'COMPLETED' %}?{{ request.GET.urlencode }}" class="stat" style="background:#343a40"><b>{{ tot_remata|intcomma }}</b><span>{% trans "Kazu Remata" %}</span></a>
+		<a href="{% url 'report-list-urjente' %}?{{ request.GET.urlencode }}" class="stat" style="background:#c0392b"><b>{{ tot_urjente|intcomma }}</b><span>{% trans "Urjente" %}</span></a>
+	</div>
+
+	<div class="card card-rbr mb-3">
+		<div class="card-body">
+			<div class="row">
+				{% for obj1 in objects1 %}
+				<div class="col-6 col-md">
+					<div class="text-center mb-2 mt-1">
+						<span class="text-muted small">{{ obj1.1 }}</span>
+						<h4 class="mb-0"><a href="{% url 'report-status-list' obj1.0 %}?{{ request.GET.urlencode }}">{{ obj1.2 }}</a></h4>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 col-xl-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr">{% trans "Kazu tuir Tipu Konflitu" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Tipu" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for obj2 in objects2 %}
+						<tr><td>{{ obj2.0.name }}</td><td><a href="{% url 'report-tipu-list' obj2.0.id %}?{{ request.GET.urlencode }}">{{ obj2.1 }}</a></td></tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-xl-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-maroon">{% trans "Kazu tuir Munisípiu" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Munisípiu" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for obj3 in objects3 %}
+						<tr><td>{{ obj3.0.name }}</td><td><a href="{% url 'report-mun-list' obj3.0.id %}?{{ request.GET.urlencode }}">{{ obj3.1 }}</a></td></tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-xl-4 mb-3">
+			<div class="card card-rbr">
+				<div class="card-header card-header-rbr bg-dark2">{% trans "Kazu tuir Tinan" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Tinan" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for obj4 in objects4 %}
+						<tr><td>{{ obj4.0 }}</td><td><a href="{% url 'report-tinan-list' obj4.0 %}">{{ obj4.1 }}</a></td></tr>
+						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card card-rbr mt-3">
+				<div class="card-header card-header-rbr">{% trans "Kazu tuir Investigadór" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Investigadór" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for obj6 in objects6 %}
+						<tr><td>{{ obj6.0.pesoaluser.pesoal|default:obj6.0.username }}</td><td><a href="{% url 'report-staff-list' obj6.0.id %}?{{ request.GET.urlencode }}">{{ obj6.1 }}</a></td></tr>
+						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr">{% trans "Populasaun Afetada tuir Munisípiu" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-hover mb-0" id="tbl-afetadu">
+					<thead><tr>
+						<th>{% trans "Munisípiu" %}</th><th class="text-right">{% trans "Uma-Kain" %}</th><th class="text-right">{% trans "Total Ema" %}</th>
+						<th class="text-right">{% trans "Mane" %}</th><th class="text-right">{% trans "Feto" %}</th><th class="text-right">{% trans "Labarik" %}</th>
+						<th class="text-right">{% trans "Katuas-Ferik" %}</th><th class="text-right">{% trans "Defisiénsia" %}</th>
+					</tr></thead>
+					<tbody>
+					{% for obj5 in objects5 %}
+					<tr>
+						<td><a href="{% url 'report-mun-list' obj5.0.id %}">{{ obj5.0.name }}</a></td>
+						<td class="text-right">{{ obj5.1.uma_kain|default:0 }}</td><td class="text-right">{{ obj5.1.total|default:0 }}</td>
+						<td class="text-right">{{ obj5.1.mane|default:0 }}</td><td class="text-right">{{ obj5.1.feto|default:0 }}</td>
+						<td class="text-right">{{ obj5.1.labarik|default:0 }}</td><td class="text-right">{{ obj5.1.katuas|default:0 }}</td>
+						<td class="text-right">{{ obj5.1.defisiensia|default:0 }}</td>
+					</tr>
+					{% empty %}<tr><td colspan="8" class="text-muted text-center">-</td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

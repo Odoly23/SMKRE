@@ -1432,3 +1432,253 @@ msgstr "OFFLINE PERMISSION"
 #: users/templates/users/form.html
 msgid "LISTA UTILIZADOR"
 msgstr "USER LIST"
+
+#: report/utils.py
+msgid "(filtra husi _MAX_)"
+msgstr "(filtered from _MAX_)"
+
+#: report/utils.py
+msgid "Buka:"
+msgstr "Search:"
+
+#: report/templates/report/list.html
+msgid "DASHBOARD"
+msgstr "DASHBOARD"
+
+#: report/views/dash_v.py
+msgid "Dashboard Relatóriu"
+msgstr "Reports Dashboard"
+
+#: report/utils.py
+msgid "Download CSV"
+msgstr "Download CSV"
+
+#: report/utils.py
+msgid "Download Excel"
+msgstr "Download Excel"
+
+#: report/utils.py
+msgid "Download JPEG"
+msgstr "Download JPEG"
+
+#: report/utils.py
+msgid "Download PDF"
+msgstr "Download PDF"
+
+#: report/utils.py
+msgid "Download PNG"
+msgstr "Download PNG"
+
+#: report/utils.py
+msgid "Download SVG"
+msgstr "Download SVG"
+
+#: report/templates/report/list.html
+msgid "Excel kompletu"
+msgstr "Full Excel"
+
+#: report/views/dash_v.py
+msgid "Gráfiku"
+msgstr "Charts"
+
+#: report/views/dash_v.py
+msgid "Gráfiku no Tendénsia"
+msgstr "Charts and Trends"
+
+#: report/templates/report/_filter.html
+msgid "Hamoos filtru"
+msgstr "Clear filters"
+
+#: report/api/views.py
+msgid "Haree Detalla"
+msgstr "View Details"
+
+#: report/utils.py
+msgid "Haree ekran tomak"
+msgstr "View full screen"
+
+#: report/utils.py
+msgid "Haree tabela dadus"
+msgstr "View data table"
+
+#: report/utils.py
+msgid "Hatudu _MENU_"
+msgstr "Show _MENU_"
+
+#: report/templates/report/mapa.html
+msgid "Hotspot"
+msgstr "Hotspot"
+
+#: report/utils.py
+msgid "Imprime gráfiku"
+msgstr "Print chart"
+
+#: report/utils.py
+msgid "Karrega…"
+msgstr "Loading…"
+
+#: report/templates/report/dash.html
+msgid "Kazu Eviksaun Aktivu"
+msgstr "Active Eviction Cases"
+
+#: report/templates/report/dash.html
+msgid "Kazu Remata"
+msgstr "Completed Cases"
+
+#: report/templates/report/mapa.html
+msgid "Kazu barak (≥ 15)"
+msgstr "Many cases (≥ 15)"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Investigadór"
+msgstr "Cases by Investigator"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Munisípiu"
+msgstr "Cases by Municipality"
+
+#: report/templates/report/chart_dash.html
+msgid "Kazu tuir Status"
+msgstr "Cases by Status"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Tinan"
+msgstr "Cases by Year"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Tipu Konflitu"
+msgstr "Cases by Conflict Type"
+
+#: report/utils.py
+msgid "La hetan dadus"
+msgstr "No matching records"
+
+#: report/utils.py
+msgid "La iha dadus"
+msgstr "No data"
+
+#: report/templates/report/mapa.html
+msgid "Lejenda"
+msgstr "Legend"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Eviksaun Aktivu"
+msgstr "Active Eviction Cases List"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Hotu"
+msgstr "All Cases List"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Investigadór %(s)s"
+msgstr "Cases by Investigator %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Munisípiu %(s)s"
+msgstr "Cases in Municipality %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Status %(s)s"
+msgstr "Cases with Status %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Tinan %(s)s"
+msgstr "Cases in %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Tipu %(s)s"
+msgstr "Cases of Type %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Urjente"
+msgstr "Urgent Cases List"
+
+#: report/views/mapa_v.py
+msgid "Mapa Konflitu Rai"
+msgstr "Land Conflict Map"
+
+#: report/views/mapa_v.py
+msgid "Mapa Konflitu Rai — Timor-Leste"
+msgstr "Land Conflict Map — Timor-Leste"
+
+#: report/templates/report/mapa.html
+msgid ""
+"Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, kamada "
+"OpenStreetMap aumenta automátiku. Fronteira simplifikadu, ba vizualizasaun "
+"deit."
+msgstr ""
+"The base map (municipal boundaries) works offline. When online, the "
+"OpenStreetMap layer is added automatically. Boundaries are simplified, for "
+"visualisation only."
+
+#: report/utils.py
+msgid "Menu gráfiku"
+msgstr "Chart menu"
+
+#: report/templates/report/mapa.html
+msgid "Modu mapa"
+msgstr "Map mode"
+
+#: report/templates/report/mapa.html
+msgid "Offline: mapa baze deit"
+msgstr "Offline: base map only"
+
+#: report/templates/report/mapa.html
+msgid "Pin kada kazu"
+msgstr "Pin per case"
+
+#: report/templates/report/dash.html
+msgid "Populasaun Afetada tuir Munisípiu"
+msgstr "Affected Population by Municipality"
+
+#: report/utils.py
+msgid "Sai husi ekran tomak"
+msgstr "Exit full screen"
+
+#: report/utils.py
+msgid "Subar tabela dadus"
+msgstr "Hide data table"
+
+#: report/templates/report/chart_dash.html
+msgid "Tendénsia Kazu (fulan 12)"
+msgstr "Case Trend (12 months)"
+
+#: report/templates/report/mapa.html
+msgid "Tinan"
+msgstr "Year"
+
+#: report/templates/report/dash.html
+msgid "Total"
+msgstr "Total"
+
+#: report/templates/report/dash.html
+msgid "Uma-Kain Afetadu"
+msgstr "Affected Households"
+
+#: report/templates/report/mapa.html
+msgid "Uma-kain"
+msgstr "Households"
+
+#: report/utils.py
+msgid "_START_–_END_ husi _TOTAL_"
+msgstr "_START_–_END_ of _TOTAL_"
+
+#: report/templates/report/mapa.html
+msgid "kazu"
+msgstr "cases"
+
+#: report/templates/chart/chart_tendensia.js
+msgid "Deslokamentu / Eviksaun"
+msgstr "Displacement / Eviction"
+
+#: report/templates/chart/chart_afetadu.js
+msgid "Ema"
+msgstr "People"
+
+#: report/templates/chart/chart_tendensia.js
+msgid "Total kazu"
+msgstr "Total cases"
+
+#: report/templates/chart/chart_afetadu.js
+msgid "ema"
+msgstr "people"

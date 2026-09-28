@@ -1428,3 +1428,253 @@ msgstr "IZIN OFFLINE"
 #: users/templates/users/form.html
 msgid "LISTA UTILIZADOR"
 msgstr "DAFTAR PENGGUNA"
+
+#: report/utils.py
+msgid "(filtra husi _MAX_)"
+msgstr "(disaring dari _MAX_)"
+
+#: report/utils.py
+msgid "Buka:"
+msgstr "Cari:"
+
+#: report/templates/report/list.html
+msgid "DASHBOARD"
+msgstr "DASBOR"
+
+#: report/views/dash_v.py
+msgid "Dashboard Relatóriu"
+msgstr "Dasbor Laporan"
+
+#: report/utils.py
+msgid "Download CSV"
+msgstr "Unduh CSV"
+
+#: report/utils.py
+msgid "Download Excel"
+msgstr "Unduh Excel"
+
+#: report/utils.py
+msgid "Download JPEG"
+msgstr "Unduh JPEG"
+
+#: report/utils.py
+msgid "Download PDF"
+msgstr "Unduh PDF"
+
+#: report/utils.py
+msgid "Download PNG"
+msgstr "Unduh PNG"
+
+#: report/utils.py
+msgid "Download SVG"
+msgstr "Unduh SVG"
+
+#: report/templates/report/list.html
+msgid "Excel kompletu"
+msgstr "Excel lengkap"
+
+#: report/views/dash_v.py
+msgid "Gráfiku"
+msgstr "Grafik"
+
+#: report/views/dash_v.py
+msgid "Gráfiku no Tendénsia"
+msgstr "Grafik dan Tren"
+
+#: report/templates/report/_filter.html
+msgid "Hamoos filtru"
+msgstr "Hapus filter"
+
+#: report/api/views.py
+msgid "Haree Detalla"
+msgstr "Lihat Detail"
+
+#: report/utils.py
+msgid "Haree ekran tomak"
+msgstr "Layar penuh"
+
+#: report/utils.py
+msgid "Haree tabela dadus"
+msgstr "Lihat tabel data"
+
+#: report/utils.py
+msgid "Hatudu _MENU_"
+msgstr "Tampilkan _MENU_"
+
+#: report/templates/report/mapa.html
+msgid "Hotspot"
+msgstr "Hotspot"
+
+#: report/utils.py
+msgid "Imprime gráfiku"
+msgstr "Cetak grafik"
+
+#: report/utils.py
+msgid "Karrega…"
+msgstr "Memuat…"
+
+#: report/templates/report/dash.html
+msgid "Kazu Eviksaun Aktivu"
+msgstr "Kasus Penggusuran Aktif"
+
+#: report/templates/report/dash.html
+msgid "Kazu Remata"
+msgstr "Kasus Selesai"
+
+#: report/templates/report/mapa.html
+msgid "Kazu barak (≥ 15)"
+msgstr "Banyak kasus (≥ 15)"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Investigadór"
+msgstr "Kasus per Investigador"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Munisípiu"
+msgstr "Kasus per Munisipiu"
+
+#: report/templates/report/chart_dash.html
+msgid "Kazu tuir Status"
+msgstr "Kasus per Status"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Tinan"
+msgstr "Kasus per Tahun"
+
+#: report/templates/report/dash.html
+msgid "Kazu tuir Tipu Konflitu"
+msgstr "Kasus per Jenis Konflik"
+
+#: report/utils.py
+msgid "La hetan dadus"
+msgstr "Data tidak ditemukan"
+
+#: report/utils.py
+msgid "La iha dadus"
+msgstr "Tidak ada data"
+
+#: report/templates/report/mapa.html
+msgid "Lejenda"
+msgstr "Legenda"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Eviksaun Aktivu"
+msgstr "Daftar Kasus Penggusuran Aktif"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Hotu"
+msgstr "Daftar Semua Kasus"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Investigadór %(s)s"
+msgstr "Kasus Investigador %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Munisípiu %(s)s"
+msgstr "Kasus Munisipiu %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Status %(s)s"
+msgstr "Kasus Status %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Tinan %(s)s"
+msgstr "Kasus Tahun %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Tipu %(s)s"
+msgstr "Kasus Jenis %(s)s"
+
+#: report/views/dash_v.py
+msgid "Lista Kazu Urjente"
+msgstr "Daftar Kasus Mendesak"
+
+#: report/views/mapa_v.py
+msgid "Mapa Konflitu Rai"
+msgstr "Peta Konflik Tanah"
+
+#: report/views/mapa_v.py
+msgid "Mapa Konflitu Rai — Timor-Leste"
+msgstr "Peta Konflik Tanah — Timor-Leste"
+
+#: report/templates/report/mapa.html
+msgid ""
+"Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, kamada "
+"OpenStreetMap aumenta automátiku. Fronteira simplifikadu, ba vizualizasaun "
+"deit."
+msgstr ""
+"Peta dasar (batas munisipiu) berfungsi offline. Saat online, lapisan "
+"OpenStreetMap ditambahkan otomatis. Batas disederhanakan, hanya untuk "
+"visualisasi."
+
+#: report/utils.py
+msgid "Menu gráfiku"
+msgstr "Menu grafik"
+
+#: report/templates/report/mapa.html
+msgid "Modu mapa"
+msgstr "Mode peta"
+
+#: report/templates/report/mapa.html
+msgid "Offline: mapa baze deit"
+msgstr "Offline: hanya peta dasar"
+
+#: report/templates/report/mapa.html
+msgid "Pin kada kazu"
+msgstr "Pin per kasus"
+
+#: report/templates/report/dash.html
+msgid "Populasaun Afetada tuir Munisípiu"
+msgstr "Penduduk Terdampak per Munisipiu"
+
+#: report/utils.py
+msgid "Sai husi ekran tomak"
+msgstr "Keluar layar penuh"
+
+#: report/utils.py
+msgid "Subar tabela dadus"
+msgstr "Sembunyikan tabel data"
+
+#: report/templates/report/chart_dash.html
+msgid "Tendénsia Kazu (fulan 12)"
+msgstr "Tren Kasus (12 bulan)"
+
+#: report/templates/report/mapa.html
+msgid "Tinan"
+msgstr "Tahun"
+
+#: report/templates/report/dash.html
+msgid "Total"
+msgstr "Total"
+
+#: report/templates/report/dash.html
+msgid "Uma-Kain Afetadu"
+msgstr "Rumah Tangga Terdampak"
+
+#: report/templates/report/mapa.html
+msgid "Uma-kain"
+msgstr "Rumah tangga"
+
+#: report/utils.py
+msgid "_START_–_END_ husi _TOTAL_"
+msgstr "_START_–_END_ dari _TOTAL_"
+
+#: report/templates/report/mapa.html
+msgid "kazu"
+msgstr "kasus"
+
+#: report/templates/chart/chart_tendensia.js
+msgid "Deslokamentu / Eviksaun"
+msgstr "Pemindahan / Penggusuran"
+
+#: report/templates/chart/chart_afetadu.js
+msgid "Ema"
+msgstr "Orang"
+
+#: report/templates/chart/chart_tendensia.js
+msgid "Total kazu"
+msgstr "Total kasus"
+
+#: report/templates/chart/chart_afetadu.js
+msgid "ema"
+msgstr "orang"
