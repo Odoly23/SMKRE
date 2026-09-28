@@ -72,6 +72,7 @@ INSTALLED_APPS = [
 	'report.apps.ReportConfig',
 	'sinkron.apps.SinkronConfig',
 	'legal.apps.LegalConfig',
+	'publiku.apps.PublikuConfig',
 
 	'django_cleanup.apps.CleanupConfig',      # hamoos file tuan automátiku (tenke ikus)
 ]
@@ -244,6 +245,12 @@ BEHIND_PROXY = env('BEHIND_PROXY', default=not DEBUG, cast=bool)
 # Autorizasaun offline (loron)
 OFFLINE_PERMISSION_DAYS = env('OFFLINE_PERMISSION_DAYS', default=7, cast=int)
 
+# Portal públiku: kontaktu iha topbar (mamuk = la hatudu)
+PORTAL_TELEFONE = env('PORTAL_TELEFONE', default='')
+PORTAL_EMAIL = env('PORTAL_EMAIL', default='')
+PORTAL_ENDERESU = env('PORTAL_ENDERESU', default='Dili, Timor-Leste')
+PORTAL_LIMITE_SUBAR = 3              # númeru 1–2 hatudu "< 3" (privasidade)
+
 
 # ══════════════════════════════════════════════
 # 8. REST FRAMEWORK & JWT (sinkron offline)
@@ -255,7 +262,7 @@ REST_FRAMEWORK = {
 	],
 	'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
 	'DEFAULT_THROTTLE_CLASSES': ['rest_framework.throttling.UserRateThrottle'],
-	'DEFAULT_THROTTLE_RATES': {'user': '300/minute'},
+	'DEFAULT_THROTTLE_RATES': {'user': '300/minute', 'anon': '120/minute'},
 }
 
 SIMPLE_JWT = {

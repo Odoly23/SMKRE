@@ -50,6 +50,9 @@ CELERY_ALWAYS_EAGER=False
 USE_REDIS_CACHE=True
 BEHIND_PROXY=True
 ADMIN_URL=<url-segredu>/
+PORTAL_TELEFONE=+670 ...
+PORTAL_EMAIL=...@...
+PORTAL_ENDERESU=Dili, Timor-Leste
 ```
 
 > `BEHIND_PROXY=True`: IP kliente husi `X-Forwarded-For` ne'ebé Nginx hatama (ba rejistu asesu vault no limite login django-axes).
@@ -176,4 +179,5 @@ App offline iha HP atualiza automátiku: service worker hetan versaun foun bainh
 - [ ] Backup cron + teste restore dala ida
 - [ ] Login ho konta kada papél (superadmin, admin, analista, ofisiál legál, investigadór)
 - [ ] Investigadór: autorizasaun offline → `/sinkron/` iha HP → kazu teste → sinkron
-- [ ] Hamoos kazu `[DEMO]` (se iha)
+- [ ] Hamoos kazu `[DEMO]` no publikasaun `[DEMO]` (se iha)
+- [ ] Portal `/portal/`: kontaktu loos iha topbar; teste klik mapa / gráfiku iha HP

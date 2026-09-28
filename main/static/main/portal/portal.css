@@ -1,0 +1,149 @@
+/* Portal Públiku SMKRE — mobile first, kór Rede ba Rai */
+:root {
+	--teal: #0E8A68; --teal-dk: #0B7358; --teal-xd: #08543f; --verde: #82DA36; --maroon: #6B1E23;
+	--ink: #0b0b0b; --ink2: #52514e; --muted: #6f6e69; --line: #e1e0d9; --plane: #f6f8f7; --surface: #ffffff;
+}
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body.portal { font-family: 'Lato', system-ui, sans-serif; color: var(--ink); background: var(--surface); }
+.portal h1, .portal h2, .portal h3 { font-family: 'Montserrat', 'Lato', sans-serif; font-weight: 800; }
+.portal a { color: var(--teal-dk); }
+
+/* ── Topbar: kontaktu karuk · bandeira los (hela iha HP) ── */
+.p-topbar { background: var(--teal-xd); color: #dff3ec; font-size: 13px; }
+.p-topbar .container { display: flex; align-items: center; justify-content: space-between; min-height: 38px; gap: 8px; }
+.p-kontaktu { display: flex; gap: 16px; min-width: 0; }
+.p-kontaktu a, .p-kontaktu > span { color: #dff3ec; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; text-decoration: none; }
+.p-kontaktu a:hover { color: #fff; }
+.p-kontaktu .fa { color: var(--verde); font-size: 15px; }
+.p-lian { display: flex; gap: 2px; flex-shrink: 0; }
+.p-lian form { margin: 0; }
+.p-lian button { background: none; border: 0; color: #dff3ec; padding: 6px 6px; display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; font-size: 12px; font-weight: 700; min-height: 32px; }
+.p-lian button img { border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
+.p-lian button.active { background: rgba(255,255,255,.16); color: #fff; }
+.p-lian button:hover { background: rgba(255,255,255,.1); }
+@media (max-width: 767.98px) {
+	/* HP: ikon deit ba kontaktu (klik = telefone / email), bandeira sempre haree */
+	.p-kontaktu span > span, .p-kontaktu a > span { display: none; }
+	.p-kontaktu .fa { font-size: 18px; }
+	.p-lian button span { display: none; }
+}
+
+/* ── Navbar ── */
+.p-nav { position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,.96); backdrop-filter: saturate(1.4) blur(6px); border-bottom: 1px solid var(--line); }
+.p-nav .container { display: flex; align-items: center; justify-content: space-between; min-height: 64px; position: relative; }
+.p-brand { display: flex; align-items: center; gap: 10px; color: var(--ink) !important; text-decoration: none !important; }
+.p-brand span { display: flex; flex-direction: column; line-height: 1.1; }
+.p-brand b { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 18px; color: var(--teal-dk); }
+.p-brand small { color: var(--ink2); font-size: 12px; }
+.p-ham { display: none; background: none; border: 0; font-size: 24px; color: var(--teal-dk); width: 44px; height: 44px; }
+.p-links { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; align-items: center; }
+.p-links a { display: block; padding: 10px 12px; color: var(--ink2); font-weight: 700; font-size: 14px; border-radius: 8px; text-decoration: none; }
+.p-links a:hover { color: var(--teal-dk); background: var(--plane); }
+.p-btn-login { background: var(--teal); color: #fff !important; }
+.p-btn-login:hover { background: var(--teal-dk) !important; }
+@media (max-width: 991.98px) {
+	.p-ham { display: block; }
+	.p-links { display: none; position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; align-items: stretch; background: #fff; border-bottom: 1px solid var(--line); padding: 8px 15px 12px; box-shadow: 0 8px 16px rgba(0,0,0,.06); }
+	.p-links.open { display: flex; }
+	.p-links a { padding: 12px; }
+}
+
+/* ── Hero + KPI ── */
+.p-hero { position: relative; overflow: hidden; color: #fff; padding: 48px 0 40px;
+	background: radial-gradient(1200px 400px at 85% -10%, rgba(130,218,54,.28), transparent 60%),
+		linear-gradient(135deg, var(--teal-xd) 0%, var(--teal) 60%, #16B78A 100%); }
+.p-hero::after { content: ''; position: absolute; right: -120px; bottom: -160px; width: 420px; height: 420px; border-radius: 50%; border: 60px solid rgba(255,255,255,.06); }
+.p-eyebrow { display: inline-flex; gap: 6px; align-items: center; background: rgba(255,255,255,.14); padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+.p-hero h1 { font-size: 30px; margin: 14px 0 10px; max-width: 760px; line-height: 1.2; }
+.p-lead { font-size: 17px; max-width: 680px; color: #e6f6f0; margin-bottom: 26px; }
+.p-kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; position: relative; z-index: 1; }
+.p-kpi { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); border-radius: 14px; padding: 16px; }
+.p-kpi b { display: block; font-family: 'Lato', system-ui, sans-serif; font-weight: 900; font-size: 32px; line-height: 1.1; }
+.p-kpi span { font-size: 13px; color: #d9f1e8; }
+.p-atualiza { font-size: 13px; color: #cdebe0; margin: 14px 0 0; }
+@media (min-width: 768px) {
+	.p-hero { padding: 72px 0 56px; }
+	.p-hero h1 { font-size: 44px; }
+	.p-kpis { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+	.p-kpi b { font-size: 40px; }
+}
+
+/* ── Filtru (liña ida) ── */
+.p-filtru { position: sticky; top: 64px; z-index: 900; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 4px 12px rgba(0,0,0,.04); padding: 10px 0; }
+.p-filtru-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.p-filtru-form .custom-select, .p-filtru-form .btn { min-height: 42px; border-radius: 10px; }
+.p-filtru-form #f-munisipiu { grid-column: 1 / -1; }
+.p-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.p-chips:empty { display: none; }
+.p-chip { border: 0; background: #e3f4ee; color: var(--teal-xd); font-weight: 700; font-size: 13px; padding: 5px 12px; border-radius: 20px; }
+.p-chip:hover { background: #cfeadf; }
+@media (min-width: 768px) {
+	.p-filtru-form { grid-template-columns: 2fr 2fr 1fr auto; }
+	.p-filtru-form #f-munisipiu { grid-column: auto; }
+}
+
+/* ── Seksaun + kartaun ── */
+.p-sec { padding: 48px 0; }
+.p-sec-alt { background: var(--plane); }
+.p-sec-head { margin-bottom: 20px; }
+.p-sec-head h2 { font-size: 26px; margin-bottom: 6px; }
+.p-sec-head p { color: var(--ink2); margin: 0; }
+.p-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: 0 1px 2px rgba(0,0,0,.03); }
+.p-card h3 { font-size: 16px; margin-bottom: 8px; color: var(--ink); }
+.p-chart { height: 300px; }
+.p-chart-tall { height: 440px; }
+.p-chart-sm { min-height: 160px; }
+body.p-loading #charts, body.p-loading #kpis, body.p-loading #painel { opacity: .55; transition: opacity .2s; }
+.p-nota { font-size: 13px; color: var(--ink2); margin: 0; }
+
+/* Mapa */
+.p-map-card { padding: 0; overflow: hidden; }
+#p-mapa { height: 460px; background: #d6e9f2; }
+@media (max-width: 767.98px) { #p-mapa { height: 360px; } }
+.p-legend-mapa { margin-top: 12px; font-size: 13px; color: var(--ink2); }
+.p-legend-mapa div { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.p-legend-mapa i { width: 18px; height: 12px; border-radius: 3px; display: inline-block; box-shadow: inset 0 0 0 1px rgba(11,11,11,.1); }
+.leaflet-container { font-family: 'Lato', system-ui, sans-serif; }
+
+/* Publikasaun */
+.p-pub { height: 100%; display: flex; flex-direction: column; transition: transform .15s, box-shadow .15s; }
+.p-pub:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+.p-pub-tipu { font-size: 12px; font-weight: 700; color: var(--maroon); text-transform: uppercase; letter-spacing: .5px; }
+.p-pub h3 { margin: 6px 0 8px; font-size: 17px; }
+.p-pub p { color: var(--ink2); font-size: 14px; flex: 1; }
+.p-pub-foot { display: flex; justify-content: space-between; align-items: center; }
+.btn-portal { background: var(--teal); color: #fff !important; border-radius: 8px; font-weight: 700; }
+.btn-portal:hover { background: var(--teal-dk); }
+
+/* Kona-ba */
+.p-info { background: #fff; border-radius: 16px; padding: 22px; height: 100%; border: 1px solid var(--line); }
+.p-info .fa { font-size: 26px; color: var(--teal); background: #e3f4ee; width: 52px; height: 52px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; }
+.p-info h3 { font-size: 17px; margin: 14px 0 6px; }
+.p-info p { color: var(--ink2); margin: 0; font-size: 14.5px; }
+
+/* CTA kontaktu */
+.p-cta { background: linear-gradient(135deg, var(--maroon), #8e2a31); color: #fff; padding: 36px 0; }
+.p-cta .container { display: flex; flex-direction: column; gap: 16px; }
+.p-cta h2 { font-size: 22px; margin-bottom: 4px; }
+.p-cta p { margin: 0; color: #f3dcdd; }
+.p-cta-btn { display: flex; flex-wrap: wrap; gap: 10px; }
+.p-cta-btn .btn { border-radius: 10px; font-weight: 700; }
+@media (min-width: 768px) { .p-cta .container { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+/* Footer */
+.p-footer { background: #10231d; color: #b9cdc6; padding: 40px 0 20px; font-size: 14px; }
+.p-footer h3 { color: #fff; font-size: 15px; margin-bottom: 10px; }
+.p-footer a { color: #dff3ec; }
+.p-footer li { margin-bottom: 6px; }
+.p-footer .fa { color: var(--verde); width: 18px; }
+.p-brand-footer b { color: #fff; }
+.p-brand-footer small { color: #b9cdc6; }
+.p-brand-footer img { background: #fff; border-radius: 50%; padding: 2px; }
+.p-copy { border-top: 1px solid rgba(255,255,255,.1); padding-top: 14px; margin-top: 10px; font-size: 12.5px; text-align: center; }
+
+/* Fokus teklado */
+.portal a:focus-visible, .portal button:focus-visible, .portal select:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+.p-cta .btn-light { color: var(--maroon) !important; }
+.p-cta .btn-outline-light { color: #fff !important; }
+.p-cta .btn-outline-light:hover { color: var(--maroon) !important; }

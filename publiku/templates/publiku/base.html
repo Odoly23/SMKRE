@@ -1,0 +1,112 @@
+{% load static i18n %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<html lang="{{ LANGUAGE_CODE|default:'tet' }}">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>{% block title %}{% trans "Observatóriu Konflitu Rai no Eviksaun" %}{% endblock %} | Rede ba Rai</title>
+	<meta name="description" content="{% trans "Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha Timor-Leste." %}">
+	<meta name="author" content="Onosio, Ricardo, Olavio">
+	<meta name="developer" content="Onosio, Ricardo, Olavio">
+	<meta name="copyright" content="Rede ba Rai">
+	<meta name="robots" content="index, follow">
+	<meta name="referrer" content="strict-origin-when-cross-origin">
+	<meta name="theme-color" content="#0E8A68">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Rede ba Rai">
+	<meta property="og:title" content="{% trans "Observatóriu Konflitu Rai no Eviksaun" %}">
+	<meta property="og:description" content="{% trans "Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha Timor-Leste." %}">
+	<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'main/images/icon-512.png' %}">
+	<link rel="icon" type="image/png" href="{% static 'main/images/favicon.png' %}">
+	<link rel="apple-touch-icon" href="{% static 'main/images/icon-192.png' %}">
+	<link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'main/font-awesome/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/fonts.css' %}">
+	{% block styles %}{% endblock %}
+	<link rel="stylesheet" href="{% static 'main/portal/portal.css' %}">
+</head>
+<body class="portal">
+
+<!-- ══ Topbar: kontaktu (karuk) · lian (los) ══ -->
+<div class="p-topbar">
+	<div class="container">
+		<div class="p-kontaktu">
+			{% if kontaktu.telefone %}<a href="tel:{{ kontaktu.telefone|cut:' ' }}" title="{% trans "Telefone" %}"><i class="fa fa-phone"></i><span>{{ kontaktu.telefone }}</span></a>{% endif %}
+			{% if kontaktu.enderesu %}<span title="{% trans "Fatin" %}"><i class="fa fa-map-marker"></i><span>{{ kontaktu.enderesu }}</span></span>{% endif %}
+			{% if kontaktu.email %}<a href="mailto:{{ kontaktu.email }}" title="{% trans "Email" %}"><i class="fa fa-envelope"></i><span>{{ kontaktu.email }}</span></a>{% endif %}
+		</div>
+		<div class="p-lian">
+			{% for code, name in LANGUAGES %}
+			<form action="{% url 'set-language' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="language" value="{{ code }}">
+				<input type="hidden" name="next" value="{{ request.get_full_path }}">
+				<button type="submit" class="{% if code == LANGUAGE_CODE %}active{% endif %}" title="{{ name }}" aria-label="{{ name }}"{% if code == LANGUAGE_CODE %} aria-current="true"{% endif %}>
+					<img src="{% static 'main/images/flags/' %}{% if code == 'tet' %}tl{% elif code == 'en' %}gb{% else %}{{ code }}{% endif %}.svg" alt="" width="22" height="16">
+					<span>{{ code|upper }}</span>
+				</button>
+			</form>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<!-- ══ Navbar ══ -->
+<nav class="p-nav" aria-label="{% trans "Menu" %}">
+	<div class="container">
+		<a class="p-brand" href="{% url 'portal' %}">
+			<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" width="44" height="44">
+			<span><b>Rede ba Rai</b><small>{% trans "Observatóriu Konflitu Rai" %}</small></span>
+		</a>
+		<button class="p-ham" type="button" id="p-ham" aria-label="{% trans "Menu" %}" aria-expanded="false" aria-controls="p-links"><i class="fa fa-bars"></i></button>
+		<ul class="p-links" id="p-links">
+			<li><a href="#mapa">{% trans "Mapa" %}</a></li>
+			<li><a href="#estatistika">{% trans "Estatístika" %}</a></li>
+			<li><a href="#publikasaun">{% trans "Publikasaun" %}</a></li>
+			<li><a href="#kona-ba">{% trans "Kona-ba" %}</a></li>
+			<li><a href="#kontaktu">{% trans "Kontaktu" %}</a></li>
+			<li><a href="{% url 'login' %}" class="p-btn-login"><i class="fa fa-lock"></i> {% trans "Login Staf" %}</a></li>
+		</ul>
+	</div>
+</nav>
+
+<main>{% block content %}{% endblock %}</main>
+
+<!-- ══ Footer ══ -->
+<footer class="p-footer" id="kontaktu">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5 mb-3">
+				<div class="p-brand p-brand-footer">
+					<img src="{% static 'main/images/logo.png' %}" alt="" width="44" height="44">
+					<span><b>Rede ba Rai</b><small>{% trans "Observatóriu Konflitu Rai" %}</small></span>
+				</div>
+				<p class="mt-2 mb-0">{% trans "Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha Timor-Leste." %}</p>
+			</div>
+			<div class="col-md-4 mb-3">
+				<h3>{% trans "Kontaktu" %}</h3>
+				<ul class="list-unstyled">
+					{% if kontaktu.telefone %}<li><i class="fa fa-phone"></i> <a href="tel:{{ kontaktu.telefone|cut:' ' }}">{{ kontaktu.telefone }}</a></li>{% endif %}
+					{% if kontaktu.email %}<li><i class="fa fa-envelope"></i> <a href="mailto:{{ kontaktu.email }}">{{ kontaktu.email }}</a></li>{% endif %}
+					{% if kontaktu.enderesu %}<li><i class="fa fa-map-marker"></i> {{ kontaktu.enderesu }}</li>{% endif %}
+					<li><i class="fa fa-globe"></i> <a href="https://redebarai.org" rel="noopener" target="_blank">redebarai.org</a></li>
+				</ul>
+			</div>
+			<div class="col-md-3 mb-3">
+				<h3>{% trans "Ligasaun" %}</h3>
+				<ul class="list-unstyled">
+					<li><a href="#mapa">{% trans "Mapa" %}</a></li>
+					<li><a href="#estatistika">{% trans "Estatístika" %}</a></li>
+					<li><a href="#publikasaun">{% trans "Publikasaun" %}</a></li>
+					<li><a href="{% url 'login' %}">{% trans "Login Staf" %}</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="p-copy">© {% now "Y" %} Rede ba Rai · SMKRE · {% trans "Dezenvolve husi" %} Onosio, Ricardo, Olavio</div>
+	</div>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

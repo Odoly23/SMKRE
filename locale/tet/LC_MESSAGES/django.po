@@ -2223,3 +2223,329 @@ msgstr "foto"
 #: legal/templates/legal/dossier.html
 msgid "vídeo"
 msgstr "vídeo"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Atu proteje privasidade komunidade, númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\". Populasaun afetada hatudu deit ba munisípiu ho kazu %(limite)s"
+" ka liu."
+msgstr ""
+"Atu proteje privasidade komunidade, númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\". Populasaun afetada hatudu deit ba munisípiu ho kazu %(limite)s"
+" ka liu."
+
+#: publiku/templates/publiku/portal.html
+msgid "Atualiza ikus"
+msgstr "Atualiza ikus"
+
+#: publiku/templates/publiku/base.html
+msgid ""
+"Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha "
+"Timor-Leste."
+msgstr ""
+"Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha "
+"Timor-Leste."
+
+#: publiku/views/portal_v.py
+msgid "Dadus subar ba privasidade"
+msgstr "Dadus subar ba privasidade"
+
+#: publiku/templates/publiku/portal.html
+msgid "Dadus verifikadu no anónimu"
+msgstr "Dadus verifikadu no anónimu"
+
+#: publiku/models.py
+msgid "Data publikasaun"
+msgstr "Data publikasaun"
+
+#: publiku/views/publikasaun_v.py
+msgid "Edita Publikasaun"
+msgstr "Edita Publikasaun"
+
+#: publiku/templates/publiku/portal.html
+msgid "Ema afetadu"
+msgstr "Ema afetadu"
+
+#: publiku/templates/publiku/base.html
+msgid "Estatístika"
+msgstr "Estatístika"
+
+#: publiku/models.py
+msgid "File PDF"
+msgstr "File PDF"
+
+#: publiku/forms.py
+msgid "File tenke PDF loos."
+msgstr "File tenke PDF loos."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Haree Portal"
+msgstr "Haree Portal"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste. "
+"Klik iha mapa ka gráfiku atu filtra dadus."
+msgstr ""
+"Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste. "
+"Klik iha mapa ka gráfiku atu filtra dadus."
+
+#: publiku/views/portal_v.py
+msgid "Hili munisípiu ida atu haree kazu tuir suku."
+msgstr "Hili munisípiu ida atu haree kazu tuir suku."
+
+#: publiku/templates/publiku/portal.html
+msgid "Iha konflitu rai ka eviksaun iha ita-nia komunidade?"
+msgstr "Iha konflitu rai ka eviksaun iha ita-nia komunidade?"
+
+#: publiku/models.py
+msgid "Infográfiku"
+msgstr "Infográfiku"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Investigadór Rede ba Rai rejista kazu iha fatin akontesimentu, ho GPS no "
+"konsentimentu husi ema afetada."
+msgstr ""
+"Investigadór Rede ba Rai rejista kazu iha fatin akontesimentu, ho GPS no "
+"konsentimentu husi ema afetada."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Kada kazu verifika husi Admin no aprova husi Superadmin molok mosu iha "
+"portal ne'e."
+msgstr ""
+"Kada kazu verifika husi Admin no aprova husi Superadmin molok mosu iha "
+"portal ne'e."
+
+#: publiku/views/portal_v.py
+msgid "Kazu kada munisípiu"
+msgstr "Kazu kada munisípiu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu tuir munisípiu"
+msgstr "Kazu tuir munisípiu"
+
+#: publiku/views/portal_v.py
+msgid "Kazu tuir suku"
+msgstr "Kazu tuir suku"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu tuir tinan"
+msgstr "Kazu tuir tinan"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu tuir tipu konflitu"
+msgstr "Kazu tuir tipu konflitu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu verifikadu"
+msgstr "Kazu verifikadu"
+
+#: publiku/views/portal_v.py
+msgid "Klik atu filtra"
+msgstr "Klik atu filtra"
+
+#: publiku/templates/publiku/portal.html
+msgid "Klik barra ida atu filtra gráfiku hotu. Klik fali atu hamoos filtru."
+msgstr "Klik barra ida atu filtra gráfiku hotu. Klik fali atu hamoos filtru."
+
+#: publiku/views/portal_v.py
+msgid "Klik fali atu hamoos filtru"
+msgstr "Klik fali atu hamoos filtru"
+
+#: publiku/templates/publiku/portal.html
+msgid "Klik munisípiu iha mapa ka gráfiku."
+msgstr "Klik munisípiu iha mapa ka gráfiku."
+
+#: publiku/templates/publiku/base.html
+msgid "Kona-ba"
+msgstr "Kona-ba"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kona-ba dadus ne'e"
+msgstr "Kona-ba dadus ne'e"
+
+#: publiku/templates/publiku/base.html
+msgid "Kontaktu"
+msgstr "Kontaktu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kontaktu Rede ba Rai liuhusi telefone ka email."
+msgstr "Kontaktu Rede ba Rai liuhusi telefone ka email."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Kór metin liu = kazu barak liu. Klik munisípiu ida atu haree suku no gráfiku"
+" husi munisípiu ne'e."
+msgstr ""
+"Kór metin liu = kazu barak liu. Klik munisípiu ida atu haree suku no gráfiku"
+" husi munisípiu ne'e."
+
+#: publiku/templates/publiku/portal.html
+msgid "Lee PDF"
+msgstr "Lee PDF"
+
+#: publiku/templates/publiku/base.html
+msgid "Ligasaun"
+msgstr "Ligasaun"
+
+#: publiku/templates/publiku/base.html
+msgid "Login Staf"
+msgstr "Login Staf"
+
+#: publiku/views/portal_v.py
+msgid "Mapa baze (offline)"
+msgstr "Mapa baze (offline)"
+
+#: publiku/templates/publiku/portal.html
+msgid "Mapa kazu tuir munisípiu"
+msgstr "Mapa kazu tuir munisípiu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Munisípiu ho kazu"
+msgstr "Munisípiu ho kazu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Munisípiu hotu"
+msgstr "Munisípiu hotu"
+
+#: publiku/templates/publiku/base.html
+msgid "Observatóriu Konflitu Rai"
+msgstr "Observatóriu Konflitu Rai"
+
+#: publiku/templates/publiku/base.html
+msgid "Observatóriu Konflitu Rai no Eviksaun"
+msgstr "Observatóriu Konflitu Rai no Eviksaun"
+
+#: publiku/forms.py
+msgid "PDF deit · máximu 20 MB"
+msgstr "PDF deit · máximu 20 MB"
+
+#: publiku/templates/publiku/publikasaun_form.html
+msgid "PUBLIKASAUN"
+msgstr "PUBLIKASAUN"
+
+#: publiku/models.py
+msgid "Policy Brief"
+msgstr "Policy Brief"
+
+#: publiku/templates/publiku/portal.html
+msgid "Policy brief no relatóriu husi Rede ba Rai."
+msgstr "Policy brief no relatóriu husi Rede ba Rai."
+
+#: publiku/templates/publiku/portal.html
+msgid "Populasaun afetada: mane no feto"
+msgstr "Populasaun afetada: mane no feto"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Portal hatudu dadus agregadu deit. La iha naran, foto ka fatin ezatu. "
+"Komunidade bele husu atu kazu la mosu iha públiku."
+msgstr ""
+"Portal hatudu dadus agregadu deit. La iha naran, foto ka fatin ezatu. "
+"Komunidade bele husu atu kazu la mosu iha públiku."
+
+#: publiku/templates/publiku/portal.html
+msgid "Privasidade"
+msgstr "Privasidade"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Publika"
+msgstr "Publika"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Publika ba portal públiku? Ema hotu bele haree."
+msgstr "Publika ba portal públiku? Ema hotu bele haree."
+
+#: publiku/models.py
+msgid "Publikadu"
+msgstr "Publikadu"
+
+#: config/menu.py
+msgid "Publikasaun"
+msgstr "Publikasaun"
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun (Policy Brief)"
+msgstr "Publikasaun (Policy Brief)"
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun Foun"
+msgstr "Publikasaun Foun"
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun mosu ona iha portal públiku."
+msgstr "Publikasaun mosu ona iha portal públiku."
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun publikadu ona. Admin deit mak bele edita."
+msgstr "Publikasaun publikadu ona. Admin deit mak bele edita."
+
+#: publiku/templates/publiku/publikasaun_form.html
+msgid ""
+"Publikasaun rai hanesan rascunho. Admin ka Superadmin mak publika ba portal "
+"públiku."
+msgstr ""
+"Publikasaun rai hanesan rascunho. Admin ka Superadmin mak publika ba portal "
+"públiku."
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun rai ona."
+msgstr "Publikasaun rai ona."
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun subar husi portal."
+msgstr "Publikasaun subar husi portal."
+
+#: publiku/templates/publiku/portal.html
+msgid "Rekolla iha terrenu"
+msgstr "Rekolla iha terrenu"
+
+#: publiku/models.py
+msgid "Rezumu badak"
+msgstr "Rezumu badak"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Seidauk iha publikasaun."
+msgstr "Seidauk iha publikasaun."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Subar"
+msgstr "Subar"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Subar publikasaun ne'e husi portal?"
+msgstr "Subar publikasaun ne'e husi portal?"
+
+#: publiku/services.py
+msgid "Suku seidauk rejista"
+msgstr "Suku seidauk rejista"
+
+#: publiku/templates/publiku/base.html
+msgid "Telefone"
+msgstr "Telefone"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tinan hotu"
+msgstr "Tinan hotu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu"
+msgstr "Tipu konflitu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu hotu"
+msgstr "Tipu konflitu hotu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Uma-kain afetadu"
+msgstr "Uma-kain afetadu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Verifika dala rua"
+msgstr "Verifika dala rua"
+
+#: users/templates/auth/login.html
+msgid "Portal Públiku"
+msgstr "Portal Públiku"

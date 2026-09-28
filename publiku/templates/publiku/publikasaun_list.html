@@ -1,0 +1,43 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		<div class="mb-2">
+			<a href="{% url 'portal' %}" class="btn btn-outline-rbr" target="_blank" rel="noopener"><i class="fa fa-globe"></i> {% trans "Haree Portal" %}</a>
+			<a href="{% url 'publikasaun-add' %}" class="btn btn-rbr"><i class="fa fa-plus"></i> {% trans "Publikasaun Foun" %}</a>
+		</div>
+	</div>
+	<div class="card card-rbr">
+		<div class="card-body">
+			<div class="table-responsive table-cards">
+				<table class="table table-sm table-hover">
+					<thead><tr><th>{% trans "Títulu" %}</th><th>{% trans "Tipu" %}</th><th>{% trans "Data" %}</th><th>{% trans "Status" %}</th><th></th></tr></thead>
+					<tbody>
+					{% for p in objects %}
+					<tr>
+						<td data-label="{% trans "Títulu" %}"><b>{{ p.titulu }}</b><br><small class="text-muted">{{ p.lian|upper }} · {{ p.created_by.pesoaluser.pesoal|default:p.created_by.username|default:"-" }}</small></td>
+						<td data-label="{% trans "Tipu" %}">{{ p.get_tipu_display }}</td>
+						<td data-label="{% trans "Data" %}">{{ p.data|date:"d/m/Y" }}</td>
+						<td data-label="{% trans "Status" %}">{% if p.status == 'PUBLIKADU' %}<span class="badge badge-success rounded-pill px-3"><i class="fa fa-globe"></i> {% trans "Publikadu" %}</span>{% else %}<span class="badge badge-secondary rounded-pill px-3"><i class="fa fa-pencil"></i> {% trans "Rascunho" %}</span>{% endif %}</td>
+						<td class="text-right text-nowrap">
+							<a href="{% url 'portal-publikasaun' p.pk %}" class="btn btn-sm btn-outline-rbr" target="_blank" rel="noopener" aria-label="PDF"><i class="fa fa-file-pdf-o"></i></a>
+							<a href="{% url 'publikasaun-update' p.pk %}" class="btn btn-sm btn-outline-rbr" aria-label="{% trans "Edita" %}"><i class="fa fa-pencil"></i></a>
+							{% if can_publika %}
+							<form method="post" action="{% url 'publikasaun-publika' p.pk %}" class="d-inline js-confirm" data-confirm="{% if p.status == 'PUBLIKADU' %}{% trans "Subar publikasaun ne'e husi portal?" %}{% else %}{% trans "Publika ba portal públiku? Ema hotu bele haree." %}{% endif %}">{% csrf_token %}
+								<button type="submit" class="btn btn-sm {% if p.status == 'PUBLIKADU' %}btn-outline-secondary{% else %}btn-rbr{% endif %}">{% if p.status == 'PUBLIKADU' %}<i class="fa fa-eye-slash"></i> {% trans "Subar" %}{% else %}<i class="fa fa-globe"></i> {% trans "Publika" %}{% endif %}</button>
+							</form>
+							{% endif %}
+						</td>
+					</tr>
+					{% empty %}<tr><td colspan="5" class="text-center text-muted">{% trans "Seidauk iha publikasaun." %}</td></tr>{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

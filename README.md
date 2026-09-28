@@ -31,6 +31,7 @@ kazu/           # kazu: formuláriu, status, verifikasaun (Admin) + aprovasaun (
 report/         # dashboard, gráfiku (templates/chart/*.js), mapa (templates/maps/), lista, eksporta Excel — api/ + views/
 sinkron/        # app offline Investigadór (/sinkron/) + API sinkron JWT (api/) — regra iha services.py
 legal/          # Document Vault, nota/prazu legál, dossier imprime — regra iha services.py
+publiku/        # portal públiku /portal/ (mapa + gráfiku interativu, publikasaun) — regra privasidade iha services.py
 locale/         # tradusaun: tet, pt, en, id
 tools/          # extract_lian.py (ekstrai testu tradusaun)
 docs/           # SPESIFIKASAUN.md, DEPLOY.md, manuál formasaun
@@ -122,6 +123,13 @@ API: `POST /api/auth/token/` · `GET /api/sinkron/opsaun/` · `GET|POST /api/sin
 - **Dossier (PDF):** pájina A4 ho kop Rede ba Rai → *Imprime / Rai PDF*.
 - Auditoria: `python manage.py verifika_vault` (kalkula fali SHA-256 file hotu).
 
+## 🌍 Portal Públiku (`/portal/`)
+
+- Topbar: kontaktu (telefone, fatin, email) iha karuk · bandeira lian iha los. Muda kontaktu iha `.env`: `PORTAL_TELEFONE`, `PORTAL_EMAIL`, `PORTAL_ENDERESU`.
+- Mapa munisípiu + gráfiku barra (munisípiu, tipu konflitu, tinan, populasaun afetada). **Klik barra ka mapa → filtru ba hotu**; klik fali = hamoos. Link ho filtru bele fahe (URL).
+- **Privasidade:** kazu **aprovadu** (Superadmin) ho konsentimentu deit, la'ós "la publika"; agregadu deit (la iha naran, foto, GPS); númeru 1–2 → **"< 3"**; populasaun afetada ba grupu ho kazu ≥ 3 deit. Regra iha `publiku/services.py`.
+- **Publikasaun:** Analista (ka Admin) kria policy brief PDF → Admin / Superadmin **Publika** (menu *Publikasaun*).
+
 ## 🌐 Lian
 
 - Testu fonte iha kódigu mak **Tetun**. File hotu iha `locale/`: `tet/`, `pt/`, `en/`, `id/` (`LC_MESSAGES/django.po`).
@@ -157,4 +165,4 @@ Haree **[docs/DEPLOY.md](docs/DEPLOY.md)** (PostgreSQL, Gunicorn, Nginx, Celery,
 - [x] **Faze 3** — Dashboard, gráfiku, mapa hotspot/pin (GeoJSON lokál + OSM), lista DataTables, eksporta Excel (openpyxl) / PDF
 - [x] **Faze 4** — Offline PWA: IndexedDB enkriptadu (PIN AES-256), formuláriu pasu 6, GPS ≤ 50 m, kámera deit, sinkron idempotente
 - [x] **Faze 5** — Legál: Document Vault (SHA-256, versaun, rejistu asesu), nota + lembrete prazu, dossier PDF; prontu ba deploy
-- [ ] **Faze 6** — Portal Públiku (anónimu, tuir suku)
+- [x] **Faze 6** — Portal Públiku: mapa + gráfiku interativu (filtru krúzadu), dadus anónimu ("< 3"), publikasaun, 4 lian

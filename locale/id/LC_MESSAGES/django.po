@@ -2114,3 +2114,331 @@ msgstr "foto"
 #: legal/templates/legal/dossier.html
 msgid "vídeo"
 msgstr "video"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Atu proteje privasidade komunidade, númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\". Populasaun afetada hatudu deit ba munisípiu ho kazu %(limite)s"
+" ka liu."
+msgstr ""
+"Untuk melindungi privasi komunitas, angka 1 dan 2 ditampilkan sebagai \"&lt;"
+" %(limite)s\". Penduduk terdampak hanya ditampilkan untuk munisipiu dengan "
+"%(limite)s kasus atau lebih."
+
+#: publiku/templates/publiku/portal.html
+msgid "Atualiza ikus"
+msgstr "Terakhir diperbarui"
+
+#: publiku/templates/publiku/base.html
+msgid ""
+"Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha "
+"Timor-Leste."
+msgstr ""
+"Data publik, anonim, dan terverifikasi tentang konflik tanah dan penggusuran"
+" di Timor-Leste."
+
+#: publiku/views/portal_v.py
+msgid "Dadus subar ba privasidade"
+msgstr "Data disembunyikan demi privasi"
+
+#: publiku/templates/publiku/portal.html
+msgid "Dadus verifikadu no anónimu"
+msgstr "Data terverifikasi dan anonim"
+
+#: publiku/models.py
+msgid "Data publikasaun"
+msgstr "Tanggal terbit"
+
+#: publiku/views/publikasaun_v.py
+msgid "Edita Publikasaun"
+msgstr "Ubah Publikasi"
+
+#: publiku/templates/publiku/portal.html
+msgid "Ema afetadu"
+msgstr "Orang terdampak"
+
+#: publiku/templates/publiku/base.html
+msgid "Estatístika"
+msgstr "Statistik"
+
+#: publiku/models.py
+msgid "File PDF"
+msgstr "File PDF"
+
+#: publiku/forms.py
+msgid "File tenke PDF loos."
+msgstr "File harus PDF yang valid."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Haree Portal"
+msgstr "Lihat Portal"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste. "
+"Klik iha mapa ka gráfiku atu filtra dadus."
+msgstr ""
+"Lihat bagaimana konflik tanah dan penggusuran berdampak pada komunitas di "
+"Timor-Leste. Klik peta atau grafik untuk memfilter data."
+
+#: publiku/views/portal_v.py
+msgid "Hili munisípiu ida atu haree kazu tuir suku."
+msgstr "Pilih munisipiu untuk melihat kasus per suku."
+
+#: publiku/templates/publiku/portal.html
+msgid "Iha konflitu rai ka eviksaun iha ita-nia komunidade?"
+msgstr "Ada konflik tanah atau penggusuran di komunitas Anda?"
+
+#: publiku/models.py
+msgid "Infográfiku"
+msgstr "Infografis"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Investigadór Rede ba Rai rejista kazu iha fatin akontesimentu, ho GPS no "
+"konsentimentu husi ema afetada."
+msgstr ""
+"Investigador Rede ba Rai mencatat kasus di lokasi kejadian, dengan GPS dan "
+"persetujuan orang terdampak."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Kada kazu verifika husi Admin no aprova husi Superadmin molok mosu iha "
+"portal ne'e."
+msgstr ""
+"Setiap kasus diverifikasi Admin dan disetujui Superadmin sebelum tampil di "
+"portal ini."
+
+#: publiku/views/portal_v.py
+msgid "Kazu kada munisípiu"
+msgstr "Kasus per munisipiu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu tuir munisípiu"
+msgstr "Kasus per munisipiu"
+
+#: publiku/views/portal_v.py
+msgid "Kazu tuir suku"
+msgstr "Kasus per suku"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu tuir tinan"
+msgstr "Kasus per tahun"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu tuir tipu konflitu"
+msgstr "Kasus per jenis konflik"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu verifikadu"
+msgstr "Kasus terverifikasi"
+
+#: publiku/views/portal_v.py
+msgid "Klik atu filtra"
+msgstr "Klik untuk memfilter"
+
+#: publiku/templates/publiku/portal.html
+msgid "Klik barra ida atu filtra gráfiku hotu. Klik fali atu hamoos filtru."
+msgstr ""
+"Klik sebuah batang untuk memfilter semua grafik. Klik lagi untuk menghapus "
+"filter."
+
+#: publiku/views/portal_v.py
+msgid "Klik fali atu hamoos filtru"
+msgstr "Klik lagi untuk menghapus filter"
+
+#: publiku/templates/publiku/portal.html
+msgid "Klik munisípiu iha mapa ka gráfiku."
+msgstr "Klik munisipiu di peta atau grafik."
+
+#: publiku/templates/publiku/base.html
+msgid "Kona-ba"
+msgstr "Tentang"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kona-ba dadus ne'e"
+msgstr "Tentang data ini"
+
+#: publiku/templates/publiku/base.html
+msgid "Kontaktu"
+msgstr "Kontak"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kontaktu Rede ba Rai liuhusi telefone ka email."
+msgstr "Hubungi Rede ba Rai lewat telepon atau email."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Kór metin liu = kazu barak liu. Klik munisípiu ida atu haree suku no gráfiku"
+" husi munisípiu ne'e."
+msgstr ""
+"Warna lebih gelap = kasus lebih banyak. Klik munisipiu untuk melihat suku "
+"dan grafiknya."
+
+#: publiku/templates/publiku/portal.html
+msgid "Lee PDF"
+msgstr "Baca PDF"
+
+#: publiku/templates/publiku/base.html
+msgid "Ligasaun"
+msgstr "Tautan"
+
+#: publiku/templates/publiku/base.html
+msgid "Login Staf"
+msgstr "Login Staf"
+
+#: publiku/views/portal_v.py
+msgid "Mapa baze (offline)"
+msgstr "Peta dasar (offline)"
+
+#: publiku/templates/publiku/portal.html
+msgid "Mapa kazu tuir munisípiu"
+msgstr "Peta kasus per munisipiu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Munisípiu ho kazu"
+msgstr "Munisipiu dengan kasus"
+
+#: publiku/templates/publiku/portal.html
+msgid "Munisípiu hotu"
+msgstr "Semua munisipiu"
+
+#: publiku/templates/publiku/base.html
+msgid "Observatóriu Konflitu Rai"
+msgstr "Observatorium Konflik Tanah"
+
+#: publiku/templates/publiku/base.html
+msgid "Observatóriu Konflitu Rai no Eviksaun"
+msgstr "Observatorium Konflik Tanah dan Penggusuran"
+
+#: publiku/forms.py
+msgid "PDF deit · máximu 20 MB"
+msgstr "Hanya PDF · maksimum 20 MB"
+
+#: publiku/templates/publiku/publikasaun_form.html
+msgid "PUBLIKASAUN"
+msgstr "PUBLIKASI"
+
+#: publiku/models.py
+msgid "Policy Brief"
+msgstr "Policy Brief"
+
+#: publiku/templates/publiku/portal.html
+msgid "Policy brief no relatóriu husi Rede ba Rai."
+msgstr "Policy brief dan laporan dari Rede ba Rai."
+
+#: publiku/templates/publiku/portal.html
+msgid "Populasaun afetada: mane no feto"
+msgstr "Penduduk terdampak: laki-laki dan perempuan"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Portal hatudu dadus agregadu deit. La iha naran, foto ka fatin ezatu. "
+"Komunidade bele husu atu kazu la mosu iha públiku."
+msgstr ""
+"Portal hanya menampilkan data agregat. Tanpa nama, foto, atau lokasi persis."
+" Komunitas dapat meminta agar kasus tidak ditampilkan ke publik."
+
+#: publiku/templates/publiku/portal.html
+msgid "Privasidade"
+msgstr "Privasi"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Publika"
+msgstr "Terbitkan"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Publika ba portal públiku? Ema hotu bele haree."
+msgstr "Terbitkan ke portal publik? Semua orang bisa melihat."
+
+#: publiku/models.py
+msgid "Publikadu"
+msgstr "Terbit"
+
+#: config/menu.py
+msgid "Publikasaun"
+msgstr "Publikasi"
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun (Policy Brief)"
+msgstr "Publikasi (Policy Brief)"
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun Foun"
+msgstr "Publikasi Baru"
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun mosu ona iha portal públiku."
+msgstr "Publikasi sudah tampil di portal publik."
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun publikadu ona. Admin deit mak bele edita."
+msgstr "Publikasi sudah terbit. Hanya Admin yang bisa mengubah."
+
+#: publiku/templates/publiku/publikasaun_form.html
+msgid ""
+"Publikasaun rai hanesan rascunho. Admin ka Superadmin mak publika ba portal "
+"públiku."
+msgstr ""
+"Publikasi disimpan sebagai draf. Admin atau Superadmin yang menerbitkan ke "
+"portal publik."
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun rai ona."
+msgstr "Publikasi disimpan."
+
+#: publiku/views/publikasaun_v.py
+msgid "Publikasaun subar husi portal."
+msgstr "Publikasi disembunyikan dari portal."
+
+#: publiku/templates/publiku/portal.html
+msgid "Rekolla iha terrenu"
+msgstr "Dikumpulkan di lapangan"
+
+#: publiku/models.py
+msgid "Rezumu badak"
+msgstr "Ringkasan singkat"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Seidauk iha publikasaun."
+msgstr "Belum ada publikasi."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Subar"
+msgstr "Sembunyikan"
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid "Subar publikasaun ne'e husi portal?"
+msgstr "Sembunyikan publikasi ini dari portal?"
+
+#: publiku/services.py
+msgid "Suku seidauk rejista"
+msgstr "Suku belum tercatat"
+
+#: publiku/templates/publiku/base.html
+msgid "Telefone"
+msgstr "Telepon"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tinan hotu"
+msgstr "Semua tahun"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu"
+msgstr "Jenis konflik"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu hotu"
+msgstr "Semua jenis konflik"
+
+#: publiku/templates/publiku/portal.html
+msgid "Uma-kain afetadu"
+msgstr "Rumah tangga terdampak"
+
+#: publiku/templates/publiku/portal.html
+msgid "Verifika dala rua"
+msgstr "Diverifikasi dua kali"
+
+#: users/templates/auth/login.html
+msgid "Portal Públiku"
+msgstr "Portal Publik"

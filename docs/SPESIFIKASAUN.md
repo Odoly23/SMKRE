@@ -125,8 +125,7 @@ Alur tombol: klik notifikasi 🔔 → detail kasus → tombol di bawah (Verifika
 
 ```
 smkre/ main/ config/ custom/ users/ notification/      ← tahap 1 (selesai)
-kazu/ report/ sinkron/ legal/                          ← tahap 2–5 (selesai)
-publiku/                                               ← tahap berikutnya
+kazu/ report/ sinkron/ legal/ publiku/                 ← tahap 2–6 (selesai)
 locale/ logs/ media/ docs/ tools/ templates/
 ```
 
@@ -143,4 +142,4 @@ CSP (tanpa inline script, pakai nonce), Permissions-Policy (kamera dan GPS hanya
 3. ✅ Dashboard, grafik, peta hotspot/pin, laporan, export Excel/PDF
 4. ✅ Offline PWA (IndexedDB terenkripsi PIN AES-256, form 6 langkah, GPS, kamera saja, sinkron idempoten)
 5. ✅ Legal: Document Vault (SHA-256, versi, log akses, rahasia), catatan + pengingat tenggat, dossier PDF; siap deploy (check --deploy bersih)
-6. Portal Publik
+6. ✅ Portal Publik (/portal/): peta + grafik batang interaktif (filter silang), data anonim "< 3", publikasi policy brief, 4 bahasa
