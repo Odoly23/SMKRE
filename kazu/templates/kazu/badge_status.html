@@ -1,0 +1,37 @@
+{% load i18n %}{% if obj.status == 'DRAFT' %}
+	<span class="badge badge-secondary rounded-pill px-3">
+		<i class="fa fa-pencil"></i> {% trans "Rascunho" %}
+	</span>
+{% elif obj.status == 'ONGOING' %}
+	<span class="badge badge-info rounded-pill px-3">
+		<i class="fa fa-map-marker"></i> {% trans "Iha Terrenu" %}
+	</span>
+{% elif obj.status == 'PENDING' %}
+	<span class="badge badge-warning rounded-pill px-3">
+		<i class="fa fa-clock-o"></i> {% trans "Hein Sinál" %}
+	</span>
+{% elif obj.status == 'SYNCED' %}
+	<span class="badge badge-primary rounded-pill px-3">
+		<i class="fa fa-refresh fa-spin"></i> {% trans "Hein Verifikasaun" %}
+	</span>
+{% elif obj.status == 'VERIFIED' %}
+	<span class="badge badge-verified rounded-pill px-3">
+		<i class="fa fa-check"></i> {% trans "Verifikadu" %}
+	</span>
+{% elif obj.status == 'APPROVED' %}
+	<span class="badge badge-success rounded-pill px-3">
+		<i class="fa fa-check-circle"></i> {% trans "Aprovadu" %}
+	</span>
+{% elif obj.status == 'COMPLETED' %}
+	<span class="badge badge-dark rounded-pill px-3">
+		<i class="fa fa-flag-checkered"></i> {% trans "Remata" %}
+	</span>
+{% elif obj.status == 'REJECTED' %}
+	<span class="badge badge-danger rounded-pill px-3">
+		<i class="fa fa-undo"></i> {% trans "Rejeitadu" %}
+	</span>
+{% elif obj.status == 'CANCELED' %}
+	<span class="badge badge-light border rounded-pill px-3">
+		<i class="fa fa-ban"></i> {% trans "Kanseladu" %}
+	</span>
+{% endif %}

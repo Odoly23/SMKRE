@@ -48,13 +48,13 @@
 			<div class="card card-rbr">
 				<div class="card-body">
 					<h3 class="h-line">{% trans "Aksaun" %}</h3>
-					<a href="{% url 'pesoal-update' objects.pk %}" class="btn btn-block btn-outline-rbr mb-2"><i class="fa fa-pencil"></i> {% trans "Edita" %}</a>
-					<form method="post" action="{% url 'user-reset-password' objects.pk %}" class="js-confirm" data-confirm="{% trans "Ita-boot iha serteza atu RESET password utilizador ne'e?" %}">
+					<a href="{% url 'pesoal-update' objects.uuid %}" class="btn btn-block btn-outline-rbr mb-2"><i class="fa fa-pencil"></i> {% trans "Edita" %}</a>
+					<form method="post" action="{% url 'user-reset-password' objects.uuid %}" class="js-confirm" data-confirm="{% trans "Ita-boot iha serteza atu RESET password utilizador ne'e?" %}">
 						{% csrf_token %}
 						<button type="submit" class="btn btn-block btn-outline-warning mb-2"><i class="fa fa-key"></i> {% trans "Reset Password" %}</button>
 					</form>
 					{% if u != user %}
-					<form method="post" action="{% url 'user-activate' objects.pk %}" class="js-confirm" data-confirm="{% if u.is_active %}{% trans "HAPARA utilizador ne'e? Nia labele login no sinkron." %}{% else %}{% trans "ATIVA fali utilizador ne'e?" %}{% endif %}">
+					<form method="post" action="{% url 'user-activate' objects.uuid %}" class="js-confirm" data-confirm="{% if u.is_active %}{% trans "HAPARA utilizador ne'e? Nia labele login no sinkron." %}{% else %}{% trans "ATIVA fali utilizador ne'e?" %}{% endif %}">
 						{% csrf_token %}
 						{% if u.is_active %}
 						<button type="submit" class="btn btn-block btn-outline-danger"><i class="fa fa-ban"></i> {% trans "Hapara Utilizador" %}</button>

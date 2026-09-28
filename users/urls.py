@@ -6,10 +6,10 @@ urlpatterns = [
 	# Utilizador (Admin / Superadmin)
 	path('lista/', user_v.PesoalList, name="pesoal-list"),
 	path('aumenta/', user_v.PesoalAdd, name="pesoal-add"),
-	path('<int:pk>/', user_v.PesoalDetail, name="pesoal-detail"),
-	path('<int:pk>/edita/', user_v.PesoalUpdate, name="pesoal-update"),
-	path('<int:pk>/reset-password/', user_v.UserResetPassword, name="user-reset-password"),
-	path('<int:pk>/ativu/', user_v.UserActivate, name="user-activate"),
+	path('<uuid:uuid>/', user_v.PesoalDetail, name="pesoal-detail"),
+	path('<uuid:uuid>/edita/', user_v.PesoalUpdate, name="pesoal-update"),
+	path('<uuid:uuid>/reset-password/', user_v.UserResetPassword, name="user-reset-password"),
+	path('<uuid:uuid>/ativu/', user_v.UserActivate, name="user-activate"),
 
 	# Autorizasaun offline
 	path('offline/', permission_v.OfflineList, name="offline-list"),

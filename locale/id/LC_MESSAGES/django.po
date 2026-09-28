@@ -735,3 +735,696 @@ msgstr "Simpan"
 #: main/templates/home/home_investigador.html
 msgid "HP karga 100%% no lori power bank"
 msgstr "HP terisi 100%% dan bawa power bank"
+
+#: kazu/services.py
+msgid "%(campo)s obrigatóriu."
+msgstr "%(campo)s wajib diisi."
+
+#: kazu/models.py
+msgid "Abertu"
+msgstr "Terbuka"
+
+#: kazu/models.py
+msgid "Aksaun Legál"
+msgstr "Tindakan Hukum"
+
+#: kazu/services.py
+msgid "Aksaun la validu."
+msgstr "Aksi tidak valid."
+
+#: kazu/services.py
+msgid "Aksaun ne'e la permite ba status %(status)s."
+msgstr "Aksi ini tidak diizinkan untuk status %(status)s."
+
+#: kazu/forms.py
+msgid "Akurasia GPS %(m)s m. Tenke ≤ 50 m."
+msgstr "Akurasi GPS %(m)s m. Harus ≤ 50 m."
+
+#: kazu/models.py
+msgid "Akurasia GPS (m)"
+msgstr "Akurasi GPS (m)"
+
+#: kazu/templates/kazu/form.html
+msgid "Akurasia fraku. Ba fatin nakloke no koko fali."
+msgstr "Akurasi lemah. Pindah ke tempat terbuka lalu coba lagi."
+
+#: kazu/forms.py
+msgid "Aldeia la iha suku ne'e."
+msgstr "Aldeia tidak berada di suco ini."
+
+#: kazu/templates/kazu/detail.html
+msgid "Aprova"
+msgstr "Setujui"
+
+#: kazu/models.py
+msgid "Aprovadu"
+msgstr "Disetujui"
+
+#: kazu/templates/kazu/detail.html
+msgid "Atualiza Status Kazu"
+msgstr "Perbarui Status Kasus"
+
+#: kazu/models.py
+msgid "Atór Envolvidu"
+msgstr "Aktor yang Terlibat"
+
+#: kazu/forms.py
+msgid "Atór Envolvidu no Populasaun Afetada"
+msgstr "Aktor Terlibat dan Penduduk Terdampak"
+
+#: kazu/templates/kazu/list.html
+msgid "Buka ID, títulu, suku…"
+msgstr "Cari ID, judul, suco…"
+
+#: kazu/templates/kazu/form.html
+msgid "Buka lokalizasaun…"
+msgstr "Mencari lokasi…"
+
+#: kazu/templates/kazu/list.html
+msgid "Data"
+msgstr "Tanggal"
+
+#: kazu/services.py
+msgid "Data Akontesimentu"
+msgstr "Tanggal Kejadian"
+
+#: kazu/services.py
+msgid "Data Relatóriu"
+msgstr "Tanggal Laporan"
+
+#: kazu/forms.py
+msgid "Data akontesimentu labele liu data relatóriu."
+msgstr "Tanggal kejadian tidak boleh setelah tanggal laporan."
+
+#: kazu/forms.py
+msgid "Data relatóriu labele iha futuru."
+msgstr "Tanggal laporan tidak boleh di masa depan."
+
+#: kazu/models.py
+msgid "Data upload"
+msgstr "Tanggal unggah"
+
+#: kazu/templates/kazu/detail.html
+msgid "Defisiénsia"
+msgstr "Disabilitas"
+
+#: kazu/models.py
+msgid "Deklarasaun Testemuña"
+msgstr "Pernyataan Saksi"
+
+#: kazu/forms.py
+msgid ""
+"Deskreve badak saida mak akontese, inklui sekuénsia akontesimentu, asaun "
+"husi autoridade ka atór no impaktu ba komunidade."
+msgstr ""
+"Jelaskan singkat apa yang terjadi, termasuk urutan kejadian, tindakan pihak "
+"berwenang atau aktor, dan dampaknya bagi komunitas."
+
+#: kazu/models.py
+msgid "Deskrisaun"
+msgstr "Deskripsi"
+
+#: kazu/services.py
+msgid "Deskrisaun Insidente"
+msgstr "Deskripsi Kejadian"
+
+#: kazu/views/kazu_v.py
+msgid "Detalla Kazu"
+msgstr "Detail Kasus"
+
+#: kazu/models.py
+msgid "Dokumentu Legál"
+msgstr "Dokumen Hukum"
+
+#: kazu/views/kazu_v.py
+msgid "Edita Kazu"
+msgstr "Edit Kasus"
+
+#: kazu/models.py
+msgid "Ema afetada fó konsentimentu informadu ba rekolla no uza dadus"
+msgstr ""
+"Orang terdampak memberi persetujuan (informed consent) untuk pengumpulan dan"
+" penggunaan data"
+
+#: kazu/models.py
+msgid "Ema ho Defisiénsia"
+msgstr "Penyandang Disabilitas"
+
+#: kazu/models.py
+msgid "Estimasaun Total Ema"
+msgstr "Perkiraan Total Orang"
+
+#: kazu/models.py
+msgid "Estragu (uma / to'os / sasán)"
+msgstr "Kerusakan (rumah / kebun / barang)"
+
+#: kazu/models.py
+msgid "Estragu seluk"
+msgstr "Kerusakan lain"
+
+#: kazu/templates/kazu/detail.html
+msgid "Estragu, Nesesidade no Konsentimentu"
+msgstr "Kerusakan, Kebutuhan dan Persetujuan"
+
+#: kazu/models.py
+msgid "Evidénsia"
+msgstr "Bukti"
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia Kazu"
+msgstr "Bukti Kasus"
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia aumenta ona."
+msgstr "Bukti ditambahkan."
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia hamoos ona."
+msgstr "Bukti dihapus."
+
+#: kazu/templates/kazu/list.html
+msgid "Fatin"
+msgstr "Lokasi"
+
+#: kazu/forms.py
+msgid "Favor esplika tipu konflitu \"Seluk\"."
+msgstr "Jelaskan jenis konflik \"Lainnya\"."
+
+#: kazu/views/kazu_v.py
+msgid "Favor hadia erru iha formuláriu."
+msgstr "Perbaiki kesalahan pada formulir."
+
+#: kazu/services.py
+msgid "Favor hakerek razaun (minimu karakter 5)."
+msgstr "Tulis alasan (minimal 5 karakter)."
+
+#: kazu/templates/kazu/detail.html
+msgid "Favor hakerek razaun."
+msgstr "Tulis alasan."
+
+#: kazu/models.py
+msgid "File"
+msgstr "File"
+
+#: kazu/forms.py
+msgid "File boot liu. Máximu %(mb)s MB."
+msgstr "File terlalu besar. Maksimal %(mb)s MB."
+
+#: kazu/templates/kazu/list.html
+msgid "Filtra"
+msgstr "Saring"
+
+#: kazu/forms.py
+msgid "Formatu file la permite. Uza: %(ext)s"
+msgstr "Format file tidak diizinkan. Gunakan: %(ext)s"
+
+#: kazu/templates/kazu/detail.html
+msgid "Forsa seguransa"
+msgstr "Aparat keamanan"
+
+#: kazu/models.py
+msgid "Forsa seguransa prezente"
+msgstr "Aparat keamanan hadir"
+
+#: kazu/forms.py
+msgid "Foti GPS"
+msgstr "Ambil GPS"
+
+#: kazu/forms.py
+msgid "Foto máximu 5 kada kazu."
+msgstr "Maksimal 5 foto per kasus."
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid ""
+"Foto máximu 5 · Vídeo máximu 1 (60 segundu / 50 MB) · Foto kompresa "
+"automátiku."
+msgstr ""
+"Maks. 5 foto · maks. 1 video (60 detik / 50 MB) · foto dikompres otomatis."
+
+#: kazu/templates/kazu/form.html
+msgid "GPS OK"
+msgstr "GPS OK"
+
+#: kazu/templates/kazu/form.html
+msgid "HP la iha GPS."
+msgstr "HP tidak punya GPS."
+
+#: main/templates/home/home_investigador.html
+msgid "Ha'u-nia kazu ikus"
+msgstr "Kasus terakhir saya"
+
+#: kazu/templates/kazu/form.html
+msgid "Hamoos"
+msgstr "Hapus"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Hamoos evidénsia ne'e?"
+msgstr "Hapus bukti ini?"
+
+#: kazu/templates/kazu/form.html
+msgid "Haree razaun iha istória kazu, hadia no haruka fali."
+msgstr "Lihat alasannya di riwayat kasus, perbaiki lalu kirim ulang."
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka ba Verifikasaun"
+msgstr "Kirim untuk Verifikasi"
+
+#: kazu/services.py
+msgid "Haruka fali hafoin hadia"
+msgstr "Dikirim ulang setelah diperbaiki"
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka kazu ba verifikasaun? Hafoin haruka, kazu sei xave."
+msgstr "Kirim kasus untuk verifikasi? Setelah dikirim, kasus akan terkunci."
+
+#: main/templates/home/home_investigador.html
+msgid "Haruka ona"
+msgstr "Terkirim"
+
+#: main/templates/home/home.html
+msgid "Hein Aprovasaun"
+msgstr "Menunggu Persetujuan"
+
+#: kazu/models.py
+msgid "Hein Sinál"
+msgstr "Menunggu Sinyal"
+
+#: kazu/models.py
+msgid "Hein Verifikasaun"
+msgstr "Menunggu Verifikasi"
+
+#: main/templates/home/home.html
+msgid "Hein ita-nia aksaun"
+msgstr "Menunggu tindakan Anda"
+
+#: kazu/services.py
+msgid "Hili tipu konflitu rai."
+msgstr "Pilih jenis konflik tanah."
+
+#: kazu/models.py
+msgid "ID Kazu"
+msgstr "ID Kasus"
+
+#: kazu/forms.py
+msgid "Identifikasaun no Fatin"
+msgstr "Identifikasi dan Lokasi"
+
+#: kazu/models.py
+msgid "Iha Terrenu"
+msgstr "Di Lapangan"
+
+#: kazu/forms.py
+msgid "Informasaun Insidente"
+msgstr "Informasi Kejadian"
+
+#: kazu/templates/kazu/form.html
+msgid "Insidente Deslokamentu / Eviksaun"
+msgstr "Kejadian Pemindahan / Penggusuran"
+
+#: kazu/models.py
+msgid "Insidente Eviksaun"
+msgstr "Kejadian Penggusuran"
+
+#: kazu/models.py
+msgid "Investigasaun"
+msgstr "Investigasi"
+
+#: kazu/templates/kazu/detail.html
+msgid "Istória"
+msgstr "Riwayat"
+
+#: kazu/models.py
+msgid "Istória Kazu"
+msgstr "Riwayat Kasus"
+
+#: kazu/views/kazu_v.py
+msgid "Ita seidauk iha munisípiu knaar. Kontaktu Admin."
+msgstr "Anda belum punya munisipiu tugas. Hubungi Admin."
+
+#: kazu/templates/kazu/detail.html
+msgid "Ita-boot iha serteza atu APROVA kazu ne'e?"
+msgstr "Yakin ingin MENYETUJUI kasus ini?"
+
+#: kazu/templates/kazu/detail.html
+msgid "Ita-boot iha serteza atu VERIFIKA kazu ne'e?"
+msgstr "Yakin ingin MEMVERIFIKASI kasus ini?"
+
+#: kazu/templates/kazu/detail.html
+msgid "Jere Evidénsia"
+msgstr "Kelola Bukti"
+
+#: kazu/templates/kazu/detail.html
+msgid "KANSELA kazu ne'e? Ida-ne'e final."
+msgstr "BATALKAN kasus ini? Ini final."
+
+#: kazu/forms.py
+msgid "Kampu ne'e obrigatóriu atu haruka."
+msgstr "Kolom ini wajib untuk mengirim."
+
+#: kazu/templates/kazu/detail.html
+msgid "Kansela (falsu / duplikadu)"
+msgstr "Batalkan (palsu / duplikat)"
+
+#: kazu/models.py
+msgid "Kanseladu"
+msgstr "Dibatalkan"
+
+#: kazu/models.py
+msgid "Katuas-Ferik"
+msgstr "Lansia"
+
+#: kazu/views/status_v.py
+msgid "Kazu %(kode)s haruka ona. Admin sei simu notifikasaun."
+msgstr "Kasus %(kode)s terkirim. Admin akan menerima notifikasi."
+
+#: kazu/services.py
+msgid "Kazu %(kode)s verifika ona husi Admin. Hein ita-nia aprovasaun."
+msgstr "Kasus %(kode)s sudah diverifikasi Admin. Menunggu persetujuan Anda."
+
+#: kazu/services.py
+msgid "Kazu %(kode)s: %(status)s"
+msgstr "Kasus %(kode)s: %(status)s"
+
+#: kazu/services.py
+msgid "Kazu foun %(kode)s husi %(naran)s · %(mun)s"
+msgstr "Kasus baru %(kode)s dari %(naran)s · %(mun)s"
+
+#: kazu/services.py
+msgid "Kazu ne'e haruka ona."
+msgstr "Kasus ini sudah dikirim."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu ne'e xave ona. Labele edita."
+msgstr "Kasus ini terkunci. Tidak bisa diedit."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu rai ona hanesan rascunho."
+msgstr "Kasus disimpan sebagai draf."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu rai ona maibé seidauk bele haruka: %(erru)s"
+msgstr "Kasus disimpan tetapi belum bisa dikirim: %(erru)s"
+
+#: kazu/templates/kazu/form.html
+msgid "Kazu rejeitadu."
+msgstr "Kasus ditolak."
+
+#: kazu/services.py
+msgid "Kazu tenke verifika uluk."
+msgstr "Kasus harus diverifikasi dulu."
+
+#: kazu/templates/kazu/detail.html
+msgid "Konsentimentu"
+msgstr "Persetujuan"
+
+#: kazu/services.py
+msgid "Konsentimentu obrigatóriu."
+msgstr "Persetujuan wajib."
+
+#: kazu/forms.py
+msgid "Koordenada GPS"
+msgstr "Koordinat GPS"
+
+#: kazu/forms.py
+msgid "Koordenada GPS la iha territóriu Timor-Leste."
+msgstr "Koordinat GPS tidak berada di wilayah Timor-Leste."
+
+#: kazu/services.py
+msgid "Koordenada GPS obrigatóriu."
+msgstr "Koordinat GPS wajib."
+
+#: kazu/views/kazu_v.py
+msgid "Kria"
+msgstr "Dibuat"
+
+#: kazu/templates/kazu/form.html
+msgid "LISTA KAZU"
+msgstr "DAFTAR KASUS"
+
+#: kazu/templates/kazu/form.html
+msgid "La bele hetan GPS. Ativa Lokalizasaun no fó permisaun."
+msgstr "GPS tidak didapat. Aktifkan Lokasi dan beri izin."
+
+#: kazu/models.py
+msgid "La publika iha portal públiku"
+msgstr "Jangan tampilkan di portal publik"
+
+#: kazu/models.py
+msgid "Labarik"
+msgstr "Anak-anak"
+
+#: kazu/templates/kazu/detail.html
+msgid "Lae"
+msgstr "Tidak"
+
+#: kazu/forms.py
+msgid "Laiha konsentimentu = labele rai kazu."
+msgstr "Tanpa persetujuan = kasus tidak bisa disimpan."
+
+#: kazu/models.py
+msgid "Latitude"
+msgstr "Lintang"
+
+#: kazu/models.py
+msgid "Lee"
+msgstr "Dilihat"
+
+#: kazu/views/kazu_v.py
+msgid "Lista Kazu"
+msgstr "Daftar Kasus"
+
+#: kazu/models.py
+msgid "Longitude"
+msgstr "Bujur"
+
+#: kazu/templates/kazu/detail.html
+msgid "Loron avizu"
+msgstr "Hari pemberitahuan"
+
+#: kazu/models.py
+msgid "Loron avizu antes eviksaun"
+msgstr "Hari pemberitahuan sebelum penggusuran"
+
+#: kazu/forms.py
+msgid "Mane + Feto tenke hanesan Total Ema (%(n)s)."
+msgstr "Laki-laki + Perempuan harus sama dengan Total Orang (%(n)s)."
+
+#: kazu/templates/kazu/detail.html
+msgid "Marka kazu ne'e REMATA (kompensasaun selu ona)?"
+msgstr "Tandai kasus ini SELESAI (kompensasi sudah dibayar)?"
+
+#: kazu/templates/kazu/list.html
+msgid "Munisípiu: Hotu"
+msgstr "Munisipiu: Semua"
+
+#: kazu/models.py
+msgid "Naran atór"
+msgstr "Nama aktor"
+
+#: kazu/models.py
+msgid "Naran dokumentu"
+msgstr "Nama dokumen"
+
+#: kazu/models.py
+msgid "Narrativu"
+msgstr "Narasi"
+
+#: kazu/forms.py
+msgid "Nesesidade Urjente no Konsentimentu"
+msgstr "Kebutuhan Mendesak dan Persetujuan"
+
+#: kazu/templates/kazu/detail.html
+msgid "Nota (opsionál)"
+msgstr "Catatan (opsional)"
+
+#: kazu/models.py
+msgid "Númeru Uma-Kain"
+msgstr "Jumlah Rumah Tangga"
+
+#: kazu/models.py
+msgid "Observasaun Adisionál"
+msgstr "Catatan Tambahan"
+
+#: kazu/models.py
+msgid "Papél iha insidente"
+msgstr "Peran dalam kejadian"
+
+#: kazu/templates/kazu/form.html
+msgid "Populasaun Afetada"
+msgstr "Penduduk Terdampak"
+
+#: kazu/forms.py
+msgid "Postu la iha munisípiu ne'e."
+msgstr "Pos tidak berada di munisipiu ini."
+
+#: kazu/templates/kazu/list.html
+msgid "Pájina"
+msgstr "Halaman"
+
+#: kazu/templates/kazu/detail.html
+msgid "REJEITA kazu ne'e? Investigadór sei hadia."
+msgstr "TOLAK kasus ini? Investigador akan memperbaikinya."
+
+#: kazu/templates/kazu/form.html
+msgid "Rai Rascunho"
+msgstr "Simpan Draf"
+
+#: kazu/templates/kazu/form.html
+msgid "Rai no Haruka ba Verifikasaun"
+msgstr "Simpan dan Kirim untuk Verifikasi"
+
+#: kazu/models.py
+msgid "Rascunho"
+msgstr "Draf"
+
+#: kazu/templates/kazu/detail.html
+msgid "Razaun"
+msgstr "Alasan"
+
+#: kazu/templates/kazu/detail.html
+msgid "Razaun (obrigatóriu ba Rejeita no Kansela)"
+msgstr "Alasan (wajib untuk Tolak dan Batalkan)"
+
+#: kazu/models.py
+msgid "Razaun / Nota"
+msgstr "Alasan / Catatan"
+
+#: kazu/templates/kazu/detail.html
+msgid "Rejeita"
+msgstr "Tolak"
+
+#: kazu/models.py
+msgid "Rejeitadu"
+msgstr "Ditolak"
+
+#: kazu/views/kazu_v.py
+msgid "Rejista Kazu Foun"
+msgstr "Daftarkan Kasus Baru"
+
+#: kazu/templates/kazu/detail.html
+msgid "Seidauk iha"
+msgstr "Belum ada"
+
+#: kazu/templates/kazu/detail.html
+msgid "Seidauk iha atór."
+msgstr "Belum ada aktor."
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Seidauk iha evidénsia."
+msgstr "Belum ada bukti."
+
+#: kazu/templates/kazu/list.html
+msgid "Seidauk iha kazu."
+msgstr "Belum ada kasus."
+
+#: kazu/templates/kazu/form.html
+msgid ""
+"Seksaun 5 (Evidénsia: foto, vídeo, dokumentu) iha pájina tuir mai hafoin rai"
+" kazu."
+msgstr ""
+"Bagian 5 (Bukti: foto, video, dokumen) ada di halaman berikutnya setelah "
+"kasus disimpan."
+
+#: kazu/models.py
+msgid "Seluk: favor esplika"
+msgstr "Lainnya: jelaskan"
+
+#: kazu/templates/kazu/detail.html
+msgid "Sin"
+msgstr "Ya"
+
+#: kazu/models.py
+msgid "Sinkron iha"
+msgstr "Disinkron pada"
+
+#: kazu/models.py
+msgid "Status Dadus"
+msgstr "Status Data"
+
+#: kazu/models.py
+msgid "Status Kazu"
+msgstr "Status Kasus"
+
+#: kazu/views/status_v.py
+msgid "Status kazu atualiza ona."
+msgstr "Status kasus diperbarui."
+
+#: kazu/services.py
+msgid "Status kazu la validu."
+msgstr "Status kasus tidak valid."
+
+#: kazu/views/status_v.py
+msgid "Status muda ona ba %(status)s."
+msgstr "Status berubah menjadi %(status)s."
+
+#: kazu/templates/kazu/list.html
+msgid "Status: Hotu"
+msgstr "Status: Semua"
+
+#: kazu/forms.py
+msgid "Suku la iha postu ne'e."
+msgstr "Suco tidak berada di pos ini."
+
+#: kazu/models.py
+msgid "Taka"
+msgstr "Ditutup"
+
+#: kazu/forms.py
+msgid "Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m."
+msgstr "Harus berada di lokasi kejadian. Akurasi harus ≤ 50 m."
+
+#: kazu/templates/kazu/list.html
+msgid "Tipu Kazu"
+msgstr "Jenis Kasus"
+
+#: kazu/templates/kazu/list.html
+msgid "Tipu: Hotu"
+msgstr "Jenis: Semua"
+
+#: kazu/templates/kazu/detail.html
+msgid "Total Ema"
+msgstr "Total Orang"
+
+#: main/templates/home/home.html
+msgid "Total Kazu"
+msgstr "Total Kasus"
+
+#: kazu/models.py
+msgid "Títulu kazu"
+msgstr "Judul kasus"
+
+#: kazu/templates/kazu/detail.html
+msgid "Uma-Kain"
+msgstr "Rumah Tangga"
+
+#: kazu/models.py
+msgid "Uma-Kain Afetada"
+msgstr "Rumah Tangga Terdampak"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Upload"
+msgstr "Unggah"
+
+#: kazu/templates/kazu/detail.html
+msgid "Verifika"
+msgstr "Verifikasi"
+
+#: kazu/models.py
+msgid "Verifikadu"
+msgstr "Terverifikasi"
+
+#: kazu/models.py
+msgid "Vídeo"
+msgstr "Video"
+
+#: kazu/forms.py
+msgid "Vídeo máximu 1 kada kazu."
+msgstr "Maksimal 1 video per kasus."
+
+#: users/templates/users/offline_form.html
+msgid "AUTORIZASAUN OFFLINE"
+msgstr "IZIN OFFLINE"
+
+#: users/templates/users/form.html
+msgid "LISTA UTILIZADOR"
+msgstr "DAFTAR PENGGUNA"

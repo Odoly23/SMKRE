@@ -1,8 +1,8 @@
 # Tetun — SMKRE. Testu fonte iha kódigu ona iha Tetun; file ne'e tradus testu Django rasik.
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Language: tet\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "This field is required."
@@ -11,7 +11,9 @@ msgstr "Kampu ne'e obrigatóriu."
 msgid "Enter a valid email address."
 msgstr "Hatama email ida ne'ebé loos."
 
-msgid "Please enter a correct %(username)s and password. Note that both fields may be case-sensitive."
+msgid ""
+"Please enter a correct %(username)s and password. Note that both fields may "
+"be case-sensitive."
 msgstr "Email ka password la loos. Favor koko fali."
 
 msgid "This account is inactive."
@@ -41,8 +43,12 @@ msgstr "Konfirma password"
 msgid "Email"
 msgstr "Email"
 
-msgid "This password is too short. It must contain at least %(min_length)d character."
-msgid_plural "This password is too short. It must contain at least %(min_length)d characters."
+msgid ""
+"This password is too short. It must contain at least %(min_length)d "
+"character."
+msgid_plural ""
+"This password is too short. It must contain at least %(min_length)d "
+"characters."
 msgstr[0] "Password badak liu. Minimu karakter %(min_length)d."
 msgstr[1] "Password badak liu. Minimu karakter %(min_length)d."
 
@@ -69,10 +75,13 @@ msgstr "Password labele password komún."
 msgid "Your password can’t be entirely numeric."
 msgstr "Password labele númeru deit."
 
-msgid "Select a valid choice. That choice is not one of the available choices."
+msgid ""
+"Select a valid choice. That choice is not one of the available choices."
 msgstr "Hili opsaun ida ne'ebé loos."
 
-msgid "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
 msgstr "Upload imajen ida ne'ebé loos."
 
 msgid "%(model_name)s with this %(field_label)s already exists."
@@ -147,3 +156,1384 @@ msgid "%(num)d year"
 msgid_plural "%(num)d years"
 msgstr[0] "tinan %(num)d"
 msgstr[1] "tinan %(num)d"
+
+#: kazu/services.py
+msgid "%(campo)s obrigatóriu."
+msgstr "%(campo)s obrigatóriu."
+
+#: users/templates/users/detail.html
+msgid "ATIVA fali utilizador ne'e?"
+msgstr "ATIVA fali utilizador ne'e?"
+
+#: users/templates/users/detail.html
+msgid "ATIVU"
+msgstr "ATIVU"
+
+#: kazu/models.py
+msgid "Abertu"
+msgstr "Abertu"
+
+#: config/rbac.py
+msgid "Admin"
+msgstr "Admin"
+
+#: users/templates/users/detail.html
+msgid "Aksaun"
+msgstr "Aksaun"
+
+#: kazu/models.py
+msgid "Aksaun Legál"
+msgstr "Aksaun Legál"
+
+#: kazu/services.py
+msgid "Aksaun la validu."
+msgstr "Aksaun la validu."
+
+#: kazu/services.py
+msgid "Aksaun ne'e la permite ba status %(status)s."
+msgstr "Aksaun ne'e la permite ba status %(status)s."
+
+#: kazu/forms.py
+msgid "Akurasia GPS %(m)s m. Tenke ≤ 50 m."
+msgstr "Akurasia GPS %(m)s m. Tenke ≤ 50 m."
+
+#: kazu/models.py
+msgid "Akurasia GPS (m)"
+msgstr "Akurasia GPS (m)"
+
+#: kazu/templates/kazu/form.html
+msgid "Akurasia fraku. Ba fatin nakloke no koko fali."
+msgstr "Akurasia fraku. Ba fatin nakloke no koko fali."
+
+#: custom/models.py
+msgid "Aldeia"
+msgstr "Aldeia"
+
+#: kazu/forms.py
+msgid "Aldeia la iha suku ne'e."
+msgstr "Aldeia la iha suku ne'e."
+
+#: config/rbac.py
+msgid "Analista"
+msgstr "Analista"
+
+#: kazu/templates/kazu/detail.html
+msgid "Aprova"
+msgstr "Aprova"
+
+#: kazu/models.py
+msgid "Aprovadu"
+msgstr "Aprovadu"
+
+#: main/templates/home/403.html
+msgid "Asesu la permite"
+msgstr "Asesu la permite"
+
+#: users/templates/users/detail.html
+msgid "Ativa Fali"
+msgstr "Ativa Fali"
+
+#: users/models.py
+msgid "Ativu"
+msgstr "Ativu"
+
+#: kazu/templates/kazu/detail.html
+msgid "Atualiza Status Kazu"
+msgstr "Atualiza Status Kazu"
+
+#: kazu/models.py
+msgid "Atór Envolvidu"
+msgstr "Atór Envolvidu"
+
+#: kazu/forms.py
+msgid "Atór Envolvidu no Populasaun Afetada"
+msgstr "Atór Envolvidu no Populasaun Afetada"
+
+#: users/views/user_v.py
+msgid "Aumenta Utilizador"
+msgstr "Aumenta Utilizador"
+
+#: users/models.py
+msgid "Autorizasaun Offline"
+msgstr "Autorizasaun Offline"
+
+#: main/templates/home/home.html
+msgid "Autorizasaun Offline Ativu"
+msgstr "Autorizasaun Offline Ativu"
+
+#: notification/models.py
+msgid "Autorizasaun offline"
+msgstr "Autorizasaun offline"
+
+#: main/templates/home/home_investigador.html
+msgid "Autorizasaun offline ATIVU"
+msgstr "Autorizasaun offline ATIVU"
+
+#: main/templates/home/home_investigador.html
+msgid "Autorizasaun offline LA ATIVU"
+msgstr "Autorizasaun offline LA ATIVU"
+
+#: users/views/permission_v.py
+msgid "Autorizasaun offline fó ona to'o %(date)s."
+msgstr "Autorizasaun offline fó ona to'o %(date)s."
+
+#: users/views/permission_v.py
+msgid "Autorizasaun offline kansela ona."
+msgstr "Autorizasaun offline kansela ona."
+
+#: users/api/views.py
+msgid "Autorizasaun offline la ativu. Kontaktu Admin."
+msgstr "Autorizasaun offline la ativu. Kontaktu Admin."
+
+#: users/views/permission_v.py
+msgid "Autorizasaun renova ona to'o %(date)s."
+msgstr "Autorizasaun renova ona to'o %(date)s."
+
+#: users/templates/users/offline_form.html
+msgid ""
+"Autorizasaun validu loron 7. Autorizasaun ativu antigu sei troka ho foun."
+msgstr ""
+"Autorizasaun validu loron 7. Autorizasaun ativu antigu sei troka ho foun."
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun validu loron 7. Bainhira remata, Investigadór labele kria kazu "
+"foun maibé bele nafatin sinkron."
+msgstr ""
+"Autorizasaun validu loron 7. Bainhira remata, Investigadór labele kria kazu "
+"foun maibé bele nafatin sinkron."
+
+#: notification/models.py
+msgid "Ba"
+msgstr "Ba"
+
+#: users/templates/auth/change_password_done.html
+msgid "Ba Varanda"
+msgstr "Ba Varanda"
+
+#: users/templates/auth/change_password.html
+msgid "Ba seguransa, ita tenke troka password default antes uza sistema."
+msgstr "Ba seguransa, ita tenke troka password default antes uza sistema."
+
+#: main/templates/home/home.html
+msgid "Bondia"
+msgstr "Bondia"
+
+#: users/templates/users/list.html
+msgid "Buka"
+msgstr "Buka"
+
+#: kazu/templates/kazu/list.html
+msgid "Buka ID, títulu, suku…"
+msgstr "Buka ID, títulu, suku…"
+
+#: kazu/templates/kazu/form.html
+msgid "Buka lokalizasaun…"
+msgstr "Buka lokalizasaun…"
+
+#: users/templates/users/list.html
+msgid "Buka naran, email, munisípiu…"
+msgstr "Buka naran, email, munisípiu…"
+
+#: users/views/user_v.py
+msgid "Dadus utilizador atualiza ona."
+msgstr "Dadus utilizador atualiza ona."
+
+#: config/menu.py
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: kazu/templates/kazu/list.html
+msgid "Data"
+msgstr "Data"
+
+#: kazu/services.py
+msgid "Data Akontesimentu"
+msgstr "Data Akontesimentu"
+
+#: kazu/services.py
+msgid "Data Relatóriu"
+msgstr "Data Relatóriu"
+
+#: kazu/forms.py
+msgid "Data akontesimentu labele liu data relatóriu."
+msgstr "Data akontesimentu labele liu data relatóriu."
+
+#: users/models.py
+msgid "Data hahú"
+msgstr "Data hahú"
+
+#: kazu/forms.py
+msgid "Data relatóriu labele iha futuru."
+msgstr "Data relatóriu labele iha futuru."
+
+#: users/models.py
+msgid "Data remata"
+msgstr "Data remata"
+
+#: kazu/models.py
+msgid "Data upload"
+msgstr "Data upload"
+
+#: kazu/templates/kazu/detail.html
+msgid "Defisiénsia"
+msgstr "Defisiénsia"
+
+#: kazu/models.py
+msgid "Deklarasaun Testemuña"
+msgstr "Deklarasaun Testemuña"
+
+#: kazu/forms.py
+msgid ""
+"Deskreve badak saida mak akontese, inklui sekuénsia akontesimentu, asaun "
+"husi autoridade ka atór no impaktu ba komunidade."
+msgstr ""
+"Deskreve badak saida mak akontese, inklui sekuénsia akontesimentu, asaun "
+"husi autoridade ka atór no impaktu ba komunidade."
+
+#: kazu/models.py
+msgid "Deskrisaun"
+msgstr "Deskrisaun"
+
+#: kazu/services.py
+msgid "Deskrisaun Insidente"
+msgstr "Deskrisaun Insidente"
+
+#: users/templates/users/list.html
+msgid "Detalla"
+msgstr "Detalla"
+
+#: kazu/views/kazu_v.py
+msgid "Detalla Kazu"
+msgstr "Detalla Kazu"
+
+#: users/views/user_v.py
+msgid "Detalla Utilizador"
+msgstr "Detalla Utilizador"
+
+#: main/templates/main/footer.html
+msgid "Dezenvolve husi"
+msgstr "Dezenvolve husi"
+
+#: kazu/models.py
+msgid "Dokumentu Legál"
+msgstr "Dokumentu Legál"
+
+#: users/templates/users/detail.html
+msgid "Edita"
+msgstr "Edita"
+
+#: kazu/views/kazu_v.py
+msgid "Edita Kazu"
+msgstr "Edita Kazu"
+
+#: users/views/user_v.py
+msgid "Edita Utilizador"
+msgstr "Edita Utilizador"
+
+#: kazu/models.py
+msgid "Ema afetada fó konsentimentu informadu ba rekolla no uza dadus"
+msgstr "Ema afetada fó konsentimentu informadu ba rekolla no uza dadus"
+
+#: kazu/models.py
+msgid "Ema ho Defisiénsia"
+msgstr "Ema ho Defisiénsia"
+
+#: users/forms.py
+msgid "Email ne'e uza ona husi utilizador seluk."
+msgstr "Email ne'e uza ona husi utilizador seluk."
+
+#: kazu/models.py
+msgid "Estimasaun Total Ema"
+msgstr "Estimasaun Total Ema"
+
+#: kazu/models.py
+msgid "Estragu (uma / to'os / sasán)"
+msgstr "Estragu (uma / to'os / sasán)"
+
+#: custom/models.py
+msgid "Estragu Patrimóniu"
+msgstr "Estragu Patrimóniu"
+
+#: kazu/models.py
+msgid "Estragu seluk"
+msgstr "Estragu seluk"
+
+#: kazu/templates/kazu/detail.html
+msgid "Estragu, Nesesidade no Konsentimentu"
+msgstr "Estragu, Nesesidade no Konsentimentu"
+
+#: kazu/models.py
+msgid "Evidénsia"
+msgstr "Evidénsia"
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia Kazu"
+msgstr "Evidénsia Kazu"
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia aumenta ona."
+msgstr "Evidénsia aumenta ona."
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia hamoos ona."
+msgstr "Evidénsia hamoos ona."
+
+#: kazu/templates/kazu/list.html
+msgid "Fatin"
+msgstr "Fatin"
+
+#: kazu/forms.py
+msgid "Favor esplika tipu konflitu \"Seluk\"."
+msgstr "Favor esplika tipu konflitu \"Seluk\"."
+
+#: kazu/views/kazu_v.py
+msgid "Favor hadia erru iha formuláriu."
+msgstr "Favor hadia erru iha formuláriu."
+
+#: kazu/services.py
+msgid "Favor hakerek razaun (minimu karakter 5)."
+msgstr "Favor hakerek razaun (minimu karakter 5)."
+
+#: kazu/templates/kazu/detail.html
+msgid "Favor hakerek razaun."
+msgstr "Favor hakerek razaun."
+
+#: users/models.py
+msgid "Feto"
+msgstr "Feto"
+
+#: users/templates/auth/_box.html
+msgid "Fila ba Login"
+msgstr "Fila ba Login"
+
+#: main/templates/home/error_base.html
+msgid "Fila ba Varanda"
+msgstr "Fila ba Varanda"
+
+#: kazu/models.py
+msgid "File"
+msgstr "File"
+
+#: kazu/forms.py
+msgid "File boot liu. Máximu %(mb)s MB."
+msgstr "File boot liu. Máximu %(mb)s MB."
+
+#: kazu/templates/kazu/list.html
+msgid "Filtra"
+msgstr "Filtra"
+
+#: kazu/forms.py
+msgid "Formatu file la permite. Uza: %(ext)s"
+msgstr "Formatu file la permite. Uza: %(ext)s"
+
+#: kazu/templates/kazu/detail.html
+msgid "Forsa seguransa"
+msgstr "Forsa seguransa"
+
+#: kazu/models.py
+msgid "Forsa seguransa prezente"
+msgstr "Forsa seguransa prezente"
+
+#: kazu/forms.py
+msgid "Foti GPS"
+msgstr "Foti GPS"
+
+#: users/models.py
+msgid "Foto"
+msgstr "Foto"
+
+#: kazu/forms.py
+msgid "Foto máximu 5 kada kazu."
+msgstr "Foto máximu 5 kada kazu."
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid ""
+"Foto máximu 5 · Vídeo máximu 1 (60 segundu / 50 MB) · Foto kompresa "
+"automátiku."
+msgstr ""
+"Foto máximu 5 · Vídeo máximu 1 (60 segundu / 50 MB) · Foto kompresa "
+"automátiku."
+
+#: users/forms.py
+msgid "Fó Autorizasaun"
+msgstr "Fó Autorizasaun"
+
+#: users/views/permission_v.py
+msgid "Fó Autorizasaun Offline"
+msgstr "Fó Autorizasaun Offline"
+
+#: users/models.py
+msgid "Fó husi"
+msgstr "Fó husi"
+
+#: kazu/templates/kazu/form.html
+msgid "GPS OK"
+msgstr "GPS OK"
+
+#: users/templates/users/detail.html
+msgid "HAPARA utilizador ne'e? Nia labele login no sinkron."
+msgstr "HAPARA utilizador ne'e? Nia labele login no sinkron."
+
+#: kazu/templates/kazu/form.html
+msgid "HP la iha GPS."
+msgstr "HP la iha GPS."
+
+#: users/views/account_v.py
+msgid "Ha'u-nia Konta"
+msgstr "Ha'u-nia Konta"
+
+#: main/templates/home/home_investigador.html
+msgid "Ha'u-nia kazu ikus"
+msgstr "Ha'u-nia kazu ikus"
+
+#: users/templates/users/offline_list.html
+msgid "Hahú"
+msgstr "Hahú"
+
+#: users/templates/auth/password_reset.html
+msgid "Haluha password?"
+msgstr "Haluha password?"
+
+#: kazu/templates/kazu/form.html
+msgid "Hamoos"
+msgstr "Hamoos"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Hamoos evidénsia ne'e?"
+msgstr "Hamoos evidénsia ne'e?"
+
+#: users/templates/users/list.html
+msgid "Hapara"
+msgstr "Hapara"
+
+#: users/templates/users/detail.html
+msgid "Hapara Utilizador"
+msgstr "Hapara Utilizador"
+
+#: main/templates/main/navbar.html
+msgid "Haree Hotu"
+msgstr "Haree Hotu"
+
+#: users/templates/auth/password_reset_done.html
+msgid "Haree ita-nia email"
+msgstr "Haree ita-nia email"
+
+#: kazu/templates/kazu/form.html
+msgid "Haree razaun iha istória kazu, hadia no haruka fali."
+msgstr "Haree razaun iha istória kazu, hadia no haruka fali."
+
+#: users/templates/auth/password_reset.html
+msgid "Haruka Link"
+msgstr "Haruka Link"
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka ba Verifikasaun"
+msgstr "Haruka ba Verifikasaun"
+
+#: kazu/services.py
+msgid "Haruka fali hafoin hadia"
+msgstr "Haruka fali hafoin hadia"
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka kazu ba verifikasaun? Hafoin haruka, kazu sei xave."
+msgstr "Haruka kazu ba verifikasaun? Hafoin haruka, kazu sei xave."
+
+#: main/templates/home/home_investigador.html
+msgid "Haruka ona"
+msgstr "Haruka ona"
+
+#: users/templates/auth/password_reset.html
+msgid ""
+"Hatama ita-nia email. Ami sei haruka link atu troka password (validu oras "
+"1)."
+msgstr ""
+"Hatama ita-nia email. Ami sei haruka link atu troka password (validu oras "
+"1)."
+
+#: main/templates/home/home.html
+msgid "Hein Aprovasaun"
+msgstr "Hein Aprovasaun"
+
+#: kazu/models.py
+msgid "Hein Sinál"
+msgstr "Hein Sinál"
+
+#: kazu/models.py
+msgid "Hein Verifikasaun"
+msgstr "Hein Verifikasaun"
+
+#: main/templates/home/home.html
+msgid "Hein ita-nia aksaun"
+msgstr "Hein ita-nia aksaun"
+
+#: kazu/services.py
+msgid "Hili tipu konflitu rai."
+msgstr "Hili tipu konflitu rai."
+
+#: notification/models.py
+msgid "Husi"
+msgstr "Husi"
+
+#: kazu/models.py
+msgid "ID Kazu"
+msgstr "ID Kazu"
+
+#: kazu/forms.py
+msgid "Identifikasaun no Fatin"
+msgstr "Identifikasaun no Fatin"
+
+#: kazu/models.py
+msgid "Iha Terrenu"
+msgstr "Iha Terrenu"
+
+#: kazu/forms.py
+msgid "Informasaun Insidente"
+msgstr "Informasaun Insidente"
+
+#: kazu/templates/kazu/form.html
+msgid "Insidente Deslokamentu / Eviksaun"
+msgstr "Insidente Deslokamentu / Eviksaun"
+
+#: kazu/models.py
+msgid "Insidente Eviksaun"
+msgstr "Insidente Eviksaun"
+
+#: users/models.py
+msgid "Investigadór"
+msgstr "Investigadór"
+
+#: users/forms.py
+msgid "Investigadór tenke iha munisípiu knaar."
+msgstr "Investigadór tenke iha munisípiu knaar."
+
+#: kazu/models.py
+msgid "Investigasaun"
+msgstr "Investigasaun"
+
+#: kazu/templates/kazu/detail.html
+msgid "Istória"
+msgstr "Istória"
+
+#: kazu/models.py
+msgid "Istória Kazu"
+msgstr "Istória Kazu"
+
+#: users/templates/auth/password_reset_complete.html
+msgid "Ita bele login ho password foun."
+msgstr "Ita bele login ho password foun."
+
+#: kazu/views/kazu_v.py
+msgid "Ita seidauk iha munisípiu knaar. Kontaktu Admin."
+msgstr "Ita seidauk iha munisípiu knaar. Kontaktu Admin."
+
+#: kazu/templates/kazu/detail.html
+msgid "Ita-boot iha serteza atu APROVA kazu ne'e?"
+msgstr "Ita-boot iha serteza atu APROVA kazu ne'e?"
+
+#: users/templates/users/detail.html
+msgid "Ita-boot iha serteza atu RESET password utilizador ne'e?"
+msgstr "Ita-boot iha serteza atu RESET password utilizador ne'e?"
+
+#: kazu/templates/kazu/detail.html
+msgid "Ita-boot iha serteza atu VERIFIKA kazu ne'e?"
+msgstr "Ita-boot iha serteza atu VERIFIKA kazu ne'e?"
+
+#: users/views/account_v.py
+msgid "Ita-nia konta atualiza ona!"
+msgstr "Ita-nia konta atualiza ona!"
+
+#: main/templates/home/403.html
+msgid ""
+"Ita-nia papél la iha asesu ba pájina ne'e. Se ita hanoin ne'e sala, kontaktu"
+" Admin."
+msgstr ""
+"Ita-nia papél la iha asesu ba pájina ne'e. Se ita hanoin ne'e sala, kontaktu"
+" Admin."
+
+#: kazu/templates/kazu/detail.html
+msgid "Jere Evidénsia"
+msgstr "Jere Evidénsia"
+
+#: kazu/templates/kazu/detail.html
+msgid "KANSELA kazu ne'e? Ida-ne'e final."
+msgstr "KANSELA kazu ne'e? Ida-ne'e final."
+
+#: kazu/forms.py
+msgid "Kampu ne'e obrigatóriu atu haruka."
+msgstr "Kampu ne'e obrigatóriu atu haruka."
+
+#: users/templates/users/offline_list.html
+msgid "Kansela"
+msgstr "Kansela"
+
+#: kazu/templates/kazu/detail.html
+msgid "Kansela (falsu / duplikadu)"
+msgstr "Kansela (falsu / duplikadu)"
+
+#: users/templates/users/offline_list.html
+msgid "Kansela autorizasaun? Token sinkron sei kansela mós."
+msgstr "Kansela autorizasaun? Token sinkron sei kansela mós."
+
+#: kazu/models.py
+msgid "Kanseladu"
+msgstr "Kanseladu"
+
+#: kazu/models.py
+msgid "Katuas-Ferik"
+msgstr "Katuas-Ferik"
+
+#: config/menu.py
+msgid "Kazu"
+msgstr "Kazu"
+
+#: kazu/views/status_v.py
+msgid "Kazu %(kode)s haruka ona. Admin sei simu notifikasaun."
+msgstr "Kazu %(kode)s haruka ona. Admin sei simu notifikasaun."
+
+#: kazu/services.py
+msgid "Kazu %(kode)s verifika ona husi Admin. Hein ita-nia aprovasaun."
+msgstr "Kazu %(kode)s verifika ona husi Admin. Hein ita-nia aprovasaun."
+
+#: kazu/services.py
+msgid "Kazu %(kode)s: %(status)s"
+msgstr "Kazu %(kode)s: %(status)s"
+
+#: config/menu.py
+msgid "Kazu Foun"
+msgstr "Kazu Foun"
+
+#: notification/models.py
+msgid "Kazu foun"
+msgstr "Kazu foun"
+
+#: kazu/services.py
+msgid "Kazu foun %(kode)s husi %(naran)s · %(mun)s"
+msgstr "Kazu foun %(kode)s husi %(naran)s · %(mun)s"
+
+#: kazu/services.py
+msgid "Kazu ne'e haruka ona."
+msgstr "Kazu ne'e haruka ona."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu ne'e xave ona. Labele edita."
+msgstr "Kazu ne'e xave ona. Labele edita."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu rai ona hanesan rascunho."
+msgstr "Kazu rai ona hanesan rascunho."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu rai ona maibé seidauk bele haruka: %(erru)s"
+msgstr "Kazu rai ona maibé seidauk bele haruka: %(erru)s"
+
+#: kazu/templates/kazu/form.html
+msgid "Kazu rejeitadu."
+msgstr "Kazu rejeitadu."
+
+#: kazu/services.py
+msgid "Kazu tenke verifika uluk."
+msgstr "Kazu tenke verifika uluk."
+
+#: users/templates/auth/login.html
+msgid "Koneksaun seguru. Sala password dala 5 → konta xave minutu 30."
+msgstr "Koneksaun seguru. Sala password dala 5 → konta xave minutu 30."
+
+#: kazu/templates/kazu/detail.html
+msgid "Konsentimentu"
+msgstr "Konsentimentu"
+
+#: kazu/services.py
+msgid "Konsentimentu obrigatóriu."
+msgstr "Konsentimentu obrigatóriu."
+
+#: users/views/account_v.py
+msgid "Konta"
+msgstr "Konta"
+
+#: users/models.py
+msgid "Konta Pesoal"
+msgstr "Konta Pesoal"
+
+#: users/views/account_v.py
+msgid "Konta ne'e seidauk iha dadus pesoal. Kontaktu Admin."
+msgstr "Konta ne'e seidauk iha dadus pesoal. Kontaktu Admin."
+
+#: main/templates/home/lockout.html
+msgid "Konta xave temporáriu"
+msgstr "Konta xave temporáriu"
+
+#: main/templates/home/home_investigador.html
+msgid "Kontaktu Admin atu hetan autorizasaun antes ba terrenu."
+msgstr "Kontaktu Admin atu hetan autorizasaun antes ba terrenu."
+
+#: kazu/forms.py
+msgid "Koordenada GPS"
+msgstr "Koordenada GPS"
+
+#: kazu/forms.py
+msgid "Koordenada GPS la iha territóriu Timor-Leste."
+msgstr "Koordenada GPS la iha territóriu Timor-Leste."
+
+#: kazu/services.py
+msgid "Koordenada GPS obrigatóriu."
+msgstr "Koordenada GPS obrigatóriu."
+
+#: kazu/views/kazu_v.py
+msgid "Kria"
+msgstr "Kria"
+
+#: users/templates/users/detail.html
+msgid "Kria iha"
+msgstr "Kria iha"
+
+#: custom/models.py
+msgid "Kódigu"
+msgstr "Kódigu"
+
+#: main/templates/home/error_base.html
+msgid "Kódigu erru"
+msgstr "Kódigu erru"
+
+#: users/templates/users/detail.html
+msgid "LA ATIVU"
+msgstr "LA ATIVU"
+
+#: kazu/templates/kazu/form.html
+msgid "LISTA KAZU"
+msgstr "LISTA KAZU"
+
+#: kazu/templates/kazu/form.html
+msgid "La bele hetan GPS. Ativa Lokalizasaun no fó permisaun."
+msgstr "La bele hetan GPS. Ativa Lokalizasaun no fó permisaun."
+
+#: main/templates/main/navbar.html
+msgid "La iha notifikasaun foun"
+msgstr "La iha notifikasaun foun"
+
+#: notification/templates/notification/list.html
+msgid "La iha notifikasaun."
+msgstr "La iha notifikasaun."
+
+#: kazu/models.py
+msgid "La publika iha portal públiku"
+msgstr "La publika iha portal públiku"
+
+#: kazu/models.py
+msgid "Labarik"
+msgstr "Labarik"
+
+#: users/templates/auth/change_password.html
+msgid "Labele fó password ba ema seluk"
+msgstr "Labele fó password ba ema seluk"
+
+#: users/templates/auth/change_password.html
+msgid "Labele númeru deit ka hanesan password default"
+msgstr "Labele númeru deit ka hanesan password default"
+
+#: kazu/templates/kazu/detail.html
+msgid "Lae"
+msgstr "Lae"
+
+#: kazu/forms.py
+msgid "Laiha konsentimentu = labele rai kazu."
+msgstr "Laiha konsentimentu = labele rai kazu."
+
+#: kazu/models.py
+msgid "Latitude"
+msgstr "Latitude"
+
+#: kazu/models.py
+msgid "Lee"
+msgstr "Lee"
+
+#: notification/models.py
+msgid "Lee ona"
+msgstr "Lee ona"
+
+#: config/menu.py
+msgid "Legál"
+msgstr "Legál"
+
+#: users/models.py
+msgid "Lian"
+msgstr "Lian"
+
+#: notification/models.py
+msgid "Link"
+msgstr "Link"
+
+#: users/templates/auth/password_reset_confirm.html
+msgid "Link ne'e la validu ka uza ona. Favor husu link foun."
+msgstr "Link ne'e la validu ka uza ona. Favor husu link foun."
+
+#: kazu/views/kazu_v.py
+msgid "Lista Kazu"
+msgstr "Lista Kazu"
+
+#: users/views/user_v.py
+msgid "Lista Utilizador"
+msgstr "Lista Utilizador"
+
+#: users/templates/users/detail.html
+msgid "Login ikus"
+msgstr "Login ikus"
+
+#: kazu/models.py
+msgid "Longitude"
+msgstr "Longitude"
+
+#: kazu/templates/kazu/detail.html
+msgid "Loron avizu"
+msgstr "Loron avizu"
+
+#: kazu/models.py
+msgid "Loron avizu antes eviksaun"
+msgstr "Loron avizu antes eviksaun"
+
+#: users/models.py
+msgid "Mane"
+msgstr "Mane"
+
+#: kazu/forms.py
+msgid "Mane + Feto tenke hanesan Total Ema (%(n)s)."
+msgstr "Mane + Feto tenke hanesan Total Ema (%(n)s)."
+
+#: config/menu.py
+msgid "Mapa"
+msgstr "Mapa"
+
+#: notification/templates/notification/list.html
+msgid "Marka hotu lee ona"
+msgstr "Marka hotu lee ona"
+
+#: kazu/templates/kazu/detail.html
+msgid "Marka kazu ne'e REMATA (kompensasaun selu ona)?"
+msgstr "Marka kazu ne'e REMATA (kompensasaun selu ona)?"
+
+#: notification/models.py
+msgid "Mensajen"
+msgstr "Mensajen"
+
+#: main/templates/home/home.html
+msgid "Menu"
+msgstr "Menu"
+
+#: main/templates/main/bottom_nav.html
+msgid "Menu okos"
+msgstr "Menu okos"
+
+#: main/templates/main/navbar.html
+msgid "Menu prinsipál"
+msgstr "Menu prinsipál"
+
+#: users/templates/auth/change_password.html
+msgid "Minimu karakter 8"
+msgstr "Minimu karakter 8"
+
+#: users/templates/users/list.html
+msgid "Munisípiu"
+msgstr "Munisípiu"
+
+#: users/models.py
+msgid "Munisípiu Knaar"
+msgstr "Munisípiu Knaar"
+
+#: kazu/templates/kazu/list.html
+msgid "Munisípiu: Hotu"
+msgstr "Munisípiu: Hotu"
+
+#: users/models.py
+msgid "Naran"
+msgstr "Naran"
+
+#: kazu/models.py
+msgid "Naran atór"
+msgstr "Naran atór"
+
+#: kazu/models.py
+msgid "Naran dokumentu"
+msgstr "Naran dokumentu"
+
+#: kazu/models.py
+msgid "Narrativu"
+msgstr "Narrativu"
+
+#: custom/models.py
+msgid "Nesesidade Urjente"
+msgstr "Nesesidade Urjente"
+
+#: kazu/forms.py
+msgid "Nesesidade Urjente no Konsentimentu"
+msgstr "Nesesidade Urjente no Konsentimentu"
+
+#: users/models.py
+msgid "Nota"
+msgstr "Nota"
+
+#: kazu/templates/kazu/detail.html
+msgid "Nota (opsionál)"
+msgstr "Nota (opsionál)"
+
+#: main/templates/main/sidebar.html
+msgid "Notif"
+msgstr "Notif"
+
+#: notification/models.py
+msgid "Notifikasaun"
+msgstr "Notifikasaun"
+
+#: users/models.py
+msgid "Nu. Telf."
+msgstr "Nu. Telf."
+
+#: kazu/models.py
+msgid "Númeru Uma-Kain"
+msgstr "Númeru Uma-Kain"
+
+#: users/forms.py
+msgid "Obrigatóriu ba Investigadór"
+msgstr "Obrigatóriu ba Investigadór"
+
+#: kazu/models.py
+msgid "Observasaun Adisionál"
+msgstr "Observasaun Adisionál"
+
+#: config/menu.py
+msgid "Offline"
+msgstr "Offline"
+
+#: config/rbac.py
+msgid "Ofisiál Legál"
+msgstr "Ofisiál Legál"
+
+#: main/templates/main/topbar.html
+msgid "Online"
+msgstr "Online"
+
+#: custom/models.py
+msgid "Orden"
+msgstr "Orden"
+
+#: users/templates/users/list.html
+msgid "Papél"
+msgstr "Papél"
+
+#: users/forms.py
+msgid "Papél (Role)"
+msgstr "Papél (Role)"
+
+#: kazu/models.py
+msgid "Papél iha insidente"
+msgstr "Papél iha insidente"
+
+#: users/views/user_v.py
+msgid "Password %(user)s reset ona no haruka ona ba email."
+msgstr "Password %(user)s reset ona no haruka ona ba email."
+
+#: users/templates/auth/password_reset_confirm.html
+msgid "Password Foun"
+msgstr "Password Foun"
+
+#: users/validators.py
+msgid "Password foun labele hanesan password default."
+msgstr "Password foun labele hanesan password default."
+
+#: users/validators.py
+msgid "Password labele hanesan password default."
+msgstr "Password labele hanesan password default."
+
+#: users/templates/auth/change_password_done.html
+msgid "Password troka ona"
+msgstr "Password troka ona"
+
+#: users/models.py
+msgid "Pesoal"
+msgstr "Pesoal"
+
+#: kazu/templates/kazu/form.html
+msgid "Populasaun Afetada"
+msgstr "Populasaun Afetada"
+
+#: custom/models.py
+msgid "Postu Administrativu"
+msgstr "Postu Administrativu"
+
+#: kazu/forms.py
+msgid "Postu la iha munisípiu ne'e."
+msgstr "Postu la iha munisípiu ne'e."
+
+#: users/models.py
+msgid "Pozisaun"
+msgstr "Pozisaun"
+
+#: custom/models.py
+msgid "Presiza esplikasaun (Seluk)"
+msgstr "Presiza esplikasaun (Seluk)"
+
+#: kazu/templates/kazu/list.html
+msgid "Pájina"
+msgstr "Pájina"
+
+#: main/templates/home/404.html
+msgid "Pájina la hetan"
+msgstr "Pájina la hetan"
+
+#: main/templates/home/404.html
+msgid "Pájina ne'ebé ita buka la iha ka muda ona."
+msgstr "Pájina ne'ebé ita buka la iha ka muda ona."
+
+#: kazu/templates/kazu/detail.html
+msgid "REJEITA kazu ne'e? Investigadór sei hadia."
+msgstr "REJEITA kazu ne'e? Investigadór sei hadia."
+
+#: users/forms.py
+msgid "Rai"
+msgstr "Rai"
+
+#: kazu/templates/kazu/form.html
+msgid "Rai Rascunho"
+msgstr "Rai Rascunho"
+
+#: kazu/templates/kazu/form.html
+msgid "Rai no Haruka ba Verifikasaun"
+msgstr "Rai no Haruka ba Verifikasaun"
+
+#: kazu/models.py
+msgid "Rascunho"
+msgstr "Rascunho"
+
+#: kazu/templates/kazu/detail.html
+msgid "Razaun"
+msgstr "Razaun"
+
+#: kazu/templates/kazu/detail.html
+msgid "Razaun (obrigatóriu ba Rejeita no Kansela)"
+msgstr "Razaun (obrigatóriu ba Rejeita no Kansela)"
+
+#: kazu/models.py
+msgid "Razaun / Nota"
+msgstr "Razaun / Nota"
+
+#: kazu/templates/kazu/detail.html
+msgid "Rejeita"
+msgstr "Rejeita"
+
+#: kazu/models.py
+msgid "Rejeitadu"
+msgstr "Rejeitadu"
+
+#: kazu/views/kazu_v.py
+msgid "Rejista Kazu Foun"
+msgstr "Rejista Kazu Foun"
+
+#: config/menu.py
+msgid "Relatóriu"
+msgstr "Relatóriu"
+
+#: users/templates/users/offline_list.html
+msgid "Remata"
+msgstr "Remata"
+
+#: users/views/permission_v.py
+msgid "Renova"
+msgstr "Renova"
+
+#: users/templates/users/offline_list.html
+msgid "Renova autorizasaun loron 7 tan?"
+msgstr "Renova autorizasaun loron 7 tan?"
+
+#: users/templates/users/detail.html
+msgid "Reset Password"
+msgstr "Reset Password"
+
+#: main/templates/main/navbar.html
+msgid "Sai"
+msgstr "Sai"
+
+#: main/templates/home/lockout.html
+msgid "Sala password dala 5. Favor hein minutu 30 ka uza 'Haluha password?'."
+msgstr "Sala password dala 5. Favor hein minutu 30 ka uza 'Haluha password?'."
+
+#: users/templates/auth/password_reset_done.html
+msgid ""
+"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
+" mós pasta Spam."
+msgstr ""
+"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
+" mós pasta Spam."
+
+#: kazu/templates/kazu/detail.html
+msgid "Seidauk iha"
+msgstr "Seidauk iha"
+
+#: kazu/templates/kazu/detail.html
+msgid "Seidauk iha atór."
+msgstr "Seidauk iha atór."
+
+#: users/templates/users/offline_list.html
+msgid "Seidauk iha autorizasaun."
+msgstr "Seidauk iha autorizasaun."
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Seidauk iha evidénsia."
+msgstr "Seidauk iha evidénsia."
+
+#: kazu/templates/kazu/list.html
+msgid "Seidauk iha kazu."
+msgstr "Seidauk iha kazu."
+
+#: users/templates/users/list.html
+msgid "Seidauk iha utilizador."
+msgstr "Seidauk iha utilizador."
+
+#: users/templates/users/list.html
+msgid "Seidauk troka password"
+msgstr "Seidauk troka password"
+
+#: kazu/templates/kazu/form.html
+msgid ""
+"Seksaun 5 (Evidénsia: foto, vídeo, dokumentu) iha pájina tuir mai hafoin rai"
+" kazu."
+msgstr ""
+"Seksaun 5 (Evidénsia: foto, vídeo, dokumentu) iha pájina tuir mai hafoin rai"
+" kazu."
+
+#: kazu/models.py
+msgid "Seluk: favor esplika"
+msgstr "Seluk: favor esplika"
+
+#: users/models.py
+msgid "Sexu"
+msgstr "Sexu"
+
+#: kazu/templates/kazu/detail.html
+msgid "Sin"
+msgstr "Sin"
+
+#: config/menu.py
+msgid "Sinkron"
+msgstr "Sinkron"
+
+#: kazu/models.py
+msgid "Sinkron iha"
+msgstr "Sinkron iha"
+
+#: notification/models.py
+msgid "Sistema"
+msgstr "Sistema"
+
+#: users/templates/auth/login.html
+msgid "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
+msgstr "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
+
+#: users/templates/users/list.html
+msgid "Status"
+msgstr "Status"
+
+#: kazu/models.py
+msgid "Status Dadus"
+msgstr "Status Dadus"
+
+#: kazu/models.py
+msgid "Status Kazu"
+msgstr "Status Kazu"
+
+#: kazu/views/status_v.py
+msgid "Status kazu atualiza ona."
+msgstr "Status kazu atualiza ona."
+
+#: kazu/services.py
+msgid "Status kazu la validu."
+msgstr "Status kazu la validu."
+
+#: notification/models.py
+msgid "Status kazu muda"
+msgstr "Status kazu muda"
+
+#: kazu/views/status_v.py
+msgid "Status muda ona ba %(status)s."
+msgstr "Status muda ona ba %(status)s."
+
+#: kazu/templates/kazu/list.html
+msgid "Status: Hotu"
+msgstr "Status: Hotu"
+
+#: custom/models.py
+msgid "Suku"
+msgstr "Suku"
+
+#: kazu/forms.py
+msgid "Suku la iha postu ne'e."
+msgstr "Suku la iha postu ne'e."
+
+#: config/rbac.py
+msgid "Superadmin"
+msgstr "Superadmin"
+
+#: kazu/models.py
+msgid "Taka"
+msgstr "Taka"
+
+#: users/templates/auth/login.html
+msgid "Tama"
+msgstr "Tama"
+
+#: kazu/forms.py
+msgid "Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m."
+msgstr "Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m."
+
+#: users/models.py
+msgid "Tenke troka password"
+msgstr "Tenke troka password"
+
+#: notification/models.py
+msgid "Tipu"
+msgstr "Tipu"
+
+#: custom/models.py
+msgid "Tipu Atór"
+msgstr "Tipu Atór"
+
+#: custom/models.py
+msgid "Tipu Eviksaun"
+msgstr "Tipu Eviksaun"
+
+#: kazu/templates/kazu/list.html
+msgid "Tipu Kazu"
+msgstr "Tipu Kazu"
+
+#: custom/models.py
+msgid "Tipu Konflitu Rai"
+msgstr "Tipu Konflitu Rai"
+
+#: custom/models.py
+msgid "Tipu Rai"
+msgstr "Tipu Rai"
+
+#: kazu/templates/kazu/list.html
+msgid "Tipu: Hotu"
+msgstr "Tipu: Hotu"
+
+#: users/api/views.py
+msgid "Token sinkron ba Investigadór deit."
+msgstr "Token sinkron ba Investigadór deit."
+
+#: kazu/templates/kazu/detail.html
+msgid "Total Ema"
+msgstr "Total Ema"
+
+#: main/templates/home/home.html
+msgid "Total Kazu"
+msgstr "Total Kazu"
+
+#: main/templates/home/home.html
+msgid "Total Utilizador"
+msgstr "Total Utilizador"
+
+#: users/forms.py
+msgid "Troka Password"
+msgstr "Troka Password"
+
+#: kazu/models.py
+msgid "Títulu kazu"
+msgstr "Títulu kazu"
+
+#: notification/templates/notification/list.html
+msgid "URJENTE"
+msgstr "URJENTE"
+
+#: kazu/templates/kazu/detail.html
+msgid "Uma-Kain"
+msgstr "Uma-Kain"
+
+#: kazu/models.py
+msgid "Uma-Kain Afetada"
+msgstr "Uma-Kain Afetada"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Upload"
+msgstr "Upload"
+
+#: notification/models.py
+msgid "Urjente"
+msgstr "Urjente"
+
+#: users/templates/users/form.html
+msgid "Utilizador"
+msgstr "Utilizador"
+
+#: users/views/user_v.py
+msgid "Utilizador %(user)s ativu fali."
+msgstr "Utilizador %(user)s ativu fali."
+
+#: users/views/user_v.py
+msgid "Utilizador %(user)s hapara ona. Autorizasaun offline no token kansela."
+msgstr ""
+"Utilizador %(user)s hapara ona. Autorizasaun offline no token kansela."
+
+#: users/views/user_v.py
+msgid "Utilizador foun aumenta ona. Email haruka ona ba %(email)s."
+msgstr "Utilizador foun aumenta ona. Email haruka ona ba %(email)s."
+
+#: users/api/views.py
+msgid "Utilizador la ativu."
+msgstr "Utilizador la ativu."
+
+#: users/views/permission_v.py
+msgid "Utilizador ne'e labele hetan autorizasaun offline."
+msgstr "Utilizador ne'e labele hetan autorizasaun offline."
+
+#: users/templates/users/form.html
+msgid ""
+"Utilizador sei simu email ho password default no tenke troka password iha "
+"login dahuluk."
+msgstr ""
+"Utilizador sei simu email ho password default no tenke troka password iha "
+"login dahuluk."
+
+#: kazu/templates/kazu/form.html
+msgid "VARANDA"
+msgstr "VARANDA"
+
+#: main/templates/home/home_investigador.html
+msgid "Validu to'o"
+msgstr "Validu to'o"
+
+#: config/menu.py
+msgid "Varanda"
+msgstr "Varanda"
+
+#: kazu/templates/kazu/detail.html
+msgid "Verifika"
+msgstr "Verifika"
+
+#: kazu/models.py
+msgid "Verifikadu"
+msgstr "Verifikadu"
+
+#: kazu/models.py
+msgid "Vídeo"
+msgstr "Vídeo"
+
+#: kazu/forms.py
+msgid "Vídeo máximu 1 kada kazu."
+msgstr "Vídeo máximu 1 kada kazu."
+
+#: users/templates/users/detail.html
+msgid "to'o"
+msgstr "to'o"
+
+#: main/templates/home/home_investigador.html
+msgid "loron %(days)s tan"
+msgid_plural "loron %(days)s tan"
+msgstr[0] "loron %(days)s tan"
+msgstr[1] "loron %(days)s tan"
+
+#: users/templates/users/offline_form.html
+msgid "AUTORIZASAUN OFFLINE"
+msgstr "AUTORIZASAUN OFFLINE"
+
+#: users/templates/users/form.html
+msgid "LISTA UTILIZADOR"
+msgstr "LISTA UTILIZADOR"

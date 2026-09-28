@@ -1,3 +1,4 @@
+import uuid
 from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,10 +12,11 @@ SEXO_CHOICES = [('Mane', _('Mane')), ('Feto', _('Feto'))]
 
 def pesoal_foto_path(instance, filename):
 	ext = filename.rsplit('.', 1)[-1].lower()
-	return f'pesoal/{instance.pk or "foun"}/foto.{ext}'
+	return f'pesoal/{instance.uuid}/foto.{ext}'
 
 
 class Pesoal(models.Model):
+	uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)   # uza iha URL (la'ós id)
 	name = models.CharField(max_length=100, null=True, blank=False, verbose_name=_("Naran"))
 	sexo = models.CharField(choices=SEXO_CHOICES, max_length=4, null=True, blank=False, verbose_name=_("Sexu"))
 	pos = models.ForeignKey(Pozisaun, on_delete=models.SET_NULL, null=True, blank=True, related_name="pesoal", verbose_name=_("Pozisaun"))

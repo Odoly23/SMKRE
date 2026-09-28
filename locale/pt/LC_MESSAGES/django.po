@@ -744,3 +744,697 @@ msgstr "Guardar"
 #: main/templates/home/home_investigador.html
 msgid "HP karga 100%% no lori power bank"
 msgstr "Telemóvel com 100%% de bateria e power bank"
+
+#: kazu/services.py
+msgid "%(campo)s obrigatóriu."
+msgstr "%(campo)s é obrigatório."
+
+#: kazu/models.py
+msgid "Abertu"
+msgstr "Aberto"
+
+#: kazu/models.py
+msgid "Aksaun Legál"
+msgstr "Ação Legal"
+
+#: kazu/services.py
+msgid "Aksaun la validu."
+msgstr "Ação inválida."
+
+#: kazu/services.py
+msgid "Aksaun ne'e la permite ba status %(status)s."
+msgstr "Esta ação não é permitida no estado %(status)s."
+
+#: kazu/forms.py
+msgid "Akurasia GPS %(m)s m. Tenke ≤ 50 m."
+msgstr "Precisão GPS %(m)s m. Deve ser ≤ 50 m."
+
+#: kazu/models.py
+msgid "Akurasia GPS (m)"
+msgstr "Precisão GPS (m)"
+
+#: kazu/templates/kazu/form.html
+msgid "Akurasia fraku. Ba fatin nakloke no koko fali."
+msgstr "Precisão fraca. Vá para um local aberto e tente de novo."
+
+#: kazu/forms.py
+msgid "Aldeia la iha suku ne'e."
+msgstr "A aldeia não pertence a este suco."
+
+#: kazu/templates/kazu/detail.html
+msgid "Aprova"
+msgstr "Aprovar"
+
+#: kazu/models.py
+msgid "Aprovadu"
+msgstr "Aprovado"
+
+#: kazu/templates/kazu/detail.html
+msgid "Atualiza Status Kazu"
+msgstr "Atualizar Estado do Caso"
+
+#: kazu/models.py
+msgid "Atór Envolvidu"
+msgstr "Atores Envolvidos"
+
+#: kazu/forms.py
+msgid "Atór Envolvidu no Populasaun Afetada"
+msgstr "Atores Envolvidos e População Afetada"
+
+#: kazu/templates/kazu/list.html
+msgid "Buka ID, títulu, suku…"
+msgstr "Pesquisar ID, título, suco…"
+
+#: kazu/templates/kazu/form.html
+msgid "Buka lokalizasaun…"
+msgstr "A procurar localização…"
+
+#: kazu/templates/kazu/list.html
+msgid "Data"
+msgstr "Data"
+
+#: kazu/services.py
+msgid "Data Akontesimentu"
+msgstr "Data do Incidente"
+
+#: kazu/services.py
+msgid "Data Relatóriu"
+msgstr "Data do Relatório"
+
+#: kazu/forms.py
+msgid "Data akontesimentu labele liu data relatóriu."
+msgstr "A data do incidente não pode ser posterior à data do relatório."
+
+#: kazu/forms.py
+msgid "Data relatóriu labele iha futuru."
+msgstr "A data do relatório não pode ser no futuro."
+
+#: kazu/models.py
+msgid "Data upload"
+msgstr "Data de envio"
+
+#: kazu/templates/kazu/detail.html
+msgid "Defisiénsia"
+msgstr "Deficiência"
+
+#: kazu/models.py
+msgid "Deklarasaun Testemuña"
+msgstr "Declaração de Testemunha"
+
+#: kazu/forms.py
+msgid ""
+"Deskreve badak saida mak akontese, inklui sekuénsia akontesimentu, asaun "
+"husi autoridade ka atór no impaktu ba komunidade."
+msgstr ""
+"Descreva brevemente o que aconteceu, incluindo a sequência dos "
+"acontecimentos, as ações das autoridades ou atores e o impacto na "
+"comunidade."
+
+#: kazu/models.py
+msgid "Deskrisaun"
+msgstr "Descrição"
+
+#: kazu/services.py
+msgid "Deskrisaun Insidente"
+msgstr "Descrição do Incidente"
+
+#: kazu/views/kazu_v.py
+msgid "Detalla Kazu"
+msgstr "Detalhe do Caso"
+
+#: kazu/models.py
+msgid "Dokumentu Legál"
+msgstr "Documento Legal"
+
+#: kazu/views/kazu_v.py
+msgid "Edita Kazu"
+msgstr "Editar Caso"
+
+#: kazu/models.py
+msgid "Ema afetada fó konsentimentu informadu ba rekolla no uza dadus"
+msgstr ""
+"A pessoa afetada deu consentimento informado para a recolha e uso dos dados"
+
+#: kazu/models.py
+msgid "Ema ho Defisiénsia"
+msgstr "Pessoas com Deficiência"
+
+#: kazu/models.py
+msgid "Estimasaun Total Ema"
+msgstr "Estimativa Total de Pessoas"
+
+#: kazu/models.py
+msgid "Estragu (uma / to'os / sasán)"
+msgstr "Danos (casa / horta / bens)"
+
+#: kazu/models.py
+msgid "Estragu seluk"
+msgstr "Outros danos"
+
+#: kazu/templates/kazu/detail.html
+msgid "Estragu, Nesesidade no Konsentimentu"
+msgstr "Danos, Necessidades e Consentimento"
+
+#: kazu/models.py
+msgid "Evidénsia"
+msgstr "Evidências"
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia Kazu"
+msgstr "Evidências do Caso"
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia aumenta ona."
+msgstr "Evidência adicionada."
+
+#: kazu/views/evidensia_v.py
+msgid "Evidénsia hamoos ona."
+msgstr "Evidência removida."
+
+#: kazu/templates/kazu/list.html
+msgid "Fatin"
+msgstr "Local"
+
+#: kazu/forms.py
+msgid "Favor esplika tipu konflitu \"Seluk\"."
+msgstr "Explique o tipo de conflito \"Outro\"."
+
+#: kazu/views/kazu_v.py
+msgid "Favor hadia erru iha formuláriu."
+msgstr "Corrija os erros no formulário."
+
+#: kazu/services.py
+msgid "Favor hakerek razaun (minimu karakter 5)."
+msgstr "Escreva o motivo (mínimo 5 caracteres)."
+
+#: kazu/templates/kazu/detail.html
+msgid "Favor hakerek razaun."
+msgstr "Escreva o motivo."
+
+#: kazu/models.py
+msgid "File"
+msgstr "Ficheiro"
+
+#: kazu/forms.py
+msgid "File boot liu. Máximu %(mb)s MB."
+msgstr "Ficheiro demasiado grande. Máximo %(mb)s MB."
+
+#: kazu/templates/kazu/list.html
+msgid "Filtra"
+msgstr "Filtrar"
+
+#: kazu/forms.py
+msgid "Formatu file la permite. Uza: %(ext)s"
+msgstr "Formato não permitido. Use: %(ext)s"
+
+#: kazu/templates/kazu/detail.html
+msgid "Forsa seguransa"
+msgstr "Forças de segurança"
+
+#: kazu/models.py
+msgid "Forsa seguransa prezente"
+msgstr "Forças de segurança presentes"
+
+#: kazu/forms.py
+msgid "Foti GPS"
+msgstr "Obter GPS"
+
+#: kazu/forms.py
+msgid "Foto máximu 5 kada kazu."
+msgstr "Máximo 5 fotos por caso."
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid ""
+"Foto máximu 5 · Vídeo máximu 1 (60 segundu / 50 MB) · Foto kompresa "
+"automátiku."
+msgstr ""
+"Máx. 5 fotos · máx. 1 vídeo (60 s / 50 MB) · fotos comprimidas "
+"automaticamente."
+
+#: kazu/templates/kazu/form.html
+msgid "GPS OK"
+msgstr "GPS OK"
+
+#: kazu/templates/kazu/form.html
+msgid "HP la iha GPS."
+msgstr "O telemóvel não tem GPS."
+
+#: main/templates/home/home_investigador.html
+msgid "Ha'u-nia kazu ikus"
+msgstr "Os meus casos recentes"
+
+#: kazu/templates/kazu/form.html
+msgid "Hamoos"
+msgstr "Remover"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Hamoos evidénsia ne'e?"
+msgstr "Remover esta evidência?"
+
+#: kazu/templates/kazu/form.html
+msgid "Haree razaun iha istória kazu, hadia no haruka fali."
+msgstr "Veja o motivo no histórico, corrija e envie de novo."
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka ba Verifikasaun"
+msgstr "Enviar para Verificação"
+
+#: kazu/services.py
+msgid "Haruka fali hafoin hadia"
+msgstr "Reenviado após correção"
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka kazu ba verifikasaun? Hafoin haruka, kazu sei xave."
+msgstr "Enviar o caso para verificação? Depois de enviado, fica bloqueado."
+
+#: main/templates/home/home_investigador.html
+msgid "Haruka ona"
+msgstr "Enviados"
+
+#: main/templates/home/home.html
+msgid "Hein Aprovasaun"
+msgstr "Aguarda Aprovação"
+
+#: kazu/models.py
+msgid "Hein Sinál"
+msgstr "Aguarda Sinal"
+
+#: kazu/models.py
+msgid "Hein Verifikasaun"
+msgstr "Aguarda Verificação"
+
+#: main/templates/home/home.html
+msgid "Hein ita-nia aksaun"
+msgstr "Aguarda a sua ação"
+
+#: kazu/services.py
+msgid "Hili tipu konflitu rai."
+msgstr "Escolha o tipo de conflito de terra."
+
+#: kazu/models.py
+msgid "ID Kazu"
+msgstr "ID do Caso"
+
+#: kazu/forms.py
+msgid "Identifikasaun no Fatin"
+msgstr "Identificação e Local"
+
+#: kazu/models.py
+msgid "Iha Terrenu"
+msgstr "No Terreno"
+
+#: kazu/forms.py
+msgid "Informasaun Insidente"
+msgstr "Informação do Incidente"
+
+#: kazu/templates/kazu/form.html
+msgid "Insidente Deslokamentu / Eviksaun"
+msgstr "Incidente de Deslocamento / Despejo"
+
+#: kazu/models.py
+msgid "Insidente Eviksaun"
+msgstr "Incidente de Despejo"
+
+#: kazu/models.py
+msgid "Investigasaun"
+msgstr "Investigação"
+
+#: kazu/templates/kazu/detail.html
+msgid "Istória"
+msgstr "Histórico"
+
+#: kazu/models.py
+msgid "Istória Kazu"
+msgstr "Histórico do Caso"
+
+#: kazu/views/kazu_v.py
+msgid "Ita seidauk iha munisípiu knaar. Kontaktu Admin."
+msgstr "Ainda não tem município atribuído. Contacte o Admin."
+
+#: kazu/templates/kazu/detail.html
+msgid "Ita-boot iha serteza atu APROVA kazu ne'e?"
+msgstr "Tem a certeza que quer APROVAR este caso?"
+
+#: kazu/templates/kazu/detail.html
+msgid "Ita-boot iha serteza atu VERIFIKA kazu ne'e?"
+msgstr "Tem a certeza que quer VERIFICAR este caso?"
+
+#: kazu/templates/kazu/detail.html
+msgid "Jere Evidénsia"
+msgstr "Gerir Evidências"
+
+#: kazu/templates/kazu/detail.html
+msgid "KANSELA kazu ne'e? Ida-ne'e final."
+msgstr "CANCELAR este caso? Esta ação é final."
+
+#: kazu/forms.py
+msgid "Kampu ne'e obrigatóriu atu haruka."
+msgstr "Campo obrigatório para enviar."
+
+#: kazu/templates/kazu/detail.html
+msgid "Kansela (falsu / duplikadu)"
+msgstr "Cancelar (falso / duplicado)"
+
+#: kazu/models.py
+msgid "Kanseladu"
+msgstr "Cancelado"
+
+#: kazu/models.py
+msgid "Katuas-Ferik"
+msgstr "Idosos"
+
+#: kazu/views/status_v.py
+msgid "Kazu %(kode)s haruka ona. Admin sei simu notifikasaun."
+msgstr "Caso %(kode)s enviado. O Admin será notificado."
+
+#: kazu/services.py
+msgid "Kazu %(kode)s verifika ona husi Admin. Hein ita-nia aprovasaun."
+msgstr "Caso %(kode)s verificado pelo Admin. Aguarda a sua aprovação."
+
+#: kazu/services.py
+msgid "Kazu %(kode)s: %(status)s"
+msgstr "Caso %(kode)s: %(status)s"
+
+#: kazu/services.py
+msgid "Kazu foun %(kode)s husi %(naran)s · %(mun)s"
+msgstr "Novo caso %(kode)s de %(naran)s · %(mun)s"
+
+#: kazu/services.py
+msgid "Kazu ne'e haruka ona."
+msgstr "Este caso já foi enviado."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu ne'e xave ona. Labele edita."
+msgstr "Este caso está bloqueado. Não pode ser editado."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu rai ona hanesan rascunho."
+msgstr "Caso guardado como rascunho."
+
+#: kazu/views/kazu_v.py
+msgid "Kazu rai ona maibé seidauk bele haruka: %(erru)s"
+msgstr "Caso guardado mas ainda não pode ser enviado: %(erru)s"
+
+#: kazu/templates/kazu/form.html
+msgid "Kazu rejeitadu."
+msgstr "Caso rejeitado."
+
+#: kazu/services.py
+msgid "Kazu tenke verifika uluk."
+msgstr "O caso tem de ser verificado primeiro."
+
+#: kazu/templates/kazu/detail.html
+msgid "Konsentimentu"
+msgstr "Consentimento"
+
+#: kazu/services.py
+msgid "Konsentimentu obrigatóriu."
+msgstr "O consentimento é obrigatório."
+
+#: kazu/forms.py
+msgid "Koordenada GPS"
+msgstr "Coordenadas GPS"
+
+#: kazu/forms.py
+msgid "Koordenada GPS la iha territóriu Timor-Leste."
+msgstr "As coordenadas GPS não estão no território de Timor-Leste."
+
+#: kazu/services.py
+msgid "Koordenada GPS obrigatóriu."
+msgstr "As coordenadas GPS são obrigatórias."
+
+#: kazu/views/kazu_v.py
+msgid "Kria"
+msgstr "Criado"
+
+#: kazu/templates/kazu/form.html
+msgid "LISTA KAZU"
+msgstr "LISTA DE CASOS"
+
+#: kazu/templates/kazu/form.html
+msgid "La bele hetan GPS. Ativa Lokalizasaun no fó permisaun."
+msgstr "Não foi possível obter o GPS. Ative a localização e dê permissão."
+
+#: kazu/models.py
+msgid "La publika iha portal públiku"
+msgstr "Não publicar no portal público"
+
+#: kazu/models.py
+msgid "Labarik"
+msgstr "Crianças"
+
+#: kazu/templates/kazu/detail.html
+msgid "Lae"
+msgstr "Não"
+
+#: kazu/forms.py
+msgid "Laiha konsentimentu = labele rai kazu."
+msgstr "Sem consentimento = não é possível registar o caso."
+
+#: kazu/models.py
+msgid "Latitude"
+msgstr "Latitude"
+
+#: kazu/models.py
+msgid "Lee"
+msgstr "Visto"
+
+#: kazu/views/kazu_v.py
+msgid "Lista Kazu"
+msgstr "Lista de Casos"
+
+#: kazu/models.py
+msgid "Longitude"
+msgstr "Longitude"
+
+#: kazu/templates/kazu/detail.html
+msgid "Loron avizu"
+msgstr "Dias de aviso"
+
+#: kazu/models.py
+msgid "Loron avizu antes eviksaun"
+msgstr "Dias de aviso antes do despejo"
+
+#: kazu/forms.py
+msgid "Mane + Feto tenke hanesan Total Ema (%(n)s)."
+msgstr "Homens + Mulheres devem igualar o Total (%(n)s)."
+
+#: kazu/templates/kazu/detail.html
+msgid "Marka kazu ne'e REMATA (kompensasaun selu ona)?"
+msgstr "Marcar este caso como CONCLUÍDO (compensação paga)?"
+
+#: kazu/templates/kazu/list.html
+msgid "Munisípiu: Hotu"
+msgstr "Município: Todos"
+
+#: kazu/models.py
+msgid "Naran atór"
+msgstr "Nome do ator"
+
+#: kazu/models.py
+msgid "Naran dokumentu"
+msgstr "Nome do documento"
+
+#: kazu/models.py
+msgid "Narrativu"
+msgstr "Narrativa"
+
+#: kazu/forms.py
+msgid "Nesesidade Urjente no Konsentimentu"
+msgstr "Necessidades Urgentes e Consentimento"
+
+#: kazu/templates/kazu/detail.html
+msgid "Nota (opsionál)"
+msgstr "Nota (opcional)"
+
+#: kazu/models.py
+msgid "Númeru Uma-Kain"
+msgstr "N.º de Agregados"
+
+#: kazu/models.py
+msgid "Observasaun Adisionál"
+msgstr "Observações Adicionais"
+
+#: kazu/models.py
+msgid "Papél iha insidente"
+msgstr "Papel no incidente"
+
+#: kazu/templates/kazu/form.html
+msgid "Populasaun Afetada"
+msgstr "População Afetada"
+
+#: kazu/forms.py
+msgid "Postu la iha munisípiu ne'e."
+msgstr "O posto não pertence a este município."
+
+#: kazu/templates/kazu/list.html
+msgid "Pájina"
+msgstr "Página"
+
+#: kazu/templates/kazu/detail.html
+msgid "REJEITA kazu ne'e? Investigadór sei hadia."
+msgstr "REJEITAR este caso? O Investigador irá corrigir."
+
+#: kazu/templates/kazu/form.html
+msgid "Rai Rascunho"
+msgstr "Guardar Rascunho"
+
+#: kazu/templates/kazu/form.html
+msgid "Rai no Haruka ba Verifikasaun"
+msgstr "Guardar e Enviar para Verificação"
+
+#: kazu/models.py
+msgid "Rascunho"
+msgstr "Rascunho"
+
+#: kazu/templates/kazu/detail.html
+msgid "Razaun"
+msgstr "Motivo"
+
+#: kazu/templates/kazu/detail.html
+msgid "Razaun (obrigatóriu ba Rejeita no Kansela)"
+msgstr "Motivo (obrigatório para Rejeitar e Cancelar)"
+
+#: kazu/models.py
+msgid "Razaun / Nota"
+msgstr "Motivo / Nota"
+
+#: kazu/templates/kazu/detail.html
+msgid "Rejeita"
+msgstr "Rejeitar"
+
+#: kazu/models.py
+msgid "Rejeitadu"
+msgstr "Rejeitado"
+
+#: kazu/views/kazu_v.py
+msgid "Rejista Kazu Foun"
+msgstr "Registar Caso Novo"
+
+#: kazu/templates/kazu/detail.html
+msgid "Seidauk iha"
+msgstr "Ainda não há"
+
+#: kazu/templates/kazu/detail.html
+msgid "Seidauk iha atór."
+msgstr "Ainda não há atores."
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Seidauk iha evidénsia."
+msgstr "Ainda não há evidências."
+
+#: kazu/templates/kazu/list.html
+msgid "Seidauk iha kazu."
+msgstr "Ainda não há casos."
+
+#: kazu/templates/kazu/form.html
+msgid ""
+"Seksaun 5 (Evidénsia: foto, vídeo, dokumentu) iha pájina tuir mai hafoin rai"
+" kazu."
+msgstr ""
+"A secção 5 (Evidências: foto, vídeo, documentos) está na página seguinte, "
+"depois de guardar o caso."
+
+#: kazu/models.py
+msgid "Seluk: favor esplika"
+msgstr "Outro: explique"
+
+#: kazu/templates/kazu/detail.html
+msgid "Sin"
+msgstr "Sim"
+
+#: kazu/models.py
+msgid "Sinkron iha"
+msgstr "Sincronizado em"
+
+#: kazu/models.py
+msgid "Status Dadus"
+msgstr "Estado dos Dados"
+
+#: kazu/models.py
+msgid "Status Kazu"
+msgstr "Estado do Caso"
+
+#: kazu/views/status_v.py
+msgid "Status kazu atualiza ona."
+msgstr "Estado do caso atualizado."
+
+#: kazu/services.py
+msgid "Status kazu la validu."
+msgstr "Estado do caso inválido."
+
+#: kazu/views/status_v.py
+msgid "Status muda ona ba %(status)s."
+msgstr "Estado alterado para %(status)s."
+
+#: kazu/templates/kazu/list.html
+msgid "Status: Hotu"
+msgstr "Estado: Todos"
+
+#: kazu/forms.py
+msgid "Suku la iha postu ne'e."
+msgstr "O suco não pertence a este posto."
+
+#: kazu/models.py
+msgid "Taka"
+msgstr "Fechado"
+
+#: kazu/forms.py
+msgid "Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m."
+msgstr "Deve estar no local do incidente. A precisão deve ser ≤ 50 m."
+
+#: kazu/templates/kazu/list.html
+msgid "Tipu Kazu"
+msgstr "Tipo de Caso"
+
+#: kazu/templates/kazu/list.html
+msgid "Tipu: Hotu"
+msgstr "Tipo: Todos"
+
+#: kazu/templates/kazu/detail.html
+msgid "Total Ema"
+msgstr "Total de Pessoas"
+
+#: main/templates/home/home.html
+msgid "Total Kazu"
+msgstr "Total de Casos"
+
+#: kazu/models.py
+msgid "Títulu kazu"
+msgstr "Título do caso"
+
+#: kazu/templates/kazu/detail.html
+msgid "Uma-Kain"
+msgstr "Agregados"
+
+#: kazu/models.py
+msgid "Uma-Kain Afetada"
+msgstr "Agregados Afetados"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid "Upload"
+msgstr "Enviar"
+
+#: kazu/templates/kazu/detail.html
+msgid "Verifika"
+msgstr "Verificar"
+
+#: kazu/models.py
+msgid "Verifikadu"
+msgstr "Verificado"
+
+#: kazu/models.py
+msgid "Vídeo"
+msgstr "Vídeo"
+
+#: kazu/forms.py
+msgid "Vídeo máximu 1 kada kazu."
+msgstr "Máximo 1 vídeo por caso."
+
+#: users/templates/users/offline_form.html
+msgid "AUTORIZASAUN OFFLINE"
+msgstr "AUTORIZAÇÃO OFFLINE"
+
+#: users/templates/users/form.html
+msgid "LISTA UTILIZADOR"
+msgstr "LISTA DE UTILIZADORES"

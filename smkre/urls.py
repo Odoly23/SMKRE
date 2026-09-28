@@ -8,6 +8,7 @@ urlpatterns = [
 	path('utilizador/', include('users.urls')),
 	path('custom/', include('custom.urls')),
 	path('notifikasaun/', include('notification.urls')),
+	path('kazu/', include('kazu.urls')),
 
 	# API
 	path('api/notif/', include('notification.api.urls')),

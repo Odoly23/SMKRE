@@ -32,15 +32,15 @@ class WilayahTest(TestCase):
 		self.assertEqual(Aldeia.objects.count(), 2)
 
 	def test_dropdown_presiza_login(self):
-		r = self.client.get(reverse('ajax-load-suku'), {'postu': 1})
+		r = self.client.get(reverse('ajax_load_suku'), {'postu': 1})
 		self.assertEqual(r.status_code, 302)
 
 	def test_dropdown_bertingkat(self):
 		self.client.force_login(make_user(INVESTIGADOR))
 		postu = PostuAdministrativu.objects.get(code='LIQ-03')
-		r = self.client.get(reverse('ajax-load-suku'), {'postu': postu.pk})
+		r = self.client.get(reverse('ajax_load_suku'), {'postu': postu.pk})
 		self.assertContains(r, 'Vatuvou')
-		r = self.client.get(reverse('ajax-load-postu'), {'munisipiu': postu.munisipiu_id})
+		r = self.client.get(reverse('ajax_load_post'), {'munisipiu': postu.munisipiu_id})
 		self.assertContains(r, 'Maubara')
-		r = self.client.get(reverse('ajax-load-aldeia'), {'suku': Suku.objects.get().pk})
+		r = self.client.get(reverse('ajax_load_aldeia'), {'suku': Suku.objects.get().pk})
 		self.assertContains(r, 'Aldeia B')

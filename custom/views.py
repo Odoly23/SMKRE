@@ -5,21 +5,21 @@ from custom.models import PostuAdministrativu, Suku, Aldeia
 
 # Dropdown bertingkat: Munisípiu → Postu → Suku → Aldeia (AJAX, retorna <option>)
 @login_required
-def load_postu(request):
-	munisipiu_id = request.GET.get('munisipiu')
-	objects = PostuAdministrativu.active.filter(munisipiu_id=munisipiu_id) if munisipiu_id else PostuAdministrativu.objects.none()
-	return render(request, 'custom/dropdown.html', {'objects': objects})
+def load_post(request):
+	munisipiu_id = request.GET.get('munisipiu') or None
+	post = PostuAdministrativu.active.filter(munisipiu_id=munisipiu_id).order_by('name')
+	return render(request, 'custom/post_dropdown.html', {'post': post})
 
 
 @login_required
 def load_suku(request):
-	postu_id = request.GET.get('postu')
-	objects = Suku.active.filter(postu_id=postu_id) if postu_id else Suku.objects.none()
-	return render(request, 'custom/dropdown.html', {'objects': objects})
+	postu_id = request.GET.get('postu') or None
+	suku = Suku.active.filter(postu_id=postu_id).order_by('name')
+	return render(request, 'custom/suku_dropdown.html', {'suku': suku})
 
 
 @login_required
 def load_aldeia(request):
-	suku_id = request.GET.get('suku')
-	objects = Aldeia.active.filter(suku_id=suku_id) if suku_id else Aldeia.objects.none()
-	return render(request, 'custom/dropdown.html', {'objects': objects})
+	suku_id = request.GET.get('suku') or None
+	aldeia = Aldeia.active.filter(suku_id=suku_id).order_by('name')
+	return render(request, 'custom/aldeia_dropdown.html', {'aldeia': aldeia})

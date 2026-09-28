@@ -28,7 +28,7 @@
 							{% else %}<span class="badge badge-secondary rounded-pill px-3"><i class="fa fa-ban"></i> {% trans "Hapara" %}</span>{% endif %}
 							{% if obj.pesoaluser.must_change_password %}<span class="badge badge-warning rounded-pill px-3"><i class="fa fa-key"></i> {% trans "Seidauk troka password" %}</span>{% endif %}
 						</td>
-						<td class="text-right"><a href="{% url 'pesoal-detail' obj.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
+						<td class="text-right"><a href="{% url 'pesoal-detail' obj.uuid %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
 					</tr>
 					{% endwith %}{% empty %}
 					<tr><td colspan="6" class="text-center text-muted">{% trans "Seidauk iha utilizador." %}</td></tr>

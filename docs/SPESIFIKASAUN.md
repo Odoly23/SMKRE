@@ -65,8 +65,9 @@ Jika ada perubahan keputusan, perbarui dokumen ini di commit yang sama.
 | `ONGOING` | Iha Terrenu (sudah ada foto awal/GPS) | Ya | Staf |
 | `PENDING` | Hein Sinál (selesai, menunggu sinyal) | Ya | Staf |
 | `SYNCED` | Hein Verifikasaun | Tidak | Otomatis saat sinkron |
-| `VERIFIED` | Verifikadu | Tidak | Admin/Superadmin |
-| `COMPLETED` | Remata (kompensasi sudah dibayar) | Tidak | Admin/Superadmin |
+| `VERIFIED` | Verifikadu (tingkat 1) | Tidak | **Admin** (tombol Verifika) |
+| `APPROVED` | Aprovadu (tingkat 2) | Tidak | **Superadmin** (tombol Aprova) |
+| `COMPLETED` | Remata (kompensasi sudah dibayar) | Tidak | Admin/Superadmin (dari Aprovadu) |
 | `REJECTED` | Rejeitadu (bisa diperbaiki + sinkron ulang) | Ya | Admin/Superadmin (alasan wajib) |
 | `CANCELED` | Kanseladu (palsu/duplikat, final) | Tidak | Admin/Superadmin (alasan wajib) |
 
@@ -74,7 +75,9 @@ Jika ada perubahan keputusan, perbarui dokumen ini di commit yang sama.
 
 Badge: satu file include `kazu/badge_status.html` dan `kazu/badge_status_kazu.html`. Tambahan badge **URJENTE** (marun).
 
-**Verifikasi:** klik notifikasi 🔔 → detail kasus → tombol di bawah (Verifika / Rejeita / Kansela / Remata) → pop-up konfirmasi → notifikasi 🔔 + email ke staf pemilik kasus. Semua perubahan dicatat di riwayat (siapa, kapan, alasan).
+**Verifikasi dua tingkat:** Admin klik **Verifika** → Superadmin mendapat notifikasi → Superadmin klik **Aprova**. Rejeita/Kansela bisa oleh Admin atau Superadmin (alasan wajib).
+
+Alur tombol: klik notifikasi 🔔 → detail kasus → tombol di bawah (Verifika / Aprova / Remata / Rejeita / Kansela) → pop-up konfirmasi → notifikasi 🔔 + email ke staf pemilik kasus. Semua perubahan dicatat di riwayat (siapa, kapan, alasan).
 
 ## 7. Data kasus (Anexu A + Anexu E)
 
@@ -91,10 +94,17 @@ Badge: satu file include `kazu/badge_status.html` dan `kazu/badge_status_kazu.ht
 - **Konsentimentu wajib** sebelum kasus disimpan.
 - **Validasi:** field wajib; tanggal; GPS akurasi ≤ 50 m dan di dalam wilayah Timor-Leste (termasuk Oé-Cusse dan Ataúro); dropdown bertingkat standar.
 
+## 7b. ID di URL
+
+- **Kazu** dan **Evidénsia** memakai **UUID** sebagai primary key (dibuat juga di HP saat offline, tidak bentrok). URL: `/kazu/<uuid>/`.
+- **Pesoal** punya kolom `uuid` untuk URL: `/utilizador/<uuid>/`.
+- Data master (munisípiu, suku, dll.) dan izin offline (khusus admin, aksi POST) tetap memakai ID angka.
+- UUID mencegah orang menebak URL, tetapi **keamanan utama tetap pemeriksaan hak akses** di setiap view (`kazu/permissions.py`). Karena itu tidak dipakai "hashids": UUID sudah acak dan standar di Django/PostgreSQL.
+
 ## 8. Notifikasi
 
 - Pola SGDS: `notification/api/` + `main/static/main/notif/notif_kazu.js` (polling setiap 30 detik).
-- Kasus baru disinkron → Admin + Superadmin (🔔 + email). Perubahan status → staf pemilik (🔔 + email).
+- Kasus baru dikirim → Admin + Superadmin (🔔 + email, URJENTE diprioritaskan). Verifika → Superadmin (menunggu Aprova). Setiap perubahan status → staf pemilik (🔔 + email). Pesan ditulis dalam **bahasa penerima**.
 
 ## 9. Dashboard, peta, laporan
 
@@ -128,7 +138,7 @@ CSP (tanpa inline script, pakai nonce), Permissions-Policy (kamera dan GPS hanya
 ## 13. Tahapan
 
 1. ✅ Fondasi
-2. Kasus + verifikasi + notifikasi
+2. ✅ Kasus (form 6 bagian), verifikasi dua tingkat, riwayat, evidénsia, notifikasi
 3. Dashboard, peta, laporan, export
 4. Offline PWA (IndexedDB terenkripsi, PIN, GPS, kamera, sinkron)
 5. Legal (Document Vault), uji coba, deploy

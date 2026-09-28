@@ -37,9 +37,8 @@ class PesoalForm(forms.ModelForm):
 		self.fields['munisipiu'].queryset = Munisipiu.active.all()
 		self.fields['munisipiu'].help_text = _("Obrigatóriu ba Investigadór")
 		self.helper = FormHelper()
-		self.helper.form_method = 'post'
-		self.helper.form_tag = True
-		self.helper.attrs = {'enctype': 'multipart/form-data'}
+		self.helper.form_tag = False          # <form> iha template (pola form.html)
+		self.helper.disable_csrf = True
 		self.helper.layout = Layout(
 			Row(
 				Column('name', css_class='form-group col-md-6 mb-0'),
@@ -86,8 +85,8 @@ class AccountForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(AccountForm, self).__init__(*args, **kwargs)
 		self.helper = FormHelper()
-		self.helper.form_method = 'post'
-		self.helper.attrs = {'enctype': 'multipart/form-data'}
+		self.helper.form_tag = False
+		self.helper.disable_csrf = True
 		self.helper.layout = Layout(
 			Row(
 				Column('name', css_class='form-group col-md-6 mb-0'),
@@ -108,7 +107,8 @@ class ChangePasswordForm(PasswordChangeForm):
 	def __init__(self, *args, **kwargs):
 		super(ChangePasswordForm, self).__init__(*args, **kwargs)
 		self.helper = FormHelper()
-		self.helper.form_method = 'post'
+		self.helper.form_tag = False
+		self.helper.disable_csrf = True
 		self.helper.layout = Layout(
 			'old_password', 'new_password1', 'new_password2',
 			HTML(""" {% load i18n %}<button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-key"></i> {% trans "Troka Password" %}</button> """)
@@ -125,7 +125,8 @@ class OfflinePermissionForm(forms.ModelForm):
 		self.fields['user'].queryset = User.objects.filter(groups__name=INVESTIGADOR, is_active=True).order_by('username')
 		self.fields['user'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username})'
 		self.helper = FormHelper()
-		self.helper.form_method = 'post'
+		self.helper.form_tag = False
+		self.helper.disable_csrf = True
 		self.helper.layout = Layout(
 			Row(
 				Column('user', css_class='form-group col-md-6 mb-0'),

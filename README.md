@@ -27,6 +27,7 @@ config/         # rbac.py, decorators, menu, utils, tasks (email), context proce
 custom/         # master data: Munisípiu, Postu, Suku, Aldeia, opsaun padronizadu
 users/          # Pesoal + PesoalUser, konta, password, autorizasaun offline, API JWT
 notification/   # notifikasaun 🔔 + email (api/ hanesan pola SGDS)
+kazu/           # kazu: formuláriu, status, verifikasaun (Admin) + aprovasaun (Superadmin), evidénsia, istória
 locale/         # tradusaun: tet, pt, en, id
 tools/          # extract_lian.py (ekstrai testu tradusaun)
 docs/           # SPESIFIKASAUN.md, DEPLOY.md, manuál formasaun
@@ -76,6 +77,8 @@ Regra hotu iha **`config/rbac.py`**. Atu muda asesu, muda lista iha ne'ebá deit
 | `ofisial_legal` | Document Vault, nota legál |
 | `investigador` | Input kazu iha munisípiu knaar (offline) |
 
+**Fluxu kazu:** Investigadór haruka → **Admin: Verifika** → **Superadmin: Aprova** → Remata. Rejeita / Kansela ho razaun. Regra iha `kazu/services.py`.
+
 Uza iha view:
 
 ```python
@@ -86,7 +89,8 @@ def PesoalList(request):
 
 ## 🌐 Lian
 
-- Testu fonte iha kódigu mak **Tetun**.
+- Testu fonte iha kódigu mak **Tetun**. File hotu iha `locale/`: `tet/`, `pt/`, `en/`, `id/` (`LC_MESSAGES/django.po`).
+- Atu hadia testu Tetun la muda kódigu: edita `msgstr` iha `locale/tet/LC_MESSAGES/django.po`.
 - Aumenta testu foun → `python tools/extract_lian.py` → prenxe `msgstr` iha `locale/<pt|en|id>/LC_MESSAGES/django.po` → `python manage.py compile_lian`.
 
 ## ✅ Test
@@ -114,7 +118,7 @@ Haree **[docs/DEPLOY.md](docs/DEPLOY.md)** (PostgreSQL, Gunicorn, Nginx, Celery,
 ## 🗺️ Faze dezenvolvimentu
 
 - [x] **Faze 1** — Fundasaun: estrutura, settings, RBAC, utilizador, password/email, autorizasaun offline, JWT, notifikasaun, layout mobile first, lian 4
-- [ ] **Faze 2** — Kazu: formuláriu 6 passu, status rua, verifikasaun, istória, notifikasaun
+- [x] **Faze 2** — Kazu: formuláriu, status rua, **Verifika (Admin) → Aprova (Superadmin)**, istória, evidénsia, notifikasaun
 - [ ] **Faze 3** — Dashboard, mapa hotspot, tendénsia, eksporta PDF/Excel
 - [ ] **Faze 4** — Offline PWA: IndexedDB enkriptadu (PIN), GPS, kamera, sinkron
 - [ ] **Faze 5** — Legál (Document Vault), test, deploy

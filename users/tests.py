@@ -79,7 +79,7 @@ class RBACTest(TestCase):
 	def test_admin_labele_edita_superadmin(self):
 		sa = make_user(SUPERADMIN)
 		self.client.force_login(make_user(ADMIN))
-		pk = sa.pesoaluser.pesoal.pk
+		pk = sa.pesoaluser.pesoal.uuid
 		self.assertEqual(self.client.get(reverse('pesoal-update', args=[pk])).status_code, 403)
 		self.assertEqual(self.client.post(reverse('user-reset-password', args=[pk])).status_code, 403)
 
@@ -106,7 +106,7 @@ class PesoalTest(TestCase):
 		with self.captureOnCommitCallbacks(execute=True):
 			r = self._add()
 		p = Pesoal.objects.get(email='maria@teste.tl')
-		self.assertRedirects(r, reverse('pesoal-detail', args=[p.pk]))
+		self.assertRedirects(r, reverse('pesoal-detail', args=[p.uuid]))
 		u = p.pesoaluser.user
 		self.assertEqual(u.username, 'maria@teste.tl')
 		self.assertTrue(u.check_password(settings.DEFAULT_PASSWORD))
@@ -129,7 +129,7 @@ class PesoalTest(TestCase):
 
 	def test_reset_password(self):
 		u = make_user(INVESTIGADOR)
-		r = self.client.post(reverse('user-reset-password', args=[u.pesoaluser.pesoal.pk]))
+		r = self.client.post(reverse('user-reset-password', args=[u.pesoaluser.pesoal.uuid]))
 		self.assertEqual(r.status_code, 302)
 		u.refresh_from_db()
 		self.assertTrue(u.check_password(settings.DEFAULT_PASSWORD))
@@ -138,18 +138,18 @@ class PesoalTest(TestCase):
 
 	def test_reset_tenke_post(self):
 		u = make_user(INVESTIGADOR)
-		self.assertEqual(self.client.get(reverse('user-reset-password', args=[u.pesoaluser.pesoal.pk])).status_code, 405)
+		self.assertEqual(self.client.get(reverse('user-reset-password', args=[u.pesoaluser.pesoal.uuid])).status_code, 405)
 
 	def test_hapara_utilizador_kansela_offline(self):
 		u = make_user(INVESTIGADOR)
 		OfflinePermission.objects.create(user=u, given_by=self.admin)
-		self.client.post(reverse('user-activate', args=[u.pesoaluser.pesoal.pk]))
+		self.client.post(reverse('user-activate', args=[u.pesoaluser.pesoal.uuid]))
 		u.refresh_from_db()
 		self.assertFalse(u.is_active)
 		self.assertFalse(OfflinePermission.objects.valid().filter(user=u).exists())
 
 	def test_labele_hapara_an_rasik(self):
-		r = self.client.post(reverse('user-activate', args=[self.admin.pesoaluser.pesoal.pk]))
+		r = self.client.post(reverse('user-activate', args=[self.admin.pesoaluser.pesoal.uuid]))
 		self.assertEqual(r.status_code, 403)
 
 

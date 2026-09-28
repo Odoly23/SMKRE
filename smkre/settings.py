@@ -68,6 +68,7 @@ INSTALLED_APPS = [
 	'custom.apps.CustomConfig',
 	'users.apps.UsersConfig',
 	'notification.apps.NotificationConfig',
+	'kazu.apps.KazuConfig',
 
 	'django_cleanup.apps.CleanupConfig',      # hamoos file tuan automátiku (tenke ikus)
 ]

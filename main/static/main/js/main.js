@@ -37,6 +37,22 @@
 		});
 	});
 
+	// ── Butaun aksaun kazu (Verifika / Aprova / Rejeita / Kansela): konfirma + razaun ──
+	document.querySelectorAll('form.js-action').forEach(function (f) {
+		f.querySelectorAll('button[data-action]').forEach(function (btn) {
+			btn.addEventListener('click', function (e) {
+				var nota = f.querySelector('textarea[name=nota]');
+				if (btn.dataset.needNota && (!nota || nota.value.trim().length < 5)) {
+					e.preventDefault();
+					window.alert(f.dataset.needNota);
+					if (nota) nota.focus();
+					return;
+				}
+				if (!window.confirm(f.dataset['confirm' + btn.dataset.action.charAt(0).toUpperCase() + btn.dataset.action.slice(1)] || '?')) e.preventDefault();
+			});
+		});
+	});
+
 	// ── Filtru tabela simples (input.js-filter data-target="#tbl") ──
 	document.querySelectorAll('.js-filter').forEach(function (inp) {
 		var table = document.querySelector(inp.dataset.target);
@@ -45,19 +61,6 @@
 			var q = inp.value.toLowerCase();
 			table.querySelectorAll('tbody tr').forEach(function (tr) {
 				tr.style.display = tr.textContent.toLowerCase().indexOf(q) > -1 ? '' : 'none';
-			});
-		});
-	});
-
-	// ── Dropdown bertingkat: Munisípiu → Postu → Suku → Aldeia ──
-	// <select data-child="#id_postu" data-url="/custom/ajax/postu/" data-param="munisipiu">
-	document.querySelectorAll('select[data-child]').forEach(function (sel) {
-		sel.addEventListener('change', function () {
-			var child = document.querySelector(sel.dataset.child);
-			if (!child) return;
-			$.get(sel.dataset.url, (function (o) { o[sel.dataset.param] = sel.value; return o; })({}), function (html) {
-				child.innerHTML = html;
-				child.dispatchEvent(new Event('change'));
 			});
 		});
 	});

@@ -1,0 +1,122 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'kazu-list' %}">{% trans "LISTA KAZU" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="row">
+		<div class="col-sm-12">
+			<form method="POST" id="KazuForm" enctype="multipart/form-data" data-posts-url="{% url 'ajax_load_post' %}" data-suku-url="{% url 'ajax_load_suku' %}" data-aldeia-url="{% url 'ajax_load_aldeia' %}" novalidate>
+			{% csrf_token %}
+			<div class="card card-rbr shadow-sm pt-1 rounded">
+				<div class="card-header card-header-rbr">{{ legend|upper }}{% if objects %} · {{ objects }}{% endif %}</div>
+				<div class="card-body">
+					{% if objects.status == 'REJECTED' %}
+					<div class="alert alert-danger small"><i class="fa fa-undo"></i> <b>{% trans "Kazu rejeitadu." %}</b> {% trans "Haree razaun iha istória kazu, hadia no haruka fali." %}</div>
+					{% endif %}
+
+					{% crispy form form.helper %}
+
+					<!-- 3. Atór envolvidu no populasaun afetada (formset) -->
+					<h3 class="form-section"><span>3</span> {% trans "Atór Envolvidu no Populasaun Afetada" %}</h3>
+					{{ ator_fs.management_form }}
+					{% for f in ator_fs %}
+					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
+					{% endfor %}
+					<h4 class="form-sub">{% trans "Populasaun Afetada" %}</h4>
+					{{ afetadu_fs.management_form }}
+					{% for f in afetadu_fs %}
+					<div class="formset-row">{% crispy f %}</div>
+					{% endfor %}
+					<h4 class="form-sub">{% trans "Insidente Deslokamentu / Eviksaun" %}</h4>
+					{{ insidente_fs.management_form }}
+					{% for f in insidente_fs %}
+					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
+					{% endfor %}
+
+					{% crispy form form.helper_b %}
+
+					<div class="alert alert-light border small mt-3"><i class="fa fa-camera"></i> {% trans "Seksaun 5 (Evidénsia: foto, vídeo, dokumentu) iha pájina tuir mai hafoin rai kazu." %}</div>
+					<div class="form-actions">
+						<button class="btn btn-outline-rbr" type="submit" name="aksaun" value="rai"><i class="fa fa-save"></i> {% trans "Rai Rascunho" %}</button>
+						<button class="btn btn-rbr" type="submit" name="aksaun" value="haruka"><i class="fa fa-paper-plane"></i> {% trans "Rai no Haruka ba Verifikasaun" %}</button>
+					</div>
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+			</form>
+		</div> <!--end col-->
+	</div> <!--end row-->
+{% endblock %}
+{% block scripts %}
+<script nonce="{{ request.csp_nonce }}">
+	// Munisípiu → Postu
+	$("#id_munisipiu").change(function () {
+	  var url = $("#KazuForm").attr("data-posts-url");
+	  var munisipiuId = $(this).val();
+
+	  $.ajax({
+		url: url,
+		data: {
+		  'munisipiu': munisipiuId
+		},
+		success: function (data) {
+		  $("#id_postu").html(data);
+		  $("#id_suku").html('<option value="">---------</option>');
+		  $("#id_aldeia").html('<option value="">---------</option>');
+		}
+	  });
+
+	});
+	// Postu → Suku
+	$("#id_postu").change(function () {
+	  var url = $("#KazuForm").attr("data-suku-url");
+	  var postuId = $(this).val();
+
+	  $.ajax({
+		url: url,
+		data: {
+		  'postu': postuId
+		},
+		success: function (data) {
+		  $("#id_suku").html(data);
+		  $("#id_aldeia").html('<option value="">---------</option>');
+		}
+	  });
+
+	});
+	// Suku → Aldeia
+	$("#id_suku").change(function () {
+	  var url = $("#KazuForm").attr("data-aldeia-url");
+	  var sukuId = $(this).val();
+
+	  $.ajax({
+		url: url,
+		data: {
+		  'suku': sukuId
+		},
+		success: function (data) {
+		  $("#id_aldeia").html(data);
+		}
+	  });
+
+	});
+	// GPS automátiku husi HP (presiza HTTPS; localhost OK)
+	$("#btn-gps").click(function () {
+	  var msg = $("#gps-msg");
+	  if (!navigator.geolocation) { msg.text("{% trans "HP la iha GPS." %}"); return; }
+	  msg.text("{% trans "Buka lokalizasaun…" %}");
+	  navigator.geolocation.getCurrentPosition(function (pos) {
+		$("#id_latitude").val(pos.coords.latitude.toFixed(6));
+		$("#id_longitude").val(pos.coords.longitude.toFixed(6));
+		$("#id_gps_akurasia").val(Math.round(pos.coords.accuracy));
+		var ok = pos.coords.accuracy <= 50;
+		msg.toggleClass("text-danger", !ok).toggleClass("text-rbr", ok)
+		   .text(ok ? "{% trans "GPS OK" %} (" + Math.round(pos.coords.accuracy) + " m)" : "{% trans "Akurasia fraku. Ba fatin nakloke no koko fali." %}");
+	  }, function () {
+		msg.addClass("text-danger").text("{% trans "La bele hetan GPS. Ativa Lokalizasaun no fó permisaun." %}");
+	  }, { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
+	});
+</script>
+{% endblock %}

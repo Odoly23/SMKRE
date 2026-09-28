@@ -8,7 +8,7 @@ from pathlib import Path
 import polib
 
 BASE = Path(__file__).resolve().parent.parent
-LANGS = ['pt', 'en', 'id']
+LANGS = ['tet', 'pt', 'en', 'id']   # tet: testu fonte (bele edita Tetun iha tet/django.po)
 SKIP = ('locale', 'staticfiles', 'media', 'node_modules', '.git')
 
 TPL_TRANS = re.compile(r'{%\s*trans(?:late)?\s+"([^"]+)"')
@@ -20,6 +20,11 @@ PY_CALL = re.compile(r'''\b_\(\s*(?P<q>['"])(?P<s>(?:\\.|(?!(?P=q)).)*)(?P=q)\s*
 
 def norm_block(text):
 	return re.sub(r'{{\s*(\w+)[^}]*}}', r'%(\1)s', text).strip()
+
+
+def _ok(s):
+	# la'ós testu dinámiku (ezemplu f-string "{title}")
+	return not ('{' in s and '%(' not in s)
 
 
 def collect():
@@ -59,12 +64,13 @@ def main():
 		po.metadata = {'Content-Type': 'text/plain; charset=UTF-8', 'Language': lang,
 			'Plural-Forms': 'nplurals=1; plural=0;' if lang == 'id' else 'nplurals=2; plural=(n != 1);'}
 		have = {e.msgid for e in po}
+		ident = lang == 'tet'   # Tetun: msgstr = msgid (ekipa bele hadia testu Tetun iha ne'e la muda kódigu)
 		for s, rel in sorted(singles.items()):
-			if s not in have:
-				po.append(polib.POEntry(msgid=s, msgstr='', occurrences=[(rel, '')]))
+			if s not in have and _ok(s):
+				po.append(polib.POEntry(msgid=s, msgstr=s if ident else '', occurrences=[(rel, '')]))
 		for one, (many, rel) in sorted(plurals.items()):
 			if one not in have:
-				po.append(polib.POEntry(msgid=one, msgid_plural=many, msgstr_plural={0: '', 1: ''}, occurrences=[(rel, '')]))
+				po.append(polib.POEntry(msgid=one, msgid_plural=many, msgstr_plural={0: one if ident else '', 1: many if ident else ''}, occurrences=[(rel, '')]))
 		po.save(str(po_path))
 		print(f'{lang}: {len(po)} testu · {po.percent_translated()}% tradus')
 

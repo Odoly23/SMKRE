@@ -1,0 +1,20 @@
+{% load i18n %}{% if obj.status_kazu == 'ABERTU' %}
+	<span class="badge badge-info rounded-pill px-3">
+		<i class="fa fa-folder-open"></i> {% trans "Abertu" %}
+	</span>
+{% elif obj.status_kazu == 'INVESTIGASAUN' %}
+	<span class="badge badge-warning rounded-pill px-3">
+		<i class="fa fa-search"></i> {% trans "Investigasaun" %}
+	</span>
+{% elif obj.status_kazu == 'AKSAUN_LEGAL' %}
+	<span class="badge badge-danger rounded-pill px-3">
+		<i class="fa fa-gavel"></i> {% trans "Aksaun Legál" %}
+	</span>
+{% elif obj.status_kazu == 'TAKA' %}
+	<span class="badge badge-secondary rounded-pill px-3">
+		<i class="fa fa-lock"></i> {% trans "Taka" %}
+	</span>
+{% endif %}
+{% if obj.urjente %}
+	<span class="badge badge-urjente rounded-pill px-3"><i class="fa fa-exclamation-triangle"></i> {% trans "URJENTE" %}</span>
+{% endif %}

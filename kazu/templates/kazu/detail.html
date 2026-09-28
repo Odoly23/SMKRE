@@ -1,0 +1,149 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'kazu-list' %}">{% trans "LISTA KAZU" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ objects|upper }}</li>
+	</ol>
+	{% with obj=objects %}
+	<div class="page-head">
+		<h2 class="mb-1">{{ obj }}</h2>
+		<div>{% include 'kazu/badge_status.html' %} {% include 'kazu/badge_status_kazu.html' %}</div>
+		{% if obj.titulu %}<p class="text-muted mb-0 mt-1">{{ obj.titulu }}</p>{% endif %}
+	</div>
+
+	<div class="row">
+		<div class="col-lg-8">
+			<!-- 1. Identifikasaun -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Identifikasaun no Fatin" %}</h3>
+				<table class="table table-sm table-detail mb-0">
+					<tr><th>{% trans "Data Relatóriu" %}</th><td>{{ obj.data_relatoriu|date:"d/m/Y"|default:"-" }}</td></tr>
+					<tr><th>{% trans "Investigadór" %}</th><td>{{ obj.created_by.pesoaluser.pesoal|default:obj.created_by.username }}</td></tr>
+					<tr><th>{% trans "Fatin" %}</th><td>{{ obj.aldeia|default:"" }}{% if obj.aldeia %}, {% endif %}{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.postu|default:"" }}{% if obj.postu %}, {% endif %}{{ obj.munisipiu }}</td></tr>
+					<tr><th>{% trans "Koordenada GPS" %}</th><td>{% if obj.latitude %}{{ obj.latitude }}, {{ obj.longitude }} <small class="text-muted">(± {{ obj.gps_akurasia|default:"?" }} m)</small>{% else %}<span class="text-danger">{% trans "Seidauk iha" %}</span>{% endif %}</td></tr>
+				</table>
+			</div></div>
+
+			<!-- 2. Insidente -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Informasaun Insidente" %}</h3>
+				<table class="table table-sm table-detail">
+					<tr><th>{% trans "Data Akontesimentu" %}</th><td>{{ obj.data_akontesimentu|date:"d/m/Y"|default:"-" }}</td></tr>
+					<tr><th>{% trans "Tipu Konflitu Rai" %}</th><td>{% for t in obj.tipu_konflitu.all %}<span class="badge badge-light border">{{ t.name }}</span> {% empty %}-{% endfor %}{% if obj.tipu_seluk %}<br><small>{{ obj.tipu_seluk }}</small>{% endif %}</td></tr>
+					<tr><th>{% trans "Tipu Rai" %}</th><td>{{ obj.tipu_rai|default:"-" }}</td></tr>
+				</table>
+				<p class="mb-0 pre-line">{{ obj.deskrisaun|default:"-" }}</p>
+				{% for i in obj.insidente.all %}
+				<div class="sub-card mt-2">
+					<b>{{ i.tipu_eviksaun }}</b> · {% trans "Loron avizu" %}: {{ i.loron_avizu|default:"-" }} · {% trans "Forsa seguransa" %}: {% if i.forsa_seguransa %}{% trans "Sin" %}{% else %}{% trans "Lae" %}{% endif %}
+					{% if i.estragu %}<br><small>{{ i.estragu }}</small>{% endif %}{% if i.deskrisaun %}<br><small class="text-muted">{{ i.deskrisaun }}</small>{% endif %}
+				</div>
+				{% endfor %}
+			</div></div>
+
+			<!-- 3. Atór no afetadu -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Atór Envolvidu no Populasaun Afetada" %}</h3>
+				{% for a in obj.ator.all %}<div class="sub-card mb-2"><b>{{ a.tipu_ator }}</b>{% if a.naran %} · {{ a.naran }}{% endif %}{% if a.papel %}<br><small class="text-muted">{{ a.papel }}</small>{% endif %}</div>{% empty %}<p class="text-muted small">{% trans "Seidauk iha atór." %}</p>{% endfor %}
+				{% for af in obj.afetadu.all %}
+				<div class="afetadu-grid">
+					<div><b>{{ af.uma_kain|default:"-" }}</b><span>{% trans "Uma-Kain" %}</span></div>
+					<div><b>{{ af.total_ema|default:"-" }}</b><span>{% trans "Total Ema" %}</span></div>
+					<div><b>{{ af.mane|default:"-" }}</b><span>{% trans "Mane" %}</span></div>
+					<div><b>{{ af.feto|default:"-" }}</b><span>{% trans "Feto" %}</span></div>
+					<div><b>{{ af.labarik|default:"-" }}</b><span>{% trans "Labarik" %}</span></div>
+					<div><b>{{ af.katuas_ferik|default:"-" }}</b><span>{% trans "Katuas-Ferik" %}</span></div>
+					<div><b>{{ af.defisiensia|default:"-" }}</b><span>{% trans "Defisiénsia" %}</span></div>
+				</div>
+				{% endfor %}
+			</div></div>
+
+			<!-- 4–6 -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Estragu, Nesesidade no Konsentimentu" %}</h3>
+				<p class="mb-1"><b>{% trans "Estragu Patrimóniu" %}:</b> {% for e in obj.estragu.all %}{{ e.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}{% if obj.estragu_seluk %} · {{ obj.estragu_seluk }}{% endif %}</p>
+				<p class="mb-1"><b>{% trans "Nesesidade Urjente" %}:</b> {% for n in obj.nesesidade.all %}<span class="badge badge-urjente">{{ n.name }}</span> {% empty %}-{% endfor %}</p>
+				<p class="mb-1"><b>{% trans "Konsentimentu" %}:</b> {% if obj.konsentimentu %}<span class="text-rbr"><i class="fa fa-check"></i> {% trans "Sin" %}</span>{% else %}<span class="text-danger"><i class="fa fa-times"></i> {% trans "Lae" %}</span>{% endif %}</p>
+				{% if obj.observasaun %}<p class="mb-0 pre-line"><b>{% trans "Observasaun Adisionál" %}:</b> {{ obj.observasaun }}</p>{% endif %}
+			</div></div>
+
+			<!-- 5. Evidénsia -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<div class="d-flex justify-content-between align-items-center"><h3 class="h-line mb-2">{% trans "Evidénsia" %}</h3>
+				{% if can_edit %}<a href="{% url 'kazu-evidensia' obj.pk %}" class="btn btn-sm btn-outline-rbr"><i class="fa fa-camera"></i> {% trans "Jere Evidénsia" %}</a>{% endif %}</div>
+				<div class="evid-grid">
+					{% for e in obj.evidensia.all %}
+					<a href="{{ e.file.url }}" class="evid" target="_blank" rel="noopener">
+						{% if e.is_image %}<img src="{{ e.file.url }}" alt="{{ e.get_tipu_display }}" loading="lazy">{% else %}<i class="fa {% if e.tipu == 'VIDEO' %}fa-film{% else %}fa-file-text-o{% endif %}"></i>{% endif %}
+						<span>{{ e.get_tipu_display }}</span>
+					</a>
+					{% empty %}<p class="text-muted small grid-full">{% trans "Seidauk iha evidénsia." %}</p>{% endfor %}
+				</div>
+			</div></div>
+		</div>
+
+		<div class="col-lg-4">
+			<!-- Istória -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Istória" %}</h3>
+				<ul class="timeline">
+					{% for h in historia %}
+					<li class="{% if h.status_foun == 'REJECTED' or h.status_foun == 'CANCELED' %}bad{% endif %}">
+						<small class="text-muted">{{ h.created_at|date:"d/m/Y H:i" }} · {{ h.user.pesoaluser.pesoal|default:h.user.username|default:"-" }}</small><br>
+						{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% else %}{% trans "Edita" %}{% endif %}{% else %}<b>{{ h.status_antes_label }} → {{ h.status_foun_label }}</b>{% if h.nota %}<br><span class="pre-line">{{ h.nota }}</span>{% endif %}{% endif %}
+					</li>
+					{% empty %}<li class="text-muted">-</li>{% endfor %}
+				</ul>
+			</div></div>
+
+			{% if can_status_kazu %}
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Status Kazu" %}</h3>
+				<form method="post" action="{% url 'kazu-status-kazu' obj.pk %}">{% csrf_token %}
+					<select name="status_kazu" class="custom-select mb-2" aria-label="{% trans "Status Kazu" %}">
+						{% for code, label in status_kazu_choices %}<option value="{{ code }}" {% if obj.status_kazu == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+					</select>
+					<input type="text" name="nota" class="form-control mb-2" placeholder="{% trans "Nota (opsionál)" %}" maxlength="255">
+					<button type="submit" class="btn btn-outline-rbr btn-block"><i class="fa fa-save"></i> {% trans "Atualiza Status Kazu" %}</button>
+				</form>
+			</div></div>
+			{% endif %}
+		</div>
+	</div>
+
+	<!-- ══ Butaun aksaun (iha okos) ══ -->
+	{% if can_edit or actions %}
+	<div class="card card-rbr action-bar mb-3"><div class="card-body">
+		<h3 class="h-line">{% trans "Aksaun" %}</h3>
+		{% if can_edit %}
+		<div class="form-row">
+			<div class="col-md-4 mb-2"><a href="{% url 'kazu-update' obj.pk %}" class="btn btn-outline-rbr btn-block"><i class="fa fa-pencil"></i> {% trans "Edita" %}</a></div>
+			<div class="col-md-4 mb-2"><a href="{% url 'kazu-evidensia' obj.pk %}" class="btn btn-outline-rbr btn-block"><i class="fa fa-camera"></i> {% trans "Evidénsia" %}</a></div>
+			<div class="col-md-4 mb-2">
+				<form method="post" action="{% url 'kazu-submit' obj.pk %}" class="js-confirm" data-confirm="{% trans "Haruka kazu ba verifikasaun? Hafoin haruka, kazu sei xave." %}">{% csrf_token %}
+					<button type="submit" class="btn btn-rbr btn-block"><i class="fa fa-paper-plane"></i> {% trans "Haruka ba Verifikasaun" %}</button>
+				</form>
+			</div>
+		</div>
+		{% endif %}
+		{% if actions %}
+		<form method="post" class="js-action" data-confirm-verifika="{% trans "Ita-boot iha serteza atu VERIFIKA kazu ne'e?" %}" data-confirm-aprova="{% trans "Ita-boot iha serteza atu APROVA kazu ne'e?" %}" data-confirm-remata="{% trans "Marka kazu ne'e REMATA (kompensasaun selu ona)?" %}" data-confirm-rejeita="{% trans "REJEITA kazu ne'e? Investigadór sei hadia." %}" data-confirm-kansela="{% trans "KANSELA kazu ne'e? Ida-ne'e final." %}" data-need-nota="{% trans "Favor hakerek razaun." %}">
+			{% csrf_token %}
+			{% if 'rejeita' in actions or 'kansela' in actions %}
+			<textarea name="nota" rows="2" class="form-control mb-2" placeholder="{% trans "Razaun (obrigatóriu ba Rejeita no Kansela)" %}" aria-label="{% trans "Razaun" %}"></textarea>
+			{% endif %}
+			<div class="form-row">
+				{% if 'verifika' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'verifika' %}" data-action="verifika" class="btn btn-verified btn-block"><i class="fa fa-check"></i> {% trans "Verifika" %}</button></div>{% endif %}
+				{% if 'aprova' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'aprova' %}" data-action="aprova" class="btn btn-success btn-block"><i class="fa fa-check-circle"></i> {% trans "Aprova" %}</button></div>{% endif %}
+				{% if 'remata' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'remata' %}" data-action="remata" class="btn btn-dark btn-block"><i class="fa fa-flag-checkered"></i> {% trans "Remata" %}</button></div>{% endif %}
+				{% if 'rejeita' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'rejeita' %}" data-action="rejeita" data-need-nota="1" class="btn btn-danger btn-block"><i class="fa fa-undo"></i> {% trans "Rejeita" %}</button></div>{% endif %}
+				{% if 'kansela' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'kansela' %}" data-action="kansela" data-need-nota="1" class="btn btn-outline-secondary btn-block"><i class="fa fa-ban"></i> {% trans "Kansela (falsu / duplikadu)" %}</button></div>{% endif %}
+			</div>
+		</form>
+		{% endif %}
+	</div></div>
+	{% endif %}
+	{% endwith %}
+{% endblock %}

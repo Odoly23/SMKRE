@@ -1,0 +1,37 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'kazu-detail' kazu.pk %}">{{ kazu|upper }}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="row">
+		<div class="col-sm-12">
+			<form method="POST" id="EvidensiaForm" enctype="multipart/form-data" novalidate>
+			{% csrf_token %}
+			<div class="card card-rbr shadow-sm pt-1 rounded mb-3">
+				<div class="card-header card-header-rbr"><span class="form-section-num">5</span> {{ legend|upper }}</div>
+				<div class="card-body">
+					<p class="small text-muted"><i class="fa fa-camera"></i> {% trans "Foto máximu 5 · Vídeo máximu 1 (60 segundu / 50 MB) · Foto kompresa automátiku." %}
+						<b>{% trans "Foto" %}: {{ kazu.foto_count }}/5 · {% trans "Vídeo" %}: {{ kazu.video_count }}/1</b></p>
+					{% crispy form %}
+					<button class="btn btn-rbr" type="submit"><i class="fa fa-upload"></i> {% trans "Upload" %}</button>
+					<a href="{% url 'kazu-detail' kazu.pk %}" class="btn btn-outline-rbr"><i class="fa fa-check"></i> {% trans "Remata" %}</a>
+				</div>
+			</div>
+			</form>
+			<div class="card card-rbr"><div class="card-body">
+				<div class="evid-grid">
+				{% for e in objects %}
+					<div class="evid">
+						<a href="{{ e.file.url }}" target="_blank" rel="noopener">{% if e.is_image %}<img src="{{ e.file.url }}" alt="{{ e.get_tipu_display }}" loading="lazy">{% else %}<i class="fa {% if e.tipu == 'VIDEO' %}fa-film{% else %}fa-file-text-o{% endif %}"></i>{% endif %}</a>
+						<span>{{ e.get_tipu_display }}</span>
+						<form method="post" action="{% url 'kazu-evidensia-delete' kazu.pk e.pk %}" class="js-confirm" data-confirm="{% trans "Hamoos evidénsia ne'e?" %}">{% csrf_token %}<button class="btn btn-sm btn-link text-danger p-0" type="submit"><i class="fa fa-trash"></i> {% trans "Hamoos" %}</button></form>
+					</div>
+				{% empty %}<p class="text-muted small grid-full">{% trans "Seidauk iha evidénsia." %}</p>{% endfor %}
+				</div>
+			</div></div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,8 +1,24 @@
 {% extends "main/layout.html" %}
-{% load i18n crispy_forms_tags smkre_tags %}
+{% load i18n crispy_forms_tags %}
 {% block content %}
-	{% include 'main/page_header.html' %}
-	<div class="page-head"><h2>{{ legend }}</h2><p class="text-muted mb-0">{{ user.email }} · {{ user|role_of }}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p></div>
-	<div class="card card-rbr mb-3"><div class="card-body">{% crispy form %}</div></div>
-	<a href="{% url 'user-change-password' %}" class="btn btn-outline-rbr"><i class="fa fa-key"></i> {% trans "Troka Password" %}</a>
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="row">
+		<div class="col-sm-12">
+			<form method="POST" id="AccountForm" enctype="multipart/form-data" novalidate>
+			{% csrf_token %}
+			<div class="card card-rbr shadow-sm pt-1 rounded">
+				<div class="card-header card-header-rbr">{{ legend|upper }}</div>
+				<div class="card-body">
+					<p class="text-muted small">{{ user.email }} · {{ role_label }}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p>
+					{% crispy form %}
+				</div> <!--end card-body-->
+			</div> <!--end card-->
+			</form>
+		</div> <!--end col-->
+	</div> <!--end row-->
+	<a href="{% url 'user-change-password' %}" class="btn btn-outline-rbr mt-3"><i class="fa fa-key"></i> {% trans "Troka Password" %}</a>
 {% endblock %}

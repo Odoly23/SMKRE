@@ -22,16 +22,27 @@
 	</div>
 	{% endif %}
 
+	<div class="stat-row mb-3">
+		<a href="{% url 'kazu-list' %}?status=DRAFT" class="stat" style="background:#6c757d"><b>{{ tot_rascunho }}</b><span>{% trans "Rascunho" %}</span></a>
+		<a href="{% url 'kazu-list' %}?status=SYNCED" class="stat" style="background:#007bff"><b>{{ tot_haruka }}</b><span>{% trans "Haruka ona" %}</span></a>
+		<a href="{% url 'kazu-list' %}?status=REJECTED" class="stat" style="background:#dc3545"><b>{{ tot_rejeitadu }}</b><span>{% trans "Rejeitadu" %}</span></a>
+	</div>
+
+	<a href="{% url 'kazu-add' %}" class="btn btn-rbr btn-block btn-lg mb-3"><i class="fa fa-plus"></i> {% trans "Rejista Kazu Foun" %}</a>
+
 	<div class="card card-rbr">
 		<div class="card-body">
-			<h3 class="h-line">{% trans "Antes ba terrenu" %}</h3>
-			<ul class="checklist">
-				<li><i class="fa fa-bolt"></i> {% trans "HP karga 100% no lori power bank" %}</li>
-				<li><i class="fa fa-lock"></i> {% trans "PIN SMKRE (númeru 6) prontu" %}</li>
-				<li><i class="fa fa-refresh"></i> {% trans "Kazu antigu sinkron hotu ona" %}</li>
-				<li><i class="fa fa-map-marker"></i> {% trans "GPS / Lokalizasaun ativu" %}</li>
-			</ul>
-			<p class="text-muted small mb-0">{% trans "Formuláriu rejistu kazu no sinkron sei mosu iha faze tuir mai." %}</p>
+			<h3 class="h-line">{% trans "Ha'u-nia kazu ikus" %}</h3>
+			<div class="list-group list-group-flush">
+				{% for obj in kazu_ikus %}
+				<a href="{% url 'kazu-detail' obj.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0">
+					<span><b>{{ obj }}</b><br><small class="text-muted">{{ obj.suku|default:obj.munisipiu }} · {{ obj.data_relatoriu|date:"d/m/Y" }}</small></span>
+					{% include 'kazu/badge_status.html' %}
+				</a>
+				{% empty %}
+				<p class="text-muted small mb-0">{% trans "Seidauk iha kazu." %}</p>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 {% endblock %}

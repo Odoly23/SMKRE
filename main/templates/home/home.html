@@ -4,20 +4,35 @@
 	{% include 'main/page_header.html' %}
 	<div class="page-head">
 		<h2>{% trans "Bondia" %}, {{ pesoal.name|default:user.email }} 👋</h2>
-		<p class="text-muted">{{ role_label }}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p>
+		<p class="text-muted mb-0">{{ role_label }}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p>
 	</div>
+
+	<div class="stat-row mb-3">
+		<a href="{% url 'kazu-list' %}" class="stat" style="background:#0E8A68"><b>{{ tot_kazu }}</b><span>{% trans "Total Kazu" %}</span></a>
+		<a href="{% url 'kazu-list' %}?status=SYNCED" class="stat" style="background:#007bff"><b>{{ tot_synced }}</b><span>{% trans "Hein Verifikasaun" %}</span></a>
+		<a href="{% url 'kazu-list' %}?status=VERIFIED" class="stat" style="background:#17a589"><b>{{ tot_verified }}</b><span>{% trans "Hein Aprovasaun" %}</span></a>
+		<a href="{% url 'kazu-list' %}?status=APPROVED" class="stat" style="background:#28a745"><b>{{ tot_approved }}</b><span>{% trans "Aprovadu" %}</span></a>
+		<a href="{% url 'kazu-list' %}?urjente=1" class="stat" style="background:#6B1E23"><b>{{ tot_urjente }}</b><span>{% trans "Urjente" %}</span></a>
+	</div>
+
+	{% if hein %}
+	<div class="card card-rbr mb-3"><div class="card-body">
+		<h3 class="h-line">{% trans "Hein ita-nia aksaun" %}</h3>
+		<div class="list-group list-group-flush">
+			{% for obj in hein %}
+			<a href="{% url 'kazu-detail' obj.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center flex-wrap">
+				<span><b>{{ obj }}</b> · {{ obj.munisipiu }}<br><small class="text-muted">{{ obj.synced_at|date:"d/m/Y H:i" }}</small></span>
+				<span>{% include 'kazu/badge_status.html' %}{% if obj.urjente %} <span class="badge badge-urjente rounded-pill px-2">{% trans "URJENTE" %}</span>{% endif %}</span>
+			</a>
+			{% endfor %}
+		</div>
+	</div></div>
+	{% endif %}
 
 	{% if can_manage_user %}
 	<div class="row">
-		<div class="col-sm-4 mb-3">
-			<a href="{% url 'pesoal-list' %}" class="kpi kpi-teal"><span>{% trans "Total Utilizador" %}</span><b>{{ tot_user }}</b></a>
-		</div>
-		<div class="col-sm-4 mb-3">
-			<a href="{% url 'pesoal-list' %}" class="kpi kpi-green"><span>{% trans "Investigadór" %}</span><b>{{ tot_investigador }}</b></a>
-		</div>
-		<div class="col-sm-4 mb-3">
-			<a href="{% url 'offline-list' %}" class="kpi kpi-dark"><span>{% trans "Autorizasaun Offline Ativu" %}</span><b>{{ tot_offline }}</b></a>
-		</div>
+		<div class="col-sm-6 mb-3"><a href="{% url 'pesoal-list' %}" class="kpi kpi-teal"><span>{% trans "Total Utilizador" %}</span><b>{{ tot_user }}</b></a></div>
+		<div class="col-sm-6 mb-3"><a href="{% url 'offline-list' %}" class="kpi kpi-dark"><span>{% trans "Autorizasaun Offline Ativu" %}</span><b>{{ tot_offline }}</b></a></div>
 	</div>
 	{% endif %}
 
@@ -31,7 +46,6 @@
 				<a href="{% url 'notification-list' %}" class="menu-tile"><i class="fa fa-bell"></i><span>{% trans "Notifikasaun" %}</span></a>
 				<a href="{% url 'user-account' %}" class="menu-tile"><i class="fa fa-user"></i><span>{% trans "Konta" %}</span></a>
 			</div>
-			<p class="text-muted small mb-0 mt-3">{% trans "Modulu Kazu, Dashboard, Mapa, Relatóriu no Legál sei mosu iha faze tuir mai." %}</p>
 		</div>
 	</div>
 {% endblock %}

@@ -16,14 +16,30 @@ from users.models import OfflinePermission, Pesoal
 
 @login_required
 def home(request):
+	from kazu.models import DRAFT, ONGOING, PENDING, SYNCED, VERIFIED, APPROVED, REJECTED
+	from kazu.permissions import kazu_queryset
 	group = c_user_group(request.user)
 	context = {'group': group, "page": "home", 'title': _('Varanda'), 'legend': _('Varanda')}
+	qs = kazu_queryset(request.user)
 	if group == INVESTIGADOR:
 		context['offline'] = c_user_offline(request.user)
+		context['tot_rascunho'] = qs.filter(status__in=[DRAFT, ONGOING, PENDING]).count()
+		context['tot_haruka'] = qs.filter(status__in=[SYNCED, VERIFIED]).count()
+		context['tot_rejeitadu'] = qs.filter(status=REJECTED).count()
+		context['kazu_ikus'] = qs[:5]
 		return render(request, 'home/home_investigador.html', context)
+	context['tot_kazu'] = qs.exclude(status__in=[DRAFT, ONGOING, PENDING]).count()
+	context['tot_synced'] = qs.filter(status=SYNCED).count()
+	context['tot_verified'] = qs.filter(status=VERIFIED).count()
+	context['tot_approved'] = qs.filter(status=APPROVED).count()
+	context['tot_urjente'] = qs.filter(urjente=True, status__in=[SYNCED, VERIFIED, APPROVED]).count()
+	# Kazu ne'ebé hein ita-nia aksaun
+	if group == 'admin':
+		context['hein'] = qs.filter(status=SYNCED)[:8]
+	elif group == 'superadmin':
+		context['hein'] = qs.filter(status__in=[SYNCED, VERIFIED])[:8]
 	if group in ROLE_USER_MANAGE:
 		context['tot_user'] = Pesoal.objects.count()
-		context['tot_investigador'] = Pesoal.objects.filter(pesoaluser__user__groups__name=INVESTIGADOR).count()
 		context['tot_offline'] = OfflinePermission.objects.valid().count()
 	return render(request, 'home/home.html', context)
 
@@ -79,8 +95,14 @@ def service_worker(request):
 
 @login_required
 def protected_media(request, path):
-	# Media LA serve direta husi Nginx: tenke login. Kazu/evidénsia sei aumenta verifika tuir papél (faze 2).
-	if not path.startswith(('pesoal/',)):
+	# Media LA serve direta husi Nginx: tenke login + asesu ba kazu (evidénsia)
+	if path.startswith('kazu/'):
+		from kazu.models import Kazu
+		from kazu.permissions import can_view
+		kazu = Kazu.objects.filter(pk=path.split('/')[1]).first() if path.count('/') >= 2 else None
+		if not kazu or not can_view(request.user, kazu):
+			raise Http404
+	elif not path.startswith('pesoal/'):
 		raise Http404
 	try:
 		full = safe_join(settings.MEDIA_ROOT, path)

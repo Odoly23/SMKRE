@@ -21,7 +21,10 @@ ROLE_CHOICES = [
 ROLE_ALL = [r[0] for r in ROLE_CHOICES]
 
 ROLE_DASHBOARD    = [SUPERADMIN, ADMIN, ANALISTA, OFISIAL_LEGAL]
-ROLE_VERIFIKA     = [SUPERADMIN, ADMIN]
+ROLE_VERIFIKA     = [ADMIN]                  # Admin: Verifika (nivel 1)
+ROLE_APROVA       = [SUPERADMIN]             # Superadmin: Aprova (nivel 2)
+ROLE_REJEITA      = [SUPERADMIN, ADMIN]      # Rejeita / Kansela (ho razaun)
+ROLE_REMATA       = [SUPERADMIN, ADMIN]      # Remata (kompensasaun selu ona)
 ROLE_INPUT_KAZU   = [INVESTIGADOR]
 ROLE_STATUS_KAZU  = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]
 ROLE_LEGAL        = [SUPERADMIN, ADMIN, ANALISTA, OFISIAL_LEGAL]

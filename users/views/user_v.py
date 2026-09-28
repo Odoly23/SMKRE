@@ -41,9 +41,9 @@ def PesoalList(request):
 
 @login_required
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
-def PesoalDetail(request, pk):
+def PesoalDetail(request, uuid):
 	group = request.user.groups.all()[0].name
-	objects = get_object_or_404(Pesoal.objects.select_related('pesoaluser__user', 'munisipiu', 'pos'), pk=pk)
+	objects = get_object_or_404(Pesoal.objects.select_related('pesoaluser__user', 'munisipiu', 'pos'), uuid=uuid)
 	user = objects.pesoaluser.user
 	context = {
 		'group': group, "page": "user",
@@ -74,7 +74,7 @@ def PesoalAdd(request):
 			transaction.on_commit(lambda: kirim_email_konta_foun(obj, instance))
 			logger.info(f'Utilizador foun: {obj.username} ({u_group.name}) husi {request.user.username}')
 			messages.success(request, _('Utilizador foun aumenta ona. Email haruka ona ba %(email)s.') % {'email': instance.email})
-			return redirect('pesoal-detail', pk=instance.pk)
+			return redirect('pesoal-detail', uuid=instance.uuid)
 	else:
 		form = PesoalForm(admin_group=group)
 	context = {
@@ -87,9 +87,9 @@ def PesoalAdd(request):
 
 @login_required
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
-def PesoalUpdate(request, pk):
+def PesoalUpdate(request, uuid):
 	group = request.user.groups.all()[0].name
-	objects = get_object_or_404(Pesoal, pk=pk)
+	objects = get_object_or_404(Pesoal, uuid=uuid)
 	if not _can_edit(request, objects):
 		return render(request, 'home/403.html', status=403)
 	user = objects.pesoaluser.user
@@ -104,7 +104,7 @@ def PesoalUpdate(request, pk):
 				user.save()
 				user.groups.set([Group.objects.get_or_create(name=form.cleaned_data['role'])[0]])
 			messages.success(request, _('Dadus utilizador atualiza ona.'))
-			return redirect('pesoal-detail', pk=instance.pk)
+			return redirect('pesoal-detail', uuid=instance.uuid)
 	else:
 		form = PesoalForm(instance=objects, admin_group=group, initial_role=c_user_group(user))
 	context = {
@@ -118,8 +118,8 @@ def PesoalUpdate(request, pk):
 @login_required
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 @require_POST
-def UserResetPassword(request, pk):
-	objects = get_object_or_404(Pesoal, pk=pk)
+def UserResetPassword(request, uuid):
+	objects = get_object_or_404(Pesoal, uuid=uuid)
 	if not _can_edit(request, objects):
 		return render(request, 'home/403.html', status=403)
 	user = objects.pesoaluser.user
@@ -130,14 +130,14 @@ def UserResetPassword(request, pk):
 	kirim_email_reset_admin(user, objects)
 	logger.info(f'Reset password: {user.username} husi {request.user.username}')
 	messages.success(request, _('Password %(user)s reset ona no haruka ona ba email.') % {'user': user.username})
-	return redirect('pesoal-detail', pk=pk)
+	return redirect('pesoal-detail', uuid=uuid)
 
 
 @login_required
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 @require_POST
-def UserActivate(request, pk):
-	objects = get_object_or_404(Pesoal, pk=pk)
+def UserActivate(request, uuid):
+	objects = get_object_or_404(Pesoal, uuid=uuid)
 	user = objects.pesoaluser.user
 	if not _can_edit(request, objects) or user == request.user:
 		return render(request, 'home/403.html', status=403)
@@ -149,4 +149,4 @@ def UserActivate(request, pk):
 	else:
 		messages.success(request, _('Utilizador %(user)s ativu fali.') % {'user': user.username})
 	logger.info(f'Utilizador {"ativu" if user.is_active else "hapara"}: {user.username} husi {request.user.username}')
-	return redirect('pesoal-detail', pk=pk)
+	return redirect('pesoal-detail', uuid=uuid)
