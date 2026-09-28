@@ -1,0 +1,6 @@
+{% load i18n %}
+<ol class="breadcrumb">
+	<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+	{% if parent_url %}<li class="breadcrumb-item"><a href="{{ parent_url }}">{{ parent_label|upper }}</a></li>{% endif %}
+	<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+</ol>

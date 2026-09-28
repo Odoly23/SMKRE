@@ -1,0 +1,12 @@
+{% extends "main/auth_layout.html" %}
+{% load static i18n %}
+{% block content %}
+<div class="auth-box">
+	<div class="text-center mb-3">
+		<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" class="auth-logo auth-logo-sm">
+		<h1 class="auth-title">{% block box_title %}{% endblock %}</h1>
+	</div>
+	<div class="card card-rbr"><div class="card-body">{% block box %}{% endblock %}</div></div>
+	<p class="text-center mt-3"><a href="{% url 'login' %}" class="link-rbr"><i class="fa fa-angle-left"></i> {% trans "Fila ba Login" %}</a></p>
+</div>
+{% endblock %}

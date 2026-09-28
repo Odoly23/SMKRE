@@ -1,0 +1,746 @@
+#
+msgid ""
+msgstr ""
+"Language: pt\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: users/templates/users/detail.html
+msgid "ATIVA fali utilizador ne'e?"
+msgstr "Reativar este utilizador?"
+
+#: users/templates/users/detail.html
+msgid "ATIVU"
+msgstr "ATIVO"
+
+#: config/rbac.py
+msgid "Admin"
+msgstr "Admin"
+
+#: users/templates/users/detail.html
+msgid "Aksaun"
+msgstr "Ações"
+
+#: custom/models.py
+msgid "Aldeia"
+msgstr "Aldeia"
+
+#: config/rbac.py
+msgid "Analista"
+msgstr "Analista"
+
+#: main/templates/home/home_investigador.html
+msgid "Antes ba terrenu"
+msgstr "Antes de ir ao terreno"
+
+#: main/templates/home/403.html
+msgid "Asesu la permite"
+msgstr "Acesso não permitido"
+
+#: users/templates/users/detail.html
+msgid "Ativa Fali"
+msgstr "Reativar"
+
+#: users/models.py
+msgid "Ativu"
+msgstr "Ativo"
+
+#: users/views/user_v.py
+msgid "Aumenta Utilizador"
+msgstr "Adicionar Utilizador"
+
+#: users/models.py
+msgid "Autorizasaun Offline"
+msgstr "Autorização Offline"
+
+#: main/templates/home/home.html
+msgid "Autorizasaun Offline Ativu"
+msgstr "Autorizações Offline Ativas"
+
+#: notification/models.py
+msgid "Autorizasaun offline"
+msgstr "Autorização offline"
+
+#: main/templates/home/home_investigador.html
+msgid "Autorizasaun offline ATIVU"
+msgstr "Autorização offline ATIVA"
+
+#: main/templates/home/home_investigador.html
+msgid "Autorizasaun offline LA ATIVU"
+msgstr "Autorização offline INATIVA"
+
+#: users/views/permission_v.py
+msgid "Autorizasaun offline fó ona to'o %(date)s."
+msgstr "Autorização offline concedida até %(date)s."
+
+#: users/views/permission_v.py
+msgid "Autorizasaun offline kansela ona."
+msgstr "Autorização offline cancelada."
+
+#: users/api/views.py
+msgid "Autorizasaun offline la ativu. Kontaktu Admin."
+msgstr "Autorização offline inativa. Contacte o Admin."
+
+#: users/views/permission_v.py
+msgid "Autorizasaun renova ona to'o %(date)s."
+msgstr "Autorização renovada até %(date)s."
+
+#: users/templates/users/offline_form.html
+msgid ""
+"Autorizasaun validu loron 7. Autorizasaun ativu antigu sei troka ho foun."
+msgstr ""
+"A autorização é válida por 7 dias. A autorização ativa anterior será "
+"substituída."
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun validu loron 7. Bainhira remata, Investigadór labele kria kazu "
+"foun maibé bele nafatin sinkron."
+msgstr ""
+"A autorização é válida por 7 dias. Depois de expirar, o Investigador não "
+"pode criar casos novos, mas pode continuar a sincronizar."
+
+#: notification/models.py
+msgid "Ba"
+msgstr "Para"
+
+#: users/templates/auth/change_password_done.html
+msgid "Ba Varanda"
+msgstr "Ir para o Início"
+
+#: users/templates/auth/change_password.html
+msgid "Ba seguransa, ita tenke troka password default antes uza sistema."
+msgstr ""
+"Por segurança, deve alterar a palavra-passe padrão antes de usar o sistema."
+
+#: main/templates/home/home.html
+msgid "Bondia"
+msgstr "Bom dia"
+
+#: users/templates/users/list.html
+msgid "Buka"
+msgstr "Pesquisar"
+
+#: users/templates/users/list.html
+msgid "Buka naran, email, munisípiu…"
+msgstr "Pesquisar nome, email, município…"
+
+#: users/views/user_v.py
+msgid "Dadus utilizador atualiza ona."
+msgstr "Dados do utilizador atualizados."
+
+#: config/menu.py
+msgid "Dashboard"
+msgstr "Painel"
+
+#: users/models.py
+msgid "Data hahú"
+msgstr "Data de início"
+
+#: users/models.py
+msgid "Data remata"
+msgstr "Data de fim"
+
+#: users/templates/users/list.html
+msgid "Detalla"
+msgstr "Detalhe"
+
+#: users/views/user_v.py
+msgid "Detalla Utilizador"
+msgstr "Detalhe do Utilizador"
+
+#: main/templates/main/footer.html
+msgid "Dezenvolve husi"
+msgstr "Desenvolvido por"
+
+#: users/templates/users/detail.html
+msgid "Edita"
+msgstr "Editar"
+
+#: users/views/user_v.py
+msgid "Edita Utilizador"
+msgstr "Editar Utilizador"
+
+#: users/models.py
+msgid "Email"
+msgstr "Email"
+
+#: users/forms.py
+msgid "Email ne'e uza ona husi utilizador seluk."
+msgstr "Este email já está a ser usado por outro utilizador."
+
+#: custom/models.py
+msgid "Estragu Patrimóniu"
+msgstr "Danos ao Património"
+
+#: users/models.py
+msgid "Feto"
+msgstr "Mulher"
+
+#: users/templates/auth/_box.html
+msgid "Fila ba Login"
+msgstr "Voltar ao Login"
+
+#: main/templates/home/error_base.html
+msgid "Fila ba Varanda"
+msgstr "Voltar ao Início"
+
+#: main/templates/home/home_investigador.html
+msgid "Formuláriu rejistu kazu no sinkron sei mosu iha faze tuir mai."
+msgstr ""
+"O formulário de registo de casos e a sincronização estarão disponíveis na "
+"próxima fase."
+
+#: users/models.py
+msgid "Foto"
+msgstr "Foto"
+
+#: users/templates/users/detail.html
+msgid "Fó Autorizasaun"
+msgstr "Conceder Autorização"
+
+#: users/views/permission_v.py
+msgid "Fó Autorizasaun Offline"
+msgstr "Conceder Autorização Offline"
+
+#: users/models.py
+msgid "Fó husi"
+msgstr "Concedido por"
+
+#: main/templates/home/home_investigador.html
+msgid "GPS / Lokalizasaun ativu"
+msgstr "GPS / Localização ativa"
+
+#: users/templates/users/detail.html
+msgid "HAPARA utilizador ne'e? Nia labele login no sinkron."
+msgstr "SUSPENDER este utilizador? Não poderá entrar nem sincronizar."
+
+#: users/views/account_v.py
+msgid "Ha'u-nia Konta"
+msgstr "A Minha Conta"
+
+#: users/templates/users/offline_list.html
+msgid "Hahú"
+msgstr "Início"
+
+#: users/templates/auth/password_reset.html
+msgid "Haluha password?"
+msgstr "Esqueceu a palavra-passe?"
+
+#: users/templates/users/list.html
+msgid "Hapara"
+msgstr "Suspenso"
+
+#: users/templates/users/detail.html
+msgid "Hapara Utilizador"
+msgstr "Suspender Utilizador"
+
+#: main/templates/main/navbar.html
+msgid "Haree Hotu"
+msgstr "Ver Tudo"
+
+#: users/templates/auth/password_reset_done.html
+msgid "Haree ita-nia email"
+msgstr "Verifique o seu email"
+
+#: users/templates/auth/password_reset.html
+msgid "Haruka Link"
+msgstr "Enviar Link"
+
+#: users/templates/auth/password_reset.html
+msgid ""
+"Hatama ita-nia email. Ami sei haruka link atu troka password (validu oras "
+"1)."
+msgstr ""
+"Introduza o seu email. Enviaremos um link para alterar a palavra-passe "
+"(válido por 1 hora)."
+
+#: custom/templates/custom/dropdown.html
+msgid "Hili…"
+msgstr "Escolher…"
+
+#: notification/models.py
+msgid "Husi"
+msgstr "De"
+
+#: users/models.py
+msgid "Investigadór"
+msgstr "Investigador"
+
+#: users/forms.py
+msgid "Investigadór tenke iha munisípiu knaar."
+msgstr "O Investigador deve ter um município atribuído."
+
+#: users/templates/auth/password_reset_complete.html
+msgid "Ita bele login ho password foun."
+msgstr "Já pode entrar com a nova palavra-passe."
+
+#: users/templates/users/detail.html
+msgid "Ita-boot iha serteza atu RESET password utilizador ne'e?"
+msgstr "Tem a certeza que quer REPOR a palavra-passe deste utilizador?"
+
+#: users/views/account_v.py
+msgid "Ita-nia konta atualiza ona!"
+msgstr "A sua conta foi atualizada!"
+
+#: main/templates/home/403.html
+msgid ""
+"Ita-nia papél la iha asesu ba pájina ne'e. Se ita hanoin ne'e sala, kontaktu"
+" Admin."
+msgstr ""
+"O seu perfil não tem acesso a esta página. Se acha que é um erro, contacte o"
+" Admin."
+
+#: users/templates/users/offline_list.html
+msgid "Kansela"
+msgstr "Cancelar"
+
+#: users/templates/users/offline_list.html
+msgid "Kansela autorizasaun? Token sinkron sei kansela mós."
+msgstr ""
+"Cancelar a autorização? O token de sincronização também será cancelado."
+
+#: config/menu.py
+msgid "Kazu"
+msgstr "Casos"
+
+#: config/menu.py
+msgid "Kazu Foun"
+msgstr "Caso Novo"
+
+#: main/templates/home/home_investigador.html
+msgid "Kazu antigu sinkron hotu ona"
+msgstr "Casos anteriores todos sincronizados"
+
+#: notification/models.py
+msgid "Kazu foun"
+msgstr "Caso novo"
+
+#: users/templates/auth/login.html
+msgid "Koneksaun seguru. Sala password dala 5 → konta xave minutu 30."
+msgstr ""
+"Ligação segura. 5 palavras-passe erradas → conta bloqueada 30 minutos."
+
+#: users/views/account_v.py
+msgid "Konta"
+msgstr "Conta"
+
+#: users/models.py
+msgid "Konta Pesoal"
+msgstr "Conta do Pessoal"
+
+#: users/views/account_v.py
+msgid "Konta ne'e seidauk iha dadus pesoal. Kontaktu Admin."
+msgstr "Esta conta ainda não tem dados pessoais. Contacte o Admin."
+
+#: main/templates/home/lockout.html
+msgid "Konta xave temporáriu"
+msgstr "Conta bloqueada temporariamente"
+
+#: main/templates/home/home_investigador.html
+msgid "Kontaktu Admin atu hetan autorizasaun antes ba terrenu."
+msgstr "Contacte o Admin para obter autorização antes de ir ao terreno."
+
+#: users/templates/users/detail.html
+msgid "Kria iha"
+msgstr "Criado em"
+
+#: custom/models.py
+msgid "Kódigu"
+msgstr "Código"
+
+#: main/templates/home/error_base.html
+msgid "Kódigu erru"
+msgstr "Código de erro"
+
+#: users/templates/users/detail.html
+msgid "LA ATIVU"
+msgstr "INATIVO"
+
+#: main/templates/main/navbar.html
+msgid "La iha notifikasaun foun"
+msgstr "Sem notificações novas"
+
+#: notification/templates/notification/list.html
+msgid "La iha notifikasaun."
+msgstr "Sem notificações."
+
+#: users/templates/auth/change_password.html
+msgid "Labele fó password ba ema seluk"
+msgstr "Não partilhe a palavra-passe com ninguém"
+
+#: users/templates/auth/change_password.html
+msgid "Labele númeru deit ka hanesan password default"
+msgstr "Não pode ser só números nem igual à palavra-passe padrão"
+
+#: notification/models.py
+msgid "Lee ona"
+msgstr "Lido"
+
+#: config/menu.py
+msgid "Legál"
+msgstr "Jurídico"
+
+#: users/models.py
+msgid "Lian"
+msgstr "Língua"
+
+#: notification/models.py
+msgid "Link"
+msgstr "Link"
+
+#: users/templates/auth/password_reset_confirm.html
+msgid "Link ne'e la validu ka uza ona. Favor husu link foun."
+msgstr "Este link é inválido ou já foi usado. Peça um novo link."
+
+#: users/views/user_v.py
+msgid "Lista Utilizador"
+msgstr "Lista de Utilizadores"
+
+#: users/templates/users/detail.html
+msgid "Login ikus"
+msgstr "Último login"
+
+#: users/models.py
+msgid "Mane"
+msgstr "Homem"
+
+#: config/menu.py
+msgid "Mapa"
+msgstr "Mapa"
+
+#: notification/templates/notification/list.html
+msgid "Marka hotu lee ona"
+msgstr "Marcar tudo como lido"
+
+#: notification/models.py
+msgid "Mensajen"
+msgstr "Mensagem"
+
+#: main/templates/home/home.html
+msgid "Menu"
+msgstr "Menu"
+
+#: main/templates/main/bottom_nav.html
+msgid "Menu okos"
+msgstr "Menu inferior"
+
+#: main/templates/main/navbar.html
+msgid "Menu prinsipál"
+msgstr "Menu principal"
+
+#: users/templates/auth/change_password.html
+msgid "Minimu karakter 8"
+msgstr "Mínimo 8 caracteres"
+
+#: main/templates/home/home.html
+msgid ""
+"Modulu Kazu, Dashboard, Mapa, Relatóriu no Legál sei mosu iha faze tuir mai."
+msgstr ""
+"Os módulos Casos, Painel, Mapa, Relatórios e Jurídico estarão disponíveis na"
+" próxima fase."
+
+#: users/templates/users/list.html
+msgid "Munisípiu"
+msgstr "Município"
+
+#: users/models.py
+msgid "Munisípiu Knaar"
+msgstr "Município atribuído"
+
+#: users/models.py
+msgid "Naran"
+msgstr "Nome"
+
+#: custom/models.py
+msgid "Nesesidade Urjente"
+msgstr "Necessidade Urgente"
+
+#: users/models.py
+msgid "Nota"
+msgstr "Nota"
+
+#: main/templates/main/sidebar.html
+msgid "Notif"
+msgstr "Notif"
+
+#: notification/models.py
+msgid "Notifikasaun"
+msgstr "Notificações"
+
+#: users/models.py
+msgid "Nu. Telf."
+msgstr "N.º Telefone"
+
+#: users/forms.py
+msgid "Obrigatóriu ba Investigadór"
+msgstr "Obrigatório para Investigador"
+
+#: config/menu.py
+msgid "Offline"
+msgstr "Offline"
+
+#: config/rbac.py
+msgid "Ofisiál Legál"
+msgstr "Oficial Jurídico"
+
+#: main/templates/main/topbar.html
+msgid "Online"
+msgstr "Online"
+
+#: custom/models.py
+msgid "Orden"
+msgstr "Ordem"
+
+#: main/templates/home/home_investigador.html
+msgid "PIN SMKRE (númeru 6) prontu"
+msgstr "PIN SMKRE (6 dígitos) pronto"
+
+#: users/templates/users/list.html
+msgid "Papél"
+msgstr "Perfil"
+
+#: users/forms.py
+msgid "Papél (Role)"
+msgstr "Perfil (Role)"
+
+#: users/forms.py
+msgid "Password"
+msgstr "Palavra-passe"
+
+#: users/views/user_v.py
+msgid "Password %(user)s reset ona no haruka ona ba email."
+msgstr "A palavra-passe de %(user)s foi reposta e enviada por email."
+
+#: users/templates/auth/password_reset_confirm.html
+msgid "Password Foun"
+msgstr "Nova Palavra-passe"
+
+#: users/validators.py
+msgid "Password foun labele hanesan password default."
+msgstr "A nova palavra-passe não pode ser igual à padrão."
+
+#: users/validators.py
+msgid "Password labele hanesan password default."
+msgstr "A palavra-passe não pode ser igual à padrão."
+
+#: users/templates/auth/change_password_done.html
+msgid "Password troka ona"
+msgstr "Palavra-passe alterada"
+
+#: users/models.py
+msgid "Pesoal"
+msgstr "Pessoal"
+
+#: custom/models.py
+msgid "Postu Administrativu"
+msgstr "Posto Administrativo"
+
+#: users/models.py
+msgid "Pozisaun"
+msgstr "Posição"
+
+#: custom/models.py
+msgid "Presiza esplikasaun (Seluk)"
+msgstr "Requer explicação (Outro)"
+
+#: main/templates/home/404.html
+msgid "Pájina la hetan"
+msgstr "Página não encontrada"
+
+#: main/templates/home/404.html
+msgid "Pájina ne'ebé ita buka la iha ka muda ona."
+msgstr "A página que procura não existe ou foi movida."
+
+#: config/menu.py
+msgid "Relatóriu"
+msgstr "Relatórios"
+
+#: users/templates/users/offline_list.html
+msgid "Remata"
+msgstr "Terminado"
+
+#: users/views/permission_v.py
+msgid "Renova"
+msgstr "Renovar"
+
+#: users/templates/users/offline_list.html
+msgid "Renova autorizasaun loron 7 tan?"
+msgstr "Renovar a autorização por mais 7 dias?"
+
+#: users/templates/users/detail.html
+msgid "Reset Password"
+msgstr "Repor Palavra-passe"
+
+#: main/templates/main/navbar.html
+msgid "Sai"
+msgstr "Sair"
+
+#: main/templates/home/lockout.html
+msgid "Sala password dala 5. Favor hein minutu 30 ka uza 'Haluha password?'."
+msgstr ""
+"5 palavras-passe erradas. Aguarde 30 minutos ou use 'Esqueceu a palavra-"
+"passe?'."
+
+#: users/templates/auth/password_reset_done.html
+msgid ""
+"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
+" mós pasta Spam."
+msgstr ""
+"Se este email estiver registado no SMKRE, receberá um link para alterar a "
+"palavra-passe. Verifique também a pasta Spam."
+
+#: users/templates/users/offline_list.html
+msgid "Seidauk iha autorizasaun."
+msgstr "Ainda não há autorizações."
+
+#: users/templates/users/list.html
+msgid "Seidauk iha utilizador."
+msgstr "Ainda não há utilizadores."
+
+#: users/templates/users/list.html
+msgid "Seidauk troka password"
+msgstr "Ainda não alterou a palavra-passe"
+
+#: users/models.py
+msgid "Sexu"
+msgstr "Sexo"
+
+#: config/menu.py
+msgid "Sinkron"
+msgstr "Sincronizar"
+
+#: notification/models.py
+msgid "Sistema"
+msgstr "Sistema"
+
+#: users/templates/auth/login.html
+msgid "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
+msgstr "Sistema de Monitorização de Conflitos de Terra e Despejos"
+
+#: users/templates/users/list.html
+msgid "Status"
+msgstr "Estado"
+
+#: notification/models.py
+msgid "Status kazu muda"
+msgstr "Estado do caso alterado"
+
+#: custom/models.py
+msgid "Suku"
+msgstr "Suco"
+
+#: config/rbac.py
+msgid "Superadmin"
+msgstr "Superadmin"
+
+#: users/templates/auth/login.html
+msgid "Tama"
+msgstr "Entrar"
+
+#: users/models.py
+msgid "Tenke troka password"
+msgstr "Deve alterar a palavra-passe"
+
+#: notification/models.py
+msgid "Tipu"
+msgstr "Tipo"
+
+#: custom/models.py
+msgid "Tipu Atór"
+msgstr "Tipo de Ator"
+
+#: custom/models.py
+msgid "Tipu Eviksaun"
+msgstr "Tipo de Despejo"
+
+#: custom/models.py
+msgid "Tipu Konflitu Rai"
+msgstr "Tipo de Conflito de Terra"
+
+#: custom/models.py
+msgid "Tipu Rai"
+msgstr "Tipo de Terra"
+
+#: users/api/views.py
+msgid "Token sinkron ba Investigadór deit."
+msgstr "O token de sincronização é só para Investigadores."
+
+#: main/templates/home/home.html
+msgid "Total Utilizador"
+msgstr "Total de Utilizadores"
+
+#: users/templates/auth/account.html
+msgid "Troka Password"
+msgstr "Alterar Palavra-passe"
+
+#: notification/templates/notification/list.html
+msgid "URJENTE"
+msgstr "URGENTE"
+
+#: notification/models.py
+msgid "Urjente"
+msgstr "Urgente"
+
+#: users/templates/users/form.html
+msgid "Utilizador"
+msgstr "Utilizadores"
+
+#: users/views/user_v.py
+msgid "Utilizador %(user)s ativu fali."
+msgstr "O utilizador %(user)s foi reativado."
+
+#: users/views/user_v.py
+msgid "Utilizador %(user)s hapara ona. Autorizasaun offline no token kansela."
+msgstr ""
+"O utilizador %(user)s foi suspenso. Autorização offline e tokens cancelados."
+
+#: users/views/user_v.py
+msgid "Utilizador foun aumenta ona. Email haruka ona ba %(email)s."
+msgstr "Novo utilizador adicionado. Email enviado para %(email)s."
+
+#: users/api/views.py
+msgid "Utilizador la ativu."
+msgstr "Utilizador inativo."
+
+#: users/views/permission_v.py
+msgid "Utilizador ne'e labele hetan autorizasaun offline."
+msgstr "Este utilizador não pode receber autorização offline."
+
+#: users/templates/users/form.html
+msgid ""
+"Utilizador sei simu email ho password default no tenke troka password iha "
+"login dahuluk."
+msgstr ""
+"O utilizador receberá um email com a palavra-passe padrão e deve alterá-la "
+"no primeiro login."
+
+#: main/templates/main/page_header.html
+msgid "VARANDA"
+msgstr "INÍCIO"
+
+#: main/templates/home/home_investigador.html
+msgid "Validu to'o"
+msgstr "Válido até"
+
+#: config/menu.py
+msgid "Varanda"
+msgstr "Início"
+
+#: users/templates/users/detail.html
+msgid "to'o"
+msgstr "até"
+
+#: main/templates/home/home_investigador.html
+msgid "loron %(days)s tan"
+msgid_plural "loron %(days)s tan"
+msgstr[0] "mais %(days)s dia"
+msgstr[1] "mais %(days)s dias"
+
+#: users/forms.py
+msgid "Rai"
+msgstr "Guardar"
+
+#: main/templates/home/home_investigador.html
+msgid "HP karga 100%% no lori power bank"
+msgstr "Telemóvel com 100%% de bateria e power bank"

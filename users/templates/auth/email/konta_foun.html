@@ -1,0 +1,9 @@
+{% extends "auth/email/base.html" %}
+{% block body %}
+<p>Bondia {{ naran }},</p>
+<p>Ita-nia konta <b>SMKRE</b> kria ona.</p>
+<p>Email: <b>{{ email }}</b><br>Password temporáriu: <b>{{ password }}</b></p>
+<p>Iha login dahuluk, ita <b>tenke troka</b> password ne'e.</p>
+<p><a href="{{ login_url }}" style="display:inline-block;background:#0E8A68;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Tama SMKRE</a></p>
+<p style="color:#6B1E23">Labele fahe password ba ema seluk.</p>
+{% endblock %}

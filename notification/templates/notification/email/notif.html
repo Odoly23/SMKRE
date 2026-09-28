@@ -1,0 +1,6 @@
+{% extends "auth/email/base.html" %}
+{% block body %}
+{% if urgent %}<p style="display:inline-block;background:#6B1E23;color:#fff;padding:3px 10px;border-radius:12px;font-weight:bold">URJENTE</p>{% endif %}
+<p>{{ message }}</p>
+{% if url %}<p><a href="{{ site_url }}{{ url }}" style="display:inline-block;background:#0E8A68;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Haree iha SMKRE</a></p>{% endif %}
+{% endblock %}

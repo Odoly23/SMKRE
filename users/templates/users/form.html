@@ -1,0 +1,15 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+	{% url 'pesoal-list' as parent_url %}
+	{% include 'main/page_header.html' with parent_url=parent_url parent_label=_("Utilizador") %}
+	<div class="page-head"><h2>{{ legend }}</h2></div>
+	<div class="card card-rbr">
+		<div class="card-body">
+			{% if not objects %}
+			<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Utilizador sei simu email ho password default no tenke troka password iha login dahuluk." %}</div>
+			{% endif %}
+			{% crispy form %}
+		</div>
+	</div>
+{% endblock %}

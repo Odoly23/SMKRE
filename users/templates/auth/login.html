@@ -1,0 +1,30 @@
+{% extends "main/auth_layout.html" %}
+{% load static i18n crispy_forms_tags %}
+{% block content %}
+<div class="auth-box">
+	<div class="text-center mb-3">
+		<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" class="auth-logo">
+		<h1 class="auth-title">SMKRE</h1>
+		<p class="text-muted mb-0">{% trans "Sistema Monitorizasaun Konflitu Rai no Eviksaun" %}</p>
+		<p class="text-muted small">Rede ba Rai · Timor-Leste</p>
+	</div>
+	<div class="card card-rbr">
+		<div class="card-body">
+			<form method="post" novalidate>
+				{% csrf_token %}
+				{% if form.non_field_errors %}
+				<div class="alert alert-danger small">{% for e in form.non_field_errors %}{{ e }}{% endfor %}</div>
+				{% endif %}
+				{{ form.username|as_crispy_field }}
+				{{ form.password|as_crispy_field }}
+				<input type="hidden" name="next" value="{{ next }}">
+				<button type="submit" class="btn btn-rbr btn-block btn-lg"><i class="fa fa-sign-in"></i> {% trans "Tama" %}</button>
+			</form>
+			<div class="text-center mt-3">
+				<a href="{% url 'password_reset' %}" class="link-rbr">{% trans "Haluha password?" %}</a>
+			</div>
+		</div>
+	</div>
+	<p class="text-center text-muted small mt-3"><i class="fa fa-lock"></i> {% trans "Koneksaun seguru. Sala password dala 5 → konta xave minutu 30." %}</p>
+</div>
+{% endblock %}

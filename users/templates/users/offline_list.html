@@ -1,0 +1,47 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	{% include 'main/page_header.html' %}
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		{% if can_give_offline %}<a href="{% url 'offline-give' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Fó Autorizasaun" %}</a>{% endif %}
+	</div>
+	<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Autorizasaun validu loron 7. Bainhira remata, Investigadór labele kria kazu foun maibé bele nafatin sinkron." %}</div>
+	<div class="card card-rbr">
+		<div class="card-body">
+			<div class="table-responsive table-cards">
+				<table class="table table-sm table-hover">
+					<thead><tr>
+						<th>{% trans "Investigadór" %}</th><th>{% trans "Munisípiu" %}</th><th>{% trans "Hahú" %}</th>
+						<th>{% trans "Remata" %}</th><th>{% trans "Status" %}</th><th>{% trans "Fó husi" %}</th><th></th>
+					</tr></thead>
+					<tbody>
+					{% for obj in objects %}
+					<tr>
+						<td data-label="{% trans "Investigadór" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b></td>
+						<td data-label="{% trans "Munisípiu" %}">{{ obj.user.pesoaluser.pesoal.munisipiu|default:"-" }}</td>
+						<td data-label="{% trans "Hahú" %}">{{ obj.start_date|date:"d/m/Y H:i" }}</td>
+						<td data-label="{% trans "Remata" %}">{{ obj.end_date|date:"d/m/Y H:i" }}</td>
+						<td data-label="{% trans "Status" %}">
+							{% if obj.is_valid %}<span class="badge badge-success rounded-pill px-3"><i class="fa fa-check"></i> {% trans "Ativu" %}</span>
+							{% elif obj.cancelled_at %}<span class="badge badge-danger rounded-pill px-3"><i class="fa fa-ban"></i> {% trans "Kansela" %}</span>
+							{% else %}<span class="badge badge-secondary rounded-pill px-3"><i class="fa fa-clock-o"></i> {% trans "Remata" %}</span>{% endif %}
+						</td>
+						<td data-label="{% trans "Fó husi" %}">{{ obj.given_by.pesoaluser.pesoal|default:obj.given_by.username|default:"-" }}</td>
+						<td class="text-right text-nowrap">
+							{% if can_give_offline %}
+							<form method="post" action="{% url 'offline-renew' obj.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Renova autorizasaun loron 7 tan?" %}">{% csrf_token %}<button class="btn btn-sm btn-outline-rbr" type="submit"><i class="fa fa-refresh"></i> {% trans "Renova" %}</button></form>
+							{% if obj.is_valid %}
+							<form method="post" action="{% url 'offline-cancel' obj.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Kansela autorizasaun? Token sinkron sei kansela mós." %}">{% csrf_token %}<button class="btn btn-sm btn-outline-danger" type="submit"><i class="fa fa-ban"></i> {% trans "Kansela" %}</button></form>
+							{% endif %}{% endif %}
+						</td>
+					</tr>
+					{% empty %}
+					<tr><td colspan="7" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

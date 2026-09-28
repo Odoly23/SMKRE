@@ -1,0 +1,49 @@
+{% load static i18n %}
+<nav class="main-navbar" aria-label="{% trans "Menu prinsipál" %}">
+	<div class="container">
+		<a class="brand" href="{% url 'home' %}">
+			<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai">
+			<span>SMKRE<small>{% if pesoal %}{{ role_label }}{% if pesoal.munisipiu and is_investigador %} · {{ pesoal.munisipiu }}{% endif %}{% else %}Rede ba Rai{% endif %}</small></span>
+		</a>
+
+		{% if user.is_authenticated %}
+		<ul class="nav-links">
+			{% for item in menu_items %}
+			<li class="{% if page == item.page %}active{% endif %}"><a href="{{ item.url }}"><i class="fa {{ item.icon }}"></i> {{ item.label }}</a></li>
+			{% endfor %}
+		</ul>
+
+		<div class="nav-right">
+			<div class="dropdown">
+				<a class="nav-icon" id="notifDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="{% trans "Notifikasaun" %}">
+					<i class="fa fa-bell"></i><span id="notifbadge" class="badge badge-danger"></span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right notif-menu" aria-labelledby="notifDropdown">
+					<div class="dropdown-header">{% trans "Notifikasaun" %}</div>
+					<div id="notif-items"><span class="dropdown-item-text text-muted small">{% trans "La iha notifikasaun foun" %}</span></div>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item text-center font-weight-bold" href="{% url 'notification-list' %}">{% trans "Haree Hotu" %}</a>
+				</div>
+			</div>
+
+			<div class="dropdown">
+				<a class="av" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="{% trans "Konta" %}">
+					{% if pesoal and pesoal.image %}<img src="{{ pesoal.image.url }}" alt="">{% else %}{{ pesoal.inisial|default:'?' }}{% endif %}
+				</a>
+				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+					<span class="dropdown-item-text"><b>{{ pesoal.name|default:user.username }}</b><br><small class="text-muted">{{ user.email }}</small></span>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="{% url 'user-account' %}"><i class="fa fa-user"></i> {% trans "Ha'u-nia Konta" %}</a>
+					<a class="dropdown-item" href="{% url 'user-change-password' %}"><i class="fa fa-key"></i> {% trans "Troka Password" %}</a>
+					<div class="dropdown-divider"></div>
+					<form action="{% url 'logout' %}" method="post" class="m-0">{% csrf_token %}
+						<button type="submit" class="dropdown-item text-danger"><i class="fa fa-sign-out"></i> {% trans "Sai" %}</button>
+					</form>
+				</div>
+			</div>
+
+			<button class="btn-ham" id="btn-ham" type="button" aria-label="{% trans "Menu" %}" aria-controls="sidebar" aria-expanded="false"><i class="fa fa-bars"></i></button>
+		</div>
+		{% endif %}
+	</div>
+</nav>

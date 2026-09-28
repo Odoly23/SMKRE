@@ -1,0 +1,737 @@
+#
+msgid ""
+msgstr ""
+"Language: id\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: users/templates/users/detail.html
+msgid "ATIVA fali utilizador ne'e?"
+msgstr "Aktifkan kembali pengguna ini?"
+
+#: users/templates/users/detail.html
+msgid "ATIVU"
+msgstr "AKTIF"
+
+#: config/rbac.py
+msgid "Admin"
+msgstr "Admin"
+
+#: users/templates/users/detail.html
+msgid "Aksaun"
+msgstr "Aksi"
+
+#: custom/models.py
+msgid "Aldeia"
+msgstr "Dusun (Aldeia)"
+
+#: config/rbac.py
+msgid "Analista"
+msgstr "Analis"
+
+#: main/templates/home/home_investigador.html
+msgid "Antes ba terrenu"
+msgstr "Sebelum ke lapangan"
+
+#: main/templates/home/403.html
+msgid "Asesu la permite"
+msgstr "Akses ditolak"
+
+#: users/templates/users/detail.html
+msgid "Ativa Fali"
+msgstr "Aktifkan Kembali"
+
+#: users/models.py
+msgid "Ativu"
+msgstr "Aktif"
+
+#: users/views/user_v.py
+msgid "Aumenta Utilizador"
+msgstr "Tambah Pengguna"
+
+#: users/models.py
+msgid "Autorizasaun Offline"
+msgstr "Izin Offline"
+
+#: main/templates/home/home.html
+msgid "Autorizasaun Offline Ativu"
+msgstr "Izin Offline Aktif"
+
+#: notification/models.py
+msgid "Autorizasaun offline"
+msgstr "Izin offline"
+
+#: main/templates/home/home_investigador.html
+msgid "Autorizasaun offline ATIVU"
+msgstr "Izin offline AKTIF"
+
+#: main/templates/home/home_investigador.html
+msgid "Autorizasaun offline LA ATIVU"
+msgstr "Izin offline TIDAK AKTIF"
+
+#: users/views/permission_v.py
+msgid "Autorizasaun offline fó ona to'o %(date)s."
+msgstr "Izin offline diberikan sampai %(date)s."
+
+#: users/views/permission_v.py
+msgid "Autorizasaun offline kansela ona."
+msgstr "Izin offline dibatalkan."
+
+#: users/api/views.py
+msgid "Autorizasaun offline la ativu. Kontaktu Admin."
+msgstr "Izin offline tidak aktif. Hubungi Admin."
+
+#: users/views/permission_v.py
+msgid "Autorizasaun renova ona to'o %(date)s."
+msgstr "Izin diperpanjang sampai %(date)s."
+
+#: users/templates/users/offline_form.html
+msgid ""
+"Autorizasaun validu loron 7. Autorizasaun ativu antigu sei troka ho foun."
+msgstr "Izin berlaku 7 hari. Izin aktif sebelumnya akan diganti."
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun validu loron 7. Bainhira remata, Investigadór labele kria kazu "
+"foun maibé bele nafatin sinkron."
+msgstr ""
+"Izin berlaku 7 hari. Setelah habis, Investigador tidak bisa membuat kasus "
+"baru tetapi tetap bisa sinkron."
+
+#: notification/models.py
+msgid "Ba"
+msgstr "Kepada"
+
+#: users/templates/auth/change_password_done.html
+msgid "Ba Varanda"
+msgstr "Ke Beranda"
+
+#: users/templates/auth/change_password.html
+msgid "Ba seguransa, ita tenke troka password default antes uza sistema."
+msgstr ""
+"Demi keamanan, Anda harus mengganti password bawaan sebelum memakai sistem."
+
+#: main/templates/home/home.html
+msgid "Bondia"
+msgstr "Selamat pagi"
+
+#: users/templates/users/list.html
+msgid "Buka"
+msgstr "Cari"
+
+#: users/templates/users/list.html
+msgid "Buka naran, email, munisípiu…"
+msgstr "Cari nama, email, munisipiu…"
+
+#: users/views/user_v.py
+msgid "Dadus utilizador atualiza ona."
+msgstr "Data pengguna diperbarui."
+
+#: config/menu.py
+msgid "Dashboard"
+msgstr "Dasbor"
+
+#: users/models.py
+msgid "Data hahú"
+msgstr "Tanggal mulai"
+
+#: users/models.py
+msgid "Data remata"
+msgstr "Tanggal berakhir"
+
+#: users/templates/users/list.html
+msgid "Detalla"
+msgstr "Detail"
+
+#: users/views/user_v.py
+msgid "Detalla Utilizador"
+msgstr "Detail Pengguna"
+
+#: main/templates/main/footer.html
+msgid "Dezenvolve husi"
+msgstr "Dikembangkan oleh"
+
+#: users/templates/users/detail.html
+msgid "Edita"
+msgstr "Edit"
+
+#: users/views/user_v.py
+msgid "Edita Utilizador"
+msgstr "Edit Pengguna"
+
+#: users/models.py
+msgid "Email"
+msgstr "Email"
+
+#: users/forms.py
+msgid "Email ne'e uza ona husi utilizador seluk."
+msgstr "Email ini sudah dipakai pengguna lain."
+
+#: custom/models.py
+msgid "Estragu Patrimóniu"
+msgstr "Kerusakan Harta Benda"
+
+#: users/models.py
+msgid "Feto"
+msgstr "Perempuan"
+
+#: users/templates/auth/_box.html
+msgid "Fila ba Login"
+msgstr "Kembali ke Login"
+
+#: main/templates/home/error_base.html
+msgid "Fila ba Varanda"
+msgstr "Kembali ke Beranda"
+
+#: main/templates/home/home_investigador.html
+msgid "Formuláriu rejistu kazu no sinkron sei mosu iha faze tuir mai."
+msgstr ""
+"Formulir pendaftaran kasus dan sinkron akan tersedia di tahap berikutnya."
+
+#: users/models.py
+msgid "Foto"
+msgstr "Foto"
+
+#: users/templates/users/detail.html
+msgid "Fó Autorizasaun"
+msgstr "Beri Izin"
+
+#: users/views/permission_v.py
+msgid "Fó Autorizasaun Offline"
+msgstr "Beri Izin Offline"
+
+#: users/models.py
+msgid "Fó husi"
+msgstr "Diberikan oleh"
+
+#: main/templates/home/home_investigador.html
+msgid "GPS / Lokalizasaun ativu"
+msgstr "GPS / Lokasi aktif"
+
+#: users/templates/users/detail.html
+msgid "HAPARA utilizador ne'e? Nia labele login no sinkron."
+msgstr "NONAKTIFKAN pengguna ini? Ia tidak bisa login dan sinkron."
+
+#: users/views/account_v.py
+msgid "Ha'u-nia Konta"
+msgstr "Akun Saya"
+
+#: users/templates/users/offline_list.html
+msgid "Hahú"
+msgstr "Mulai"
+
+#: users/templates/auth/password_reset.html
+msgid "Haluha password?"
+msgstr "Lupa password?"
+
+#: users/templates/users/list.html
+msgid "Hapara"
+msgstr "Nonaktif"
+
+#: users/templates/users/detail.html
+msgid "Hapara Utilizador"
+msgstr "Nonaktifkan Pengguna"
+
+#: main/templates/main/navbar.html
+msgid "Haree Hotu"
+msgstr "Lihat Semua"
+
+#: users/templates/auth/password_reset_done.html
+msgid "Haree ita-nia email"
+msgstr "Periksa email Anda"
+
+#: users/templates/auth/password_reset.html
+msgid "Haruka Link"
+msgstr "Kirim Link"
+
+#: users/templates/auth/password_reset.html
+msgid ""
+"Hatama ita-nia email. Ami sei haruka link atu troka password (validu oras "
+"1)."
+msgstr ""
+"Masukkan email Anda. Kami akan mengirim link untuk mengganti password "
+"(berlaku 1 jam)."
+
+#: custom/templates/custom/dropdown.html
+msgid "Hili…"
+msgstr "Pilih…"
+
+#: notification/models.py
+msgid "Husi"
+msgstr "Dari"
+
+#: users/models.py
+msgid "Investigadór"
+msgstr "Investigador"
+
+#: users/forms.py
+msgid "Investigadór tenke iha munisípiu knaar."
+msgstr "Investigador wajib punya munisipiu tugas."
+
+#: users/templates/auth/password_reset_complete.html
+msgid "Ita bele login ho password foun."
+msgstr "Anda bisa login dengan password baru."
+
+#: users/templates/users/detail.html
+msgid "Ita-boot iha serteza atu RESET password utilizador ne'e?"
+msgstr "Yakin ingin RESET password pengguna ini?"
+
+#: users/views/account_v.py
+msgid "Ita-nia konta atualiza ona!"
+msgstr "Akun Anda sudah diperbarui!"
+
+#: main/templates/home/403.html
+msgid ""
+"Ita-nia papél la iha asesu ba pájina ne'e. Se ita hanoin ne'e sala, kontaktu"
+" Admin."
+msgstr ""
+"Peran Anda tidak punya akses ke halaman ini. Jika menurut Anda ini keliru, "
+"hubungi Admin."
+
+#: users/templates/users/offline_list.html
+msgid "Kansela"
+msgstr "Batalkan"
+
+#: users/templates/users/offline_list.html
+msgid "Kansela autorizasaun? Token sinkron sei kansela mós."
+msgstr "Batalkan izin? Token sinkron juga akan dicabut."
+
+#: config/menu.py
+msgid "Kazu"
+msgstr "Kasus"
+
+#: config/menu.py
+msgid "Kazu Foun"
+msgstr "Kasus Baru"
+
+#: main/templates/home/home_investigador.html
+msgid "Kazu antigu sinkron hotu ona"
+msgstr "Semua kasus lama sudah sinkron"
+
+#: notification/models.py
+msgid "Kazu foun"
+msgstr "Kasus baru"
+
+#: users/templates/auth/login.html
+msgid "Koneksaun seguru. Sala password dala 5 → konta xave minutu 30."
+msgstr "Koneksi aman. Salah password 5× → akun dikunci 30 menit."
+
+#: users/views/account_v.py
+msgid "Konta"
+msgstr "Akun"
+
+#: users/models.py
+msgid "Konta Pesoal"
+msgstr "Akun Staf"
+
+#: users/views/account_v.py
+msgid "Konta ne'e seidauk iha dadus pesoal. Kontaktu Admin."
+msgstr "Akun ini belum punya data staf. Hubungi Admin."
+
+#: main/templates/home/lockout.html
+msgid "Konta xave temporáriu"
+msgstr "Akun dikunci sementara"
+
+#: main/templates/home/home_investigador.html
+msgid "Kontaktu Admin atu hetan autorizasaun antes ba terrenu."
+msgstr "Hubungi Admin untuk mendapat izin sebelum ke lapangan."
+
+#: users/templates/users/detail.html
+msgid "Kria iha"
+msgstr "Dibuat pada"
+
+#: custom/models.py
+msgid "Kódigu"
+msgstr "Kode"
+
+#: main/templates/home/error_base.html
+msgid "Kódigu erru"
+msgstr "Kode error"
+
+#: users/templates/users/detail.html
+msgid "LA ATIVU"
+msgstr "TIDAK AKTIF"
+
+#: main/templates/main/navbar.html
+msgid "La iha notifikasaun foun"
+msgstr "Tidak ada notifikasi baru"
+
+#: notification/templates/notification/list.html
+msgid "La iha notifikasaun."
+msgstr "Tidak ada notifikasi."
+
+#: users/templates/auth/change_password.html
+msgid "Labele fó password ba ema seluk"
+msgstr "Jangan berikan password ke orang lain"
+
+#: users/templates/auth/change_password.html
+msgid "Labele númeru deit ka hanesan password default"
+msgstr "Tidak boleh angka saja atau sama dengan password bawaan"
+
+#: notification/models.py
+msgid "Lee ona"
+msgstr "Dibaca"
+
+#: config/menu.py
+msgid "Legál"
+msgstr "Hukum"
+
+#: users/models.py
+msgid "Lian"
+msgstr "Bahasa"
+
+#: notification/models.py
+msgid "Link"
+msgstr "Link"
+
+#: users/templates/auth/password_reset_confirm.html
+msgid "Link ne'e la validu ka uza ona. Favor husu link foun."
+msgstr "Link ini tidak valid atau sudah dipakai. Silakan minta link baru."
+
+#: users/views/user_v.py
+msgid "Lista Utilizador"
+msgstr "Daftar Pengguna"
+
+#: users/templates/users/detail.html
+msgid "Login ikus"
+msgstr "Login terakhir"
+
+#: users/models.py
+msgid "Mane"
+msgstr "Laki-laki"
+
+#: config/menu.py
+msgid "Mapa"
+msgstr "Peta"
+
+#: notification/templates/notification/list.html
+msgid "Marka hotu lee ona"
+msgstr "Tandai semua sudah dibaca"
+
+#: notification/models.py
+msgid "Mensajen"
+msgstr "Pesan"
+
+#: main/templates/home/home.html
+msgid "Menu"
+msgstr "Menu"
+
+#: main/templates/main/bottom_nav.html
+msgid "Menu okos"
+msgstr "Menu bawah"
+
+#: main/templates/main/navbar.html
+msgid "Menu prinsipál"
+msgstr "Menu utama"
+
+#: users/templates/auth/change_password.html
+msgid "Minimu karakter 8"
+msgstr "Minimal 8 karakter"
+
+#: main/templates/home/home.html
+msgid ""
+"Modulu Kazu, Dashboard, Mapa, Relatóriu no Legál sei mosu iha faze tuir mai."
+msgstr ""
+"Modul Kasus, Dasbor, Peta, Laporan dan Hukum akan tersedia di tahap "
+"berikutnya."
+
+#: users/templates/users/list.html
+msgid "Munisípiu"
+msgstr "Munisipiu"
+
+#: users/models.py
+msgid "Munisípiu Knaar"
+msgstr "Munisipiu tugas"
+
+#: users/models.py
+msgid "Naran"
+msgstr "Nama"
+
+#: custom/models.py
+msgid "Nesesidade Urjente"
+msgstr "Kebutuhan Mendesak"
+
+#: users/models.py
+msgid "Nota"
+msgstr "Catatan"
+
+#: main/templates/main/sidebar.html
+msgid "Notif"
+msgstr "Notif"
+
+#: notification/models.py
+msgid "Notifikasaun"
+msgstr "Notifikasi"
+
+#: users/models.py
+msgid "Nu. Telf."
+msgstr "No. Telp."
+
+#: users/forms.py
+msgid "Obrigatóriu ba Investigadór"
+msgstr "Wajib untuk Investigador"
+
+#: config/menu.py
+msgid "Offline"
+msgstr "Offline"
+
+#: config/rbac.py
+msgid "Ofisiál Legál"
+msgstr "Petugas Hukum"
+
+#: main/templates/main/topbar.html
+msgid "Online"
+msgstr "Online"
+
+#: custom/models.py
+msgid "Orden"
+msgstr "Urutan"
+
+#: main/templates/home/home_investigador.html
+msgid "PIN SMKRE (númeru 6) prontu"
+msgstr "PIN SMKRE (6 angka) siap"
+
+#: users/templates/users/list.html
+msgid "Papél"
+msgstr "Peran"
+
+#: users/forms.py
+msgid "Papél (Role)"
+msgstr "Peran (Role)"
+
+#: users/forms.py
+msgid "Password"
+msgstr "Password"
+
+#: users/views/user_v.py
+msgid "Password %(user)s reset ona no haruka ona ba email."
+msgstr "Password %(user)s sudah direset dan dikirim lewat email."
+
+#: users/templates/auth/password_reset_confirm.html
+msgid "Password Foun"
+msgstr "Password Baru"
+
+#: users/validators.py
+msgid "Password foun labele hanesan password default."
+msgstr "Password baru tidak boleh sama dengan password bawaan."
+
+#: users/validators.py
+msgid "Password labele hanesan password default."
+msgstr "Password tidak boleh sama dengan password bawaan."
+
+#: users/templates/auth/change_password_done.html
+msgid "Password troka ona"
+msgstr "Password sudah diganti"
+
+#: users/models.py
+msgid "Pesoal"
+msgstr "Staf"
+
+#: custom/models.py
+msgid "Postu Administrativu"
+msgstr "Pos Administratif"
+
+#: users/models.py
+msgid "Pozisaun"
+msgstr "Jabatan"
+
+#: custom/models.py
+msgid "Presiza esplikasaun (Seluk)"
+msgstr "Perlu penjelasan (Lainnya)"
+
+#: main/templates/home/404.html
+msgid "Pájina la hetan"
+msgstr "Halaman tidak ditemukan"
+
+#: main/templates/home/404.html
+msgid "Pájina ne'ebé ita buka la iha ka muda ona."
+msgstr "Halaman yang Anda cari tidak ada atau sudah dipindah."
+
+#: config/menu.py
+msgid "Relatóriu"
+msgstr "Laporan"
+
+#: users/templates/users/offline_list.html
+msgid "Remata"
+msgstr "Berakhir"
+
+#: users/views/permission_v.py
+msgid "Renova"
+msgstr "Perpanjang"
+
+#: users/templates/users/offline_list.html
+msgid "Renova autorizasaun loron 7 tan?"
+msgstr "Perpanjang izin 7 hari lagi?"
+
+#: users/templates/users/detail.html
+msgid "Reset Password"
+msgstr "Reset Password"
+
+#: main/templates/main/navbar.html
+msgid "Sai"
+msgstr "Keluar"
+
+#: main/templates/home/lockout.html
+msgid "Sala password dala 5. Favor hein minutu 30 ka uza 'Haluha password?'."
+msgstr "Salah password 5×. Tunggu 30 menit atau gunakan 'Lupa password?'."
+
+#: users/templates/auth/password_reset_done.html
+msgid ""
+"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
+" mós pasta Spam."
+msgstr ""
+"Jika email ini terdaftar di SMKRE, Anda akan menerima link untuk mengganti "
+"password. Periksa juga folder Spam."
+
+#: users/templates/users/offline_list.html
+msgid "Seidauk iha autorizasaun."
+msgstr "Belum ada izin."
+
+#: users/templates/users/list.html
+msgid "Seidauk iha utilizador."
+msgstr "Belum ada pengguna."
+
+#: users/templates/users/list.html
+msgid "Seidauk troka password"
+msgstr "Belum ganti password"
+
+#: users/models.py
+msgid "Sexu"
+msgstr "Jenis kelamin"
+
+#: config/menu.py
+msgid "Sinkron"
+msgstr "Sinkron"
+
+#: notification/models.py
+msgid "Sistema"
+msgstr "Sistem"
+
+#: users/templates/auth/login.html
+msgid "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
+msgstr "Sistem Pemantauan Konflik Tanah dan Penggusuran"
+
+#: users/templates/users/list.html
+msgid "Status"
+msgstr "Status"
+
+#: notification/models.py
+msgid "Status kazu muda"
+msgstr "Status kasus berubah"
+
+#: custom/models.py
+msgid "Suku"
+msgstr "Desa (Suco)"
+
+#: config/rbac.py
+msgid "Superadmin"
+msgstr "Superadmin"
+
+#: users/templates/auth/login.html
+msgid "Tama"
+msgstr "Masuk"
+
+#: users/models.py
+msgid "Tenke troka password"
+msgstr "Wajib ganti password"
+
+#: notification/models.py
+msgid "Tipu"
+msgstr "Jenis"
+
+#: custom/models.py
+msgid "Tipu Atór"
+msgstr "Jenis Aktor"
+
+#: custom/models.py
+msgid "Tipu Eviksaun"
+msgstr "Jenis Penggusuran"
+
+#: custom/models.py
+msgid "Tipu Konflitu Rai"
+msgstr "Jenis Konflik Tanah"
+
+#: custom/models.py
+msgid "Tipu Rai"
+msgstr "Jenis Tanah"
+
+#: users/api/views.py
+msgid "Token sinkron ba Investigadór deit."
+msgstr "Token sinkron hanya untuk Investigador."
+
+#: main/templates/home/home.html
+msgid "Total Utilizador"
+msgstr "Total Pengguna"
+
+#: users/templates/auth/account.html
+msgid "Troka Password"
+msgstr "Ganti Password"
+
+#: notification/templates/notification/list.html
+msgid "URJENTE"
+msgstr "MENDESAK"
+
+#: notification/models.py
+msgid "Urjente"
+msgstr "Mendesak"
+
+#: users/templates/users/form.html
+msgid "Utilizador"
+msgstr "Pengguna"
+
+#: users/views/user_v.py
+msgid "Utilizador %(user)s ativu fali."
+msgstr "Pengguna %(user)s aktif kembali."
+
+#: users/views/user_v.py
+msgid "Utilizador %(user)s hapara ona. Autorizasaun offline no token kansela."
+msgstr "Pengguna %(user)s dinonaktifkan. Izin offline dan token dicabut."
+
+#: users/views/user_v.py
+msgid "Utilizador foun aumenta ona. Email haruka ona ba %(email)s."
+msgstr "Pengguna baru ditambahkan. Email dikirim ke %(email)s."
+
+#: users/api/views.py
+msgid "Utilizador la ativu."
+msgstr "Pengguna tidak aktif."
+
+#: users/views/permission_v.py
+msgid "Utilizador ne'e labele hetan autorizasaun offline."
+msgstr "Pengguna ini tidak bisa diberi izin offline."
+
+#: users/templates/users/form.html
+msgid ""
+"Utilizador sei simu email ho password default no tenke troka password iha "
+"login dahuluk."
+msgstr ""
+"Pengguna akan menerima email berisi password bawaan dan wajib menggantinya "
+"saat login pertama."
+
+#: main/templates/main/page_header.html
+msgid "VARANDA"
+msgstr "BERANDA"
+
+#: main/templates/home/home_investigador.html
+msgid "Validu to'o"
+msgstr "Berlaku sampai"
+
+#: config/menu.py
+msgid "Varanda"
+msgstr "Beranda"
+
+#: users/templates/users/detail.html
+msgid "to'o"
+msgstr "sampai"
+
+#: main/templates/home/home_investigador.html
+msgid "loron %(days)s tan"
+msgid_plural "loron %(days)s tan"
+msgstr[0] "%(days)s hari lagi"
+
+#: users/forms.py
+msgid "Rai"
+msgstr "Simpan"
+
+#: main/templates/home/home_investigador.html
+msgid "HP karga 100%% no lori power bank"
+msgstr "HP terisi 100%% dan bawa power bank"

@@ -1,0 +1,24 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	{% include 'main/page_header.html' %}
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		<form method="post" action="{% url 'notification-read-all' %}" class="mb-2">{% csrf_token %}
+			<button type="submit" class="btn btn-sm btn-outline-rbr"><i class="fa fa-check"></i> {% trans "Marka hotu lee ona" %}</button>
+		</form>
+	</div>
+	<div class="card card-rbr">
+		<div class="list-group list-group-flush notif-list">
+			{% for obj in objects %}
+			<a href="{% url 'notification-open' obj.pk %}" class="list-group-item list-group-item-action {% if not obj.is_read %}unread{% endif %} {% if obj.is_urgent %}urgent{% endif %}">
+				{% if obj.is_urgent %}<span class="badge badge-urjente rounded-pill px-3"><i class="fa fa-exclamation-triangle"></i> {% trans "URJENTE" %}</span><br>{% endif %}
+				<b>{{ obj.message }}</b><br>
+				<small class="text-muted">{{ obj.get_tipu_display }} · {{ obj.created_at|timesince }}</small>
+			</a>
+			{% empty %}
+			<div class="list-group-item text-center text-muted">{% trans "La iha notifikasaun." %}</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

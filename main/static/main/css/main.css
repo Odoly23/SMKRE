@@ -1,0 +1,259 @@
+/* ═══════════════════════════════════════════
+   SMKRE — main.css (mobile first)
+   Kór Rede ba Rai: muda iha :root deit
+═══════════════════════════════════════════ */
+:root {
+	/* Kór Rede ba Rai */
+	--rbr-green:   #82DA36;
+	--rbr-teal:    #16B78A;
+	--rbr-teal-dk: #0E8A68;
+	--rbr-teal-xd: #0B7358;
+	--rbr-maroon:  #6B1E23;
+	--rbr-dark:    #222222;
+	--rbr-bg:      #F1F2F1;
+	--white:       #FFFFFF;
+	--muted:       #5F6B66;
+	--border:      #DDE2DE;
+
+	/* Tamañu layout */
+	--topbar-h: 34px;
+	--navbar-h: 62px;
+	--header-h: 96px;       /* topbar + navbar */
+	--sb-w: 76px;           /* sidebar: ikon + label */
+	--bnav-h: 62px;         /* menu okos Investigadór */
+}
+
+body {
+	font-family: 'Lato', 'Segoe UI', Tahoma, sans-serif;
+	background: var(--rbr-bg);
+	color: var(--rbr-dark);
+	padding-top: var(--header-h);
+	min-height: 100vh;
+	display: flex; flex-direction: column;
+}
+h1, h2, h3, h4, .brand, .auth-title { font-family: 'Montserrat', 'Segoe UI', sans-serif; }
+h2 { font-size: 1.35rem; font-weight: 700; }
+a { color: var(--rbr-teal-xd); }
+a:hover { color: var(--rbr-teal-dk); }
+.text-rbr { color: var(--rbr-teal-dk) !important; }
+.text-maroon { color: var(--rbr-maroon) !important; }
+.link-rbr { color: var(--rbr-teal-xd); font-weight: 700; }
+
+/* ── TOPBAR (bandeira lian + status koneksaun) ── */
+.topbar {
+	position: fixed; top: 0; left: 0; right: 0; z-index: 1050;
+	height: var(--topbar-h);
+	background: var(--rbr-green);
+	color: #1d3a05;
+	font-size: 12px; font-weight: 700;
+	display: flex; align-items: center;
+}
+.topbar .container { display: flex; align-items: center; justify-content: space-between; }
+.tb-left, .tb-right { display: flex; align-items: center; gap: 2px; white-space: nowrap; }
+.tb-lang {
+	display: inline-flex; align-items: center; gap: 4px;
+	background: none; border: 0; color: #1d3a05; font-weight: 700; font-size: 12px;
+	min-height: 34px; min-width: 44px; padding: 0 6px; cursor: pointer; opacity: .8;
+}
+.tb-lang img { width: 20px; height: 15px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.tb-lang.active { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+.tb-lang:hover, .tb-lang:focus-visible { opacity: 1; outline: 2px solid rgba(0,0,0,.25); outline-offset: -2px; }
+.net-status { display: inline-flex; align-items: center; gap: 5px; }
+.net-status .fa { font-size: 9px; color: var(--rbr-teal-xd); }
+.net-status.offline .fa { color: #b91c1c; }
+@media (max-width: 380px) { .tb-lang span { display: none; } }
+
+/* ── NAVBAR (putih, hanesan website redebarai.org) ── */
+.main-navbar {
+	position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 1040;
+	height: var(--navbar-h);
+	background: var(--white);
+	border-bottom: 3px solid var(--rbr-teal);
+	box-shadow: 0 2px 10px rgba(0,0,0,.06);
+	display: flex; align-items: center;
+}
+.main-navbar .container { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none !important; color: var(--rbr-dark) !important; font-weight: 800; white-space: nowrap; min-width: 0; }
+.brand img { height: 42px; width: auto; }
+.brand span { font-size: 1.05rem; line-height: 1.1; }
+.brand small { display: block; font-family: 'Lato', sans-serif; font-weight: 400; font-size: .72rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; max-width: 46vw; }
+
+.nav-links { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; }
+.nav-links li a {
+	color: #333; text-decoration: none; font-size: .8rem; font-weight: 700;
+	text-transform: uppercase; letter-spacing: .03em;
+	padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; gap: 6px; white-space: nowrap;
+	border-bottom: 3px solid transparent;
+}
+.nav-links li a:hover { background: #eefaf5; color: var(--rbr-teal-xd); }
+.nav-links li.active a { color: var(--rbr-teal-xd); border-bottom-color: var(--rbr-green); border-radius: 6px 6px 0 0; }
+.nav-right { display: flex; align-items: center; gap: 6px; }
+.nav-icon { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #444; font-size: 1.25rem; border-radius: 50%; }
+.nav-icon:hover { background: #eefaf5; color: var(--rbr-teal-xd); }
+#notifbadge { position: absolute; top: 4px; right: 2px; font-size: .62rem; border-radius: 10px; }
+#notifbadge:empty { display: none; }
+.av {
+	width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+	background: var(--rbr-teal-dk); color: var(--white); font-weight: 700; font-size: .85rem;
+	display: inline-flex; align-items: center; justify-content: center; text-decoration: none !important;
+}
+.av:hover { color: var(--white); box-shadow: 0 0 0 3px rgba(22,183,138,.3); }
+.av img { width: 100%; height: 100%; object-fit: cover; }
+.av-lg { width: 64px; height: 64px; font-size: 1.3rem; }
+.dropdown-menu { border-radius: 10px; border: 0; box-shadow: 0 8px 24px rgba(0,0,0,.15); font-size: .9rem; }
+.dropdown-item { padding: 10px 16px; }
+.dropdown-item:active { background: var(--rbr-teal-dk); }
+.notif-menu { width: 320px; max-width: 92vw; padding-bottom: 0; }
+.notif-menu .dropdown-item { white-space: normal; border-left: 4px solid #007bff; }
+.notif-menu .dropdown-item.urgent { border-left-color: var(--rbr-maroon); background: #fff4f4; }
+
+.btn-ham {
+	display: none; background: none; border: 2px solid var(--border); border-radius: 8px;
+	color: #333; width: 44px; height: 42px; align-items: center; justify-content: center; cursor: pointer;
+}
+.btn-ham:hover { background: #eefaf5; }
+@media (min-width: 992px) { .nav-links { display: flex !important; } .btn-ham { display: none !important; } }
+@media (max-width: 991px) { .nav-links { display: none !important; } .btn-ham { display: flex !important; } }
+
+/* ═══════════════════════════════════════════
+   SIDEBAR ikon — HP deit
+   • Hahú husi okos navbar (top: header-h)
+   • Luan: ikon + label = 76px
+═══════════════════════════════════════════ */
+@media (min-width: 992px) { #sidebar, #overlay { display: none !important; } }
+#sidebar {
+	position: fixed; top: var(--header-h); left: 0; bottom: 0; z-index: 1035;
+	width: var(--sb-w);
+	background: var(--white);
+	border-right: 1px solid var(--border);
+	display: flex; flex-direction: column; overflow: hidden;
+	transform: translateX(-100%);
+	transition: transform .28s cubic-bezier(.4,0,.2,1);
+	visibility: hidden;
+}
+#sidebar.active { transform: translateX(0); visibility: visible; box-shadow: 4px 0 20px rgba(0,0,0,.18); }
+.sb-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 0 calc(var(--bnav-h) + 10px); }
+.sb-sec { font-size: 11px; font-weight: 700; color: #7a8580; text-transform: uppercase; letter-spacing: .08em; text-align: center; padding: 10px 4px 4px; }
+.sb-body ul { list-style: none; padding: 0; margin: 0; }
+.sb-body ul li a {
+	display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+	min-height: 60px; padding: 8px 4px; width: 100%;
+	color: #444; text-decoration: none; font-size: 11px; font-weight: 700; text-align: center; line-height: 1.2;
+	border-left: 4px solid transparent;
+}
+.sb-body ul li a i { font-size: 1.35rem; color: #7a8580; }
+.sb-body ul li a:hover, .sb-body ul li a:focus-visible, .sb-body ul li a:active { background: #eefaf5; color: var(--rbr-teal-xd); }
+.sb-body ul li a:hover i, .sb-body ul li a:active i { color: var(--rbr-teal-dk); }
+.sb-body ul li.sb-on a { background: #eefaf5; color: var(--rbr-teal-xd); border-left-color: var(--rbr-green); }
+.sb-body ul li.sb-on a i { color: var(--rbr-teal-dk); }
+.sb-body hr { margin: 6px 10px; }
+#overlay { position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; z-index: 1034; background: rgba(0,0,0,.35); display: none; }
+#overlay.active { display: block; }
+
+/* ── MENU OKOS (Investigadór iha HP) ── */
+.bnav {
+	position: fixed; left: 0; right: 0; bottom: 0; z-index: 1045;
+	height: calc(var(--bnav-h) + env(safe-area-inset-bottom));
+	padding-bottom: env(safe-area-inset-bottom);
+	background: var(--white); border-top: 1px solid var(--border);
+	display: flex; justify-content: space-around; align-items: center;
+	box-shadow: 0 -2px 10px rgba(0,0,0,.05);
+}
+.bnav a { flex: 1; min-height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #666; font-size: 11px; font-weight: 700; text-decoration: none; }
+.bnav a i { font-size: 1.3rem; }
+.bnav a.on { color: var(--rbr-teal-xd); }
+.bnav a.plus i { background: var(--rbr-teal-dk); color: var(--white); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: -22px; box-shadow: 0 3px 8px rgba(0,0,0,.25); }
+@media (min-width: 992px) { .bnav { display: none; } }
+@media (max-width: 991px) { body.has-bnav .page-wrapper { padding-bottom: calc(var(--bnav-h) + 24px); } body.has-bnav .main-footer { padding-bottom: calc(var(--bnav-h) + 16px); } }
+
+/* ── KONTEÚDU ── */
+.page-wrapper { flex: 1; padding: 18px 0 40px; }
+.page-head { margin-bottom: 14px; }
+.breadcrumb { background: transparent; padding: 0 0 10px; margin: 0; font-size: .78rem; font-weight: 700; }
+.breadcrumb-item a { color: var(--rbr-teal-xd); }
+.card-rbr { border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+.card-left-teal { border-left: 6px solid var(--rbr-teal); }
+.card-left-maroon { border-left: 6px solid var(--rbr-maroon); }
+.h-line { font-size: 1.05rem; font-weight: 700; margin-bottom: 12px; }
+.h-line::after { content: ""; display: block; width: 34px; height: 3px; background: var(--rbr-teal); border-radius: 2px; margin-top: 6px; }
+.messages .alert { border-radius: 10px; }
+
+/* Butaun */
+.btn { border-radius: 8px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-sm { min-height: 36px; }
+.btn-block { display: flex; }
+.btn-rbr { background: var(--rbr-teal-dk); border-color: var(--rbr-teal-dk); color: var(--white); }
+.btn-rbr:hover, .btn-rbr:focus { background: var(--rbr-teal-xd); border-color: var(--rbr-teal-xd); color: var(--white); }
+.btn-outline-rbr { border: 2px solid var(--rbr-teal-dk); color: var(--rbr-teal-xd); background: var(--white); }
+.btn-outline-rbr:hover { background: var(--rbr-teal-dk); color: var(--white); }
+.form-control, .custom-select { min-height: 44px; border-radius: 8px; }
+.form-control:focus { border-color: var(--rbr-teal); box-shadow: 0 0 0 .2rem rgba(22,183,138,.2); }
+
+/* KPI */
+.kpi { display: block; border-radius: 12px; padding: 16px; color: var(--white) !important; text-decoration: none !important; }
+.kpi span { font-size: .85rem; opacity: .95; }
+.kpi b { display: block; font-size: 2rem; font-family: 'Montserrat', sans-serif; }
+.kpi-teal { background: var(--rbr-teal-dk); }
+.kpi-green { background: var(--rbr-teal-xd); }
+.kpi-dark { background: #343a40; }
+.kpi-maroon { background: var(--rbr-maroon); }
+
+/* Menu tile (varanda) */
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
+.menu-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 92px; border: 1px solid var(--border); border-radius: 12px; color: var(--rbr-dark); font-weight: 700; font-size: .85rem; text-align: center; text-decoration: none !important; }
+.menu-tile i { font-size: 1.6rem; color: var(--rbr-teal-dk); }
+.menu-tile:hover { background: #eefaf5; color: var(--rbr-teal-xd); }
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0; border-bottom: 1px solid #eee; }
+.checklist li i { width: 24px; color: var(--rbr-teal-dk); }
+
+/* Badge papél / status */
+.badge { font-size: .75rem; padding-top: .35em; padding-bottom: .35em; }
+.badge-role { background: #e9ecef; color: #333; }
+.role-superadmin { background: #343a40; color: #fff; }
+.role-admin { background: #E0A800; color: #222; }
+.role-analista { background: #3b5bdb; color: #fff; }
+.role-ofisial_legal { background: var(--rbr-maroon); color: #fff; }
+.role-investigador { background: var(--rbr-teal-dk); color: #fff; }
+.badge-urjente { background: var(--rbr-maroon); color: #fff; }
+
+/* Tabela → kartaun iha HP (< 768px) */
+.table th { font-size: .8rem; text-transform: uppercase; color: #555; border-top: 0; }
+.table-detail th { width: 38%; color: var(--muted); font-weight: 700; text-transform: none; font-size: .9rem; }
+@media (max-width: 767px) {
+	.table-cards thead { display: none; }
+	.table-cards tr { display: block; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; padding: 6px 10px; background: var(--white); }
+	.table-cards td { display: flex; justify-content: space-between; gap: 10px; border: 0; padding: 5px 0; text-align: right; }
+	.table-cards td::before { content: attr(data-label); font-weight: 700; color: var(--muted); text-align: left; }
+	.table-cards td:not([data-label])::before { content: none; }
+	.table-cards td:not([data-label]) { justify-content: flex-end; }
+}
+
+/* Notifikasaun */
+.notif-list .unread { background: #f3fbf7; border-left: 4px solid var(--rbr-teal); }
+.notif-list .urgent { border-left: 4px solid var(--rbr-maroon); }
+
+/* Login / auth */
+.auth-box { max-width: 440px; margin: 10px auto 30px; }
+.auth-logo { width: 110px; height: auto; }
+.auth-logo-sm { width: 70px; }
+.auth-title { font-size: 1.6rem; font-weight: 800; margin: 8px 0 2px; }
+.error-box { max-width: 520px; margin: 30px auto; }
+.error-code { font-family: 'Montserrat', sans-serif; font-size: 4rem; font-weight: 800; color: var(--rbr-teal-dk); }
+
+/* ── FOOTER ── */
+.main-footer { background: var(--rbr-dark); border-top: 3px solid var(--rbr-green); color: rgba(255,255,255,.75); padding: 14px 0; text-align: center; font-size: .78rem; }
+.main-footer strong { color: var(--white); }
+
+/* Asesibilidade: fokus klaru */
+a:focus-visible, button:focus-visible { outline: 3px solid var(--rbr-teal); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { #sidebar { transition: none; } }
+
+/* Tabela kartaun iha HP: labele liu luan ekran */
+@media (max-width: 767px) {
+	.table-cards table, .table-cards tbody { display: block; width: 100%; }
+	.table-cards td { flex-wrap: wrap; word-break: break-word; }
+	.page-head .btn { width: 100%; }
+}
+/* Input file Bootstrap 4: testu butaun iha Tetun */
+.custom-file-label::after { content: "Hili"; }

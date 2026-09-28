@@ -1,0 +1,37 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	{% include 'main/page_header.html' %}
+	<div class="page-head">
+		<h2>{% trans "Bondia" %}, {{ pesoal.name|default:user.email }} 👋</h2>
+		<p class="text-muted">{{ role_label }}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p>
+	</div>
+
+	{% if can_manage_user %}
+	<div class="row">
+		<div class="col-sm-4 mb-3">
+			<a href="{% url 'pesoal-list' %}" class="kpi kpi-teal"><span>{% trans "Total Utilizador" %}</span><b>{{ tot_user }}</b></a>
+		</div>
+		<div class="col-sm-4 mb-3">
+			<a href="{% url 'pesoal-list' %}" class="kpi kpi-green"><span>{% trans "Investigadór" %}</span><b>{{ tot_investigador }}</b></a>
+		</div>
+		<div class="col-sm-4 mb-3">
+			<a href="{% url 'offline-list' %}" class="kpi kpi-dark"><span>{% trans "Autorizasaun Offline Ativu" %}</span><b>{{ tot_offline }}</b></a>
+		</div>
+	</div>
+	{% endif %}
+
+	<div class="card card-rbr">
+		<div class="card-body">
+			<h3 class="h-line">{% trans "Menu" %}</h3>
+			<div class="menu-grid">
+				{% for item in menu_items %}{% if item.page != 'home' %}
+				<a href="{{ item.url }}" class="menu-tile"><i class="fa {{ item.icon }}"></i><span>{{ item.label }}</span></a>
+				{% endif %}{% endfor %}
+				<a href="{% url 'notification-list' %}" class="menu-tile"><i class="fa fa-bell"></i><span>{% trans "Notifikasaun" %}</span></a>
+				<a href="{% url 'user-account' %}" class="menu-tile"><i class="fa fa-user"></i><span>{% trans "Konta" %}</span></a>
+			</div>
+			<p class="text-muted small mb-0 mt-3">{% trans "Modulu Kazu, Dashboard, Mapa, Relatóriu no Legál sei mosu iha faze tuir mai." %}</p>
+		</div>
+	</div>
+{% endblock %}

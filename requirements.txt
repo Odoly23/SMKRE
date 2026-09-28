@@ -1,0 +1,21 @@
+# SMKRE — dependénsia Python
+Django>=5.2,<5.3
+djangorestframework>=3.15
+djangorestframework-simplejwt>=5.3
+argon2-cffi>=23.1
+python-decouple>=3.8
+whitenoise>=6.6
+django-cleanup>=8.0
+django-crispy-forms>=2.1
+crispy-bootstrap4>=2024.1
+django-axes>=6.4
+django-csp>=4.0
+celery>=5.4
+redis>=5.0
+django-celery-beat>=2.6
+Pillow>=10.0
+polib>=1.2                  # compila tradusaun (.po → .mo) la presiza gettext
+
+# Production
+psycopg[binary]>=3.1        # PostgreSQL
+gunicorn>=22.0

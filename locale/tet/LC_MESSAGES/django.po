@@ -1,0 +1,149 @@
+# Tetun — SMKRE. Testu fonte iha kódigu ona iha Tetun; file ne'e tradus testu Django rasik.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tet\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This field is required."
+msgstr "Kampu ne'e obrigatóriu."
+
+msgid "Enter a valid email address."
+msgstr "Hatama email ida ne'ebé loos."
+
+msgid "Please enter a correct %(username)s and password. Note that both fields may be case-sensitive."
+msgstr "Email ka password la loos. Favor koko fali."
+
+msgid "This account is inactive."
+msgstr "Konta ne'e la ativu. Kontaktu Admin."
+
+msgid "Your old password was entered incorrectly. Please enter it again."
+msgstr "Password tuan la loos. Favor hatama fali."
+
+msgid "The two password fields didn’t match."
+msgstr "Password rua la hanesan."
+
+msgid "Old password"
+msgstr "Password tuan"
+
+msgid "New password"
+msgstr "Password foun"
+
+msgid "New password confirmation"
+msgstr "Konfirma password foun"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Password confirmation"
+msgstr "Konfirma password"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "This password is too short. It must contain at least %(min_length)d character."
+msgid_plural "This password is too short. It must contain at least %(min_length)d characters."
+msgstr[0] "Password badak liu. Minimu karakter %(min_length)d."
+msgstr[1] "Password badak liu. Minimu karakter %(min_length)d."
+
+msgid "This password is too common."
+msgstr "Password ne'e komún liu (fasil atu hatene)."
+
+msgid "This password is entirely numeric."
+msgstr "Password labele númeru deit."
+
+msgid "The password is too similar to the %(verbose_name)s."
+msgstr "Password besik liu ho %(verbose_name)s."
+
+msgid "Your password can’t be too similar to your other personal information."
+msgstr "Password labele besik liu ho ita-nia informasaun pesoál."
+
+msgid "Your password must contain at least %(min_length)d character."
+msgid_plural "Your password must contain at least %(min_length)d characters."
+msgstr[0] "Password tenke iha minimu karakter %(min_length)d."
+msgstr[1] "Password tenke iha minimu karakter %(min_length)d."
+
+msgid "Your password can’t be a commonly used password."
+msgstr "Password labele password komún."
+
+msgid "Your password can’t be entirely numeric."
+msgstr "Password labele númeru deit."
+
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr "Hili opsaun ida ne'ebé loos."
+
+msgid "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
+msgstr "Upload imajen ida ne'ebé loos."
+
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr "%(model_name)s ho %(field_label)s ne'e iha ona."
+
+msgid "Currently"
+msgstr "Agora"
+
+msgid "Change"
+msgstr "Troka"
+
+msgid "Clear"
+msgstr "Hamoos"
+
+msgid "Yes"
+msgstr "Sin"
+
+msgid "No"
+msgstr "Lae"
+
+msgid "day"
+msgid_plural "days"
+msgstr[0] "loron"
+msgstr[1] "loron"
+
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "oras"
+msgstr[1] "oras"
+
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "minutu"
+msgstr[1] "minutu"
+
+msgid "week"
+msgid_plural "weeks"
+msgstr[0] "semana"
+msgstr[1] "semana"
+
+msgid "month"
+msgid_plural "months"
+msgstr[0] "fulan"
+msgstr[1] "fulan"
+
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] "loron %(num)d"
+msgstr[1] "loron %(num)d"
+
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] "oras %(num)d"
+msgstr[1] "oras %(num)d"
+
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] "minutu %(num)d"
+msgstr[1] "minutu %(num)d"
+
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] "semana %(num)d"
+msgstr[1] "semana %(num)d"
+
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] "fulan %(num)d"
+msgstr[1] "fulan %(num)d"
+
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] "tinan %(num)d"
+msgstr[1] "tinan %(num)d"

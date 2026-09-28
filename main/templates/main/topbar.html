@@ -1,0 +1,23 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<div class="topbar">
+	<div class="container">
+		<div class="tb-left">
+			{% for code, name in LANGUAGES %}
+			<form action="{% url 'set-language' %}" method="post" class="d-inline m-0">
+				{% csrf_token %}
+				<input type="hidden" name="language" value="{{ code }}">
+				<input type="hidden" name="next" value="{{ request.get_full_path }}">
+				<button type="submit" class="tb-lang {% if code == LANGUAGE_CODE %}active{% endif %}" title="{{ name }}" aria-label="{{ name }}"{% if code == LANGUAGE_CODE %} aria-current="true"{% endif %}>
+					<img src="{% static 'main/images/flags/' %}{% if code == 'tet' %}tl{% elif code == 'en' %}gb{% else %}{{ code }}{% endif %}.svg" alt="" width="20" height="15">
+					<span>{{ code|upper }}</span>
+				</button>
+			</form>
+			{% endfor %}
+		</div>
+		<div class="tb-right">
+			<span id="net-status" class="net-status online" role="status" data-on="{% trans "Online" %}" data-off="{% trans "Offline" %}"><i class="fa fa-circle"></i> <span>{% trans "Online" %}</span></span>
+		</div>
+	</div>
+</div>

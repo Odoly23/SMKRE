@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+Env/
+env/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+logs/*.log*
+*.sql
+*.mo.bak
+
+# Konfigurasaun rahasia
+.env
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store

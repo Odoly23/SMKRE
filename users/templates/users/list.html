@@ -1,0 +1,41 @@
+{% extends "main/layout.html" %}
+{% load i18n smkre_tags %}
+{% block content %}
+	{% include 'main/page_header.html' %}
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		<a href="{% url 'pesoal-add' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Aumenta Utilizador" %}</a>
+	</div>
+
+	<div class="card card-rbr">
+		<div class="card-body">
+			<input type="search" class="form-control mb-3 js-filter" data-target="#tbl-user" placeholder="{% trans "Buka naran, email, munisípiu…" %}" aria-label="{% trans "Buka" %}">
+			<div class="table-responsive table-cards">
+				<table class="table table-sm table-hover" id="tbl-user">
+					<thead><tr>
+						<th>{% trans "Naran" %}</th><th>{% trans "Email" %}</th><th>{% trans "Papél" %}</th>
+						<th>{% trans "Munisípiu" %}</th><th>{% trans "Status" %}</th><th></th>
+					</tr></thead>
+					<tbody>
+					{% for obj in objects %}{% with u=obj.pesoaluser.user %}
+					<tr>
+						<td data-label="{% trans "Naran" %}"><b>{{ obj.name }}</b></td>
+						<td data-label="{% trans "Email" %}">{{ obj.email }}</td>
+						<td data-label="{% trans "Papél" %}"><span class="badge badge-role role-{{ u|role_code }} rounded-pill px-3">{{ u|role_of }}</span></td>
+						<td data-label="{% trans "Munisípiu" %}">{{ obj.munisipiu|default:"-" }}</td>
+						<td data-label="{% trans "Status" %}">
+							{% if u.is_active %}<span class="badge badge-success rounded-pill px-3"><i class="fa fa-check"></i> {% trans "Ativu" %}</span>
+							{% else %}<span class="badge badge-secondary rounded-pill px-3"><i class="fa fa-ban"></i> {% trans "Hapara" %}</span>{% endif %}
+							{% if obj.pesoaluser.must_change_password %}<span class="badge badge-warning rounded-pill px-3"><i class="fa fa-key"></i> {% trans "Seidauk troka password" %}</span>{% endif %}
+						</td>
+						<td class="text-right"><a href="{% url 'pesoal-detail' obj.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
+					</tr>
+					{% endwith %}{% empty %}
+					<tr><td colspan="6" class="text-center text-muted">{% trans "Seidauk iha utilizador." %}</td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

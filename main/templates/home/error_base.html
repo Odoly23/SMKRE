@@ -1,0 +1,11 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+<div class="error-box text-center">
+	<div class="error-code">{% block code %}{% endblock %}</div>
+	<h2>{% block heading %}{% endblock %}</h2>
+	<p class="text-muted">{% block text %}{% endblock %}</p>
+	<a href="{% url 'home' %}" class="btn btn-rbr"><i class="fa fa-home"></i> {% trans "Fila ba Varanda" %}</a>
+	<p class="small text-muted mt-3">{% trans "Kódigu erru" %}: {% block ref %}{% endblock %} · {% now "d/m/Y H:i" %}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "main/layout.html" %}
+{% load i18n smkre_tags %}
+{% block content %}
+	{% url 'pesoal-list' as parent_url %}
+	{% include 'main/page_header.html' with parent_url=parent_url parent_label=_("Utilizador") %}
+	{% with u=objects.pesoaluser.user %}
+	<div class="row">
+		<div class="col-lg-8 mb-3">
+			<div class="card card-rbr">
+				<div class="card-body">
+					<div class="d-flex align-items-center mb-3">
+						<div class="av av-lg mr-3">{% if objects.image %}<img src="{{ objects.image.url }}" alt="">{% else %}{{ objects.inisial }}{% endif %}</div>
+						<div>
+							<h2 class="mb-1">{{ objects.name }}</h2>
+							<span class="badge badge-role role-{{ u_group }} rounded-pill px-3">{{ u|role_of }}</span>
+							{% if u.is_active %}<span class="badge badge-success rounded-pill px-3">{% trans "Ativu" %}</span>{% else %}<span class="badge badge-secondary rounded-pill px-3">{% trans "Hapara" %}</span>{% endif %}
+						</div>
+					</div>
+					<table class="table table-sm table-detail mb-0">
+						<tr><th>{% trans "Email" %}</th><td>{{ objects.email }}</td></tr>
+						<tr><th>{% trans "Sexu" %}</th><td>{{ objects.get_sexo_display|default:"-" }}</td></tr>
+						<tr><th>{% trans "Nu. Telf." %}</th><td>{{ objects.phone|default:"-" }}</td></tr>
+						<tr><th>{% trans "Pozisaun" %}</th><td>{{ objects.pos|default:"-" }}</td></tr>
+						<tr><th>{% trans "Munisípiu Knaar" %}</th><td>{{ objects.munisipiu|default:"-" }}</td></tr>
+						<tr><th>{% trans "Login ikus" %}</th><td>{{ u.last_login|date:"d/m/Y H:i"|default:"-" }}</td></tr>
+						<tr><th>{% trans "Kria iha" %}</th><td>{{ objects.created_at|date:"d/m/Y H:i" }}</td></tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 mb-3">
+			{% if u_group == 'investigador' %}
+			<div class="card card-rbr mb-3 {% if offline %}card-left-teal{% else %}card-left-maroon{% endif %}">
+				<div class="card-body">
+					<h3 class="h-line">{% trans "Autorizasaun Offline" %}</h3>
+					{% if offline %}
+					<p class="mb-2"><b class="text-rbr"><i class="fa fa-check-circle"></i> {% trans "ATIVU" %}</b> — {% trans "to'o" %} {{ offline.end_date|date:"d/m/Y H:i" }}</p>
+					{% else %}
+					<p class="mb-2 text-maroon"><b><i class="fa fa-times-circle"></i> {% trans "LA ATIVU" %}</b></p>
+					{% endif %}
+					{% if can_give_offline and u.is_active %}
+					<a href="{% url 'offline-give' %}?user={{ u.pk }}" class="btn btn-sm btn-rbr"><i class="fa fa-mobile"></i> {% if offline %}{% trans "Renova" %}{% else %}{% trans "Fó Autorizasaun" %}{% endif %}</a>
+					{% endif %}
+				</div>
+			</div>
+			{% endif %}
+			{% if can_edit %}
+			<div class="card card-rbr">
+				<div class="card-body">
+					<h3 class="h-line">{% trans "Aksaun" %}</h3>
+					<a href="{% url 'pesoal-update' objects.pk %}" class="btn btn-block btn-outline-rbr mb-2"><i class="fa fa-pencil"></i> {% trans "Edita" %}</a>
+					<form method="post" action="{% url 'user-reset-password' objects.pk %}" class="js-confirm" data-confirm="{% trans "Ita-boot iha serteza atu RESET password utilizador ne'e?" %}">
+						{% csrf_token %}
+						<button type="submit" class="btn btn-block btn-outline-warning mb-2"><i class="fa fa-key"></i> {% trans "Reset Password" %}</button>
+					</form>
+					{% if u != user %}
+					<form method="post" action="{% url 'user-activate' objects.pk %}" class="js-confirm" data-confirm="{% if u.is_active %}{% trans "HAPARA utilizador ne'e? Nia labele login no sinkron." %}{% else %}{% trans "ATIVA fali utilizador ne'e?" %}{% endif %}">
+						{% csrf_token %}
+						{% if u.is_active %}
+						<button type="submit" class="btn btn-block btn-outline-danger"><i class="fa fa-ban"></i> {% trans "Hapara Utilizador" %}</button>
+						{% else %}
+						<button type="submit" class="btn btn-block btn-outline-success"><i class="fa fa-check"></i> {% trans "Ativa Fali" %}</button>
+						{% endif %}
+					</form>
+					{% endif %}
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endwith %}
+{% endblock %}

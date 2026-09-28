@@ -1,0 +1,37 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<div class="page-head">
+		<h2>{% trans "Bondia" %}, {{ pesoal.name|default:user.email }} 👋</h2>
+		<p class="text-muted mb-0">{% trans "Investigadór" %}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p>
+	</div>
+
+	{% if offline %}
+	<div class="card card-rbr card-left-teal mb-3">
+		<div class="card-body py-3">
+			<b><i class="fa fa-check-circle text-rbr"></i> {% trans "Autorizasaun offline ATIVU" %}</b><br>
+			<small class="text-muted">{% trans "Validu to'o" %} <b>{{ offline.end_date|date:"d/m/Y H:i" }}</b> · {% blocktrans count days=offline.days_left %}loron {{ days }} tan{% plural %}loron {{ days }} tan{% endblocktrans %}</small>
+		</div>
+	</div>
+	{% else %}
+	<div class="card card-rbr card-left-maroon mb-3">
+		<div class="card-body py-3">
+			<b><i class="fa fa-exclamation-triangle text-maroon"></i> {% trans "Autorizasaun offline LA ATIVU" %}</b><br>
+			<small class="text-muted">{% trans "Kontaktu Admin atu hetan autorizasaun antes ba terrenu." %}</small>
+		</div>
+	</div>
+	{% endif %}
+
+	<div class="card card-rbr">
+		<div class="card-body">
+			<h3 class="h-line">{% trans "Antes ba terrenu" %}</h3>
+			<ul class="checklist">
+				<li><i class="fa fa-bolt"></i> {% trans "HP karga 100% no lori power bank" %}</li>
+				<li><i class="fa fa-lock"></i> {% trans "PIN SMKRE (númeru 6) prontu" %}</li>
+				<li><i class="fa fa-refresh"></i> {% trans "Kazu antigu sinkron hotu ona" %}</li>
+				<li><i class="fa fa-map-marker"></i> {% trans "GPS / Lokalizasaun ativu" %}</li>
+			</ul>
+			<p class="text-muted small mb-0">{% trans "Formuláriu rejistu kazu no sinkron sei mosu iha faze tuir mai." %}</p>
+		</div>
+	</div>
+{% endblock %}

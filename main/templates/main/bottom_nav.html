@@ -1,0 +1,9 @@
+{% load i18n %}
+<!-- Menu okos: Investigadór iha HP -->
+<nav class="bnav" aria-label="{% trans "Menu okos" %}">
+	{% for item in bottom_nav %}
+	<a href="{{ item.url }}" class="{% if page == item.page %}on{% endif %} {% if item.page == 'kazu-add' %}plus{% endif %}"{% if page == item.page %} aria-current="page"{% endif %}>
+		<i class="fa {{ item.icon }}"></i><span>{{ item.label }}</span>
+	</a>
+	{% endfor %}
+</nav>

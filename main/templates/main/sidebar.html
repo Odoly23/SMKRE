@@ -1,0 +1,21 @@
+{% load i18n %}
+{% if user.is_authenticated %}
+<!-- Sidebar ikon: HP deit (< 992px) -->
+<aside id="sidebar" aria-label="{% trans "Menu" %}" aria-hidden="true">
+	<div class="sb-body">
+		<div class="sb-sec">{% trans "Menu" %}</div>
+		<ul>
+			{% for item in menu_items %}
+			<li class="{% if page == item.page %}sb-on{% endif %}"><a href="{{ item.url }}"><i class="fa {{ item.icon }}"></i><span>{{ item.label }}</span></a></li>
+			{% endfor %}
+		</ul>
+		<hr>
+		<div class="sb-sec">{% trans "Konta" %}</div>
+		<ul>
+			<li class="{% if page == 'notif' %}sb-on{% endif %}"><a href="{% url 'notification-list' %}"><i class="fa fa-bell"></i><span>{% trans "Notif" %}</span></a></li>
+			<li class="{% if page == 'account' %}sb-on{% endif %}"><a href="{% url 'user-account' %}"><i class="fa fa-user"></i><span>{% trans "Konta" %}</span></a></li>
+		</ul>
+	</div>
+</aside>
+<div id="overlay"></div>
+{% endif %}
