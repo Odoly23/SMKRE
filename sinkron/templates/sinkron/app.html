@@ -1,0 +1,233 @@
+{% load static %}<!DOCTYPE html>
+<html lang="tet">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>SMKRE Offline | Rede ba Rai</title>
+	<meta name="description" content="SMKRE Offline — rejista kazu konflitu rai iha terrenu la iha sinál">
+	<meta name="author" content="Onosio, Ricardo, Olavio">
+	<meta name="developer" content="Onosio, Ricardo, Olavio">
+	<meta name="copyright" content="Rede ba Rai">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="referrer" content="no-referrer">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="theme-color" content="#0E8A68">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="SMKRE">
+	<link rel="manifest" href="{% url 'manifest' %}">
+	<link rel="icon" type="image/png" href="{% static 'main/images/favicon.png' %}">
+	<link rel="apple-touch-icon" href="{% static 'main/images/icon-192.png' %}">
+	<link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'main/font-awesome/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/fonts.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'main/offline/offline.css' %}">
+</head>
+<body class="off-body" data-sw="{% url 'service-worker' %}"
+	data-api-token="{% url 'api-token' %}" data-api-refresh="{% url 'api-token-refresh' %}" data-api-me="{% url 'api-me' %}"
+	data-api-opsaun="{% url 'api-sinkron-opsaun' %}" data-api-kazu="{% url 'api-sinkron-kazu' %}" data-home="{% url 'home' %}">
+
+<header class="off-top">
+	<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" height="34">
+	<div class="off-title"><b>SMKRE Offline</b><small id="off-user">Rede ba Rai</small></div>
+	<span id="net" class="badge badge-pill">…</span>
+	<button type="button" id="btn-lock" class="btn btn-sm btn-light ml-1" hidden title="Xavi app"><i class="fa fa-lock"></i></button>
+</header>
+
+<main class="off-main">
+	<div id="msg" class="alert" role="alert" hidden></div>
+
+	<!-- ══ 1. LOGIN (presiza internet dala ida) ══ -->
+	<section id="scr-login" class="scr" hidden>
+		<div class="card card-rbr"><div class="card-body">
+			<h5><i class="fa fa-sign-in"></i> Login ba App Offline</h5>
+			<p class="small text-muted">Presiza internet dala ida. Admin tenke fó ona autorizasaun offline (loron 7).</p>
+			<form id="form-login" autocomplete="on">
+				<div class="form-group"><label for="login-email">Email</label>
+					<input type="email" id="login-email" class="form-control" required autocomplete="username"></div>
+				<div class="form-group"><label for="login-pw">Password</label>
+					<input type="password" id="login-pw" class="form-control" required autocomplete="current-password"></div>
+				<button class="btn btn-rbr btn-block btn-lg" type="submit"><i class="fa fa-sign-in"></i> Login</button>
+			</form>
+			<a href="{% url 'home' %}" class="btn btn-link btn-block">← Fila ba SMKRE online</a>
+		</div></div>
+	</section>
+
+	<!-- ══ 2. KRIA PIN ══ -->
+	<section id="scr-pin-set" class="scr" hidden>
+		<div class="card card-rbr"><div class="card-body">
+			<h5><i class="fa fa-key"></i> Kria PIN (númeru 6)</h5>
+			<p class="small text-muted">PIN ne'e xavi dadus iha HP (enkriptasaun AES-256). Keta fó ba ema seluk. Haluha PIN = dadus seidauk sinkron lakon.</p>
+			<form id="form-pin-set">
+				<div class="form-group"><label for="pin1">PIN foun</label>
+					<input type="password" id="pin1" class="form-control pin-input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="new-password"></div>
+				<div class="form-group"><label for="pin2">Repete PIN</label>
+					<input type="password" id="pin2" class="form-control pin-input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="new-password"></div>
+				<button class="btn btn-rbr btn-block btn-lg" type="submit"><i class="fa fa-check"></i> Rai PIN</button>
+			</form>
+		</div></div>
+	</section>
+
+	<!-- ══ 3. LOKE HO PIN ══ -->
+	<section id="scr-pin" class="scr" hidden>
+		<div class="card card-rbr"><div class="card-body text-center">
+			<i class="fa fa-lock fa-3x text-rbr mb-2"></i>
+			<h5>Tama PIN</h5>
+			<form id="form-pin">
+				<input type="password" id="pin" class="form-control pin-input mx-auto mb-2" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="current-password" aria-label="PIN">
+				<button class="btn btn-rbr btn-block btn-lg" type="submit"><i class="fa fa-unlock"></i> Loke</button>
+			</form>
+			<p class="small text-muted mt-2" id="pin-sala"></p>
+			<button type="button" class="btn btn-link btn-sm text-danger" id="btn-reset">Haluha PIN? Hamoos dadus iha HP</button>
+		</div></div>
+	</section>
+
+	<!-- ══ 4. VARANDA ══ -->
+	<section id="scr-home" class="scr" hidden>
+		<div id="perm-box" class="perm-box"></div>
+		<div class="d-flex mb-3">
+			<button type="button" id="btn-foun" class="btn btn-rbr btn-lg flex-fill mr-2"><i class="fa fa-plus-circle"></i> Kazu Foun</button>
+			<button type="button" id="btn-sync" class="btn btn-outline-rbr btn-lg flex-fill"><i class="fa fa-refresh"></i> Sinkron <span id="sync-n" class="badge badge-warning"></span></button>
+		</div>
+		<div id="sync-progress" class="progress mb-3" hidden><div class="progress-bar bg-success" style="width:0%"></div></div>
+		<h6 class="text-muted">Kazu iha HP</h6>
+		<div id="lista-lokal" class="mb-3"></div>
+		<h6 class="text-muted">Status iha server <small>(atualiza bainhira online)</small></h6>
+		<div id="lista-server" class="mb-3"></div>
+	</section>
+
+	<!-- ══ 5. FORMULÁRIU 6 PASU ══ -->
+	<section id="scr-form" class="scr" hidden>
+		<div class="stepper" id="stepper">
+			<span data-step="1">1</span><span data-step="2">2</span><span data-step="3">3</span>
+			<span data-step="4">4</span><span data-step="5">5</span><span data-step="6">6</span>
+		</div>
+		<form id="form-kazu" novalidate>
+			<!-- Pasu 1: Identifikasaun no Fatin -->
+			<fieldset class="step" data-step="1">
+				<legend>1. Identifikasaun no Fatin</legend>
+				<div class="form-group"><label for="f-titulu">Títulu kazu</label><input id="f-titulu" name="titulu" class="form-control" maxlength="200"></div>
+				<div class="form-group"><label for="f-data_relatoriu">Data Relatóriu *</label><input id="f-data_relatoriu" name="data_relatoriu" type="date" class="form-control" required></div>
+				<div class="form-group"><label>Munisípiu</label><input id="f-munisipiu" class="form-control" readonly></div>
+				<div class="form-group"><label for="f-postu">Postu Administrativu *</label><select id="f-postu" name="postu" class="custom-select" required></select></div>
+				<div class="form-group"><label for="f-suku">Suku *</label><select id="f-suku" name="suku" class="custom-select" required></select></div>
+				<div class="form-group"><label for="f-aldeia">Aldeia</label><select id="f-aldeia" name="aldeia" class="custom-select"></select></div>
+				<div class="gps-box mb-2">
+					<div class="d-flex justify-content-between align-items-center">
+						<b><i class="fa fa-map-marker"></i> Koordenada GPS *</b>
+						<button type="button" class="btn btn-sm btn-outline-rbr" id="btn-gps"><i class="fa fa-crosshairs"></i> Foti GPS</button>
+					</div>
+					<div id="gps-info" class="small mt-1 text-muted">Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m.</div>
+				</div>
+			</fieldset>
+
+			<!-- Pasu 2: Informasaun Insidente -->
+			<fieldset class="step" data-step="2" hidden>
+				<legend>2. Informasaun Insidente</legend>
+				<div class="form-group"><label for="f-data_akontesimentu">Data Akontesimentu *</label><input id="f-data_akontesimentu" name="data_akontesimentu" type="date" class="form-control" required></div>
+				<div class="form-group"><label>Tipu Konflitu Rai *</label><div id="f-tipu_konflitu" class="chk-list"></div></div>
+				<div class="form-group" id="grp-tipu_seluk" hidden><label for="f-tipu_seluk">Seluk: favor esplika *</label><input id="f-tipu_seluk" name="tipu_seluk" class="form-control" maxlength="255"></div>
+				<div class="form-group"><label for="f-tipu_rai">Tipu Rai</label><select id="f-tipu_rai" name="tipu_rai" class="custom-select"></select></div>
+				<div class="form-group"><label for="f-deskrisaun">Deskrisaun Insidente *</label>
+					<textarea id="f-deskrisaun" name="deskrisaun" class="form-control" rows="5" required placeholder="Deskreve badak saida mak akontese, inklui sekuénsia akontesimentu, asaun husi autoridade ka atór no impaktu ba komunidade."></textarea></div>
+			</fieldset>
+
+			<!-- Pasu 3: Populasaun Afetada, Eviksaun, Atór -->
+			<fieldset class="step" data-step="3" hidden>
+				<legend>3. Populasaun Afetada no Atór</legend>
+				<div class="form-row">
+					<div class="form-group col-6"><label for="a-uma_kain">Uma-Kain</label><input id="a-uma_kain" data-afetadu="uma_kain" type="number" min="0" class="form-control" inputmode="numeric"></div>
+					<div class="form-group col-6"><label for="a-total_ema">Total Ema</label><input id="a-total_ema" data-afetadu="total_ema" type="number" min="0" class="form-control" inputmode="numeric"></div>
+					<div class="form-group col-6"><label for="a-mane">Mane</label><input id="a-mane" data-afetadu="mane" type="number" min="0" class="form-control" inputmode="numeric"></div>
+					<div class="form-group col-6"><label for="a-feto">Feto</label><input id="a-feto" data-afetadu="feto" type="number" min="0" class="form-control" inputmode="numeric"></div>
+					<div class="form-group col-4"><label for="a-labarik">Labarik</label><input id="a-labarik" data-afetadu="labarik" type="number" min="0" class="form-control" inputmode="numeric"></div>
+					<div class="form-group col-4"><label for="a-katuas_ferik">Katuas-Ferik</label><input id="a-katuas_ferik" data-afetadu="katuas_ferik" type="number" min="0" class="form-control" inputmode="numeric"></div>
+					<div class="form-group col-4"><label for="a-defisiensia">Defisiénsia</label><input id="a-defisiensia" data-afetadu="defisiensia" type="number" min="0" class="form-control" inputmode="numeric"></div>
+				</div>
+				<div class="custom-control custom-switch mb-2">
+					<input type="checkbox" class="custom-control-input" id="i-ativu"><label class="custom-control-label" for="i-ativu">Iha eviksaun / deslokamentu</label>
+				</div>
+				<div id="grp-insidente" class="sub-box" hidden>
+					<div class="form-group"><label for="i-tipu_eviksaun">Tipu Eviksaun *</label><select id="i-tipu_eviksaun" class="custom-select"></select></div>
+					<div class="form-row">
+						<div class="form-group col-6"><label for="i-loron_avizu">Loron avizu</label><input id="i-loron_avizu" type="number" min="0" class="form-control" inputmode="numeric"></div>
+						<div class="form-group col-6 pt-4"><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="i-forsa_seguransa"><label class="custom-control-label" for="i-forsa_seguransa">Forsa seguransa prezente</label></div></div>
+					</div>
+					<div class="form-group"><label for="i-estragu">Estragu (uma / to'os / sasán)</label><input id="i-estragu" class="form-control" maxlength="255"></div>
+				</div>
+				<label class="mt-2">Atór Envolvidu</label>
+				<div id="lista-ator"></div>
+				<button type="button" id="btn-ator" class="btn btn-sm btn-outline-rbr"><i class="fa fa-plus"></i> Aumenta atór</button>
+			</fieldset>
+
+			<!-- Pasu 4: Estragu Patrimóniu -->
+			<fieldset class="step" data-step="4" hidden>
+				<legend>4. Estragu Patrimóniu</legend>
+				<div id="f-estragu" class="chk-list"></div>
+				<div class="form-group mt-2"><label for="f-estragu_seluk">Estragu seluk</label><input id="f-estragu_seluk" name="estragu_seluk" class="form-control" maxlength="255"></div>
+			</fieldset>
+
+			<!-- Pasu 5: Evidénsia (kámera deit) -->
+			<fieldset class="step" data-step="5" hidden>
+				<legend>5. Evidénsia</legend>
+				<p class="small text-muted">Kámera deit (la husi galeria). Foto máximu 5 · Vídeo 1 (60 segundu).</p>
+				<div class="d-flex mb-2">
+					<button type="button" id="btn-foto" class="btn btn-rbr flex-fill mr-2"><i class="fa fa-camera"></i> Foti Foto <span id="n-foto">0/5</span></button>
+					<button type="button" id="btn-video" class="btn btn-outline-rbr flex-fill"><i class="fa fa-video-camera"></i> Vídeo <span id="n-video">0/1</span></button>
+				</div>
+				<input type="file" id="fb-foto" accept="image/*" capture="environment" hidden>
+				<input type="file" id="fb-video" accept="video/*" capture="environment" hidden>
+				<div id="lista-media" class="media-grid"></div>
+			</fieldset>
+
+			<!-- Pasu 6: Nesesidade Urjente no Konsentimentu -->
+			<fieldset class="step" data-step="6" hidden>
+				<legend>6. Nesesidade Urjente no Konsentimentu</legend>
+				<div id="f-nesesidade" class="chk-list"></div>
+				<div class="form-group mt-2"><label for="f-observasaun">Observasaun Adisionál</label><textarea id="f-observasaun" name="observasaun" class="form-control" rows="2"></textarea></div>
+				<div class="konsent-box">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="f-konsentimentu" name="konsentimentu">
+						<label class="custom-control-label" for="f-konsentimentu"><b>Ema afetada fó konsentimentu informadu ba rekolla no uza dadus *</b></label>
+					</div>
+				</div>
+				<div id="rezumu" class="small mt-3"></div>
+			</fieldset>
+		</form>
+		<div class="step-nav">
+			<button type="button" id="btn-kotuk" class="btn btn-light"><i class="fa fa-chevron-left"></i> Kotuk</button>
+			<button type="button" id="btn-rai" class="btn btn-outline-rbr"><i class="fa fa-save"></i> Rai</button>
+			<button type="button" id="btn-oin" class="btn btn-rbr">Oin <i class="fa fa-chevron-right"></i></button>
+		</div>
+	</section>
+
+	<!-- ══ 6. KÁMERA ══ -->
+	<section id="scr-kamera" class="kamera" hidden>
+		<video id="kam-video" playsinline muted autoplay></video>
+		<div class="kam-timer" id="kam-timer" hidden>60</div>
+		<div class="kam-bar">
+			<button type="button" id="kam-taka" class="btn btn-light btn-lg"><i class="fa fa-times"></i></button>
+			<button type="button" id="kam-foti" class="kam-shutter" aria-label="Foti"></button>
+			<span class="kam-space"></span>
+		</div>
+	</section>
+</main>
+
+<template id="tpl-ator">
+	<div class="sub-box ator-row">
+		<div class="form-row">
+			<div class="form-group col-12 mb-1"><select class="custom-select" data-ator="tipu_ator" aria-label="Tipu Atór"></select></div>
+			<div class="form-group col-6 mb-1"><input class="form-control" data-ator="naran" placeholder="Naran atór" maxlength="150"></div>
+			<div class="form-group col-6 mb-1"><input class="form-control" data-ator="papel" placeholder="Papél" maxlength="255"></div>
+		</div>
+		<button type="button" class="btn btn-sm btn-link text-danger p-0 js-ator-hamoos"><i class="fa fa-trash"></i> Hamoos</button>
+	</div>
+</template>
+
+<script src="{% static 'main/offline/smkre_kripto.js' %}"></script>
+<script src="{% static 'main/offline/smkre_db.js' %}"></script>
+<script src="{% static 'main/offline/smkre_kamera.js' %}"></script>
+<script src="{% static 'main/offline/smkre_offline.js' %}"></script>
+</body>
+</html>

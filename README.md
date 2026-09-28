@@ -28,7 +28,8 @@ custom/         # master data: Munisípiu, Postu, Suku, Aldeia, opsaun padroniza
 users/          # Pesoal + PesoalUser, konta, password, autorizasaun offline, API JWT
 notification/   # notifikasaun 🔔 + email (api/ hanesan pola SGDS)
 kazu/           # kazu: formuláriu, status, verifikasaun (Admin) + aprovasaun (Superadmin), evidénsia, istória
-report/         # dashboard, gráfiku (templates/chart/*.js), mapa hotspot, lista, eksporta Excel — api/ + views/
+report/         # dashboard, gráfiku (templates/chart/*.js), mapa (templates/maps/), lista, eksporta Excel — api/ + views/
+sinkron/        # app offline Investigadór (/sinkron/) + API sinkron JWT (api/) — regra iha services.py
 locale/         # tradusaun: tet, pt, en, id
 tools/          # extract_lian.py (ekstrai testu tradusaun)
 docs/           # SPESIFIKASAUN.md, DEPLOY.md, manuál formasaun
@@ -89,6 +90,26 @@ Uza iha view:
 def PesoalList(request):
 ```
 
+## 📱 App Offline (Investigadór)
+
+1. Admin fó **autorizasaun offline** (loron 7) iha menu *Offline*.
+2. Investigadór loke **`/sinkron/`** iha HP (Chrome Android / Safari iPhone, **HTTPS**) → login dala ida → kria **PIN númeru 6**.
+3. Iha terrenu (la iha sinál): *Kazu Foun* → pasu 6 → GPS (≤ 50 m) → foto (máx. 5) / vídeo (60 s) husi kámera deit → konsentimentu → **Prontu**.
+4. Bainhira iha sinál: sinkron automátiku (ka klik *Sinkron*). Kazu hetan kódigu `SMKRE-<MUN>-<TINAN>-<NÚMERU>` no Admin simu notifikasaun.
+
+| Regra | Detalla |
+|---|---|
+| Enkriptasaun | Dadus kazu, foto, vídeo no token enkripta ho PIN (PBKDF2 310.000 + AES-256-GCM) iha IndexedDB |
+| PIN sala dala 5 | Dadus iha HP hamoos automátiku |
+| La uza minutu 5 | App xave, tenke tama PIN fali |
+| Autorizasaun remata | Labele kria kazu foun; bele nafatin sinkron kazu ne'ebé kria durante autorizasaun (server verifika `kria_iha`) |
+| Sinkron susesu | Dadus privadu hamoos husi HP; kódigu kazu deit mak hela |
+| Koneksaun kotu | Koko fali la kria duplikadu (ID UUID husi HP) |
+
+> **Teste iha HP durante dev:** kámera, GPS no WebCrypto presiza **HTTPS** (ka `localhost`). `http://192.168.x.x` sei la servisu.
+
+API: `POST /api/auth/token/` · `GET /api/sinkron/opsaun/` · `GET|POST /api/sinkron/kazu/` · `POST /api/sinkron/kazu/<id>/evidensia/` · `POST /api/sinkron/kazu/<id>/haruka/`
+
 ## 🌐 Lian
 
 - Testu fonte iha kódigu mak **Tetun**. File hotu iha `locale/`: `tet/`, `pt/`, `en/`, `id/` (`LC_MESSAGES/django.po`).
@@ -122,6 +143,6 @@ Haree **[docs/DEPLOY.md](docs/DEPLOY.md)** (PostgreSQL, Gunicorn, Nginx, Celery,
 - [x] **Faze 1** — Fundasaun: estrutura, settings, RBAC, utilizador, password/email, autorizasaun offline, JWT, notifikasaun, layout mobile first, lian 4
 - [x] **Faze 2** — Kazu: formuláriu, status rua, **Verifika (Admin) → Aprova (Superadmin)**, istória, evidénsia, notifikasaun
 - [x] **Faze 3** — Dashboard, gráfiku, mapa hotspot/pin (GeoJSON lokál + OSM), lista DataTables, eksporta Excel (openpyxl) / PDF
-- [ ] **Faze 4** — Offline PWA: IndexedDB enkriptadu (PIN), GPS, kamera, sinkron
+- [x] **Faze 4** — Offline PWA: IndexedDB enkriptadu (PIN AES-256), formuláriu pasu 6, GPS ≤ 50 m, kámera deit, sinkron idempotente
 - [ ] **Faze 5** — Legál (Document Vault), test, deploy
 - [ ] **Faze 6** — Portal Públiku (anónimu, tuir suku)

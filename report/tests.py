@@ -98,3 +98,20 @@ class ExportTest(ReportBase):
 		ws = load_workbook(BytesIO(r.content)).active
 		self.assertEqual(ws.max_row, 4)                          # header + 3 kazu Dili
 		self.assertEqual(ws['A2'].value[:2], 'T-')
+
+
+class MapaTest(ReportBase):
+	def test_mapa_pin_no_hotspot(self):
+		self.client.force_login(self.analista)
+		r = self.client.get(reverse('report-mapa'))
+		self.assertEqual(r.status_code, 200)
+		self.assertEqual(len(r.context['mapobjects']), 4)                # rascunho no kanseladu la tama
+		self.assertEqual(dict((m.code, n) for m, n in r.context['munobjects'])['DIL'], 3)
+		self.assertContains(r, 'L.control.layers')
+
+	def test_popup_escape_anti_xss(self):
+		Kazu.objects.filter(kode='T-0').update(kode='<img src=x onerror=alert(1)>')
+		self.client.force_login(self.analista)
+		r = self.client.get(reverse('report-mapa'))
+		self.assertNotIn(b'<img src=x onerror', r.content)
+		self.assertIn(b'\\u0026lt\\u003Bimg', r.content)

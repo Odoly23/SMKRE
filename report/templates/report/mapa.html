@@ -1,134 +1,27 @@
 {% extends "main/layout.html" %}
 {% load static i18n %}
-{% block styles %}
-<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
-<link rel="stylesheet" href="{% static 'main/leaflet/MarkerCluster.css' %}">
-<link rel="stylesheet" href="{% static 'main/leaflet/MarkerCluster.Default.css' %}">
-{% endblock %}
 {% block content %}
-	<ol class="breadcrumb mb-2 mt-1">
-		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
-		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
-	</ol>
-	<form method="get" class="card card-rbr mb-3 filter-bar" id="MapaFilter">
-		<div class="card-body py-2">
-			<div class="form-row align-items-center">
-				<div class="col-6 col-md-3 mb-1">
-					<select name="munisipiu" class="custom-select" aria-label="{% trans "Munisípiu" %}">
-						<option value="">{% trans "Munisípiu: Hotu" %}</option>
-						{% for m in munisipiu_list %}<option value="{{ m.pk }}" {% if request.GET.munisipiu == m.pk|stringformat:"s" %}selected{% endif %}>{{ m.name }}</option>{% endfor %}
-					</select>
-				</div>
-				<div class="col-6 col-md-3 mb-1">
-					<select name="tipu" class="custom-select" aria-label="{% trans "Tipu Konflitu Rai" %}">
-						<option value="">{% trans "Tipu: Hotu" %}</option>
-						{% for t in tipu_list %}<option value="{{ t.pk }}" {% if request.GET.tipu == t.pk|stringformat:"s" %}selected{% endif %}>{{ t.name }}</option>{% endfor %}
-					</select>
-				</div>
-				<div class="col-6 col-md-2 mb-1">
-					<select name="status" class="custom-select" aria-label="{% trans "Status" %}">
-						<option value="">{% trans "Status: Hotu" %}</option>
-						{% for code, label in status_list %}<option value="{{ code }}" {% if request.GET.status == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
-					</select>
-				</div>
-				<div class="col-6 col-md-2 mb-1">
-					<input type="number" name="tinan" min="2000" max="2100" value="{{ request.GET.tinan }}" class="form-control" placeholder="{% trans "Tinan" %}" aria-label="{% trans "Tinan" %}">
-				</div>
-				<div class="col-6 col-md-1 mb-1"><button class="btn btn-rbr btn-block" type="submit" aria-label="{% trans "Filtra" %}"><i class="fa fa-filter"></i></button></div>
-				<div class="col-6 col-md-1 mb-1 btn-group mode-toggle" role="group" aria-label="{% trans "Modu mapa" %}">
-					<button type="button" class="btn btn-outline-rbr active" data-mode="hotspot" title="{% trans "Hotspot" %}"><i class="fa fa-circle"></i></button>
-					<button type="button" class="btn btn-outline-rbr" data-mode="pin" title="{% trans "Pin kada kazu" %}"><i class="fa fa-map-marker"></i></button>
-				</div>
-			</div>
+<div class="pagetitle mt-1">
+	<nav>
+		<ol class="breadcrumb mb-2">
+			<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Varanda" %}</a></li>
+			{% if link_antes %}
+				{% for i in link_antes %}
+					<li class="breadcrumb-item"><a href="{% if i.link_param %}{% url i.link_name i.link_param %}{% else %}{% url i.link_name %}{% endif %}">{{ i.link_text }}</a></li>
+				{% endfor %}
+			{% endif %}
+			<li class="breadcrumb-item active">{{ title }}</li>
+		</ol>
+	</nav>
+</div>
+<div class="mb-4">
+	<h2>{{ title }}</h2>
+	{% include 'report/_filter.html' %}
+	<div class="row">
+		<div class="col-lg-12">
+			{% include 'maps/kazu_maps.html' %}
 		</div>
-	</form>
-
-	<div id="mapa" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}" data-api="/api/report/kazu/mapa/" data-detail="/kazu/"
-		data-l-kazu="{% trans "kazu" %}" data-l-legend="{% trans "Lejenda" %}" data-l-many="{% trans "Kazu barak (≥ 15)" %}"
-		data-l-uma="{% trans "Uma-kain" %}" data-l-tipu="{% trans "Tipu" %}" data-l-status="{% trans "Status" %}" data-l-detalla="{% trans "Haree Detalla" %}"
-		data-l-offline="{% trans "Offline: mapa baze deit" %}"></div>
-	<p class="small text-muted mt-2"><i class="fa fa-info-circle"></i> {% trans "Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, kamada OpenStreetMap aumenta automátiku. Fronteira simplifikadu, ba vizualizasaun deit." %}</p>
-{% endblock %}
-{% block scripts %}
-<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
-<script src="{% static 'main/leaflet/leaflet.markercluster.js' %}"></script>
-<script src="{% static 'main/leaflet/leaflet-heat.js' %}"></script>
-<script nonce="{{ request.csp_nonce }}">
-(function () {
-	var el = document.getElementById('mapa');
-	var L_ = el.dataset;
-	var map = L.map('mapa', { zoomControl: true, attributionControl: true }).setView([-8.85, 125.8], 8);
-
-	// A: Mapa baze GeoJSON (lokál, offline)
-	var base = null, counts = {};
-	function colorFor(n) { return n >= 15 ? '#dc3545' : n >= 5 ? '#fd7e14' : n >= 1 ? '#0E8A68' : '#dff0c8'; }
-
-	// B: OpenStreetMap bainhira online
-	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap' });
-	function toggleOsm() { if (navigator.onLine) { osm.addTo(map); if (base) base.setStyle({ fillOpacity: 0.35 }); } else { map.removeLayer(osm); if (base) base.setStyle({ fillOpacity: 0.8 }); } }
-	window.addEventListener('online', toggleOsm); window.addEventListener('offline', toggleOsm);
-
-	var hotLayer = L.layerGroup().addTo(map);
-	var pinLayer = L.markerClusterGroup();
-	var mode = 'hotspot';
-
-	function styleFeature(f) {
-		var n = counts[f.properties.code] || 0;
-		return { color: '#6f8f4f', weight: 1.5, fillColor: colorFor(n), fillOpacity: navigator.onLine ? 0.35 : 0.8 };
-	}
-
-	$.getJSON(L_.geojson, function (geo) {
-		base = L.geoJSON(geo, {
-			style: styleFeature,
-			onEachFeature: function (f, layer) { layer.bindTooltip(function () { return esc(f.properties.name) + ': ' + (counts[f.properties.code] || 0) + ' ' + L_.lKazu; }); }
-		}).addTo(map);
-		map.fitBounds(base.getBounds(), { padding: [10, 10] });
-		toggleOsm();
-		loadData();
-	});
-
-	function esc(t) { return $('<div>').text(t == null ? '' : t).html(); }
-
-	function loadData() {
-		$.getJSON(L_.api + window.location.search, function (data) {
-			counts = {};
-			hotLayer.clearLayers(); pinLayer.clearLayers();
-			data.munisipiu.forEach(function (m) {
-				counts[m.code] = m.total;
-				if (!m.total || m.lat == null) return;
-				var r = 8 + Math.sqrt(m.total) * 4;
-				L.circleMarker([m.lat, m.lng], { radius: r, color: '#fff', weight: 2, fillColor: colorFor(m.total), fillOpacity: 0.9 })
-					.bindTooltip('<b>' + esc(m.name) + '</b>: ' + m.total + ' ' + L_.lKazu, { direction: 'top' })
-					.addTo(hotLayer);
-				L.marker([m.lat, m.lng], { icon: L.divIcon({ className: 'hot-label', html: m.total, iconSize: [30, 16] }), interactive: false }).addTo(hotLayer);
-			});
-			data.pins.forEach(function (p) {
-				var html = '<b>' + esc(p.kode) + '</b>' + (p.urjente ? ' <span class="badge badge-urjente">URJENTE</span>' : '') +
-					'<br>' + esc(p.suku) + (p.suku ? ', ' : '') + esc(p.munisipiu) +
-					'<br>' + L_.lTipu + ': ' + esc(p.tipu) + '<br>' + L_.lUma + ': ' + p.uma_kain + '<br>' + L_.lStatus + ': ' + esc(p.status) +
-					'<br><a class="btn btn-sm btn-rbr mt-1" href="' + L_.detail + p.id + '/">' + esc(data.label_detalla) + '</a>';
-				L.marker([p.lat, p.lng]).bindPopup(html).addTo(pinLayer);
-			});
-			if (base) base.setStyle(styleFeature);
-		});
-	}
-
-	// Legenda
-	var legend = L.control({ position: 'bottomleft' });
-	legend.onAdd = function () {
-		var d = L.DomUtil.create('div', 'map-legend');
-		d.innerHTML = '<b>' + L_.lLegend + '</b><br><i style="background:#dc3545"></i>' + L_.lMany + '<br><i style="background:#fd7e14"></i>5–14<br><i style="background:#0E8A68"></i>1–4';
-		return d;
-	};
-	legend.addTo(map);
-
-	// Troka modu: Hotspot ⇄ Pin
-	$('.mode-toggle button').on('click', function () {
-		mode = $(this).data('mode');
-		$('.mode-toggle button').removeClass('active'); $(this).addClass('active');
-		if (mode === 'pin') { map.removeLayer(hotLayer); map.addLayer(pinLayer); }
-		else { map.removeLayer(pinLayer); map.addLayer(hotLayer); }
-	});
-})();
-</script>
+	</div>
+	<p class="small text-muted mt-2"><i class="fa fa-info-circle"></i> {% trans "Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, hili Street ka Satélite iha ikon kamada (leten-los). Fronteira simplifikadu, ba vizualizasaun deit." %}</p>
+</div>
 {% endblock %}

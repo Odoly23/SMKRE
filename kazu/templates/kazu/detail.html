@@ -92,7 +92,7 @@
 					{% for h in historia %}
 					<li class="{% if h.status_foun == 'REJECTED' or h.status_foun == 'CANCELED' %}bad{% endif %}">
 						<small class="text-muted">{{ h.created_at|date:"d/m/Y H:i" }} · {{ h.user.pesoaluser.pesoal|default:h.user.username|default:"-" }}</small><br>
-						{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% else %}{% trans "Edita" %}{% endif %}{% else %}<b>{{ h.status_antes_label }} → {{ h.status_foun_label }}</b>{% if h.nota %}<br><span class="pre-line">{{ h.nota }}</span>{% endif %}{% endif %}
+						{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% elif h.nota == 'SINKRON' %}<i class="fa fa-mobile"></i> {% trans "Sinkron husi HP" %}{% else %}{% trans "Edita" %}{% endif %}{% else %}<b>{{ h.status_antes_label }} → {{ h.status_foun_label }}</b>{% if h.nota %}<br><span class="pre-line">{{ h.nota }}</span>{% endif %}{% endif %}
 					</li>
 					{% empty %}<li class="text-muted">-</li>{% endfor %}
 				</ul>

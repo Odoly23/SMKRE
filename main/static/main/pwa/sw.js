@@ -1,21 +1,36 @@
-/* SMKRE Service Worker — faze 1: cache aset static + pájina offline.
-   Formuláriu offline (IndexedDB + sinkron) sei aumenta iha faze 4. */
-const VERSION = 'smkre-v1';
+/* SMKRE Service Worker
+   - Aset static: cache uluk (cache-first)
+   - App offline /sinkron/: rede uluk, se offline → kópia iha cache (pájina la iha dadus privadu)
+   - Pájina seluk: rede uluk, se offline → /offline/ (dadus privadu LA rai iha cache)
+   Dadus kazu offline iha IndexedDB (enkriptadu ho PIN), la iha cache ne'e. */
+const VERSION = 'smkre-v2';
 const STATIC_CACHE = VERSION + '-static';
+const APP_URL = '/sinkron/';
 const PRECACHE = [
 	'/offline/',
+	APP_URL,
 	'/static/main/css/bootstrap.min.css',
 	'/static/main/css/main.css',
 	'/static/main/css/fonts.css',
 	'/static/main/font-awesome/css/font-awesome.min.css',
+	'/static/main/font-awesome/fonts/fontawesome-webfont.woff2',
 	'/static/main/js/jquery.min.js',
 	'/static/main/js/bootstrap.bundle.min.js',
 	'/static/main/js/main.js',
 	'/static/main/images/logo.png',
+	'/static/main/images/favicon.png',
+	'/static/main/offline/offline.css',
+	'/static/main/offline/smkre_kripto.js',
+	'/static/main/offline/smkre_db.js',
+	'/static/main/offline/smkre_kamera.js',
+	'/static/main/offline/smkre_offline.js',
 ];
 
 self.addEventListener('install', (event) => {
-	event.waitUntil(caches.open(STATIC_CACHE).then((c) => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
+	// Kada file ida-ida: file ida lakon la halo instalasaun hotu falla
+	event.waitUntil(caches.open(STATIC_CACHE).then((c) => Promise.all(
+		PRECACHE.map((url) => c.add(new Request(url, { cache: 'reload' })).catch(() => null))
+	)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {
@@ -30,20 +45,31 @@ self.addEventListener('fetch', (event) => {
 	if (req.method !== 'GET') return;
 	const url = new URL(req.url);
 	if (url.origin !== self.location.origin) return;
+	if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/media/')) return;   // dadus privadu: rede deit
 
-	// Static: cache uluk, depois rede (cache-first)
+	// Static: cache uluk, depois rede
 	if (url.pathname.startsWith('/static/')) {
 		event.respondWith(
 			caches.match(req).then((hit) => hit || fetch(req).then((res) => {
-				const copy = res.clone();
-				caches.open(STATIC_CACHE).then((c) => c.put(req, copy));
+				if (res.ok) { const copy = res.clone(); caches.open(STATIC_CACHE).then((c) => c.put(req, copy)); }
 				return res;
 			}))
 		);
 		return;
 	}
 
-	// Pájina HTML: rede uluk; se offline → pájina offline (dadus privadu LA rai iha cache)
+	// App offline: rede uluk (atualiza cache), offline → cache
+	if (url.pathname === APP_URL) {
+		event.respondWith(
+			fetch(req).then((res) => {
+				if (res.ok && !res.redirected) { const copy = res.clone(); caches.open(STATIC_CACHE).then((c) => c.put(APP_URL, copy)); }
+				return res;
+			}).catch(() => caches.match(APP_URL))
+		);
+		return;
+	}
+
+	// Pájina HTML seluk: rede uluk; offline → pájina offline
 	if (req.mode === 'navigate') {
 		event.respondWith(fetch(req).catch(() => caches.match('/offline/')));
 	}

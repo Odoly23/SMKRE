@@ -10,11 +10,13 @@ urlpatterns = [
 	path('notifikasaun/', include('notification.urls')),
 	path('kazu/', include('kazu.urls')),
 	path('report/', include('report.urls')),
+	path('sinkron/', include('sinkron.urls')),
 
 	# API
 	path('api/notif/', include('notification.api.urls')),
 	path('api/auth/', include('users.api.urls')),
 	path('api/report/', include('report.api.urls')),
+	path('api/sinkron/', include('sinkron.api.urls')),
 ]
 
 handler403 = 'main.views.error_403'

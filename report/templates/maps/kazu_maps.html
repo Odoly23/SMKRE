@@ -1,0 +1,151 @@
+{% load static i18n l10n smkre_tags %}
+{# Mapa kazu — include iha report/mapa.html. Aset hotu lokál (offline). #}
+<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
+<link rel="stylesheet" href="{% static 'main/leaflet/MarkerCluster.css' %}">
+<link rel="stylesheet" href="{% static 'main/leaflet/MarkerCluster.Default.css' %}">
+
+<div id="mapa" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}"
+	data-l-kazu="{% trans "kazu" %}" data-l-legend="{% trans "Lejenda" %}" data-l-urjente="{% trans "Urjente" %}"
+	data-l-baze="{% trans "Mapa Baze (offline)" %}" data-l-street="{% trans "Street" %}" data-l-satelite="{% trans "Satélite" %}"
+	data-l-fronteira="{% trans "Fronteira Munisípiu" %}" data-l-hotspot="{% trans "Hotspot (total kada munisípiu)" %}"></div>
+
+<!-- maps script -->
+<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script src="{% static 'main/leaflet/leaflet.markercluster.js' %}"></script>
+
+<script nonce="{{ request.csp_nonce }}">
+(function () {
+var L_ = document.getElementById('mapa').dataset;
+
+// [lat, lng, popup, status kazu, urjente]
+var addressPoints = [
+	{% for i in mapobjects %}
+	[{{ i.latitude|unlocalize }}, {{ i.longitude|unlocalize }}, "{% if i.fotos %}<img src='{{ i.fotos.0.file.url }}' class='map-foto' alt=''>{% endif %}<h6 class='mb-1'>{{ i.kode|js_html }}{% if i.urjente %} <span class='badge badge-urjente'>URJENTE</span>{% endif %}</h6>{% trans "Fatin" %} : <a href='{% url 'kazu-detail' i.pk %}'>{% if i.suku %}{{ i.suku.name|js_html }}, {% endif %}{% if i.postu %}{{ i.postu.name|js_html }}, {% endif %}{{ i.munisipiu.name|js_html }}</a><br/>{% trans "Tipu" %} : {% for t in i.tipu_konflitu.all %}{{ t.name|js_html }}{% if not forloop.last %}, {% endif %}{% endfor %}<br/>{% trans "Uma-kain" %} : {{ i.total_uma_kain }}<br/>{% trans "Status Kazu" %} : {{ i.get_status_kazu_display|js_html }}<br/>{% trans "Status Dadus" %} : {{ i.get_status_display|js_html }}<br/><a class='btn btn-sm btn-rbr mt-1' href='{% url 'kazu-detail' i.pk %}'>{% trans "Haree Detalla" as t %}{{ t|js_html }}</a>", "{{ i.status_kazu }}", {{ i.urjente|yesno:"true,false" }}],
+	{% endfor %}
+];
+
+// Hotspot: code munisípiu → [total, lat, lng, naran]
+var munTotal = {
+	{% for m, n in munobjects %}"{{ m.code|escapejs }}": [{{ n }}, {{ m.latitude|default_if_none:"null"|unlocalize }}, {{ m.longitude|default_if_none:"null"|unlocalize }}, "{{ m.name|js_html }}"],
+	{% endfor %}
+};
+
+//maps layer
+var mapaBaze = L.layerGroup();
+var openStreetMaps = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 18});
+var sateliteMaps = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri', maxZoom: 18});
+//maps layer
+
+var user_location = [-8.85, 125.8];
+var map = L.map('mapa', {
+	center: user_location,
+	zoom: 8,
+	layers: [navigator.onLine ? openStreetMaps : mapaBaze]
+});
+
+//icon///////////////////
+var ikonUrl = {
+	blue: "{% static 'main/mapa/marker-blue.svg' %}", gold: "{% static 'main/mapa/marker-gold.svg' %}",
+	violet: "{% static 'main/mapa/marker-violet.svg' %}", green: "{% static 'main/mapa/marker-green.svg' %}",
+	grey: "{% static 'main/mapa/marker-grey.svg' %}", red: "{% static 'main/mapa/marker-red.svg' %}"
+};
+function iconKor(kor) {
+	return new L.Icon({
+		iconUrl: ikonUrl[kor],
+		shadowUrl: "{% static 'main/mapa/marker-shadow.png' %}",
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+}
+var redIcon = iconKor('red');           // urjente
+var statusKazu = {
+	// status kazu: [label, kor ikon]
+	{% for code, label, kor in status_kazu_list %}"{{ code }}": ["{{ label|js_html }}", "{{ kor }}"],
+	{% endfor %}
+};
+//icon///////////////////
+
+// Marker kada status kazu (grupu cluster ida kada status)
+var markers = {};
+Object.keys(statusKazu).forEach(function (code) {
+	markers[code] = L.markerClusterGroup();
+	markers[code].icon = iconKor(statusKazu[code][1]);
+});
+for (var i = 0; i < addressPoints.length; i++) {
+	var a = addressPoints[i];
+	var title = a[2];
+	var grupu = markers[a[3]];
+	if (!grupu) continue;
+	var marker = L.marker(new L.LatLng(a[0], a[1]), {
+		icon: a[4] ? redIcon : grupu.icon
+	});
+	marker.bindPopup(title, {maxWidth: 260});
+	grupu.addLayer(marker);
+}
+Object.keys(markers).forEach(function (code) { map.addLayer(markers[code]); });
+
+// Fronteira munisípiu (GeoJSON lokál) + hotspot
+function colorFor(n) { return n >= 15 ? '#dc3545' : n >= 5 ? '#fd7e14' : n >= 1 ? '#0E8A68' : '#dff0c8'; }
+var fronteira = L.geoJSON(null, {
+	style: function (f) {
+		var n = (munTotal[f.properties.code] || [0])[0];
+		return {color: '#6f8f4f', weight: 1.5, fillColor: colorFor(n), fillOpacity: 0.35};
+	},
+	onEachFeature: function (f, layer) {
+		var m = munTotal[f.properties.code] || [0, 0, 0, f.properties.name];
+		layer.bindTooltip(m[3] + ': ' + m[0] + ' ' + L_.lKazu);
+	}
+}).addTo(map);
+fetch(L_.geojson).then(function (r) { return r.json(); }).then(function (geo) {
+	fronteira.addData(geo);
+	map.fitBounds(fronteira.getBounds(), {padding: [10, 10]});
+});
+
+var hotspot = L.layerGroup();
+Object.keys(munTotal).forEach(function (code) {
+	var m = munTotal[code];
+	if (!m[0] || m[1] === null) return;
+	L.circleMarker([m[1], m[2]], {radius: 8 + Math.sqrt(m[0]) * 4, color: '#fff', weight: 2, fillColor: colorFor(m[0]), fillOpacity: 0.9})
+		.bindTooltip('<b>' + m[3] + '</b>: ' + m[0] + ' ' + L_.lKazu, {direction: 'top'}).addTo(hotspot);
+	L.marker([m[1], m[2]], {icon: L.divIcon({className: 'hot-label', html: String(m[0]), iconSize: [30, 16]}), interactive: false}).addTo(hotspot);
+});
+
+var baseMaps = {};
+baseMaps["<span style='color: grey'>" + L_.lBaze + "</span>"] = mapaBaze;
+baseMaps["<span style='color: blue'>" + L_.lStreet + "</span>"] = openStreetMaps;
+baseMaps["<span style='color: green'>" + L_.lSatelite + "</span>"] = sateliteMaps;
+
+var overlayMaps = {};
+overlayMaps[L_.lFronteira] = fronteira;
+overlayMaps[L_.lHotspot] = hotspot;
+Object.keys(statusKazu).forEach(function (code) {
+	var s = statusKazu[code];
+	overlayMaps["<img src='" + ikonUrl[s[1]] + "' class='layer-ikon' alt=''> " + s[0]] = markers[code];
+});
+
+var layerControl = L.control.layers(baseMaps, overlayMaps, {collapsed: window.innerWidth < 768}).addTo(map);
+
+// Lejenda
+var legend = L.control({position: 'bottomleft'});
+legend.onAdd = function () {
+	var d = L.DomUtil.create('div', 'map-legend');
+	var html = '<b>' + L_.lLegend + '</b><br>';
+	Object.keys(statusKazu).forEach(function (code) {
+		html += "<img src='" + ikonUrl[statusKazu[code][1]] + "' class='layer-ikon' alt=''> " + statusKazu[code][0] + '<br>';
+	});
+	html += "<img src='" + ikonUrl.red + "' class='layer-ikon' alt=''> " + L_.lUrjente;
+	d.innerHTML = html;
+	return d;
+};
+legend.addTo(map);
+
+// Offline → hili mapa baze automátiku
+window.addEventListener('offline', function () {
+	map.removeLayer(openStreetMaps); map.removeLayer(sateliteMaps); map.addLayer(mapaBaze);
+});
+})();
+</script>

@@ -70,6 +70,7 @@ INSTALLED_APPS = [
 	'notification.apps.NotificationConfig',
 	'kazu.apps.KazuConfig',
 	'report.apps.ReportConfig',
+	'sinkron.apps.SinkronConfig',
 
 	'django_cleanup.apps.CleanupConfig',      # hamoos file tuan automátiku (tenke ikus)
 ]
@@ -352,7 +353,7 @@ CONTENT_SECURITY_POLICY = {
 		'default-src': [SELF],
 		'script-src': [SELF, NONCE],
 		'style-src': [SELF, "'unsafe-inline'"],
-		'img-src': [SELF, 'data:', 'blob:', 'https://*.tile.openstreetmap.org'],
+		'img-src': [SELF, 'data:', 'blob:', 'https://*.tile.openstreetmap.org', 'https://server.arcgisonline.com'],
 		'font-src': [SELF],
 		'connect-src': [SELF],
 		'media-src': [SELF, 'blob:'],

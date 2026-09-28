@@ -1678,3 +1678,73 @@ msgstr "Total kasus"
 #: report/templates/chart/chart_afetadu.js
 msgid "ema"
 msgstr "orang"
+
+#: sinkron/api/views.py
+msgid "Dadus la validu."
+msgstr "Data tidak valid."
+
+#: sinkron/services.py
+msgid "Data kria kazu iha futuru. Favor haree data no oras iha HP."
+msgstr "Tanggal pembuatan kasus di masa depan. Periksa tanggal dan jam di HP."
+
+#: sinkron/services.py
+msgid "Data kria kazu la iha."
+msgstr "Tanggal pembuatan kasus tidak ada."
+
+#: sinkron/api/views.py
+msgid "File la iha."
+msgstr "File tidak ada."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Fronteira Munisípiu"
+msgstr "Batas Munisipiu"
+
+#: sinkron/services.py
+msgid "HP bele haruka foto ka vídeu deit."
+msgstr "HP hanya boleh mengirim foto atau video."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Hotspot (total kada munisípiu)"
+msgstr "Hotspot (total per munisipiu)"
+
+#: sinkron/services.py
+msgid "ID la validu."
+msgstr "ID tidak valid."
+
+#: sinkron/services.py
+msgid "Kazu ne'e kria iha li'ur períodu autorizasaun offline. Kontaktu Admin."
+msgstr "Kasus ini dibuat di luar periode izin offline. Hubungi Admin."
+
+#: sinkron/api/views.py
+msgid "La iha asesu."
+msgstr "Tidak ada akses."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Mapa Baze (offline)"
+msgstr "Peta Dasar (offline)"
+
+#: sinkron/services.py
+msgid "Máximu %(n)s."
+msgstr "Maksimum %(n)s."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Satélite"
+msgstr "Satelit"
+
+#: kazu/templates/kazu/detail.html
+msgid "Sinkron husi HP"
+msgstr "Sinkron dari HP"
+
+#: report/templates/maps/kazu_maps.html
+msgid "Street"
+msgstr "Jalan"
+
+#: report/templates/report/mapa.html
+msgid ""
+"Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, hili "
+"Street ka Satélite iha ikon kamada (leten-los). Fronteira simplifikadu, ba "
+"vizualizasaun deit."
+msgstr ""
+"Peta dasar (batas munisipiu) berfungsi offline. Saat online, pilih Street "
+"atau Satelit di ikon lapisan (kanan atas). Batas disederhanakan, hanya untuk"
+" visualisasi."

@@ -209,6 +209,16 @@ class JWTTest(TestCase):
 		ok = self.client.post(reverse('api-token-refresh'), {'refresh': r.json()['refresh']})
 		self.assertEqual(ok.status_code, 200)
 
+	def test_autorizasaun_remata_hetan_token_ba_sinkron_deit(self):
+		from datetime import timedelta
+		from django.utils import timezone
+		agora = timezone.now()
+		OfflinePermission.objects.create(user=self.inv, given_by=self.admin, start_date=agora - timedelta(days=9), end_date=agora - timedelta(days=2))
+		r = self.client.post(self.url, {'username': self.inv.username, 'password': PASSWORD})
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(r.json()['offline_ativu'])            # app labele kria kazu foun
+		self.assertIsNone(r.json()['offline_until'])
+
 	def test_kansela_autorizasaun_hapara_refresh(self):
 		OfflinePermission.objects.create(user=self.inv, given_by=self.admin)
 		r = self.client.post(self.url, {'username': self.inv.username, 'password': PASSWORD})

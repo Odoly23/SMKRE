@@ -1787,3 +1787,74 @@ msgstr "Total kazu"
 #: report/templates/chart/chart_afetadu.js
 msgid "ema"
 msgstr "ema"
+
+#: sinkron/api/views.py
+msgid "Dadus la validu."
+msgstr "Dadus la validu."
+
+#: sinkron/services.py
+msgid "Data kria kazu iha futuru. Favor haree data no oras iha HP."
+msgstr "Data kria kazu iha futuru. Favor haree data no oras iha HP."
+
+#: sinkron/services.py
+msgid "Data kria kazu la iha."
+msgstr "Data kria kazu la iha."
+
+#: sinkron/api/views.py
+msgid "File la iha."
+msgstr "File la iha."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Fronteira Munisípiu"
+msgstr "Fronteira Munisípiu"
+
+#: sinkron/services.py
+msgid "HP bele haruka foto ka vídeu deit."
+msgstr "HP bele haruka foto ka vídeu deit."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Hotspot (total kada munisípiu)"
+msgstr "Hotspot (total kada munisípiu)"
+
+#: sinkron/services.py
+msgid "ID la validu."
+msgstr "ID la validu."
+
+#: sinkron/services.py
+msgid "Kazu ne'e kria iha li'ur períodu autorizasaun offline. Kontaktu Admin."
+msgstr ""
+"Kazu ne'e kria iha li'ur períodu autorizasaun offline. Kontaktu Admin."
+
+#: sinkron/api/views.py
+msgid "La iha asesu."
+msgstr "La iha asesu."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Mapa Baze (offline)"
+msgstr "Mapa Baze (offline)"
+
+#: sinkron/services.py
+msgid "Máximu %(n)s."
+msgstr "Máximu %(n)s."
+
+#: report/templates/maps/kazu_maps.html
+msgid "Satélite"
+msgstr "Satélite"
+
+#: kazu/templates/kazu/detail.html
+msgid "Sinkron husi HP"
+msgstr "Sinkron husi HP"
+
+#: report/templates/maps/kazu_maps.html
+msgid "Street"
+msgstr "Street"
+
+#: report/templates/report/mapa.html
+msgid ""
+"Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, hili "
+"Street ka Satélite iha ikon kamada (leten-los). Fronteira simplifikadu, ba "
+"vizualizasaun deit."
+msgstr ""
+"Mapa baze (fronteira munisípiu) servisu offline. Bainhira online, hili "
+"Street ka Satélite iha ikon kamada (leten-los). Fronteira simplifikadu, ba "
+"vizualizasaun deit."

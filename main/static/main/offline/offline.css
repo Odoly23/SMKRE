@@ -1,0 +1,54 @@
+/* SMKRE Offline — app Investigadór (mobile first). Kór husi main.css (:root). */
+.off-body { background: var(--rbr-bg); min-height: 100vh; padding-bottom: 80px; }
+.off-top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 8px;
+	background: var(--rbr-teal-dk); color: #fff; padding: 8px 12px; padding-top: calc(8px + env(safe-area-inset-top)); }
+.off-top img { background: #fff; border-radius: 50%; padding: 2px; }
+.off-title { flex: 1; line-height: 1.1; min-width: 0; }
+.off-title small { display: block; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.off-main { max-width: 640px; margin: 0 auto; padding: 12px; }
+.text-rbr { color: var(--rbr-teal-dk); }
+
+.pin-input { font-size: 28px; letter-spacing: 12px; text-align: center; max-width: 240px; }
+
+.perm-box { border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; font-size: 14px; }
+.perm-box.ok { background: #e3f6ee; color: var(--rbr-teal-xd); }
+.perm-box.remata { background: #fdecea; color: #8a1c1c; }
+
+.lokal-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+
+/* Pasu formuláriu */
+.stepper { display: flex; justify-content: space-between; margin-bottom: 12px; position: relative; }
+.stepper::before { content: ''; position: absolute; left: 16px; right: 16px; top: 50%; height: 2px; background: var(--border); z-index: 0; }
+.stepper span { position: relative; z-index: 1; width: 34px; height: 34px; border-radius: 50%; background: #fff; border: 2px solid var(--border);
+	display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--muted); }
+.stepper span.ativu { background: var(--rbr-teal-dk); border-color: var(--rbr-teal-dk); color: #fff; }
+.stepper span.remata { background: #e3f6ee; border-color: var(--rbr-teal); color: var(--rbr-teal-xd); }
+#form-kazu fieldset { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+#form-kazu legend { font-size: 17px; font-weight: 700; color: var(--rbr-teal-dk); width: auto; padding: 0 6px; margin-bottom: 4px; }
+.chk-list .custom-control { padding-top: 6px; padding-bottom: 6px; border-bottom: 1px solid #f0f2f0; }
+.sub-box { background: #f7f9f7; border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 8px; }
+.konsent-box { background: #fff8e1; border: 1px solid #f3d27a; border-radius: 10px; padding: 12px; }
+.step-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; display: flex; gap: 8px; background: #fff;
+	padding: 10px 12px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); box-shadow: 0 -2px 8px rgba(0,0,0,.08); }
+.step-nav .btn { flex: 1; min-height: 48px; }
+
+/* Evidénsia */
+.media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.media-item { position: relative; background: #000; border-radius: 8px; overflow: hidden; }
+.media-item img, .media-item video { width: 100%; height: 130px; object-fit: cover; display: block; }
+.media-item small { position: absolute; left: 6px; bottom: 4px; color: #fff; text-shadow: 0 1px 2px #000; }
+.media-item .btn { position: absolute; top: 4px; right: 4px; }
+
+/* Kámera ekran tomak */
+.kamera { position: fixed; inset: 0; z-index: 100; background: #000; }
+.kamera video { width: 100%; height: 100%; object-fit: cover; }
+.kamera-loke { overflow: hidden; }
+.kam-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between;
+	padding: 18px 24px; padding-bottom: calc(18px + env(safe-area-inset-bottom)); background: rgba(0,0,0,.35); }
+.kam-space { width: 48px; }
+.kam-shutter { width: 72px; height: 72px; border-radius: 50%; border: 5px solid #fff; background: rgba(255,255,255,.3); }
+.kam-shutter.video { background: #dc3545; }
+.kam-shutter.rec { border-radius: 16px; background: #dc3545; animation: rec 1s infinite; }
+@keyframes rec { 50% { opacity: .6; } }
+.kam-timer { position: absolute; top: calc(16px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+	background: #dc3545; color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px; font-size: 20px; }

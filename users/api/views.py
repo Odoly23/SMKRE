@@ -9,16 +9,23 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from config.rbac import INVESTIGADOR
 from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline
+from users.models import OfflinePermission
 
 logger = logging.getLogger('smkre.sinkron')
 
 
 def _check_offline(user):
-	# Token sinkron ba Investigadór ho autorizasaun offline validu deit
+	# Token sinkron ba Investigadór ne'ebé simu ona autorizasaun offline husi Admin.
+	# Autorizasaun remata → token nafatin (bele sinkron), maibé app labele kria kazu foun (offline_ativu = False).
 	if c_user_group(user) != INVESTIGADOR:
 		raise serializers.ValidationError(_('Token sinkron ba Investigadór deit.'))
-	if not c_user_offline(user):
+	if not OfflinePermission.objects.filter(user=user).exists():
 		raise serializers.ValidationError(_('Autorizasaun offline la ativu. Kontaktu Admin.'))
+
+
+def _offline_info(user):
+	perm = c_user_offline(user)
+	return {'offline_ativu': bool(perm), 'offline_until': perm.end_date.isoformat() if perm else None}
 
 
 class OfflineTokenObtainSerializer(TokenObtainPairSerializer):
@@ -28,8 +35,7 @@ class OfflineTokenObtainSerializer(TokenObtainPairSerializer):
 		attrs['username'] = (attrs.get('username') or '').strip().lower()
 		data = super().validate(attrs)
 		_check_offline(self.user)
-		perm = c_user_offline(self.user)
-		data['offline_until'] = perm.end_date.isoformat()
+		data.update(_offline_info(self.user))
 		logger.info(f'Token sinkron: {self.user.username}')
 		return data
 
@@ -42,7 +48,9 @@ class OfflineTokenRefreshSerializer(TokenRefreshSerializer):
 		if not user:
 			raise serializers.ValidationError(_('Utilizador la ativu.'))
 		_check_offline(user)
-		return super().validate(attrs)
+		data = super().validate(attrs)
+		data.update(_offline_info(user))
+		return data
 
 
 class APIOfflineTokenObtain(TokenObtainPairView):
@@ -58,13 +66,11 @@ class APIMe(APIView):
 
 	def get(self, request, format=None):
 		pesoal = c_user_pesoal(request.user)
-		perm = c_user_offline(request.user)
 		return Response({
 			'email': request.user.email,
 			'naran': pesoal.name if pesoal else '',
 			'role': c_user_group(request.user),
 			'munisipiu': pesoal.munisipiu_id if pesoal else None,
 			'munisipiu_naran': pesoal.munisipiu.name if pesoal and pesoal.munisipiu else '',
-			'offline_ativu': bool(perm),
-			'offline_until': perm.end_date.isoformat() if perm else None,
+			**_offline_info(request.user),
 		})
