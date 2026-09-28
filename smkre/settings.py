@@ -245,9 +245,9 @@ BEHIND_PROXY = env('BEHIND_PROXY', default=not DEBUG, cast=bool)
 # Autorizasaun offline (loron)
 OFFLINE_PERMISSION_DAYS = env('OFFLINE_PERMISSION_DAYS', default=7, cast=int)
 
-# Portal públiku: kontaktu iha topbar (mamuk = la hatudu)
-PORTAL_TELEFONE = env('PORTAL_TELEFONE', default='')
-PORTAL_EMAIL = env('PORTAL_EMAIL', default='')
+# Portal públiku: kontaktu iha topbar (ezemplu; troka iha .env ho kontaktu loloos; mamuk = la hatudu)
+PORTAL_TELEFONE = env('PORTAL_TELEFONE', default='+670 0000 0000')
+PORTAL_EMAIL = env('PORTAL_EMAIL', default='email@exemplu.tl')
 PORTAL_ENDERESU = env('PORTAL_ENDERESU', default='Dili, Timor-Leste')
 PORTAL_LIMITE_SUBAR = 3              # númeru 1–2 hatudu "< 3" (privasidade)
 
