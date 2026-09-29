@@ -17,7 +17,7 @@ from custom.models import Munisipiu, Suku, TipuKonflitu
 from kazu.models import Kazu, UmaKainAfetada, APPROVED, COMPLETED
 
 STATUS_PUBLIKU = [APPROVED, COMPLETED]
-CACHE_SEGUNDU = 600
+CACHE_SEGUNDU = 600                  # production: minutu 10 (DEBUG: la iha cache, atu teste lokál haree kedas)
 
 
 def limite():
@@ -76,6 +76,8 @@ def _konta(qs, campo):
 def estatistika(params):
 	f = limpa_filtru(params)
 	chave = 'portal:' + translation.get_language() + ':' + ':'.join(f'{k}={v}' for k, v in sorted(f.items()))
+	if settings.DEBUG:
+		return _kalkula(f)
 	data = cache.get(chave)
 	if data is None:
 		data = _kalkula(f)

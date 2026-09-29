@@ -109,7 +109,7 @@ def PesoalList(request):
 | Sinkron susesu | Dadus privadu hamoos husi HP; kódigu kazu deit mak hela |
 | Koneksaun kotu | Koko fali la kria duplikadu (ID UUID husi HP) |
 
-> **Teste lokál (laptop / HP):** haree [`docs/TESTE_OFFLINE.md`](docs/TESTE_OFFLINE.md) — `python manage.py teste_offline` (prepara konta) no `python manage.py cek_sinkron` (verifika dadus tama).
+> **Teste lokál:** online → [`docs/TESTE_ONLINE.md`](docs/TESTE_ONLINE.md) (`teste_online` + `cek_kazu`) · offline/HP → [`docs/TESTE_OFFLINE.md`](docs/TESTE_OFFLINE.md) (`teste_offline` + `cek_sinkron`).
 >
 > **Teste iha HP durante dev:** kámera, GPS no WebCrypto presiza **HTTPS** (ka `localhost`). `http://192.168.x.x` sei la servisu.
 

@@ -276,3 +276,38 @@ class EvidensiaTest(KazuBase):
 		r = self.client.post(reverse('kazu-evidensia', args=[kazu.pk]), {'tipu': 'VIDEO', 'file': SimpleUploadedFile('x.exe', b'MZ', 'application/octet-stream')})
 		self.assertContains(r, 'Formatu')
 		self.assertEqual(Evidensia.objects.count(), 0)
+
+
+class KomanduTesteOnlineTest(KazuBase):
+	def test_cek_kazu_hatudu_dalan_kazu(self):
+		from io import StringIO
+		from django.core.management import call_command
+		kazu = self.create_kazu('haruka')
+		self.client.force_login(self.admin)
+		self.post(reverse('kazu-action', args=[kazu.pk, 'verifika']))
+		self.client.force_login(self.sa)
+		self.post(reverse('kazu-action', args=[kazu.pk, 'aprova']))
+		kazu.refresh_from_db()
+		out = StringIO()
+		call_command('cek_kazu', '--kode', kazu.kode, stdout=out)
+		linha = [l for l in out.getvalue().splitlines() if kazu.kode in l][0]
+		self.assertIn('WEB', linha)
+		self.assertIn('APPROVED', linha)
+		self.assertTrue(linha.rstrip().endswith('SIN'))              # mosu iha portal
+
+	@override_settings(DEBUG=False)
+	def test_teste_online_labele_iha_production(self):
+		from django.core.management import call_command
+		from django.core.management.base import CommandError
+		with self.assertRaises(CommandError):
+			call_command('teste_online')
+
+	@override_settings(DEBUG=True)
+	def test_teste_online_kria_konta_tolu(self):
+		from io import StringIO
+		from django.core.management import call_command
+		call_command('teste_online', stdout=StringIO())
+		for email in ('teste.investigador@redebarai.org', 'teste.admin@redebarai.org', 'teste.superadmin@redebarai.org'):
+			from django.contrib.auth.models import User
+			u = User.objects.get(username=email)
+			self.assertTrue(u.check_password('Teste#Online-2026') and not u.pesoaluser.must_change_password, email)
