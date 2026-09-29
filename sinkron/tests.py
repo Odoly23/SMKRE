@@ -211,3 +211,31 @@ class AppPageTest(TestCase):
 		self.assertEqual(r.status_code, 200)                          # SW bele rai iha cache (la presiza login)
 		self.assertContains(r, 'smkre_offline.js')
 		self.assertNotIn(b'csrfmiddlewaretoken', r.content)
+
+
+class KomanduTesteTest(SinkronBase):
+	def test_cek_sinkron_hatudu_kazu_husi_hp(self):
+		from io import StringIO
+		from django.core.management import call_command
+		data = self.payload()
+		self.send(data)
+		self.upload(data['id'])
+		self.haruka(data['id'])
+		out = StringIO()
+		call_command('cek_sinkron', stdout=out)
+		self.assertIn(Kazu.objects.get(pk=data['id']).kode, out.getvalue())
+		self.assertIn('1 kompletu', out.getvalue())
+
+	@override_settings(DEBUG=False)
+	def test_teste_offline_labele_iha_production(self):
+		from django.core.management import call_command
+		from django.core.management.base import CommandError
+		with self.assertRaises(CommandError):
+			call_command('teste_offline')
+
+	@override_settings(DEBUG=True)
+	def test_teste_offline_prepara_konta(self):
+		from io import StringIO
+		from django.core.management import call_command
+		call_command('teste_offline', '--email', 'hp@teste.tl', '--munisipiu', 'DIL', stdout=StringIO())
+		self.assertEqual(self.client.post(reverse('api-token'), {'username': 'hp@teste.tl', 'password': 'Teste#Offline-2026'}).json()['offline_ativu'], True)
