@@ -17,6 +17,42 @@
 	if (overlay) overlay.addEventListener('click', function () { setSidebar(false); });
 	document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setSidebar(false); });
 
+	// ── Navbar: menu ne'ebé la kabe muda ba "Seluk" (la iha tabrakan ho logo / notifikasaun) ──
+	var navLinks = document.querySelector('.nav-links');
+	var navMore = document.getElementById('nav-more');
+	var navMenu = document.getElementById('nav-more-menu');
+	function fitNav() {
+		if (!navLinks || !navMore) return;
+		var items = Array.prototype.slice.call(navLinks.children);
+		items.forEach(function (li) { li.hidden = false; });
+		navMenu.textContent = '';
+		navMore.hidden = true;
+		navMore.classList.remove('active');
+		if (window.innerWidth < 992) return;                       // HP: hamburger + sidebar
+		var sobra = function () { return navLinks.scrollWidth > navLinks.clientWidth + 1; };
+		if (!sobra()) return;
+		navMore.hidden = false;                                    // "Seluk" okupa fatin → sukat fali
+		// Muda husi ikus ba oin; pájina ativa hela iha liña (se bele)
+		var lista = items.slice().reverse();
+		var kandidatu = lista.filter(function (li) { return !li.classList.contains('active'); }).concat(lista.filter(function (li) { return li.classList.contains('active'); }));
+		var subar = [];
+		for (var i = 0; i < kandidatu.length && sobra(); i++) {
+			kandidatu[i].hidden = true;
+			subar.push(kandidatu[i]);
+		}
+		items.forEach(function (li) {
+			if (subar.indexOf(li) < 0) return;
+			var a = li.querySelector('a').cloneNode(true);
+			a.className = 'dropdown-item' + (li.classList.contains('active') ? ' active' : '');
+			navMenu.appendChild(a);
+			if (li.classList.contains('active')) navMore.classList.add('active');
+		});
+	}
+	var navTimer = null;
+	window.addEventListener('resize', function () { clearTimeout(navTimer); navTimer = setTimeout(fitNav, 120); });
+	fitNav();
+	if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);     // font Lato karrega → sukat fali
+
 	// ── Status koneksaun: Online / Offline ──
 	var net = document.getElementById('net-status');
 	function updateNet() {

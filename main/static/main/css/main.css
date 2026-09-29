@@ -73,12 +73,13 @@ a:hover { color: var(--rbr-teal-dk); }
 	display: flex; align-items: center;
 }
 .main-navbar .container { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none !important; color: var(--rbr-dark) !important; font-weight: 800; white-space: nowrap; min-width: 0; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none !important; color: var(--rbr-dark) !important; font-weight: 800; white-space: nowrap; min-width: 0; flex-shrink: 0; }
 .brand img { height: 42px; width: auto; }
 .brand span { font-size: 1.05rem; line-height: 1.1; }
 .brand small { display: block; font-family: 'Lato', sans-serif; font-weight: 400; font-size: .72rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; max-width: 46vw; }
 
-.nav-links { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; }
+.nav-links { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; flex: 1 1 0; min-width: 0; overflow: hidden; }
+.nav-links > li:first-child { margin-left: auto; }        /* menu iha los; bainhira sobra, sobra ba los (main.js sukat) */
 .nav-links li a {
 	color: #333; text-decoration: none; font-size: .8rem; font-weight: 700;
 	text-transform: uppercase; letter-spacing: .03em;
@@ -87,7 +88,16 @@ a:hover { color: var(--rbr-teal-dk); }
 }
 .nav-links li a:hover { background: #eefaf5; color: var(--rbr-teal-xd); }
 .nav-links li.active a { color: var(--rbr-teal-xd); border-bottom-color: var(--rbr-green); border-radius: 6px 6px 0 0; }
-.nav-right { display: flex; align-items: center; gap: 6px; }
+.nav-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+/* "Seluk": menu ne'ebé la kabe (lian PT/EN/ID naruk liu, ka ekran ki'ik) */
+.nav-more { flex-shrink: 0; }
+.nav-more-btn { color: #333; text-decoration: none !important; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em;
+	padding: 8px 10px; border-radius: 6px; display: flex; align-items: center; gap: 6px; white-space: nowrap; border-bottom: 3px solid transparent; }
+.nav-more-btn:hover, .nav-more.show .nav-more-btn { background: #eefaf5; color: var(--rbr-teal-xd); }
+.nav-more.active .nav-more-btn { color: var(--rbr-teal-xd); border-bottom-color: var(--rbr-green); border-radius: 6px 6px 0 0; }
+#nav-more-menu .dropdown-item .fa { width: 18px; color: var(--rbr-teal-dk); }
+#nav-more-menu .dropdown-item.active { background: #eefaf5; color: var(--rbr-teal-xd); font-weight: 700; }
 .nav-icon { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #444; font-size: 1.25rem; border-radius: 50%; }
 .nav-icon:hover { background: #eefaf5; color: var(--rbr-teal-xd); }
 #notifbadge { position: absolute; top: 4px; right: 2px; font-size: .62rem; border-radius: 10px; }
@@ -113,7 +123,7 @@ a:hover { color: var(--rbr-teal-dk); }
 }
 .btn-ham:hover { background: #eefaf5; }
 @media (min-width: 992px) { .nav-links { display: flex !important; } .btn-ham { display: none !important; } }
-@media (max-width: 991px) { .nav-links { display: none !important; } .btn-ham { display: flex !important; } }
+@media (max-width: 991px) { .nav-links, .nav-more { display: none !important; } .btn-ham { display: flex !important; } }
 
 /* ═══════════════════════════════════════════
    SIDEBAR ikon — HP deit
@@ -328,3 +338,6 @@ div.dataTables_wrapper div.dataTables_filter input { min-height: 38px; }
 .doc-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .doc-item:last-child { border-bottom: 0; }
 .doc-ikon { font-size: 26px; color: var(--rbr-maroon); width: 30px; text-align: center; }
+
+/* Ekran luan (≥ 1400px): kontentu luan liu (hanesan Bootstrap 5 xxl) → menu kabe iha liña */
+@media (min-width: 1400px) { .container { max-width: 1320px; } }

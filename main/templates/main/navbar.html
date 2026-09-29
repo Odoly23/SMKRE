@@ -12,6 +12,13 @@
 			<li class="{% if page == item.page %}active{% endif %}"><a href="{{ item.url }}"><i class="fa {{ item.icon }}"></i> {{ item.label }}</a></li>
 			{% endfor %}
 		</ul>
+		<!-- Menu ne'ebé la kabe iha liña: muda automátiku ba "Seluk" (main.js → fitNav) -->
+		<div class="dropdown nav-more" id="nav-more" hidden>
+			<a href="#" class="nav-more-btn" id="nav-more-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fa fa-ellipsis-h"></i> {% trans "Seluk" %} <i class="fa fa-caret-down"></i>
+			</a>
+			<div class="dropdown-menu dropdown-menu-right" id="nav-more-menu" aria-labelledby="nav-more-btn"></div>
+		</div>
 
 		<div class="nav-right">
 			<div class="dropdown">
