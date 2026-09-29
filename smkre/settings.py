@@ -135,7 +135,7 @@ MESSAGE_TAGS = {
 
 
 # ══════════════════════════════════════════════
-# 4. DATABASE  (DEV: SQLite  |  PROD: PostgreSQL)
+# 4. DATABASE  (DEV: SQLite  |  PROD: PostgreSQL ka MySQL)
 # ══════════════════════════════════════════════
 if env('DB_ENGINE', default='sqlite') == 'postgresql':
 	DATABASES = {
@@ -147,6 +147,20 @@ if env('DB_ENGINE', default='sqlite') == 'postgresql':
 			'HOST': env('DB_HOST', default='localhost'),
 			'PORT': env('DB_PORT', default='5432'),
 			'CONN_MAX_AGE': 60,
+		}
+	}
+elif env('DB_ENGINE', default='sqlite') == 'mysql':
+	# MySQL (ezemplu PythonAnywhere: DB_HOST=<username>.mysql.pythonanywhere-services.com, DB_NAME=<username>$smkre)
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.mysql',
+			'NAME': env('DB_NAME'),
+			'USER': env('DB_USER'),
+			'PASSWORD': env('DB_PASSWORD'),
+			'HOST': env('DB_HOST', default='localhost'),
+			'PORT': env('DB_PORT', default='3306'),
+			'CONN_MAX_AGE': 60,
+			'OPTIONS': {'charset': 'utf8mb4', 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
 		}
 	}
 else:
@@ -241,6 +255,8 @@ AXES_CLIENT_IP_CALLABLE = 'config.utils.get_client_ip'   # IP loos iha kotuk Ngi
 
 # Server iha kotuk Nginx (production): IP kliente husi X-Forwarded-For ne'ebé Nginx hatama
 BEHIND_PROXY = env('BEHIND_PROXY', default=not DEBUG, cast=bool)
+# Header IP kliente husi proxy (ezemplu PythonAnywhere: HTTP_X_REAL_IP). Mamuk = X-Forwarded-For (Nginx rasik)
+CLIENT_IP_HEADER = env('CLIENT_IP_HEADER', default='')
 
 # Autorizasaun offline (loron)
 OFFLINE_PERMISSION_DAYS = env('OFFLINE_PERMISSION_DAYS', default=7, cast=int)

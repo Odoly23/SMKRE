@@ -158,6 +158,8 @@ Konfigurasaun hotu iha `smkre/settings.py`, fahe ba seksaun **1–12** ho naran.
 
 ## 📦 Production
 
+> Uji coba online gratis: [`docs/DEPLOY_PYTHONANYWHERE.md`](docs/DEPLOY_PYTHONANYWHERE.md) · Server rasik: `docs/DEPLOY.md`
+
 Haree **[docs/DEPLOY.md](docs/DEPLOY.md)** (PostgreSQL, Gunicorn, Nginx, Celery, Redis, HTTPS).
 
 ## 🗺️ Faze dezenvolvimentu

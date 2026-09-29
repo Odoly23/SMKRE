@@ -167,6 +167,12 @@ class ClientIPTest(TestCase):
 		req = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='1.2.3.4, 203.0.113.9', REMOTE_ADDR='')
 		self.assertEqual(get_client_ip(req), '203.0.113.9')          # 1.2.3.4 bele falsu
 
+	@override_settings(BEHIND_PROXY=True, CLIENT_IP_HEADER='HTTP_X_REAL_IP')
+	def test_header_pythonanywhere(self):
+		from config.utils import get_client_ip
+		req = RequestFactory().get('/', HTTP_X_REAL_IP='198.51.100.4', HTTP_X_FORWARDED_FOR='1.2.3.4', REMOTE_ADDR='10.0.0.2')
+		self.assertEqual(get_client_ip(req), '198.51.100.4')
+
 	@override_settings(BEHIND_PROXY=False)
 	def test_la_iha_proxy(self):
 		from config.utils import get_client_ip
