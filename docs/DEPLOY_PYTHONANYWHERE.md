@@ -6,6 +6,25 @@ jadi app offline (`/sinkron/`) bisa dites di **HP sungguhan, Android dan iPhone*
 > Ganti `<username>` dengan username PythonAnywhere Anda di semua langkah.
 > Untuk produksi resmi tetap disarankan server sendiri (PostgreSQL + Redis + Celery) — lihat `docs/DEPLOY.md`.
 
+## ⚡ Cara cepat: satu script (disarankan)
+
+Untuk akun **redebarai** hasilnya: **https://redebarai.pythonanywhere.com**
+
+1. (Opsional, agar tab Web & Tasks ikut otomatis) **Account → API token → Create a new API token**.
+   Token otomatis tersedia di console baru sebagai `$API_TOKEN` — tidak perlu disalin ke mana pun.
+2. **Consoles → Bash** (buka console *baru* setelah membuat token), jalankan:
+   ```bash
+   git clone https://github.com/Odoly23/SMKRE.git
+   bash SMKRE/deploy/pythonanywhere_setup.sh
+   ```
+3. Script meminta **email, nama dan password Superadmin** (password tidak tampil di layar).
+4. Tanpa API token: ikuti 5 langkah tab **Web** yang dicetak di akhir script, lalu jalankan script sekali lagi (menulis file WSGI) dan klik **Reload**.
+
+Script aman dijalankan berulang — juga dipakai untuk **update versi**: `bash ~/SMKRE/deploy/pythonanywhere_setup.sh`
+(`.env` dan Superadmin yang sudah ada tidak diubah). Tanpa API token, setelah update klik **Reload** di tab Web.
+
+Langkah manual lengkap (jika ingin memahami tiap langkah) ada di bawah.
+
 ## Batasan akun gratis (Beginner)
 
 | Hal | Di akun gratis | Dampak di SMKRE |
