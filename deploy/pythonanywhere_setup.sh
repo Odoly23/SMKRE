@@ -69,6 +69,7 @@ fi
 pasu "4/7 Base dadus, tradusaun no file statiku"
 ${PYV} manage.py migrate --noinput
 ${PYV} manage.py setup_smkre
+${PYV} manage.py import_wilayah custom/data/wilayah/wilayah_dm31_2026.xlsx   # suku no aldeia (DM 31/2026)
 ${PYV} manage.py compile_lian
 ${PYV} manage.py collectstatic --noinput
 ${PYV} manage.py check --deploy || true

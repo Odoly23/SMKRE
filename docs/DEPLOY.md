@@ -60,6 +60,7 @@ PORTAL_ENDERESU=Dili, Timor-Leste
 ```bash
 python manage.py migrate
 python manage.py setup_smkre
+python manage.py import_wilayah custom/data/wilayah/wilayah_dm31_2026.xlsx   # 472 suku / 2250 aldeia (DM 31/2026)
 python manage.py setup_horariu      # knaar automátiku kada loron (Celery Beat)
 python manage.py compile_lian
 python manage.py collectstatic --noinput

@@ -62,6 +62,16 @@ Loke http://127.0.0.1:8000 → login ho email.
 
 ### Suku no Aldeia
 
+Dadus ofisiál **Diploma Ministerial 31/2026** (472 suku, 2250 aldeia) prontu iha `custom/data/wilayah/`:
+
+```bash
+python manage.py import_wilayah custom/data/wilayah/wilayah_dm31_2026.xlsx --dry-run   # haree uluk
+python manage.py import_wilayah custom/data/wilayah/wilayah_dm31_2026.xlsx
+```
+
+57 suku marka **VERIFIKA** (postu la klaru iha PDF): prenxe `postu_code` iha aba *Suku* no import fali. Detalla: `tools/wilayah_dm31/README.md`.
+
+
 Munisípiu no Postu Administrativu tama automátiku. Suku (452) no Aldeia import husi CSV:
 
 ```bash

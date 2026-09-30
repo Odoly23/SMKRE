@@ -114,6 +114,7 @@ Jika memakai MySQL: tab **Databases** → buat password MySQL → buat database 
 ```bash
 python manage.py migrate
 python manage.py setup_smkre
+python manage.py import_wilayah custom/data/wilayah/wilayah_dm31_2026.xlsx
 python manage.py compile_lian
 python manage.py collectstatic --noinput
 python manage.py kria_superadmin --email ita@redebarai.org --naran "Naran Ita"
