@@ -136,5 +136,5 @@ else
 fi
 
 echo
-echo "══════ PRONTU → https://${DOMAIN}/portal/  ·  https://${DOMAIN}/login/  ·  https://${DOMAIN}/sinkron/"
+echo "══════ PRONTU → https://${DOMAIN}/ (portal)  ·  https://${DOMAIN}/login/  ·  https://${DOMAIN}/sinkron/"
 echo "Atualiza versaun foun iha futuru: bash ${APP}/deploy/pythonanywhere_setup.sh"

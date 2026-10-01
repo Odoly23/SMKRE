@@ -155,7 +155,7 @@ Tab **Tasks** → *Scheduled tasks* → Daily, jam **21:00 UTC** (= 06:00 waktu 
 
 | Alamat | Yang dicek |
 |---|---|
-| `https://<username>.pythonanywhere.com/portal/` | Portal publik (tanpa login) |
+| `https://<username>.pythonanywhere.com/` | Portal publik (tanpa login) — pengunjung langsung masuk ke sini |
 | `https://<username>.pythonanywhere.com/login/` | Login superadmin → buat akun Admin, Investigadór, dll (menu Utilizador) |
 | `https://<username>.pythonanywhere.com/sinkron/` | **App offline di HP** — Admin beri izin offline dulu (menu *Offline*) |
 

@@ -8,8 +8,8 @@ class HomeTest(TestCase):
 	def setUp(self):
 		setup_master()
 
-	def test_home_presiza_login(self):
-		self.assertRedirects(self.client.get('/'), reverse('login') + '?next=/')
+	def test_home_vizitante_ba_portal(self):
+		self.assertRedirects(self.client.get('/'), reverse('portal'))
 
 	def test_home_tuir_papel(self):
 		self.client.force_login(make_user(INVESTIGADOR))

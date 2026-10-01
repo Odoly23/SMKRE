@@ -236,7 +236,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 60 * 1024 * 1024
 # ══════════════════════════════════════════════
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'portal'
 
 SESSION_COOKIE_AGE = 60 * 60 * 8                 # oras 8 (loron servisu ida)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

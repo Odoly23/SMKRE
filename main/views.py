@@ -2,7 +2,7 @@ import os
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse, Http404
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.templatetags.static import static
 from django.utils._os import safe_join
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -14,8 +14,10 @@ from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline
 from users.models import OfflinePermission, Pesoal
 
 
-@login_required
 def home(request):
+	# Vizitante sein login → portal públiku; staf → varanda
+	if not request.user.is_authenticated:
+		return redirect('portal')
 	from kazu.models import DRAFT, ONGOING, PENDING, SYNCED, VERIFIED, APPROVED, REJECTED
 	from kazu.permissions import kazu_queryset
 	group = c_user_group(request.user)
