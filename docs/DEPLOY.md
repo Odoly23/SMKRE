@@ -50,6 +50,7 @@ CELERY_ALWAYS_EAGER=False
 USE_REDIS_CACHE=True
 BEHIND_PROXY=True
 ADMIN_URL=<url-segredu>/
+MAPBOX_TOKEN=                          # opsionál: token públiku pk.… (limita ba domínio iha account.mapbox.com)
 PORTAL_TELEFONE=+670 0000 0000        # ezemplu — troka ho kontaktu loloos
 PORTAL_EMAIL=email@exemplu.tl
 PORTAL_ENDERESU=Dili, Timor-Leste

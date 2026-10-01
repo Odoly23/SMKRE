@@ -139,3 +139,12 @@ class PublikasaunStafTest(TestCase):
 	def test_investigador_labele(self):
 		self.client.force_login(self.inv)
 		self.assertEqual(self.client.get(reverse('publikasaun-list')).status_code, 403)
+
+
+class MapboxTokenTest(TestCase):
+	# Token Mapbox mai husi .env (settings.MAPBOX_TOKEN), la hakerek iha kódigu
+	def test_token_husi_settings(self):
+		with self.settings(MAPBOX_TOKEN='pk.teste123'):
+			self.assertContains(self.client.get(reverse('portal')), 'data-mapbox="pk.teste123"')
+		with self.settings(MAPBOX_TOKEN=''):
+			self.assertContains(self.client.get(reverse('portal')), 'data-mapbox=""')

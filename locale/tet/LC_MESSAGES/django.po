@@ -2643,3 +2643,19 @@ msgstr "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser."
 
 msgid "Haree iha mapa"
 msgstr "Haree iha mapa"
+
+msgid "Hotspot (total kazu)"
+msgstr "Hotspot (total kazu)"
+
+msgid "Kór munisípiu"
+msgstr "Kór munisípiu"
+
+msgid "Klik atu haree detalla"
+msgstr "Klik atu haree detalla"
+
+msgid ""
+"Círculo hatudu total kazu kada munisípiu (hotspot). Klik círculo ka "
+"munisípiu atu haree suku no gráfiku husi munisípiu ne'e."
+msgstr ""
+"Círculo hatudu total kazu kada munisípiu (hotspot). Klik círculo ka "
+"munisípiu atu haree suku no gráfiku husi munisípiu ne'e."

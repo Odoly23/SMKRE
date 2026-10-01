@@ -147,3 +147,8 @@ body.p-loading #charts, body.p-loading #kpis, body.p-loading #painel { opacity: 
 .p-cta .btn-light { color: var(--maroon) !important; }
 .p-cta .btn-outline-light { color: #fff !important; }
 .p-cta .btn-outline-light:hover { color: var(--maroon) !important; }
+
+/* Hotspot mapa: total kazu iha círculo */
+.p-hot-label { background: transparent; border: 0; color: #fff; font-weight: 800; font-size: 13px; text-align: center; line-height: 18px;
+	text-shadow: 0 1px 2px rgba(0,0,0,.45); cursor: pointer; }
+.p-hot-label.p-hot-escuro { color: #0b0b0b; text-shadow: none; }

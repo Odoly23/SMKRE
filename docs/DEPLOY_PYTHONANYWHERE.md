@@ -99,6 +99,9 @@ CLIENT_IP_HEADER=HTTP_X_REAL_IP
 # Email: console = email hanya tercatat di log. Ganti ke smtp jika akun mengizinkan.
 EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
 
+# Mapbox (opsional) — token publik pk.… dari account.mapbox.com, batasi ke domain Anda
+MAPBOX_TOKEN=
+
 # Portal (contoh — ganti dengan kontak asli)
 PORTAL_TELEFONE=+670 0000 0000
 PORTAL_EMAIL=email@exemplu.tl

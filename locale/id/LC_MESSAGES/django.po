@@ -2536,3 +2536,19 @@ msgstr "Lokasi Anda tidak ditemukan. Nyalakan GPS dan izinkan browser."
 
 msgid "Haree iha mapa"
 msgstr "Lihat di peta"
+
+msgid "Hotspot (total kazu)"
+msgstr "Hotspot (total kasus)"
+
+msgid "Kór munisípiu"
+msgstr "Warna munisipiu"
+
+msgid "Klik atu haree detalla"
+msgstr "Klik untuk melihat detail"
+
+msgid ""
+"Círculo hatudu total kazu kada munisípiu (hotspot). Klik círculo ka "
+"munisípiu atu haree suku no gráfiku husi munisípiu ne'e."
+msgstr ""
+"Lingkaran menunjukkan total kasus per munisipiu (hotspot). Klik lingkaran "
+"atau munisipiu untuk melihat suku dan grafik munisipiu tersebut."

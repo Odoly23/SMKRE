@@ -265,6 +265,10 @@ OFFLINE_PERMISSION_DAYS = env('OFFLINE_PERMISSION_DAYS', default=7, cast=int)
 PORTAL_TELEFONE = env('PORTAL_TELEFONE', default='+670 0000 0000')
 PORTAL_EMAIL = env('PORTAL_EMAIL', default='email@exemplu.tl')
 PORTAL_ENDERESU = env('PORTAL_ENDERESU', default='Dili, Timor-Leste')
+# Mapbox (opsionál): token públiku 'pk.…' husi account.mapbox.com — rai iha .env deit, labele iha kódigu.
+# Mamuk → mapa uza OpenStreetMap + Esri deit.
+MAPBOX_TOKEN = env('MAPBOX_TOKEN', default='')
+
 PORTAL_LIMITE_SUBAR = 3              # númeru 1–2 hatudu "< 3" (privasidade)
 
 
@@ -381,7 +385,7 @@ CONTENT_SECURITY_POLICY = {
 		'default-src': [SELF],
 		'script-src': [SELF, NONCE],
 		'style-src': [SELF, "'unsafe-inline'"],
-		'img-src': [SELF, 'data:', 'blob:', 'https://*.tile.openstreetmap.org', 'https://server.arcgisonline.com'],
+		'img-src': [SELF, 'data:', 'blob:', 'https://*.tile.openstreetmap.org', 'https://server.arcgisonline.com', 'https://api.mapbox.com'],
 		'font-src': [SELF],
 		'connect-src': [SELF],
 		'media-src': [SELF, 'blob:'],

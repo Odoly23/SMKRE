@@ -2554,3 +2554,19 @@ msgstr ""
 
 msgid "Haree iha mapa"
 msgstr "Ver no mapa"
+
+msgid "Hotspot (total kazu)"
+msgstr "Hotspot (total de casos)"
+
+msgid "Kór munisípiu"
+msgstr "Cor do município"
+
+msgid "Klik atu haree detalla"
+msgstr "Clique para ver detalhes"
+
+msgid ""
+"Círculo hatudu total kazu kada munisípiu (hotspot). Klik círculo ka "
+"munisípiu atu haree suku no gráfiku husi munisípiu ne'e."
+msgstr ""
+"Os círculos mostram o total de casos por município (hotspot). Clique num "
+"círculo ou município para ver os sucos e gráficos desse município."

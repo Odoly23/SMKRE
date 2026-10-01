@@ -19,6 +19,8 @@ def _portal_lang():
 		'suku_hili': _('Hili munisípiu ida atu haree kazu tuir suku.'), 'munisipiu': _('Munisípiu'),
 		'tipu': _('Tipu'), 'tinan': _('Tinan'), 'timor': 'Timor-Leste', 'legenda': _('Kazu kada munisípiu'),
 		'ema': _('ema'), 'offline': _('Mapa baze (offline)'),
+		'street': _('Street'), 'satelite': _('Satélite'), 'hotspot': _('Hotspot (total kazu)'),
+		'kor_munisipiu': _('Kór munisípiu'), 'klik_hotspot': _('Klik atu haree detalla'),
 	}
 
 

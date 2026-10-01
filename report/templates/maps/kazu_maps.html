@@ -40,6 +40,15 @@ var openStreetMaps = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}
 var sateliteMaps = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri', maxNativeZoom: 18, maxZoom: 20});
 var ZOOM_UMA = 19;   // zoom ba haree uma sira besik kazu
+// Mapbox (opsionál): token husi .env (MAPBOX_TOKEN) — la hakerek iha kódigu
+var MAPBOX_TOKEN = "{{ MAPBOX_TOKEN|escapejs }}";
+function mapboxLayer(estilu) {
+	return L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/' + estilu + '/tiles/{z}/{x}/{y}?access_token=' + encodeURIComponent(MAPBOX_TOKEN), {
+		attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; OpenStreetMap',
+		tileSize: 512, zoomOffset: -1, maxNativeZoom: 19, maxZoom: 20});
+}
+var mapboxMaps = MAPBOX_TOKEN ? mapboxLayer('streets-v12') : null;
+if (MAPBOX_TOKEN) sateliteMaps = mapboxLayer('satellite-streets-v12');   // satélite Mapbox klaru liu iha zoom besik
 //maps layer
 
 var user_location = [-8.85, 125.8];
@@ -81,7 +90,7 @@ function butaunZoom(lat, lng) {
 }
 function hiliSatelite() {
 	if (!navigator.onLine || map.hasLayer(sateliteMaps)) return;
-	[mapaBaze, openStreetMaps].forEach(function (l) { map.removeLayer(l); });
+	[mapaBaze, openStreetMaps, mapboxMaps].forEach(function (l) { if (l) map.removeLayer(l); });
 	map.addLayer(sateliteMaps);
 }
 function zoomUma(lat, lng) {
@@ -144,6 +153,7 @@ Object.keys(munTotal).forEach(function (code) {
 var baseMaps = {};
 baseMaps["<span style='color: grey'>" + L_.lBaze + "</span>"] = mapaBaze;
 baseMaps["<span style='color: blue'>" + L_.lStreet + "</span>"] = openStreetMaps;
+if (mapboxMaps) baseMaps["<span style='color: #4264fb'>Mapbox</span>"] = mapboxMaps;
 baseMaps["<span style='color: green'>" + L_.lSatelite + "</span>"] = sateliteMaps;
 
 var overlayMaps = {};
@@ -202,7 +212,8 @@ map.on('locationerror', function () { window.alert(L_.lGpsErru); });
 
 // Offline → hili mapa baze automátiku
 window.addEventListener('offline', function () {
-	map.removeLayer(openStreetMaps); map.removeLayer(sateliteMaps); map.addLayer(mapaBaze);
+	[openStreetMaps, sateliteMaps, mapboxMaps].forEach(function (l) { if (l) map.removeLayer(l); });
+	map.addLayer(mapaBaze);
 });
 })();
 </script>

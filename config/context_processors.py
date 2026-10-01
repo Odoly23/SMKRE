@@ -1,3 +1,4 @@
+from django.conf import settings
 from config import rbac
 from config.menu import menu_for, bottom_nav_for
 from users.auth_utils import c_user_group, c_user_pesoal
@@ -25,4 +26,5 @@ def smkre(request):
 		'is_investigador': group == rbac.INVESTIGADOR,
 		'can_manage_user': group in rbac.ROLE_USER_MANAGE,
 		'can_give_offline': group in rbac.ROLE_OFFLINE_FO,
+		'MAPBOX_TOKEN': settings.MAPBOX_TOKEN,            # mapa Leaflet (portal + admin)
 	}
