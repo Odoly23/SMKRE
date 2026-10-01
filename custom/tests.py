@@ -64,32 +64,55 @@ class ImportDM31Test(TestCase):
 		self.assertEqual(Suku.objects.count(), 0)
 		self.assertEqual(PostuAdministrativu.objects.count(), 65)
 
-	def test_import_idempotente_no_verifika(self):
+	def test_import_idempotente(self):
 		out = self.run_cmd(self.XLSX)
 		self.assertIn('Postu foun: 6', out)
-		self.assertEqual(Suku.objects.count(), 415)                 # 57 VERIFIKA seidauk tama
+		self.assertEqual(Suku.objects.count(), 472)                 # VERIFIKA hotu prenxe ona (fonte web)
+		self.assertEqual(Aldeia.objects.count(), 2250)
 		self.assertEqual(PostuAdministrativu.objects.get(code='BAU-07').name, 'Quelicai Antigu')
 		self.assertEqual(Suku.objects.get(code='LIQ-S344').name, 'Maubaralissa')   # PDF hakerek 354
+		self.assertEqual(Suku.objects.get(code='LAU-S299').postu.code, 'LAU-02')    # Baduro → Lautém
+		self.assertEqual(Suku.objects.get(code='DIL-S230').postu.code, 'DIL-02')    # Madohi → Dom Aleixo
 		out = self.run_cmd(self.XLSX)                               # la'o fali → la duplika
 		self.assertIn('Suku foun: 0', out)
-		self.assertEqual(Suku.objects.count(), 415)
+		self.assertEqual(Suku.objects.count(), 472)
 
-	def test_prenxe_verifika_no_desativa_demo(self):
-		# Simula utilizador prenxe postu_code ba liña VERIFIKA (sujestaun primeiru)
+	def test_verifika_prenxe_tuir_diploma_no_fonte(self):
+		# Postu ne'ebé prenxe tenke iha opsaun diploma (sujestaun) no obs tenke iha fonte
+		import csv
 		import re
-		from openpyxl import load_workbook
-		wb = load_workbook(self.XLSX)
-		ws = wb['Suku']
-		kab = [c.value for c in ws[1]]
-		ip, isj = kab.index('postu_code'), kab.index('sujestaun')
-		for row in ws.iter_rows(min_row=2):
-			if not row[ip].value:
-				row[ip].value = re.search(r'[A-Z]{3}-\d\d', row[isj].value).group(0)
-		tmp = tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False)
-		wb.save(tmp.name)
+		with open('custom/data/wilayah/suku_dm31_2026.csv', encoding='utf-8') as f:
+			rows = list(csv.DictReader(f))
+		self.assertEqual(len(rows), 472)
+		self.assertFalse([r['suku_code'] for r in rows if not r['postu_code']])
+		prenxe = [r for r in rows if r['sujestaun']]
+		self.assertEqual(len(prenxe), 57)
+		for r in prenxe:
+			self.assertIn(r['verifika'], ('WEB', 'DIPLOMA'), r['suku_code'])
+			self.assertIn(r['postu_code'], re.findall(r'[A-Z]{3}-\d\d', r['sujestaun']), r['suku_code'])
+			self.assertIn('Fonte postu:', r['obs'], r['suku_code'])
+			if r['verifika'] == 'WEB':
+				self.assertRegex(r['obs'], r'Fonte postu: https://', r['suku_code'])
+
+	def test_desativa_demo(self):
 		demo = Suku.objects.create(code='DEMO-01', name='Demo', postu=PostuAdministrativu.objects.first())
-		self.run_cmd(tmp.name, '--desativa-la-iha')
+		self.run_cmd(self.XLSX, '--desativa-la-iha')
 		self.assertEqual(Suku.objects.filter(is_active=True).count(), 472)
 		self.assertEqual(Aldeia.objects.filter(is_active=True).count(), 2250)
 		demo.refresh_from_db()
 		self.assertFalse(demo.is_active)
+
+	def test_desativa_la_bele_ho_verifika(self):
+		# Se iha suku VERIFIKA mamuk, --desativa-la-iha la desativa buat ida
+		from openpyxl import load_workbook
+		wb = load_workbook(self.XLSX)
+		ws = wb['Suku']
+		ip = [c.value for c in ws[1]].index('postu_code')
+		ws.cell(row=2, column=ip + 1).value = None
+		tmp = tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False)
+		wb.save(tmp.name)
+		demo = Suku.objects.create(code='DEMO-01', name='Demo', postu=PostuAdministrativu.objects.first())
+		self.run_cmd(tmp.name, '--desativa-la-iha')
+		self.assertEqual(Suku.objects.filter(is_active=True).count(), 472)   # 471 + demo
+		demo.refresh_from_db()
+		self.assertTrue(demo.is_active)
