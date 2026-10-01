@@ -343,18 +343,5 @@ div.dataTables_wrapper div.dataTables_filter input { min-height: 38px; }
 @media (min-width: 1400px) { .container { max-width: 1320px; } }
 .btn-xave:disabled { opacity: .45; cursor: not-allowed; }
 
-/* ── Modal konfirmasaun (main/modal_konfirma.html) ── */
-.modal-konfirma .modal-content { border: 0; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
-.modal-konfirma .modal-title { font-family: 'Montserrat', sans-serif; font-weight: 700; }
-.modal-konfirma .mk-mensajen { font-size: .95rem; }
-.modal-konfirma .mk-ok { min-width: 120px; }
-.mk-ikon { width: 64px; height: 64px; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-	font-size: 28px; color: #fff; background: var(--rbr-teal-dk); box-shadow: 0 0 0 8px rgba(14,138,104,.15); animation: mk-pop .25s ease-out; }
-.mk-ikon.mk-verified  { background: #20c997; box-shadow: 0 0 0 8px rgba(32,201,151,.18); }
-.mk-ikon.mk-success   { background: #28a745; box-shadow: 0 0 0 8px rgba(40,167,69,.18); }
-.mk-ikon.mk-dark      { background: #343a40; box-shadow: 0 0 0 8px rgba(52,58,64,.15); }
-.mk-ikon.mk-danger    { background: #dc3545; box-shadow: 0 0 0 8px rgba(220,53,69,.18); }
-.mk-ikon.mk-secondary { background: #6c757d; box-shadow: 0 0 0 8px rgba(108,117,125,.18); }
-@keyframes mk-pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .map-locate { display: flex !important; align-items: center; justify-content: center; width: 34px; height: 34px; background: #fff; color: #0E8A68; font-size: 18px; }
 .map-locate:hover { color: #0b6e53; background: #f4f4f4; }

@@ -46,17 +46,17 @@ def KazuList(request):
 	return render(request, 'kazu/list.html', context)
 
 
-# Aparénsia butaun aksaun + modal konfirmasaun (regra ativu/xave iha kazu.services.ACTIONS)
+# Aparénsia butaun aksaun + testu modal (regra ativu/xave iha kazu.services.ACTIONS)
 BUTAUN_STILU = {
-	'verifika': {'label': _l('Verifika'), 'css': 'btn-verified', 'kor': 'verified', 'icon': 'fa-check',
+	'verifika': {'label': _l('Verifika'), 'css': 'btn-verified', 'icon': 'fa-check',
 		'titulu': _l('Verifika kazu?'), 'mensajen': _l("Dadus sei ba Superadmin atu aprova.")},
-	'aprova':   {'label': _l('Aprova'), 'css': 'btn-success', 'kor': 'success', 'icon': 'fa-check-circle',
+	'aprova':   {'label': _l('Aprova'), 'css': 'btn-success', 'icon': 'fa-check-circle',
 		'titulu': _l('Aprova kazu?'), 'mensajen': _l("Kazu sei mosu iha dashboard no portal públiku (dadus agregadu).")},
-	'remata':   {'label': _l('Remata'), 'css': 'btn-dark', 'kor': 'dark', 'icon': 'fa-flag-checkered',
+	'remata':   {'label': _l('Remata'), 'css': 'btn-dark', 'icon': 'fa-flag-checkered',
 		'titulu': _l('Remata kazu?'), 'mensajen': _l('Marka kazu ne\'e remata (kompensasaun selu ona).')},
-	'rejeita':  {'label': _l('Rejeita'), 'css': 'btn-danger', 'kor': 'danger', 'icon': 'fa-undo',
+	'rejeita':  {'label': _l('Rejeita'), 'css': 'btn-danger', 'icon': 'fa-undo',
 		'titulu': _l('Rejeita kazu?'), 'mensajen': _l('Kazu fila ba Investigadór atu hadia no haruka fali.')},
-	'kansela':  {'label': _l('Kansela (falsu / duplikadu)'), 'css': 'btn-outline-secondary', 'kor': 'secondary', 'icon': 'fa-ban',
+	'kansela':  {'label': _l('Kansela (falsu / duplikadu)'), 'css': 'btn-outline-secondary', 'icon': 'fa-ban',
 		'titulu': _l('Kansela kazu?'), 'mensajen': _l('Ida-ne\'e final: butaun hotu sei xave.')},
 }
 

@@ -29,14 +29,17 @@ self.addEventListener('fetch', (event) => {
 	if (url.origin !== self.location.origin) return;
 	if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/media/')) return;   // dadus privadu: rede deit
 
-	// Static: cache uluk, depois rede
+	// Static ho hash iha naran (produsaun: main.3f2a9c1b7e4d.js): cache uluk — naran muda bainhira konteúdu muda.
+	// Static sein hash (DEBUG): rede uluk, cache ba offline deit — atu kódigu foun mosu kedas.
 	if (url.pathname.startsWith('/static/')) {
-		event.respondWith(
-			caches.match(req).then((hit) => hit || fetch(req).then((res) => {
-				if (res.ok) { const copy = res.clone(); caches.open(STATIC_CACHE).then((c) => c.put(req, copy)); }
-				return res;
-			}))
-		);
+		const guarda = (res) => {
+			if (res.ok) { const copy = res.clone(); caches.open(STATIC_CACHE).then((c) => c.put(req, copy)); }
+			return res;
+		};
+		const hashadu = /\.[0-9a-f]{12}\.[a-z0-9]+$/i.test(url.pathname);
+		event.respondWith(hashadu
+			? caches.match(req).then((hit) => hit || fetch(req).then(guarda))
+			: fetch(req).then(guarda).catch(() => caches.match(req)));
 		return;
 	}
 

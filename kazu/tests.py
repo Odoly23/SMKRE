@@ -139,8 +139,8 @@ class WorkflowTest(KazuBase):
 		# Admin: Verifika
 		self.client.force_login(self.admin)
 		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
-		self.assertContains(r, "'verifika'" if False else 'data-action="verifika"')
-		self.assertNotContains(r, 'data-action="aprova"')
+		self.assertContains(r, 'data-target="#modal-verifika"')
+		self.assertNotContains(r, 'data-target="#modal-aprova"')
 		self.post(reverse('kazu-action', args=[kazu.pk, 'verifika']))
 		kazu.refresh_from_db()
 		self.assertEqual(kazu.status, 'VERIFIED')
@@ -211,7 +211,7 @@ class WorkflowTest(KazuBase):
 		# Superadmin haree Aprova xave ho razaun
 		self.client.force_login(self.sa)
 		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
-		self.assertNotContains(r, 'data-action="aprova"')
+		self.assertNotContains(r, 'data-target="#modal-aprova"')
 		self.assertContains(r, 'Hein Admin verifika uluk')
 
 		# Hafoin verifika: Aprova ativu, Rejeita/Kansela xave (servidór mós bloku)
@@ -234,7 +234,7 @@ class WorkflowTest(KazuBase):
 		kazu.refresh_from_db()
 		self.assertEqual(available_actions(self.admin, kazu), ['kansela'])
 		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
-		self.assertNotContains(r, 'data-action="verifika"')
+		self.assertNotContains(r, 'data-target="#modal-verifika"')
 		self.assertContains(r, 'Hein Investigadór hadia no haruka fali')
 		self.post(reverse('kazu-action', args=[kazu.pk, 'verifika']))
 		kazu.refresh_from_db()
@@ -255,7 +255,7 @@ class WorkflowTest(KazuBase):
 		for user in (self.admin, self.sa):
 			self.assertTrue(all(not b['ativu'] for b in action_buttons(user, kazu)))
 		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
-		self.assertNotContains(r, 'data-action=')
+		self.assertNotContains(r, "data-toggle=\"modal\"")
 		self.assertContains(r, 'Kazu kanseladu')
 
 	def test_kodigu_la_bentrok(self):
@@ -293,7 +293,7 @@ class AccessTest(KazuBase):
 		self.client.force_login(make_user(ANALISTA))
 		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
 		self.assertEqual(r.status_code, 200)
-		self.assertNotContains(r, 'data-action=')
+		self.assertNotContains(r, "data-toggle=\"modal\"")
 		self.assertEqual(self.post(reverse('kazu-action', args=[kazu.pk, 'verifika'])).status_code, 403)
 
 	def test_admin_labele_kria_kazu(self):

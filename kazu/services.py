@@ -72,15 +72,16 @@ def _razaun_xave(action, status):
 
 
 def action_buttons(user, kazu):
-	# Butaun hotu ba papel utilizador nian: [{'action', 'ativu', 'razaun'}]
+	# Butaun hotu ba papel utilizador nian: [{'action', 'ativu', 'presiza_nota', 'razaun'}]
 	# Butaun la ativu sei hatudu (xave) ho razaun, atu utilizador hatene tanba sa.
 	group = c_user_group(user)
 	buttons = []
-	for action, (orijen, _foun, roles, _nota) in ACTIONS.items():
+	for action, (orijen, _foun, roles, presiza_nota) in ACTIONS.items():
 		if group not in roles:
 			continue
 		ativu = kazu.status in orijen
-		buttons.append({'action': action, 'ativu': ativu, 'razaun': '' if ativu else _razaun_xave(action, kazu.status)})
+		buttons.append({'action': action, 'ativu': ativu, 'presiza_nota': presiza_nota,
+			'razaun': '' if ativu else _razaun_xave(action, kazu.status)})
 	return buttons
 
 

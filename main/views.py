@@ -105,8 +105,17 @@ def service_worker(request):
 	# Service worker tenke serve husi raiz "/" atu kontrola pájina hotu.
 	# Lista aset + versaun cache hatama iha ne'e: aset muda → hash muda → cache foun automátiku.
 	import hashlib, json
+	from django.contrib.staticfiles import finders
 	assets = [static(a) for a in SW_ASSETS]
-	versaun = hashlib.sha256('|'.join(assets).encode()).hexdigest()[:10]
+	# Versaun = naran aset + konteúdu file. Iha DEBUG naran la iha hash, entaun konteúdu
+	# mak garante katak main.js foun troka kópia tuan iha HP (la presiza hamoos cache).
+	h = hashlib.sha256('|'.join(assets).encode())
+	for a in SW_ASSETS:
+		f = finders.find(a)
+		if f:
+			with open(f, 'rb') as fh:
+				h.update(fh.read())
+	versaun = h.hexdigest()[:10]
 	path = settings.BASE_DIR / 'main' / 'static' / 'main' / 'pwa' / 'sw.js'
 	js = path.read_text(encoding='utf-8').replace("'__SW_VERSAUN__'", json.dumps(versaun)).replace("'__SW_ASSETS__'", json.dumps(assets))
 	response = HttpResponse(js, content_type='application/javascript')
