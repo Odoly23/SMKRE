@@ -300,21 +300,23 @@
 
 	// ── Mapa: baze (Street / Mapbox / Satélite) + Hotspot (total kada munisípiu) + kór munisípiu ──
 	// Portal hatudu dadus agregadu deit — la iha pontu kazu ida-idak (privasidade).
-	var mapa = L.map('p-mapa', { zoomControl: true, scrollWheelZoom: false, attributionControl: true }).setView([-8.85, 125.8], 8);
+	// maxZoom 12: fatin kazu aproksimadu deit (~1 km) — labele zoom to'o haree uma
+	var ZOOM_MAX = 12;
+	var mapa = L.map('p-mapa', { zoomControl: true, scrollWheelZoom: false, attributionControl: true, maxZoom: ZOOM_MAX }).setView([-8.85, 125.8], 8);
 	var baze = {};
-	baze[T.street] = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap' });
+	baze[T.street] = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: ZOOM_MAX, attribution: '&copy; OpenStreetMap' });
 	if (CFG.mapbox) {
 		// Token Mapbox husi .env (MAPBOX_TOKEN) — la hakerek iha kódigu
 		var mapbox = function (estilu) {
 			return L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/' + estilu + '/tiles/{z}/{x}/{y}?access_token=' + encodeURIComponent(CFG.mapbox), {
-				maxZoom: 18, tileSize: 512, zoomOffset: -1,
+				maxZoom: ZOOM_MAX, tileSize: 512, zoomOffset: -1,
 				attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; OpenStreetMap'
 			});
 		};
 		baze['Mapbox'] = mapbox('streets-v12');
 		baze[T.satelite] = mapbox('satellite-streets-v12');
 	} else {
-		baze[T.satelite] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: 'Tiles &copy; Esri' });
+		baze[T.satelite] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: ZOOM_MAX, attribution: 'Tiles &copy; Esri' });
 	}
 	if (navigator.onLine) baze[CFG.mapbox ? 'Mapbox' : T.street].addTo(mapa);
 	var fronteira = null;
@@ -331,25 +333,53 @@
 		return DADUS ? DADUS.munisipiu.filter(function (m) { return m.code === code; })[0] : null;
 	}
 
-	// Hotspot: círculo ho total kada munisípiu. Klik → filtru munisípiu (zoom + kazu tuir suku).
+	// ── Hotspot: pin ho númeru kada munisípiu → kartaun resumu → "Haree detalla" (zoom munisípiu) ──
+	var lokasaun = L.layerGroup().addTo(mapa);      // marka mean: fatin kazu aproksimadu iha munisípiu hili
+
+	function pinKor(n) { return n >= 10 ? 'p-pin-mean' : n >= 5 ? 'p-pin-laranja' : 'p-pin-verde'; }
+
+	function kartaun(f, m) {
+		// Kartaun resumu munisípiu (dadus agregadu deit); DOM atu evita HTML husi dadus
+		var div = document.createElement('div');
+		div.className = 'p-kartu';
+		var h = document.createElement('div'); h.className = 'p-kartu-head'; h.textContent = f.name; div.appendChild(h);
+		var tbl = document.createElement('div'); tbl.className = 'p-kartu-body';
+		[[T.total_kazu, m.label], [T.tipu_top, m.tipu_top], [T.uma_afetadu, m.uma_kain]].forEach(function (r) {
+			if (r[1] == null) return;                       // munisípiu ho kazu < 3: la hatudu detalla
+			var row = document.createElement('div'); row.className = 'p-kartu-row';
+			var k = document.createElement('span'); k.textContent = r[0] + ':';
+			var v = document.createElement('b'); v.textContent = r[1];
+			row.appendChild(k); row.appendChild(v); tbl.appendChild(row);
+		});
+		div.appendChild(tbl);
+		var btn = document.createElement('button');
+		btn.type = 'button'; btn.className = 'p-kartu-btn'; btn.textContent = T.haree_detalla;
+		btn.addEventListener('click', function () { mapa.closePopup(); hili('munisipiu', f.code); });
+		div.appendChild(btn);
+		return div;
+	}
+
 	function hotspotDesenha() {
 		hotspot.clearLayers();
 		if (!fronteira || !DADUS) return;
 		fronteira.eachLayer(function (l) {
 			var f = l.feature.properties, m = munDadus(f.code);
-			if (!m || m.n === 0) return;
-			var n = m.n == null ? 1 : m.n;                    // "< 3": kí'ik liu
-			var raiu = 14 + Math.sqrt(n) * 5;
-			var sentru = l.getBounds().getCenter();
-			var hiliAtu = F.munisipiu === f.code;
-			var c = L.circleMarker(sentru, { radius: raiu, color: hiliAtu ? K.ink : '#ffffff', weight: hiliAtu ? 3 : 2,
-				fillColor: kor(m), fillOpacity: 0.92 }).addTo(hotspot);
-			var naroman = n < 5;                              // kór naroman → letra metin (kontraste)
-			var lbl = L.marker(sentru, { icon: L.divIcon({ className: 'p-hot-label' + (naroman ? ' p-hot-escuro' : ''), html: esc(m.label), iconSize: [44, 18] }), keyboard: false }).addTo(hotspot);
-			[c, lbl].forEach(function (x) {
-				x.bindTooltip('<b>' + esc(f.name) + '</b><br>' + esc(m.label) + ' ' + esc(T.kazu) + '<br><small>' + esc(T.klik_hotspot) + '</small>', { direction: 'top' });
-				x.on('click', function () { hili('munisipiu', f.code); });
-			});
+			if (!m || m.n === 0 || F.munisipiu === f.code) return;   // munisípiu hili: hatudu marka mean
+			var n = m.n == null ? 1 : m.n;
+			var pin = L.marker(l.getBounds().getCenter(), {
+				icon: L.divIcon({ className: 'p-pin ' + pinKor(n), html: '<span><b>' + esc(m.label) + '</b></span>', iconSize: [40, 50], iconAnchor: [20, 48], popupAnchor: [0, -44] }),
+				title: f.name + ': ' + m.label + ' ' + T.kazu, riseOnHover: true
+			}).addTo(hotspot);
+			pin.bindPopup(function () { return kartaun(f, m); }, { className: 'p-kartu-popup', maxWidth: 260, minWidth: 220 });
+		});
+		lokasaunDesenha();
+	}
+
+	function lokasaunDesenha() {
+		lokasaun.clearLayers();
+		(DADUS && DADUS.lokasaun || []).forEach(function (p) {
+			L.marker(p, { icon: L.icon({ iconUrl: CFG.ikonMean, iconSize: [25, 41], iconAnchor: [12, 41] }), keyboard: false, title: T.lokasaun })
+				.bindTooltip(T.lokasaun, { direction: 'top', offset: [0, -36] }).addTo(lokasaun);
 		});
 	}
 
@@ -386,6 +416,7 @@
 		mapa.removeLayer(hotspot); hotspot.addTo(mapa);    // hotspot iha leten fronteira (klik)
 		var overlay = {};
 		overlay[T.hotspot] = hotspot;
+		overlay[T.lokasaun] = lokasaun;
 		overlay[T.kor_munisipiu] = fronteira;
 		L.control.layers(baze, overlay, { collapsed: window.innerWidth < 768 }).addTo(mapa);
 		mapaEstilu();

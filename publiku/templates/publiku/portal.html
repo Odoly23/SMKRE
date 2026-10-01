@@ -50,7 +50,7 @@
 	<div class="container">
 		<div class="p-sec-head">
 			<h2>{% trans "Mapa kazu tuir munisípiu" %}</h2>
-			<p>{% trans "Círculo hatudu total kazu kada munisípiu (hotspot). Klik círculo ka munisípiu atu haree suku no gráfiku husi munisípiu ne'e." %}</p>
+			<p>{% trans "Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku." %}</p>
 		</div>
 		<div class="row">
 			<div class="col-lg-8 mb-3">
@@ -141,7 +141,7 @@
 </section>
 
 {{ portal_lang|json_script:"portal-lang" }}
-<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}" data-mapbox="{{ MAPBOX_TOKEN }}"></div>
+<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}" data-mapbox="{{ MAPBOX_TOKEN }}" data-ikon-mean="{% static 'main/mapa/marker-red.svg' %}"></div>
 {% endblock %}
 
 {% block scripts %}

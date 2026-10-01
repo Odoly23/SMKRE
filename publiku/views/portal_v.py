@@ -21,6 +21,8 @@ def _portal_lang():
 		'ema': _('ema'), 'offline': _('Mapa baze (offline)'),
 		'street': _('Street'), 'satelite': _('Satélite'), 'hotspot': _('Hotspot (total kazu)'),
 		'kor_munisipiu': _('Kór munisípiu'), 'klik_hotspot': _('Klik atu haree detalla'),
+		'total_kazu': _('Total kazu'), 'tipu_top': _('Tipu barak liu'), 'uma_afetadu': _('Uma-kain afetadu'),
+		'haree_detalla': _('Haree Detalla'), 'lokasaun': _('Fatin kazu (aproksimadu ~1 km)'),
 	}
 
 

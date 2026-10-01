@@ -2552,3 +2552,16 @@ msgid ""
 msgstr ""
 "Lingkaran menunjukkan total kasus per munisipiu (hotspot). Klik lingkaran "
 "atau munisipiu untuk melihat suku dan grafik munisipiu tersebut."
+
+msgid "Tipu barak liu"
+msgstr "Tipe terbanyak"
+
+msgid "Fatin kazu (aproksimadu ~1 km)"
+msgstr "Lokasi kasus (perkiraan ~1 km)"
+
+msgid ""
+"Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba "
+"munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku."
+msgstr ""
+"Pin menunjukkan total kasus per munisipiu. Klik pin → Lihat detail untuk "
+"zoom ke munisipiu, melihat lokasi kasus (perkiraan) dan grafik suku."

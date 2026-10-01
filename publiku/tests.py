@@ -86,6 +86,24 @@ class PrivasidadeTest(PortalBase):
 		self.assertEqual(d['filtru'], {})
 
 
+class MapaPinTest(PortalBase):
+	def test_kartaun_munisipiu_boot_deit(self):
+		mun = {m['code']: m for m in estatistika({})['munisipiu']}
+		self.assertEqual(mun['DIL']['uma_kain'], 20)                   # 4 kazu × 5
+		self.assertEqual(mun['DIL']['tipu_top'], self.tipu.name)
+		self.assertNotIn('uma_kain', mun['LIQ'])                       # "< 3": la iha detalla
+		self.assertNotIn('tipu_top', mun['LIQ'])
+
+	def test_lokasaun_aproksimadu_bainhira_hili_munisipiu(self):
+		Kazu.objects.filter(munisipiu=self.dil).update(latitude='-8.556789', longitude='125.578912')
+		Kazu.objects.filter(munisipiu=self.liq).update(latitude='-8.612345', longitude='125.212345')
+		self.assertEqual(estatistika({})['lokasaun'], [])               # la hili munisípiu: la iha pontu
+		self.assertEqual(estatistika({'munisipiu': 'DIL'})['lokasaun'], [(-8.56, 125.58)])   # ~1 km, hamutuk ida
+		self.assertEqual(estatistika({'munisipiu': 'LIQ'})['lokasaun'], [])                  # "< 3": la hatudu
+		r = self.client.get(reverse('api-portal-estatistika'), {'munisipiu': 'DIL'})
+		self.assertNotIn(b'578912', r.content)                         # koordenada loos la sai
+
+
 class PortalPajinaTest(PortalBase):
 	@override_settings(PORTAL_TELEFONE='+670 7000 0000', PORTAL_EMAIL='info@exemplu.tl')
 	def test_portal_publiku_ho_kontaktu(self):

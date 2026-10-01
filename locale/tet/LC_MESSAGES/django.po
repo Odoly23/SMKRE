@@ -2659,3 +2659,16 @@ msgid ""
 msgstr ""
 "Círculo hatudu total kazu kada munisípiu (hotspot). Klik círculo ka "
 "munisípiu atu haree suku no gráfiku husi munisípiu ne'e."
+
+msgid "Tipu barak liu"
+msgstr "Tipu barak liu"
+
+msgid "Fatin kazu (aproksimadu ~1 km)"
+msgstr "Fatin kazu (aproksimadu ~1 km)"
+
+msgid ""
+"Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba "
+"munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku."
+msgstr ""
+"Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba "
+"munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku."

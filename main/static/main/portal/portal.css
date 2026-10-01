@@ -148,7 +148,25 @@ body.p-loading #charts, body.p-loading #kpis, body.p-loading #painel { opacity: 
 .p-cta .btn-outline-light { color: #fff !important; }
 .p-cta .btn-outline-light:hover { color: var(--maroon) !important; }
 
-/* Hotspot mapa: total kazu iha círculo */
-.p-hot-label { background: transparent; border: 0; color: #fff; font-weight: 800; font-size: 13px; text-align: center; line-height: 18px;
-	text-shadow: 0 1px 2px rgba(0,0,0,.45); cursor: pointer; }
-.p-hot-label.p-hot-escuro { color: #0b0b0b; text-shadow: none; }
+/* Hotspot mapa: pin ho total kazu kada munisípiu */
+.p-pin { background: transparent; border: 0; }
+.p-pin span { position: absolute; left: 2px; top: 0; width: 36px; height: 36px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+	display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,.35);
+	color: #fff; font-weight: 800; font-size: 14px; text-shadow: 0 1px 2px rgba(0,0,0,.35); cursor: pointer; transition: transform .15s; }
+.p-pin b { transform: rotate(45deg); }               /* númeru tuir direitu */
+.p-pin-mean span    { background: #d63c3c; }
+.p-pin-laranja span { background: #e8772e; }
+.p-pin-verde span   { background: #1f8f5f; }
+.p-pin:hover span   { transform: rotate(-45deg) scale(1.12); }
+
+/* Kartaun resumu munisípiu (popup pin) */
+.p-kartu-popup .leaflet-popup-content-wrapper { padding: 0; border-radius: 10px; overflow: hidden; }
+.p-kartu-popup .leaflet-popup-content { margin: 0; width: auto !important; }
+.p-kartu-head { background: linear-gradient(180deg, #2f6aa6, #24558a); color: #fff; font-weight: 700; font-size: 17px; padding: 10px 14px; }
+.p-kartu-body { padding: 6px 14px 2px; }
+.p-kartu-row { display: flex; gap: 8px; padding: 7px 0; border-bottom: 1px solid #e6e9ee; font-size: 13.5px; }
+.p-kartu-row span { color: #3b3f45; min-width: 112px; }
+.p-kartu-row b { color: #111; }
+.p-kartu-btn { display: block; margin: 10px auto 12px; padding: 6px 22px; border: 0; border-radius: 6px; background: #2f6aa6; color: #fff;
+	font-weight: 600; font-size: 13.5px; cursor: pointer; }
+.p-kartu-btn:hover, .p-kartu-btn:focus { background: #24558a; }

@@ -2440,7 +2440,7 @@ msgstr "All conflict types"
 
 #: publiku/templates/publiku/portal.html
 msgid "Uma-kain afetadu"
-msgstr "Households affected"
+msgstr "Affected households"
 
 #: publiku/templates/publiku/portal.html
 msgid "Verifika dala rua"
@@ -2560,3 +2560,16 @@ msgid ""
 msgstr ""
 "Circles show the total cases per municipality (hotspot). Click a circle or "
 "municipality to see its sucos and charts."
+
+msgid "Tipu barak liu"
+msgstr "Most common type"
+
+msgid "Fatin kazu (aproksimadu ~1 km)"
+msgstr "Case location (approximate ~1 km)"
+
+msgid ""
+"Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba "
+"munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku."
+msgstr ""
+"Pins show total cases per municipality. Click a pin → See details to zoom to"
+" the municipality, see case locations (approximate) and the suco chart."

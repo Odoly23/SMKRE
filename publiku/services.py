@@ -3,7 +3,8 @@ Dadus portal públiku (fatin IDA deit). Regra privasidade:
 
 	1. Kazu aprovadu ona (Superadmin) deit: APPROVED / COMPLETED
 	2. Ho konsentimentu, no la marka "La publika iha portal públiku"
-	3. Agregadu deit — la iha naran, foto, GPS ka detalla kazu ida-idak
+	3. Agregadu deit — la iha naran, foto, kódigu ka detalla kazu ida-idak
+	   Lokasaun kazu: hatudu deit bainhira hili munisípiu ho kazu ≥ 3, arredonda ba ~1 km (la haree uma)
 	4. Númeru 1–2 → "< 3" (la haruka númeru loos ba browser)
 	5. Populasaun afetada hatudu deit bainhira kazu ≥ 3 iha grupu ne'e
 """
@@ -17,6 +18,7 @@ from custom.models import Munisipiu, Suku, TipuKonflitu
 from kazu.models import Kazu, UmaKainAfetada, APPROVED, COMPLETED
 
 STATUS_PUBLIKU = [APPROVED, COMPLETED]
+DESIMAL_LOKASAUN = 2                 # 0.01° ≈ 1.1 km — fatin aproksimadu deit
 CACHE_SEGUNDU = 600                  # production: minutu 10 (DEBUG: la iha cache, atu teste lokál haree kedas)
 
 
@@ -101,8 +103,11 @@ def _kalkula(f):
 	}
 
 	# Kada munisípiu (la aplika filtru munisípiu: hatudu hotu, ida hili mak destaka)
-	por_mun = _konta(_aplika(base, f, sein='munisipiu'), 'munisipiu_id')
-	munisipiu = [dict({'code': m.code, 'name': m.name}, **subar(por_mun.get(m.pk, 0))) for m in Munisipiu.active.all()]
+	kazu_hotu_mun = _aplika(base, f, sein='munisipiu')
+	por_mun = _konta(kazu_hotu_mun, 'munisipiu_id')
+	resumu = _resumu_munisipiu(kazu_hotu_mun, por_mun)
+	munisipiu = [dict({'code': m.code, 'name': m.name}, **subar(por_mun.get(m.pk, 0)), **resumu.get(m.pk, {}))
+		for m in Munisipiu.active.all()]
 
 	# Kada tipu konflitu
 	por_tipu = _konta(_aplika(base, f, sein='tipu'), 'tipu_konflitu__id')
@@ -138,6 +143,35 @@ def _kalkula(f):
 	atualiza = portal_queryset().aggregate(d=Max('approved_at'))['d']
 	return {
 		'filtru': f, 'kpi': kpi, 'munisipiu': munisipiu, 'tipu': tipu, 'tinan': tinan,
-		'afetadu': afetadu, 'suku': suku, 'limite': limite(),
+		'afetadu': afetadu, 'suku': suku, 'lokasaun': _lokasaun(kazu, f, total), 'limite': limite(),
 		'atualiza': timezone.localtime(atualiza).strftime('%d/%m/%Y') if atualiza else None,
 	}
+
+
+def _resumu_munisipiu(qs, por_mun):
+	# Kartaun mapa: tipu barak liu + uma-kain afetadu (munisípiu ho kazu ≥ limite deit)
+	boot = {pk for pk, n in por_mun.items() if n >= limite()}
+	if not boot:
+		return {}
+	res = {pk: {} for pk in boot}
+	tipu_rows = qs.filter(munisipiu_id__in=boot).order_by().values('munisipiu_id', 'tipu_konflitu__name').annotate(
+		n=Count('id', distinct=True)).order_by('munisipiu_id', '-n')
+	for r in tipu_rows:
+		if r['tipu_konflitu__name'] and 'tipu_top' not in res[r['munisipiu_id']]:
+			res[r['munisipiu_id']]['tipu_top'] = r['tipu_konflitu__name']
+	uma = UmaKainAfetada.objects.filter(kazu__in=qs.filter(munisipiu_id__in=boot)).order_by().values(
+		'kazu__munisipiu_id').annotate(uma=Sum('uma_kain'))
+	for r in uma:
+		res[r['kazu__munisipiu_id']]['uma_kain'] = r['uma'] or 0
+	return res
+
+
+def _lokasaun(kazu, f, total):
+	# Fatin aproksimadu (~1 km) ba marka mean, bainhira hili munisípiu ho kazu ≥ limite.
+	# Pontu hanesan hamutuk ida deit; la iha kódigu, data ka ID — labele liga ba kazu ida.
+	if not f.get('munisipiu') or total < limite():
+		return []
+	pontu = set()
+	for lat, lng in kazu.exclude(latitude=None).exclude(longitude=None).values_list('latitude', 'longitude'):
+		pontu.add((round(float(lat), DESIMAL_LOKASAUN), round(float(lng), DESIMAL_LOKASAUN)))
+	return sorted(pontu)

@@ -2570,3 +2570,17 @@ msgid ""
 msgstr ""
 "Os círculos mostram o total de casos por município (hotspot). Clique num "
 "círculo ou município para ver os sucos e gráficos desse município."
+
+msgid "Tipu barak liu"
+msgstr "Tipo mais frequente"
+
+msgid "Fatin kazu (aproksimadu ~1 km)"
+msgstr "Local do caso (aproximado ~1 km)"
+
+msgid ""
+"Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba "
+"munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku."
+msgstr ""
+"Os pinos mostram o total de casos por município. Clique num pino → Ver "
+"detalhes para aproximar o município, ver os locais dos casos (aproximados) e"
+" o gráfico por suco."
