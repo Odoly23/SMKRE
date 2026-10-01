@@ -2442,3 +2442,43 @@ msgstr "Diverifikasi dua kali"
 #: users/templates/auth/login.html
 msgid "Portal Públiku"
 msgstr "Portal Publik"
+
+#: kazu/services.py
+msgid "Kazu kanseladu — final."
+msgstr "Kasus dibatalkan — final."
+
+#: kazu/services.py
+msgid "Kazu remata ona."
+msgstr "Kasus sudah selesai."
+
+#: kazu/services.py
+msgid "Hein Investigadór hadia no haruka fali."
+msgstr "Menunggu Investigador memperbaiki dan mengirim ulang."
+
+#: kazu/services.py
+msgid "Investigadór seidauk haruka."
+msgstr "Investigador belum mengirim."
+
+#: kazu/services.py
+msgid "Verifika ona."
+msgstr "Sudah diverifikasi."
+
+#: kazu/services.py
+msgid "Hein Admin verifika uluk."
+msgstr "Menunggu verifikasi Admin terlebih dahulu."
+
+#: kazu/services.py
+msgid "Aprova ona."
+msgstr "Sudah disetujui."
+
+#: kazu/services.py
+msgid "Hein aprovasaun Superadmin."
+msgstr "Menunggu persetujuan Superadmin."
+
+#: kazu/services.py
+msgid "Rejeita ona — hein Investigadór haruka fali."
+msgstr "Sudah ditolak — menunggu Investigador mengirim ulang."
+
+#: kazu/services.py
+msgid "Xave: kazu verifika ona."
+msgstr "Terkunci: kasus sudah diverifikasi."

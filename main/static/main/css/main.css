@@ -341,3 +341,4 @@ div.dataTables_wrapper div.dataTables_filter input { min-height: 38px; }
 
 /* Ekran luan (≥ 1400px): kontentu luan liu (hanesan Bootstrap 5 xxl) → menu kabe iha liña */
 @media (min-width: 1400px) { .container { max-width: 1320px; } }
+.btn-xave:disabled { opacity: .45; cursor: not-allowed; }

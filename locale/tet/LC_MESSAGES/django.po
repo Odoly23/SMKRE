@@ -2549,3 +2549,43 @@ msgstr "Verifika dala rua"
 #: users/templates/auth/login.html
 msgid "Portal Públiku"
 msgstr "Portal Públiku"
+
+#: kazu/services.py
+msgid "Kazu kanseladu — final."
+msgstr "Kazu kanseladu — final."
+
+#: kazu/services.py
+msgid "Kazu remata ona."
+msgstr "Kazu remata ona."
+
+#: kazu/services.py
+msgid "Hein Investigadór hadia no haruka fali."
+msgstr "Hein Investigadór hadia no haruka fali."
+
+#: kazu/services.py
+msgid "Investigadór seidauk haruka."
+msgstr "Investigadór seidauk haruka."
+
+#: kazu/services.py
+msgid "Verifika ona."
+msgstr "Verifika ona."
+
+#: kazu/services.py
+msgid "Hein Admin verifika uluk."
+msgstr "Hein Admin verifika uluk."
+
+#: kazu/services.py
+msgid "Aprova ona."
+msgstr "Aprova ona."
+
+#: kazu/services.py
+msgid "Hein aprovasaun Superadmin."
+msgstr "Hein aprovasaun Superadmin."
+
+#: kazu/services.py
+msgid "Rejeita ona — hein Investigadór haruka fali."
+msgstr "Rejeita ona — hein Investigadór haruka fali."
+
+#: kazu/services.py
+msgid "Xave: kazu verifika ona."
+msgstr "Xave: kazu verifika ona."

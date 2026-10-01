@@ -5,14 +5,14 @@ from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
 from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES
 from kazu.permissions import kazu_queryset, can_view, can_edit
-from kazu.services import available_actions, refresh_auto_fields, submit_kazu
+from kazu.services import action_buttons, refresh_auto_fields, submit_kazu
 from users.auth_utils import c_user_pesoal
 
 
@@ -46,17 +46,29 @@ def KazuList(request):
 	return render(request, 'kazu/list.html', context)
 
 
+# Aparénsia butaun aksaun iha detalla kazu (regra ativu/xave iha kazu.services.ACTIONS)
+BUTAUN_STILU = {
+	'verifika': {'label': _l('Verifika'), 'css': 'btn-verified', 'icon': 'fa-check'},
+	'aprova':   {'label': _l('Aprova'), 'css': 'btn-success', 'icon': 'fa-check-circle'},
+	'remata':   {'label': _l('Remata'), 'css': 'btn-dark', 'icon': 'fa-flag-checkered'},
+	'rejeita':  {'label': _l('Rejeita'), 'css': 'btn-danger', 'icon': 'fa-undo'},
+	'kansela':  {'label': _l('Kansela (falsu / duplikadu)'), 'css': 'btn-outline-secondary', 'icon': 'fa-ban'},
+}
+
+
 @login_required
 @allowed_users(allowed_roles=ROLE_ALL)
 def KazuDetail(request, uuid):
 	group = request.user.groups.all()[0].name
 	objects = get_object_or_404(kazu_queryset(request.user).prefetch_related(
 		'tipu_konflitu', 'estragu', 'nesesidade', 'afetadu', 'insidente__tipu_eviksaun', 'ator__tipu_ator', 'evidensia'), pk=uuid)
+	buttons = [dict(b, **BUTAUN_STILU[b['action']]) for b in action_buttons(request.user, objects)]
 	context = {
 		'group': group, "page": "kazu",
 		'objects': objects,
 		'historia': objects.historia.select_related('user__pesoaluser__pesoal')[:50],
-		'actions': available_actions(request.user, objects),
+		'action_buttons': buttons,
+		'presiza_nota': any(b['ativu'] and b['action'] in ('rejeita', 'kansela') for b in buttons),
 		'can_edit': can_edit(request.user, objects),
 		'can_status_kazu': group in ROLE_STATUS_KAZU and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
 		'can_legal': group in ROLE_LEGAL and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),

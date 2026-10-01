@@ -200,6 +200,64 @@ class WorkflowTest(KazuBase):
 		kazu.refresh_from_db()
 		self.assertEqual(kazu.status, 'CANCELED')
 
+	def test_butaun_tuir_status(self):
+		# Regra butaun: Aprova xave to'o verifika · Rejeita/Kansela xave hafoin verifika ·
+		# Rejeitadu: Verifika xave to'o haruka fali · Kanseladu: hotu xave
+		from kazu.services import available_actions
+		kazu = self.create_kazu('haruka')
+		self.assertEqual(available_actions(self.admin, kazu), ['verifika', 'rejeita', 'kansela'])
+		self.assertEqual(available_actions(self.sa, kazu), ['rejeita', 'kansela'])     # Aprova xave
+
+		# Superadmin haree Aprova xave ho razaun
+		self.client.force_login(self.sa)
+		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
+		self.assertNotContains(r, 'data-action="aprova"')
+		self.assertContains(r, 'Hein Admin verifika uluk')
+
+		# Hafoin verifika: Aprova ativu, Rejeita/Kansela xave (servidór mós bloku)
+		self.client.force_login(self.admin)
+		self.post(reverse('kazu-action', args=[kazu.pk, 'verifika']))
+		kazu.refresh_from_db()
+		self.assertEqual(available_actions(self.sa, kazu), ['aprova'])
+		self.assertEqual(available_actions(self.admin, kazu), [])
+		self.post(reverse('kazu-action', args=[kazu.pk, 'rejeita']), {'nota': 'Koko rejeita hafoin verifika'})
+		self.client.force_login(self.sa)
+		self.post(reverse('kazu-action', args=[kazu.pk, 'kansela']), {'nota': 'Koko kansela hafoin verifika'})
+		kazu.refresh_from_db()
+		self.assertEqual(kazu.status, 'VERIFIED')
+
+	def test_rejeitadu_verifika_xave_to_haruka_fali(self):
+		from kazu.services import available_actions
+		kazu = self.create_kazu('haruka')
+		self.client.force_login(self.admin)
+		self.post(reverse('kazu-action', args=[kazu.pk, 'rejeita']), {'nota': 'Dadus la kompletu'})
+		kazu.refresh_from_db()
+		self.assertEqual(available_actions(self.admin, kazu), ['kansela'])
+		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
+		self.assertNotContains(r, 'data-action="verifika"')
+		self.assertContains(r, 'Hein Investigadór hadia no haruka fali')
+		self.post(reverse('kazu-action', args=[kazu.pk, 'verifika']))
+		kazu.refresh_from_db()
+		self.assertEqual(kazu.status, 'REJECTED')
+
+		# Investigadór haruka fali → Verifika loke fali
+		self.client.force_login(self.inv)
+		self.post(reverse('kazu-submit', args=[kazu.pk]))
+		kazu.refresh_from_db()
+		self.assertEqual(available_actions(self.admin, kazu), ['verifika', 'rejeita', 'kansela'])
+
+	def test_kanseladu_butaun_hotu_xave(self):
+		from kazu.services import action_buttons
+		kazu = self.create_kazu('haruka')
+		self.client.force_login(self.admin)
+		self.post(reverse('kazu-action', args=[kazu.pk, 'kansela']), {'nota': 'Duplikadu ho kazu seluk'})
+		kazu.refresh_from_db()
+		for user in (self.admin, self.sa):
+			self.assertTrue(all(not b['ativu'] for b in action_buttons(user, kazu)))
+		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
+		self.assertNotContains(r, 'data-action=')
+		self.assertContains(r, 'Kazu kanseladu')
+
 	def test_kodigu_la_bentrok(self):
 		k1 = self.create_kazu('haruka')
 		k2 = self.create_kazu('haruka')

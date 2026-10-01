@@ -2458,3 +2458,43 @@ msgstr "Verificação dupla"
 #: users/templates/auth/login.html
 msgid "Portal Públiku"
 msgstr "Portal Público"
+
+#: kazu/services.py
+msgid "Kazu kanseladu — final."
+msgstr "Caso cancelado — final."
+
+#: kazu/services.py
+msgid "Kazu remata ona."
+msgstr "Caso já concluído."
+
+#: kazu/services.py
+msgid "Hein Investigadór hadia no haruka fali."
+msgstr "Aguarda correção e reenvio pelo Investigador."
+
+#: kazu/services.py
+msgid "Investigadór seidauk haruka."
+msgstr "O Investigador ainda não enviou."
+
+#: kazu/services.py
+msgid "Verifika ona."
+msgstr "Já verificado."
+
+#: kazu/services.py
+msgid "Hein Admin verifika uluk."
+msgstr "Aguarda verificação do Admin."
+
+#: kazu/services.py
+msgid "Aprova ona."
+msgstr "Já aprovado."
+
+#: kazu/services.py
+msgid "Hein aprovasaun Superadmin."
+msgstr "Aguarda aprovação do Superadmin."
+
+#: kazu/services.py
+msgid "Rejeita ona — hein Investigadór haruka fali."
+msgstr "Já rejeitado — aguarda reenvio do Investigador."
+
+#: kazu/services.py
+msgid "Xave: kazu verifika ona."
+msgstr "Bloqueado: caso já verificado."

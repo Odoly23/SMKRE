@@ -117,7 +117,7 @@
 	</div>
 
 	<!-- ══ Butaun aksaun (iha okos) ══ -->
-	{% if can_edit or actions %}
+	{% if can_edit or action_buttons %}
 	<div class="card card-rbr action-bar mb-3"><div class="card-body">
 		<h3 class="h-line">{% trans "Aksaun" %}</h3>
 		{% if can_edit %}
@@ -131,18 +131,23 @@
 			</div>
 		</div>
 		{% endif %}
-		{% if actions %}
+		{% if action_buttons %}
 		<form method="post" class="js-action" data-confirm-verifika="{% trans "Ita-boot iha serteza atu VERIFIKA kazu ne'e?" %}" data-confirm-aprova="{% trans "Ita-boot iha serteza atu APROVA kazu ne'e?" %}" data-confirm-remata="{% trans "Marka kazu ne'e REMATA (kompensasaun selu ona)?" %}" data-confirm-rejeita="{% trans "REJEITA kazu ne'e? Investigadór sei hadia." %}" data-confirm-kansela="{% trans "KANSELA kazu ne'e? Ida-ne'e final." %}" data-need-nota="{% trans "Favor hakerek razaun." %}">
 			{% csrf_token %}
-			{% if 'rejeita' in actions or 'kansela' in actions %}
+			{% if presiza_nota %}
 			<textarea name="nota" rows="2" class="form-control mb-2" placeholder="{% trans "Razaun (obrigatóriu ba Rejeita no Kansela)" %}" aria-label="{% trans "Razaun" %}"></textarea>
 			{% endif %}
 			<div class="form-row">
-				{% if 'verifika' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'verifika' %}" data-action="verifika" class="btn btn-verified btn-block"><i class="fa fa-check"></i> {% trans "Verifika" %}</button></div>{% endif %}
-				{% if 'aprova' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'aprova' %}" data-action="aprova" class="btn btn-success btn-block"><i class="fa fa-check-circle"></i> {% trans "Aprova" %}</button></div>{% endif %}
-				{% if 'remata' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'remata' %}" data-action="remata" class="btn btn-dark btn-block"><i class="fa fa-flag-checkered"></i> {% trans "Remata" %}</button></div>{% endif %}
-				{% if 'rejeita' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'rejeita' %}" data-action="rejeita" data-need-nota="1" class="btn btn-danger btn-block"><i class="fa fa-undo"></i> {% trans "Rejeita" %}</button></div>{% endif %}
-				{% if 'kansela' in actions %}<div class="col-md mb-2"><button type="submit" formaction="{% url 'kazu-action' obj.pk 'kansela' %}" data-action="kansela" data-need-nota="1" class="btn btn-outline-secondary btn-block"><i class="fa fa-ban"></i> {% trans "Kansela (falsu / duplikadu)" %}</button></div>{% endif %}
+				{% for b in action_buttons %}
+				<div class="col-md mb-2">
+					{% if b.ativu %}
+					<button type="submit" formaction="{% url 'kazu-action' obj.pk b.action %}" data-action="{{ b.action }}"{% if b.action == 'rejeita' or b.action == 'kansela' %} data-need-nota="1"{% endif %} class="btn {{ b.css }} btn-block"><i class="fa {{ b.icon }}"></i> {{ b.label }}</button>
+					{% else %}
+					<button type="button" class="btn {{ b.css }} btn-block btn-xave" disabled aria-disabled="true"><i class="fa fa-lock"></i> {{ b.label }}</button>
+					<small class="d-block text-muted text-center mt-1">{{ b.razaun }}</small>
+					{% endif %}
+				</div>
+				{% endfor %}
 			</div>
 		</form>
 		{% endif %}

@@ -2449,3 +2449,43 @@ msgstr "Verified twice"
 #: users/templates/auth/login.html
 msgid "Portal Públiku"
 msgstr "Public Portal"
+
+#: kazu/services.py
+msgid "Kazu kanseladu — final."
+msgstr "Case cancelled — final."
+
+#: kazu/services.py
+msgid "Kazu remata ona."
+msgstr "Case already completed."
+
+#: kazu/services.py
+msgid "Hein Investigadór hadia no haruka fali."
+msgstr "Waiting for the Investigator to fix and resubmit."
+
+#: kazu/services.py
+msgid "Investigadór seidauk haruka."
+msgstr "The Investigator has not submitted yet."
+
+#: kazu/services.py
+msgid "Verifika ona."
+msgstr "Already verified."
+
+#: kazu/services.py
+msgid "Hein Admin verifika uluk."
+msgstr "Waiting for Admin verification first."
+
+#: kazu/services.py
+msgid "Aprova ona."
+msgstr "Already approved."
+
+#: kazu/services.py
+msgid "Hein aprovasaun Superadmin."
+msgstr "Waiting for Superadmin approval."
+
+#: kazu/services.py
+msgid "Rejeita ona — hein Investigadór haruka fali."
+msgstr "Already rejected — waiting for the Investigator to resubmit."
+
+#: kazu/services.py
+msgid "Xave: kazu verifika ona."
+msgstr "Locked: case already verified."

@@ -3,10 +3,11 @@ Fluxu status kazu (fatin IDA deit). View web no API sinkron (faze 4) uza funsaun
 
 	Investigadór:  Rascunho / Iha Terrenu / Hein Sinál / Rejeitadu ──haruka──▶ Hein Verifikasaun
 	Admin:         Hein Verifikasaun ──Verifika──▶ Verifikadu
-	Superadmin:    Verifikadu ──Aprova──▶ Aprovadu
+	Superadmin:    Verifikadu ──Aprova──▶ Aprovadu          (Aprova xave to'o Admin verifika)
 	Admin/Super:   Aprovadu ──Remata──▶ Remata
-	Admin/Super:   Hein Verifikasaun / Verifikadu ──Rejeita──▶ Rejeitadu (Investigadór hadia)
-	Admin/Super:   Hein Verifikasaun / Verifikadu / Rejeitadu ──Kansela──▶ Kanseladu (final)
+	Admin/Super:   Hein Verifikasaun ──Rejeita──▶ Rejeitadu   (xave hafoin verifika)
+	               Rejeitadu: Verifika xave to'o Investigadór haruka fali
+	Admin/Super:   Hein Verifikasaun / Rejeitadu ──Kansela──▶ Kanseladu (final: butaun hotu xave)
 """
 import logging
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -29,15 +30,58 @@ ACTIONS = {
 	'verifika': ([SYNCED], VERIFIED, ROLE_VERIFIKA, False),
 	'aprova':   ([VERIFIED], APPROVED, ROLE_APROVA, False),
 	'remata':   ([APPROVED], COMPLETED, ROLE_REMATA, False),
-	'rejeita':  ([SYNCED, VERIFIED], REJECTED, ROLE_REJEITA, True),
-	'kansela':  ([SYNCED, VERIFIED, REJECTED], CANCELED, ROLE_REJEITA, True),
+	'rejeita':  ([SYNCED], REJECTED, ROLE_REJEITA, True),
+	'kansela':  ([SYNCED, REJECTED], CANCELED, ROLE_REJEITA, True),
 }
 
 
 def available_actions(user, kazu):
-	# Butaun aksaun ne'ebé utilizador ida bele haree iha detalla kazu
+	# Aksaun ne'ebé utilizador ida bele halo agora (butaun ativu)
+	return [b['action'] for b in action_buttons(user, kazu) if b['ativu']]
+
+
+def _razaun_xave(action, status):
+	# Tanba sa butaun ida xave — hatudu iha okos butaun (HP la iha tooltip)
+	if status == CANCELED:
+		return _('Kazu kanseladu — final.')
+	if status == COMPLETED:
+		return _('Kazu remata ona.')
+	if action == 'verifika':
+		if status == REJECTED:
+			return _('Hein Investigadór hadia no haruka fali.')
+		if status in STATUS_EDITABLE:
+			return _('Investigadór seidauk haruka.')
+		return _('Verifika ona.')
+	if action == 'aprova':
+		if status == SYNCED or status in STATUS_EDITABLE:
+			return _('Hein Admin verifika uluk.')
+		return _('Aprova ona.')
+	if action == 'remata':
+		return _('Hein aprovasaun Superadmin.')
+	if action == 'rejeita':
+		if status == REJECTED:
+			return _('Rejeita ona — hein Investigadór haruka fali.')
+		if status in STATUS_EDITABLE:
+			return _('Investigadór seidauk haruka.')
+		return _('Xave: kazu verifika ona.')
+	if action == 'kansela':
+		if status in STATUS_EDITABLE:
+			return _('Investigadór seidauk haruka.')
+		return _('Xave: kazu verifika ona.')
+	return ''
+
+
+def action_buttons(user, kazu):
+	# Butaun hotu ba papel utilizador nian: [{'action', 'ativu', 'razaun'}]
+	# Butaun la ativu sei hatudu (xave) ho razaun, atu utilizador hatene tanba sa.
 	group = c_user_group(user)
-	return [name for name, (orijen, _n, roles, _r) in ACTIONS.items() if kazu.status in orijen and group in roles]
+	buttons = []
+	for action, (orijen, _foun, roles, _nota) in ACTIONS.items():
+		if group not in roles:
+			continue
+		ativu = kazu.status in orijen
+		buttons.append({'action': action, 'ativu': ativu, 'razaun': '' if ativu else _razaun_xave(action, kazu.status)})
+	return buttons
 
 
 def kazu_url(kazu):
