@@ -2498,3 +2498,59 @@ msgstr "Já rejeitado — aguarda reenvio do Investigador."
 #: kazu/services.py
 msgid "Xave: kazu verifika ona."
 msgstr "Bloqueado: caso já verificado."
+
+msgid "Konfirmasaun"
+msgstr "Confirmação"
+
+msgid "Hakerek razaun ba Investigadór…"
+msgstr "Escreva o motivo para o Investigador…"
+
+msgid "Lae, fila"
+msgstr "Não, voltar"
+
+msgid "Verifika kazu?"
+msgstr "Verificar caso?"
+
+msgid "Dadus sei ba Superadmin atu aprova."
+msgstr "Os dados seguem para aprovação do Superadmin."
+
+msgid "Aprova kazu?"
+msgstr "Aprovar caso?"
+
+msgid "Kazu sei mosu iha dashboard no portal públiku (dadus agregadu)."
+msgstr "O caso aparecerá no dashboard e no portal público (dados agregados)."
+
+msgid "Remata kazu?"
+msgstr "Concluir caso?"
+
+msgid "Marka kazu ne'e remata (kompensasaun selu ona)."
+msgstr "Marcar este caso como concluído (compensação paga)."
+
+msgid "Rejeita kazu?"
+msgstr "Rejeitar caso?"
+
+msgid "Kazu fila ba Investigadór atu hadia no haruka fali."
+msgstr "O caso volta ao Investigador para corrigir e reenviar."
+
+msgid "Kansela kazu?"
+msgstr "Cancelar caso?"
+
+msgid "Ida-ne'e final: butaun hotu sei xave."
+msgstr "Isto é final: todos os botões ficarão bloqueados."
+
+msgid "Haree uma besik"
+msgstr "Ver casas de perto"
+
+msgid "Ha'u-nia fatin"
+msgstr "A minha localização"
+
+msgid "kazu iha raiu 1 km husi ita"
+msgstr "casos num raio de 1 km de si"
+
+msgid "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser."
+msgstr ""
+"Não foi possível obter a sua localização. Ligue o GPS e autorize o "
+"navegador."
+
+msgid "Haree iha mapa"
+msgstr "Ver no mapa"

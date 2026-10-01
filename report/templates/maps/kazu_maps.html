@@ -7,7 +7,9 @@
 <div id="mapa" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}"
 	data-l-kazu="{% trans "kazu" %}" data-l-legend="{% trans "Lejenda" %}" data-l-urjente="{% trans "Urjente" %}"
 	data-l-baze="{% trans "Mapa Baze (offline)" %}" data-l-street="{% trans "Street" %}" data-l-satelite="{% trans "Satélite" %}"
-	data-l-fronteira="{% trans "Fronteira Munisípiu" %}" data-l-hotspot="{% trans "Hotspot (total kada munisípiu)" %}"></div>
+	data-l-fronteira="{% trans "Fronteira Munisípiu" %}" data-l-hotspot="{% trans "Hotspot (total kada munisípiu)" %}"
+	data-l-zoom="{% trans "Haree uma besik" %}" data-l-ha-u="{% trans "Ha'u-nia fatin" %}"
+	data-l-besik="{% trans "kazu iha raiu 1 km husi ita" %}" data-l-gps-erru="{% trans "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser." %}"></div>
 
 <!-- maps script -->
 <script src="{% static 'main/leaflet/leaflet.js' %}"></script>
@@ -32,16 +34,19 @@ var munTotal = {
 
 //maps layer
 var mapaBaze = L.layerGroup();
+// maxNativeZoom: nivel imajen ikus husi servidór; liu ida-ne'e Leaflet boot imajen (haree uma ida-idak)
 var openStreetMaps = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 18});
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxNativeZoom: 19, maxZoom: 20});
 var sateliteMaps = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri', maxZoom: 18});
+	attribution: 'Tiles &copy; Esri', maxNativeZoom: 18, maxZoom: 20});
+var ZOOM_UMA = 19;   // zoom ba haree uma sira besik kazu
 //maps layer
 
 var user_location = [-8.85, 125.8];
 var map = L.map('mapa', {
 	center: user_location,
 	zoom: 8,
+	maxZoom: 20,
 	layers: [navigator.onLine ? openStreetMaps : mapaBaze]
 });
 
@@ -69,10 +74,29 @@ var statusKazu = {
 };
 //icon///////////////////
 
+// ── Zoom besik: satélite + uma sira iha kazu nia sorin ──
+function butaunZoom(lat, lng) {
+	return "<button type='button' class='btn btn-sm btn-outline-rbr btn-block mt-1 js-zoom-uma' data-lat='" + lat + "' data-lng='" + lng + "'>"
+		+ "<i class='fa fa-search-plus'></i> " + L_.lZoom + "</button>";
+}
+function hiliSatelite() {
+	if (!navigator.onLine || map.hasLayer(sateliteMaps)) return;
+	[mapaBaze, openStreetMaps].forEach(function (l) { map.removeLayer(l); });
+	map.addLayer(sateliteMaps);
+}
+function zoomUma(lat, lng) {
+	hiliSatelite();
+	map.flyTo([lat, lng], ZOOM_UMA, {duration: 1.2});
+}
+map.on('popupopen', function (e) {
+	var btn = e.popup.getElement().querySelector('.js-zoom-uma');
+	if (btn) btn.addEventListener('click', function () { zoomUma(+btn.dataset.lat, +btn.dataset.lng); });
+});
+
 // Marker kada status kazu (grupu cluster ida kada status)
 var markers = {};
 Object.keys(statusKazu).forEach(function (code) {
-	markers[code] = L.markerClusterGroup();
+	markers[code] = L.markerClusterGroup({disableClusteringAtZoom: 17});   // zoom besik: marker ida-idak
 	markers[code].icon = iconKor(statusKazu[code][1]);
 });
 for (var i = 0; i < addressPoints.length; i++) {
@@ -83,7 +107,7 @@ for (var i = 0; i < addressPoints.length; i++) {
 	var marker = L.marker(new L.LatLng(a[0], a[1]), {
 		icon: a[4] ? redIcon : grupu.icon
 	});
-	marker.bindPopup(title, {maxWidth: 260});
+	marker.bindPopup(title + butaunZoom(a[0], a[1]), {maxWidth: 260});
 	grupu.addLayer(marker);
 }
 Object.keys(markers).forEach(function (code) { map.addLayer(markers[code]); });
@@ -100,9 +124,12 @@ var fronteira = L.geoJSON(null, {
 		layer.bindTooltip(m[3] + ': ' + m[0] + ' ' + L_.lKazu);
 	}
 }).addTo(map);
+// Fokus husi detalla kazu: /report/mapa/#-8.55,125.57 → zoom direta ba fatin kazu
+var fokus = /^#(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/.exec(window.location.hash);
 fetch(L_.geojson).then(function (r) { return r.json(); }).then(function (geo) {
 	fronteira.addData(geo);
-	map.fitBounds(fronteira.getBounds(), {padding: [10, 10]});
+	if (fokus) zoomUma(+fokus[1], +fokus[2]);
+	else map.fitBounds(fronteira.getBounds(), {padding: [10, 10]});
 });
 
 var hotspot = L.layerGroup();
@@ -142,6 +169,36 @@ legend.onAdd = function () {
 	return d;
 };
 legend.addTo(map);
+
+// ── Butaun "Ha'u-nia fatin": GPS utilizador + kazu sira iha raiu 1 km ──
+var ha_u = L.layerGroup().addTo(map);
+var locate = L.control({position: 'topleft'});
+locate.onAdd = function () {
+	var b = L.DomUtil.create('a', 'leaflet-bar map-locate');
+	b.href = '#';
+	b.title = L_.lHaU;
+	b.setAttribute('role', 'button');
+	b.setAttribute('aria-label', L_.lHaU);
+	b.innerHTML = "<i class='fa fa-crosshairs'></i>";
+	L.DomEvent.on(b, 'click', function (e) {
+		L.DomEvent.preventDefault(e);
+		L.DomEvent.stopPropagation(e);
+		map.locate({enableHighAccuracy: true, timeout: 15000});
+	});
+	return b;
+};
+locate.addTo(map);
+map.on('locationfound', function (e) {
+	var besik = addressPoints.filter(function (a) { return e.latlng.distanceTo([a[0], a[1]]) <= 1000; }).length;
+	ha_u.clearLayers();
+	L.circle(e.latlng, {radius: 1000, color: '#0E8A68', weight: 1, fillOpacity: 0.05, interactive: false}).addTo(ha_u);
+	L.circle(e.latlng, {radius: e.accuracy, color: '#1e88e5', weight: 1, fillOpacity: 0.15, interactive: false}).addTo(ha_u);
+	L.circleMarker(e.latlng, {radius: 8, color: '#fff', weight: 3, fillColor: '#1e88e5', fillOpacity: 1}).addTo(ha_u)
+		.bindPopup('<b>' + L_.lHaU + '</b><br>' + besik + ' ' + L_.lBesik).openPopup();
+	hiliSatelite();
+	map.flyTo(e.latlng, 17, {duration: 1.2});
+});
+map.on('locationerror', function () { window.alert(L_.lGpsErru); });
 
 // Offline → hili mapa baze automátiku
 window.addEventListener('offline', function () {

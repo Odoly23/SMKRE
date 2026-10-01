@@ -2489,3 +2489,58 @@ msgstr "Already rejected — waiting for the Investigator to resubmit."
 #: kazu/services.py
 msgid "Xave: kazu verifika ona."
 msgstr "Locked: case already verified."
+
+msgid "Konfirmasaun"
+msgstr "Confirmation"
+
+msgid "Hakerek razaun ba Investigadór…"
+msgstr "Write the reason for the Investigator…"
+
+msgid "Lae, fila"
+msgstr "No, go back"
+
+msgid "Verifika kazu?"
+msgstr "Verify case?"
+
+msgid "Dadus sei ba Superadmin atu aprova."
+msgstr "The data will go to the Superadmin for approval."
+
+msgid "Aprova kazu?"
+msgstr "Approve case?"
+
+msgid "Kazu sei mosu iha dashboard no portal públiku (dadus agregadu)."
+msgstr ""
+"The case will appear on the dashboard and public portal (aggregated data)."
+
+msgid "Remata kazu?"
+msgstr "Complete case?"
+
+msgid "Marka kazu ne'e remata (kompensasaun selu ona)."
+msgstr "Mark this case as completed (compensation paid)."
+
+msgid "Rejeita kazu?"
+msgstr "Reject case?"
+
+msgid "Kazu fila ba Investigadór atu hadia no haruka fali."
+msgstr "The case goes back to the Investigator to fix and resubmit."
+
+msgid "Kansela kazu?"
+msgstr "Cancel case?"
+
+msgid "Ida-ne'e final: butaun hotu sei xave."
+msgstr "This is final: all buttons will be locked."
+
+msgid "Haree uma besik"
+msgstr "See nearby houses"
+
+msgid "Ha'u-nia fatin"
+msgstr "My location"
+
+msgid "kazu iha raiu 1 km husi ita"
+msgstr "cases within 1 km of you"
+
+msgid "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser."
+msgstr "Could not get your location. Turn on GPS and allow the browser."
+
+msgid "Haree iha mapa"
+msgstr "View on map"

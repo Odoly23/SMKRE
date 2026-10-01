@@ -52,6 +52,7 @@
 
 	{% include 'main/footer.html' %}
 	{% if bottom_nav %}{% include 'main/bottom_nav.html' %}{% endif %}
+	{% if user.is_authenticated %}{% include 'main/modal_konfirma.html' %}{% endif %}
 
 	<!-- JS lokál hotu (offline) -->
 	<script src="{% static 'main/js/jquery.min.js' %}"></script>

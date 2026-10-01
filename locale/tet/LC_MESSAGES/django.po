@@ -2589,3 +2589,57 @@ msgstr "Rejeita ona — hein Investigadór haruka fali."
 #: kazu/services.py
 msgid "Xave: kazu verifika ona."
 msgstr "Xave: kazu verifika ona."
+
+msgid "Konfirmasaun"
+msgstr "Konfirmasaun"
+
+msgid "Hakerek razaun ba Investigadór…"
+msgstr "Hakerek razaun ba Investigadór…"
+
+msgid "Lae, fila"
+msgstr "Lae, fila"
+
+msgid "Verifika kazu?"
+msgstr "Verifika kazu?"
+
+msgid "Dadus sei ba Superadmin atu aprova."
+msgstr "Dadus sei ba Superadmin atu aprova."
+
+msgid "Aprova kazu?"
+msgstr "Aprova kazu?"
+
+msgid "Kazu sei mosu iha dashboard no portal públiku (dadus agregadu)."
+msgstr "Kazu sei mosu iha dashboard no portal públiku (dadus agregadu)."
+
+msgid "Remata kazu?"
+msgstr "Remata kazu?"
+
+msgid "Marka kazu ne'e remata (kompensasaun selu ona)."
+msgstr "Marka kazu ne'e remata (kompensasaun selu ona)."
+
+msgid "Rejeita kazu?"
+msgstr "Rejeita kazu?"
+
+msgid "Kazu fila ba Investigadór atu hadia no haruka fali."
+msgstr "Kazu fila ba Investigadór atu hadia no haruka fali."
+
+msgid "Kansela kazu?"
+msgstr "Kansela kazu?"
+
+msgid "Ida-ne'e final: butaun hotu sei xave."
+msgstr "Ida-ne'e final: butaun hotu sei xave."
+
+msgid "Haree uma besik"
+msgstr "Haree uma besik"
+
+msgid "Ha'u-nia fatin"
+msgstr "Ha'u-nia fatin"
+
+msgid "kazu iha raiu 1 km husi ita"
+msgstr "kazu iha raiu 1 km husi ita"
+
+msgid "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser."
+msgstr "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser."
+
+msgid "Haree iha mapa"
+msgstr "Haree iha mapa"

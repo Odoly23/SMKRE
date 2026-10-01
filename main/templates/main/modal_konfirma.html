@@ -1,0 +1,25 @@
+{% load i18n %}{% comment %}
+Modal konfirmasaun ida ba sistema tomak (main.js → konfirma()).
+Uza husi form.js-confirm (aksaun importante) no form.js-action (Verifika / Aprova / Rejeita / Kansela).
+{% endcomment %}
+<div class="modal fade modal-konfirma" id="modal-konfirma" tabindex="-1" role="dialog" aria-labelledby="modal-konfirma-titulu" aria-hidden="true"
+	data-titulu="{% trans "Konfirmasaun" %}" data-nota-erru="{% trans "Favor hakerek razaun (minimu karakter 5)." %}">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body text-center pt-4">
+				<div class="mk-ikon"><i class="fa fa-question"></i></div>
+				<h5 class="modal-title mt-3" id="modal-konfirma-titulu"></h5>
+				<p class="mk-mensajen text-muted mb-0"></p>
+				<div class="mk-nota text-left mt-3" hidden>
+					<label for="mk-nota-input" class="small font-weight-bold">{% trans "Razaun" %} <span class="text-danger">*</span></label>
+					<textarea id="mk-nota-input" rows="3" class="form-control" placeholder="{% trans "Hakerek razaun ba Investigadór…" %}"></textarea>
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-center border-0 pb-4">
+				<button type="button" class="btn btn-light px-4" data-dismiss="modal">{% trans "Lae, fila" %}</button>
+				<button type="button" class="btn px-4 mk-ok"><i class="fa"></i> <span></span></button>
+			</div>
+		</div>
+	</div>
+</div>

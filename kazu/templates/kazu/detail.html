@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n %}
+{% load i18n l10n %}
 {% block content %}
 	<ol class="breadcrumb mb-2 mt-1">
 		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
@@ -22,7 +22,7 @@
 					<tr><th>{% trans "Data Relatóriu" %}</th><td>{{ obj.data_relatoriu|date:"d/m/Y"|default:"-" }}</td></tr>
 					<tr><th>{% trans "Investigadór" %}</th><td>{{ obj.created_by.pesoaluser.pesoal|default:obj.created_by.username }}</td></tr>
 					<tr><th>{% trans "Fatin" %}</th><td>{{ obj.aldeia|default:"" }}{% if obj.aldeia %}, {% endif %}{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.postu|default:"" }}{% if obj.postu %}, {% endif %}{{ obj.munisipiu }}</td></tr>
-					<tr><th>{% trans "Koordenada GPS" %}</th><td>{% if obj.latitude %}{{ obj.latitude }}, {{ obj.longitude }} <small class="text-muted">(± {{ obj.gps_akurasia|default:"?" }} m)</small>{% else %}<span class="text-danger">{% trans "Seidauk iha" %}</span>{% endif %}</td></tr>
+					<tr><th>{% trans "Koordenada GPS" %}</th><td>{% if obj.latitude %}{{ obj.latitude }}, {{ obj.longitude }} <small class="text-muted">(± {{ obj.gps_akurasia|default:"?" }} m)</small>{% if can_mapa %} <a href="{% url 'report-mapa' %}#{{ obj.latitude|unlocalize }},{{ obj.longitude|unlocalize }}" class="btn btn-sm btn-outline-rbr ml-1"><i class="fa fa-map-marker"></i> {% trans "Haree iha mapa" %}</a>{% endif %}{% else %}<span class="text-danger">{% trans "Seidauk iha" %}</span>{% endif %}</td></tr>
 				</table>
 			</div></div>
 
@@ -132,16 +132,15 @@
 		</div>
 		{% endif %}
 		{% if action_buttons %}
-		<form method="post" class="js-action" data-confirm-verifika="{% trans "Ita-boot iha serteza atu VERIFIKA kazu ne'e?" %}" data-confirm-aprova="{% trans "Ita-boot iha serteza atu APROVA kazu ne'e?" %}" data-confirm-remata="{% trans "Marka kazu ne'e REMATA (kompensasaun selu ona)?" %}" data-confirm-rejeita="{% trans "REJEITA kazu ne'e? Investigadór sei hadia." %}" data-confirm-kansela="{% trans "KANSELA kazu ne'e? Ida-ne'e final." %}" data-need-nota="{% trans "Favor hakerek razaun." %}">
+		<form method="post" class="js-action">
 			{% csrf_token %}
-			{% if presiza_nota %}
-			<textarea name="nota" rows="2" class="form-control mb-2" placeholder="{% trans "Razaun (obrigatóriu ba Rejeita no Kansela)" %}" aria-label="{% trans "Razaun" %}"></textarea>
-			{% endif %}
+			<input type="hidden" name="nota" value="">
 			<div class="form-row">
 				{% for b in action_buttons %}
 				<div class="col-md mb-2">
 					{% if b.ativu %}
-					<button type="submit" formaction="{% url 'kazu-action' obj.pk b.action %}" data-action="{{ b.action }}"{% if b.action == 'rejeita' or b.action == 'kansela' %} data-need-nota="1"{% endif %} class="btn {{ b.css }} btn-block"><i class="fa {{ b.icon }}"></i> {{ b.label }}</button>
+					<button type="submit" formaction="{% url 'kazu-action' obj.pk b.action %}" data-action="{{ b.action }}"{% if b.action == 'rejeita' or b.action == 'kansela' %} data-need-nota="1"{% endif %}
+						data-titulu="{{ b.titulu }}" data-mensajen="{{ b.mensajen }}" data-kor="{{ b.kor }}" data-ikon="{{ b.icon }}" class="btn {{ b.css }} btn-block"><i class="fa {{ b.icon }}"></i> {{ b.label }}</button>
 					{% else %}
 					<button type="button" class="btn {{ b.css }} btn-block btn-xave" disabled aria-disabled="true"><i class="fa fa-lock"></i> {{ b.label }}</button>
 					<small class="d-block text-muted text-center mt-1">{{ b.razaun }}</small>

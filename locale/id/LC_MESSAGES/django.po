@@ -2482,3 +2482,57 @@ msgstr "Sudah ditolak — menunggu Investigador mengirim ulang."
 #: kazu/services.py
 msgid "Xave: kazu verifika ona."
 msgstr "Terkunci: kasus sudah diverifikasi."
+
+msgid "Konfirmasaun"
+msgstr "Konfirmasi"
+
+msgid "Hakerek razaun ba Investigadór…"
+msgstr "Tulis alasan untuk Investigador…"
+
+msgid "Lae, fila"
+msgstr "Tidak, kembali"
+
+msgid "Verifika kazu?"
+msgstr "Verifikasi kasus?"
+
+msgid "Dadus sei ba Superadmin atu aprova."
+msgstr "Data akan diteruskan ke Superadmin untuk disetujui."
+
+msgid "Aprova kazu?"
+msgstr "Setujui kasus?"
+
+msgid "Kazu sei mosu iha dashboard no portal públiku (dadus agregadu)."
+msgstr "Kasus akan tampil di dashboard dan portal publik (data agregat)."
+
+msgid "Remata kazu?"
+msgstr "Selesaikan kasus?"
+
+msgid "Marka kazu ne'e remata (kompensasaun selu ona)."
+msgstr "Tandai kasus ini selesai (kompensasi sudah dibayar)."
+
+msgid "Rejeita kazu?"
+msgstr "Tolak kasus?"
+
+msgid "Kazu fila ba Investigadór atu hadia no haruka fali."
+msgstr "Kasus kembali ke Investigador untuk diperbaiki dan dikirim ulang."
+
+msgid "Kansela kazu?"
+msgstr "Batalkan kasus?"
+
+msgid "Ida-ne'e final: butaun hotu sei xave."
+msgstr "Ini final: semua tombol akan terkunci."
+
+msgid "Haree uma besik"
+msgstr "Lihat rumah dari dekat"
+
+msgid "Ha'u-nia fatin"
+msgstr "Lokasi saya"
+
+msgid "kazu iha raiu 1 km husi ita"
+msgstr "kasus dalam radius 1 km dari Anda"
+
+msgid "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser."
+msgstr "Lokasi Anda tidak ditemukan. Nyalakan GPS dan izinkan browser."
+
+msgid "Haree iha mapa"
+msgstr "Lihat di peta"
