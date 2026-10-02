@@ -350,3 +350,48 @@ class ActionForm(forms.Form):
 class StatusKazuForm(forms.Form):
 	status_kazu = forms.ChoiceField(label=_("Status Kazu"), choices=STATUS_KAZU_CHOICES)
 	nota = forms.CharField(label=_("Nota"), required=False, max_length=255)
+
+
+# ══════════════ Import Excel + hadia lokasaun (Admin) ══════════════
+class ImportForm(forms.Form):
+	file = forms.FileField(label=_("File Excel (.xlsx)"), help_text=_("Uza template. Máximu 500 liña, 5 MB."))
+
+	def __init__(self, *args, **kwargs):
+		super(ImportForm, self).__init__(*args, **kwargs)
+		self.fields['file'].widget.attrs.update({'accept': '.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+		self.helper = FormHelper()
+		self.helper.form_tag = False
+		self.helper.disable_csrf = True
+		self.helper.layout = Layout(
+			'file',
+			HTML(""" <button class="btn btn-rbr" type="submit"><i class="fa fa-upload"></i> {% load i18n %}{% trans "Upload no haree pratinjau" %}</button> """)
+		)
+
+
+class LokasaunForm(forms.Form):
+	# Koordenada husi marka iha mapa (bele hakerek mós)
+	latitude = forms.DecimalField(label=_("Latitude"), max_digits=9, decimal_places=6)
+	longitude = forms.DecimalField(label=_("Longitude"), max_digits=9, decimal_places=6)
+
+	def __init__(self, *args, **kwargs):
+		super(LokasaunForm, self).__init__(*args, **kwargs)
+		for f in ('latitude', 'longitude'):
+			self.fields[f].widget.attrs.update({'step': '0.000001', 'inputmode': 'decimal'})
+		self.helper = FormHelper()
+		self.helper.form_tag = False
+		self.helper.disable_csrf = True
+		self.helper.layout = Layout(
+			Row(
+				Column('latitude', css_class='form-group col-md-6 mb-0'),
+				Column('longitude', css_class='form-group col-md-6 mb-0'),
+				css_class='form-row'
+			),
+			HTML(""" <button class="btn btn-rbr" type="submit"><i class="fa fa-save"></i> {% load i18n %}{% trans "Rai lokasaun" %}</button> """)
+		)
+
+	def clean(self):
+		cleaned = super().clean()
+		lat, lon = cleaned.get('latitude'), cleaned.get('longitude')
+		if lat is not None and lon is not None and not (TL_LAT[0] <= lat <= TL_LAT[1] and TL_LON[0] <= lon <= TL_LON[1]):
+			raise forms.ValidationError(_('Koordenada GPS la iha territóriu Timor-Leste.'))
+		return cleaned

@@ -7,11 +7,12 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
-from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
+from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES
 from kazu.permissions import kazu_queryset, can_view, can_edit
+from kazu.importa import pode_muda_lokasaun
 from kazu.services import action_buttons, refresh_auto_fields, submit_kazu
 from users.auth_utils import c_user_pesoal
 
@@ -74,6 +75,7 @@ def KazuDetail(request, uuid):
 		'historia': objects.historia.select_related('user__pesoaluser__pesoal')[:50],
 		'action_buttons': buttons,
 		'can_mapa': group in ROLE_DASHBOARD,
+		'can_lokasaun': group in ROLE_IMPORT_KAZU and pode_muda_lokasaun(objects),   # Admin: dada marka iha mapa
 		'can_edit': can_edit(request.user, objects),
 		'can_status_kazu': group in ROLE_STATUS_KAZU and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
 		'can_legal': group in ROLE_LEGAL and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),

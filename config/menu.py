@@ -19,6 +19,7 @@ MENU = [
 	('legal', 'legal-kazu-list', 'fa-balance-scale', _('Legál'), rbac.ROLE_LEGAL),
 	('user', 'pesoal-list', 'fa-users', _('Utilizador'), rbac.ROLE_USER_MANAGE),
 	('offline', 'offline-list', 'fa-mobile', _('Offline'), rbac.ROLE_USER_MANAGE),
+	('import', 'kazu-import', 'fa-upload', _('Import'), rbac.ROLE_IMPORT_KAZU),
 ]
 
 # Menu okos (HP) ba Investigadór: maximu 5

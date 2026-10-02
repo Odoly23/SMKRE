@@ -2584,3 +2584,300 @@ msgstr ""
 "Os pinos mostram o total de casos por município. Clique num pino → Ver "
 "detalhes para aproximar o município, ver os locais dos casos (aproximados) e"
 " o gráfico por suco."
+
+#, python-format
+msgid "\"%(c)s\" tenke númeru pozitivu."
+msgstr "\"%(c)s\" deve ser um número positivo."
+
+#, python-format
+msgid "%(c)s \"%(v)s\" la hetan (ka naran duplikadu: uza kódigu)."
+msgstr "%(c)s \"%(v)s\" não encontrado (ou nome duplicado: use o código)."
+
+#, python-format
+msgid "%(c)s la validu (uza AAAA-MM-LL)."
+msgstr "%(c)s inválida (use AAAA-MM-DD)."
+
+#, python-format
+msgid ""
+"Admin import kazu %(n)s husi Excel (%(f)s). Hein verifikasaun no aprovasaun."
+msgstr ""
+"O Admin importou %(n)s casos do Excel (%(f)s). Aguardam verificação e "
+"aprovação."
+
+msgid "Dada marka mean ka klik iha mapa. Uza Satélite atu haree uma no dalan."
+msgstr ""
+"Arraste o marcador vermelho ou clique no mapa. Use Satélite para ver casas e"
+" caminhos."
+
+msgid "Data akontesimentu"
+msgstr "Data do acontecimento"
+
+msgid "Data relatóriu"
+msgstr "Data do relatório"
+
+msgid "Data relatóriu obrigatóriu."
+msgstr "Data do relatório obrigatória."
+
+msgid "Deskrisaun obrigatóriu."
+msgstr "Descrição obrigatória."
+
+msgid "Download template Excel"
+msgstr "Descarregar modelo Excel"
+
+msgid "Ekran tomak"
+msgstr "Ecrã inteiro"
+
+msgid "Erru"
+msgstr "Erro"
+
+msgid "Fatin foun — dada ka klik mapa"
+msgstr "Novo local — arraste ou clique no mapa"
+
+msgid "Fatin ne'e aproksimadu (husi import). Dada marka ba fatin loos."
+msgstr ""
+"Este local é aproximado (importação). Arraste o marcador para o local "
+"correto."
+
+msgid "Fatin uluk"
+msgstr "Local anterior"
+
+msgid "Fila ba fatin uluk"
+msgstr "Voltar ao local anterior"
+
+msgid "File Excel (.xlsx)"
+msgstr "Ficheiro Excel (.xlsx)"
+
+msgid "File boot liu (máximu 5 MB)."
+msgstr "Ficheiro demasiado grande (máximo 5 MB)."
+
+msgid "File mamuk."
+msgstr "Ficheiro vazio."
+
+msgid ""
+"File ne'e import ona uluk. Haree didi'ak molok konfirma (risku duplikadu)."
+msgstr ""
+"Este ficheiro já foi importado. Verifique antes de confirmar (risco de "
+"duplicação)."
+
+msgid "File tenke Excel .xlsx (uza template)."
+msgstr "O ficheiro deve ser Excel .xlsx (use o modelo)."
+
+msgid "GPS aproksimadu"
+msgstr "GPS aproximado"
+
+msgid "GPS husi file"
+msgstr "GPS do ficheiro"
+
+msgid "Hadia lokasaun"
+msgstr "Corrigir localização"
+
+msgid "Hadia lokasaun kazu"
+msgstr "Corrigir localização do caso"
+
+msgid "Haree kazu"
+msgstr "Ver caso"
+
+msgid "ISTÓRIA IMPORT"
+msgstr "HISTÓRICO DE IMPORTAÇÃO"
+
+msgid "Import"
+msgstr "Importar"
+
+msgid "Import Excel"
+msgstr "Importação Excel"
+
+#, python-format
+msgid "Import Excel: %(f)s · liña %(n)s"
+msgstr "Importação Excel: %(f)s · linha %(n)s"
+
+msgid "Import Kazu"
+msgstr "Importar Casos"
+
+msgid "Import Kazu husi Excel"
+msgstr "Importar casos do Excel"
+
+msgid "Import kansela. La iha kazu ida kria."
+msgstr "Importação cancelada. Nenhum caso foi criado."
+
+msgid "Import ne'e konfirma ka kansela ona."
+msgstr "Esta importação já foi confirmada ou cancelada."
+
+msgid "Importa ona"
+msgstr "Importado"
+
+msgid "KAZU KRIA"
+msgstr "CASOS CRIADOS"
+
+msgid "Kansela import?"
+msgstr "Cancelar importação?"
+
+#, python-format
+msgid "Kazu %(n)s import ona ho status \"Hein Verifikasaun\"."
+msgstr "%(n)s casos importados com o estado \"Aguarda Verificação\"."
+
+#, python-format
+msgid ""
+"Kazu %(n)s sei kria ho status \"Hein Verifikasaun\". %(a)s ho GPS "
+"aproksimadu: hadia iha mapa depois."
+msgstr ""
+"Serão criados %(n)s casos com o estado \"Aguarda Verificação\". %(a)s com "
+"GPS aproximado: corrija no mapa depois."
+
+msgid "Kazu hanesan iha sistema ona (duplikadu?)."
+msgstr "Já existe um caso igual no sistema (duplicado?)."
+
+msgid ""
+"Kolun la tuir template (presiza \"munisipiu\", \"deskrisaun\"…). Download "
+"template."
+msgstr ""
+"As colunas não seguem o modelo (precisa de \"munisipiu\", \"deskrisaun\"…). "
+"Descarregue o modelo."
+
+msgid "Konfirma import"
+msgstr "Confirmar importação"
+
+msgid "Konfirma import?"
+msgstr "Confirmar importação?"
+
+msgid "Koordenada la kompletu — uza fatin aproksimadu."
+msgstr "Coordenadas incompletas — usa local aproximado."
+
+msgid "Koordenada la validu — uza fatin aproksimadu."
+msgstr "Coordenadas inválidas — usa local aproximado."
+
+msgid "Koordenada li'ur Timor-Leste — uza fatin aproksimadu."
+msgstr "Coordenadas fora de Timor-Leste — usa local aproximado."
+
+msgid ""
+"Koordenada mamuk ka la kompletu: sistema uza fatin aproksimadu; ita hadia "
+"iha mapa depois."
+msgstr ""
+"Coordenadas vazias ou incompletas: o sistema usa um local aproximado; "
+"corrija no mapa depois."
+
+msgid ""
+"Koordenada mamuk no munisípiu la iha sentru: hatama latitude/longitude."
+msgstr ""
+"Coordenadas vazias e o município não tem centro: preencha "
+"latitude/longitude."
+
+#, python-format
+msgid "Koordenada mamuk — uza sentru %(f)s. Hadia iha mapa hafoin import."
+msgstr ""
+"Coordenadas vazias — usa o centro de %(f)s. Corrija no mapa após importar."
+
+msgid "La iha kazu ida sei kria. Pratinjau rai iha istória."
+msgstr "Nenhum caso será criado. A pré-visualização fica no histórico."
+
+msgid "La iha konsentimentu — kazu la sei mosu iha portal públiku."
+msgstr "Sem consentimento — o caso não aparecerá no portal público."
+
+msgid "Labele lee file Excel ne'e."
+msgstr "Não foi possível ler este ficheiro Excel."
+
+msgid "Liña"
+msgstr "Linhas"
+
+#, python-format
+msgid "Liña %(n)s"
+msgstr "Linha %(n)s"
+
+#, python-format
+msgid "Liña barak liu (máximu %(n)s). Fahe ba file barak."
+msgstr "Linhas a mais (máximo %(n)s). Divida em vários ficheiros."
+
+msgid "Liña hanesan iha file ne'e (duplikadu?)."
+msgstr "Linha repetida neste ficheiro (duplicado?)."
+
+#, python-format
+msgid ""
+"Liña válidu %(n)s sei sai kazu ho status \"Hein Verifikasaun\". Liña ho erru"
+" la tama — hadia iha Excel no upload fali."
+msgstr ""
+"%(n)s linhas válidas serão casos com o estado \"Aguarda Verificação\". "
+"Linhas com erro não entram — corrija no Excel e carregue de novo."
+
+msgid "Lokasaun"
+msgstr "Localização"
+
+msgid "Lokasaun bele muda deit molok kazu aprova."
+msgstr "A localização só pode ser alterada antes da aprovação."
+
+#, python-format
+msgid "Lokasaun kazu %(kode)s rai ona."
+msgstr "Localização do caso %(kode)s guardada."
+
+#, python-format
+msgid "Lokasaun muda: %(a)s → %(b)s, %(c)s"
+msgstr "Localização alterada: %(a)s → %(b)s, %(c)s"
+
+msgid "Loos"
+msgstr "Correto"
+
+#, python-format
+msgid "Munisípiu \"%(v)s\" la hetan."
+msgstr "Município \"%(v)s\" não encontrado."
+
+msgid "Munisípiu / Suku"
+msgstr "Município / Suco"
+
+msgid "Munisípiu obrigatóriu."
+msgstr "Município obrigatório."
+
+msgid "PRATINJAU LIÑA"
+msgstr "PRÉ-VISUALIZAÇÃO DAS LINHAS"
+
+msgid "Postu"
+msgstr "Posto"
+
+msgid "Pratinjau"
+msgstr "Pré-visualização"
+
+msgid "Pratinjau Import"
+msgstr "Pré-visualização da importação"
+
+msgid ""
+"Prenxe aba \"Kazu\": liña ida = kazu ida. Kolun verde obrigatóriu. Haree "
+"kódigu iha aba seluk."
+msgstr ""
+"Preencha a folha \"Kazu\": uma linha = um caso. Colunas verdes obrigatórias."
+" Veja os códigos nas outras folhas."
+
+msgid "Rai lokasaun"
+msgstr "Guardar localização"
+
+msgid "Seidauk iha import."
+msgstr "Ainda não há importações."
+
+msgid "Sukat distánsia"
+msgstr "Medir distância"
+
+#, python-format
+msgid "Tipu konflitu \"%(v)s\" la hetan."
+msgstr "Tipo de conflito \"%(v)s\" não encontrado."
+
+msgid "Tipu konflitu obrigatóriu."
+msgstr "Tipo de conflito obrigatório."
+
+#, python-format
+msgid "Tipu rai \"%(v)s\" la hetan."
+msgstr "Tipo de terra \"%(v)s\" não encontrado."
+
+msgid "Upload no haree pratinjau"
+msgstr "Carregar e ver pré-visualização"
+
+msgid ""
+"Upload → haree pratinjau → konfirma. Kazu tama ho status \"Hein "
+"Verifikasaun\"."
+msgstr ""
+"Carregar → pré-visualizar → confirmar. Os casos entram com o estado "
+"\"Aguarda Verificação\"."
+
+msgid "Uza ha'u-nia GPS ba kazu ne'e?"
+msgstr "Usar o meu GPS para este caso?"
+
+msgid "Uza template. Máximu 500 liña, 5 MB."
+msgstr "Use o modelo. Máximo 500 linhas, 5 MB."
+
+msgid "Válidu"
+msgstr "Válido"

@@ -1,0 +1,53 @@
+{% load static i18n %}
+{# Mapa pontu import: verde = GPS husi file, laranja = aproksimadu (hadia iha mapa). Aset lokál. #}
+<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
+<div id="mapa-import" class="mapa-import" data-mapbox="{{ MAPBOX_TOKEN }}"
+	data-ikon-ok="{% static 'main/mapa/marker-green.svg' %}" data-ikon-aprox="{% static 'main/mapa/marker-orange.svg' %}" data-sombra="{% static 'main/mapa/marker-shadow.png' %}"
+	data-l-fullscreen="{% trans "Ekran tomak" %}" data-l-ha-u="{% trans "Ha'u-nia fatin" %}" data-l-sukat="{% trans "Sukat distánsia" %}"
+	data-l-gps-erru="{% trans "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser." %}"
+	data-l-aprox="{% trans "GPS aproksimadu" %}" data-l-ok="{% trans "GPS husi file" %}" data-l-hadia="{% trans "Hadia lokasaun" %}" data-l-haree="{% trans "Haree kazu" %}"></div>
+{{ pontu|json_script:"pontu-import" }}
+<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script src="{% static 'main/mapa/smkre_mapa.js' %}"></script>
+<script nonce="{{ request.csp_nonce }}">
+(function () {
+var el = document.getElementById('mapa-import'), D = el.dataset;
+var pontu = JSON.parse(document.getElementById('pontu-import').textContent);
+var baze = SMKREMapa.baze(D.mapbox);
+var map = L.map('mapa-import', { center: [-8.85, 125.8], zoom: 8, maxZoom: 20, layers: [navigator.onLine ? baze['Street'] : L.layerGroup()] });
+L.control.layers(baze, {}, { collapsed: true }).addTo(map);
+L.control.scale({ imperial: false }).addTo(map);
+SMKREMapa.fullscreen(map);
+SMKREMapa.lokasaun(map);
+SMKREMapa.sukat(map);
+SMKREMapa.koordenada(map);
+
+function ikon(url) { return L.icon({ iconUrl: url, shadowUrl: D.sombra, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }); }
+var ikOk = ikon(D.ikonOk), ikAprox = ikon(D.ikonAprox);
+var grupu = L.featureGroup().addTo(map);
+pontu.forEach(function (p) {
+	// Popup ho DOM (la hatama HTML husi dadus)
+	var div = document.createElement('div');
+	var b = document.createElement('b'); b.textContent = p.titulu; div.appendChild(b);
+	div.appendChild(document.createElement('br'));
+	div.appendChild(document.createTextNode(p.sub));
+	div.appendChild(document.createElement('br'));
+	var s = document.createElement('small'); s.textContent = p.aprox ? D.lAprox : D.lOk; s.className = p.aprox ? 'text-warning' : 'text-success'; div.appendChild(s);
+	if (p.url) {
+		var a = document.createElement('a'); a.href = p.url; a.className = 'btn btn-sm btn-rbr btn-block mt-1 text-white';
+		a.textContent = p.aprox ? D.lHadia : D.lHaree; div.appendChild(a);
+	}
+	L.marker([p.lat, p.lng], { icon: p.aprox ? ikAprox : ikOk }).bindPopup(div).addTo(grupu);
+});
+if (pontu.length) map.fitBounds(grupu.getBounds(), { padding: [30, 30], maxZoom: 13 });
+
+// Lejenda
+var leg = L.control({ position: 'bottomright' });
+leg.onAdd = function () {
+	var d = L.DomUtil.create('div', 'map-legend');
+	d.innerHTML = "<img src='" + D.ikonOk + "' class='layer-ikon' alt=''> " + D.lOk + "<br><img src='" + D.ikonAprox + "' class='layer-ikon' alt=''> " + D.lAprox;
+	return d;
+};
+leg.addTo(map);
+})();
+</script>

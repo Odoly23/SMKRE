@@ -345,3 +345,14 @@ div.dataTables_wrapper div.dataTables_filter input { min-height: 38px; }
 
 .map-locate { display: flex !important; align-items: center; justify-content: center; width: 34px; height: 34px; background: #fff; color: #0E8A68; font-size: 18px; }
 .map-locate:hover { color: #0b6e53; background: #f4f4f4; }
+
+/* ── Mapa: kontrolu SMKRE (smkre_mapa.js) ── */
+.mapa-pick { height: 460px; border-radius: 10px; }
+.smkre-map-btn { display: flex !important; align-items: center; justify-content: center; width: 34px; height: 34px; background: #fff; color: #0E8A68; font-size: 16px; }
+.smkre-map-btn:hover { background: #f4f4f4; color: #0b6e53; }
+.smkre-map-btn.ativu { background: #d63c3c; color: #fff; }
+.smkre-map-coord { background: rgba(255,255,255,.9); padding: 2px 8px; border-radius: 4px; font: 12px/1.6 monospace; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+.smkre-map-sukat { font-weight: 700; color: #d63c3c; }
+.smkre-map-full { position: fixed !important; inset: 0; z-index: 1050; height: 100vh !important; width: 100vw !important; border-radius: 0 !important; }
+body.smkre-map-full-body { overflow: hidden; }
+.mapa-import { height: 380px; border-radius: 10px; }

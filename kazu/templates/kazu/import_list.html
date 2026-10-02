@@ -1,0 +1,50 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+{% include 'kazu/_pagetitle.html' %}
+<div class="row">
+	<div class="col-lg-5 mb-3">
+		<form method="POST" id="ImportForm" enctype="multipart/form-data" novalidate>
+		{% csrf_token %}
+		<div class="card card-rbr shadow-sm pt-1 rounded">
+			<div class="card-header card-header-rbr">{{ legend|upper }}</div>
+			<div class="card-body">
+				<ol class="small pl-3 mb-3">
+					<li class="mb-1"><a href="{% url 'kazu-import-template' %}" class="font-weight-bold"><i class="fa fa-download"></i> {% trans "Download template Excel" %}</a></li>
+					<li class="mb-1">{% trans "Prenxe aba \"Kazu\": liña ida = kazu ida. Kolun verde obrigatóriu. Haree kódigu iha aba seluk." %}</li>
+					<li class="mb-1">{% trans "Koordenada mamuk ka la kompletu: sistema uza fatin aproksimadu; ita hadia iha mapa depois." %}</li>
+					<li>{% trans "Upload → haree pratinjau → konfirma. Kazu tama ho status \"Hein Verifikasaun\"." %}</li>
+				</ol>
+				{% crispy form %}
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="col-lg-7 mb-3">
+		<div class="card card-rbr shadow-sm rounded">
+			<div class="card-header card-header-rbr">{% trans "ISTÓRIA IMPORT" %}</div>
+			<div class="card-body p-0">
+				<div class="table-responsive">
+					<table class="table table-sm table-hover mb-0 small">
+						<thead><tr><th>{% trans "Data" %}</th><th>{% trans "File" %}</th><th class="text-center">{% trans "Liña" %}</th><th class="text-center">{% trans "Válidu" %}</th><th>{% trans "Status" %}</th><th>{% trans "Admin" %}</th></tr></thead>
+						<tbody>
+						{% for i in objects %}
+							<tr>
+								<td>{{ i.created_at|date:"d/m/Y H:i" }}</td>
+								<td><a href="{% url 'kazu-import-detail' i.pk %}">{{ i.naran_file|truncatechars:34 }}</a></td>
+								<td class="text-center">{{ i.total }}</td>
+								<td class="text-center">{{ i.total_ok }}</td>
+								<td><span class="badge {% if i.status == 'REMATA' %}badge-success{% elif i.status == 'KANSELA' %}badge-secondary{% else %}badge-warning{% endif %}">{{ i.get_status_display }}</span></td>
+								<td>{{ i.created_by.email|truncatechars:22 }}</td>
+							</tr>
+						{% empty %}
+							<tr><td colspan="6" class="text-center text-muted py-4">{% trans "Seidauk iha import." %}</td></tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -373,3 +373,108 @@ class KomanduTesteOnlineTest(KazuBase):
 			from django.contrib.auth.models import User
 			u = User.objects.get(username=email)
 			self.assertTrue(u.check_password('Teste#Online-2026') and not u.pesoaluser.must_change_password, email)
+
+
+class ImportExcelTest(KazuBase):
+	# Import kazu husi Excel (Admin deit) + hadia lokasaun iha mapa
+	def excel(self, lina, naran='kazu.xlsx'):
+		from io import BytesIO
+		from openpyxl import Workbook
+		from django.core.files.uploadedfile import SimpleUploadedFile
+		from kazu.importa import NARAN_KOLUN
+		wb = Workbook()
+		ws = wb.active
+		ws.title = 'Kazu'
+		ws.append(NARAN_KOLUN)
+		for d in lina:
+			ws.append([d.get(k, '') for k in NARAN_KOLUN])
+		buf = BytesIO()
+		wb.save(buf)
+		return SimpleUploadedFile(naran, buf.getvalue())
+
+	def lina(self, **extra):
+		d = {'data_relatoriu': timezone.localdate().isoformat(), 'munisipiu': 'LIQ', 'tipu_konflitu': 'DESLOKAMENTU',
+			'deskrisaun': 'Familia hetan avizu atu sai.', 'konsentimentu': 'SIN', 'uma_kain': 4, 'mane': 6, 'feto': 7}
+		d.update(extra)
+		return d
+
+	def upload(self, lina):
+		self.client.force_login(self.admin)
+		r = self.client.post(reverse('kazu-import'), {'file': self.excel(lina)})
+		self.assertEqual(r.status_code, 302, r.content[:300])
+		from kazu.models import KazuImport
+		return KazuImport.objects.latest('created_at')
+
+	def test_admin_deit(self):
+		for user, kodigu in ((self.inv, 403), (self.sa, 403), (self.admin, 200)):
+			self.client.force_login(user)
+			self.assertEqual(self.client.get(reverse('kazu-import')).status_code, kodigu)
+		r = self.client.get(reverse('kazu-import-template'))
+		self.assertEqual(r.status_code, 200)
+		self.assertTrue(r.content.startswith(b'PK'))
+
+	def test_pratinjau_konfirma_no_gps_aproksimadu(self):
+		imp = self.upload([
+			self.lina(latitude='-8.612100', longitude='125.210700', postu='LIQ-03', suku='LIQ-03-01'),   # GPS loos
+			self.lina(deskrisaun='La iha GPS'),                                                         # sentru munisípiu
+			self.lina(deskrisaun='GPS la kompletu', latitude='-8.6'),                                    # la kompletu
+			self.lina(deskrisaun='GPS li\'ur TL', latitude='-6.2', longitude='106.8'),                    # Jakarta
+			self.lina(munisipiu='XYZ'),                                                                  # erru
+			self.lina(tipu_konflitu='', deskrisaun=''),                                                  # erru
+		])
+		self.assertEqual((imp.total, imp.total_ok, imp.total_aproksimadu), (6, 4, 3))
+		self.assertEqual(Kazu.objects.count(), 0)                     # pratinjau: seidauk kria
+		r = self.client.get(reverse('kazu-import-detail', args=[imp.pk]))
+		self.assertContains(r, 'XYZ')
+		self.assertContains(r, 'data-target="#modal-konfirma-import"')
+
+		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
+		kazu = Kazu.objects.filter(importasaun=imp)
+		self.assertEqual(kazu.count(), 4)
+		self.assertTrue(all(k.status == 'SYNCED' and k.kode.startswith('SMKRE-LIQ-') for k in kazu))
+		self.assertEqual(kazu.filter(gps_aproksimadu=True).count(), 3)
+		loos = kazu.get(gps_aproksimadu=False)
+		self.assertEqual(str(loos.latitude), '-8.612100')
+		self.assertEqual(loos.afetadu.get().total_ema, 13)
+		self.assertTrue(loos.historia.filter(nota__contains='Import Excel').exists())
+		self.assertTrue(Notification.objects.filter(recipient=self.sa, message__contains='Excel').exists())
+		# Konfirma dala rua: la kria tan
+		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
+		self.assertEqual(Kazu.objects.count(), 4)
+
+	def test_la_iha_konsentimentu_la_tama_portal(self):
+		imp = self.upload([self.lina(konsentimentu='')])
+		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
+		self.assertFalse(Kazu.objects.get().konsentimentu)
+
+	def test_file_la_validu(self):
+		from django.core.files.uploadedfile import SimpleUploadedFile
+		self.client.force_login(self.admin)
+		r = self.client.post(reverse('kazu-import'), {'file': SimpleUploadedFile('kazu.xlsx', b'naran,data\n1,2')})
+		self.assertEqual(r.status_code, 200)
+		self.assertContains(r, '.xlsx')
+
+	def test_hadia_lokasaun(self):
+		imp = self.upload([self.lina()])
+		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
+		kazu = Kazu.objects.get()
+		self.assertTrue(kazu.gps_aproksimadu)
+		url = reverse('kazu-lokasaun', args=[kazu.pk])
+		self.assertContains(self.client.get(reverse('kazu-detail', args=[kazu.pk])), url)
+		self.assertContains(self.client.get(url), 'mapa-pick')
+		# Li'ur Timor-Leste: rejeita
+		self.post(url, {'latitude': '-6.200000', 'longitude': '106.800000'})
+		kazu.refresh_from_db()
+		self.assertTrue(kazu.gps_aproksimadu)
+		# Fatin loos
+		self.post(url, {'latitude': '-8.598765', 'longitude': '125.256789'})
+		kazu.refresh_from_db()
+		self.assertFalse(kazu.gps_aproksimadu)
+		self.assertEqual(str(kazu.longitude), '125.256789')
+		self.assertTrue(kazu.historia.filter(nota__contains='Lokasaun muda').exists())
+		# Investigadór labele; hafoin aprova labele muda
+		self.client.force_login(self.inv)
+		self.assertEqual(self.client.get(url).status_code, 403)
+		Kazu.objects.filter(pk=kazu.pk).update(status='APPROVED')
+		self.client.force_login(self.admin)
+		self.assertRedirects(self.client.get(url), reverse('kazu-detail', args=[kazu.pk]))

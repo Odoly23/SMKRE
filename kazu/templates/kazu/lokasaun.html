@@ -1,0 +1,32 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+{% include 'kazu/_pagetitle.html' %}
+<div class="row">
+	<div class="col-lg-4 mb-3">
+		<form method="POST" id="LokasaunForm" novalidate>
+		{% csrf_token %}
+		<div class="card card-rbr shadow-sm pt-1 rounded">
+			<div class="card-header card-header-rbr">{{ legend|upper }}</div>
+			<div class="card-body">
+				<table class="table table-sm small mb-3">
+					<tr><th>{% trans "ID Kazu" %}</th><td>{{ objects.kode }}</td></tr>
+					<tr><th>{% trans "Munisípiu" %}</th><td>{{ objects.munisipiu.name }}</td></tr>
+					<tr><th>{% trans "Postu" %}</th><td>{{ objects.postu.name|default:"—" }}</td></tr>
+					<tr><th>{% trans "Suku" %}</th><td>{{ objects.suku.name|default:"—" }}</td></tr>
+				</table>
+				{% if objects.gps_aproksimadu %}
+				<div class="alert alert-warning small"><i class="fa fa-exclamation-triangle"></i> {% trans "Fatin ne'e aproksimadu (husi import). Dada marka ba fatin loos." %}</div>
+				{% endif %}
+				{% crispy form %}
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="col-lg-8 mb-3">
+		<div class="card card-rbr shadow-sm rounded"><div class="card-body p-2">
+			{% include 'maps/lokasaun_picker.html' %}
+		</div></div>
+	</div>
+</div>
+{% endblock %}

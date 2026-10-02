@@ -1,0 +1,14 @@
+{% load i18n %}
+<div class="pagetitle mt-1">
+	<nav>
+		<ol class="breadcrumb mb-2">
+			<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Varanda" %}</a></li>
+			{% if link_antes %}
+				{% for i in link_antes %}
+					<li class="breadcrumb-item"><a href="{% if i.link_param %}{% url i.link_name i.link_param %}{% else %}{% url i.link_name %}{% endif %}">{{ i.link_text }}</a></li>
+				{% endfor %}
+			{% endif %}
+			<li class="breadcrumb-item active">{{ title }}</li>
+		</ol>
+	</nav>
+</div>

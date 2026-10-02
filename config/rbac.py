@@ -34,6 +34,7 @@ ROLE_POLICY_KRIA  = [SUPERADMIN, ADMIN, ANALISTA]
 ROLE_POLICY_PUBLIKA = [SUPERADMIN, ADMIN]
 ROLE_USER_MANAGE  = [SUPERADMIN, ADMIN]
 ROLE_OFFLINE_FO   = [ADMIN]
+ROLE_IMPORT_KAZU  = [ADMIN]                  # Import Excel + hadia lokasaun iha mapa
 
 
 def roles_admin_can_assign(group):

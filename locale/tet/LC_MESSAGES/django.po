@@ -2672,3 +2672,293 @@ msgid ""
 msgstr ""
 "Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba "
 "munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku."
+
+#, python-format
+msgid "\"%(c)s\" tenke númeru pozitivu."
+msgstr "\"%(c)s\" tenke númeru pozitivu."
+
+#, python-format
+msgid "%(c)s \"%(v)s\" la hetan (ka naran duplikadu: uza kódigu)."
+msgstr "%(c)s \"%(v)s\" la hetan (ka naran duplikadu: uza kódigu)."
+
+#, python-format
+msgid "%(c)s la validu (uza AAAA-MM-LL)."
+msgstr "%(c)s la validu (uza AAAA-MM-LL)."
+
+#, python-format
+msgid ""
+"Admin import kazu %(n)s husi Excel (%(f)s). Hein verifikasaun no aprovasaun."
+msgstr ""
+"Admin import kazu %(n)s husi Excel (%(f)s). Hein verifikasaun no aprovasaun."
+
+msgid "Dada marka mean ka klik iha mapa. Uza Satélite atu haree uma no dalan."
+msgstr ""
+"Dada marka mean ka klik iha mapa. Uza Satélite atu haree uma no dalan."
+
+msgid "Data akontesimentu"
+msgstr "Data akontesimentu"
+
+msgid "Data relatóriu"
+msgstr "Data relatóriu"
+
+msgid "Data relatóriu obrigatóriu."
+msgstr "Data relatóriu obrigatóriu."
+
+msgid "Deskrisaun obrigatóriu."
+msgstr "Deskrisaun obrigatóriu."
+
+msgid "Download template Excel"
+msgstr "Download template Excel"
+
+msgid "Ekran tomak"
+msgstr "Ekran tomak"
+
+msgid "Erru"
+msgstr "Erru"
+
+msgid "Fatin foun — dada ka klik mapa"
+msgstr "Fatin foun — dada ka klik mapa"
+
+msgid "Fatin ne'e aproksimadu (husi import). Dada marka ba fatin loos."
+msgstr "Fatin ne'e aproksimadu (husi import). Dada marka ba fatin loos."
+
+msgid "Fatin uluk"
+msgstr "Fatin uluk"
+
+msgid "Fila ba fatin uluk"
+msgstr "Fila ba fatin uluk"
+
+msgid "File Excel (.xlsx)"
+msgstr "File Excel (.xlsx)"
+
+msgid "File boot liu (máximu 5 MB)."
+msgstr "File boot liu (máximu 5 MB)."
+
+msgid "File mamuk."
+msgstr "File mamuk."
+
+msgid ""
+"File ne'e import ona uluk. Haree didi'ak molok konfirma (risku duplikadu)."
+msgstr ""
+"File ne'e import ona uluk. Haree didi'ak molok konfirma (risku duplikadu)."
+
+msgid "File tenke Excel .xlsx (uza template)."
+msgstr "File tenke Excel .xlsx (uza template)."
+
+msgid "GPS aproksimadu"
+msgstr "GPS aproksimadu"
+
+msgid "GPS husi file"
+msgstr "GPS husi file"
+
+msgid "Hadia lokasaun"
+msgstr "Hadia lokasaun"
+
+msgid "Hadia lokasaun kazu"
+msgstr "Hadia lokasaun kazu"
+
+msgid "Haree kazu"
+msgstr "Haree kazu"
+
+msgid "ISTÓRIA IMPORT"
+msgstr "ISTÓRIA IMPORT"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Import Excel"
+msgstr "Import Excel"
+
+#, python-format
+msgid "Import Excel: %(f)s · liña %(n)s"
+msgstr "Import Excel: %(f)s · liña %(n)s"
+
+msgid "Import Kazu"
+msgstr "Import Kazu"
+
+msgid "Import Kazu husi Excel"
+msgstr "Import Kazu husi Excel"
+
+msgid "Import kansela. La iha kazu ida kria."
+msgstr "Import kansela. La iha kazu ida kria."
+
+msgid "Import ne'e konfirma ka kansela ona."
+msgstr "Import ne'e konfirma ka kansela ona."
+
+msgid "Importa ona"
+msgstr "Importa ona"
+
+msgid "KAZU KRIA"
+msgstr "KAZU KRIA"
+
+msgid "Kansela import?"
+msgstr "Kansela import?"
+
+#, python-format
+msgid "Kazu %(n)s import ona ho status \"Hein Verifikasaun\"."
+msgstr "Kazu %(n)s import ona ho status \"Hein Verifikasaun\"."
+
+#, python-format
+msgid ""
+"Kazu %(n)s sei kria ho status \"Hein Verifikasaun\". %(a)s ho GPS "
+"aproksimadu: hadia iha mapa depois."
+msgstr ""
+"Kazu %(n)s sei kria ho status \"Hein Verifikasaun\". %(a)s ho GPS "
+"aproksimadu: hadia iha mapa depois."
+
+msgid "Kazu hanesan iha sistema ona (duplikadu?)."
+msgstr "Kazu hanesan iha sistema ona (duplikadu?)."
+
+msgid ""
+"Kolun la tuir template (presiza \"munisipiu\", \"deskrisaun\"…). Download "
+"template."
+msgstr ""
+"Kolun la tuir template (presiza \"munisipiu\", \"deskrisaun\"…). Download "
+"template."
+
+msgid "Konfirma import"
+msgstr "Konfirma import"
+
+msgid "Konfirma import?"
+msgstr "Konfirma import?"
+
+msgid "Koordenada la kompletu — uza fatin aproksimadu."
+msgstr "Koordenada la kompletu — uza fatin aproksimadu."
+
+msgid "Koordenada la validu — uza fatin aproksimadu."
+msgstr "Koordenada la validu — uza fatin aproksimadu."
+
+msgid "Koordenada li'ur Timor-Leste — uza fatin aproksimadu."
+msgstr "Koordenada li'ur Timor-Leste — uza fatin aproksimadu."
+
+msgid ""
+"Koordenada mamuk ka la kompletu: sistema uza fatin aproksimadu; ita hadia "
+"iha mapa depois."
+msgstr ""
+"Koordenada mamuk ka la kompletu: sistema uza fatin aproksimadu; ita hadia "
+"iha mapa depois."
+
+msgid ""
+"Koordenada mamuk no munisípiu la iha sentru: hatama latitude/longitude."
+msgstr ""
+"Koordenada mamuk no munisípiu la iha sentru: hatama latitude/longitude."
+
+#, python-format
+msgid "Koordenada mamuk — uza sentru %(f)s. Hadia iha mapa hafoin import."
+msgstr "Koordenada mamuk — uza sentru %(f)s. Hadia iha mapa hafoin import."
+
+msgid "La iha kazu ida sei kria. Pratinjau rai iha istória."
+msgstr "La iha kazu ida sei kria. Pratinjau rai iha istória."
+
+msgid "La iha konsentimentu — kazu la sei mosu iha portal públiku."
+msgstr "La iha konsentimentu — kazu la sei mosu iha portal públiku."
+
+msgid "Labele lee file Excel ne'e."
+msgstr "Labele lee file Excel ne'e."
+
+msgid "Liña"
+msgstr "Liña"
+
+#, python-format
+msgid "Liña %(n)s"
+msgstr "Liña %(n)s"
+
+#, python-format
+msgid "Liña barak liu (máximu %(n)s). Fahe ba file barak."
+msgstr "Liña barak liu (máximu %(n)s). Fahe ba file barak."
+
+msgid "Liña hanesan iha file ne'e (duplikadu?)."
+msgstr "Liña hanesan iha file ne'e (duplikadu?)."
+
+#, python-format
+msgid ""
+"Liña válidu %(n)s sei sai kazu ho status \"Hein Verifikasaun\". Liña ho erru"
+" la tama — hadia iha Excel no upload fali."
+msgstr ""
+"Liña válidu %(n)s sei sai kazu ho status \"Hein Verifikasaun\". Liña ho erru"
+" la tama — hadia iha Excel no upload fali."
+
+msgid "Lokasaun"
+msgstr "Lokasaun"
+
+msgid "Lokasaun bele muda deit molok kazu aprova."
+msgstr "Lokasaun bele muda deit molok kazu aprova."
+
+#, python-format
+msgid "Lokasaun kazu %(kode)s rai ona."
+msgstr "Lokasaun kazu %(kode)s rai ona."
+
+#, python-format
+msgid "Lokasaun muda: %(a)s → %(b)s, %(c)s"
+msgstr "Lokasaun muda: %(a)s → %(b)s, %(c)s"
+
+msgid "Loos"
+msgstr "Loos"
+
+#, python-format
+msgid "Munisípiu \"%(v)s\" la hetan."
+msgstr "Munisípiu \"%(v)s\" la hetan."
+
+msgid "Munisípiu / Suku"
+msgstr "Munisípiu / Suku"
+
+msgid "Munisípiu obrigatóriu."
+msgstr "Munisípiu obrigatóriu."
+
+msgid "PRATINJAU LIÑA"
+msgstr "PRATINJAU LIÑA"
+
+msgid "Postu"
+msgstr "Postu"
+
+msgid "Pratinjau"
+msgstr "Pratinjau"
+
+msgid "Pratinjau Import"
+msgstr "Pratinjau Import"
+
+msgid ""
+"Prenxe aba \"Kazu\": liña ida = kazu ida. Kolun verde obrigatóriu. Haree "
+"kódigu iha aba seluk."
+msgstr ""
+"Prenxe aba \"Kazu\": liña ida = kazu ida. Kolun verde obrigatóriu. Haree "
+"kódigu iha aba seluk."
+
+msgid "Rai lokasaun"
+msgstr "Rai lokasaun"
+
+msgid "Seidauk iha import."
+msgstr "Seidauk iha import."
+
+msgid "Sukat distánsia"
+msgstr "Sukat distánsia"
+
+#, python-format
+msgid "Tipu konflitu \"%(v)s\" la hetan."
+msgstr "Tipu konflitu \"%(v)s\" la hetan."
+
+msgid "Tipu konflitu obrigatóriu."
+msgstr "Tipu konflitu obrigatóriu."
+
+#, python-format
+msgid "Tipu rai \"%(v)s\" la hetan."
+msgstr "Tipu rai \"%(v)s\" la hetan."
+
+msgid "Upload no haree pratinjau"
+msgstr "Upload no haree pratinjau"
+
+msgid ""
+"Upload → haree pratinjau → konfirma. Kazu tama ho status \"Hein "
+"Verifikasaun\"."
+msgstr ""
+"Upload → haree pratinjau → konfirma. Kazu tama ho status \"Hein "
+"Verifikasaun\"."
+
+msgid "Uza ha'u-nia GPS ba kazu ne'e?"
+msgstr "Uza ha'u-nia GPS ba kazu ne'e?"
+
+msgid "Uza template. Máximu 500 liña, 5 MB."
+msgstr "Uza template. Máximu 500 liña, 5 MB."
+
+msgid "Válidu"
+msgstr "Válidu"

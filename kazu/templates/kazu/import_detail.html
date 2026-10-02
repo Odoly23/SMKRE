@@ -1,0 +1,119 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+{% include 'kazu/_pagetitle.html' %}
+
+<!-- Rezumu -->
+<div class="stat-row mb-3">
+	<div class="stat" style="background:#0B4F3C"><b>{{ objects.total }}</b>{% trans "Liña" %}</div>
+	<div class="stat" style="background:#0E8A68"><b>{{ objects.total_ok }}</b>{% trans "Válidu" %}</div>
+	<div class="stat" style="background:#d63c3c"><b>{{ objects.total_erru }}</b>{% trans "Erru" %}</div>
+	<div class="stat" style="background:#e8772e"><b>{{ objects.total_aproksimadu }}</b>{% trans "GPS aproksimadu" %}</div>
+</div>
+
+{% if objects.status == 'RASCUNHO' %}
+<div class="card card-rbr shadow-sm mb-3"><div class="card-body d-flex flex-wrap align-items-center">
+	<div class="mr-auto mb-2 small">
+		<i class="fa fa-info-circle text-info"></i>
+		{% blocktrans with n=objects.total_ok %}Liña válidu {{ n }} sei sai kazu ho status "Hein Verifikasaun". Liña ho erru la tama — hadia iha Excel no upload fali.{% endblocktrans %}
+	</div>
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-outline-secondary mb-2 mr-2" data-toggle="modal" data-target="#modal-kansela-import"><i class="fa fa-times"></i> {% trans "Kansela" %}</button>
+	<button type="button" class="btn btn-rbr mb-2" data-toggle="modal" data-target="#modal-konfirma-import" {% if not objects.total_ok %}disabled{% endif %}><i class="fa fa-check"></i> {% trans "Konfirma import" %}</button>
+</div></div>
+{% else %}
+<div class="alert {% if objects.status == 'REMATA' %}alert-success{% else %}alert-secondary{% endif %} small">
+	<i class="fa fa-info-circle"></i> {{ objects.get_status_display }}{% if objects.konfirma_iha %} · {{ objects.konfirma_iha|date:"d/m/Y H:i" }}{% endif %} · {{ objects.created_by.email }}
+</div>
+{% endif %}
+
+<div class="row">
+	<div class="col-lg-5 mb-3">
+		<div class="card card-rbr shadow-sm rounded"><div class="card-body p-2">
+			{% include 'maps/import_maps.html' %}
+		</div></div>
+	</div>
+	<div class="col-lg-7 mb-3">
+		<div class="card card-rbr shadow-sm rounded">
+			{% if kazu_list %}
+			<div class="card-header card-header-rbr">{% trans "KAZU KRIA" %}</div>
+			<div class="card-body p-0"><div class="table-responsive" style="max-height:480px">
+				<table class="table table-sm table-hover small mb-0">
+					<thead><tr><th>{% trans "ID Kazu" %}</th><th>{% trans "Fatin" %}</th><th>{% trans "Status Dadus" %}</th><th>{% trans "Lokasaun" %}</th></tr></thead>
+					<tbody>
+					{% for k in kazu_list %}
+						<tr>
+							<td><a href="{% url 'kazu-detail' k.pk %}">{{ k.kode }}</a></td>
+							<td>{% if k.suku %}{{ k.suku.name }}, {% endif %}{{ k.munisipiu.name }}</td>
+							<td>{{ k.get_status_display }}</td>
+							<td>{% if k.gps_aproksimadu %}<a href="{% url 'kazu-lokasaun' k.pk %}" class="btn btn-sm btn-warning py-0"><i class="fa fa-map-marker"></i> {% trans "Hadia lokasaun" %}</a>{% else %}<span class="text-success"><i class="fa fa-check"></i> {% trans "Loos" %}</span>{% endif %}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div></div>
+			{% else %}
+			<div class="card-header card-header-rbr">{% trans "PRATINJAU LIÑA" %}</div>
+			<div class="card-body p-0"><div class="table-responsive" style="max-height:480px">
+				<table class="table table-sm small mb-0">
+					<thead><tr><th>{% trans "Liña" %}</th><th>{% trans "Status" %}</th><th>{% trans "Munisípiu / Suku" %}</th><th>{% trans "Tipu" %}</th><th>{% trans "Nota" %}</th></tr></thead>
+					<tbody>
+					{% for r in lina %}
+						<tr class="{% if not r.ok %}table-danger{% elif r.avizu %}table-warning{% endif %}">
+							<td>{{ r.lina }}</td>
+							<td>{% if r.ok %}<span class="badge badge-success">{% trans "Válidu" %}</span>{% else %}<span class="badge badge-danger">{% trans "Erru" %}</span>{% endif %}</td>
+							<td>{{ r.rezumu.munisipiu }}{% if r.rezumu.suku %} / {{ r.rezumu.suku }}{% endif %}<br><span class="text-muted">{{ r.rezumu.deskrisaun }}</span></td>
+							<td>{{ r.rezumu.tipu }}</td>
+							<td>
+								{% for e in r.erru %}<div class="text-danger"><i class="fa fa-times-circle"></i> {{ e }}</div>{% endfor %}
+								{% for a in r.avizu %}<div class="text-dark"><i class="fa fa-exclamation-triangle text-warning"></i> {{ a }}</div>{% endfor %}
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div></div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% if objects.status == 'RASCUNHO' %}
+<!-- Modal -->
+<div class="modal fade" id="modal-konfirma-import" tabindex="-1" aria-labelledby="modal-konfirma-import-label" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<form method="post" action="{% url 'kazu-import-konfirma' objects.pk %}" class="modal-content">
+			{% csrf_token %}
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal-konfirma-import-label"><i class="fa fa-upload"></i> {% trans "Konfirma import?" %}</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Taka" %}"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<p class="mb-2"><b>{{ objects.naran_file }}</b></p>
+				<p class="mb-0">{% blocktrans with n=objects.total_ok a=objects.total_aproksimadu %}Kazu {{ n }} sei kria ho status "Hein Verifikasaun". {{ a }} ho GPS aproksimadu: hadia iha mapa depois.{% endblocktrans %}</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Lae, fila" %}</button>
+				<button type="submit" class="btn btn-rbr"><i class="fa fa-check"></i> {% trans "Konfirma import" %}</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal fade" id="modal-kansela-import" tabindex="-1" aria-labelledby="modal-kansela-import-label" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<form method="post" action="{% url 'kazu-import-kansela' objects.pk %}" class="modal-content">
+			{% csrf_token %}
+			<div class="modal-header">
+				<h5 class="modal-title" id="modal-kansela-import-label"><i class="fa fa-times"></i> {% trans "Kansela import?" %}</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Taka" %}"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">{% trans "La iha kazu ida sei kria. Pratinjau rai iha istória." %}</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Lae, fila" %}</button>
+				<button type="submit" class="btn btn-danger"><i class="fa fa-times"></i> {% trans "Kansela" %}</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+{% endblock %}

@@ -2573,3 +2573,299 @@ msgid ""
 msgstr ""
 "Pins show total cases per municipality. Click a pin → See details to zoom to"
 " the municipality, see case locations (approximate) and the suco chart."
+
+#, python-format
+msgid "\"%(c)s\" tenke númeru pozitivu."
+msgstr "\"%(c)s\" must be a positive number."
+
+#, python-format
+msgid "%(c)s \"%(v)s\" la hetan (ka naran duplikadu: uza kódigu)."
+msgstr "%(c)s \"%(v)s\" not found (or duplicate name: use the code)."
+
+#, python-format
+msgid "%(c)s la validu (uza AAAA-MM-LL)."
+msgstr "%(c)s is invalid (use YYYY-MM-DD)."
+
+#, python-format
+msgid ""
+"Admin import kazu %(n)s husi Excel (%(f)s). Hein verifikasaun no aprovasaun."
+msgstr ""
+"Admin imported %(n)s cases from Excel (%(f)s). Awaiting verification and "
+"approval."
+
+msgid "Dada marka mean ka klik iha mapa. Uza Satélite atu haree uma no dalan."
+msgstr ""
+"Drag the red marker or click the map. Use Satellite to see houses and roads."
+
+msgid "Data akontesimentu"
+msgstr "Incident date"
+
+msgid "Data relatóriu"
+msgstr "Report date"
+
+msgid "Data relatóriu obrigatóriu."
+msgstr "Report date is required."
+
+msgid "Deskrisaun obrigatóriu."
+msgstr "Description is required."
+
+msgid "Download template Excel"
+msgstr "Download Excel template"
+
+msgid "Ekran tomak"
+msgstr "Full screen"
+
+msgid "Erru"
+msgstr "Error"
+
+msgid "Fatin foun — dada ka klik mapa"
+msgstr "New location — drag or click the map"
+
+msgid "Fatin ne'e aproksimadu (husi import). Dada marka ba fatin loos."
+msgstr ""
+"This location is approximate (from import). Drag the marker to the correct "
+"place."
+
+msgid "Fatin uluk"
+msgstr "Previous location"
+
+msgid "Fila ba fatin uluk"
+msgstr "Back to previous location"
+
+msgid "File Excel (.xlsx)"
+msgstr "Excel file (.xlsx)"
+
+msgid "File boot liu (máximu 5 MB)."
+msgstr "File too large (maximum 5 MB)."
+
+msgid "File mamuk."
+msgstr "Empty file."
+
+msgid ""
+"File ne'e import ona uluk. Haree didi'ak molok konfirma (risku duplikadu)."
+msgstr ""
+"This file was imported before. Check carefully before confirming (risk of "
+"duplicates)."
+
+msgid "File tenke Excel .xlsx (uza template)."
+msgstr "File must be Excel .xlsx (use the template)."
+
+msgid "GPS aproksimadu"
+msgstr "Approximate GPS"
+
+msgid "GPS husi file"
+msgstr "GPS from file"
+
+msgid "Hadia lokasaun"
+msgstr "Fix location"
+
+msgid "Hadia lokasaun kazu"
+msgstr "Fix case location"
+
+msgid "Haree kazu"
+msgstr "View case"
+
+msgid "ISTÓRIA IMPORT"
+msgstr "IMPORT HISTORY"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Import Excel"
+msgstr "Excel import"
+
+#, python-format
+msgid "Import Excel: %(f)s · liña %(n)s"
+msgstr "Excel import: %(f)s · row %(n)s"
+
+msgid "Import Kazu"
+msgstr "Import Cases"
+
+msgid "Import Kazu husi Excel"
+msgstr "Import cases from Excel"
+
+msgid "Import kansela. La iha kazu ida kria."
+msgstr "Import cancelled. No case was created."
+
+msgid "Import ne'e konfirma ka kansela ona."
+msgstr "This import was already confirmed or cancelled."
+
+msgid "Importa ona"
+msgstr "Imported"
+
+msgid "KAZU KRIA"
+msgstr "CASES CREATED"
+
+msgid "Kansela import?"
+msgstr "Cancel import?"
+
+#, python-format
+msgid "Kazu %(n)s import ona ho status \"Hein Verifikasaun\"."
+msgstr "%(n)s cases imported with status \"Awaiting Verification\"."
+
+#, python-format
+msgid ""
+"Kazu %(n)s sei kria ho status \"Hein Verifikasaun\". %(a)s ho GPS "
+"aproksimadu: hadia iha mapa depois."
+msgstr ""
+"%(n)s cases will be created with status \"Awaiting Verification\". %(a)s "
+"with approximate GPS: fix them on the map later."
+
+msgid "Kazu hanesan iha sistema ona (duplikadu?)."
+msgstr "A similar case already exists (duplicate?)."
+
+msgid ""
+"Kolun la tuir template (presiza \"munisipiu\", \"deskrisaun\"…). Download "
+"template."
+msgstr ""
+"Columns do not match the template (needs \"munisipiu\", \"deskrisaun\"…). "
+"Download the template."
+
+msgid "Konfirma import"
+msgstr "Confirm import"
+
+msgid "Konfirma import?"
+msgstr "Confirm import?"
+
+msgid "Koordenada la kompletu — uza fatin aproksimadu."
+msgstr "Incomplete coordinates — using approximate location."
+
+msgid "Koordenada la validu — uza fatin aproksimadu."
+msgstr "Invalid coordinates — using approximate location."
+
+msgid "Koordenada li'ur Timor-Leste — uza fatin aproksimadu."
+msgstr "Coordinates outside Timor-Leste — using approximate location."
+
+msgid ""
+"Koordenada mamuk ka la kompletu: sistema uza fatin aproksimadu; ita hadia "
+"iha mapa depois."
+msgstr ""
+"Empty or incomplete coordinates: the system uses an approximate location; "
+"fix it on the map later."
+
+msgid ""
+"Koordenada mamuk no munisípiu la iha sentru: hatama latitude/longitude."
+msgstr ""
+"Empty coordinates and the municipality has no centre: fill in "
+"latitude/longitude."
+
+#, python-format
+msgid "Koordenada mamuk — uza sentru %(f)s. Hadia iha mapa hafoin import."
+msgstr ""
+"Empty coordinates — using the centre of %(f)s. Fix on the map after import."
+
+msgid "La iha kazu ida sei kria. Pratinjau rai iha istória."
+msgstr "No case will be created. The preview stays in the history."
+
+msgid "La iha konsentimentu — kazu la sei mosu iha portal públiku."
+msgstr "No consent — the case will not appear on the public portal."
+
+msgid "Labele lee file Excel ne'e."
+msgstr "Cannot read this Excel file."
+
+msgid "Liña"
+msgstr "Rows"
+
+#, python-format
+msgid "Liña %(n)s"
+msgstr "Row %(n)s"
+
+#, python-format
+msgid "Liña barak liu (máximu %(n)s). Fahe ba file barak."
+msgstr "Too many rows (maximum %(n)s). Split into several files."
+
+msgid "Liña hanesan iha file ne'e (duplikadu?)."
+msgstr "Same row appears in this file (duplicate?)."
+
+#, python-format
+msgid ""
+"Liña válidu %(n)s sei sai kazu ho status \"Hein Verifikasaun\". Liña ho erru"
+" la tama — hadia iha Excel no upload fali."
+msgstr ""
+"%(n)s valid rows will become cases with status \"Awaiting Verification\". "
+"Rows with errors are skipped — fix them in Excel and upload again."
+
+msgid "Lokasaun"
+msgstr "Location"
+
+msgid "Lokasaun bele muda deit molok kazu aprova."
+msgstr "Location can only be changed before approval."
+
+#, python-format
+msgid "Lokasaun kazu %(kode)s rai ona."
+msgstr "Location of case %(kode)s saved."
+
+#, python-format
+msgid "Lokasaun muda: %(a)s → %(b)s, %(c)s"
+msgstr "Location changed: %(a)s → %(b)s, %(c)s"
+
+msgid "Loos"
+msgstr "Correct"
+
+#, python-format
+msgid "Munisípiu \"%(v)s\" la hetan."
+msgstr "Municipality \"%(v)s\" not found."
+
+msgid "Munisípiu / Suku"
+msgstr "Municipality / Suco"
+
+msgid "Munisípiu obrigatóriu."
+msgstr "Municipality is required."
+
+msgid "PRATINJAU LIÑA"
+msgstr "ROW PREVIEW"
+
+msgid "Postu"
+msgstr "Post"
+
+msgid "Pratinjau"
+msgstr "Preview"
+
+msgid "Pratinjau Import"
+msgstr "Import preview"
+
+msgid ""
+"Prenxe aba \"Kazu\": liña ida = kazu ida. Kolun verde obrigatóriu. Haree "
+"kódigu iha aba seluk."
+msgstr ""
+"Fill in the \"Kazu\" sheet: one row = one case. Green columns are required. "
+"See the codes in the other sheets."
+
+msgid "Rai lokasaun"
+msgstr "Save location"
+
+msgid "Seidauk iha import."
+msgstr "No imports yet."
+
+msgid "Sukat distánsia"
+msgstr "Measure distance"
+
+#, python-format
+msgid "Tipu konflitu \"%(v)s\" la hetan."
+msgstr "Conflict type \"%(v)s\" not found."
+
+msgid "Tipu konflitu obrigatóriu."
+msgstr "Conflict type is required."
+
+#, python-format
+msgid "Tipu rai \"%(v)s\" la hetan."
+msgstr "Land type \"%(v)s\" not found."
+
+msgid "Upload no haree pratinjau"
+msgstr "Upload and preview"
+
+msgid ""
+"Upload → haree pratinjau → konfirma. Kazu tama ho status \"Hein "
+"Verifikasaun\"."
+msgstr ""
+"Upload → preview → confirm. Cases enter with status \"Awaiting "
+"Verification\"."
+
+msgid "Uza ha'u-nia GPS ba kazu ne'e?"
+msgstr "Use my GPS for this case?"
+
+msgid "Uza template. Máximu 500 liña, 5 MB."
+msgstr "Use the template. Maximum 500 rows, 5 MB."
+
+msgid "Válidu"
+msgstr "Valid"
