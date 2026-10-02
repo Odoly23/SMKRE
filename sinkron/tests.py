@@ -150,6 +150,17 @@ class FluxuSinkronTest(SinkronBase):
 		self.assertEqual(r.status_code, 400)
 
 
+class LaPublikaTest(SinkronBase):
+	def test_la_publika_husi_hp(self):
+		# Komunidade husu atu kazu la mosu iha portal: marka iha HP → tama iha servidór
+		data = self.payload(la_publika=True)
+		self.assertEqual(self.send(data).status_code, 201)
+		self.assertTrue(Kazu.objects.get(pk=data['id']).la_publika)
+		data = self.payload()
+		self.send(data)
+		self.assertFalse(Kazu.objects.get(pk=data['id']).la_publika)
+
+
 class AutorizasaunSinkronTest(SinkronBase):
 	def test_kazu_kria_li_ur_periodu_rejeita(self):
 		r = self.send(self.payload(kria_iha=(timezone.now() - timedelta(days=3)).isoformat()))

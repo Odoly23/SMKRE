@@ -344,7 +344,7 @@
 			postu: '', suku: '', aldeia: '', latitude: null, longitude: null, gps_akurasia: null,
 			data_akontesimentu: '', tipu_konflitu: [], tipu_seluk: '', tipu_rai: '', deskrisaun: '',
 			afetadu: {}, insidente: null, ator: [], estragu: [], estragu_seluk: '', nesesidade: [],
-			konsentimentu: false, observasaun: ''
+			konsentimentu: false, la_publika: false, observasaun: ''
 		};
 	}
 
@@ -402,6 +402,7 @@
 		opsaunCheck($('f-nesesidade'), o.nesesidade, k.nesesidade, 'ne');
 		$('f-observasaun').value = k.observasaun || '';
 		$('f-konsentimentu').checked = !!k.konsentimentu;
+		$('f-la_publika').checked = !!k.la_publika;
 		hatuduSeluk();
 		hatuduMedia();
 	}
@@ -471,6 +472,7 @@
 		k.urjente = k.nesesidade.length > 0;
 		k.observasaun = $('f-observasaun').value.trim();
 		k.konsentimentu = $('f-konsentimentu').checked;
+		k.la_publika = $('f-la_publika').checked;
 		return k;
 	}
 
@@ -688,7 +690,7 @@
 			latitude: k.latitude, longitude: k.longitude, gps_akurasia: k.gps_akurasia,
 			data_akontesimentu: k.data_akontesimentu, tipu_konflitu: k.tipu_konflitu, tipu_seluk: k.tipu_seluk,
 			tipu_rai: k.tipu_rai, deskrisaun: k.deskrisaun, estragu: k.estragu, estragu_seluk: k.estragu_seluk,
-			nesesidade: k.nesesidade, konsentimentu: k.konsentimentu, observasaun: k.observasaun,
+			nesesidade: k.nesesidade, konsentimentu: k.konsentimentu, la_publika: !!k.la_publika, observasaun: k.observasaun,
 			afetadu: temAfetadu ? [afe] : [], insidente: k.insidente ? [k.insidente] : [], ator: k.ator || []
 		};
 	}

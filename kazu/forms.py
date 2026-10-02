@@ -37,7 +37,7 @@ class KazuForm(forms.ModelForm):
 		fields = ['titulu', 'data_relatoriu', 'munisipiu', 'postu', 'suku', 'aldeia',
 			'latitude', 'longitude', 'gps_akurasia',
 			'data_akontesimentu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai', 'deskrisaun',
-			'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'observasaun']
+			'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
 		widgets = {
 			'tipu_konflitu': forms.CheckboxSelectMultiple,
 			'estragu': forms.CheckboxSelectMultiple,
@@ -152,6 +152,7 @@ class KazuForm(forms.ModelForm):
 				css_class='form-row'
 			),
 			Field('konsentimentu', wrapper_class='konsentimentu-box'),
+			Field('la_publika'),                    # komunidade husu atu kazu la mosu iha portal públiku
 		)
 
 	def clean_munisipiu(self):

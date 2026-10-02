@@ -31,7 +31,7 @@ logger = logging.getLogger('smkre.sinkron')
 TOLERANSIA_RELOJIU = timedelta(minutes=10)        # relójiu HP bele sala uitoan
 KAZU_CAMPO = ['titulu', 'data_relatoriu', 'postu', 'suku', 'aldeia', 'latitude', 'longitude', 'gps_akurasia',
 	'data_akontesimentu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai', 'deskrisaun',
-	'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'observasaun']
+	'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
 # lista laran kazu: (xave JSON, formuláriu, máximu)
 KAZU_LISTA = [('afetadu', AfetaduForm, 5), ('insidente', InsidenteForm, 10), ('ator', AtorForm, 20)]
 

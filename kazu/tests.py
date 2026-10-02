@@ -258,6 +258,10 @@ class WorkflowTest(KazuBase):
 		self.assertNotContains(r, "data-toggle=\"modal\"")
 		self.assertContains(r, 'Kazu kanseladu')
 
+	def test_la_publika_iha_formulariu(self):
+		kazu = self.create_kazu('rai', la_publika='on')
+		self.assertTrue(kazu.la_publika)
+
 	def test_kodigu_la_bentrok(self):
 		k1 = self.create_kazu('haruka')
 		k2 = self.create_kazu('haruka')
