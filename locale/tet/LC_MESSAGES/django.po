@@ -2962,3 +2962,31 @@ msgstr "Uza template. Máximu 500 liña, 5 MB."
 
 msgid "Válidu"
 msgstr "Válidu"
+
+msgid "Foti Foto"
+msgstr "Foti Foto"
+
+msgid "Galeria"
+msgstr "Galeria"
+
+#, python-format
+msgid "Formatu file la permite (%(naran)s). Uza: %(ext)s"
+msgstr "Formatu file la permite (%(naran)s). Uza: %(ext)s"
+
+#, python-format
+msgid "File boot liu (%(naran)s). Máximu %(mb)s MB."
+msgstr "File boot liu (%(naran)s). Máximu %(mb)s MB."
+
+#, python-format
+msgid "Foto máximu 5 kada kazu: ita bele aumenta %(n)s tan deit."
+msgstr "Foto máximu 5 kada kazu: ita bele aumenta %(n)s tan deit."
+
+msgid "Vídeo ka dokumentu: file ida deit kada upload."
+msgstr "Vídeo ka dokumentu: file ida deit kada upload."
+
+msgid ""
+"Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 1 (60 "
+"segundu / 50 MB) · Foto kompresa automátiku."
+msgstr ""
+"Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 1 (60 "
+"segundu / 50 MB) · Foto kompresa automátiku."

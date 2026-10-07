@@ -13,7 +13,7 @@
 			<div class="card card-rbr shadow-sm pt-1 rounded mb-3">
 				<div class="card-header card-header-rbr"><span class="form-section-num">5</span> {{ legend|upper }}</div>
 				<div class="card-body">
-					<p class="small text-muted"><i class="fa fa-camera"></i> {% trans "Foto máximu 5 · Vídeo máximu 1 (60 segundu / 50 MB) · Foto kompresa automátiku." %}
+					<p class="small text-muted"><i class="fa fa-camera"></i> {% trans "Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 1 (60 segundu / 50 MB) · Foto kompresa automátiku." %}
 						<b>{% trans "Foto" %}: {{ kazu.foto_count }}/5 · {% trans "Vídeo" %}: {{ kazu.video_count }}/1</b></p>
 					{% crispy form %}
 					<button class="btn btn-rbr" type="submit"><i class="fa fa-upload"></i> {% trans "Upload" %}</button>
@@ -34,4 +34,39 @@
 			</div></div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block scripts %}
+<script nonce="{{ request.csp_nonce }}">
+(function () {
+	// Foti Foto (kámera HP) ka Galeria (hili foto barak) — input file hanesan, atributu muda
+	var input = document.getElementById('id_file'), tipu = document.getElementById('id_tipu');
+	var pratinjau = document.getElementById('evid-pratinjau');
+	document.querySelectorAll('[data-fonte]').forEach(function (btn) {
+		btn.addEventListener('click', function () {
+			var kamera = btn.dataset.fonte === 'kamera';
+			if (kamera) { input.setAttribute('capture', 'environment'); input.removeAttribute('multiple'); }
+			else { input.removeAttribute('capture'); input.setAttribute('multiple', ''); }
+			input.setAttribute('accept', 'image/*');
+			if (tipu) tipu.value = 'FOTO';
+			input.click();
+		});
+	});
+	input.addEventListener('change', function () {
+		pratinjau.innerHTML = '';
+		Array.prototype.forEach.call(input.files || [], function (f) {
+			if (!/^image\//.test(f.type)) return;
+			var img = document.createElement('img');
+			img.alt = '';
+			img.src = URL.createObjectURL(f);
+			img.onload = function () { URL.revokeObjectURL(img.src); };
+			pratinjau.appendChild(img);
+		});
+	});
+	// Tipu la'ós foto → file ida (vídeo / dokumentu), sein kámera obrigatóriu
+	if (tipu) tipu.addEventListener('change', function () {
+		if (tipu.value !== 'FOTO') { input.removeAttribute('capture'); input.removeAttribute('multiple'); input.setAttribute('accept', 'image/*,video/*,application/pdf'); }
+	});
+})();
+</script>
 {% endblock %}

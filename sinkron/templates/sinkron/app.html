@@ -171,11 +171,13 @@
 			<!-- Pasu 5: Evidénsia (kámera deit) -->
 			<fieldset class="step" data-step="5" hidden>
 				<legend>5. Evidénsia</legend>
-				<p class="small text-muted">Kámera deit (la husi galeria). Foto máximu 5 · Vídeo 1 (60 segundu).</p>
+				<p class="small text-muted">Foto máximu 5 (kámera ka galeria) · Vídeo 1 (60 segundu, kámera deit).</p>
 				<div class="d-flex mb-2">
 					<button type="button" id="btn-foto" class="btn btn-rbr flex-fill mr-2"><i class="fa fa-camera"></i> Foti Foto <span id="n-foto">0/5</span></button>
+					<button type="button" id="btn-galeria" class="btn btn-outline-rbr flex-fill mr-2"><i class="fa fa-picture-o"></i> Galeria</button>
 					<button type="button" id="btn-video" class="btn btn-outline-rbr flex-fill"><i class="fa fa-video-camera"></i> Vídeo <span id="n-video">0/1</span></button>
 				</div>
+				<input type="file" id="fb-galeria" accept="image/*" multiple hidden>
 				<input type="file" id="fb-foto" accept="image/*" capture="environment" hidden>
 				<input type="file" id="fb-video" accept="video/*" capture="environment" hidden>
 				<div id="lista-media" class="media-grid"></div>

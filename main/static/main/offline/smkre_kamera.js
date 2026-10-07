@@ -1,4 +1,4 @@
-/* SMKRE Kámera — foto no vídeo husi kámera HP deit (la husi galeria).
+/* SMKRE Kámera — foto husi kámera HP ka galeria; vídeo husi kámera deit.
    Uza getUserMedia (Android Chrome, iOS Safari 14.3+). Se la bele → input capture ho kontrolu:
    file tenke foun (minutu 5 ikus) atu evita foto tuan husi galeria.
    Foto: JPEG máximu 1600px, ~1 MB · Vídeo: máximu 60 segundu, 50 MB. */
@@ -137,7 +137,29 @@ var SmkreKamera = (function () {
 		return kameraInput(modu);                // browser tuan: input capture (iha klik nia laran)
 	}
 
+	// ── Galeria: hili foto barak (máximu `restu`), kompresa hanesan kámera ──
+	function galeria(restu) {
+		var input = document.getElementById('fb-galeria');
+		return new Promise(function (resolve, reject) {
+			input.value = '';
+			input.onchange = function () {
+				var files = Array.prototype.slice.call(input.files || []).filter(function (f) { return /^image\//.test(f.type); });
+				var liu = Math.max(0, files.length - restu);
+				Promise.all(files.slice(0, restu).map(function (f) {
+					return new Promise(function (ok) {
+						var url = URL.createObjectURL(f), img = new Image();
+						img.onload = function () { kompresa(img, img.naturalWidth, img.naturalHeight).then(function (b) { URL.revokeObjectURL(url); ok(b); }); };
+						img.onerror = function () { URL.revokeObjectURL(url); ok(null); };     // file la'ós imajen: hakat
+						img.src = url;
+					});
+				})).then(function (blobs) { resolve({ blobs: blobs.filter(Boolean), liu: liu }); }, reject);
+			};
+			input.click();
+		});
+	}
+
 	return {
+		galeria: galeria,
 		foto: function () { return foti('foto'); },
 		video: function () { return foti('video'); }
 	};

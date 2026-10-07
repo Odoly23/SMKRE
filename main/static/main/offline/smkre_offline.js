@@ -622,7 +622,7 @@
 		}, 120000);
 	});
 
-	// ══════════════ EVIDÉNSIA (kámera) ══════════════
+	// ══════════════ EVIDÉNSIA (kámera ka galeria) ══════════════
 	function limpaUrls() { S.urls.forEach(URL.revokeObjectURL); S.urls = []; }
 
 	function hatuduMedia() {
@@ -632,6 +632,7 @@
 		$('n-foto').textContent = foto + '/' + MAX_FOTO;
 		$('n-video').textContent = video + '/' + MAX_VIDEO;
 		$('btn-foto').disabled = foto >= MAX_FOTO;
+		$('btn-galeria').disabled = foto >= MAX_FOTO;
 		$('btn-video').disabled = video >= MAX_VIDEO;
 		var grid = $('lista-media');
 		grid.innerHTML = '';
@@ -665,6 +666,18 @@
 	$('btn-foto').addEventListener('click', function () {
 		S.ativu = Date.now();
 		KAM.foto().then(function (b) { return raiMedia('FOTO', b); }).catch(function (e) { msg(e.message); });
+	});
+	// Galeria: hili foto barak dala ida (to'o restu husi 5)
+	$('btn-galeria').addEventListener('click', function () {
+		S.ativu = Date.now();
+		var restu = MAX_FOTO - S.media.filter(function (m) { return m.tipu === 'FOTO'; }).length;
+		KAM.galeria(restu).then(function (r) {
+			var pasu = Promise.resolve();
+			r.blobs.forEach(function (b) { pasu = pasu.then(function () { return raiMedia('FOTO', b); }); });
+			return pasu.then(function () {
+				if (r.liu) msg('Foto ' + r.liu + ' la tama: máximu ' + MAX_FOTO + ' kada kazu.', 'info');
+			});
+		}).catch(function (e) { msg(e.message); });
 	});
 	$('btn-video').addEventListener('click', function () {
 		S.ativu = Date.now();

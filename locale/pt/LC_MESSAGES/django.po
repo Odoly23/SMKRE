@@ -2881,3 +2881,31 @@ msgstr "Use o modelo. Máximo 500 linhas, 5 MB."
 
 msgid "Válidu"
 msgstr "Válido"
+
+msgid "Foti Foto"
+msgstr "Tirar foto"
+
+msgid "Galeria"
+msgstr "Galeria"
+
+#, python-format
+msgid "Formatu file la permite (%(naran)s). Uza: %(ext)s"
+msgstr "Formato não permitido (%(naran)s). Use: %(ext)s"
+
+#, python-format
+msgid "File boot liu (%(naran)s). Máximu %(mb)s MB."
+msgstr "Ficheiro demasiado grande (%(naran)s). Máximo %(mb)s MB."
+
+#, python-format
+msgid "Foto máximu 5 kada kazu: ita bele aumenta %(n)s tan deit."
+msgstr "Máximo 5 fotos por caso: só pode adicionar mais %(n)s."
+
+msgid "Vídeo ka dokumentu: file ida deit kada upload."
+msgstr "Vídeo ou documento: um ficheiro por envio."
+
+msgid ""
+"Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 1 (60 "
+"segundu / 50 MB) · Foto kompresa automátiku."
+msgstr ""
+"Máximo 5 fotos (câmara ou galeria, pode escolher várias) · Máximo 1 vídeo "
+"(60 segundos / 50 MB) · Fotos comprimidas automaticamente."

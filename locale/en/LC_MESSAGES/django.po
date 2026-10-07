@@ -2869,3 +2869,31 @@ msgstr "Use the template. Maximum 500 rows, 5 MB."
 
 msgid "Válidu"
 msgstr "Valid"
+
+msgid "Foti Foto"
+msgstr "Take photo"
+
+msgid "Galeria"
+msgstr "Gallery"
+
+#, python-format
+msgid "Formatu file la permite (%(naran)s). Uza: %(ext)s"
+msgstr "File format not allowed (%(naran)s). Use: %(ext)s"
+
+#, python-format
+msgid "File boot liu (%(naran)s). Máximu %(mb)s MB."
+msgstr "File too large (%(naran)s). Maximum %(mb)s MB."
+
+#, python-format
+msgid "Foto máximu 5 kada kazu: ita bele aumenta %(n)s tan deit."
+msgstr "Maximum 5 photos per case: you can add only %(n)s more."
+
+msgid "Vídeo ka dokumentu: file ida deit kada upload."
+msgstr "Video or document: one file per upload."
+
+msgid ""
+"Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 1 (60 "
+"segundu / 50 MB) · Foto kompresa automátiku."
+msgstr ""
+"Up to 5 photos (camera or gallery, several at once) · Up to 1 video (60 "
+"seconds / 50 MB) · Photos compressed automatically."

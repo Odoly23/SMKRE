@@ -22,15 +22,16 @@ def EvidensiaAdd(request, uuid):
 	if request.method == 'POST':
 		form = EvidensiaForm(request.POST, request.FILES, kazu=kazu)
 		if form.is_valid():
-			instance = form.save(commit=False)
-			instance.kazu = kazu
-			instance.uploaded_by = request.user
-			if instance.tipu == Evidensia.FOTO:
-				small = compress_image(request.FILES['file'])
-				if small:
-					instance.file = small
-			instance.latitude, instance.longitude = kazu.latitude, kazu.longitude
-			instance.save()
+			# File ida ka barak (galeria): kada file = evidénsia ida
+			for f in form.cleaned_data['file']:
+				instance = Evidensia(kazu=kazu, uploaded_by=request.user, tipu=form.cleaned_data['tipu'], file=f,
+					naran=form.cleaned_data.get('naran', ''), deskrisaun=form.cleaned_data.get('deskrisaun', ''),
+					latitude=kazu.latitude, longitude=kazu.longitude)
+				if instance.tipu == Evidensia.FOTO:
+					small = compress_image(f)
+					if small:
+						instance.file = small
+				instance.save()
 			refresh_auto_fields(kazu)
 			messages.success(request, _('Evidénsia aumenta ona.'))
 			return redirect('kazu-evidensia', uuid=uuid)

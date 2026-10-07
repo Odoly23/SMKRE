@@ -300,22 +300,50 @@ LIMITE = {  # tipu: (extensaun permite, tamañu máximu MB)
 }
 
 
+class MultiFileInput(forms.ClearableFileInput):
+	allow_multiple_selected = True
+
+
+class MultiFileField(forms.FileField):
+	# Field file ida ne'ebé simu file barak (galeria) — retorna lista
+	def __init__(self, *args, **kwargs):
+		kwargs.setdefault('widget', MultiFileInput())
+		super().__init__(*args, **kwargs)
+
+	def clean(self, data, initial=None):
+		single = super().clean
+		if isinstance(data, (list, tuple)):
+			return [single(d, initial) for d in data] if data else [single(None, initial)]
+		return [single(data, initial)]
+
+
 class EvidensiaForm(forms.ModelForm):
+	# Foto: kámera ka galeria (foto barak dala ida); vídeo / dokumentu: file ida
+	file = MultiFileField(label=_("File"))
+
 	class Meta:
 		model = Evidensia
-		fields = ['tipu', 'file', 'naran', 'deskrisaun']
+		fields = ['tipu', 'naran', 'deskrisaun']
 
 	def __init__(self, *args, **kwargs):
 		self.kazu = kwargs.pop('kazu')
 		super(EvidensiaForm, self).__init__(*args, **kwargs)
-		self.fields['file'].widget.attrs.update({'accept': 'image/*,video/*,application/pdf', 'capture': 'environment'})
+		self.fields['file'].widget.attrs.update({'accept': 'image/*,video/*,application/pdf'})
 		self.helper = FormHelper()
 		self.helper.form_tag = False
 		self.helper.disable_csrf = True
 		self.helper.layout = Layout(
 			Row(
 				Column('tipu', css_class='form-group col-md-4 mb-0'),
-				Column('file', css_class='form-group col-md-8 mb-0'),
+				Column(
+					HTML(""" {% load i18n %}<div class="evid-fonte mb-2">
+						<button type="button" class="btn btn-rbr btn-sm" data-fonte="kamera"><i class="fa fa-camera"></i> {% trans "Foti Foto" %}</button>
+						<button type="button" class="btn btn-outline-rbr btn-sm" data-fonte="galeria"><i class="fa fa-picture-o"></i> {% trans "Galeria" %}</button>
+					</div> """),
+					'file',
+					HTML(""" <div id="evid-pratinjau" class="evid-pratinjau"></div> """),
+					css_class='form-group col-md-8 mb-0'
+				),
 				css_class='form-row'
 			),
 			Row(
@@ -327,17 +355,24 @@ class EvidensiaForm(forms.ModelForm):
 
 	def clean(self):
 		cleaned = super().clean()
-		tipu, f = cleaned.get('tipu'), cleaned.get('file')
-		if not tipu or not f:
+		tipu, files = cleaned.get('tipu'), cleaned.get('file') or []
+		if not tipu or not files:
 			return cleaned
 		exts, max_mb = LIMITE[tipu]
-		ext = f.name.lower().rsplit('.', 1)[-1] if '.' in f.name else ''
-		if ext not in exts:
-			self.add_error('file', _('Formatu file la permite. Uza: %(ext)s') % {'ext': ', '.join(exts)})
-		if f.size > max_mb * 1024 * 1024:
-			self.add_error('file', _('File boot liu. Máximu %(mb)s MB.') % {'mb': max_mb})
-		if tipu == Evidensia.FOTO and self.kazu.foto_count() >= MAX_FOTO:
-			self.add_error('tipu', _('Foto máximu 5 kada kazu.'))
+		for f in files:
+			ext = f.name.lower().rsplit('.', 1)[-1] if '.' in f.name else ''
+			if ext not in exts:
+				self.add_error('file', _('Formatu file la permite (%(naran)s). Uza: %(ext)s') % {'naran': f.name, 'ext': ', '.join(exts)})
+			if f.size > max_mb * 1024 * 1024:
+				self.add_error('file', _('File boot liu (%(naran)s). Máximu %(mb)s MB.') % {'naran': f.name, 'mb': max_mb})
+		if tipu == Evidensia.FOTO:
+			restu = MAX_FOTO - self.kazu.foto_count()
+			if restu <= 0:
+				self.add_error('tipu', _('Foto máximu 5 kada kazu.'))
+			elif len(files) > restu:
+				self.add_error('file', _('Foto máximu 5 kada kazu: ita bele aumenta %(n)s tan deit.') % {'n': restu})
+		elif len(files) > 1:
+			self.add_error('file', _('Vídeo ka dokumentu: file ida deit kada upload.'))
 		if tipu == Evidensia.VIDEO and self.kazu.video_count() >= MAX_VIDEO:
 			self.add_error('tipu', _('Vídeo máximu 1 kada kazu.'))
 		return cleaned

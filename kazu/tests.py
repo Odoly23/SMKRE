@@ -333,6 +333,25 @@ class EvidensiaTest(KazuBase):
 		self.client.logout()
 		self.assertEqual(self.client.get(foto.file.url).status_code, 302)
 
+	def test_foto_galeria_barak_dala_ida(self):
+		# Galeria: hili foto barak iha upload ida; limite 5 kada kazu
+		kazu = self.create_kazu('rai')
+		url = reverse('kazu-evidensia', args=[kazu.pk])
+		foto = lambda n: [SimpleUploadedFile(f'g{i}.jpg', jpg_bytes(), 'image/jpeg') for i in range(n)]
+		r = self.client.post(url, {'tipu': 'FOTO', 'file': foto(3), 'deskrisaun': 'Uma estraga'})
+		self.assertEqual(r.status_code, 302)
+		self.assertEqual(kazu.foto_count(), 3)
+		self.assertEqual(kazu.evidensia.filter(deskrisaun='Uma estraga').count(), 3)
+		# Restu 2: hili 3 → rejeita hotu (la tama ida)
+		r = self.client.post(url, {'tipu': 'FOTO', 'file': foto(3)})
+		self.assertContains(r, '2 tan deit')
+		self.assertEqual(kazu.foto_count(), 3)
+		# Vídeo / dokumentu: file ida deit
+		pdf = [SimpleUploadedFile(f'd{i}.pdf', b'%PDF-1.4 teste', 'application/pdf') for i in range(2)]
+		r = self.client.post(url, {'tipu': 'DOKUMENTU', 'file': pdf})
+		self.assertContains(r, 'file ida deit')
+		self.assertContains(self.client.get(url), 'data-fonte="galeria"')
+
 	def test_formatu_la_permite(self):
 		kazu = self.create_kazu('rai')
 		r = self.client.post(reverse('kazu-evidensia', args=[kazu.pk]), {'tipu': 'VIDEO', 'file': SimpleUploadedFile('x.exe', b'MZ', 'application/octet-stream')})

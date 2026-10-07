@@ -2861,3 +2861,31 @@ msgstr "Pakai template. Maksimal 500 baris, 5 MB."
 
 msgid "Válidu"
 msgstr "Valid"
+
+msgid "Foti Foto"
+msgstr "Ambil foto"
+
+msgid "Galeria"
+msgstr "Galeri"
+
+#, python-format
+msgid "Formatu file la permite (%(naran)s). Uza: %(ext)s"
+msgstr "Format file tidak diizinkan (%(naran)s). Pakai: %(ext)s"
+
+#, python-format
+msgid "File boot liu (%(naran)s). Máximu %(mb)s MB."
+msgstr "File terlalu besar (%(naran)s). Maksimal %(mb)s MB."
+
+#, python-format
+msgid "Foto máximu 5 kada kazu: ita bele aumenta %(n)s tan deit."
+msgstr "Maksimal 5 foto per kasus: Anda hanya bisa menambah %(n)s lagi."
+
+msgid "Vídeo ka dokumentu: file ida deit kada upload."
+msgstr "Video atau dokumen: satu file per upload."
+
+msgid ""
+"Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 1 (60 "
+"segundu / 50 MB) · Foto kompresa automátiku."
+msgstr ""
+"Maksimal 5 foto (kamera atau galeri, bisa pilih beberapa) · Maksimal 1 video"
+" (60 detik / 50 MB) · Foto dikompres otomatis."
