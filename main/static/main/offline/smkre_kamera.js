@@ -1,6 +1,7 @@
-/* SMKRE Kámera — foto husi kámera HP ka galeria; vídeo husi kámera deit.
-   Uza getUserMedia (Android Chrome, iOS Safari 14.3+). Se la bele → input capture ho kontrolu:
-   file tenke foun (minutu 5 ikus) atu evita foto tuan husi galeria.
+/* SMKRE Kámera — foto husi aplikasaun kámera HP (input capture) ka galeria; vídeo husi kámera deit.
+   Foto: input capture loke aplikasaun kámera HP — servisu iha HP hotu (inklui app instaladu, iPhone).
+   Vídeo: getUserMedia (para automátiku iha segundu 60); se la bele → input capture ho kontrolu
+   file tenke foun (minutu 5 ikus) atu evita vídeo tuan husi galeria.
    Foto: JPEG máximu 1600px, ~1 MB · Vídeo: máximu 60 segundu, 50 MB. */
 var SmkreKamera = (function () {
 	'use strict';
@@ -101,7 +102,7 @@ var SmkreKamera = (function () {
 			input.onchange = function () {
 				var f = input.files && input.files[0];
 				if (!f) { resolve(null); return; }
-				if (Date.now() - f.lastModified > FOUN_MS) { reject(erru('Foto/vídeo tenke foti agora husi kámera (la husi galeria).')); return; }
+				if (modu === 'video' && f.lastModified && Date.now() - f.lastModified > FOUN_MS) { reject(erru('Vídeo tenke grava agora husi kámera (la husi galeria).')); return; }
 				var url = URL.createObjectURL(f);
 				if (modu === 'foto') {
 					var img = new Image();
@@ -126,6 +127,8 @@ var SmkreKamera = (function () {
 	}
 
 	function foti(modu) {
+		// Foto: aplikasaun kámera HP direta (estável liu kámera iha browser)
+		if (modu === 'foto') return kameraInput('foto');
 		if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 			return kameraLive(modu).catch(function (e) {
 				if (e && e.kamera) throw e;
