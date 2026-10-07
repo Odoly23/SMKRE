@@ -23,12 +23,12 @@
 			</form>
 			<div class="card card-rbr"><div class="card-body">
 				<div class="evid-grid">
-				{% for e in objects %}
+				{% for e in objects %}{% if e.file %}
 					<div class="evid">
 						<a href="{{ e.file.url }}" target="_blank" rel="noopener">{% if e.is_image %}<img src="{{ e.file.url }}" alt="{{ e.get_tipu_display }}" loading="lazy">{% else %}<i class="fa {% if e.tipu == 'VIDEO' %}fa-film{% else %}fa-file-text-o{% endif %}"></i>{% endif %}</a>
 						<span>{{ e.get_tipu_display }}</span>
 						<form method="post" action="{% url 'kazu-evidensia-delete' kazu.pk e.pk %}" class="js-confirm" data-confirm="{% trans "Hamoos evidénsia ne'e?" %}">{% csrf_token %}<button class="btn btn-sm btn-link text-danger p-0" type="submit"><i class="fa fa-trash"></i> {% trans "Hamoos" %}</button></form>
-					</div>
+					</div>{% endif %}
 				{% empty %}<p class="text-muted small grid-full">{% trans "Seidauk iha evidénsia." %}</p>{% endfor %}
 				</div>
 			</div></div>

@@ -156,6 +156,7 @@ def sync_evidensia(user, kazu, ev_id, tipu, f):
 	if not form.is_valid():
 		raise SyncError({k: list(v) for k, v in form.errors.items()})
 	ev = form.save(commit=False)
+	ev.file = form.cleaned_data['file'][0]          # field file la iha Meta (MultiFileField): tenke hatama
 	ev.id = ev_id
 	ev.kazu = kazu
 	ev.uploaded_by = user

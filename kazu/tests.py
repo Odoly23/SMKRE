@@ -352,6 +352,12 @@ class EvidensiaTest(KazuBase):
 		self.assertContains(r, 'file ida deit')
 		self.assertContains(self.client.get(url), 'data-fonte="galeria"')
 
+	def test_detalla_la_erru_ho_evidensia_sein_file(self):
+		kazu = self.create_kazu('rai')
+		Evidensia.objects.create(kazu=kazu, tipu='VIDEO', file='')
+		self.assertEqual(self.client.get(reverse('kazu-detail', args=[kazu.pk])).status_code, 200)
+		self.assertEqual(self.client.get(reverse('kazu-evidensia', args=[kazu.pk])).status_code, 200)
+
 	def test_formatu_la_permite(self):
 		kazu = self.create_kazu('rai')
 		r = self.client.post(reverse('kazu-evidensia', args=[kazu.pk]), {'tipu': 'VIDEO', 'file': SimpleUploadedFile('x.exe', b'MZ', 'application/octet-stream')})

@@ -161,6 +161,20 @@ class LaPublikaTest(SinkronBase):
 		self.assertFalse(Kazu.objects.get(pk=data['id']).la_publika)
 
 
+class EvidensiaSinkronTest(SinkronBase):
+	def test_video_husi_hp_iha_file(self):
+		# Regresaun: vídeo husi HP tenke rai ho file (la'ós evidénsia mamuk)
+		from django.core.files.uploadedfile import SimpleUploadedFile
+		data = self.payload()
+		self.send(data)
+		r = self.upload(data['id'], tipu='VIDEO', f=SimpleUploadedFile('v.mp4', b'\x00\x00\x00\x18ftypmp42' + b'0' * 64, 'video/mp4'))
+		self.assertEqual(r.status_code, 201, r.content)
+		ev = Evidensia.objects.get(kazu_id=data['id'], tipu='VIDEO')
+		self.assertTrue(ev.file.name.endswith('.mp4'))
+		r = self.upload(data['id'])
+		self.assertTrue(Evidensia.objects.get(kazu_id=data['id'], tipu='FOTO').file)
+
+
 class AutorizasaunSinkronTest(SinkronBase):
 	def test_kazu_kria_li_ur_periodu_rejeita(self):
 		r = self.send(self.payload(kria_iha=(timezone.now() - timedelta(days=3)).isoformat()))

@@ -23,7 +23,7 @@ def reportMapa(request):
 	# Pin kada kazu (iha GPS) + foto dahuluk ba popup
 	mapobjects = kazu.exclude(latitude=None).select_related('munisipiu', 'postu', 'suku') \
 		.prefetch_related('tipu_konflitu', 'afetadu',
-			Prefetch('evidensia', queryset=Evidensia.objects.filter(tipu=Evidensia.FOTO), to_attr='fotos'))[:MAPA_MAX_PIN]
+			Prefetch('evidensia', queryset=Evidensia.objects.filter(tipu=Evidensia.FOTO).exclude(file=''), to_attr='fotos'))[:MAPA_MAX_PIN]
 
 	# Hotspot: total kazu kada munisípiu (order_by(): Meta.ordering la tama iha GROUP BY)
 	total = {r['munisipiu']: r['n'] for r in kazu.order_by().values('munisipiu').annotate(n=Count('id', distinct=True))}

@@ -74,11 +74,11 @@
 				<div class="d-flex justify-content-between align-items-center"><h3 class="h-line mb-2">{% trans "Evidénsia" %}</h3>
 				{% if can_edit %}<a href="{% url 'kazu-evidensia' obj.pk %}" class="btn btn-sm btn-outline-rbr"><i class="fa fa-camera"></i> {% trans "Jere Evidénsia" %}</a>{% endif %}</div>
 				<div class="evid-grid">
-					{% for e in obj.evidensia.all %}
+					{% for e in obj.evidensia.all %}{% if e.file %}
 					<a href="{{ e.file.url }}" class="evid" target="_blank" rel="noopener">
 						{% if e.is_image %}<img src="{{ e.file.url }}" alt="{{ e.get_tipu_display }}" loading="lazy">{% else %}<i class="fa {% if e.tipu == 'VIDEO' %}fa-film{% else %}fa-file-text-o{% endif %}"></i>{% endif %}
 						<span>{{ e.get_tipu_display }}</span>
-					</a>
+					</a>{% endif %}
 					{% empty %}<p class="text-muted small grid-full">{% trans "Seidauk iha evidénsia." %}</p>{% endfor %}
 				</div>
 			</div></div>
