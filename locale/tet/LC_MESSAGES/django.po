@@ -1,4 +1,4 @@
-# Tetun — SMKRE. Testu fonte iha kódigu ona iha Tetun; file ne'e tradus testu Django rasik.
+# Tetun — SIBAR-RbR. Testu fonte iha kódigu ona iha Tetun; file ne'e tradus testu Django rasik.
 msgid ""
 msgstr ""
 "Language: tet\n"
@@ -1257,11 +1257,11 @@ msgstr "Sala password dala 5. Favor hein minutu 30 ka uza 'Haluha password?'."
 
 #: users/templates/auth/password_reset_done.html
 msgid ""
-"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
-" mós pasta Spam."
+"Se email ne'e rejista iha SIBAR-RbR, ita sei simu link atu troka password. "
+"Haree mós pasta Spam."
 msgstr ""
-"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
-" mós pasta Spam."
+"Se email ne'e rejista iha SIBAR-RbR, ita sei simu link atu troka password. "
+"Haree mós pasta Spam."
 
 #: kazu/templates/kazu/detail.html
 msgid "Seidauk iha"
@@ -1324,8 +1324,8 @@ msgid "Sistema"
 msgstr "Sistema"
 
 #: users/templates/auth/login.html
-msgid "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
-msgstr "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
+msgid "Sistema Informasaun Baze Dadus Rai - Rede Ba Rai"
+msgstr "Sistema Informasaun Baze Dadus Rai - Rede Ba Rai"
 
 #: users/templates/users/list.html
 msgid "Status"

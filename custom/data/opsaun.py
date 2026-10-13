@@ -20,7 +20,7 @@ TIPU_KONFLITU = [
 	('GOV-RAI-ABANDONADU', 'Governu hasai komunidade husi rai abandonadu ka rai estatutu la klaru', False),
 	('SELUK', 'Seluk (favor esplika)', True),
 ]
-# Tipu tuan (versaun uluk SMKRE): la hatudu tan iha formuláriu, kazu tuan sei mantein
+# Tipu tuan (versaun uluk SIBAR-RbR): la hatudu tan iha formuláriu, kazu tuan sei mantein
 TIPU_KONFLITU_TUAN = ['DESLOKAMENTU', 'TRADISIONAL', 'AKIZISAUN', 'FRONTEIRA']
 
 TIPU_RAI = [

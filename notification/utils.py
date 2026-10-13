@@ -17,7 +17,7 @@ def kirim_notif(user, tipu, message, url='', actor=None, urgent=False, email=Fal
 			message = str(message())
 	obj = Notification.objects.create(recipient=user, actor=actor, tipu=tipu, message=message[:255], url=url, is_urgent=urgent)
 	if email and user.email:
-		subject = ('[URJENTE] ' if urgent else '') + 'SMKRE — ' + message[:80]
+		subject = ('[URJENTE] ' if urgent else '') + 'SIBAR-RbR — ' + message[:80]
 		send_email_task.delay(subject, 'notification/email/notif.html',
 			{'message': message, 'url': url, 'urgent': urgent}, [user.email])
 	return obj

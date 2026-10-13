@@ -1,6 +1,6 @@
-# Deploy SMKRE ke PythonAnywhere (uji coba)
+# Deploy SIBAR-RbR ke PythonAnywhere (uji coba)
 
-Hasil: SMKRE online di **https://&lt;username&gt;.pythonanywhere.com** dengan HTTPS gratis,
+Hasil: SIBAR-RbR online di **https://&lt;username&gt;.pythonanywhere.com** dengan HTTPS gratis,
 jadi app offline (`/sinkron/`) bisa dites di **HP sungguhan, Android dan iPhone**.
 
 > Ganti `<username>` dengan username PythonAnywhere Anda di semua langkah.
@@ -27,7 +27,7 @@ Langkah manual lengkap (jika ingin memahami tiap langkah) ada di bawah.
 
 ## Batasan akun gratis (Beginner)
 
-| Hal | Di akun gratis | Dampak di SMKRE |
+| Hal | Di akun gratis | Dampak di SIBAR-RbR |
 |---|---|---|
 | Domain | `<username>.pythonanywhere.com` + HTTPS | ✅ cukup untuk uji coba |
 | Database | SQLite atau MySQL | ✅ keduanya didukung (PostgreSQL berbayar) |

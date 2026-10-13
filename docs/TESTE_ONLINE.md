@@ -34,7 +34,7 @@ Opsi: `python manage.py teste_online --munisipiu DIL`. Jika munisípiu belum pun
 1. **Investigadór** → http://127.0.0.1:8000 → menu **Kazu Foun**:
    - Isi Postu → Suku (dropdown berurutan), klik **Foti GPS** (izinkan lokasi; jika akurasi laptop > 50 m pakai DevTools → *Sensors* → koordinat Timor-Leste, mis. -8.6121, 125.2107).
    - Isi tanggal akontesimentu, tipe konflik, deskripsi, uma-kain/mane/feto (mane + feto = total), centang **konsentimentu**.
-   - Klik **Rai no Haruka ba Verifikasaun** → muncul *"Kazu SMKRE-LIQ-2026-xxxxx haruka ona"*.
+   - Klik **Rai no Haruka ba Verifikasaun** → muncul *"Kazu SIBAR-LIQ-2026-xxxxx haruka ona"*.
 2. **Admin** → lonceng 🔔 → klik notifikasi *"Kazu foun …"* → tombol **Verifika** (paling bawah) → *"Status muda ona ba Verifikadu"*.
 3. **Superadmin** → 🔔 *"… verifika ona husi Admin. Hein ita-nia aprovasaun"* → **Aprova** → *"Status muda ona ba Aprovadu"*.
 4. Cek hasil:
@@ -46,14 +46,14 @@ Opsi: `python manage.py teste_online --munisipiu DIL`. Jika munisípiu belum pun
 
 ```bash
 python manage.py cek_kazu                          # semua kasus 7 hari terakhir (web + HP)
-python manage.py cek_kazu --kode SMKRE-LIQ-2026-00016
+python manage.py cek_kazu --kode SIBAR-LIQ-2026-00016
 python manage.py cek_kazu --email teste.investigador@redebarai.org
 ```
 
 Contoh hasil:
 ```
 KÓDIGU                 HUSI STATUS     MUNISÍPIU    FOTO  INVESTIGADÓR         VERIFIKA           APROVA             PORTAL
-SMKRE-LIQ-2026-00016   WEB  APPROVED   Liquiçá         0  teste.investigador   teste.admin        teste.superadmin   SIN
+SIBAR-LIQ-2026-00016   WEB  APPROVED   Liquiçá         0  teste.investigador   teste.admin        teste.superadmin   SIN
 ```
 
 | Kolom | Arti |

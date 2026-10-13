@@ -4,8 +4,8 @@ from django_celery_beat.models import CrontabSchedule, PeriodicTask
 
 # (naran, knaar, oras, minutu) — horáriu Timor-Leste (Asia/Dili)
 HORARIU = [
-	('SMKRE: autorizasaun offline', 'users.tasks.check_offline_permission', 6, 0),
-	('SMKRE: lembrete prazu legál', 'legal.tasks.lembra_prazu', 7, 0),
+	('SIBAR-RbR: autorizasaun offline', 'users.tasks.check_offline_permission', 6, 0),
+	('SIBAR-RbR: lembrete prazu legál', 'legal.tasks.lembra_prazu', 7, 0),
 ]
 
 

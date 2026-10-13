@@ -12,7 +12,7 @@ DATA_DIR = Path(__file__).resolve().parents[2] / 'data'
 
 
 class Command(BaseCommand):
-	help = "Prepara SMKRE: kria role (Group), opsaun padronizadu no Munisípiu + Postu. Seguru atu la'o dala barak."
+	help = "Prepara SIBAR-RbR: kria role (Group), opsaun padronizadu no Munisípiu + Postu. Seguru atu la'o dala barak."
 
 	@transaction.atomic
 	def handle(self, *args, **options):

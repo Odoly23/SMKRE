@@ -1,4 +1,4 @@
-/* SMKRE Kripto — enkriptasaun dadus iha HP ho PIN (WebCrypto).
+/* SIBAR-RbR Kripto — enkriptasaun dadus iha HP ho PIN (WebCrypto).
    PIN (númeru 6) + salt → PBKDF2-SHA256 (310.000 iterasaun) → xavi AES-256-GCM.
    Xavi la bele esporta (non-extractable) no hela iha memória deit bainhira app loke. */
 var SmkreKripto = (function () {

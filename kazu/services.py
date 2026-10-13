@@ -94,12 +94,12 @@ def _historia(kazu, user, antes, foun, nota='', tipu=KazuHistoria.DADUS):
 
 
 def generate_kode(kazu):
-	# SMKRE-LIQ-2026-00012 — kontador xave (select_for_update) atu la iha kódigu duplikadu
+	# SIBAR-LIQ-2026-00012 — kontador xave (select_for_update) atu la iha kódigu duplikadu
 	tinan = (kazu.data_relatoriu or timezone.localdate()).year
 	seq, _c = KazuSequence.objects.select_for_update().get_or_create(munisipiu=kazu.munisipiu, tinan=tinan)
 	seq.last += 1
 	seq.save(update_fields=['last'])
-	return f'SMKRE-{kazu.munisipiu.code}-{tinan}-{seq.last:05d}'
+	return f'SIBAR-{kazu.munisipiu.code}-{tinan}-{seq.last:05d}'
 
 
 def refresh_auto_fields(kazu):

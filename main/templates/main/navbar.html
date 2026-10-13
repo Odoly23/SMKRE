@@ -3,7 +3,7 @@
 	<div class="container">
 		<a class="brand" href="{% url 'home' %}">
 			<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai">
-			<span>SMKRE<small>{% if pesoal %}{{ role_label }}{% if pesoal.munisipiu and is_investigador %} · {{ pesoal.munisipiu }}{% endif %}{% else %}Rede ba Rai{% endif %}</small></span>
+			<span>SIBAR-RbR<small>{% if pesoal %}{{ role_label }}{% if pesoal.munisipiu and is_investigador %} · {{ pesoal.munisipiu }}{% endif %}{% else %}Rede ba Rai{% endif %}</small></span>
 		</a>
 
 		{% if user.is_authenticated %}

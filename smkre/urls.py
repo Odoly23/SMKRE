@@ -26,6 +26,6 @@ handler403 = 'main.views.error_403'
 handler404 = 'main.views.error_404'
 handler500 = 'main.views.error_500'
 
-admin.site.site_header = 'SMKRE — Administrasaun'
-admin.site.site_title = 'SMKRE'
+admin.site.site_header = 'SIBAR-RbR — Administrasaun'
+admin.site.site_title = 'SIBAR-RbR'
 admin.site.index_title = 'Rede ba Rai'

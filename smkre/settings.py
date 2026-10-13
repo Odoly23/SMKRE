@@ -1,6 +1,6 @@
 """
-Django settings ba projetu SMKRE
-Sistema Monitorizasaun Konflitu Rai no Eviksaun - Rede ba Rai
+Django settings ba projetu SIBAR-RbR
+Sistema Informasaun Baze Dadus Rai - Rede Ba Rai
 
 Konfigurasaun hotu lee husi file .env (haree .env.example).
 Seksaun sira iha numeru, atu fasil buka bainhira iha erru:
@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 	'csp',                                    # Content-Security-Policy
 	'django_celery_beat',                     # knaar automátiku (horáriu)
 
-	# SMKRE
+	# SIBAR-RbR
 	'main.apps.MainConfig',
 	'config.apps.ConfigConfig',
 	'custom.apps.CustomConfig',
@@ -304,7 +304,7 @@ EMAIL_PORT = env('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='SMKRE Rede ba Rai <noreply@localhost>')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='SIBAR - RbR <noreply@localhost>')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_TIMEOUT = 20
 SITE_URL = env('SITE_URL', default='http://127.0.0.1:8000')
@@ -370,16 +370,16 @@ LOGGING = {
 # ══════════════════════════════════════════════
 # 12. SEGURANSA PRODUCTION (HTTPS, cookie, CSP)
 # ══════════════════════════════════════════════
-X_FRAME_OPTIONS = 'SAMEORIGIN'   # SAMEORIGIN (la'ós DENY): Document Vault sei hatudu PDF iha iframe husi SMKRE rasik
+X_FRAME_OPTIONS = 'SAMEORIGIN'   # SAMEORIGIN (la'ós DENY): Document Vault sei hatudu PDF iha iframe husi SIBAR-RbR rasik
 SILENCED_SYSTEM_CHECKS = ['security.W019']
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
 
-# Kamera no GPS deit permite husi SMKRE rasik (haree smkre/middleware.py)
+# Kamera no GPS deit permite husi SIBAR-RbR rasik (haree smkre/middleware.py)
 PERMISSIONS_POLICY = 'camera=(self), geolocation=(self), microphone=(self), payment=(), usb=()'
 
-# Content-Security-Policy: JS/CSS husi server SMKRE deit (aset lokál hotu)
+# Content-Security-Policy: JS/CSS husi server SIBAR-RbR deit (aset lokál hotu)
 CONTENT_SECURITY_POLICY = {
 	'DIRECTIVES': {
 		'default-src': [SELF],

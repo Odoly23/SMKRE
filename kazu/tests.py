@@ -123,7 +123,7 @@ class WorkflowTest(KazuBase):
 	def test_fluxu_kompletu_verifika_admin_aprova_superadmin(self):
 		kazu = self.create_kazu('haruka')
 		self.assertEqual(kazu.status, 'SYNCED')
-		self.assertTrue(kazu.kode.startswith(f'SMKRE-LIQ-{timezone.localdate().year}-'))
+		self.assertTrue(kazu.kode.startswith(f'SIBAR-LIQ-{timezone.localdate().year}-'))
 		# Notifikasaun + email ba Admin no Superadmin (urjente)
 		self.assertEqual(Notification.objects.filter(tipu='KAZU_FOUN').count(), 2)
 		self.assertTrue(Notification.objects.filter(recipient=self.admin, is_urgent=True).exists())
@@ -472,7 +472,7 @@ class ImportExcelTest(KazuBase):
 		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
 		kazu = Kazu.objects.filter(importasaun=imp)
 		self.assertEqual(kazu.count(), 4)
-		self.assertTrue(all(k.status == 'SYNCED' and k.kode.startswith('SMKRE-LIQ-') for k in kazu))
+		self.assertTrue(all(k.status == 'SYNCED' and k.kode.startswith('SIBAR-LIQ-') for k in kazu))
 		self.assertEqual(kazu.filter(gps_aproksimadu=True).count(), 3)
 		loos = kazu.get(gps_aproksimadu=False)
 		self.assertEqual(str(loos.latitude), '-8.612100')

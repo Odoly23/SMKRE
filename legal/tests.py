@@ -36,7 +36,7 @@ class LegalBase(TestCase):
 		self.legal = make_user(OFISIAL_LEGAL)
 		self.analista = make_user(ANALISTA)
 		self.admin = make_user(ADMIN)
-		self.kazu = Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), status='VERIFIED', kode='SMKRE-LIQ-2026-00001',
+		self.kazu = Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), status='VERIFIED', kode='SIBAR-LIQ-2026-00001',
 			created_by=self.inv, konsentimentu=True)
 		self.draft = Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), status='DRAFT', created_by=self.inv)
 

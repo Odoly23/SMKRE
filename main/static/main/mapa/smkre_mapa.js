@@ -1,4 +1,4 @@
-/* SMKRE — kontrolu mapa Leaflet (gratis, lokál, la presiza CDN ka API key).
+/* SIBAR-RbR — kontrolu mapa Leaflet (gratis, lokál, la presiza CDN ka API key).
    Uza: SMKREMapa.baze(token) · .fullscreen(map) · .lokasaun(map, onFound) · .koordenada(map) · .sukat(map)
    Testu (lian) husi data-* iha elementu mapa: data-l-fullscreen, data-l-ha-u, data-l-sukat, data-l-hamoos, data-l-gps-erru */
 (function () {

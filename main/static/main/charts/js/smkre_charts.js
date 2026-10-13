@@ -1,4 +1,4 @@
-/* Konfigurasaun Highcharts ba SMKRE: la uza server externu (offline), la iha kréditu */
+/* Konfigurasaun Highcharts ba SIBAR-RbR: la uza server externu (offline), la iha kréditu */
 (function () {
 	if (!window.Highcharts) return;
 	var el = document.getElementById('chart-lang');

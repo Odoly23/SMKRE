@@ -129,7 +129,7 @@ AMARELU = PatternFill('solid', fgColor='FFF3B0')
 info = wb.active
 info.title = 'Lee-uluk'
 linhas = [
-	'SMKRE — Munisípiu · Postu · Suku · Aldeia',
+	'SIBAR-RbR — Munisípiu · Postu · Suku · Aldeia',
 	'Fonte: Diploma Ministerial N.º 31/2026 (Jornal da República, Série I, N.º 26 D, 3 Julho 2026)',
 	f'Suku: {len(suku_rows)} · Aldeia: {len(aldeia_rows)} · Postu: {len(postu)} · Suku VERIFIKA: {n_ver}',
 	'',

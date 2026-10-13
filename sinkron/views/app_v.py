@@ -11,6 +11,6 @@ def sinkronApp(request):
 	with translation.override('tet'):
 		context = {
 			"page": "sinkron",
-			'title': 'Sinkron', 'legend': 'SMKRE Offline'
+			'title': 'Sinkron', 'legend': 'SIBAR-RbR Offline'
 		}
 		return render(request, 'sinkron/app.html', context)

@@ -491,8 +491,8 @@ msgid "Orden"
 msgstr "Order"
 
 #: main/templates/home/home_investigador.html
-msgid "PIN SMKRE (númeru 6) prontu"
-msgstr "SMKRE PIN (6 digits) ready"
+msgid "PIN SIBAR-RbR (númeru 6) prontu"
+msgstr "SIBAR-RbR PIN (6 digits) ready"
 
 #: users/templates/users/list.html
 msgid "Papél"
@@ -580,11 +580,11 @@ msgstr "5 wrong passwords. Please wait 30 minutes or use 'Forgot password?'."
 
 #: users/templates/auth/password_reset_done.html
 msgid ""
-"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
-" mós pasta Spam."
+"Se email ne'e rejista iha SIBAR-RbR, ita sei simu link atu troka password. "
+"Haree mós pasta Spam."
 msgstr ""
-"If this email is registered in SMKRE, you will receive a link to reset your "
-"password. Also check your Spam folder."
+"If this email is registered in SIBAR-RbR, you will receive a link to reset "
+"your password. Also check your Spam folder."
 
 #: users/templates/users/offline_list.html
 msgid "Seidauk iha autorizasaun."
@@ -611,8 +611,8 @@ msgid "Sistema"
 msgstr "System"
 
 #: users/templates/auth/login.html
-msgid "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
-msgstr "Land Dispute and Eviction Monitoring System"
+msgid "Sistema Informasaun Baze Dadus Rai - Rede Ba Rai"
+msgstr "Land Database Information System - Rede Ba Rai"
 
 #: users/templates/users/list.html
 msgid "Status"

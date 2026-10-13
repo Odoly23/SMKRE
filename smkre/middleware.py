@@ -10,7 +10,7 @@ SKIP_PATHS = ('/static/', '/media/', '/api/', '/sw.js', '/manifest.json', '/favi
 
 
 class SecurityHeadersMiddleware(MiddlewareMixin):
-	# Permissions-Policy: kamera no GPS husi SMKRE rasik deit
+	# Permissions-Policy: kamera no GPS husi SIBAR-RbR rasik deit
 	def process_response(self, request, response):
 		response.setdefault('Permissions-Policy', settings.PERMISSIONS_POLICY)
 		return response

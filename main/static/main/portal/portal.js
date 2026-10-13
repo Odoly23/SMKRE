@@ -1,4 +1,4 @@
-/* Portal Públiku SMKRE — mapa + gráfiku interativu (filtru krúzadu).
+/* Portal Públiku SIBAR-RbR — mapa + gráfiku interativu (filtru krúzadu).
    Klik barra / munisípiu iha mapa → filtru → KPI, mapa no gráfiku hotu atualiza.
    Dadus husi /api/portal/estatistika/ (agregadu, anónimu; 1–2 = "< 3"). */
 (function () {

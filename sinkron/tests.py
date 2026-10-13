@@ -100,7 +100,7 @@ class FluxuSinkronTest(SinkronBase):
 		self.assertEqual(r.status_code, 200)
 		kazu.refresh_from_db()
 		self.assertEqual(kazu.status, 'SYNCED')
-		self.assertTrue(kazu.kode.startswith('SMKRE-LIQ-'))
+		self.assertTrue(kazu.kode.startswith('SIBAR-LIQ-'))
 		self.assertEqual(r.json()['kode'], kazu.kode)
 		self.assertTrue(Notification.objects.filter(recipient=self.admin).exists())
 

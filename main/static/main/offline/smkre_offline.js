@@ -1,4 +1,4 @@
-/* SMKRE Offline — app Investigadór iha terrenu (la iha sinál).
+/* SIBAR-RbR Offline — app Investigadór iha terrenu (la iha sinál).
    Fluxu: Login (online dala ida) → Kria PIN → Rejista kazu (6 pasu, GPS, kámera) → Sinkron bainhira iha sinál.
    Dadus kazu, foto, vídeo no token hotu enkripta ho PIN (smkre_kripto.js) iha IndexedDB (smkre_db.js). */
 (function () {
@@ -295,7 +295,7 @@
 			$('lista-server').innerHTML = lista.length ? lista.map(function (k) {
 				return '<div class="lokal-item"><div class="d-flex justify-content-between"><b>' + esc(k.kode || 'Hein kódigu') + '</b>' +
 					'<span class="badge ' + (STATUS_KOR[k.status] || 'badge-light') + '">' + esc(k.status_label) + '</span></div>' +
-					(k.nota ? '<small class="text-danger">Razaun: ' + esc(k.nota) + ' — hadia iha SMKRE online.</small>' : '') + '</div>';
+					(k.nota ? '<small class="text-danger">Razaun: ' + esc(k.nota) + ' — hadia iha SIBAR-RbR online.</small>' : '') + '</div>';
 			}).join('') : '<p class="text-muted small">Seidauk iha.</p>';
 		}).catch(function (e) { if (e.relogin) pedeRelogin(); });
 	}
@@ -649,7 +649,7 @@
 			}
 		}, function (err) {
 			paraGPS();
-			msg(err.code === 1 ? 'Favor permite GPS (lokalizasaun) ba SMKRE iha setting browser.' : 'GPS la hetan sinál. Ba fatin loke no koko fali.');
+			msg(err.code === 1 ? 'Favor permite GPS (lokalizasaun) ba SIBAR-RbR iha setting browser.' : 'GPS la hetan sinál. Ba fatin loke no koko fali.');
 			hatuduGPS();
 		}, { enableHighAccuracy: true, maximumAge: 0, timeout: 60000 });
 		gpsTimer = setTimeout(function () {

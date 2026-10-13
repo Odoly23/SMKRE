@@ -1,6 +1,6 @@
-# Spesifikasi SMKRE
+# Spesifikasi SIBAR-RbR
 
-**Sistema Monitorizasaun Konflitu Rai no Eviksaun — Rede ba Rai**
+**Sistema Informasaun Baze Dadus Rai - Rede Ba Rai — Rede ba Rai**
 Dokumen acuan tim (Onosio, Ricardo, Olavio). Berisi semua keputusan hasil diskusi dengan pemilik sistem.
 Jika ada perubahan keputusan, perbarui dokumen ini di commit yang sama.
 
@@ -15,7 +15,7 @@ Jika ada perubahan keputusan, perbarui dokumen ini di commit yang sama.
 
 | Aspek | Keputusan |
 |---|---|
-| Framework | Django 5.2 + DRF, proyek terpisah, repo privat `SMKRE` |
+| Framework | Django 5.2 + DRF, proyek terpisah, repo privat `SIBAR-RbR` |
 | Database | SQLite (dev) · PostgreSQL (produksi) |
 | UI | **Bootstrap 4.6** (sama dengan proyek lama), Font Awesome 4.7, jQuery 3.7. **Semua aset lokal**, tanpa CDN. |
 | Font | Montserrat (judul) + Lato (teks), lokal |
@@ -53,7 +53,7 @@ Jika ada perubahan keputusan, perbarui dokumen ini di commit yang sama.
 - Habis → **tidak bisa membuat kasus baru, tetapi tetap bisa sinkron**.
 - Celery Beat harian: menonaktifkan izin yang habis + pengingat 1 hari sebelumnya.
 - HP: bebas, tetapi user harus diaktifkan admin. HP organisasi = Android (fitur penuh). iOS didukung (wajib *Add to Home Screen*, sinkron manual).
-- **PIN SMKRE 6 digit** untuk membuka mode offline; PIN juga mengenkripsi data di HP (AES-256). Salah 5× → wajib login online. Lupa PIN → login online, data belum sinkron tidak hilang.
+- **PIN SIBAR-RbR 6 digit** untuk membuka mode offline; PIN juga mengenkripsi data di HP (AES-256). Salah 5× → wajib login online. Lupa PIN → login online, data belum sinkron tidak hilang.
 
 ## 6. Status
 
@@ -81,7 +81,7 @@ Alur tombol: klik notifikasi 🔔 → detail kasus → tombol di bawah (Verifika
 
 ## 7. Data kasus (Anexu A + Anexu E)
 
-- **ID:** UUID dibuat di HP (anti-bentrok) + kode dari server saat sinkron: `SMKRE-<MUN>-<TAHUN>-<NOMOR>`.
+- **ID:** UUID dibuat di HP (anti-bentrok) + kode dari server saat sinkron: `SIBAR-<MUN>-<TAHUN>-<NOMOR>`.
 - **Kazu:** judul, status dadus, status kazu, tanggal laporan, tanggal kejadian (≤ tanggal laporan), deskripsi, **tipe rai**, lokasi (munisípiu, postu, suku, aldeia, GPS), konsentimentu, urjente, observasaun, dibuat oleh.
 - **Tipu konflitu:** Deslokamentu Forsadu · Konflitu Rai Tradisionál · Akizisaun Rai ba Projetu Dezenvolvimentu · Disputa Fronteira Rai · Seluk (wajib penjelasan).
 - **Tipu rai:** Rai Estadu · Rai Privadu · Rai Tradisionál · Rai Disputa.
@@ -133,7 +133,7 @@ Semua nama folder huruf kecil (hindari `Api` vs `api` di server Linux).
 
 ## 12. Keamanan
 
-CSP (tanpa inline script, pakai nonce), Permissions-Policy (kamera dan GPS hanya dari SMKRE), HSTS + HTTPS, cookie Secure/HttpOnly/SameSite, CSRF, X-Frame-Options, django-axes, media hanya lewat login, URL admin Django rahasia (`ADMIN_URL`), log keamanan di `logs/seguransa.log`.
+CSP (tanpa inline script, pakai nonce), Permissions-Policy (kamera dan GPS hanya dari SIBAR-RbR), HSTS + HTTPS, cookie Secure/HttpOnly/SameSite, CSRF, X-Frame-Options, django-axes, media hanya lewat login, URL admin Django rahasia (`ADMIN_URL`), log keamanan di `logs/seguransa.log`.
 
 ## 13. Tahapan
 

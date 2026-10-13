@@ -1,4 +1,4 @@
-# SMKRE — dependénsia Python
+# SIBAR-RbR — dependénsia Python
 Django>=5.2,<5.3
 djangorestframework>=3.15
 djangorestframework-simplejwt>=5.3

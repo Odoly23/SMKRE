@@ -488,8 +488,8 @@ msgid "Orden"
 msgstr "Urutan"
 
 #: main/templates/home/home_investigador.html
-msgid "PIN SMKRE (númeru 6) prontu"
-msgstr "PIN SMKRE (6 angka) siap"
+msgid "PIN SIBAR-RbR (númeru 6) prontu"
+msgstr "PIN SIBAR-RbR (6 angka) siap"
 
 #: users/templates/users/list.html
 msgid "Papél"
@@ -577,11 +577,11 @@ msgstr "Salah password 5×. Tunggu 30 menit atau gunakan 'Lupa password?'."
 
 #: users/templates/auth/password_reset_done.html
 msgid ""
-"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
-" mós pasta Spam."
+"Se email ne'e rejista iha SIBAR-RbR, ita sei simu link atu troka password. "
+"Haree mós pasta Spam."
 msgstr ""
-"Jika email ini terdaftar di SMKRE, Anda akan menerima link untuk mengganti "
-"password. Periksa juga folder Spam."
+"Jika email ini terdaftar di SIBAR-RbR, Anda akan menerima link untuk "
+"mengganti password. Periksa juga folder Spam."
 
 #: users/templates/users/offline_list.html
 msgid "Seidauk iha autorizasaun."
@@ -608,8 +608,8 @@ msgid "Sistema"
 msgstr "Sistem"
 
 #: users/templates/auth/login.html
-msgid "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
-msgstr "Sistem Pemantauan Konflik Tanah dan Penggusuran"
+msgid "Sistema Informasaun Baze Dadus Rai - Rede Ba Rai"
+msgstr "Sistem Informasi Basis Data Tanah - Rede Ba Rai"
 
 #: users/templates/users/list.html
 msgid "Status"

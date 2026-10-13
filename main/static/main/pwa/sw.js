@@ -1,4 +1,4 @@
-/* SMKRE Service Worker
+/* SIBAR-RbR Service Worker
    - Aset static: cache uluk (cache-first)
    - App offline /sinkron/: rede uluk, se offline → kópia iha cache (pájina la iha dadus privadu)
    - Pájina seluk: rede uluk, se offline → /offline/ (dadus privadu LA rai iha cache)

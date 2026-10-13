@@ -1,4 +1,4 @@
-# Deploy SMKRE iha Server (Ubuntu 22.04 / 24.04)
+# Deploy SIBAR-RbR iha Server (Ubuntu 22.04 / 24.04)
 
 > Pasu sira ne'e ezemplu. Adapta domain, utilizador no path tuir server Rede ba Rai.
 
@@ -45,7 +45,7 @@ DB_PASSWORD=password-forte-ida
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST_USER=...
 EMAIL_HOST_PASSWORD=<App Password Gmail>
-DEFAULT_FROM_EMAIL=SMKRE Rede ba Rai <...>
+DEFAULT_FROM_EMAIL=SIBAR - RbR <...>
 CELERY_ALWAYS_EAGER=False
 USE_REDIS_CACHE=True
 BEHIND_PROXY=True
@@ -73,7 +73,7 @@ python manage.py check --deploy
 
 ```ini
 [Unit]
-Description=SMKRE Gunicorn
+Description=SIBAR-RbR Gunicorn
 After=network.target
 
 [Service]

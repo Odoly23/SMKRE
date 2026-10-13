@@ -119,7 +119,7 @@ class APIEvidensia(_SinkronAPI):
 
 
 class APIHaruka(_SinkronAPI):
-	# Pasu ikus: kazu kompletu → Hein Verifikasaun (kódigu SMKRE-...) + notifikasaun Admin/Superadmin
+	# Pasu ikus: kazu kompletu → Hein Verifikasaun (kódigu SIBAR-...) + notifikasaun Admin/Superadmin
 	def post(self, request, uuid, format=None):
 		kazu = get_object_or_404(Kazu, pk=uuid, created_by=request.user)
 		if kazu.status not in STATUS_EDITABLE:          # haruka ona (koko fali)

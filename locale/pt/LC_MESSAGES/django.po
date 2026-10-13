@@ -493,8 +493,8 @@ msgid "Orden"
 msgstr "Ordem"
 
 #: main/templates/home/home_investigador.html
-msgid "PIN SMKRE (númeru 6) prontu"
-msgstr "PIN SMKRE (6 dígitos) pronto"
+msgid "PIN SIBAR-RbR (númeru 6) prontu"
+msgstr "PIN SIBAR-RbR (6 dígitos) pronto"
 
 #: users/templates/users/list.html
 msgid "Papél"
@@ -584,11 +584,11 @@ msgstr ""
 
 #: users/templates/auth/password_reset_done.html
 msgid ""
-"Se email ne'e rejista iha SMKRE, ita sei simu link atu troka password. Haree"
-" mós pasta Spam."
+"Se email ne'e rejista iha SIBAR-RbR, ita sei simu link atu troka password. "
+"Haree mós pasta Spam."
 msgstr ""
-"Se este email estiver registado no SMKRE, receberá um link para alterar a "
-"palavra-passe. Verifique também a pasta Spam."
+"Se este email estiver registado no SIBAR-RbR, receberá um link para alterar "
+"a palavra-passe. Verifique também a pasta Spam."
 
 #: users/templates/users/offline_list.html
 msgid "Seidauk iha autorizasaun."
@@ -615,8 +615,8 @@ msgid "Sistema"
 msgstr "Sistema"
 
 #: users/templates/auth/login.html
-msgid "Sistema Monitorizasaun Konflitu Rai no Eviksaun"
-msgstr "Sistema de Monitorização de Conflitos de Terra e Despejos"
+msgid "Sistema Informasaun Baze Dadus Rai - Rede Ba Rai"
+msgstr "Sistema de Informação da Base de Dados de Terras - Rede Ba Rai"
 
 #: users/templates/users/list.html
 msgid "Status"

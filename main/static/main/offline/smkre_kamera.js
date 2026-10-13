@@ -1,4 +1,4 @@
-/* SMKRE Kámera — foto husi aplikasaun kámera HP (input capture) ka galeria; vídeo husi kámera deit.
+/* SIBAR-RbR Kámera — foto husi aplikasaun kámera HP (input capture) ka galeria; vídeo husi kámera deit.
    Foto: input capture loke aplikasaun kámera HP — servisu iha HP hotu (inklui app instaladu, iPhone).
    Vídeo: getUserMedia (para automátiku iha segundu 60); se la bele → input capture ho kontrolu
    file tenke foun (minutu 5 ikus) atu evita vídeo tuan husi galeria.
@@ -133,7 +133,7 @@ var SmkreKamera = (function () {
 			return kameraLive(modu).catch(function (e) {
 				if (e && e.kamera) throw e;
 				throw erru(e && e.name === 'NotAllowedError'
-					? 'Favor permite kámera' + (modu === 'video' ? ' no mikrofone' : '') + ' ba SMKRE iha setting browser.'
+					? 'Favor permite kámera' + (modu === 'video' ? ' no mikrofone' : '') + ' ba SIBAR-RbR iha setting browser.'
 					: 'Kámera la bele loke. Taka app seluk ne\'ebé uza kámera no koko fali.');
 			});
 		}

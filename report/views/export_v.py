@@ -77,5 +77,5 @@ def exportExcel(request):
 	wb.save(buf)
 	logger.info(f'Eksporta Excel: {objects.count()} kazu husi {request.user.username}')
 	response = HttpResponse(buf.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-	response['Content-Disposition'] = f'attachment; filename="SMKRE-kazu-{timezone.localdate():%Y%m%d}.xlsx"'
+	response['Content-Disposition'] = f'attachment; filename="SIBAR-RbR-kazu-{timezone.localdate():%Y%m%d}.xlsx"'
 	return response

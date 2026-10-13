@@ -1,5 +1,5 @@
 # ══════════════════════════════════════════════════════════════
-# SMKRE — WSGI ba PythonAnywhere
+# SIBAR-RbR — WSGI ba PythonAnywhere
 # Kopia konteúdu ne'e ba: Web → "WSGI configuration file"
 # (/var/www/<username>_pythonanywhere_com_wsgi.py). Troka <username>.
 # ══════════════════════════════════════════════════════════════

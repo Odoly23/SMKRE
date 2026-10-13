@@ -66,11 +66,11 @@ def set_language(request):
 
 @cache_control(max_age=3600)
 def manifest(request):
-	# PWA manifest (instala SMKRE iha HP)
+	# PWA manifest (instala SIBAR-RbR iha HP)
 	return JsonResponse({
-		'name': 'SMKRE — Rede ba Rai',
-		'short_name': 'SMKRE',
-		'description': 'Sistema Monitorizasaun Konflitu Rai no Eviksaun',
+		'name': 'SIBAR - RbR',
+		'short_name': 'SIBAR-RbR',
+		'description': 'Sistema Informasaun Baze Dadus Rai - Rede Ba Rai',
 		'start_url': '/',
 		'scope': '/',
 		'display': 'standalone',
@@ -78,7 +78,7 @@ def manifest(request):
 		'background_color': '#F4F5F1',
 		'theme_color': '#0E8A68',
 		'lang': 'tet',
-		'shortcuts': [{'name': 'SMKRE Offline', 'short_name': 'Offline', 'url': '/sinkron/'}],
+		'shortcuts': [{'name': 'SIBAR-RbR Offline', 'short_name': 'Offline', 'url': '/sinkron/'}],
 		'icons': [
 			{'src': static('main/images/icon-192.png'), 'sizes': '192x192', 'type': 'image/png'},
 			{'src': static('main/images/icon-512.png'), 'sizes': '512x512', 'type': 'image/png'},

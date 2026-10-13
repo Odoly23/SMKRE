@@ -45,7 +45,7 @@ def KazuImportList(request):
 @allowed_users(allowed_roles=ROLE_IMPORT_KAZU)
 def KazuImportTemplate(request):
 	response = HttpResponse(template_excel(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-	response['Content-Disposition'] = 'attachment; filename="SMKRE_template_import_kazu.xlsx"'
+	response['Content-Disposition'] = 'attachment; filename="SIBAR-RbR_template_import_kazu.xlsx"'
 	return response
 
 

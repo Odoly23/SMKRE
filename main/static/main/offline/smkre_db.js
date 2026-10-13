@@ -1,4 +1,4 @@
-/* SMKRE DB — IndexedDB iha HP.
+/* SIBAR-RbR DB — IndexedDB iha HP.
    meta  : {k, v}                       (salt, verifikadór PIN, token, opsaun — enkriptadu)
    kazu  : {id, estadu, kria_iha, atualiza, kode, erru, box}   box = dadus kazu enkriptadu
    media : {id, kazu_id, tipu, mime, tamanu, box}              box = foto/vídeo enkriptadu

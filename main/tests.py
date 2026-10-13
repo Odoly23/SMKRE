@@ -47,7 +47,7 @@ class SeguransaTest(TestCase):
 
 	def test_pwa(self):
 		m = self.client.get(reverse('manifest')).json()
-		self.assertEqual(m['short_name'], 'SMKRE')
+		self.assertEqual(m['short_name'], 'SIBAR-RbR')
 		r = self.client.get(reverse('service-worker'))
 		self.assertEqual(r['Service-Worker-Allowed'], '/')
 		self.assertNotIn('no-store', r['Cache-Control'])

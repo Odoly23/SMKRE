@@ -161,7 +161,7 @@ class Kazu(models.Model):
 
 
 class KazuSequence(models.Model):
-	# Kontador ba kódigu kazu: SMKRE-<MUN>-<TINAN>-<NÚMERU>
+	# Kontador ba kódigu kazu: SIBAR-<MUN>-<TINAN>-<NÚMERU>
 	munisipiu = models.ForeignKey(Munisipiu, on_delete=models.CASCADE)
 	tinan = models.PositiveSmallIntegerField()
 	last = models.PositiveIntegerField(default=0)

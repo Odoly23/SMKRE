@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   SMKRE — main.css (mobile first)
+   SIBAR-RbR — main.css (mobile first)
    Kór Rede ba Rai: muda iha :root deit
 ═══════════════════════════════════════════ */
 :root {
@@ -346,7 +346,7 @@ div.dataTables_wrapper div.dataTables_filter input { min-height: 38px; }
 .map-locate { display: flex !important; align-items: center; justify-content: center; width: 34px; height: 34px; background: #fff; color: #0E8A68; font-size: 18px; }
 .map-locate:hover { color: #0b6e53; background: #f4f4f4; }
 
-/* ── Mapa: kontrolu SMKRE (smkre_mapa.js) ── */
+/* ── Mapa: kontrolu SIBAR-RbR (smkre_mapa.js) ── */
 .mapa-pick { height: 460px; border-radius: 10px; }
 .smkre-map-btn { display: flex !important; align-items: center; justify-content: center; width: 34px; height: 34px; background: #fff; color: #0E8A68; font-size: 16px; }
 .smkre-map-btn:hover { background: #f4f4f4; color: #0b6e53; }

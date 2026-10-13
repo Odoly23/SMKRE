@@ -1,4 +1,4 @@
-/* SMKRE — main.js (la iha inline script: seguru ho CSP) */
+/* SIBAR-RbR — main.js (la iha inline script: seguru ho CSP) */
 (function () {
 	'use strict';
 
