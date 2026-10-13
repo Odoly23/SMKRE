@@ -2303,14 +2303,6 @@ msgstr "Munisipiu dengan kasus"
 msgid "Munisípiu hotu"
 msgstr "Semua munisipiu"
 
-#: publiku/templates/publiku/base.html
-msgid "Observatóriu Konflitu Rai"
-msgstr "Observatorium Konflik Tanah"
-
-#: publiku/templates/publiku/base.html
-msgid "Observatóriu Konflitu Rai no Eviksaun"
-msgstr "Observatorium Konflik Tanah dan Penggusuran"
-
 #: publiku/forms.py
 msgid "PDF deit · máximu 20 MB"
 msgstr "Hanya PDF · maksimum 20 MB"
@@ -3282,3 +3274,6 @@ msgstr "mis. 2019"
 
 msgid "husi"
 msgstr "oleh"
+
+msgid "Sistema Monitorizasaun Kazu Rai"
+msgstr "Sistem Pemantauan Kasus Tanah"

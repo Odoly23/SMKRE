@@ -36,7 +36,7 @@ def portalHome(request):
 		'kontaktu': {'telefone': settings.PORTAL_TELEFONE, 'email': settings.PORTAL_EMAIL, 'enderesu': settings.PORTAL_ENDERESU},
 		'limite': settings.PORTAL_LIMITE_SUBAR,
 		'portal_lang': _portal_lang(),
-		'title': 'Observatóriu Konflitu Rai',
+		'title': 'Sistema Monitorizasaun Kazu Rai',
 	}
 	return render(request, 'publiku/portal.html', context)
 

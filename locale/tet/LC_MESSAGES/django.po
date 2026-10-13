@@ -2410,14 +2410,6 @@ msgstr "Munisípiu ho kazu"
 msgid "Munisípiu hotu"
 msgstr "Munisípiu hotu"
 
-#: publiku/templates/publiku/base.html
-msgid "Observatóriu Konflitu Rai"
-msgstr "Observatóriu Konflitu Rai"
-
-#: publiku/templates/publiku/base.html
-msgid "Observatóriu Konflitu Rai no Eviksaun"
-msgstr "Observatóriu Konflitu Rai no Eviksaun"
-
 #: publiku/forms.py
 msgid "PDF deit · máximu 20 MB"
 msgstr "PDF deit · máximu 20 MB"
@@ -3382,3 +3374,6 @@ msgstr "ex. 2019"
 
 msgid "husi"
 msgstr "husi"
+
+msgid "Sistema Monitorizasaun Kazu Rai"
+msgstr "Sistema Monitorizasaun Kazu Rai"

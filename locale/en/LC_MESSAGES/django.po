@@ -2310,14 +2310,6 @@ msgstr "Municipalities with cases"
 msgid "Munisípiu hotu"
 msgstr "All municipalities"
 
-#: publiku/templates/publiku/base.html
-msgid "Observatóriu Konflitu Rai"
-msgstr "Land Conflict Observatory"
-
-#: publiku/templates/publiku/base.html
-msgid "Observatóriu Konflitu Rai no Eviksaun"
-msgstr "Land Conflict and Eviction Observatory"
-
 #: publiku/forms.py
 msgid "PDF deit · máximu 20 MB"
 msgstr "PDF only · maximum 20 MB"
@@ -3290,3 +3282,6 @@ msgstr "e.g. 2019"
 
 msgid "husi"
 msgstr "by"
+
+msgid "Sistema Monitorizasaun Kazu Rai"
+msgstr "Land Case Monitoring System"

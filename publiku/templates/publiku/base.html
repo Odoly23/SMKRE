@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<title>{% block title %}{% trans "Observatóriu Konflitu Rai no Eviksaun" %}{% endblock %} | Rede ba Rai</title>
+	<title>{% block title %}{% trans "Sistema Monitorizasaun Kazu Rai" %}{% endblock %} | Rede ba Rai</title>
 	<meta name="description" content="{% trans "Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha Timor-Leste." %}">
 	<meta name="author" content="Onosio, Ricardo, Olavio">
 	<meta name="developer" content="Onosio, Ricardo, Olavio">
@@ -15,7 +15,7 @@
 	<meta name="theme-color" content="#0E8A68">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="Rede ba Rai">
-	<meta property="og:title" content="{% trans "Observatóriu Konflitu Rai no Eviksaun" %}">
+	<meta property="og:title" content="{% trans "Sistema Monitorizasaun Kazu Rai" %}">
 	<meta property="og:description" content="{% trans "Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha Timor-Leste." %}">
 	<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'main/images/icon-512.png' %}">
 	<link rel="icon" type="image/png" href="{% static 'main/images/favicon.png' %}">
@@ -57,7 +57,7 @@
 	<div class="container">
 		<a class="p-brand" href="{% url 'portal' %}">
 			<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" width="44" height="44">
-			<span><b>Rede ba Rai</b><small>{% trans "Observatóriu Konflitu Rai" %}</small></span>
+			<span><b>Rede ba Rai (RbR)</b><small>{% trans "Sistema Monitorizasaun Kazu Rai" %}</small></span>
 		</a>
 		<button class="p-ham" type="button" id="p-ham" aria-label="{% trans "Menu" %}" aria-expanded="false" aria-controls="p-links"><i class="fa fa-bars"></i></button>
 		<ul class="p-links" id="p-links">
@@ -80,7 +80,7 @@
 			<div class="col-md-5 mb-3">
 				<div class="p-brand p-brand-footer">
 					<img src="{% static 'main/images/logo.png' %}" alt="" width="44" height="44">
-					<span><b>Rede ba Rai</b><small>{% trans "Observatóriu Konflitu Rai" %}</small></span>
+					<span><b>Rede ba Rai (RbR)</b><small>{% trans "Sistema Monitorizasaun Kazu Rai" %}</small></span>
 				</div>
 				<p class="mt-2 mb-0">{% trans "Dadus públiku, anónimu no verifikadu kona-ba konflitu rai no eviksaun iha Timor-Leste." %}</p>
 			</div>
