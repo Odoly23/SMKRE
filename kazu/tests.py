@@ -43,7 +43,7 @@ class KazuBase(TestCase):
 			'munisipiu': self.liq.pk, 'postu': self.postu.pk, 'suku': self.suku.pk, 'aldeia': '',
 			'latitude': '-8.612100', 'longitude': '125.210700', 'gps_akurasia': '12',
 			'data_akontesimentu': timezone.localdate().isoformat(),
-			'tipu_konflitu': [TipuKonflitu.objects.get(code='DESLOKAMENTU').pk],
+			'tipu_konflitu': [TipuKonflitu.objects.get(code='GOV-RAI-ESTADU').pk],
 			'deskrisaun': 'Familia 15 hetan avizu atu sai.', 'konsentimentu': 'on',
 			'nesesidade': [NesesidadeUrjente.objects.get(code='APOIU-LEGAL').pk],
 			'aksaun': aksaun,
@@ -262,6 +262,22 @@ class WorkflowTest(KazuBase):
 		kazu = self.create_kazu('rai', la_publika='on')
 		self.assertTrue(kazu.la_publika)
 
+	def test_kampu_formulariu_rbr(self):
+		# Pergunta husi formuláriu baze dadus sentrál RbR (Airtable)
+		kazu = self.create_kazu('rai', tinan_disputa_hahu=2019, projetu='Estrada nasionál', entidade_foti='Ministériu Obras Públikas',
+			entidade_kategoria='GOVERNU', enderesu_fatin='Besik merkadu', rai_luan='2.5', rai_luan_unidade='HA',
+			iha_dadus_uma_kain='SIN', fonte_dadus_uma_kain='Xefe suku', eviksaun_akontese='SIN', data_eviksaun=timezone.localdate().isoformat(),
+			konsultasaun_molok='LAE', notifikasaun_klaru='LAE', uza_forsa='SIN', portavos_naran='Joao', portavos_kontaktu='77001122')
+		self.assertEqual((kazu.tinan_disputa_hahu, kazu.entidade_kategoria, str(kazu.rai_luan), kazu.uza_forsa), (2019, 'GOVERNU', '2.50', 'SIN'))
+		self.assertEqual(kazu.portavos_naran, 'Joao')
+		# Validasaun: tinan futuru no data eviksaun futuru
+		from datetime import timedelta
+		self.client.force_login(self.inv)
+		r = self.client.post(reverse('kazu-add'), self.form_data('rai', tinan_disputa_hahu=timezone.localdate().year + 1,
+			data_eviksaun=(timezone.localdate() + timedelta(days=3)).isoformat()))
+		self.assertContains(r, 'Tinan la validu')
+		self.assertContains(r, 'Data eviksaun labele iha futuru')
+
 	def test_kodigu_la_bentrok(self):
 		k1 = self.create_kazu('haruka')
 		k2 = self.create_kazu('haruka')
@@ -418,7 +434,7 @@ class ImportExcelTest(KazuBase):
 		return SimpleUploadedFile(naran, buf.getvalue())
 
 	def lina(self, **extra):
-		d = {'data_relatoriu': timezone.localdate().isoformat(), 'munisipiu': 'LIQ', 'tipu_konflitu': 'DESLOKAMENTU',
+		d = {'data_relatoriu': timezone.localdate().isoformat(), 'munisipiu': 'LIQ', 'tipu_konflitu': 'GOV-RAI-ESTADU',
 			'deskrisaun': 'Familia hetan avizu atu sai.', 'konsentimentu': 'SIN', 'uma_kain': 4, 'mane': 6, 'feto': 7}
 		d.update(extra)
 		return d
@@ -467,6 +483,26 @@ class ImportExcelTest(KazuBase):
 		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
 		self.assertEqual(Kazu.objects.count(), 4)
 
+	def test_kolun_formulariu_rbr_no_segimentu(self):
+		# Dadus tuan husi Airtable: label Tetun ka kódigu; kampu segimentu kria KazuSegimentu
+		from kazu.models import KazuSegimentu
+		imp = self.upload([
+			self.lina(tinan_disputa_hahu=2017, eviksaun_akontese='Sin', uza_forsa='la hatene', entidade_kategoria='Kompañia Nasionál',
+				rai_luan='3,5', rai_luan_unidade='HA', katuas_ferik=2, status_rezolusaun='Seidauk resolve', desizaun_rbr='advokasia ativu',
+				tribunal_rejistu='Sin', tribunal_data='2025-03-10', fokal_naran='Ana'),
+			self.lina(deskrisaun='Opsaun sala', eviksaun_akontese='Talvez'),
+		])
+		self.assertEqual((imp.total, imp.total_ok), (2, 1))
+		self.assertTrue(any('Talvez' in e for e in imp.dadus[1]['erru']))
+		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
+		k = Kazu.objects.get(importasaun=imp)
+		self.assertEqual((k.tinan_disputa_hahu, k.eviksaun_akontese, k.uza_forsa, k.entidade_kategoria, str(k.rai_luan), k.rai_luan_unidade),
+			(2017, 'SIN', 'LAHATENE', 'KOMPANIA_NASIONAL', '3.50', 'HA'))
+		self.assertEqual(k.afetadu.get().katuas_ferik, 2)
+		seg = KazuSegimentu.objects.get(kazu=k)
+		self.assertEqual((seg.status_rezolusaun, seg.desizaun_rbr, seg.tribunal_rejistu, str(seg.tribunal_data), seg.fokal_naran),
+			('SEIDAUK', 'ADVOKASIA', 'SIN', '2025-03-10', 'Ana'))
+
 	def test_la_iha_konsentimentu_la_tama_portal(self):
 		imp = self.upload([self.lina(konsentimentu='')])
 		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
@@ -503,3 +539,33 @@ class ImportExcelTest(KazuBase):
 		Kazu.objects.filter(pk=kazu.pk).update(status='APPROVED')
 		self.client.force_login(self.admin)
 		self.assertRedirects(self.client.get(url), reverse('kazu-detail', args=[kazu.pk]))
+
+
+class SegimentuTest(KazuBase):
+	# Segimentu kazu (eskritóriu RbR): tribunál, notifikasaun, status rezolusaun, akompañamentu
+	def test_papel_no_rai(self):
+		from kazu.models import KazuSegimentu
+		kazu = self.create_kazu('haruka')
+		url = reverse('kazu-segimentu', args=[kazu.pk])
+		for user, kodigu in ((self.inv, 403), (make_user(ANALISTA), 403), (make_user(OFISIAL_LEGAL), 200), (self.sa, 200), (self.admin, 200)):
+			self.client.force_login(user)
+			self.assertEqual(self.client.get(url).status_code, kodigu)
+		r = self.post(url, {'status_rezolusaun': 'SEIDAUK', 'desizaun_rbr': 'ADVOKASIA', 'tribunal_rejistu': 'DADAUN',
+			'tribunal_data': '2026-08-01', 'notif_simu': 'SIN', 'notif_husi': 'Ministériu Justisa', 'fokal_naran': 'Ana', 'fokal_tipu': 'SEKRETARIADU'})
+		self.assertRedirects(r, reverse('kazu-detail', args=[kazu.pk]))
+		seg = KazuSegimentu.objects.get(kazu=kazu)
+		self.assertEqual((seg.status_rezolusaun, seg.desizaun_rbr, seg.tribunal_rejistu, seg.updated_by), ('SEIDAUK', 'ADVOKASIA', 'DADAUN', self.admin))
+		self.assertTrue(kazu.historia.filter(nota__startswith='Segimentu').exists())
+		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
+		self.assertContains(r, 'Ministériu Justisa')
+		self.assertContains(r, 'Advokasia ativu')
+
+	def test_akompanamentu(self):
+		kazu = self.create_kazu('haruka')
+		self.client.force_login(self.admin)
+		url = reverse('kazu-akompanamentu', args=[kazu.pk])
+		self.post(url, {'data': timezone.localdate().isoformat(), 'asaun': 'Vizita komunidade no reuniaun ho xefe suku'})
+		self.assertEqual(kazu.akompanamentu.count(), 1)
+		self.assertContains(self.client.get(reverse('kazu-detail', args=[kazu.pk])), 'Vizita komunidade')
+		self.client.force_login(self.inv)
+		self.assertEqual(self.post(url, {'data': timezone.localdate().isoformat(), 'asaun': 'x'}).status_code, 403)

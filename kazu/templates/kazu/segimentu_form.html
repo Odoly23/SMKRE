@@ -1,0 +1,19 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+{% include 'kazu/_pagetitle.html' %}
+<div class="row">
+	<div class="col-sm-12">
+		<form method="POST" id="SegimentuForm" novalidate>
+		{% csrf_token %}
+		<div class="card card-rbr shadow-sm pt-1 rounded">
+			<div class="card-header card-header-rbr">{{ legend|upper }} · {{ kazu }}</div>
+			<div class="card-body">
+				<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Dadus akompañamentu husi eskritóriu RbR: atualiza bainhira iha informasaun foun (tribunál, notifikasaun, status). Kada mudansa rai iha istória." %}</div>
+				{% crispy form %}
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

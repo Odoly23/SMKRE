@@ -2909,3 +2909,397 @@ msgid ""
 msgstr ""
 "Máximo 5 fotos (câmara ou galeria, pode escolher várias) · Máximo 1 vídeo "
 "(60 segundos / 50 MB) · Fotos comprimidas automaticamente."
+
+#, python-format
+msgid "\"%(c)s\": valór \"%(v)s\" la validu."
+msgstr "\"%(c)s\": valor \"%(v)s\" inválido."
+
+msgid "'Arkivu' = kazu resolve ona ka RbR refere ona ba advogadu privadu."
+msgstr ""
+"'Arquivo' = caso resolvido ou já encaminhado pela RbR a advogado privado."
+
+msgid "Abandona"
+msgstr "Abandonado"
+
+msgid "Advogadu"
+msgstr "Advogado"
+
+msgid "Advokasia ativu"
+msgstr "Advocacia ativa"
+
+msgid "Agora dadaun rejistu hela iha tribunál"
+msgstr "Em processo de registo no tribunal"
+
+msgid "Ajénsia Autónomu"
+msgstr "Agência Autónoma"
+
+msgid "Akompañamentu / asaun"
+msgstr "Acompanhamento / ação"
+
+msgid "Akompañamentu Kazu"
+msgstr "Acompanhamento do Caso"
+
+msgid "Akompañamentu aumenta ona."
+msgstr "Acompanhamento adicionado."
+
+msgid "Akompañamentu ba Kazu"
+msgstr "Acompanhamento do Caso"
+
+msgid "Atualiza segimentu"
+msgstr "Atualizar seguimento"
+
+msgid "Aumenta akompañamentu"
+msgstr "Adicionar acompanhamento"
+
+msgid "CCLN-Veteranu"
+msgstr "CCLN-Veteranos"
+
+msgid "Claim balu resolve, balu seidauk"
+msgstr "Algumas reivindicações resolvidas, outras não"
+
+msgid ""
+"Dadus akompañamentu husi eskritóriu RbR: atualiza bainhira iha informasaun "
+"foun (tribunál, notifikasaun, status). Kada mudansa rai iha istória."
+msgstr ""
+"Dados de acompanhamento do escritório da RbR: atualize quando houver nova "
+"informação (tribunal, notificação, estado). Cada alteração fica no "
+"histórico."
+
+msgid "Dadus uma-kain iha ka lae?"
+msgstr "Existem dados dos agregados familiares?"
+
+msgid "Dadus uma-kain iha?"
+msgstr "Dados dos agregados?"
+
+msgid "Data desizaun"
+msgstr "Data da decisão"
+
+msgid "Data eviksaun"
+msgstr "Data do despejo"
+
+msgid "Data eviksaun labele iha futuru."
+msgstr "A data do despejo não pode ser no futuro."
+
+msgid "Data ikus cek status kazu"
+msgstr "Data da última verificação do estado do caso"
+
+msgid "Data labele iha futuru."
+msgstr "A data não pode ser no futuro."
+
+msgid "Data rejistu iha tribunál"
+msgstr "Data de registo no tribunal"
+
+msgid "Data simu kazu iha RbR"
+msgstr "Data de receção do caso na RbR"
+
+msgid "Data simu notifikasaun"
+msgstr "Data de receção da notificação"
+
+msgid "Desizaun"
+msgstr "Decisão"
+
+msgid "Desizaun RbR"
+msgstr "Decisão RbR"
+
+msgid "Desizaun RbR ba kazu"
+msgstr "Decisão da RbR sobre o caso"
+
+msgid "Durante eviksaun uza forsa ka lae?"
+msgstr "Foi usada força durante o despejo?"
+
+msgid "Empreza Públiku"
+msgstr "Empresa Pública"
+
+msgid "Enderesu ka deskrisaun fatin"
+msgstr "Endereço ou descrição do local"
+
+msgid "Enderesu organizasaun"
+msgstr "Endereço da organização"
+
+msgid "Entidade benefisiáriu (kategoria)"
+msgstr "Entidade beneficiária (categoria)"
+
+msgid "Entidade ne'ebé foti rai"
+msgstr "Entidade que tomou a terra"
+
+msgid "Eviksaun"
+msgstr "Despejo"
+
+msgid "Eviksaun akontese ona?"
+msgstr "O despejo já aconteceu?"
+
+msgid "Eviksaun no Komunidade"
+msgstr "Despejo e Comunidade"
+
+msgid "Fokal Point RbR"
+msgstr "Ponto Focal RbR"
+
+msgid "Fokal point RbR"
+msgstr "Ponto focal RbR"
+
+msgid "Fonte"
+msgstr "Fonte"
+
+msgid "Fonte dadus uma-kain"
+msgstr "Fonte dos dados dos agregados"
+
+msgid "Governu"
+msgstr "Governo"
+
+msgid "Hektar (ha)"
+msgstr "Hectare (ha)"
+
+msgid "Idozu (60+)"
+msgstr "Idosos (60+)"
+
+msgid "Idozu (tinan 60 ba leten)"
+msgstr "Idosos (60 anos ou mais)"
+
+msgid "Iha ona desizaun husi tribunál?"
+msgstr "Já existe decisão do tribunal?"
+
+msgid "Ka kola link Google Maps (pindrop) atu hatama koordenada:"
+msgstr "Ou cole o link do Google Maps (pin) para inserir as coordenadas:"
+
+msgid "Kompañia Internasionál"
+msgstr "Companhia Internacional"
+
+msgid "Kompañia Nasionál"
+msgstr "Companhia Nacional"
+
+msgid "Konsultasaun molok eviksaun"
+msgstr "Consulta antes do despejo"
+
+msgid "Kontaktu advogadu (naran, telefone, organizasaun)"
+msgstr "Contacto do advogado (nome, telefone, organização)"
+
+msgid "Konvensaun Relijiozu"
+msgstr "Congregação Religiosa"
+
+msgid "Koordenada hatama ona husi link."
+msgstr "Coordenadas inseridas a partir do link."
+
+msgid "Koordenada li'ur Timor-Leste."
+msgstr "Coordenadas fora de Timor-Leste."
+
+msgid "La hatene"
+msgstr "Não sabe"
+
+msgid "La hatene status atuál"
+msgstr "Estado atual desconhecido"
+
+msgid "La hetan koordenada iha link ne'e."
+msgstr "Não foram encontradas coordenadas neste link."
+
+msgid ""
+"Link badak la bele lee. Loke link iha browser, depois kopia link naruk husi "
+"barra enderesu."
+msgstr ""
+"Links curtos não podem ser lidos. Abra o link no navegador e copie o link "
+"longo da barra de endereço."
+
+msgid "Membru"
+msgstr "Membro"
+
+msgid "Membru ne'ebé la ativu ona"
+msgstr "Membro inativo"
+
+msgid "Membru no Sekretariadu"
+msgstr "Membro e Secretariado"
+
+msgid "Metru kuadradu (m²)"
+msgstr "Metro quadrado (m²)"
+
+msgid "Molok eviksaun iha konsultasaun ka lae?"
+msgstr "Houve consulta antes do despejo?"
+
+msgid "Molok eviksaun iha notifikasaun klaru ka lae?"
+msgstr "Houve notificação clara antes do despejo?"
+
+msgid "Monitorizasaun"
+msgstr "Monitorização"
+
+msgid "Naran ema husi organizasaun seluk"
+msgstr "Nome da pessoa da outra organização"
+
+msgid "Naran fokal point RbR"
+msgstr "Nome do ponto focal RbR"
+
+msgid "Naran kazu"
+msgstr "Nome do caso"
+
+msgid "Naran portavós komunidade"
+msgstr "Nome do porta-voz da comunidade"
+
+msgid "Notifikasaun husi se?"
+msgstr "Notificação de quem?"
+
+msgid "Notifikasaun klaru"
+msgstr "Notificação clara"
+
+msgid "Númeru kontaktu (organizasaun seluk)"
+msgstr "Número de contacto (outra organização)"
+
+msgid "Númeru kontaktu portavós"
+msgstr "Número de contacto do porta-voz"
+
+msgid "Númeru telemóvel fokal point"
+msgstr "Número de telemóvel do ponto focal"
+
+msgid "Observasaun ema afetadu"
+msgstr "Observações sobre os afetados"
+
+msgid "Observasaun eviksaun"
+msgstr "Observações sobre o despejo"
+
+msgid "Observasaun kona-ba dadus ema afetadu"
+msgstr "Observações sobre os dados dos afetados"
+
+msgid "Observasaun kona-ba eviksaun"
+msgstr "Observações sobre o despejo"
+
+msgid "Observasaun kona-ba kazu (desizaun RbR)"
+msgstr "Observações sobre o caso (decisão RbR)"
+
+msgid "Observasaun kona-ba portavós"
+msgstr "Observações sobre o porta-voz"
+
+msgid "Observasaun kona-ba prosesu notifikasaun"
+msgstr "Observações sobre o processo de notificação"
+
+msgid "Observasaun kona-ba prosesu tribunál"
+msgstr "Observações sobre o processo no tribunal"
+
+msgid "Observasaun kona-ba tipu kazu"
+msgstr "Observações sobre o tipo de caso"
+
+msgid "Organizasaun"
+msgstr "Organização"
+
+msgid "Organizasaun Seluk ne'ebé Akompaña"
+msgstr "Outra Organização que Acompanha"
+
+msgid "Organizasaun seluk"
+msgstr "Outra organização"
+
+msgid "Organizasaun seluk ne'ebé akompaña"
+msgstr "Outra organização que acompanha"
+
+msgid "PNTL / F-FDTL"
+msgstr "PNTL / F-FDTL"
+
+msgid "Partidu Polítiku"
+msgstr "Partido Político"
+
+msgid "Portavós Komunidade"
+msgstr "Porta-voz da Comunidade"
+
+msgid "Portavós komunidade"
+msgstr "Porta-voz da comunidade"
+
+msgid "Projetu"
+msgstr "Projeto"
+
+msgid "Projetu (se Governu foti rai: atu hari'i saida?)"
+msgstr "Projeto (se o Governo tomou a terra: para construir o quê?)"
+
+msgid "Rai nia luan"
+msgstr "Área do terreno"
+
+msgid "Rai nia luan tenke pozitivu."
+msgstr "A área do terreno deve ser positiva."
+
+msgid "Rejistu iha tribunál?"
+msgstr "Registado no tribunal?"
+
+msgid "Reprezenta"
+msgstr "Representa"
+
+msgid "Resolve ona - Família deit"
+msgstr "Resolvido - Apenas família"
+
+msgid "Resolve ona - Iha tribunál"
+msgstr "Resolvido - No tribunal"
+
+msgid "Resolve ona - Liuhusi mediasaun"
+msgstr "Resolvido - Por mediação"
+
+msgid "Resolve ona - Parte seluk abandona disputa"
+msgstr "Resolvido - A outra parte abandonou a disputa"
+
+msgid "Resolve ona - Simu kompensasaun"
+msgstr "Resolvido - Recebeu compensação"
+
+msgid "Saida mak RbR halo? (vizita, reuniaun, karta, mediasaun…)"
+msgstr "O que fez a RbR? (visita, reunião, carta, mediação…)"
+
+msgid "Se RbR refere kazu ne'e ona, bele husik mamuk."
+msgstr "Se a RbR já encaminhou este caso, pode deixar em branco."
+
+msgid "Se mak rejistu ka reprezenta"
+msgstr "Quem registou ou representa"
+
+msgid "Segimentu Kazu"
+msgstr "Seguimento do Caso"
+
+#, python-format
+msgid "Segimentu atualiza: %(c)s"
+msgstr "Seguimento atualizado: %(c)s"
+
+msgid "Segimentu kazu rai ona."
+msgstr "Seguimento do caso guardado."
+
+msgid "Seidauk iha akompañamentu."
+msgstr "Ainda sem acompanhamento."
+
+msgid "Seidauk iha dadus segimentu."
+msgstr "Ainda sem dados de seguimento."
+
+msgid "Seidauk resolve"
+msgstr "Ainda não resolvido"
+
+msgid "Sekretariadu RbR"
+msgstr "Secretariado RbR"
+
+msgid "Simu notifikasaun ona?"
+msgstr "Já recebeu notificação?"
+
+msgid "Status no Desizaun RbR"
+msgstr "Estado e Decisão RbR"
+
+msgid "Status rezolusaun"
+msgstr "Estado de resolução"
+
+msgid "Status rezolusaun kazu"
+msgstr "Estado de resolução do caso"
+
+msgid "Tinan disputa hahú"
+msgstr "Ano de início da disputa"
+
+msgid "Tinan disputa hahú entre parte rua"
+msgstr "Ano em que a disputa começou entre as partes"
+
+#, python-format
+msgid "Tinan la validu (1900 to'o %(t)s)."
+msgstr "Ano inválido (1900 a %(t)s)."
+
+msgid "Tipu fokal point"
+msgstr "Tipo de ponto focal"
+
+msgid "Tribunál"
+msgstr "Tribunal"
+
+msgid "Unidade"
+msgstr "Unidade"
+
+msgid "Uza forsa"
+msgstr "Uso de força"
+
+msgid "cek ikus"
+msgstr "última verificação"
+
+msgid "ex. 2019"
+msgstr "ex. 2019"
+
+msgid "husi"
+msgstr "por"

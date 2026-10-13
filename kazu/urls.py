@@ -1,5 +1,5 @@
 from django.urls import path
-from kazu.views import kazu_v, status_v, evidensia_v, import_v
+from kazu.views import kazu_v, status_v, evidensia_v, import_v, segimentu_v
 
 urlpatterns = [
 	path('', kazu_v.KazuList, name="kazu-list"),
@@ -17,6 +17,9 @@ urlpatterns = [
 	path('import/<uuid:uuid>/konfirma/', import_v.KazuImportKonfirma, name="kazu-import-konfirma"),
 	path('import/<uuid:uuid>/kansela/', import_v.KazuImportKansela, name="kazu-import-kansela"),
 	path('<uuid:uuid>/lokasaun/', import_v.KazuLokasaun, name="kazu-lokasaun"),
+	# Segimentu kazu (eskritóriu RbR)
+	path('<uuid:uuid>/segimentu/', segimentu_v.KazuSegimentuUpdate, name="kazu-segimentu"),
+	path('<uuid:uuid>/akompanamentu/', segimentu_v.KazuAkompanamentuAdd, name="kazu-akompanamentu"),
 
 	path('<uuid:uuid>/haruka/', status_v.KazuSubmit, name="kazu-submit"),
 	path('<uuid:uuid>/status-kazu/', status_v.KazuStatusKazu, name="kazu-status-kazu"),

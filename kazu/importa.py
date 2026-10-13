@@ -22,7 +22,7 @@ from openpyxl.worksheet.datavalidation import DataValidation
 from config.rbac import SUPERADMIN
 from custom.models import Munisipiu, PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai
 from kazu.forms import TL_LAT, TL_LON
-from kazu.models import Kazu, KazuHistoria, KazuImport, UmaKainAfetada, SYNCED, VERIFIED
+from kazu.models import Kazu, KazuHistoria, KazuImport, KazuSegimentu, UmaKainAfetada, SYNCED, VERIFIED
 from kazu.services import generate_kode, _historia
 from notification.utils import kirim_notif_role
 
@@ -32,7 +32,7 @@ SIN = {'SIN', 'S', 'YES', 'Y', 'SIM', 'YA', '1', 'TRUE', 'LOOS'}
 
 # (kolun, deskrisaun ba template, obrigatóriu)
 KOLUN = [
-	('data_relatoriu', 'Data relatóriu (AAAA-MM-LL)', True),
+	('data_relatoriu', 'Data simu kazu iha RbR (AAAA-MM-LL)', True),
 	('munisipiu', 'Munisípiu (kódigu ka naran)', True),
 	('postu', 'Postu (kódigu ka naran)', False),
 	('suku', 'Suku (kódigu ka naran)', False),
@@ -48,11 +48,32 @@ KOLUN = [
 	('mane', 'Mane', False),
 	('feto', 'Feto', False),
 	('labarik', 'Labarik', False),
+	('total_ema', 'Total ema', False),
+	('katuas_ferik', 'Idozu (tinan 60 ba leten)', False),
+	('defisiensia', 'Ema ho defisiénsia', False),
 	('konsentimentu', 'Konsentimentu (SIN / LAE)', False),
 	('la_publika', 'La publika iha portal (SIN / LAE)', False),
-	('titulu', 'Títulu (opsionál)', False),
+	('titulu', 'Naran kazu', False),
 	('observasaun', 'Observasaun', False),
 ]
+# Pergunta formuláriu RbR (Airtable): kolun ho naran field; valór konverte tuir tipu field iha modelu
+KAMPU_KAZU_RBR = ['tinan_disputa_hahu', 'projetu', 'entidade_foti', 'entidade_kategoria', 'enderesu_fatin', 'rai_luan',
+	'rai_luan_unidade', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese', 'data_eviksaun',
+	'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun', 'portavos_naran', 'portavos_kontaktu',
+	'portavos_observasaun']
+KAMPU_SEGIMENTU = [f.name for f in KazuSegimentu._meta.get_fields()
+	if getattr(f, 'concrete', False) and f.name not in ('id', 'kazu', 'updated_by', 'updated_at')]
+
+
+def _deskr(model, campo):
+	f = model._meta.get_field(campo)
+	opsaun = ' / '.join(str(l) for _c, l in f.choices) if f.choices else ''
+	tipu = {'DateField': ' (AAAA-MM-LL)'}.get(f.get_internal_type(), '')
+	return f'{f.verbose_name}{tipu}' + (f' — {opsaun}' if opsaun else '')
+
+
+KOLUN += [(c, _deskr(Kazu, c), False) for c in KAMPU_KAZU_RBR]
+KOLUN += [(c, _deskr(KazuSegimentu, c), False) for c in KAMPU_SEGIMENTU]
 NARAN_KOLUN = [k[0] for k in KOLUN]
 
 
@@ -70,7 +91,11 @@ def template_excel():
 		c.font, c.fill = Font(bold=True, color='FFFFFF'), (obrig if o else kab)
 		ws.cell(row=2, column=i).font = Font(italic=True, color='5E6B66')
 		ws.column_dimensions[c.column_letter].width = 22
-	ws.append(['2026-09-15', 'LIQ', '', '', '', '', '', '2026-09-10', 'DESLOKAMENTU', '', '', 'Ezemplu: família 12 hetan avizu atu sai husi rai.', 12, 30, 28, 20, 'SIN', 'LAE', '', 'Hamoos liña ezemplu ne\'e'])
+	ezemplu = {'data_relatoriu': '2026-09-15', 'munisipiu': 'LIQ', 'data_akontesimentu': '2026-09-10', 'tipu_konflitu': 'GOV-RAI-ESTADU',
+		'deskrisaun': 'Ezemplu: família 12 hetan avizu atu sai husi rai.', 'uma_kain': 12, 'mane': 30, 'feto': 28, 'labarik': 20,
+		'konsentimentu': 'SIN', 'la_publika': 'LAE', 'titulu': 'Hamoos liña ezemplu ne\'e', 'eviksaun_akontese': 'Sin',
+		'tinan_disputa_hahu': 2019, 'status_rezolusaun': 'Seidauk resolve', 'desizaun_rbr': 'Monitorizasaun'}
+	ws.append([ezemplu.get(k, '') for k in NARAN_KOLUN])
 	for c in ws[3]:
 		c.font = Font(color='9AA59F')
 	ws.freeze_panes = 'A3'
@@ -94,10 +119,24 @@ def template_excel():
 
 	# Dropdown iha aba Kazu
 	n_mun = Munisipiu.active.count() + 1
-	for col, formula in (('B', f'=Munisipiu!$A$2:$A${n_mun}'), ('Q', '"SIN,LAE"'), ('R', '"SIN,LAE"')):
+	from openpyxl.utils import get_column_letter
+	kol = lambda campo: get_column_letter(NARAN_KOLUN.index(campo) + 1)
+	validasaun = {'munisipiu': f'=Munisipiu!$A$2:$A${n_mun}', 'konsentimentu': '"SIN,LAE"', 'la_publika': '"SIN,LAE"'}
+	# Kolun ho opsaun (Sin/Lae, kategoria, status…): lista iha aba "Opsaun" (label bele iha vírgula)
+	aba_ops = wb.create_sheet('Opsaun')
+	for i, (model, campo) in enumerate([(Kazu, c) for c in KAMPU_KAZU_RBR] + [(KazuSegimentu, c) for c in KAMPU_SEGIMENTU], start=1):
+		f = model._meta.get_field(campo)
+		if not f.choices:
+			continue
+		letra = get_column_letter(i)
+		aba_ops.cell(row=1, column=i, value=campo).font = Font(bold=True)
+		for j, (_c, label) in enumerate(f.choices, start=2):
+			aba_ops.cell(row=j, column=i, value=str(label))
+		validasaun[campo] = f'=Opsaun!${letra}$2:${letra}${len(f.choices) + 1}'
+	for campo, formula in validasaun.items():
 		dv = DataValidation(type='list', formula1=formula, allow_blank=True)
 		ws.add_data_validation(dv)
-		dv.add(f'{col}3:{col}{MAX_LINA + 2}')
+		dv.add(f'{kol(campo)}3:{kol(campo)}{MAX_LINA + 2}')
 	buf = BytesIO()
 	wb.save(buf)
 	return buf.getvalue()
@@ -169,6 +208,45 @@ def _dec(v):
 	if v in (None, ''):
 		return None
 	return Decimal(str(v).replace(',', '.').strip()).quantize(Decimal('0.000001'))
+
+
+def _normal(t):
+	import unicodedata
+	return unicodedata.normalize('NFKD', str(t)).encode('ascii', 'ignore').decode().upper().replace('-', ' ').replace('_', ' ').strip()
+
+
+def _konverte(model, campo, raw):
+	# Valór Excel → valór JSON (string / númeru) tuir tipu field; ValueError bainhira la validu
+	f = model._meta.get_field(campo)
+	if raw in (None, ''):
+		return None
+	if f.choices:
+		alvu = _normal(raw)
+		for code, label in f.choices:
+			if alvu in (_normal(code), _normal(label)):
+				return code
+		raise ValueError(raw)
+	tipu = f.get_internal_type()
+	if tipu == 'DateField':
+		return _data(raw).isoformat()
+	if tipu in ('PositiveSmallIntegerField', 'PositiveIntegerField', 'IntegerField'):
+		return _int(raw)
+	if tipu == 'DecimalField':
+		return str(_dec(raw))
+	return _testu(raw)[:f.max_length] if f.max_length else _testu(raw)
+
+
+def _kampu_extra(model, campos, d, erru):
+	out = {}
+	for campo in campos:
+		try:
+			v = _konverte(model, campo, d.get(campo))
+		except (ValueError, TypeError, InvalidOperation):
+			erru.append(_('"%(c)s": valór "%(v)s" la validu.') % {'c': model._meta.get_field(campo).verbose_name, 'v': _testu(d.get(campo))})
+			continue
+		if v is not None:
+			out[campo] = v
+	return out
 
 
 class _Buka:
@@ -281,7 +359,7 @@ def valida(lina):
 
 		# Populasaun
 		pop = {}
-		for campo in ('uma_kain', 'mane', 'feto', 'labarik'):
+		for campo in ('uma_kain', 'mane', 'feto', 'labarik', 'total_ema', 'katuas_ferik', 'defisiensia'):
 			try:
 				pop[campo] = _int(d.get(campo))
 			except (ValueError, TypeError):
@@ -301,7 +379,7 @@ def valida(lina):
 			avizu.append(_('Kazu hanesan iha sistema ona (duplikadu?).'))
 
 		rezultadu.append({
-			'lina': d['_lina'], 'ok': not erru, 'erru': erru, 'avizu': avizu,
+			'lina': d['_lina'], 'ok': None, 'erru': erru, 'avizu': avizu,
 			'dadus': {
 				'titulu': _testu(d.get('titulu'))[:200],
 				'data_relatoriu': out['data_relatoriu'].isoformat() if out['data_relatoriu'] else None,
@@ -315,6 +393,8 @@ def valida(lina):
 				'konsentimentu': konsentimentu, 'la_publika': _testu(d.get('la_publika')).upper() in SIN,
 				'observasaun': _testu(d.get('observasaun')),
 				**pop,
+				'rbr': _kampu_extra(Kazu, KAMPU_KAZU_RBR, d, erru),
+				'segimentu': _kampu_extra(KazuSegimentu, KAMPU_SEGIMENTU, d, erru),
 			},
 			'rezumu': {
 				'munisipiu': mun.name if mun else _testu(d.get('munisipiu')),
@@ -323,6 +403,7 @@ def valida(lina):
 				'deskrisaun': deskrisaun[:90],
 			},
 		})
+		rezultadu[-1]['ok'] = not erru                   # kampu RbR mós bele hatama erru
 	return rezultadu
 
 
@@ -355,13 +436,18 @@ def konfirma(imp, user):
 			tipu_seluk=d['tipu_seluk'], tipu_rai_id=d['tipu_rai'], deskrisaun=d['deskrisaun'],
 			konsentimentu=d['konsentimentu'], la_publika=d['la_publika'], observasaun=d['observasaun'],
 			created_by=user, importasaun=imp)
+		for campo, v in d.get('rbr', {}).items():           # pergunta formuláriu RbR
+			setattr(kazu, campo, Kazu._meta.get_field(campo).to_python(v))
 		kazu.kode = generate_kode(kazu)
 		kazu.save()
 		kazu.tipu_konflitu.set(d['tipu_konflitu'])
-		if any(d.get(c) is not None for c in ('uma_kain', 'mane', 'feto', 'labarik')):
-			total = (d.get('mane') or 0) + (d.get('feto') or 0)
+		if any(d.get(c) is not None for c in ('uma_kain', 'mane', 'feto', 'labarik', 'total_ema', 'katuas_ferik', 'defisiensia')):
+			total = d.get('total_ema') or ((d.get('mane') or 0) + (d.get('feto') or 0)) or None
 			UmaKainAfetada.objects.create(kazu=kazu, uma_kain=d.get('uma_kain'), mane=d.get('mane'), feto=d.get('feto'),
-				labarik=d.get('labarik'), total_ema=total or None)
+				labarik=d.get('labarik'), total_ema=total, katuas_ferik=d.get('katuas_ferik'), defisiensia=d.get('defisiensia'))
+		if d.get('segimentu'):                              # tribunál, notifikasaun, status (dadus tuan Airtable)
+			KazuSegimentu.objects.create(kazu=kazu, updated_by=user, **{
+				c: KazuSegimentu._meta.get_field(c).to_python(v) for c, v in d['segimentu'].items()})
 		_historia(kazu, user, '', SYNCED, _('Import Excel: %(f)s · liña %(n)s') % {'f': imp.naran_file, 'n': r['lina']})
 		kria += 1
 	imp.status = KazuImport.REMATA

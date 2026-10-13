@@ -29,7 +29,7 @@ class PortalBase(TestCase):
 		self.inv = make_user(INVESTIGADOR)
 		self.dil = Munisipiu.objects.get(code='DIL')
 		self.liq = Munisipiu.objects.get(code='LIQ')
-		self.tipu = TipuKonflitu.objects.get(code='DESLOKAMENTU')
+		self.tipu = TipuKonflitu.objects.get(code='GOV-RAI-ESTADU')
 		self.n = 0
 		# Dili: 4 aprovadu · Liquiçá: 2 aprovadu (tenke subar "< 3")
 		for _i in range(4):

@@ -344,9 +344,29 @@
 			postu: '', suku: '', aldeia: '', latitude: null, longitude: null, gps_akurasia: null,
 			data_akontesimentu: '', tipu_konflitu: [], tipu_seluk: '', tipu_rai: '', deskrisaun: '',
 			afetadu: {}, insidente: null, ator: [], estragu: [], estragu_seluk: '', nesesidade: [],
-			konsentimentu: false, la_publika: false, observasaun: ''
+			konsentimentu: false, la_publika: false, observasaun: '', rai_luan_unidade: 'M2'
 		};
 	}
+
+	// Kampu simples (formuláriu RbR): input/select ho data-kampu — enxe no lee automátiku
+	function enxeKampu(k) {
+		document.querySelectorAll('[data-kampu]').forEach(function (el) {
+			var v = k[el.dataset.kampu];
+			el.value = v == null ? (el.tagName === 'SELECT' && el.options.length ? el.options[0].value : '') : v;
+		});
+	}
+	function leeKampu(k) {
+		document.querySelectorAll('[data-kampu]').forEach(function (el) {
+			var v = el.value.trim();
+			if (el.dataset.tipu === 'int') v = v === '' ? null : parseInt(v, 10);
+			else if (el.dataset.tipu === 'decimal') v = v === '' ? null : parseFloat(v);
+			k[el.dataset.kampu] = v;
+		});
+	}
+	var KAMPU_RBR = ['enderesu_fatin', 'rai_luan', 'rai_luan_unidade', 'tinan_disputa_hahu', 'projetu', 'entidade_foti',
+		'entidade_kategoria', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
+		'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
+		'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun'];
 
 	$('btn-foun').addEventListener('click', function () {
 		if (!permValidu()) { msg('Autorizasaun offline remata. Labele kria kazu foun.'); return; }
@@ -403,6 +423,8 @@
 		$('f-observasaun').value = k.observasaun || '';
 		$('f-konsentimentu').checked = !!k.konsentimentu;
 		$('f-la_publika').checked = !!k.la_publika;
+		enxeKampu(k);
+		$('f-maps-link').value = ''; $('maps-link-msg').textContent = '';
 		hatuduSeluk();
 		hatuduMedia();
 	}
@@ -473,6 +495,7 @@
 		k.observasaun = $('f-observasaun').value.trim();
 		k.konsentimentu = $('f-konsentimentu').checked;
 		k.la_publika = $('f-la_publika').checked;
+		leeKampu(k);
 		return k;
 	}
 
@@ -565,11 +588,24 @@
 		var afe = k.afetadu || {};
 		$('rezumu').innerHTML = '<div class="sub-box"><b>Rezumu</b><br>' +
 			'Fatin: ' + esc(naranSuku(k.suku)) + ', ' + esc(S.opsaun.munisipiu.name) + '<br>' +
-			'GPS: ' + (k.latitude != null ? k.latitude.toFixed(5) + ', ' + k.longitude.toFixed(5) + ' (±' + k.gps_akurasia + ' m)' : '-') + '<br>' +
+			'GPS: ' + (k.latitude != null ? k.latitude.toFixed(5) + ', ' + k.longitude.toFixed(5) + (k.gps_akurasia == null ? '' : ' (±' + k.gps_akurasia + ' m)') : '-') + '<br>' +
 			'Uma-kain: ' + (afe.uma_kain == null ? '-' : afe.uma_kain) + ' · Ema: ' + (afe.total_ema == null ? '-' : afe.total_ema) + '<br>' +
 			'Foto: ' + foto + '/' + MAX_FOTO + ' · Vídeo: ' + video + '/' + MAX_VIDEO +
 			(k.nesesidade.length ? '<br><span class="badge badge-urjente">URJENTE</span>' : '') + '</div>';
 	}
+
+	// ══════════════ GPS husi link Google Maps (pindrop) ══════════════
+	$('f-maps-link').addEventListener('input', function () {
+		var r = SMKREMapsLink.lee(this.value), m = $('maps-link-msg');
+		var erru = { badak: 'Link badak la bele lee. Loke link, kopia link naruk husi barra enderesu.', liur: "Koordenada li'ur Timor-Leste.", la_hetan: "La hetan koordenada iha link ne'e." };
+		if (r.lat !== undefined) {
+			S.kazu.latitude = r.lat; S.kazu.longitude = r.lng; S.kazu.gps_akurasia = null;
+			hatuduGPS();
+			m.className = 'form-text text-success'; m.textContent = 'Koordenada hatama husi link.';
+		} else {
+			m.className = 'form-text text-danger'; m.textContent = r.erru ? erru[r.erru] : '';
+		}
+	});
 
 	// ══════════════ GPS ══════════════
 	var gpsWatch = null, gpsTimer = null;
@@ -577,8 +613,8 @@
 	function hatuduGPS() {
 		var k = S.kazu, info = $('gps-info');
 		if (k.latitude == null) { info.className = 'small mt-1 text-muted'; info.textContent = 'Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m.'; return; }
-		info.className = 'small mt-1 ' + (k.gps_akurasia <= GPS_MAX ? 'text-success' : 'text-danger');
-		info.innerHTML = '<i class="fa fa-check"></i> ' + k.latitude.toFixed(6) + ', ' + k.longitude.toFixed(6) + ' · akurasia ±' + k.gps_akurasia + ' m';
+		info.className = 'small mt-1 ' + (k.gps_akurasia == null || k.gps_akurasia <= GPS_MAX ? 'text-success' : 'text-danger');
+		info.innerHTML = '<i class="fa fa-check"></i> ' + k.latitude.toFixed(6) + ', ' + k.longitude.toFixed(6) + (k.gps_akurasia == null ? ' · husi link mapa' : ' · akurasia ±' + k.gps_akurasia + ' m');
 	}
 
 	function paraGPS() {
@@ -697,7 +733,9 @@
 	function payload(k) {
 		var afe = k.afetadu || {};
 		var temAfetadu = Object.keys(afe).some(function (x) { return afe[x] != null; });
-		return {
+		var rbr = {};
+		KAMPU_RBR.forEach(function (c) { if (k[c] != null && k[c] !== '') rbr[c] = k[c]; });
+		return Object.assign(rbr, {
 			id: k.id, kria_iha: k.kria_iha, titulu: k.titulu, data_relatoriu: k.data_relatoriu,
 			postu: k.postu, suku: k.suku, aldeia: k.aldeia,
 			latitude: k.latitude, longitude: k.longitude, gps_akurasia: k.gps_akurasia,
@@ -705,7 +743,7 @@
 			tipu_rai: k.tipu_rai, deskrisaun: k.deskrisaun, estragu: k.estragu, estragu_seluk: k.estragu_seluk,
 			nesesidade: k.nesesidade, konsentimentu: k.konsentimentu, la_publika: !!k.la_publika, observasaun: k.observasaun,
 			afetadu: temAfetadu ? [afe] : [], insidente: k.insidente ? [k.insidente] : [], ator: k.ator || []
-		};
+		});
 	}
 
 	function markaErru(r, erru) {

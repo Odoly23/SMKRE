@@ -29,11 +29,13 @@ class Command(BaseCommand):
 		]
 		for model, items in lista:
 			for i, item in enumerate(items, start=1):
-				defaults = {'name': item[1], 'order': i}
+				defaults = {'name': item[1], 'order': i, 'is_active': True}
 				if len(item) > 2:
 					defaults['presiza_esplika'] = item[2]
 				model.objects.update_or_create(code=item[0], defaults=defaults)
 			self.stdout.write(f'  {model._meta.verbose_name}: {len(items)}')
+		# Tipu konflitu tuan: desativa (kazu tuan mantein nia tipu, maibé la mosu tan iha formuláriu)
+		TipuKonflitu.objects.filter(code__in=opsaun.TIPU_KONFLITU_TUAN).update(is_active=False)
 
 		# 3. Munisípiu no Postu Administrativu
 		with open(DATA_DIR / 'munisipiu.csv', encoding='utf-8') as f:

@@ -10,12 +10,18 @@ POZISAUN = [
 ]
 
 TIPU_KONFLITU = [
-	('DESLOKAMENTU', 'Deslokamentu Forsadu', False),
-	('TRADISIONAL', 'Konflitu Rai Tradisionál', False),
-	('AKIZISAUN', 'Akizisaun Rai ba Projetu Dezenvolvimentu', False),
-	('FRONTEIRA', 'Disputa Fronteira Rai', False),
-	('SELUK', 'Seluk (favor espesifika)', True),
+	# Tuir formuláriu baze dadus sentrál RbR (Airtable)
+	('IND-KOMUNIDADE', 'Disputa entre indivíduu ho komunidade', False),
+	('IND-IND', 'Disputa entre indivíduu ho indivíduu', False),
+	('GOV-RAI-PRIVADU', 'Governu foti komunidade nia rai privadu', False),
+	('GOV-RAI-ESTADU', 'Governu hasai komunidade husi rai estadu', False),
+	('KOM-KOM', 'Disputa entre komunidade ho komunidade', False),
+	('ENTIDADE-LEGAL', 'Disputa entre entidade legál (kompañia, partidu, igreja) no komunidade ka indivíduu', False),
+	('GOV-RAI-ABANDONADU', 'Governu hasai komunidade husi rai abandonadu ka rai estatutu la klaru', False),
+	('SELUK', 'Seluk (favor esplika)', True),
 ]
+# Tipu tuan (versaun uluk SMKRE): la hatudu tan iha formuláriu, kazu tuan sei mantein
+TIPU_KONFLITU_TUAN = ['DESLOKAMENTU', 'TRADISIONAL', 'AKIZISAUN', 'FRONTEIRA']
 
 TIPU_RAI = [
 	('ESTADU', 'Rai Estadu'),

@@ -34,6 +34,7 @@ ROLE_POLICY_KRIA  = [SUPERADMIN, ADMIN, ANALISTA]
 ROLE_POLICY_PUBLIKA = [SUPERADMIN, ADMIN]
 ROLE_USER_MANAGE  = [SUPERADMIN, ADMIN]
 ROLE_OFFLINE_FO   = [ADMIN]
+ROLE_SEGIMENTU    = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Segimentu kazu: tribunál, notifikasaun, status rezolusaun
 ROLE_IMPORT_KAZU  = [ADMIN]                  # Import Excel + hadia lokasaun iha mapa
 
 

@@ -56,7 +56,7 @@ class SinkronBase(TestCase):
 			'id': str(uuid.uuid4()), 'kria_iha': timezone.now().isoformat(),
 			'titulu': 'Eviksaun Maubara', 'data_relatoriu': hoje, 'postu': self.postu.pk, 'suku': self.suku.pk, 'aldeia': '',
 			'latitude': -8.6121234567, 'longitude': 125.2107654321, 'gps_akurasia': 9,
-			'data_akontesimentu': hoje, 'tipu_konflitu': [TipuKonflitu.objects.get(code='DESLOKAMENTU').pk],
+			'data_akontesimentu': hoje, 'tipu_konflitu': [TipuKonflitu.objects.get(code='GOV-RAI-ESTADU').pk],
 			'deskrisaun': 'Familia 15 hetan avizu atu sai.', 'konsentimentu': True,
 			'nesesidade': [NesesidadeUrjente.objects.get(code='APOIU-LEGAL').pk],
 			'afetadu': [{'uma_kain': 15, 'total_ema': 72, 'mane': 34, 'feto': 38}],
@@ -173,6 +173,15 @@ class EvidensiaSinkronTest(SinkronBase):
 		self.assertTrue(ev.file.name.endswith('.mp4'))
 		r = self.upload(data['id'])
 		self.assertTrue(Evidensia.objects.get(kazu_id=data['id'], tipu='FOTO').file)
+
+
+class KampuRbrSinkronTest(SinkronBase):
+	def test_kampu_rbr_husi_hp(self):
+		data = self.payload(tinan_disputa_hahu=2018, eviksaun_akontese='SIN', uza_forsa='LAE', portavos_naran='Maria',
+			rai_luan=1200, rai_luan_unidade='M2', entidade_kategoria='KOMPANIA_NASIONAL')
+		self.assertEqual(self.send(data).status_code, 201)
+		k = Kazu.objects.get(pk=data['id'])
+		self.assertEqual((k.tinan_disputa_hahu, k.eviksaun_akontese, k.portavos_naran, k.entidade_kategoria), (2018, 'SIN', 'Maria', 'KOMPANIA_NASIONAL'))
 
 
 class AutorizasaunSinkronTest(SinkronBase):

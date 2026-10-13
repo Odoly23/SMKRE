@@ -40,7 +40,7 @@ class Command(BaseCommand):
 				p = Pesoal.objects.create(name=f'Investigadór Demo {m.name}', email=email, sexo=rnd.choice(['Mane', 'Feto']), munisipiu=m)
 				PesoalUser.objects.create(pesoal=p, user=u, must_change_password=False)
 			invs.append((m, u))
-		tipus, rais, eviks, ators = list(TipuKonflitu.objects.exclude(code='SELUK')), list(TipuRai.objects.all()), list(TipuEviksaun.objects.all()), list(TipuAtor.objects.all())
+		tipus, rais, eviks, ators = list(TipuKonflitu.active.exclude(code='SELUK')), list(TipuRai.objects.all()), list(TipuEviksaun.objects.all()), list(TipuAtor.objects.all())
 		nes, est = list(NesesidadeUrjente.objects.all()), list(EstraguPatrimoniu.objects.all())
 		pesu_m = [PESU_MUN.get(m.code, 1) for m, _u in invs]
 		hoje = timezone.localdate()
@@ -68,7 +68,7 @@ class Command(BaseCommand):
 			mane, feto = rnd.randint(3, 60), rnd.randint(3, 60)
 			UmaKainAfetada.objects.create(kazu=k, uma_kain=rnd.randint(1, 30), total_ema=mane + feto, mane=mane, feto=feto,
 				labarik=rnd.randint(0, (mane + feto) // 2), katuas_ferik=rnd.randint(0, 10), defisiensia=rnd.randint(0, 3))
-			if any(t.code == 'DESLOKAMENTU' for t in k.tipu_konflitu.all()):
+			if any(t.code in ('GOV-RAI-ESTADU', 'GOV-RAI-ABANDONADU') for t in k.tipu_konflitu.all()):
 				InsidenteEviksaun.objects.create(kazu=k, tipu_eviksaun=rnd.choice(eviks), loron_avizu=rnd.randint(0, 30), forsa_seguransa=rnd.random() < 0.5)
 			AtorEnvolvidu.objects.create(kazu=k, tipu_ator=rnd.choice(ators))
 			KazuHistoria.objects.create(kazu=k, user=u, tipu=KazuHistoria.EDITA, status_foun=status, nota='KRIA')

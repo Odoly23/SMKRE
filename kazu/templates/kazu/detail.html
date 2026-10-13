@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n l10n %}
+{% load i18n l10n crispy_forms_tags %}
 {% block content %}
 	<ol class="breadcrumb mb-2 mt-1">
 		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
@@ -19,10 +19,12 @@
 			<div class="card card-rbr mb-3"><div class="card-body">
 				<h3 class="h-line">{% trans "Identifikasaun no Fatin" %}</h3>
 				<table class="table table-sm table-detail mb-0">
-					<tr><th>{% trans "Data Relatóriu" %}</th><td>{{ obj.data_relatoriu|date:"d/m/Y"|default:"-" }}</td></tr>
+					<tr><th>{% trans "Data simu kazu iha RbR" %}</th><td>{{ obj.data_relatoriu|date:"d/m/Y"|default:"-" }}</td></tr>
 					<tr><th>{% trans "Investigadór" %}</th><td>{{ obj.created_by.pesoaluser.pesoal|default:obj.created_by.username }}</td></tr>
 					<tr><th>{% trans "Fatin" %}</th><td>{{ obj.aldeia|default:"" }}{% if obj.aldeia %}, {% endif %}{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.postu|default:"" }}{% if obj.postu %}, {% endif %}{{ obj.munisipiu }}</td></tr>
 					<tr><th>{% trans "Koordenada GPS" %}</th><td>{% if obj.latitude %}{{ obj.latitude }}, {{ obj.longitude }} <small class="text-muted">(± {{ obj.gps_akurasia|default:"?" }} m)</small>{% if can_mapa %} <a href="{% url 'report-mapa' %}#{{ obj.latitude|unlocalize }},{{ obj.longitude|unlocalize }}" class="btn btn-sm btn-outline-rbr ml-1"><i class="fa fa-map-marker"></i> {% trans "Haree iha mapa" %}</a>{% endif %}{% if obj.gps_aproksimadu %} <span class="badge badge-warning">{% trans "GPS aproksimadu" %}</span>{% endif %}{% if can_lokasaun %} <a href="{% url 'kazu-lokasaun' obj.pk %}" class="btn btn-sm {% if obj.gps_aproksimadu %}btn-warning{% else %}btn-outline-secondary{% endif %} ml-1"><i class="fa fa-arrows"></i> {% trans "Hadia lokasaun" %}</a>{% endif %}{% if obj.importasaun_id %} <span class="badge badge-info">{% trans "Import Excel" %}</span>{% endif %}{% else %}<span class="text-danger">{% trans "Seidauk iha" %}</span>{% endif %}</td></tr>
+					{% if obj.enderesu_fatin %}<tr><th>{% trans "Enderesu ka deskrisaun fatin" %}</th><td>{{ obj.enderesu_fatin }}</td></tr>{% endif %}
+					{% if obj.rai_luan %}<tr><th>{% trans "Rai nia luan" %}</th><td>{{ obj.rai_luan }} {{ obj.get_rai_luan_unidade_display }}</td></tr>{% endif %}
 				</table>
 			</div></div>
 
@@ -33,6 +35,9 @@
 					<tr><th>{% trans "Data Akontesimentu" %}</th><td>{{ obj.data_akontesimentu|date:"d/m/Y"|default:"-" }}</td></tr>
 					<tr><th>{% trans "Tipu Konflitu Rai" %}</th><td>{% for t in obj.tipu_konflitu.all %}<span class="badge badge-light border">{{ t.name }}</span> {% empty %}-{% endfor %}{% if obj.tipu_seluk %}<br><small>{{ obj.tipu_seluk }}</small>{% endif %}</td></tr>
 					<tr><th>{% trans "Tipu Rai" %}</th><td>{{ obj.tipu_rai|default:"-" }}</td></tr>
+					{% if obj.tinan_disputa_hahu %}<tr><th>{% trans "Tinan disputa hahú" %}</th><td>{{ obj.tinan_disputa_hahu|unlocalize }}</td></tr>{% endif %}
+					{% if obj.projetu %}<tr><th>{% trans "Projetu" %}</th><td>{{ obj.projetu }}</td></tr>{% endif %}
+					{% if obj.entidade_foti or obj.entidade_kategoria %}<tr><th>{% trans "Entidade ne'ebé foti rai" %}</th><td>{{ obj.entidade_foti|default:"" }}{% if obj.entidade_kategoria %} <span class="badge badge-light border">{{ obj.get_entidade_kategoria_display }}</span>{% endif %}</td></tr>{% endif %}
 				</table>
 				<p class="mb-0 pre-line">{{ obj.deskrisaun|default:"-" }}</p>
 				{% for i in obj.insidente.all %}
@@ -54,10 +59,54 @@
 					<div><b>{{ af.mane|default:"-" }}</b><span>{% trans "Mane" %}</span></div>
 					<div><b>{{ af.feto|default:"-" }}</b><span>{% trans "Feto" %}</span></div>
 					<div><b>{{ af.labarik|default:"-" }}</b><span>{% trans "Labarik" %}</span></div>
-					<div><b>{{ af.katuas_ferik|default:"-" }}</b><span>{% trans "Katuas-Ferik" %}</span></div>
+					<div><b>{{ af.katuas_ferik|default:"-" }}</b><span>{% trans "Idozu (60+)" %}</span></div>
 					<div><b>{{ af.defisiensia|default:"-" }}</b><span>{% trans "Defisiénsia" %}</span></div>
 				</div>
 				{% endfor %}
+			</div></div>
+
+			<!-- Populasaun (dadus jerál), eviksaun no portavós -->
+			{% if obj.iha_dadus_uma_kain or obj.fonte_dadus_uma_kain or obj.observasaun_afetadu or obj.eviksaun_akontese or obj.portavos_naran %}
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h3 class="h-line">{% trans "Eviksaun no Komunidade" %}</h3>
+				<table class="table table-sm table-detail mb-0">
+					{% if obj.iha_dadus_uma_kain %}<tr><th>{% trans "Dadus uma-kain iha?" %}</th><td>{{ obj.get_iha_dadus_uma_kain_display }}{% if obj.fonte_dadus_uma_kain %} · {% trans "Fonte" %}: {{ obj.fonte_dadus_uma_kain }}{% endif %}</td></tr>{% endif %}
+					{% if obj.observasaun_afetadu %}<tr><th>{% trans "Observasaun ema afetadu" %}</th><td class="pre-line">{{ obj.observasaun_afetadu }}</td></tr>{% endif %}
+					{% if obj.eviksaun_akontese %}<tr><th>{% trans "Eviksaun akontese ona?" %}</th><td>{{ obj.get_eviksaun_akontese_display }}{% if obj.data_eviksaun %} · {{ obj.data_eviksaun|date:"d/m/Y" }}{% endif %}</td></tr>{% endif %}
+					{% if obj.konsultasaun_molok %}<tr><th>{% trans "Konsultasaun molok eviksaun" %}</th><td>{{ obj.get_konsultasaun_molok_display }}</td></tr>{% endif %}
+					{% if obj.notifikasaun_klaru %}<tr><th>{% trans "Notifikasaun klaru" %}</th><td>{{ obj.get_notifikasaun_klaru_display }}</td></tr>{% endif %}
+					{% if obj.uza_forsa %}<tr><th>{% trans "Uza forsa" %}</th><td>{{ obj.get_uza_forsa_display }}</td></tr>{% endif %}
+					{% if obj.observasaun_eviksaun %}<tr><th>{% trans "Observasaun eviksaun" %}</th><td class="pre-line">{{ obj.observasaun_eviksaun }}</td></tr>{% endif %}
+					{% if obj.portavos_naran %}<tr><th>{% trans "Portavós komunidade" %}</th><td>{{ obj.portavos_naran }}{% if obj.portavos_kontaktu %} · {{ obj.portavos_kontaktu }}{% endif %}{% if obj.portavos_observasaun %}<br><small class="text-muted">{{ obj.portavos_observasaun }}</small>{% endif %}</td></tr>{% endif %}
+				</table>
+			</div></div>
+			{% endif %}
+
+			<!-- Segimentu kazu (eskritóriu RbR) -->
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<div class="d-flex justify-content-between align-items-center"><h3 class="h-line mb-2">{% trans "Segimentu Kazu" %}</h3>
+				{% if can_segimentu %}<a href="{% url 'kazu-segimentu' obj.pk %}" class="btn btn-sm btn-outline-rbr"><i class="fa fa-pencil"></i> {% trans "Atualiza segimentu" %}</a>{% endif %}</div>
+				{% if segimentu %}
+				<table class="table table-sm table-detail mb-2">
+					<tr><th>{% trans "Status rezolusaun" %}</th><td>{{ segimentu.get_status_rezolusaun_display|default:"-" }}{% if segimentu.data_ikus_cek %} <small class="text-muted">· {% trans "cek ikus" %} {{ segimentu.data_ikus_cek|date:"d/m/Y" }}</small>{% endif %}</td></tr>
+					<tr><th>{% trans "Desizaun RbR" %}</th><td>{{ segimentu.get_desizaun_rbr_display|default:"-" }}{% if segimentu.observasaun_kazu %}<br><small class="pre-line">{{ segimentu.observasaun_kazu }}</small>{% endif %}</td></tr>
+					{% if segimentu.tribunal_rejistu %}<tr><th>{% trans "Tribunál" %}</th><td>{{ segimentu.get_tribunal_rejistu_display }}{% if segimentu.tribunal_data %} · {{ segimentu.tribunal_data|date:"d/m/Y" }}{% endif %}{% if segimentu.tribunal_desizaun %} · {% trans "Desizaun" %}: {{ segimentu.get_tribunal_desizaun_display }}{% if segimentu.tribunal_desizaun_data %} ({{ segimentu.tribunal_desizaun_data|date:"d/m/Y" }}){% endif %}{% endif %}{% if segimentu.tribunal_representa %}<br><small>{% trans "Reprezenta" %}: {{ segimentu.tribunal_representa }}</small>{% endif %}{% if segimentu.advogadu_kontaktu %}<br><small>{% trans "Advogadu" %}: {{ segimentu.advogadu_kontaktu }}</small>{% endif %}{% if segimentu.tribunal_observasaun %}<br><small class="text-muted pre-line">{{ segimentu.tribunal_observasaun }}</small>{% endif %}</td></tr>{% endif %}
+					{% if segimentu.notif_simu %}<tr><th>{% trans "Notifikasaun" %}</th><td>{{ segimentu.get_notif_simu_display }}{% if segimentu.notif_data %} · {{ segimentu.notif_data|date:"d/m/Y" }}{% endif %}{% if segimentu.notif_husi %} · {% trans "husi" %} {{ segimentu.notif_husi }}{% endif %}{% if segimentu.notif_observasaun %}<br><small class="text-muted pre-line">{{ segimentu.notif_observasaun }}</small>{% endif %}</td></tr>{% endif %}
+					{% if segimentu.fokal_naran %}<tr><th>{% trans "Fokal point RbR" %}</th><td>{{ segimentu.fokal_naran }}{% if segimentu.fokal_telemovel %} · {{ segimentu.fokal_telemovel }}{% endif %}{% if segimentu.fokal_tipu %} · {{ segimentu.get_fokal_tipu_display }}{% endif %}{% if segimentu.fokal_organizasaun %}<br><small>{{ segimentu.fokal_organizasaun }}{% if segimentu.fokal_enderesu %}, {{ segimentu.fokal_enderesu }}{% endif %}</small>{% endif %}</td></tr>{% endif %}
+					{% if segimentu.org_seluk %}<tr><th>{% trans "Organizasaun seluk" %}</th><td>{{ segimentu.org_seluk }}{% if segimentu.org_seluk_naran %} · {{ segimentu.org_seluk_naran }}{% endif %}{% if segimentu.org_seluk_kontaktu %} · {{ segimentu.org_seluk_kontaktu }}{% endif %}</td></tr>{% endif %}
+				</table>
+				{% else %}<p class="text-muted small">{% trans "Seidauk iha dadus segimentu." %}</p>{% endif %}
+
+				<h4 class="form-sub">{% trans "Akompañamentu ba Kazu" %}</h4>
+				{% for a in akompanamentu %}
+				<div class="sub-card mb-2"><b>{{ a.data|date:"d/m/Y" }}</b> · <span class="pre-line">{{ a.asaun }}</span><br><small class="text-muted">{{ a.created_by.email|default:"" }}</small></div>
+				{% empty %}<p class="text-muted small">{% trans "Seidauk iha akompañamentu." %}</p>{% endfor %}
+				{% if akomp_form %}
+				<form method="post" action="{% url 'kazu-akompanamentu' obj.pk %}" class="mt-2">{% csrf_token %}
+					{% crispy akomp_form %}
+					<button type="submit" class="btn btn-sm btn-rbr"><i class="fa fa-plus"></i> {% trans "Aumenta akompañamentu" %}</button>
+				</form>
+				{% endif %}
 			</div></div>
 
 			<!-- 4–6 -->

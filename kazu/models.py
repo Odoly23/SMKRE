@@ -23,6 +23,19 @@ STATUS_CHOICES = [
 	(REJECTED, _('Rejeitadu')),
 	(CANCELED, _('Kanseladu')),
 ]
+# Opsaun husi formuláriu baze dadus sentrál RbR (Airtable) — Sin / Lae / La hatene
+SIN, LAE, LAHATENE = 'SIN', 'LAE', 'LAHATENE'
+SIN_LAE_CHOICES = [(SIN, _('Sin')), (LAE, _('Lae')), (LAHATENE, _('La hatene'))]
+
+ENTIDADE_CHOICES = [
+	('AJENSIA_AUTONOMU', _('Ajénsia Autónomu')), ('CCLN_VETERANU', _('CCLN-Veteranu')),
+	('EMPREZA_PUBLIKU', _('Empreza Públiku')), ('GOVERNU', _('Governu')),
+	('KOMPANIA_INTERNASIONAL', _('Kompañia Internasionál')), ('KOMPANIA_NASIONAL', _('Kompañia Nasionál')),
+	('KONVENSAUN_RELIJIOZU', _('Konvensaun Relijiozu')), ('PARTIDU_POLITIKU', _('Partidu Polítiku')),
+	('PNTL_FFDTL', _('PNTL / F-FDTL')), ('SELUK', _('Seluk')), ('LAHATENE', _('La hatene')),
+]
+RAI_UNIDADE_CHOICES = [('M2', _('Metru kuadradu (m²)')), ('HA', _('Hektar (ha)'))]
+
 STATUS_EDITABLE = [DRAFT, ONGOING, PENDING, REJECTED]     # Investigadór bele edita
 STATUS_SUBMITTED = [SYNCED, VERIFIED, APPROVED, COMPLETED]
 
@@ -46,12 +59,12 @@ class Kazu(models.Model):
 	# UUID: bele kria iha HP (offline) la iha risku ID bentrok
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	kode = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("ID Kazu"))
-	titulu = models.CharField(max_length=200, blank=True, verbose_name=_("Títulu kazu"))
+	titulu = models.CharField(max_length=200, blank=True, verbose_name=_("Naran kazu"))
 	status = models.CharField(max_length=12, choices=STATUS_CHOICES, default=DRAFT, db_index=True, verbose_name=_("Status Dadus"))
 	status_kazu = models.CharField(max_length=15, choices=STATUS_KAZU_CHOICES, default=ABERTU, db_index=True, verbose_name=_("Status Kazu"))
 
 	# Identifikasaun no lokalizasaun (A.2)
-	data_relatoriu = models.DateField(null=True, blank=True, verbose_name=_("Data Relatóriu"))
+	data_relatoriu = models.DateField(null=True, blank=True, verbose_name=_("Data simu kazu iha RbR"))
 	munisipiu = models.ForeignKey(Munisipiu, on_delete=models.PROTECT, related_name='kazu_set', verbose_name=_("Munisípiu"))
 	postu = models.ForeignKey(PostuAdministrativu, on_delete=models.PROTECT, null=True, blank=True, verbose_name=_("Postu Administrativu"))
 	suku = models.ForeignKey(Suku, on_delete=models.PROTECT, null=True, blank=True, verbose_name=_("Suku"))
@@ -59,13 +72,38 @@ class Kazu(models.Model):
 	latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, verbose_name=_("Latitude"))
 	longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, verbose_name=_("Longitude"))
 	gps_akurasia = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Akurasia GPS (m)"))
+	enderesu_fatin = models.CharField(max_length=255, blank=True, verbose_name=_("Enderesu ka deskrisaun fatin"))
+	rai_luan = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, verbose_name=_("Rai nia luan"))
+	rai_luan_unidade = models.CharField(max_length=2, choices=RAI_UNIDADE_CHOICES, default='M2', blank=True, verbose_name=_("Unidade"))
 
 	# Insidente (A.1)
 	data_akontesimentu = models.DateField(null=True, blank=True, verbose_name=_("Data Akontesimentu"))
 	tipu_konflitu = models.ManyToManyField(TipuKonflitu, blank=True, verbose_name=_("Tipu Konflitu Rai"))
-	tipu_seluk = models.CharField(max_length=255, blank=True, verbose_name=_("Seluk: favor esplika"))
+	tipu_seluk = models.CharField(max_length=255, blank=True, verbose_name=_("Observasaun kona-ba tipu kazu"))
+	tinan_disputa_hahu = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name=_("Tinan disputa hahú entre parte rua"))
+	projetu = models.CharField(max_length=255, blank=True, verbose_name=_("Projetu (se Governu foti rai: atu hari'i saida?)"))
+	entidade_foti = models.CharField(max_length=255, blank=True, verbose_name=_("Entidade ne'ebé foti rai"))
+	entidade_kategoria = models.CharField(max_length=25, choices=ENTIDADE_CHOICES, blank=True, verbose_name=_("Entidade benefisiáriu (kategoria)"))
 	tipu_rai = models.ForeignKey(TipuRai, on_delete=models.PROTECT, null=True, blank=True, verbose_name=_("Tipu Rai"))
 	deskrisaun = models.TextField(blank=True, verbose_name=_("Deskrisaun Insidente"))
+
+	# Populasaun afetada (dadus jerál; detalla iha UmaKainAfetada)
+	iha_dadus_uma_kain = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Dadus uma-kain iha ka lae?"))
+	fonte_dadus_uma_kain = models.CharField(max_length=150, blank=True, verbose_name=_("Fonte dadus uma-kain"))
+	observasaun_afetadu = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba dadus ema afetadu"))
+
+	# Eviksaun
+	eviksaun_akontese = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Eviksaun akontese ona?"))
+	data_eviksaun = models.DateField(null=True, blank=True, verbose_name=_("Data eviksaun"))
+	konsultasaun_molok = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Molok eviksaun iha konsultasaun ka lae?"))
+	notifikasaun_klaru = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Molok eviksaun iha notifikasaun klaru ka lae?"))
+	uza_forsa = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Durante eviksaun uza forsa ka lae?"))
+	observasaun_eviksaun = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba eviksaun"))
+
+	# Portavós komunidade
+	portavos_naran = models.CharField(max_length=150, blank=True, verbose_name=_("Naran portavós komunidade"))
+	portavos_kontaktu = models.CharField(max_length=50, blank=True, verbose_name=_("Númeru kontaktu portavós"))
+	portavos_observasaun = models.CharField(max_length=255, blank=True, verbose_name=_("Observasaun kona-ba portavós"))
 
 	# Estragu, urjente, konsentimentu (Anexu E)
 	estragu = models.ManyToManyField(EstraguPatrimoniu, blank=True, verbose_name=_("Estragu Patrimóniu"))
@@ -140,7 +178,7 @@ class UmaKainAfetada(models.Model):
 	mane = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Mane"))
 	feto = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Feto"))
 	labarik = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Labarik"))
-	katuas_ferik = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Katuas-Ferik"))
+	katuas_ferik = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Idozu (tinan 60 ba leten)"))
 	defisiensia = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Ema ho Defisiénsia"))
 
 	class Meta:
@@ -202,6 +240,73 @@ class Evidensia(models.Model):
 	@property
 	def is_image(self):
 		return self.file.name.lower().rsplit('.', 1)[-1] in ('jpg', 'jpeg', 'png', 'webp')
+
+
+# ══════════════ SEGIMENTU KAZU (eskritóriu: tribunál, notifikasaun, status rezolusaun) ══════════════
+class KazuSegimentu(models.Model):
+	# Dadus akompañamentu ne'ebé eskritóriu RbR atualiza durante kazu nia moris (la'ós Investigadór)
+	FOKAL_TIPU_CHOICES = [('MEMBRU', _('Membru')), ('MEMBRU_LA_ATIVU', _("Membru ne'ebé la ativu ona")),
+		('MEMBRU_SEKRETARIADU', _('Membru no Sekretariadu')), ('SEKRETARIADU', _('Sekretariadu RbR')), ('LAHATENE', _('La hatene'))]
+	TRIBUNAL_CHOICES = [('LAE', _('Lae')), ('SIN', _('Sin')), ('LAHATENE', _('La hatene')), ('DADAUN', _('Agora dadaun rejistu hela iha tribunál'))]
+	REZOLUSAUN_CHOICES = [
+		('ABANDONA', _('Abandona')), ('BALU_RESOLVE', _('Claim balu resolve, balu seidauk')),
+		('LAHATENE', _('La hatene status atuál')), ('RES_FAMILIA', _('Resolve ona - Família deit')),
+		('RES_TRIBUNAL', _('Resolve ona - Iha tribunál')), ('RES_MEDIASAUN', _('Resolve ona - Liuhusi mediasaun')),
+		('RES_ABANDONA', _('Resolve ona - Parte seluk abandona disputa')), ('RES_KOMPENSASAUN', _('Resolve ona - Simu kompensasaun')),
+		('SEIDAUK', _('Seidauk resolve')),
+	]
+	DESIZAUN_RBR_CHOICES = [('ARKIVU', _('Arkivu')), ('MONITORIZASAUN', _('Monitorizasaun')), ('ADVOKASIA', _('Advokasia ativu'))]
+
+	kazu = models.OneToOneField(Kazu, on_delete=models.CASCADE, related_name='segimentu')
+	# Fokal point RbR
+	fokal_naran = models.CharField(max_length=150, blank=True, verbose_name=_("Naran fokal point RbR"))
+	fokal_telemovel = models.CharField(max_length=50, blank=True, verbose_name=_("Númeru telemóvel fokal point"))
+	fokal_organizasaun = models.CharField(max_length=150, blank=True, verbose_name=_("Organizasaun"))
+	fokal_enderesu = models.CharField(max_length=255, blank=True, verbose_name=_("Enderesu organizasaun"))
+	fokal_tipu = models.CharField(max_length=20, choices=FOKAL_TIPU_CHOICES, blank=True, verbose_name=_("Tipu fokal point"))
+	# Organizasaun seluk ne'ebé akompaña
+	org_seluk = models.CharField(max_length=150, blank=True, verbose_name=_("Organizasaun seluk ne'ebé akompaña"))
+	org_seluk_naran = models.CharField(max_length=150, blank=True, verbose_name=_("Naran ema husi organizasaun seluk"))
+	org_seluk_kontaktu = models.CharField(max_length=50, blank=True, verbose_name=_("Númeru kontaktu (organizasaun seluk)"))
+	# Tribunál
+	tribunal_rejistu = models.CharField(max_length=10, choices=TRIBUNAL_CHOICES, blank=True, verbose_name=_("Rejistu iha tribunál?"))
+	tribunal_data = models.DateField(null=True, blank=True, verbose_name=_("Data rejistu iha tribunál"))
+	tribunal_representa = models.CharField(max_length=255, blank=True, verbose_name=_("Se mak rejistu ka reprezenta"))
+	advogadu_kontaktu = models.CharField(max_length=255, blank=True, verbose_name=_("Kontaktu advogadu (naran, telefone, organizasaun)"))
+	tribunal_observasaun = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba prosesu tribunál"))
+	tribunal_desizaun = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Iha ona desizaun husi tribunál?"))
+	tribunal_desizaun_data = models.DateField(null=True, blank=True, verbose_name=_("Data desizaun"))
+	# Notifikasaun
+	notif_simu = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Simu notifikasaun ona?"))
+	notif_data = models.DateField(null=True, blank=True, verbose_name=_("Data simu notifikasaun"))
+	notif_husi = models.CharField(max_length=150, blank=True, verbose_name=_("Notifikasaun husi se?"))
+	notif_observasaun = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba prosesu notifikasaun"))
+	# Status no desizaun RbR
+	data_ikus_cek = models.DateField(null=True, blank=True, verbose_name=_("Data ikus cek status kazu"))
+	status_rezolusaun = models.CharField(max_length=20, choices=REZOLUSAUN_CHOICES, blank=True, verbose_name=_("Status rezolusaun kazu"))
+	desizaun_rbr = models.CharField(max_length=15, choices=DESIZAUN_RBR_CHOICES, blank=True, verbose_name=_("Desizaun RbR ba kazu"))
+	observasaun_kazu = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba kazu (desizaun RbR)"))
+
+	updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+	updated_at = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		verbose_name = _("Segimentu Kazu")
+		verbose_name_plural = _("Segimentu Kazu")
+
+
+class KazuAkompanamentu(models.Model):
+	# Rejistu akompañamentu kazu (lista: data + saida mak halo)
+	kazu = models.ForeignKey(Kazu, on_delete=models.CASCADE, related_name='akompanamentu')
+	data = models.DateField(verbose_name=_("Data"))
+	asaun = models.TextField(verbose_name=_("Akompañamentu / asaun"))
+	created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='+')
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		ordering = ['-data', '-created_at']
+		verbose_name = _("Akompañamentu Kazu")
+		verbose_name_plural = _("Akompañamentu Kazu")
 
 
 # ══════════════ IMPORT EXCEL (Admin) ══════════════

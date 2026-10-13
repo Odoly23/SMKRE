@@ -10,7 +10,7 @@ from config.permissions import HasRole
 from config.rbac import ROLE_DASHBOARD
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.models import UmaKainAfetada, STATUS_CHOICES
-from report.utils import report_queryset, STATUS_RELATORIU, DESLOKAMENTU
+from report.utils import report_queryset, STATUS_RELATORIU, filtru_eviksaun
 
 
 class _ReportAPI(APIView):
@@ -67,7 +67,7 @@ class APIKazuTendensia(_ReportAPI):
 		months = OrderedDict(reversed(list(months.items())))
 		first = list(months.keys())[0]
 		rows = kazu.filter(data_relatoriu__gte=date(first[0], first[1], 1)).values_list('data_relatoriu', 'pk').distinct()
-		evik = set(kazu.filter(Q(tipu_konflitu__code=DESLOKAMENTU) | Q(insidente__isnull=False)).values_list('pk', flat=True))
+		evik = set(kazu.filter(filtru_eviksaun()).values_list('pk', flat=True))
 		for d, pk in rows:
 			key = (d.year, d.month)
 			if key in months:

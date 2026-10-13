@@ -2990,3 +2990,395 @@ msgid ""
 msgstr ""
 "Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 1 (60 "
 "segundu / 50 MB) · Foto kompresa automátiku."
+
+#, python-format
+msgid "\"%(c)s\": valór \"%(v)s\" la validu."
+msgstr "\"%(c)s\": valór \"%(v)s\" la validu."
+
+msgid "'Arkivu' = kazu resolve ona ka RbR refere ona ba advogadu privadu."
+msgstr "'Arkivu' = kazu resolve ona ka RbR refere ona ba advogadu privadu."
+
+msgid "Abandona"
+msgstr "Abandona"
+
+msgid "Advogadu"
+msgstr "Advogadu"
+
+msgid "Advokasia ativu"
+msgstr "Advokasia ativu"
+
+msgid "Agora dadaun rejistu hela iha tribunál"
+msgstr "Agora dadaun rejistu hela iha tribunál"
+
+msgid "Ajénsia Autónomu"
+msgstr "Ajénsia Autónomu"
+
+msgid "Akompañamentu / asaun"
+msgstr "Akompañamentu / asaun"
+
+msgid "Akompañamentu Kazu"
+msgstr "Akompañamentu Kazu"
+
+msgid "Akompañamentu aumenta ona."
+msgstr "Akompañamentu aumenta ona."
+
+msgid "Akompañamentu ba Kazu"
+msgstr "Akompañamentu ba Kazu"
+
+msgid "Atualiza segimentu"
+msgstr "Atualiza segimentu"
+
+msgid "Aumenta akompañamentu"
+msgstr "Aumenta akompañamentu"
+
+msgid "CCLN-Veteranu"
+msgstr "CCLN-Veteranu"
+
+msgid "Claim balu resolve, balu seidauk"
+msgstr "Claim balu resolve, balu seidauk"
+
+msgid ""
+"Dadus akompañamentu husi eskritóriu RbR: atualiza bainhira iha informasaun "
+"foun (tribunál, notifikasaun, status). Kada mudansa rai iha istória."
+msgstr ""
+"Dadus akompañamentu husi eskritóriu RbR: atualiza bainhira iha informasaun "
+"foun (tribunál, notifikasaun, status). Kada mudansa rai iha istória."
+
+msgid "Dadus uma-kain iha ka lae?"
+msgstr "Dadus uma-kain iha ka lae?"
+
+msgid "Dadus uma-kain iha?"
+msgstr "Dadus uma-kain iha?"
+
+msgid "Data desizaun"
+msgstr "Data desizaun"
+
+msgid "Data eviksaun"
+msgstr "Data eviksaun"
+
+msgid "Data eviksaun labele iha futuru."
+msgstr "Data eviksaun labele iha futuru."
+
+msgid "Data ikus cek status kazu"
+msgstr "Data ikus cek status kazu"
+
+msgid "Data labele iha futuru."
+msgstr "Data labele iha futuru."
+
+msgid "Data rejistu iha tribunál"
+msgstr "Data rejistu iha tribunál"
+
+msgid "Data simu kazu iha RbR"
+msgstr "Data simu kazu iha RbR"
+
+msgid "Data simu notifikasaun"
+msgstr "Data simu notifikasaun"
+
+msgid "Desizaun"
+msgstr "Desizaun"
+
+msgid "Desizaun RbR"
+msgstr "Desizaun RbR"
+
+msgid "Desizaun RbR ba kazu"
+msgstr "Desizaun RbR ba kazu"
+
+msgid "Durante eviksaun uza forsa ka lae?"
+msgstr "Durante eviksaun uza forsa ka lae?"
+
+msgid "Empreza Públiku"
+msgstr "Empreza Públiku"
+
+msgid "Enderesu ka deskrisaun fatin"
+msgstr "Enderesu ka deskrisaun fatin"
+
+msgid "Enderesu organizasaun"
+msgstr "Enderesu organizasaun"
+
+msgid "Entidade benefisiáriu (kategoria)"
+msgstr "Entidade benefisiáriu (kategoria)"
+
+msgid "Entidade ne'ebé foti rai"
+msgstr "Entidade ne'ebé foti rai"
+
+msgid "Eviksaun"
+msgstr "Eviksaun"
+
+msgid "Eviksaun akontese ona?"
+msgstr "Eviksaun akontese ona?"
+
+msgid "Eviksaun no Komunidade"
+msgstr "Eviksaun no Komunidade"
+
+msgid "Fokal Point RbR"
+msgstr "Fokal Point RbR"
+
+msgid "Fokal point RbR"
+msgstr "Fokal point RbR"
+
+msgid "Fonte"
+msgstr "Fonte"
+
+msgid "Fonte dadus uma-kain"
+msgstr "Fonte dadus uma-kain"
+
+msgid "Governu"
+msgstr "Governu"
+
+msgid "Hektar (ha)"
+msgstr "Hektar (ha)"
+
+msgid "Idozu (60+)"
+msgstr "Idozu (60+)"
+
+msgid "Idozu (tinan 60 ba leten)"
+msgstr "Idozu (tinan 60 ba leten)"
+
+msgid "Iha ona desizaun husi tribunál?"
+msgstr "Iha ona desizaun husi tribunál?"
+
+msgid "Ka kola link Google Maps (pindrop) atu hatama koordenada:"
+msgstr "Ka kola link Google Maps (pindrop) atu hatama koordenada:"
+
+msgid "Kompañia Internasionál"
+msgstr "Kompañia Internasionál"
+
+msgid "Kompañia Nasionál"
+msgstr "Kompañia Nasionál"
+
+msgid "Konsultasaun molok eviksaun"
+msgstr "Konsultasaun molok eviksaun"
+
+msgid "Kontaktu advogadu (naran, telefone, organizasaun)"
+msgstr "Kontaktu advogadu (naran, telefone, organizasaun)"
+
+msgid "Konvensaun Relijiozu"
+msgstr "Konvensaun Relijiozu"
+
+msgid "Koordenada hatama ona husi link."
+msgstr "Koordenada hatama ona husi link."
+
+msgid "Koordenada li'ur Timor-Leste."
+msgstr "Koordenada li'ur Timor-Leste."
+
+msgid "La hatene"
+msgstr "La hatene"
+
+msgid "La hatene status atuál"
+msgstr "La hatene status atuál"
+
+msgid "La hetan koordenada iha link ne'e."
+msgstr "La hetan koordenada iha link ne'e."
+
+msgid ""
+"Link badak la bele lee. Loke link iha browser, depois kopia link naruk husi "
+"barra enderesu."
+msgstr ""
+"Link badak la bele lee. Loke link iha browser, depois kopia link naruk husi "
+"barra enderesu."
+
+msgid "Membru"
+msgstr "Membru"
+
+msgid "Membru ne'ebé la ativu ona"
+msgstr "Membru ne'ebé la ativu ona"
+
+msgid "Membru no Sekretariadu"
+msgstr "Membru no Sekretariadu"
+
+msgid "Metru kuadradu (m²)"
+msgstr "Metru kuadradu (m²)"
+
+msgid "Molok eviksaun iha konsultasaun ka lae?"
+msgstr "Molok eviksaun iha konsultasaun ka lae?"
+
+msgid "Molok eviksaun iha notifikasaun klaru ka lae?"
+msgstr "Molok eviksaun iha notifikasaun klaru ka lae?"
+
+msgid "Monitorizasaun"
+msgstr "Monitorizasaun"
+
+msgid "Naran ema husi organizasaun seluk"
+msgstr "Naran ema husi organizasaun seluk"
+
+msgid "Naran fokal point RbR"
+msgstr "Naran fokal point RbR"
+
+msgid "Naran kazu"
+msgstr "Naran kazu"
+
+msgid "Naran portavós komunidade"
+msgstr "Naran portavós komunidade"
+
+msgid "Notifikasaun husi se?"
+msgstr "Notifikasaun husi se?"
+
+msgid "Notifikasaun klaru"
+msgstr "Notifikasaun klaru"
+
+msgid "Númeru kontaktu (organizasaun seluk)"
+msgstr "Númeru kontaktu (organizasaun seluk)"
+
+msgid "Númeru kontaktu portavós"
+msgstr "Númeru kontaktu portavós"
+
+msgid "Númeru telemóvel fokal point"
+msgstr "Númeru telemóvel fokal point"
+
+msgid "Observasaun ema afetadu"
+msgstr "Observasaun ema afetadu"
+
+msgid "Observasaun eviksaun"
+msgstr "Observasaun eviksaun"
+
+msgid "Observasaun kona-ba dadus ema afetadu"
+msgstr "Observasaun kona-ba dadus ema afetadu"
+
+msgid "Observasaun kona-ba eviksaun"
+msgstr "Observasaun kona-ba eviksaun"
+
+msgid "Observasaun kona-ba kazu (desizaun RbR)"
+msgstr "Observasaun kona-ba kazu (desizaun RbR)"
+
+msgid "Observasaun kona-ba portavós"
+msgstr "Observasaun kona-ba portavós"
+
+msgid "Observasaun kona-ba prosesu notifikasaun"
+msgstr "Observasaun kona-ba prosesu notifikasaun"
+
+msgid "Observasaun kona-ba prosesu tribunál"
+msgstr "Observasaun kona-ba prosesu tribunál"
+
+msgid "Observasaun kona-ba tipu kazu"
+msgstr "Observasaun kona-ba tipu kazu"
+
+msgid "Organizasaun"
+msgstr "Organizasaun"
+
+msgid "Organizasaun Seluk ne'ebé Akompaña"
+msgstr "Organizasaun Seluk ne'ebé Akompaña"
+
+msgid "Organizasaun seluk"
+msgstr "Organizasaun seluk"
+
+msgid "Organizasaun seluk ne'ebé akompaña"
+msgstr "Organizasaun seluk ne'ebé akompaña"
+
+msgid "PNTL / F-FDTL"
+msgstr "PNTL / F-FDTL"
+
+msgid "Partidu Polítiku"
+msgstr "Partidu Polítiku"
+
+msgid "Portavós Komunidade"
+msgstr "Portavós Komunidade"
+
+msgid "Portavós komunidade"
+msgstr "Portavós komunidade"
+
+msgid "Projetu"
+msgstr "Projetu"
+
+msgid "Projetu (se Governu foti rai: atu hari'i saida?)"
+msgstr "Projetu (se Governu foti rai: atu hari'i saida?)"
+
+msgid "Rai nia luan"
+msgstr "Rai nia luan"
+
+msgid "Rai nia luan tenke pozitivu."
+msgstr "Rai nia luan tenke pozitivu."
+
+msgid "Rejistu iha tribunál?"
+msgstr "Rejistu iha tribunál?"
+
+msgid "Reprezenta"
+msgstr "Reprezenta"
+
+msgid "Resolve ona - Família deit"
+msgstr "Resolve ona - Família deit"
+
+msgid "Resolve ona - Iha tribunál"
+msgstr "Resolve ona - Iha tribunál"
+
+msgid "Resolve ona - Liuhusi mediasaun"
+msgstr "Resolve ona - Liuhusi mediasaun"
+
+msgid "Resolve ona - Parte seluk abandona disputa"
+msgstr "Resolve ona - Parte seluk abandona disputa"
+
+msgid "Resolve ona - Simu kompensasaun"
+msgstr "Resolve ona - Simu kompensasaun"
+
+msgid "Saida mak RbR halo? (vizita, reuniaun, karta, mediasaun…)"
+msgstr "Saida mak RbR halo? (vizita, reuniaun, karta, mediasaun…)"
+
+msgid "Se RbR refere kazu ne'e ona, bele husik mamuk."
+msgstr "Se RbR refere kazu ne'e ona, bele husik mamuk."
+
+msgid "Se mak rejistu ka reprezenta"
+msgstr "Se mak rejistu ka reprezenta"
+
+msgid "Segimentu Kazu"
+msgstr "Segimentu Kazu"
+
+#, python-format
+msgid "Segimentu atualiza: %(c)s"
+msgstr "Segimentu atualiza: %(c)s"
+
+msgid "Segimentu kazu rai ona."
+msgstr "Segimentu kazu rai ona."
+
+msgid "Seidauk iha akompañamentu."
+msgstr "Seidauk iha akompañamentu."
+
+msgid "Seidauk iha dadus segimentu."
+msgstr "Seidauk iha dadus segimentu."
+
+msgid "Seidauk resolve"
+msgstr "Seidauk resolve"
+
+msgid "Sekretariadu RbR"
+msgstr "Sekretariadu RbR"
+
+msgid "Simu notifikasaun ona?"
+msgstr "Simu notifikasaun ona?"
+
+msgid "Status no Desizaun RbR"
+msgstr "Status no Desizaun RbR"
+
+msgid "Status rezolusaun"
+msgstr "Status rezolusaun"
+
+msgid "Status rezolusaun kazu"
+msgstr "Status rezolusaun kazu"
+
+msgid "Tinan disputa hahú"
+msgstr "Tinan disputa hahú"
+
+msgid "Tinan disputa hahú entre parte rua"
+msgstr "Tinan disputa hahú entre parte rua"
+
+#, python-format
+msgid "Tinan la validu (1900 to'o %(t)s)."
+msgstr "Tinan la validu (1900 to'o %(t)s)."
+
+msgid "Tipu fokal point"
+msgstr "Tipu fokal point"
+
+msgid "Tribunál"
+msgstr "Tribunál"
+
+msgid "Unidade"
+msgstr "Unidade"
+
+msgid "Uza forsa"
+msgstr "Uza forsa"
+
+msgid "cek ikus"
+msgstr "cek ikus"
+
+msgid "ex. 2019"
+msgstr "ex. 2019"
+
+msgid "husi"
+msgstr "husi"

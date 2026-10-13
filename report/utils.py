@@ -5,7 +5,14 @@ from kazu.permissions import kazu_queryset
 # Relatóriu: kazu ne'ebé haruka ona ba server (la'ós rascunho iha HP, la'ós kanseladu)
 STATUS_RELATORIU = [SYNCED, VERIFIED, APPROVED, 'REJECTED', COMPLETED]
 STATUS_AKTIVU = [SYNCED, VERIFIED, APPROVED]
-DESLOKAMENTU = 'DESLOKAMENTU'
+# Tipu kazu ne'ebé signifika eviksaun (komunidade hasai husi rai); DESLOKAMENTU = tipu tuan
+TIPU_EVIKSAUN = ['GOV-RAI-ESTADU', 'GOV-RAI-ABANDONADU', 'DESLOKAMENTU']
+
+
+def filtru_eviksaun():
+	# Kazu eviksaun: tipu eviksaun, "Eviksaun akontese ona = Sin" ka iha insidente eviksaun
+	from django.db.models import Q
+	return Q(tipu_konflitu__code__in=TIPU_EVIKSAUN) | Q(eviksaun_akontese='SIN') | Q(insidente__isnull=False)
 
 
 def report_queryset(request):
@@ -24,9 +31,8 @@ def report_queryset(request):
 
 
 def eviksaun_aktivu(qs):
-	# Kazu eviksaun aktivu: tipu Deslokamentu Forsadu ka iha insidente eviksaun, status seidauk remata
-	from django.db.models import Q
-	return qs.filter(status__in=STATUS_AKTIVU).filter(Q(tipu_konflitu__code=DESLOKAMENTU) | Q(insidente__isnull=False)).distinct()
+	# Kazu eviksaun aktivu: status seidauk remata
+	return qs.filter(status__in=STATUS_AKTIVU).filter(filtru_eviksaun()).distinct()
 
 
 def chart_lang():

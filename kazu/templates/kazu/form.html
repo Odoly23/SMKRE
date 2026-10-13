@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_tags static %}
 {% block content %}
 	<ol class="breadcrumb mb-2 mt-1">
 		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
@@ -26,10 +26,16 @@
 					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
 					{% endfor %}
 					<h4 class="form-sub">{% trans "Populasaun Afetada" %}</h4>
+					{% crispy form form.helper_pop %}
 					{{ afetadu_fs.management_form }}
 					{% for f in afetadu_fs %}
 					<div class="formset-row">{% crispy f %}</div>
 					{% endfor %}
+					{% crispy form form.helper_pop_b %}
+					<h4 class="form-sub">{% trans "Eviksaun" %}</h4>
+					{% crispy form form.helper_eviksaun %}
+					<h4 class="form-sub">{% trans "Portavós Komunidade" %}</h4>
+					{% crispy form form.helper_portavos %}
 					<h4 class="form-sub">{% trans "Insidente Deslokamentu / Eviksaun" %}</h4>
 					{{ insidente_fs.management_form }}
 					{% for f in insidente_fs %}
@@ -50,7 +56,31 @@
 	</div> <!--end row-->
 {% endblock %}
 {% block scripts %}
+<script src="{% static 'main/js/maps_link.js' %}"></script>
 <script nonce="{{ request.csp_nonce }}">
+	// Link Google Maps (pindrop) → latitude / longitude
+	(function () {
+		var inp = document.getElementById('maps-link'), msg = document.getElementById('maps-link-msg');
+		if (!inp) return;
+		var testu = {
+			badak: "{% trans "Link badak la bele lee. Loke link iha browser, depois kopia link naruk husi barra enderesu." %}",
+			liur: "{% trans "Koordenada li'ur Timor-Leste." %}",
+			la_hetan: "{% trans "La hetan koordenada iha link ne'e." %}",
+			ok: "{% trans "Koordenada hatama ona husi link." %}"
+		};
+		inp.addEventListener('input', function () {
+			var r = SMKREMapsLink.lee(inp.value);
+			if (r.lat !== undefined) {
+				document.getElementById('id_latitude').value = r.lat;
+				document.getElementById('id_longitude').value = r.lng;
+				document.getElementById('id_gps_akurasia').value = '';
+				msg.className = 'form-text text-success'; msg.textContent = testu.ok + ' (' + r.lat + ', ' + r.lng + ')';
+			} else {
+				msg.className = 'form-text text-danger'; msg.textContent = r.erru ? testu[r.erru] : '';
+			}
+		});
+	})();
+
 	// Munisípiu → Postu
 	$("#id_munisipiu").change(function () {
 	  var url = $("#KazuForm").attr("data-posts-url");

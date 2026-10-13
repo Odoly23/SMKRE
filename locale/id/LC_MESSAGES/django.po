@@ -2889,3 +2889,396 @@ msgid ""
 msgstr ""
 "Maksimal 5 foto (kamera atau galeri, bisa pilih beberapa) · Maksimal 1 video"
 " (60 detik / 50 MB) · Foto dikompres otomatis."
+
+#, python-format
+msgid "\"%(c)s\": valór \"%(v)s\" la validu."
+msgstr "\"%(c)s\": nilai \"%(v)s\" tidak valid."
+
+msgid "'Arkivu' = kazu resolve ona ka RbR refere ona ba advogadu privadu."
+msgstr ""
+"'Arsip' = kasus sudah selesai atau sudah dirujuk RbR ke pengacara swasta."
+
+msgid "Abandona"
+msgstr "Ditinggalkan"
+
+msgid "Advogadu"
+msgstr "Pengacara"
+
+msgid "Advokasia ativu"
+msgstr "Advokasi aktif"
+
+msgid "Agora dadaun rejistu hela iha tribunál"
+msgstr "Sedang didaftarkan di pengadilan"
+
+msgid "Ajénsia Autónomu"
+msgstr "Badan Otonom"
+
+msgid "Akompañamentu / asaun"
+msgstr "Pendampingan / tindakan"
+
+msgid "Akompañamentu Kazu"
+msgstr "Pendampingan Kasus"
+
+msgid "Akompañamentu aumenta ona."
+msgstr "Pendampingan ditambahkan."
+
+msgid "Akompañamentu ba Kazu"
+msgstr "Pendampingan Kasus"
+
+msgid "Atualiza segimentu"
+msgstr "Perbarui tindak lanjut"
+
+msgid "Aumenta akompañamentu"
+msgstr "Tambah pendampingan"
+
+msgid "CCLN-Veteranu"
+msgstr "CCLN-Veteran"
+
+msgid "Claim balu resolve, balu seidauk"
+msgstr "Sebagian klaim selesai, sebagian belum"
+
+msgid ""
+"Dadus akompañamentu husi eskritóriu RbR: atualiza bainhira iha informasaun "
+"foun (tribunál, notifikasaun, status). Kada mudansa rai iha istória."
+msgstr ""
+"Data tindak lanjut dari kantor RbR: perbarui bila ada informasi baru "
+"(pengadilan, notifikasi, status). Setiap perubahan tersimpan di riwayat."
+
+msgid "Dadus uma-kain iha ka lae?"
+msgstr "Apakah ada data rumah tangga?"
+
+msgid "Dadus uma-kain iha?"
+msgstr "Data rumah tangga?"
+
+msgid "Data desizaun"
+msgstr "Tanggal putusan"
+
+msgid "Data eviksaun"
+msgstr "Tanggal penggusuran"
+
+msgid "Data eviksaun labele iha futuru."
+msgstr "Tanggal penggusuran tidak boleh di masa depan."
+
+msgid "Data ikus cek status kazu"
+msgstr "Tanggal terakhir cek status kasus"
+
+msgid "Data labele iha futuru."
+msgstr "Tanggal tidak boleh di masa depan."
+
+msgid "Data rejistu iha tribunál"
+msgstr "Tanggal pendaftaran di pengadilan"
+
+msgid "Data simu kazu iha RbR"
+msgstr "Tanggal kasus diterima RbR"
+
+msgid "Data simu notifikasaun"
+msgstr "Tanggal menerima notifikasi"
+
+msgid "Desizaun"
+msgstr "Putusan"
+
+msgid "Desizaun RbR"
+msgstr "Keputusan RbR"
+
+msgid "Desizaun RbR ba kazu"
+msgstr "Keputusan RbR atas kasus"
+
+msgid "Durante eviksaun uza forsa ka lae?"
+msgstr "Apakah ada penggunaan kekerasan saat penggusuran?"
+
+msgid "Empreza Públiku"
+msgstr "Perusahaan Publik"
+
+msgid "Enderesu ka deskrisaun fatin"
+msgstr "Alamat atau deskripsi lokasi"
+
+msgid "Enderesu organizasaun"
+msgstr "Alamat organisasi"
+
+msgid "Entidade benefisiáriu (kategoria)"
+msgstr "Entitas penerima manfaat (kategori)"
+
+msgid "Entidade ne'ebé foti rai"
+msgstr "Entitas yang mengambil tanah"
+
+msgid "Eviksaun"
+msgstr "Penggusuran"
+
+msgid "Eviksaun akontese ona?"
+msgstr "Apakah penggusuran sudah terjadi?"
+
+msgid "Eviksaun no Komunidade"
+msgstr "Penggusuran dan Komunitas"
+
+msgid "Fokal Point RbR"
+msgstr "Narahubung RbR"
+
+msgid "Fokal point RbR"
+msgstr "Narahubung RbR"
+
+msgid "Fonte"
+msgstr "Sumber"
+
+msgid "Fonte dadus uma-kain"
+msgstr "Sumber data rumah tangga"
+
+msgid "Governu"
+msgstr "Pemerintah"
+
+msgid "Hektar (ha)"
+msgstr "Hektar (ha)"
+
+msgid "Idozu (60+)"
+msgstr "Lansia (60+)"
+
+msgid "Idozu (tinan 60 ba leten)"
+msgstr "Lansia (60 tahun ke atas)"
+
+msgid "Iha ona desizaun husi tribunál?"
+msgstr "Sudah ada putusan pengadilan?"
+
+msgid "Ka kola link Google Maps (pindrop) atu hatama koordenada:"
+msgstr "Atau tempel tautan Google Maps (pin) untuk mengisi koordinat:"
+
+msgid "Kompañia Internasionál"
+msgstr "Perusahaan Internasional"
+
+msgid "Kompañia Nasionál"
+msgstr "Perusahaan Nasional"
+
+msgid "Konsultasaun molok eviksaun"
+msgstr "Konsultasi sebelum penggusuran"
+
+msgid "Kontaktu advogadu (naran, telefone, organizasaun)"
+msgstr "Kontak pengacara (nama, telepon, organisasi)"
+
+msgid "Konvensaun Relijiozu"
+msgstr "Kongregasi Keagamaan"
+
+msgid "Koordenada hatama ona husi link."
+msgstr "Koordinat diisi dari tautan."
+
+msgid "Koordenada li'ur Timor-Leste."
+msgstr "Koordinat di luar Timor-Leste."
+
+msgid "La hatene"
+msgstr "Tidak tahu"
+
+msgid "La hatene status atuál"
+msgstr "Status saat ini tidak diketahui"
+
+msgid "La hetan koordenada iha link ne'e."
+msgstr "Koordinat tidak ditemukan di tautan ini."
+
+msgid ""
+"Link badak la bele lee. Loke link iha browser, depois kopia link naruk husi "
+"barra enderesu."
+msgstr ""
+"Tautan pendek tidak bisa dibaca. Buka tautan di browser, lalu salin tautan "
+"panjang dari bilah alamat."
+
+msgid "Membru"
+msgstr "Anggota"
+
+msgid "Membru ne'ebé la ativu ona"
+msgstr "Anggota tidak aktif"
+
+msgid "Membru no Sekretariadu"
+msgstr "Anggota dan Sekretariat"
+
+msgid "Metru kuadradu (m²)"
+msgstr "Meter persegi (m²)"
+
+msgid "Molok eviksaun iha konsultasaun ka lae?"
+msgstr "Apakah ada konsultasi sebelum penggusuran?"
+
+msgid "Molok eviksaun iha notifikasaun klaru ka lae?"
+msgstr "Apakah ada pemberitahuan jelas sebelum penggusuran?"
+
+msgid "Monitorizasaun"
+msgstr "Pemantauan"
+
+msgid "Naran ema husi organizasaun seluk"
+msgstr "Nama orang dari organisasi lain"
+
+msgid "Naran fokal point RbR"
+msgstr "Nama narahubung RbR"
+
+msgid "Naran kazu"
+msgstr "Nama kasus"
+
+msgid "Naran portavós komunidade"
+msgstr "Nama juru bicara komunitas"
+
+msgid "Notifikasaun husi se?"
+msgstr "Notifikasi dari siapa?"
+
+msgid "Notifikasaun klaru"
+msgstr "Pemberitahuan jelas"
+
+msgid "Númeru kontaktu (organizasaun seluk)"
+msgstr "Nomor kontak (organisasi lain)"
+
+msgid "Númeru kontaktu portavós"
+msgstr "Nomor kontak juru bicara"
+
+msgid "Númeru telemóvel fokal point"
+msgstr "Nomor ponsel narahubung"
+
+msgid "Observasaun ema afetadu"
+msgstr "Catatan orang terdampak"
+
+msgid "Observasaun eviksaun"
+msgstr "Catatan penggusuran"
+
+msgid "Observasaun kona-ba dadus ema afetadu"
+msgstr "Catatan tentang data orang terdampak"
+
+msgid "Observasaun kona-ba eviksaun"
+msgstr "Catatan tentang penggusuran"
+
+msgid "Observasaun kona-ba kazu (desizaun RbR)"
+msgstr "Catatan tentang kasus (keputusan RbR)"
+
+msgid "Observasaun kona-ba portavós"
+msgstr "Catatan tentang juru bicara"
+
+msgid "Observasaun kona-ba prosesu notifikasaun"
+msgstr "Catatan tentang proses notifikasi"
+
+msgid "Observasaun kona-ba prosesu tribunál"
+msgstr "Catatan tentang proses pengadilan"
+
+msgid "Observasaun kona-ba tipu kazu"
+msgstr "Catatan tentang jenis kasus"
+
+msgid "Organizasaun"
+msgstr "Organisasi"
+
+msgid "Organizasaun Seluk ne'ebé Akompaña"
+msgstr "Organisasi Lain yang Mendampingi"
+
+msgid "Organizasaun seluk"
+msgstr "Organisasi lain"
+
+msgid "Organizasaun seluk ne'ebé akompaña"
+msgstr "Organisasi lain yang mendampingi"
+
+msgid "PNTL / F-FDTL"
+msgstr "PNTL / F-FDTL"
+
+msgid "Partidu Polítiku"
+msgstr "Partai Politik"
+
+msgid "Portavós Komunidade"
+msgstr "Juru Bicara Komunitas"
+
+msgid "Portavós komunidade"
+msgstr "Juru bicara komunitas"
+
+msgid "Projetu"
+msgstr "Proyek"
+
+msgid "Projetu (se Governu foti rai: atu hari'i saida?)"
+msgstr "Proyek (jika Pemerintah mengambil tanah: untuk membangun apa?)"
+
+msgid "Rai nia luan"
+msgstr "Luas tanah"
+
+msgid "Rai nia luan tenke pozitivu."
+msgstr "Luas tanah harus positif."
+
+msgid "Rejistu iha tribunál?"
+msgstr "Terdaftar di pengadilan?"
+
+msgid "Reprezenta"
+msgstr "Mewakili"
+
+msgid "Resolve ona - Família deit"
+msgstr "Selesai - Secara keluarga"
+
+msgid "Resolve ona - Iha tribunál"
+msgstr "Selesai - Di pengadilan"
+
+msgid "Resolve ona - Liuhusi mediasaun"
+msgstr "Selesai - Melalui mediasi"
+
+msgid "Resolve ona - Parte seluk abandona disputa"
+msgstr "Selesai - Pihak lain meninggalkan sengketa"
+
+msgid "Resolve ona - Simu kompensasaun"
+msgstr "Selesai - Menerima kompensasi"
+
+msgid "Saida mak RbR halo? (vizita, reuniaun, karta, mediasaun…)"
+msgstr "Apa yang dilakukan RbR? (kunjungan, rapat, surat, mediasi…)"
+
+msgid "Se RbR refere kazu ne'e ona, bele husik mamuk."
+msgstr "Jika RbR sudah merujuk kasus ini, boleh dikosongkan."
+
+msgid "Se mak rejistu ka reprezenta"
+msgstr "Siapa yang mendaftarkan atau mewakili"
+
+msgid "Segimentu Kazu"
+msgstr "Tindak Lanjut Kasus"
+
+#, python-format
+msgid "Segimentu atualiza: %(c)s"
+msgstr "Tindak lanjut diperbarui: %(c)s"
+
+msgid "Segimentu kazu rai ona."
+msgstr "Tindak lanjut kasus disimpan."
+
+msgid "Seidauk iha akompañamentu."
+msgstr "Belum ada pendampingan."
+
+msgid "Seidauk iha dadus segimentu."
+msgstr "Belum ada data tindak lanjut."
+
+msgid "Seidauk resolve"
+msgstr "Belum selesai"
+
+msgid "Sekretariadu RbR"
+msgstr "Sekretariat RbR"
+
+msgid "Simu notifikasaun ona?"
+msgstr "Sudah menerima notifikasi?"
+
+msgid "Status no Desizaun RbR"
+msgstr "Status dan Keputusan RbR"
+
+msgid "Status rezolusaun"
+msgstr "Status penyelesaian"
+
+msgid "Status rezolusaun kazu"
+msgstr "Status penyelesaian kasus"
+
+msgid "Tinan disputa hahú"
+msgstr "Tahun sengketa dimulai"
+
+msgid "Tinan disputa hahú entre parte rua"
+msgstr "Tahun sengketa dimulai antara kedua pihak"
+
+#, python-format
+msgid "Tinan la validu (1900 to'o %(t)s)."
+msgstr "Tahun tidak valid (1900 sampai %(t)s)."
+
+msgid "Tipu fokal point"
+msgstr "Jenis narahubung"
+
+msgid "Tribunál"
+msgstr "Pengadilan"
+
+msgid "Unidade"
+msgstr "Satuan"
+
+msgid "Uza forsa"
+msgstr "Penggunaan kekerasan"
+
+msgid "cek ikus"
+msgstr "cek terakhir"
+
+msgid "ex. 2019"
+msgstr "mis. 2019"
+
+msgid "husi"
+msgstr "oleh"

@@ -16,8 +16,8 @@ class ReportBase(TestCase):
 		self.analista = make_user(ANALISTA)
 		self.dil = Munisipiu.objects.get(code='DIL')
 		self.liq = Munisipiu.objects.get(code='LIQ')
-		self.deslok = TipuKonflitu.objects.get(code='DESLOKAMENTU')
-		self.tradisional = TipuKonflitu.objects.get(code='TRADISIONAL')
+		self.deslok = TipuKonflitu.objects.get(code='GOV-RAI-ESTADU')        # tipu eviksaun
+		self.tradisional = TipuKonflitu.objects.get(code='KOM-KOM')
 		hoje = timezone.localdate()
 		# 3 kazu Dili, 1 Liquiçá, 1 rascunho (la tama), 1 kanseladu (la tama)
 		for i, (mun, status, tipu, urj) in enumerate([
@@ -98,6 +98,20 @@ class ExportTest(ReportBase):
 		ws = load_workbook(BytesIO(r.content)).active
 		self.assertEqual(ws.max_row, 4)                          # header + 3 kazu Dili
 		self.assertEqual(ws['A2'].value[:2], 'T-')
+
+	def test_excel_kolun_rbr_sein_kontaktu(self):
+		from kazu.models import KazuSegimentu
+		k = Kazu.objects.filter(munisipiu=self.dil).exclude(status__in=['DRAFT', 'CANCELED']).first()
+		Kazu.objects.filter(pk=k.pk).update(eviksaun_akontese='SIN', portavos_kontaktu='77009988')
+		KazuSegimentu.objects.create(kazu=k, status_rezolusaun='SEIDAUK', fokal_telemovel='77112233')
+		self.client.force_login(self.analista)
+		ws = load_workbook(BytesIO(self.client.get(reverse('report-export-excel'), {'munisipiu': self.dil.pk}).content)).active
+		kab = [c.value for c in ws[1]]
+		self.assertIn('Status rezolusaun kazu', kab)
+		valores = [str(c.value) for row in ws.iter_rows(min_row=2) for c in row]
+		self.assertIn('Seidauk resolve', valores)
+		self.assertNotIn('77009988', valores)                      # kontaktu ema la sai
+		self.assertNotIn('77112233', valores)
 
 
 class MapaTest(ReportBase):
