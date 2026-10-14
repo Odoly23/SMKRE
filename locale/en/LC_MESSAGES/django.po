@@ -3320,35 +3320,35 @@ msgid "Vídeo máximu %(n)s kada kazu."
 msgstr "Maximum %(n)s videos per case."
 
 #: kazu/templates/kazu/_poligon.html
-msgid "Bidang"
-msgstr "Plot"
+msgid "Área"
+msgstr "Area"
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
+msgid "Área %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
 msgstr ""
-"Plot %(i)s: lines cross each other (%(r)s). Move the points so the lines do "
+"Area %(i)s: lines cross each other (%(r)s). Move the points so the lines do "
 "not cross."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: pontu la iha territóriu Timor-Leste."
-msgstr "Plot %(i)s: points are outside Timor-Leste territory."
+msgid "Área %(i)s: pontu la iha territóriu Timor-Leste."
+msgstr "Area %(i)s: points are outside Timor-Leste territory."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: pontu máximu %(n)s."
-msgstr "Plot %(i)s: maximum %(n)s points."
+msgid "Área %(i)s: pontu máximu %(n)s."
+msgstr "Area %(i)s: maximum %(n)s points."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: presiza pontu 3 ka liu."
-msgstr "Plot %(i)s: needs 3 or more points."
+msgid "Área %(i)s: presiza pontu 3 ka liu."
+msgstr "Area %(i)s: needs 3 or more points."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang rai máximu %(n)s kada kazu."
-msgstr "Maximum %(n)s plots per case."
+msgid "Área rai máximu %(n)s kada kazu."
+msgstr "Maximum %(n)s areas per case."
 
 #: kazu/templates/kazu/_poligon.html
 msgid "Hamoos poligon hotu?"
@@ -3386,10 +3386,10 @@ msgstr "Area"
 
 #: kazu/templates/kazu/_poligon.html
 msgid ""
-"Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta "
-"dala rua. Rai nia luan kazu atualiza automátiku."
+"Luan kalkula ho Turf.js (m² no hektar). Área ne'ebé sobrepoin la konta dala "
+"rua. Rai nia luan kazu atualiza automátiku."
 msgstr ""
-"Area calculated with Turf.js (m² and hectares). Overlapping plots are not "
+"Area calculated with Turf.js (m² and hectares). Overlapping areas are not "
 "counted twice. The case land area updates automatically."
 
 #: kazu/models.py
@@ -3434,8 +3434,8 @@ msgstr "Polygon saved."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Poligon rai: %(n)s bidang, %(m2)s m²"
-msgstr "Land polygon: %(n)s plot(s), %(m2)s m²"
+msgid "Poligon rai: %(n)s área, %(m2)s m²"
+msgstr "Land polygon: %(n)s area(s), %(m2)s m²"
 
 #: kazu/templates/kazu/_poligon.html
 msgid "Rai poligon"

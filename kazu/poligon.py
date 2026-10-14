@@ -99,20 +99,20 @@ def valida(data):
 		else:
 			raise ValidationError(_('Poligon de\'it mak bele rai.'))
 	if len(polys) > MAX_BIDANG:
-		raise ValidationError(_('Bidang rai máximu %(n)s kada kazu.') % {'n': MAX_BIDANG})
+		raise ValidationError(_('Área rai máximu %(n)s kada kazu.') % {'n': MAX_BIDANG})
 	for i, p in enumerate(polys, 1):
 		coords = list(p.exterior.coords)
 		if len(set(coords[:-1])) < 3:
-			raise ValidationError(_('Bidang %(i)s: presiza pontu 3 ka liu.') % {'i': i})
+			raise ValidationError(_('Área %(i)s: presiza pontu 3 ka liu.') % {'i': i})
 		if len(coords) > MAX_PONTU + 1:
-			raise ValidationError(_('Bidang %(i)s: pontu máximu %(n)s.') % {'i': i, 'n': MAX_PONTU})
+			raise ValidationError(_('Área %(i)s: pontu máximu %(n)s.') % {'i': i, 'n': MAX_PONTU})
 		for x, y in coords:
 			if not (float(TL_LON[0]) <= x <= float(TL_LON[1]) and float(TL_LAT[0]) <= y <= float(TL_LAT[1])):
-				raise ValidationError(_('Bidang %(i)s: pontu la iha territóriu Timor-Leste.') % {'i': i})
+				raise ValidationError(_('Área %(i)s: pontu la iha territóriu Timor-Leste.') % {'i': i})
 		if not p.is_valid:
-			raise ValidationError(_('Bidang %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza.') % {'i': i, 'r': explain_validity(p)})
+			raise ValidationError(_('Área %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza.') % {'i': i, 'r': explain_validity(p)})
 		if p.area == 0:
-			raise ValidationError(_('Bidang %(i)s: presiza pontu 3 ka liu.') % {'i': i})
+			raise ValidationError(_('Área %(i)s: presiza pontu 3 ka liu.') % {'i': i})
 	return polys
 
 
@@ -162,7 +162,7 @@ def rai_poligon(kazu, user, data):
 	aplika(kazu, data)
 	kazu.save(update_fields=['poligon', 'poligon_luan_m2', 'poligon_keliling_m', 'rai_luan', 'rai_luan_unidade', 'updated_at'])
 	n = len(kazu.poligon['features']) if kazu.poligon else 0
-	nota = (_('Poligon rai: %(n)s bidang, %(m2)s m²') % {'n': n, 'm2': kazu.poligon_luan_m2}) if n else _('Poligon rai hamoos')
+	nota = (_('Poligon rai: %(n)s área, %(m2)s m²') % {'n': n, 'm2': kazu.poligon_luan_m2}) if n else _('Poligon rai hamoos')
 	if antes is not None and n:
 		nota += ' (' + _('uluk') + f' {antes} m²)'
 	KazuHistoria.objects.create(kazu=kazu, user=user, tipu=KazuHistoria.EDITA, status_foun=kazu.status, nota=nota[:255])

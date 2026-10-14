@@ -3333,35 +3333,35 @@ msgid "Vídeo máximu %(n)s kada kazu."
 msgstr "Máximo %(n)s vídeos por caso."
 
 #: kazu/templates/kazu/_poligon.html
-msgid "Bidang"
-msgstr "Parcela"
+msgid "Área"
+msgstr "Área"
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
+msgid "Área %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
 msgstr ""
-"Parcela %(i)s: as linhas cruzam-se (%(r)s). Mova os pontos para que não se "
+"Área %(i)s: as linhas cruzam-se (%(r)s). Mova os pontos para que não se "
 "cruzem."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: pontu la iha territóriu Timor-Leste."
-msgstr "Parcela %(i)s: há pontos fora do território de Timor-Leste."
+msgid "Área %(i)s: pontu la iha territóriu Timor-Leste."
+msgstr "Área %(i)s: há pontos fora do território de Timor-Leste."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: pontu máximu %(n)s."
-msgstr "Parcela %(i)s: máximo %(n)s pontos."
+msgid "Área %(i)s: pontu máximu %(n)s."
+msgstr "Área %(i)s: máximo %(n)s pontos."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang %(i)s: presiza pontu 3 ka liu."
-msgstr "Parcela %(i)s: precisa de 3 ou mais pontos."
+msgid "Área %(i)s: presiza pontu 3 ka liu."
+msgstr "Área %(i)s: precisa de 3 ou mais pontos."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Bidang rai máximu %(n)s kada kazu."
-msgstr "Máximo %(n)s parcelas por caso."
+msgid "Área rai máximu %(n)s kada kazu."
+msgstr "Máximo %(n)s áreas por caso."
 
 #: kazu/templates/kazu/_poligon.html
 msgid "Hamoos poligon hotu?"
@@ -3399,10 +3399,10 @@ msgstr "Área"
 
 #: kazu/templates/kazu/_poligon.html
 msgid ""
-"Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta "
-"dala rua. Rai nia luan kazu atualiza automátiku."
+"Luan kalkula ho Turf.js (m² no hektar). Área ne'ebé sobrepoin la konta dala "
+"rua. Rai nia luan kazu atualiza automátiku."
 msgstr ""
-"Área calculada com Turf.js (m² e hectares). Parcelas sobrepostas não são "
+"Área calculada com Turf.js (m² e hectares). Áreas sobrepostas não são "
 "contadas duas vezes. A área do terreno do caso é atualizada automaticamente."
 
 #: kazu/models.py
@@ -3447,8 +3447,8 @@ msgstr "Polígono guardado."
 
 #: kazu/poligon.py
 #, python-format
-msgid "Poligon rai: %(n)s bidang, %(m2)s m²"
-msgstr "Polígono: %(n)s parcela(s), %(m2)s m²"
+msgid "Poligon rai: %(n)s área, %(m2)s m²"
+msgstr "Polígono: %(n)s área(s), %(m2)s m²"
 
 #: kazu/templates/kazu/_poligon.html
 msgid "Rai poligon"

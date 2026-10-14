@@ -627,7 +627,7 @@ class PoligonTest(KazuBase):
 		kazu.refresh_from_db()
 		self.assertEqual((str(kazu.rai_luan), kazu.rai_luan_unidade), ('1.94', 'HA'))
 		self.assertEqual(str(kazu.poligon_luan_m2), '19440.48')
-		self.assertTrue(kazu.historia.filter(nota__startswith='Poligon rai: 1 bidang').exists())
+		self.assertTrue(kazu.historia.filter(nota__startswith='Poligon rai: 1 área').exists())
 		# Formuláriu: Rai nia luan xavi (husi poligon)
 		form = self.client.get(reverse('kazu-update', args=[kazu.pk])).context['form']
 		self.assertTrue(form.fields['rai_luan'].disabled)

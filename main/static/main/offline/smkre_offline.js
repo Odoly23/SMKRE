@@ -554,9 +554,9 @@
 			if (k.latitude == null) e.push('Foti koordenada GPS iha fatin akontesimentu.');
 			else if (k.gps_akurasia > GPS_MAX) e.push('Akurasia GPS ' + k.gps_akurasia + ' m. Tenke ≤ 50 m.');
 			(k.poligon_pontu || []).forEach(function (b, i) {
-				if (b.length && b.length < 3) e.push('Poligon bidang ' + (i + 1) + ': presiza pontu 3 ka liu (ka hamoos).');
+				if (b.length && b.length < 3) e.push('Poligon área ' + (i + 1) + ': presiza pontu 3 ka liu (ka hamoos).');
 			});
-			polBidang(k).forEach(function (f, i) { if (SIBARPoligon.kruza(f)) e.push('Poligon bidang ' + (i + 1) + ': liña kruza malu. Hamoos pontu ikus no foti fali.'); });
+			polBidang(k).forEach(function (f, i) { if (SIBARPoligon.kruza(f)) e.push('Poligon área ' + (i + 1) + ': liña kruza malu. Hamoos pontu ikus no foti fali.'); });
 		}
 		if (pasu === 2) {
 			if (!k.data_akontesimentu) e.push('Data Akontesimentu obrigatóriu.');
@@ -683,11 +683,11 @@
 		}
 		$('pol-sketch').innerHTML = html;
 		var atual = bidang[bidang.length - 1];
-		var linha = ['Bidang ' + bidang.length + ': ' + atual.length + ' pontu' + (atual.length && atual.length < 3 ? ' (presiza 3+)' : '')];
+		var linha = ['Área ' + bidang.length + ': ' + atual.length + ' pontu' + (atual.length && atual.length < 3 ? ' (presiza 3+)' : '')];
 		if (fs.length) {
 			var r = P.kalkula(fs);
 			r.bidang.forEach(function (m, i) {
-				linha.push('<b>Bidang ' + (i + 1) + '</b>: ' + P.luan(m.luan_m2) + ' · keliling ' + P.metru(m.keliling_m) + ' · ' + P.metru(m.naruk_m) + ' × ' + P.metru(m.lebar_m) +
+				linha.push('<b>Área ' + (i + 1) + '</b>: ' + P.luan(m.luan_m2) + ' · keliling ' + P.metru(m.keliling_m) + ' · ' + P.metru(m.naruk_m) + ' × ' + P.metru(m.lebar_m) +
 					(P.kruza(fs[i]) ? ' <span class="text-danger">· liña kruza!</span>' : ''));
 			});
 			if (fs.length > 1) linha.push('<b>Total: ' + P.luan(r.luan_m2) + '</b>');

@@ -10,13 +10,13 @@
 		data-mapbox="{{ MAPBOX_TOKEN }}" data-ikon="{% static 'main/mapa/marker-red.svg' %}" data-sombra="{% static 'main/mapa/marker-shadow.png' %}"
 		data-l-fullscreen="{% trans "Ekran tomak" %}" data-l-ha-u="{% trans "Ha'u-nia fatin" %}" data-l-sukat="{% trans "Sukat distánsia" %}"
 		data-l-gps-erru="{% trans "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser." %}"
-		data-l-bidang="{% trans "Bidang" %}" data-l-kruza="{% trans "Liña kruza malu. Muda pontu atu liña la kruza." %}"
+		data-l-bidang="{% trans "Área" %}" data-l-kruza="{% trans "Liña kruza malu. Muda pontu atu liña la kruza." %}"
 		data-l-rai-ona="{% trans "Poligon rai ona." %}" data-l-erru="{% trans "Poligon la rai. Koko fali." %}"
 		data-l-hamoos="{% trans "Hamoos poligon hotu?" %}"></div>
 	{{ obj.poligon|json_script:"poligon-dadus" }}
 	<div class="table-responsive mt-2">
 		<table class="table table-sm small mb-1" id="poligon-tabela">
-			<thead><tr><th>{% trans "Bidang" %}</th><th>{% trans "Luan" %}</th><th>{% trans "Keliling" %}</th><th>{% trans "Naruk × Lebar" %}</th></tr></thead>
+			<thead><tr><th>{% trans "Área" %}</th><th>{% trans "Luan" %}</th><th>{% trans "Keliling" %}</th><th>{% trans "Naruk × Lebar" %}</th></tr></thead>
 			<tbody></tbody>
 			<tfoot><tr class="font-weight-bold"><td>{% trans "Total" %}</td><td id="poligon-total">—</td><td id="poligon-keliling">—</td><td></td></tr></tfoot>
 		</table>
@@ -28,7 +28,7 @@
 		<button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-1" id="poligon-kansela" disabled><i class="fa fa-undo"></i> {% trans "Kansela mudansa" %}</button>
 		<span class="small text-muted mb-1" id="poligon-status"></span>
 	</div>
-	<p class="small text-muted mb-0 mt-1"><i class="fa fa-info-circle"></i> {% trans "Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta dala rua. Rai nia luan kazu atualiza automátiku." %}</p>
+	<p class="small text-muted mb-0 mt-1"><i class="fa fa-info-circle"></i> {% trans "Luan kalkula ho Turf.js (m² no hektar). Área ne'ebé sobrepoin la konta dala rua. Rai nia luan kazu atualiza automátiku." %}</p>
 	{% endif %}
 	<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
 	<script src="{% static 'main/turf/turf.min.js' %}"></script>
