@@ -28,7 +28,7 @@ Opsi: `--email`, `--password`, `--munisipiu DIL`. Hanya jalan jika `DEBUG=True`.
    - Langkah 6: centang **konsentimentu** → **Prontu**.
 4. Muncul pesan *"Kazu rai ona iha HP (enkriptadu)…"* dan kasus berstatus **Hein Sinkron**.
 5. (Opsional) tekan **F5** saat masih offline → app tetap terbuka → masukkan PIN → kasus masih ada.
-6. Network → kembali ke **No throttling** (online) → sinkron otomatis → pesan *"Sinkron remata: 1 susesu"* dan kasus mendapat kode `SIBAR-LIQ-2026-xxxxx`.
+6. Network → kembali ke **No throttling** (online) → sinkron otomatis → pesan *"Sinkron remata: 1 susesu"* dan kasus mendapat kode `RbR-LIQ-2026-xxxx`.
 
 ## C. Cek data MASUK atau TIDAK
 
@@ -40,7 +40,7 @@ python manage.py cek_sinkron --email teste.offline@redebarai.org --loron 1
 Contoh hasil:
 ```
 KÓDIGU                   STATUS     FATIN                      GPS                    FOTO VÍDEO  INVESTIGADÓR / SINKRON
-SIBAR-LIQ-2026-00015     SYNCED     Guguleur, Liquiçá          -8.587400,125.341200      1     0  teste.offline@redebarai.org · 29/09 14:25
+RbR-LIQ-2026-0015     SYNCED     Guguleur, Liquiçá          -8.587400,125.341200      1     0  teste.offline@redebarai.org · 29/09 14:25
 Total 1 kazu husi HP · 1 kompletu
 ```
 - `SYNCED` = data + evidénsia lengkap masuk, Admin sudah dinotifikasi.

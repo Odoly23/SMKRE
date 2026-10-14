@@ -108,7 +108,7 @@ def PesoalList(request):
 1. Admin fó **autorizasaun offline** (loron 7) iha menu *Offline*.
 2. Investigadór loke **`/sinkron/`** iha HP (Chrome Android / Safari iPhone, **HTTPS**) → login dala ida → kria **PIN númeru 6**.
 3. Iha terrenu (la iha sinál): *Kazu Foun* → pasu 6 → GPS (≤ 50 m) → foto (máx. 5) / vídeo (60 s) husi kámera deit → konsentimentu → **Prontu**.
-4. Bainhira iha sinál: sinkron automátiku (ka klik *Sinkron*). Kazu hetan kódigu `SIBAR-<MUN>-<TINAN>-<NÚMERU>` no Admin simu notifikasaun.
+4. Bainhira iha sinál: sinkron automátiku (ka klik *Sinkron*). Kazu hetan kódigu `RbR-<MUN>-<TINAN>-<NÚMERU>` no Admin simu notifikasaun.
 
 | Regra | Detalla |
 |---|---|

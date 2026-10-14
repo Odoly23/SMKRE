@@ -81,7 +81,7 @@ Alur tombol: klik notifikasi 🔔 → detail kasus → tombol di bawah (Verifika
 
 ## 7. Data kasus (Anexu A + Anexu E)
 
-- **ID:** UUID dibuat di HP (anti-bentrok) + kode dari server saat sinkron: `SIBAR-<MUN>-<TAHUN>-<NOMOR>`.
+- **ID:** UUID dibuat di HP (anti-bentrok) + kode dari server saat sinkron: `RbR-<MUN>-<TAHUN>-<NOMOR>`.
 - **Kazu:** judul, status dadus, status kazu, tanggal laporan, tanggal kejadian (≤ tanggal laporan), deskripsi, **tipe rai**, lokasi (munisípiu, postu, suku, aldeia, GPS), konsentimentu, urjente, observasaun, dibuat oleh.
 - **Tipu konflitu:** Deslokamentu Forsadu · Konflitu Rai Tradisionál · Akizisaun Rai ba Projetu Dezenvolvimentu · Disputa Fronteira Rai · Seluk (wajib penjelasan).
 - **Tipu rai:** Rai Estadu · Rai Privadu · Rai Tradisionál · Rai Disputa.

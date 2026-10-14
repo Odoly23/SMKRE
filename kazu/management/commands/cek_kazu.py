@@ -15,7 +15,7 @@ class Command(BaseCommand):
 	def add_arguments(self, parser):
 		parser.add_argument('--loron', type=int, default=7, help='Kazu kria/atualiza iha loron N ikus (default 7)')
 		parser.add_argument('--email', default='', help='Filtra tuir Investigadór (email)')
-		parser.add_argument('--kode', default='', help='Kazu ida deit (kódigu SIBAR-...)')
+		parser.add_argument('--kode', default='', help='Kazu ida deit (kódigu RbR-...)')
 
 	def naran(self, user):
 		return user.username.split('@')[0] if user else '-'
