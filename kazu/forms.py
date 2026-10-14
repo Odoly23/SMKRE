@@ -4,7 +4,8 @@ from django.forms import inlineformset_factory
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, HTML, Field
+from crispy_forms.layout import Layout, Row, Column, HTML, Field, Div
+from custom.data.opsaun import TIPU_ENTIDADE
 from custom.models import Munisipiu, PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, \
 	TipuEviksaun, TipuAtor, EstraguPatrimoniu, NesesidadeUrjente
 from kazu.models import Kazu, UmaKainAfetada, InsidenteEviksaun, AtorEnvolvidu, Evidensia, KazuSegimentu, KazuAkompanamentu, STATUS_KAZU_CHOICES
@@ -28,6 +29,20 @@ BTN_RAI = """ <button class="btn btn-rbr" type="submit"><i class="fa fa-save"></
 
 def section(num, title):
 	return HTML(f""" {{% load i18n %}}<h3 class="form-section"><span>{num}</span> {{% trans "{title}" %}}</h3> """)
+
+
+# Formuláriu badak: grupu opsionál subar to'o resposta (haree kazu/form.html no app offline)
+SWITCH_LABELS = [_('Iha detalla rai (enderesu, luan)?'), _('Iha portavós komunidade?'), _('Iha atór envolvidu?'),
+	_('Iha estragu patrimóniu?'), _('Iha nesesidade urjente?')]
+
+
+def switch(grp, label):
+	# Switch "Iha …?" → hatudu grupu data-grp=grp; JS loke automátiku se grupu iha ona dadus
+	return HTML(f""" {{% load i18n %}}<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-{grp}" data-switch="{grp}"><label class="custom-control-label" for="sw-{grp}">{{% trans "{label}" %}}</label></div> """)
+
+
+def grupu(grp, *fields):
+	return Div(*fields, css_class='kond sub-box', data_grp=grp)
 
 
 class KazuForm(forms.ModelForm):
@@ -67,6 +82,9 @@ class KazuForm(forms.ModelForm):
 		self.fields['tipu_rai'].queryset = TipuRai.active.all()
 		self.fields['estragu'].queryset = EstraguPatrimoniu.active.all()
 		self.fields['nesesidade'].queryset = NesesidadeUrjente.active.all()
+		# Tipu Governu / entidade legál → hatudu Projetu no Entidade (JS lee lista id)
+		self.fields['tipu_konflitu'].widget.attrs['data-entidade-ids'] = ','.join(
+			str(pk) for pk in TipuKonflitu.objects.filter(code__in=TIPU_ENTIDADE).values_list('pk', flat=True))
 
 		# Investigadór: munisípiu knaar deit (la bele muda)
 		if self.munisipiu_knaar:
@@ -132,13 +150,13 @@ class KazuForm(forms.ModelForm):
 				Column('gps_akurasia', css_class='form-group col-12 col-md-4 mb-0'),
 				css_class='form-row'
 			),
-			HTML(""" {% load i18n %}<div class="form-group"><label for="maps-link" class="small mb-1">{% trans "Ka kola link Google Maps (pindrop) atu hatama koordenada:" %}</label><input type="url" id="maps-link" class="form-control form-control-sm" placeholder="https://maps.google.com/..." autocomplete="off"><small id="maps-link-msg" class="form-text text-muted"></small></div> """),
-			Row(
+			switch('rai', 'Iha detalla rai (enderesu, luan)?'),
+			grupu('rai', Row(
 				Column('enderesu_fatin', css_class='form-group col-md-6 mb-0'),
 				Column('rai_luan', css_class='form-group col-6 col-md-3 mb-0'),
 				Column('rai_luan_unidade', css_class='form-group col-6 col-md-3 mb-0'),
 				css_class='form-row'
-			),
+			)),
 			section(2, 'Informasaun Insidente'),
 			Row(
 				Column('data_akontesimentu', css_class='form-group col-md-4 mb-0'),
@@ -151,12 +169,12 @@ class KazuForm(forms.ModelForm):
 				Column('tipu_seluk', css_class='form-group col-md-6 mb-0'),
 				css_class='form-row'
 			),
-			Row(
+			grupu('entidade', Row(
 				Column('projetu', css_class='form-group col-md-4 mb-0'),
 				Column('entidade_foti', css_class='form-group col-md-4 mb-0'),
 				Column('entidade_kategoria', css_class='form-group col-md-4 mb-0'),
 				css_class='form-row'
-			),
+			)),
 			'deskrisaun',
 		)
 		# Seksaun 3: dadus jerál populasaun afetada (molok formset uma-kain)
@@ -164,61 +182,59 @@ class KazuForm(forms.ModelForm):
 		self.helper_pop.form_tag = False
 		self.helper_pop.disable_csrf = True
 		self.helper_pop.layout = Layout(
-			Row(
-				Column('iha_dadus_uma_kain', css_class='form-group col-md-4 mb-0'),
-				Column('fonte_dadus_uma_kain', css_class='form-group col-md-8 mb-0'),
-				css_class='form-row'
-			),
+			Row(Column('iha_dadus_uma_kain', css_class='form-group col-md-4 mb-0'), css_class='form-row'),
 		)
 		self.helper_pop_b = FormHelper()
 		self.helper_pop_b.form_tag = False
 		self.helper_pop_b.disable_csrf = True
-		self.helper_pop_b.layout = Layout('observasaun_afetadu')
+		self.helper_pop_b.layout = Layout(grupu('uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu'))
 		# Seksaun 3: eviksaun no portavós komunidade
 		self.helper_eviksaun = FormHelper()
 		self.helper_eviksaun.form_tag = False
 		self.helper_eviksaun.disable_csrf = True
 		self.helper_eviksaun.layout = Layout(
-			Row(
-				Column('eviksaun_akontese', css_class='form-group col-md-4 mb-0'),
-				Column('data_eviksaun', css_class='form-group col-md-4 mb-0'),
-				Column('uza_forsa', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
+			Row(Column('eviksaun_akontese', css_class='form-group col-md-4 mb-0'), css_class='form-row'),
+			grupu('eviksaun',
+				Row(
+					Column('data_eviksaun', css_class='form-group col-md-4 mb-0'),
+					Column('uza_forsa', css_class='form-group col-md-4 mb-0'),
+					css_class='form-row'
+				),
+				Row(
+					Column('konsultasaun_molok', css_class='form-group col-md-6 mb-0'),
+					Column('notifikasaun_klaru', css_class='form-group col-md-6 mb-0'),
+					css_class='form-row'
+				),
+				'observasaun_eviksaun',
 			),
-			Row(
-				Column('konsultasaun_molok', css_class='form-group col-md-6 mb-0'),
-				Column('notifikasaun_klaru', css_class='form-group col-md-6 mb-0'),
-				css_class='form-row'
-			),
-			'observasaun_eviksaun',
 		)
 		self.helper_portavos = FormHelper()
 		self.helper_portavos.form_tag = False
 		self.helper_portavos.disable_csrf = True
 		self.helper_portavos.layout = Layout(
-			Row(
+			switch('portavos', 'Iha portavós komunidade?'),
+			grupu('portavos', Row(
 				Column('portavos_naran', css_class='form-group col-md-4 mb-0'),
 				Column('portavos_kontaktu', css_class='form-group col-md-3 mb-0'),
 				Column('portavos_observasaun', css_class='form-group col-md-5 mb-0'),
 				css_class='form-row'
-			),
+			)),
 		)
 		self.helper_b = FormHelper()
 		self.helper_b.form_tag = False
 		self.helper_b.disable_csrf = True
 		self.helper_b.layout = Layout(
 			section(4, 'Estragu Patrimóniu'),
-			Row(
+			switch('estragu', 'Iha estragu patrimóniu?'),
+			grupu('estragu', Row(
 				Column('estragu', css_class='form-group col-md-6 mb-0'),
 				Column('estragu_seluk', css_class='form-group col-md-6 mb-0'),
 				css_class='form-row'
-			),
+			)),
 			section(6, 'Nesesidade Urjente no Konsentimentu'),
-			Row(
-				Column('nesesidade', css_class='form-group col-md-6 mb-0'),
-				Column('observasaun', css_class='form-group col-md-6 mb-0'),
-				css_class='form-row'
-			),
+			switch('nesesidade', 'Iha nesesidade urjente?'),
+			grupu('nesesidade', 'nesesidade'),
+			'observasaun',
 			Field('konsentimentu', wrapper_class='konsentimentu-box'),
 			Field('la_publika'),                    # komunidade husu atu kazu la mosu iha portal públiku
 		)
@@ -247,6 +263,14 @@ class KazuForm(forms.ModelForm):
 		tipu = cleaned.get('tipu_konflitu') or []
 		if any(t.presiza_esplika for t in tipu) and not cleaned.get('tipu_seluk'):
 			self.add_error('tipu_seluk', _('Favor esplika tipu konflitu "Seluk".'))
+
+		# Resposta kondisionál: kampu ne'ebé la aplika la rai (hanesan formuláriu subar)
+		if tipu and not any(t.code in TIPU_ENTIDADE for t in tipu):
+			cleaned.update(projetu='', entidade_foti='', entidade_kategoria='')
+		if cleaned.get('eviksaun_akontese') != 'SIN':
+			cleaned.update(data_eviksaun=None, konsultasaun_molok='', notifikasaun_klaru='', uza_forsa='', observasaun_eviksaun='')
+		if cleaned.get('iha_dadus_uma_kain') in ('LAE', 'LAHATENE'):
+			cleaned.update(fonte_dadus_uma_kain='', observasaun_afetadu='')
 
 		# Lokalizasaun tenke tuir malu (postu iha munisípiu, suku iha postu, aldeia iha suku)
 		mun, postu, suku, aldeia = cleaned.get('munisipiu'), cleaned.get('postu'), cleaned.get('suku'), cleaned.get('aldeia')
@@ -299,15 +323,20 @@ class AfetaduForm(_InlineBase):
 			Row(
 				Column('uma_kain', css_class='form-group col-6 col-md-3 mb-0'),
 				Column('total_ema', css_class='form-group col-6 col-md-3 mb-0'),
-				Column('mane', css_class='form-group col-6 col-md-3 mb-0'),
-				Column('feto', css_class='form-group col-6 col-md-3 mb-0'),
 				css_class='form-row'
 			),
-			Row(
-				Column('labarik', css_class='form-group col-6 col-md-4 mb-0'),
-				Column('katuas_ferik', css_class='form-group col-6 col-md-4 mb-0'),
-				Column('defisiensia', css_class='form-group col-6 col-md-4 mb-0'),
-				css_class='form-row'
+			grupu('uma_kain',
+				Row(
+					Column('mane', css_class='form-group col-6 col-md-3 mb-0'),
+					Column('feto', css_class='form-group col-6 col-md-3 mb-0'),
+					css_class='form-row'
+				),
+				Row(
+					Column('labarik', css_class='form-group col-6 col-md-4 mb-0'),
+					Column('katuas_ferik', css_class='form-group col-6 col-md-4 mb-0'),
+					Column('defisiensia', css_class='form-group col-6 col-md-4 mb-0'),
+					css_class='form-row'
+				),
 			),
 		)
 
@@ -367,7 +396,7 @@ AtorFormSet = inlineformset_factory(Kazu, AtorEnvolvidu, form=AtorForm, extra=2,
 
 
 # ══════════════ EVIDÉNSIA ══════════════
-MAX_FOTO, MAX_VIDEO = 5, 1
+MAX_FOTO, MAX_VIDEO = 5, 3
 LIMITE = {  # tipu: (extensaun permite, tamañu máximu MB)
 	Evidensia.FOTO: (('jpg', 'jpeg', 'png', 'webp'), 15),
 	Evidensia.VIDEO: (('mp4', 'webm', 'mov', '3gp'), 50),
@@ -450,7 +479,7 @@ class EvidensiaForm(forms.ModelForm):
 		elif len(files) > 1:
 			self.add_error('file', _('Vídeo ka dokumentu: file ida deit kada upload.'))
 		if tipu == Evidensia.VIDEO and self.kazu.video_count() >= MAX_VIDEO:
-			self.add_error('tipu', _('Vídeo máximu 1 kada kazu.'))
+			self.add_error('tipu', _('Vídeo máximu %(n)s kada kazu.') % {'n': MAX_VIDEO})
 		return cleaned
 
 

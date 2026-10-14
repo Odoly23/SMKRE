@@ -22,6 +22,8 @@ TIPU_KONFLITU = [
 ]
 # Tipu tuan (versaun uluk SIBAR-RbR): la hatudu tan iha formuláriu, kazu tuan sei mantein
 TIPU_KONFLITU_TUAN = ['DESLOKAMENTU', 'TRADISIONAL', 'AKIZISAUN', 'FRONTEIRA']
+# Tipu ne'ebé hatudu kampu Projetu / Entidade ne'ebé foti rai (Governu ka entidade legál)
+TIPU_ENTIDADE = ['GOV-RAI-PRIVADU', 'GOV-RAI-ESTADU', 'GOV-RAI-ABANDONADU', 'ENTIDADE-LEGAL']
 
 TIPU_RAI = [
 	('ESTADU', 'Rai Estadu'),

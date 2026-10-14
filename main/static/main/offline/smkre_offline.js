@@ -7,7 +7,7 @@
 	var K = SmkreKripto, DB = SmkreDB, KAM = SmkreKamera;
 
 	var TL_LAT = [-9.60, -8.10], TL_LON = [124.00, 127.40], GPS_MAX = 50;
-	var MAX_FOTO = 5, MAX_VIDEO = 1, PIN_SALA_MAX = 5, XAVI_MINUTU = 5, PASU_TOTAL = 6;
+	var MAX_FOTO = 5, MAX_VIDEO = 3, PIN_SALA_MAX = 5, XAVI_MINUTU = 5, PASU_TOTAL = 6;
 	var VERIFIKA_TESTU = 'SMKRE-PIN-OK';
 
 	// Estadu app (iha memória deit; lakon bainhira xavi)
@@ -329,7 +329,7 @@
 		div.innerHTML = lista.map(function (o) {
 			var id = naran + '-' + o.id;
 			return '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="' + id + '" value="' + o.id + '"' +
-				(o.presiza_esplika ? ' data-esplika="1"' : '') + (valor.indexOf(String(o.id)) >= 0 ? ' checked' : '') + '>' +
+				(o.presiza_esplika ? ' data-esplika="1"' : '') + (o.entidade ? ' data-entidade="1"' : '') + (valor.indexOf(String(o.id)) >= 0 ? ' checked' : '') + '>' +
 				'<label class="custom-control-label" for="' + id + '">' + esc(o.name) + '</label></div>';
 		}).join('');
 	}
@@ -403,6 +403,10 @@
 		hatuduGPS();
 		$('f-data_akontesimentu').value = k.data_akontesimentu || '';
 		$('f-data_akontesimentu').max = hoje();
+		// Tipu konflitu tuan (la ativu ona) → hasai, Investigadór hili fali tipu foun
+		var tkValidu = o.tipu_konflitu.map(function (t) { return t.id; });
+		var tkTuan = (k.tipu_konflitu || []).filter(function (id) { return tkValidu.indexOf(id) < 0; });
+		k.tipu_konflitu = (k.tipu_konflitu || []).filter(function (id) { return tkValidu.indexOf(id) >= 0; });
 		opsaunCheck($('f-tipu_konflitu'), o.tipu_konflitu, k.tipu_konflitu, 'tk');
 		$('f-tipu_seluk').value = k.tipu_seluk || '';
 		opsaunSelect($('f-tipu_rai'), o.tipu_rai, k.tipu_rai);
@@ -424,9 +428,20 @@
 		$('f-konsentimentu').checked = !!k.konsentimentu;
 		$('f-la_publika').checked = !!k.la_publika;
 		enxeKampu(k);
-		$('f-maps-link').value = ''; $('maps-link-msg').textContent = '';
 		hatuduSeluk();
 		hatuduMedia();
+		// Switch "Iha …?" loke automátiku se iha ona dadus
+		var afe = k.afetadu || {};
+		$('sw-rai').checked = !!(k.enderesu_fatin || k.rai_luan != null);
+		$('sw-portavos').checked = !!(k.portavos_naran || k.portavos_kontaktu || k.portavos_observasaun);
+		$('sw-ator').checked = (k.ator || []).length > 0;
+		$('sw-estragu').checked = (k.estragu || []).length > 0 || !!k.estragu_seluk;
+		$('sw-nesesidade').checked = (k.nesesidade || []).length > 0;
+		$('sw-video').checked = S.media.some(function (m) { return m.tipu === 'VIDEO'; });
+		// Kazu tuan la iha resposta "Dadus uma-kain iha?" maibé iha ona detalla → hatudu
+		S.umaKainTuan = !k.iha_dadus_uma_kain && ['mane', 'feto', 'labarik', 'katuas_ferik', 'defisiensia'].some(function (x) { return afe[x] != null; });
+		hatuduKond();
+		if (tkTuan.length) msg('Tipu konflitu tuan la uza ona. Favor hili fali tipu konflitu iha pasu 2.', 'warning');
 	}
 
 	function enxeSuku() {
@@ -444,7 +459,28 @@
 		var presiza = !!$('f-tipu_konflitu').querySelector('input[data-esplika]:checked');
 		$('grp-tipu_seluk').hidden = !presiza;
 	}
-	$('f-tipu_konflitu').addEventListener('change', hatuduSeluk);
+	$('f-tipu_konflitu').addEventListener('change', function () { hatuduSeluk(); hatuduKond(); });
+
+	// ══ Hatudu / subar grupu tuir resposta (formuláriu badak) ══
+	function hatuduKond() {
+		var tk = $('f-tipu_konflitu');
+		$('grp-entidade').hidden = !tk.querySelector('input[data-entidade]:checked');
+		$('grp-uma_kain').hidden = !($('f-iha_dadus_uma_kain').value === 'SIN' || (S.umaKainTuan && !$('f-iha_dadus_uma_kain').value));
+		$('grp-eviksaun').hidden = $('f-eviksaun_akontese').value !== 'SIN';
+		document.querySelectorAll('[data-switch]').forEach(function (sw) { $(sw.dataset.switch).hidden = !sw.checked; });
+		if (!$('grp-ator').hidden && !$('lista-ator').children.length) aumentaAtor(null);
+	}
+	['f-iha_dadus_uma_kain', 'f-eviksaun_akontese'].forEach(function (id) { $(id).addEventListener('change', hatuduKond); });
+	document.querySelectorAll('[data-switch]').forEach(function (sw) {
+		sw.addEventListener('change', function () {
+			if (sw.id === 'sw-video' && !sw.checked && S.media.some(function (m) { return m.tipu === 'VIDEO'; })) {
+				sw.checked = true; msg('Hamoos vídeo sira uluk mak bele taka.', 'info'); return;
+			}
+			hatuduKond();
+		});
+	});
+	// Grupu subar = dadus la rai (hamoos), atu la haruka dadus ne'ebé la relevante
+	function subar(id) { return $(id).hidden; }
 	$('i-ativu').addEventListener('change', function () { $('grp-insidente').hidden = !this.checked; });
 
 	function aumentaAtor(a) {
@@ -496,6 +532,11 @@
 		k.konsentimentu = $('f-konsentimentu').checked;
 		k.la_publika = $('f-la_publika').checked;
 		leeKampu(k);
+		document.querySelectorAll('.kond[hidden] [data-kampu]').forEach(function (el) { k[el.dataset.kampu] = null; });
+		document.querySelectorAll('.kond[hidden] [data-afetadu]').forEach(function (el) { k.afetadu[el.dataset.afetadu] = null; });
+		if (subar('grp-ator')) k.ator = [];
+		if (subar('grp-estragu')) { k.estragu = []; k.estragu_seluk = ''; }
+		if (subar('grp-nesesidade')) { k.nesesidade = []; k.urjente = false; }
 		return k;
 	}
 
@@ -594,19 +635,6 @@
 			(k.nesesidade.length ? '<br><span class="badge badge-urjente">URJENTE</span>' : '') + '</div>';
 	}
 
-	// ══════════════ GPS husi link Google Maps (pindrop) ══════════════
-	$('f-maps-link').addEventListener('input', function () {
-		var r = SMKREMapsLink.lee(this.value), m = $('maps-link-msg');
-		var erru = { badak: 'Link badak la bele lee. Loke link, kopia link naruk husi barra enderesu.', liur: "Koordenada li'ur Timor-Leste.", la_hetan: "La hetan koordenada iha link ne'e." };
-		if (r.lat !== undefined) {
-			S.kazu.latitude = r.lat; S.kazu.longitude = r.lng; S.kazu.gps_akurasia = null;
-			hatuduGPS();
-			m.className = 'form-text text-success'; m.textContent = 'Koordenada hatama husi link.';
-		} else {
-			m.className = 'form-text text-danger'; m.textContent = r.erru ? erru[r.erru] : '';
-		}
-	});
-
 	// ══════════════ GPS ══════════════
 	var gpsWatch = null, gpsTimer = null;
 
@@ -614,7 +642,7 @@
 		var k = S.kazu, info = $('gps-info');
 		if (k.latitude == null) { info.className = 'small mt-1 text-muted'; info.textContent = 'Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m.'; return; }
 		info.className = 'small mt-1 ' + (k.gps_akurasia == null || k.gps_akurasia <= GPS_MAX ? 'text-success' : 'text-danger');
-		info.innerHTML = '<i class="fa fa-check"></i> ' + k.latitude.toFixed(6) + ', ' + k.longitude.toFixed(6) + (k.gps_akurasia == null ? ' · husi link mapa' : ' · akurasia ±' + k.gps_akurasia + ' m');
+		info.innerHTML = '<i class="fa fa-check"></i> ' + k.latitude.toFixed(6) + ', ' + k.longitude.toFixed(6) + (k.gps_akurasia == null ? '' : ' · akurasia ±' + k.gps_akurasia + ' m');
 	}
 
 	function paraGPS() {
@@ -670,6 +698,7 @@
 		$('btn-foto').disabled = foto >= MAX_FOTO;
 		$('btn-galeria').disabled = foto >= MAX_FOTO;
 		$('btn-video').disabled = video >= MAX_VIDEO;
+		$('btn-video-galeria').disabled = video >= MAX_VIDEO;
 		var grid = $('lista-media');
 		grid.innerHTML = '';
 		S.media.forEach(function (m) {
@@ -718,6 +747,51 @@
 	$('btn-video').addEventListener('click', function () {
 		S.ativu = Date.now();
 		KAM.video().then(function (b) { return raiMedia('VIDEO', b); }).catch(function (e) { msg(e.message); });
+	});
+	// Vídeo husi galeria (liu 60 s → hili parte no kota)
+	var kotaFile = null;
+	function tempu(s) { s = Math.round(s); return Math.floor(s / 60) + ':' + ('0' + s % 60).slice(-2); }
+	function kotaTaka() {
+		var pv = $('kota-video');
+		pv.pause(); if (pv.src) URL.revokeObjectURL(pv.src); pv.removeAttribute('src');
+		kotaFile = null; $('video-kota').hidden = true; $('kota-progress').hidden = true;
+		$('kota-ok').disabled = false; $('kota-hahu').disabled = false;
+	}
+	function kotaInfo() {
+		var h = parseInt($('kota-hahu').value, 10), pv = $('kota-video');
+		$('kota-info').textContent = tempu(h) + ' – ' + tempu(Math.min(h + KAM.VIDEO_MAX_S, pv.duration || h + KAM.VIDEO_MAX_S)) + ' (husi ' + tempu(pv.duration || 0) + ')';
+		if (pv.readyState) pv.currentTime = h;
+	}
+	$('btn-video-galeria').addEventListener('click', function () {
+		S.ativu = Date.now();
+		KAM.videoGaleria().then(function (r) {
+			if (!r) return;
+			if (!r.presizaKota) return raiMedia('VIDEO', r.file);
+			kotaFile = r.file;
+			var pv = $('kota-video');
+			pv.src = URL.createObjectURL(r.file);
+			$('kota-hahu').max = Math.max(0, Math.floor(r.durasaun - KAM.VIDEO_MAX_S));
+			$('kota-hahu').value = 0;
+			pv.onloadedmetadata = kotaInfo;
+			$('video-kota').hidden = false;
+		}).catch(function (e) { msg(e.message); });
+	});
+	$('kota-hahu').addEventListener('input', kotaInfo);
+	$('kota-kansela').addEventListener('click', kotaTaka);
+	$('kota-ok').addEventListener('click', function () {
+		if (!kotaFile) return;
+		S.ativu = Date.now();
+		var bar = $('kota-progress'), barra = bar.firstElementChild;
+		bar.hidden = false; barra.style.width = '0%';
+		this.disabled = true; $('kota-hahu').disabled = true; $('kota-video').pause();
+		msg('Kota hela vídeo… Labele taka ekran ka muda app.', 'info');
+		KAM.kota(kotaFile, parseInt($('kota-hahu').value, 10), function (p) {
+			barra.style.width = Math.round(p * 100) + '%'; S.ativu = Date.now();
+		}).then(function (blob) {
+			kotaTaka();
+			return raiMedia('VIDEO', blob);
+		}).then(function () { msg('Vídeo kota no rai ona.', 'success'); })
+			.catch(function (e) { kotaTaka(); msg(e.message || 'Vídeo la bele kota.'); });
 	});
 	$('lista-media').addEventListener('click', function (ev) {
 		var b = ev.target.closest('[data-media]');

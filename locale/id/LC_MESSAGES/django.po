@@ -3277,3 +3277,36 @@ msgstr "oleh"
 
 msgid "Sistema Monitorizasaun Kazu Rai"
 msgstr "Sistem Pemantauan Kasus Tanah"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid ""
+"Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 3 (60 "
+"segundu / 50 MB kada vídeo) · Foto kompresa automátiku."
+msgstr ""
+"Maksimal 5 foto (kamera atau galeri, bisa pilih banyak) · Maksimal 3 video "
+"(60 detik / 50 MB per video) · Foto dikompres otomatis."
+
+#: kazu/forms.py
+msgid "Iha atór envolvidu?"
+msgstr "Ada aktor yang terlibat?"
+
+#: kazu/forms.py
+msgid "Iha detalla rai (enderesu, luan)?"
+msgstr "Ada detail tanah (alamat, luas)?"
+
+#: kazu/forms.py
+msgid "Iha estragu patrimóniu?"
+msgstr "Ada kerusakan harta benda?"
+
+#: kazu/forms.py
+msgid "Iha nesesidade urjente?"
+msgstr "Ada kebutuhan mendesak?"
+
+#: kazu/forms.py
+msgid "Iha portavós komunidade?"
+msgstr "Ada juru bicara komunitas?"
+
+#: kazu/forms.py
+#, python-format
+msgid "Vídeo máximu %(n)s kada kazu."
+msgstr "Maksimal %(n)s video per kasus."

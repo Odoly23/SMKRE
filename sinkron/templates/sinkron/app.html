@@ -120,11 +120,13 @@
 					</div>
 					<div id="gps-info" class="small mt-1 text-muted">Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m.</div>
 				</div>
-				<div class="form-group"><label for="f-maps-link" class="small">Ka kola link Google Maps (pindrop)</label><input id="f-maps-link" type="url" class="form-control form-control-sm" placeholder="https://maps.google.com/..." autocomplete="off"><small id="maps-link-msg" class="form-text text-muted"></small></div>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-rai" data-switch="grp-rai"><label class="custom-control-label" for="sw-rai">Iha detalla rai (enderesu, luan)?</label></div>
+				<div id="grp-rai" class="kond sub-box" hidden>
 				<div class="form-group"><label for="f-enderesu_fatin">Enderesu ka deskrisaun fatin</label><input id="f-enderesu_fatin" data-kampu="enderesu_fatin" class="form-control" maxlength="255"></div>
 				<div class="form-row">
 					<div class="form-group col-7"><label for="f-rai_luan">Rai nia luan</label><input id="f-rai_luan" data-kampu="rai_luan" data-tipu="decimal" type="number" min="0" step="any" class="form-control" inputmode="decimal"></div>
 					<div class="form-group col-5"><label for="f-rai_luan_unidade">Unidade</label><select id="f-rai_luan_unidade" data-kampu="rai_luan_unidade" class="custom-select"><option value="M2">m²</option><option value="HA">Hektar</option></select></div>
+				</div>
 				</div>
 			</fieldset>
 
@@ -136,6 +138,7 @@
 				<div class="form-group"><label>Tipu Konflitu Rai *</label><div id="f-tipu_konflitu" class="chk-list"></div></div>
 				<div class="form-group" id="grp-tipu_seluk" hidden><label for="f-tipu_seluk">Observasaun kona-ba tipu kazu *</label><input id="f-tipu_seluk" name="tipu_seluk" class="form-control" maxlength="255"></div>
 				<div class="form-group"><label for="f-tipu_rai">Tipu Rai</label><select id="f-tipu_rai" name="tipu_rai" class="custom-select"></select></div>
+				<div id="grp-entidade" class="kond sub-box" hidden>
 				<div class="form-group"><label for="f-projetu">Projetu (se Governu foti rai: atu hari'i saida?)</label><input id="f-projetu" data-kampu="projetu" class="form-control" maxlength="255"></div>
 				<div class="form-group"><label for="f-entidade_foti">Entidade ne'ebé foti rai</label><input id="f-entidade_foti" data-kampu="entidade_foti" class="form-control" maxlength="255"></div>
 				<div class="form-group"><label for="f-entidade_kategoria">Entidade benefisiáriu (kategoria)</label><select id="f-entidade_kategoria" data-kampu="entidade_kategoria" class="custom-select">
@@ -143,6 +146,7 @@
 					<option value="EMPREZA_PUBLIKU">Empreza Públiku</option><option value="GOVERNU">Governu</option><option value="KOMPANIA_INTERNASIONAL">Kompañia Internasionál</option>
 					<option value="KOMPANIA_NASIONAL">Kompañia Nasionál</option><option value="KONVENSAUN_RELIJIOZU">Konvensaun Relijiozu</option>
 					<option value="PARTIDU_POLITIKU">Partidu Polítiku</option><option value="PNTL_FFDTL">PNTL / F-FDTL</option><option value="SELUK">Seluk</option><option value="LAHATENE">La hatene</option></select></div>
+				</div>
 				<div class="form-group"><label for="f-deskrisaun">Deskrisaun Insidente *</label>
 					<textarea id="f-deskrisaun" name="deskrisaun" class="form-control" rows="5" required placeholder="Deskreve badak saida mak akontese, inklui sekuénsia akontesimentu, asaun husi autoridade ka atór no impaktu ba komunidade."></textarea></div>
 			</fieldset>
@@ -151,12 +155,15 @@
 			<fieldset class="step" data-step="3" hidden>
 				<legend>3. Populasaun Afetada no Atór</legend>
 				<div class="form-row">
-					<div class="form-group col-6"><label for="f-iha_dadus_uma_kain">Dadus uma-kain iha?</label><select id="f-iha_dadus_uma_kain" data-kampu="iha_dadus_uma_kain" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">La hatene</option></select></div>
-					<div class="form-group col-6"><label for="f-fonte_dadus_uma_kain">Fonte dadus</label><input id="f-fonte_dadus_uma_kain" data-kampu="fonte_dadus_uma_kain" class="form-control" maxlength="150"></div>
+					<div class="form-group col-12"><label for="f-iha_dadus_uma_kain">Dadus uma-kain iha?</label><select id="f-iha_dadus_uma_kain" data-kampu="iha_dadus_uma_kain" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">La hatene</option></select></div>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-6"><label for="a-uma_kain">Uma-Kain</label><input id="a-uma_kain" data-afetadu="uma_kain" type="number" min="0" class="form-control" inputmode="numeric"></div>
 					<div class="form-group col-6"><label for="a-total_ema">Total Ema</label><input id="a-total_ema" data-afetadu="total_ema" type="number" min="0" class="form-control" inputmode="numeric"></div>
+				</div>
+				<div id="grp-uma_kain" class="kond sub-box" hidden>
+				<div class="form-group"><label for="f-fonte_dadus_uma_kain">Fonte dadus uma-kain</label><input id="f-fonte_dadus_uma_kain" data-kampu="fonte_dadus_uma_kain" class="form-control" maxlength="150"></div>
+				<div class="form-row">
 					<div class="form-group col-6"><label for="a-mane">Mane</label><input id="a-mane" data-afetadu="mane" type="number" min="0" class="form-control" inputmode="numeric"></div>
 					<div class="form-group col-6"><label for="a-feto">Feto</label><input id="a-feto" data-afetadu="feto" type="number" min="0" class="form-control" inputmode="numeric"></div>
 					<div class="form-group col-4"><label for="a-labarik">Labarik</label><input id="a-labarik" data-afetadu="labarik" type="number" min="0" class="form-control" inputmode="numeric"></div>
@@ -164,21 +171,28 @@
 					<div class="form-group col-4"><label for="a-defisiensia">Defisiénsia</label><input id="a-defisiensia" data-afetadu="defisiensia" type="number" min="0" class="form-control" inputmode="numeric"></div>
 				</div>
 				<div class="form-group"><label for="f-observasaun_afetadu">Observasaun kona-ba dadus ema afetadu</label><textarea id="f-observasaun_afetadu" data-kampu="observasaun_afetadu" class="form-control" rows="2"></textarea></div>
+				</div>
 				<label class="mt-1 font-weight-bold">Eviksaun</label>
 				<div class="form-row">
-					<div class="form-group col-6"><label for="f-eviksaun_akontese">Eviksaun akontese ona?</label><select id="f-eviksaun_akontese" data-kampu="eviksaun_akontese" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">La hatene</option></select></div>
+					<div class="form-group col-12"><label for="f-eviksaun_akontese">Eviksaun akontese ona?</label><select id="f-eviksaun_akontese" data-kampu="eviksaun_akontese" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">La hatene</option></select></div>
+				</div>
+				<div id="grp-eviksaun" class="kond sub-box" hidden>
+				<div class="form-row">
 					<div class="form-group col-6"><label for="f-data_eviksaun">Data eviksaun</label><input id="f-data_eviksaun" data-kampu="data_eviksaun" type="date" class="form-control"></div>
 					<div class="form-group col-6"><label for="f-konsultasaun_molok">Molok eviksaun iha konsultasaun?</label><select id="f-konsultasaun_molok" data-kampu="konsultasaun_molok" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">La hatene</option></select></div>
 					<div class="form-group col-6"><label for="f-notifikasaun_klaru">Notifikasaun klaru?</label><select id="f-notifikasaun_klaru" data-kampu="notifikasaun_klaru" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">La hatene</option></select></div>
 					<div class="form-group col-6"><label for="f-uza_forsa">Uza forsa?</label><select id="f-uza_forsa" data-kampu="uza_forsa" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">La hatene</option></select></div>
 				</div>
 				<div class="form-group"><label for="f-observasaun_eviksaun">Observasaun kona-ba eviksaun</label><textarea id="f-observasaun_eviksaun" data-kampu="observasaun_eviksaun" class="form-control" rows="2"></textarea></div>
-				<label class="mt-1 font-weight-bold">Portavós komunidade</label>
+				</div>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-portavos" data-switch="grp-portavos"><label class="custom-control-label" for="sw-portavos">Iha portavós komunidade?</label></div>
+				<div id="grp-portavos" class="kond sub-box" hidden>
 				<div class="form-row">
 					<div class="form-group col-7"><label for="f-portavos_naran">Naran</label><input id="f-portavos_naran" data-kampu="portavos_naran" class="form-control" maxlength="150"></div>
 					<div class="form-group col-5"><label for="f-portavos_kontaktu">Kontaktu</label><input id="f-portavos_kontaktu" data-kampu="portavos_kontaktu" type="tel" class="form-control" maxlength="50"></div>
 				</div>
 				<div class="form-group"><label for="f-portavos_observasaun">Observasaun kona-ba portavós</label><input id="f-portavos_observasaun" data-kampu="portavos_observasaun" class="form-control" maxlength="255"></div>
+				</div>
 				<div class="custom-control custom-switch mb-2">
 					<input type="checkbox" class="custom-control-input" id="i-ativu"><label class="custom-control-label" for="i-ativu">Iha eviksaun / deslokamentu</label>
 				</div>
@@ -190,37 +204,61 @@
 					</div>
 					<div class="form-group"><label for="i-estragu">Estragu (uma / to'os / sasán)</label><input id="i-estragu" class="form-control" maxlength="255"></div>
 				</div>
-				<label class="mt-2">Atór Envolvidu</label>
-				<div id="lista-ator"></div>
-				<button type="button" id="btn-ator" class="btn btn-sm btn-outline-rbr"><i class="fa fa-plus"></i> Aumenta atór</button>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-ator" data-switch="grp-ator"><label class="custom-control-label" for="sw-ator">Iha atór envolvidu?</label></div>
+				<div id="grp-ator" class="kond sub-box" hidden>
+					<div id="lista-ator"></div>
+					<button type="button" id="btn-ator" class="btn btn-sm btn-outline-rbr"><i class="fa fa-plus"></i> Aumenta atór</button>
+				</div>
 			</fieldset>
 
 			<!-- Pasu 4: Estragu Patrimóniu -->
 			<fieldset class="step" data-step="4" hidden>
 				<legend>4. Estragu Patrimóniu</legend>
-				<div id="f-estragu" class="chk-list"></div>
-				<div class="form-group mt-2"><label for="f-estragu_seluk">Estragu seluk</label><input id="f-estragu_seluk" name="estragu_seluk" class="form-control" maxlength="255"></div>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-estragu" data-switch="grp-estragu"><label class="custom-control-label" for="sw-estragu">Iha estragu patrimóniu?</label></div>
+				<div id="grp-estragu" class="kond sub-box" hidden>
+					<div id="f-estragu" class="chk-list"></div>
+					<div class="form-group mt-2"><label for="f-estragu_seluk">Estragu seluk</label><input id="f-estragu_seluk" name="estragu_seluk" class="form-control" maxlength="255"></div>
+				</div>
 			</fieldset>
 
 			<!-- Pasu 5: Evidénsia (kámera deit) -->
 			<fieldset class="step" data-step="5" hidden>
 				<legend>5. Evidénsia</legend>
-				<p class="small text-muted">Foto máximu 5 (kámera ka galeria) · Vídeo 1 (60 segundu, kámera deit).</p>
+				<p class="small text-muted">Foto máximu 5 (kámera ka galeria) · Vídeo máximu 3 (60 segundu kada vídeo).</p>
 				<div class="d-flex mb-2">
 					<button type="button" id="btn-foto" class="btn btn-rbr flex-fill mr-2"><i class="fa fa-camera"></i> Foti Foto <span id="n-foto">0/5</span></button>
-					<button type="button" id="btn-galeria" class="btn btn-outline-rbr flex-fill mr-2"><i class="fa fa-picture-o"></i> Galeria</button>
-					<button type="button" id="btn-video" class="btn btn-outline-rbr flex-fill"><i class="fa fa-video-camera"></i> Vídeo <span id="n-video">0/1</span></button>
+					<button type="button" id="btn-galeria" class="btn btn-outline-rbr flex-fill"><i class="fa fa-picture-o"></i> Galeria</button>
+				</div>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-video" data-switch="grp-video"><label class="custom-control-label" for="sw-video">Aumenta vídeo</label></div>
+				<div id="grp-video" class="kond sub-box" hidden>
+					<div class="d-flex">
+						<button type="button" id="btn-video" class="btn btn-outline-rbr flex-fill mr-2"><i class="fa fa-video-camera"></i> Grava vídeo <span id="n-video">0/3</span></button>
+						<button type="button" id="btn-video-galeria" class="btn btn-outline-rbr flex-fill"><i class="fa fa-film"></i> Vídeo husi galeria</button>
+					</div>
+					<div id="video-kota" class="mt-2" hidden>
+						<p class="small mb-1"><b>Vídeo liu 60 segundu.</b> Hili parte 60 segundu ne'ebé importante:</p>
+						<video id="kota-video" playsinline muted class="w-100 rounded"></video>
+						<input type="range" id="kota-hahu" class="custom-range mt-2" min="0" max="0" step="1" value="0">
+						<div class="small text-muted mb-2" id="kota-info">0:00 – 1:00</div>
+						<div id="kota-progress" class="progress mb-2" hidden><div class="progress-bar bg-success" style="width:0%"></div></div>
+						<div class="d-flex">
+							<button type="button" id="kota-kansela" class="btn btn-light flex-fill mr-2">Kansela</button>
+							<button type="button" id="kota-ok" class="btn btn-rbr flex-fill"><i class="fa fa-scissors"></i> Kota no rai</button>
+						</div>
+					</div>
 				</div>
 				<input type="file" id="fb-galeria" accept="image/*" multiple hidden>
 				<input type="file" id="fb-foto" accept="image/*" capture="environment" hidden>
 				<input type="file" id="fb-video" accept="video/*" capture="environment" hidden>
+				<input type="file" id="fb-video-galeria" accept="video/*" hidden>
 				<div id="lista-media" class="media-grid"></div>
 			</fieldset>
 
 			<!-- Pasu 6: Nesesidade Urjente no Konsentimentu -->
 			<fieldset class="step" data-step="6" hidden>
 				<legend>6. Nesesidade Urjente no Konsentimentu</legend>
-				<div id="f-nesesidade" class="chk-list"></div>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-nesesidade" data-switch="grp-nesesidade"><label class="custom-control-label" for="sw-nesesidade">Iha nesesidade urjente?</label></div>
+				<div id="grp-nesesidade" class="kond sub-box" hidden><div id="f-nesesidade" class="chk-list"></div></div>
 				<div class="form-group mt-2"><label for="f-observasaun">Observasaun Adisionál</label><textarea id="f-observasaun" name="observasaun" class="form-control" rows="2"></textarea></div>
 				<div class="konsent-box">
 					<div class="custom-control custom-checkbox">
@@ -268,7 +306,6 @@
 <script src="{% static 'main/offline/smkre_kripto.js' %}"></script>
 <script src="{% static 'main/offline/smkre_db.js' %}"></script>
 <script src="{% static 'main/offline/smkre_kamera.js' %}"></script>
-<script src="{% static 'main/js/maps_link.js' %}"></script>
 <script src="{% static 'main/offline/smkre_offline.js' %}"></script>
 </body>
 </html>

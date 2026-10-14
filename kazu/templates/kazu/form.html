@@ -22,9 +22,12 @@
 					<!-- 3. Atór envolvidu no populasaun afetada (formset) -->
 					<h3 class="form-section"><span>3</span> {% trans "Atór Envolvidu no Populasaun Afetada" %}</h3>
 					{{ ator_fs.management_form }}
+					<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-ator" data-switch="ator"><label class="custom-control-label" for="sw-ator">{% trans "Iha atór envolvidu?" %}</label></div>
+					<div class="kond sub-box" data-grp="ator">
 					{% for f in ator_fs %}
 					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
 					{% endfor %}
+					</div>
 					<h4 class="form-sub">{% trans "Populasaun Afetada" %}</h4>
 					{% crispy form form.helper_pop %}
 					{{ afetadu_fs.management_form }}
@@ -56,29 +59,51 @@
 	</div> <!--end row-->
 {% endblock %}
 {% block scripts %}
-<script src="{% static 'main/js/maps_link.js' %}"></script>
 <script nonce="{{ request.csp_nonce }}">
-	// Link Google Maps (pindrop) → latitude / longitude
+	// Formuláriu badak: grupu [data-grp] hatudu tuir resposta ka switch "Iha …?"
 	(function () {
-		var inp = document.getElementById('maps-link'), msg = document.getElementById('maps-link-msg');
-		if (!inp) return;
-		var testu = {
-			badak: "{% trans "Link badak la bele lee. Loke link iha browser, depois kopia link naruk husi barra enderesu." %}",
-			liur: "{% trans "Koordenada li'ur Timor-Leste." %}",
-			la_hetan: "{% trans "La hetan koordenada iha link ne'e." %}",
-			ok: "{% trans "Koordenada hatama ona husi link." %}"
+		var form = document.getElementById('KazuForm');
+		function val(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+		function ihaDadus(grp) {
+			return Array.prototype.some.call(grp.querySelectorAll('input, select, textarea'), function (el) {
+				if (el.type === 'hidden' || /-DELETE$/.test(el.name) || el.dataset.switch) return false;
+				if (el.type === 'checkbox' || el.type === 'radio') return el.checked;
+				return el.value !== '' && !(el.tagName === 'SELECT' && el.name === 'rai_luan_unidade');
+			});
+		}
+		var tk = document.querySelector('[data-entidade-ids]');
+		var entidadeIds = tk ? tk.dataset.entidadeIds.split(',') : [];
+		var umaKainTuan = !val('id_iha_dadus_uma_kain') && Array.prototype.some.call(document.querySelectorAll('[data-grp="uma_kain"]'), ihaDadus);
+		var regra = {
+			entidade: function () {
+				return Array.prototype.some.call(document.querySelectorAll('input[name="tipu_konflitu"]:checked'), function (i) { return entidadeIds.indexOf(i.value) >= 0; });
+			},
+			uma_kain: function () { var v = val('id_iha_dadus_uma_kain'); return v === 'SIN' || (umaKainTuan && !v); },
+			eviksaun: function () { return val('id_eviksaun_akontese') === 'SIN'; }
 		};
-		inp.addEventListener('input', function () {
-			var r = SMKREMapsLink.lee(inp.value);
-			if (r.lat !== undefined) {
-				document.getElementById('id_latitude').value = r.lat;
-				document.getElementById('id_longitude').value = r.lng;
-				document.getElementById('id_gps_akurasia').value = '';
-				msg.className = 'form-text text-success'; msg.textContent = testu.ok + ' (' + r.lat + ', ' + r.lng + ')';
-			} else {
-				msg.className = 'form-text text-danger'; msg.textContent = r.erru ? testu[r.erru] : '';
-			}
+		document.querySelectorAll('[data-switch]').forEach(function (sw) {
+			var grp = document.querySelector('[data-grp="' + sw.dataset.switch + '"]');
+			sw.checked = !!grp && ihaDadus(grp);
+			regra[sw.dataset.switch] = function () { return sw.checked; };
 		});
+		function atualiza() {
+			document.querySelectorAll('[data-grp]').forEach(function (g) { g.hidden = !(regra[g.dataset.grp] && regra[g.dataset.grp]()); });
+		}
+		form.addEventListener('change', function (e) {
+			if (e.target.dataset.switch || e.target.name === 'tipu_konflitu' || e.target.id === 'id_iha_dadus_uma_kain' || e.target.id === 'id_eviksaun_akontese') atualiza();
+		});
+		// Haruka: dadus iha grupu subar la rai (atór tuan → hamoos)
+		form.addEventListener('submit', function () {
+			document.querySelectorAll('[data-grp][hidden]').forEach(function (g) {
+				g.querySelectorAll('input, select, textarea').forEach(function (el) {
+					if (el.type === 'hidden') return;
+					if (/-DELETE$/.test(el.name)) { el.checked = true; return; }
+					if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+					else if (el.name !== 'rai_luan_unidade') el.value = '';
+				});
+			});
+		});
+		atualiza();
 	})();
 
 	// Munisípiu → Postu

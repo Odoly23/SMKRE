@@ -358,3 +358,6 @@ body.smkre-map-full-body { overflow: hidden; }
 .mapa-import { height: 380px; border-radius: 10px; }
 .evid-pratinjau { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .evid-pratinjau img { width: 72px; height: 72px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+
+/* ── Formuláriu badak: grupu kondisionál (hatudu tuir resposta / switch "Iha …?") ── */
+.kond.sub-box { background: #f7f9f7; border: 1px solid #e3ebe6; border-left: 3px solid var(--rbr-teal-dk); border-radius: 8px; padding: 12px 12px 4px; margin-bottom: 12px; }

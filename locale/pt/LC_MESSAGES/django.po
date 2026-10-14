@@ -3298,3 +3298,36 @@ msgstr "por"
 
 msgid "Sistema Monitorizasaun Kazu Rai"
 msgstr "Sistema de Monitorização de Casos de Terra"
+
+#: kazu/templates/kazu/evidensia_form.html
+msgid ""
+"Foto máximu 5 (kámera ka galeria, bele hili barak) · Vídeo máximu 3 (60 "
+"segundu / 50 MB kada vídeo) · Foto kompresa automátiku."
+msgstr ""
+"Máximo 5 fotos (câmara ou galeria, pode escolher várias) · Máximo 3 vídeos "
+"(60 segundos / 50 MB cada) · Fotos comprimidas automaticamente."
+
+#: kazu/forms.py
+msgid "Iha atór envolvidu?"
+msgstr "Há atores envolvidos?"
+
+#: kazu/forms.py
+msgid "Iha detalla rai (enderesu, luan)?"
+msgstr "Há detalhes do terreno (endereço, área)?"
+
+#: kazu/forms.py
+msgid "Iha estragu patrimóniu?"
+msgstr "Há danos patrimoniais?"
+
+#: kazu/forms.py
+msgid "Iha nesesidade urjente?"
+msgstr "Há necessidades urgentes?"
+
+#: kazu/forms.py
+msgid "Iha portavós komunidade?"
+msgstr "Há porta-voz da comunidade?"
+
+#: kazu/forms.py
+#, python-format
+msgid "Vídeo máximu %(n)s kada kazu."
+msgstr "Máximo %(n)s vídeos por caso."

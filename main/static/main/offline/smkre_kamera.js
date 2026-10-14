@@ -1,4 +1,5 @@
-/* SIBAR-RbR Kámera — foto husi aplikasaun kámera HP (input capture) ka galeria; vídeo husi kámera deit.
+/* SIBAR-RbR Kámera — foto husi aplikasaun kámera HP (input capture) ka galeria; vídeo husi kámera ka galeria.
+   Vídeo galeria liu 60 segundu: Investigadór hili pontu hahú, HP kota 60 segundu (grava fali liuhusi canvas).
    Foto: input capture loke aplikasaun kámera HP — servisu iha HP hotu (inklui app instaladu, iPhone).
    Vídeo: getUserMedia (para automátiku iha segundu 60); se la bele → input capture ho kontrolu
    file tenke foun (minutu 5 ikus) atu evita vídeo tuan husi galeria.
@@ -161,8 +162,90 @@ var SmkreKamera = (function () {
 		});
 	}
 
+	// ── Vídeo husi galeria: hili file; se ≤ 60 s no ≤ 50 MB rai direta, se lae presiza kota ──
+	function videoGaleria() {
+		var input = document.getElementById('fb-video-galeria');
+		return new Promise(function (resolve, reject) {
+			input.value = '';
+			input.onchange = function () {
+				var f = input.files && input.files[0];
+				if (!f) { resolve(null); return; }
+				var url = URL.createObjectURL(f), v = document.createElement('video');
+				v.preload = 'metadata';
+				v.onloadedmetadata = function () {
+					URL.revokeObjectURL(url);
+					var d = v.duration;
+					if (!isFinite(d) || d <= 0) { reject(erru('Vídeo la bele lee durasaun.')); return; }
+					resolve({ file: f, durasaun: d, presizaKota: d > VIDEO_MAX_S + 1 || f.size > VIDEO_MAX_BYTES });
+				};
+				v.onerror = function () { URL.revokeObjectURL(url); reject(erru('Vídeo la bele loke iha HP ne\'e.')); };
+				v.src = url;
+			};
+			input.click();
+		});
+	}
+
+	// ── Kota vídeo: halimar parte [hahu, hahu+60] no grava fali (canvas + WebAudio) ──
+	// La presiza biblioteka: servisu iha Chrome Android no Safari. Durasaun prosesu = durasaun parte.
+	function kota(file, hahu, progresu) {
+		var mime = videoMime();
+		if (mime === null) return Promise.reject(erru('HP ne\'e la suporta kota vídeo.'));
+		var url = URL.createObjectURL(file);
+		var v = document.createElement('video');
+		v.playsInline = true; v.preload = 'auto'; v.src = url;
+		return new Promise(function (resolve, reject) {
+			var audioCtx = null, recorder = null, pedasu = [], rAF = null;
+			function remata(erro, blob) {
+				cancelAnimationFrame(rAF);
+				v.pause(); URL.revokeObjectURL(url);
+				if (audioCtx) audioCtx.close();
+				if (erro) reject(erro); else resolve(blob);
+			}
+			v.onerror = function () { remata(erru('Vídeo la bele loke.')); };
+			v.onloadedmetadata = function () {
+				var naruk = Math.min(VIDEO_MAX_S, v.duration - hahu);
+				var skala = Math.min(1, 1280 / Math.max(v.videoWidth, v.videoHeight));
+				var c = document.createElement('canvas');
+				c.width = Math.round(v.videoWidth * skala) || 640; c.height = Math.round(v.videoHeight * skala) || 360;
+				var ctx = c.getContext('2d');
+				var stream = c.captureStream(30);
+				try {                                   // audio: la sai iha altifalante, tama ba gravasaun deit
+					var AC = window.AudioContext || window.webkitAudioContext;
+					audioCtx = new AC();
+					var dest = audioCtx.createMediaStreamDestination();
+					audioCtx.createMediaElementSource(v).connect(dest);
+					dest.stream.getAudioTracks().forEach(function (t) { stream.addTrack(t); });
+				} catch (e) { v.muted = true; }        // la iha audio → vídeo de'it
+				v.onseeked = function () {
+					v.onseeked = null;
+					recorder = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 1500000, audioBitsPerSecond: 64000 } : undefined);
+					recorder.ondataavailable = function (e) { if (e.data && e.data.size) pedasu.push(e.data); };
+					recorder.onstop = function () {
+						var blob = new Blob(pedasu, { type: (recorder.mimeType || mime || 'video/webm').split(';')[0] });
+						if (blob.size > VIDEO_MAX_BYTES) { remata(erru('Vídeo boot liu 50 MB.')); return; }
+						remata(null, blob);
+					};
+					function pinta() {
+						ctx.drawImage(v, 0, 0, c.width, c.height);
+						var pasa = v.currentTime - hahu;
+						if (progresu) progresu(Math.min(1, pasa / naruk));
+						if (pasa >= naruk || v.ended) { if (recorder.state === 'recording') recorder.stop(); return; }
+						rAF = requestAnimationFrame(pinta);
+					}
+					v.onended = function () { if (recorder.state === 'recording') recorder.stop(); };
+					if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+					v.play().then(function () { recorder.start(1000); pinta(); }, function () { remata(erru('Vídeo la bele halimar. Koko fali.')); });
+				};
+				v.currentTime = hahu;
+			};
+		});
+	}
+
 	return {
 		galeria: galeria,
+		videoGaleria: videoGaleria,
+		kota: kota,
+		VIDEO_MAX_S: VIDEO_MAX_S,
 		foto: function () { return foti('foto'); },
 		video: function () { return foti('video'); }
 	};

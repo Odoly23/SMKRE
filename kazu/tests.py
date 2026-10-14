@@ -278,6 +278,18 @@ class WorkflowTest(KazuBase):
 		self.assertContains(r, 'Tinan la validu')
 		self.assertContains(r, 'Data eviksaun labele iha futuru')
 
+	def test_resposta_kondisional_la_rai_kampu_subar(self):
+		# Formuláriu badak: tipu la'ós Governu/entidade → Projetu/Entidade hamoos; eviksaun LAE → detalla eviksaun hamoos
+		kazu = self.create_kazu('rai', tipu_konflitu=[TipuKonflitu.objects.get(code='KOM-KOM').pk], projetu='Estrada',
+			entidade_kategoria='GOVERNU', eviksaun_akontese='LAE', uza_forsa='SIN', observasaun_eviksaun='x',
+			iha_dadus_uma_kain='LAE', fonte_dadus_uma_kain='Xefe suku')
+		self.assertEqual((kazu.projetu, kazu.entidade_kategoria, kazu.uza_forsa, kazu.observasaun_eviksaun, kazu.fonte_dadus_uma_kain), ('', '', '', '', ''))
+		r = self.client.get(reverse('kazu-update', args=[kazu.pk]))
+		self.assertContains(r, 'data-grp="entidade"')
+		self.assertContains(r, 'data-switch="portavos"')
+		self.assertContains(r, 'data-entidade-ids=')
+		self.assertNotContains(r, 'maps-link')
+
 	def test_kodigu_la_bentrok(self):
 		k1 = self.create_kazu('haruka')
 		k2 = self.create_kazu('haruka')

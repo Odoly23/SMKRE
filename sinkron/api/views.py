@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from config.permissions import HasRole
 from config.rbac import INVESTIGADOR
+from custom.data.opsaun import TIPU_ENTIDADE
 from custom.models import PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, TipuEviksaun, \
 	TipuAtor, EstraguPatrimoniu, NesesidadeUrjente
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_EDITABLE, REJECTED
@@ -55,7 +56,7 @@ class APIOpsaun(_SinkronAPI):
 			'postu': _lista(postu),
 			'suku': _lista(suku, 'postu_id'),
 			'aldeia': _lista(aldeia, 'suku_id'),
-			'tipu_konflitu': _lista(TipuKonflitu.active.all(), 'presiza_esplika'),
+			'tipu_konflitu': [dict(_lista([t], 'presiza_esplika')[0], entidade=t.code in TIPU_ENTIDADE) for t in TipuKonflitu.active.all()],
 			'tipu_rai': _lista(TipuRai.active.all()),
 			'tipu_eviksaun': _lista(TipuEviksaun.active.all()),
 			'tipu_ator': _lista(TipuAtor.active.all()),

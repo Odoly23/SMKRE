@@ -231,6 +231,9 @@ class OpsaunTest(SinkronBase):
 		self.assertTrue(all(p['id'] in PostuAdministrativu.objects.filter(munisipiu=self.liq).values_list('id', flat=True) for p in d['postu']))
 		self.assertEqual(d['suku'][0]['postu_id'], self.postu.pk)
 		self.assertTrue(any(t['presiza_esplika'] for t in d['tipu_konflitu']))
+		# Tipu Governu / entidade legál → app hatudu Projetu no Entidade
+		entidade = {t['name'] for t in d['tipu_konflitu'] if t['entidade']}
+		self.assertEqual(entidade, set(TipuKonflitu.objects.filter(code__in=['GOV-RAI-PRIVADU', 'GOV-RAI-ESTADU', 'GOV-RAI-ABANDONADU', 'ENTIDADE-LEGAL']).values_list('name', flat=True)))
 
 	def test_lista_status_server(self):
 		data = self.payload()
