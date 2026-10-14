@@ -30,6 +30,10 @@
 	<span class="badge badge-danger rounded-pill px-3">
 		<i class="fa fa-undo"></i> {% trans "Rejeitadu" %}
 	</span>
+{% elif obj.status == 'FOLLOWUP' %}
+	<span class="badge badge-warning rounded-pill px-3">
+		<i class="fa fa-street-view"></i> {% trans "Follow-up" %}
+	</span>
 {% elif obj.status == 'CANCELED' %}
 	<span class="badge badge-light border rounded-pill px-3">
 		<i class="fa fa-ban"></i> {% trans "Kanseladu" %}

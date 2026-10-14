@@ -543,6 +543,18 @@ class LokasaunForm(forms.Form):
 
 
 # ══════════════ Segimentu kazu (eskritóriu RbR) ══════════════
+# Segimentu fahe ba seksaun: kada seksaun iha butaun rasik (edita no rai seksaun ida de'it)
+SEGIMENTU_SEKSAUN = [
+	('status', _('Status no Desizaun RbR'), [[('data_ikus_cek', 3), ('status_rezolusaun', 5), ('desizaun_rbr', 4)], [('observasaun_kazu', 12)]]),
+	('tribunal', _('Tribunál'), [[('tribunal_rejistu', 4), ('tribunal_data', 4), ('tribunal_representa', 4)],
+		[('advogadu_kontaktu', 6), ('tribunal_desizaun', 3), ('tribunal_desizaun_data', 3)], [('tribunal_observasaun', 12)]]),
+	('notifikasaun', _('Notifikasaun'), [[('notif_simu', 4), ('notif_data', 4), ('notif_husi', 4)], [('notif_observasaun', 12)]]),
+	('fokal', _('Fokal Point RbR'), [[('fokal_naran', 4), ('fokal_telemovel', 4), ('fokal_tipu', 4)], [('fokal_organizasaun', 6), ('fokal_enderesu', 6)]]),
+	('org_seluk', _("Organizasaun Seluk ne'ebé Akompaña"), [[('org_seluk', 4), ('org_seluk_naran', 4), ('org_seluk_kontaktu', 4)]]),
+]
+SEGIMENTU_KAMPU = {k: [c for row in rows for c, _w in row] for k, _t, rows in SEGIMENTU_SEKSAUN}
+
+
 class SegimentuForm(forms.ModelForm):
 	class Meta:
 		model = KazuSegimentu
@@ -553,65 +565,24 @@ class SegimentuForm(forms.ModelForm):
 			'observasaun_kazu': forms.Textarea(attrs={'rows': 3}),
 		}
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, *args, seksaun=None, **kwargs):
+		# seksaun: kampu husi seksaun ida de'it (seluk la muda bainhira rai)
 		super(SegimentuForm, self).__init__(*args, **kwargs)
-		self.fields['desizaun_rbr'].help_text = _("'Arkivu' = kazu resolve ona ka RbR refere ona ba advogadu privadu.")
-		self.fields['status_rezolusaun'].help_text = _("Se RbR refere kazu ne'e ona, bele husik mamuk.")
+		seksaun = seksaun or SEGIMENTU_SEKSAUN[0][0]
+		for c in list(self.fields):
+			if c not in SEGIMENTU_KAMPU[seksaun]:
+				del self.fields[c]
+		if 'desizaun_rbr' in self.fields:
+			self.fields['desizaun_rbr'].help_text = _("'Arkivu' = kazu resolve ona ka RbR refere ona ba advogadu privadu.")
+		if 'status_rezolusaun' in self.fields:
+			self.fields['status_rezolusaun'].help_text = _("Se RbR refere kazu ne'e ona, bele husik mamuk.")
+		rows = dict((k, r) for k, _t, r in SEGIMENTU_SEKSAUN)[seksaun]
 		self.helper = FormHelper()
 		self.helper.form_tag = False
 		self.helper.disable_csrf = True
-		self.helper.layout = Layout(
-			section(1, 'Status no Desizaun RbR'),
-			Row(
-				Column('data_ikus_cek', css_class='form-group col-md-3 mb-0'),
-				Column('status_rezolusaun', css_class='form-group col-md-5 mb-0'),
-				Column('desizaun_rbr', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			'observasaun_kazu',
-			section(2, 'Tribunál'),
-			Row(
-				Column('tribunal_rejistu', css_class='form-group col-md-4 mb-0'),
-				Column('tribunal_data', css_class='form-group col-md-4 mb-0'),
-				Column('tribunal_representa', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			Row(
-				Column('advogadu_kontaktu', css_class='form-group col-md-6 mb-0'),
-				Column('tribunal_desizaun', css_class='form-group col-md-3 mb-0'),
-				Column('tribunal_desizaun_data', css_class='form-group col-md-3 mb-0'),
-				css_class='form-row'
-			),
-			'tribunal_observasaun',
-			section(3, 'Notifikasaun'),
-			Row(
-				Column('notif_simu', css_class='form-group col-md-4 mb-0'),
-				Column('notif_data', css_class='form-group col-md-4 mb-0'),
-				Column('notif_husi', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			'notif_observasaun',
-			section(4, 'Fokal Point RbR'),
-			Row(
-				Column('fokal_naran', css_class='form-group col-md-4 mb-0'),
-				Column('fokal_telemovel', css_class='form-group col-md-4 mb-0'),
-				Column('fokal_tipu', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			Row(
-				Column('fokal_organizasaun', css_class='form-group col-md-6 mb-0'),
-				Column('fokal_enderesu', css_class='form-group col-md-6 mb-0'),
-				css_class='form-row'
-			),
-			section(5, "Organizasaun Seluk ne'ebé Akompaña"),
-			Row(
-				Column('org_seluk', css_class='form-group col-md-4 mb-0'),
-				Column('org_seluk_naran', css_class='form-group col-md-4 mb-0'),
-				Column('org_seluk_kontaktu', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			HTML(BTN_RAI)
-		)
+		self.helper.layout = Layout(*[
+			Row(*[Column(c, css_class=f'form-group col-md-{w} mb-0') for c, w in row], css_class='form-row') for row in rows
+		])
 
 
 class AkompanamentuForm(forms.ModelForm):

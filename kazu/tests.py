@@ -562,11 +562,15 @@ class SegimentuTest(KazuBase):
 		for user, kodigu in ((self.inv, 403), (make_user(ANALISTA), 403), (make_user(OFISIAL_LEGAL), 200), (self.sa, 200), (self.admin, 200)):
 			self.client.force_login(user)
 			self.assertEqual(self.client.get(url).status_code, kodigu)
-		r = self.post(url, {'status_rezolusaun': 'SEIDAUK', 'desizaun_rbr': 'ADVOKASIA', 'tribunal_rejistu': 'DADAUN',
-			'tribunal_data': '2026-08-01', 'notif_simu': 'SIN', 'notif_husi': 'Ministériu Justisa', 'fokal_naran': 'Ana', 'fokal_tipu': 'SEKRETARIADU'})
-		self.assertRedirects(r, reverse('kazu-detail', args=[kazu.pk]))
+		# Kada seksaun rai ketak (butaun + modal iha detalla) → fila ba kartaun Segimentu
+		detalla = reverse('kazu-detail', args=[kazu.pk]) + '#segimentu'
+		r = self.post(url, {'seksaun': 'status', 'next': 'detalla', 'status-status_rezolusaun': 'SEIDAUK', 'status-desizaun_rbr': 'ADVOKASIA'})
+		self.assertRedirects(r, detalla, fetch_redirect_response=False)
+		self.post(url, {'seksaun': 'tribunal', 'next': 'detalla', 'tribunal-tribunal_rejistu': 'DADAUN', 'tribunal-tribunal_data': '2026-08-01'})
+		self.post(url, {'seksaun': 'notifikasaun', 'next': 'detalla', 'notifikasaun-notif_simu': 'SIN', 'notifikasaun-notif_husi': 'Ministériu Justisa'})
 		seg = KazuSegimentu.objects.get(kazu=kazu)
 		self.assertEqual((seg.status_rezolusaun, seg.desizaun_rbr, seg.tribunal_rejistu, seg.updated_by), ('SEIDAUK', 'ADVOKASIA', 'DADAUN', self.admin))
+		self.assertEqual(seg.fokal_naran, self.inv.pesoaluser.pesoal.name)         # Fokal point otomátiku la lakon
 		self.assertTrue(kazu.historia.filter(nota__startswith='Segimentu').exists())
 		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
 		self.assertContains(r, 'Ministériu Justisa')
@@ -659,3 +663,56 @@ class PoligonTest(KazuBase):
 		self.assertIn('kruza', r.json()['erru'])
 		kazu.refresh_from_db()
 		self.assertIsNone(kazu.poligon)
+
+
+class FollowupTest(KazuBase):
+	# Fokal point otomátiku + Follow-up: kazu loke fali ba Investigadór → haruka fali → Verifika → Aprova
+	def verifika(self, kazu):
+		self.client.force_login(self.admin)
+		self.post(reverse('kazu-action', args=[kazu.pk, 'verifika']))
+		kazu.refresh_from_db()
+		return kazu
+
+	def test_fokal_point_otomatiku(self):
+		kazu = self.create_kazu('rai')
+		seg = kazu.segimentu
+		self.assertEqual((seg.fokal_naran, seg.fokal_organizasaun, seg.fokal_tipu), ('Investigador Teste', 'Rede ba Rai', 'SEKRETARIADU'))
+
+	def test_followup_fluxu(self):
+		from kazu.models import FOLLOWUP, SYNCED
+		kazu = self.verifika(self.create_kazu('haruka'))
+		foun = make_user(INVESTIGADOR, email='joao@teste.tl')
+		url = reverse('kazu-followup', args=[kazu.pk])
+		# Investigadór labele; investigadór husi munisípiu seluk labele simu
+		self.client.force_login(self.inv)
+		self.assertEqual(self.post(url, {'investigador': foun.pk, 'nota': 'Survei fali'}).status_code, 403)
+		self.client.force_login(self.admin)
+		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
+		self.assertContains(r, 'id="modal-followup"')
+		self.assertContains(r, 'name="investigador"')
+		self.post(url, {'investigador': foun.pk, 'nota': 'Foti foto foun no sukat poligon'})
+		kazu.refresh_from_db()
+		self.assertEqual((kazu.status, kazu.followup_ba), (FOLLOWUP, foun))
+		self.assertEqual(kazu.segimentu.fokal_naran, 'Investigador Teste')
+		self.assertTrue(foun.notifications.filter(message__contains='Follow-up').exists())
+		# Investigadór follow-up bele haree, edita no haruka fali
+		self.client.force_login(foun)
+		self.assertEqual(self.client.get(reverse('kazu-update', args=[kazu.pk])).status_code, 200)
+		self.post(reverse('kazu-submit', args=[kazu.pk]))
+		kazu.refresh_from_db()
+		self.assertEqual(kazu.status, SYNCED)
+		self.assertTrue(kazu.historia.filter(nota='Haruka fali hafoin follow-up').exists())
+		# Verifika fali
+		self.assertEqual(self.verifika(kazu).status, 'VERIFIED')
+
+	def test_followup_validasaun(self):
+		kazu = self.create_kazu('haruka')                # Hein verifikasaun → seidauk bele follow-up
+		self.client.force_login(self.admin)
+		self.post(reverse('kazu-followup', args=[kazu.pk]), {'investigador': self.inv.pk, 'nota': 'Survei fali'})
+		kazu.refresh_from_db()
+		self.assertEqual(kazu.status, 'SYNCED')
+		kazu = self.verifika(kazu)
+		seluk = make_user(INVESTIGADOR, email='bobo@teste.tl', munisipiu_code='BOB')
+		self.post(reverse('kazu-followup', args=[kazu.pk]), {'investigador': seluk.pk, 'nota': 'Survei fali'})
+		kazu.refresh_from_db()
+		self.assertEqual(kazu.status, 'VERIFIED')        # munisípiu seluk → rejeita

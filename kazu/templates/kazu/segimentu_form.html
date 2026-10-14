@@ -2,18 +2,59 @@
 {% load i18n crispy_forms_tags %}
 {% block content %}
 {% include 'kazu/_pagetitle.html' %}
-<div class="row">
-	<div class="col-sm-12">
-		<form method="POST" id="SegimentuForm" novalidate>
-		{% csrf_token %}
-		<div class="card card-rbr shadow-sm pt-1 rounded">
-			<div class="card-header card-header-rbr">{{ legend|upper }} · {{ kazu }}</div>
-			<div class="card-body">
-				<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Dadus akompañamentu husi eskritóriu RbR: atualiza bainhira iha informasaun foun (tribunál, notifikasaun, status). Kada mudansa rai iha istória." %}</div>
-				{% crispy form %}
-			</div>
+<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Dadus akompañamentu husi eskritóriu RbR: atualiza bainhira iha informasaun foun (tribunál, notifikasaun, status). Kada mudansa rai iha istória." %}
+	{% trans "Klik Edita iha seksaun ida atu prenxe seksaun ne'e de'it." %}</div>
+{% for s in seksaun %}
+<div class="card card-rbr shadow-sm rounded mb-3 seg-seksaun" id="seksaun-{{ s.xave }}">
+	<div class="card-header card-header-rbr d-flex justify-content-between align-items-center">
+		<span><span class="form-section-num">{{ s.num }}</span> {{ s.titulu|upper }}</span>
+		<button type="button" class="btn btn-sm btn-light js-seg-edita" data-target="{{ s.xave }}" aria-expanded="{{ s.loke|yesno:'true,false' }}" aria-controls="form-{{ s.xave }}"{% if s.loke %} hidden{% endif %}>
+			<i class="fa fa-pencil"></i> {% if s.iha_dadus %}{% trans "Edita" %}{% else %}{% trans "Prenxe" %}{% endif %}
+		</button>
+	</div>
+	<div class="card-body">
+		<div class="seg-rezumu" id="rezumu-{{ s.xave }}"{% if s.loke %} hidden{% endif %}>
+			{% if s.iha_dadus %}
+			<dl class="row small mb-0">
+				{% for label, valor in s.rezumu %}{% if valor %}<dt class="col-sm-4 text-muted font-weight-normal">{{ label }}</dt><dd class="col-sm-8 pre-line">{{ valor }}</dd>{% endif %}{% endfor %}
+			</dl>
+			{% else %}<p class="text-muted small mb-0"><i class="fa fa-minus-circle"></i> {% trans "Seidauk iha dadus." %}</p>{% endif %}
 		</div>
+		<form method="POST" id="form-{{ s.xave }}" class="seg-form" novalidate{% if not s.loke %} hidden{% endif %}>
+			{% csrf_token %}
+			<input type="hidden" name="seksaun" value="{{ s.xave }}">
+			{% crispy s.form %}
+			<button class="btn btn-rbr btn-sm" type="submit"><i class="fa fa-save"></i> {% trans "Rai" %}</button>
+			<button class="btn btn-outline-secondary btn-sm js-seg-kansela" type="button" data-target="{{ s.xave }}"><i class="fa fa-times"></i> {% trans "Kansela" %}</button>
 		</form>
 	</div>
 </div>
+{% endfor %}
+<a href="{% url 'kazu-detail' kazu.pk %}" class="btn btn-outline-rbr"><i class="fa fa-arrow-left"></i> {% trans "Fila ba detalla kazu" %}</a>
+{% endblock %}
+{% block scripts %}
+<script nonce="{{ request.csp_nonce }}">
+	// Seksaun ida loke deit: Edita → hatudu formuláriu seksaun ne'e, subar seluk
+	(function () {
+		function taka(x) {
+			document.getElementById('form-' + x).hidden = true;
+			document.getElementById('rezumu-' + x).hidden = false;
+			document.querySelector('.js-seg-edita[data-target="' + x + '"]').hidden = false;
+		}
+		document.querySelectorAll('.js-seg-edita').forEach(function (b) {
+			b.addEventListener('click', function () {
+				document.querySelectorAll('.seg-form').forEach(function (f) { if (!f.hidden) taka(f.id.slice(5)); });
+				var x = b.dataset.target;
+				document.getElementById('form-' + x).hidden = false;
+				document.getElementById('rezumu-' + x).hidden = true;
+				b.hidden = true;
+				var p = document.querySelector('#form-' + x + ' input:not([type=hidden]), #form-' + x + ' select, #form-' + x + ' textarea');
+				if (p) p.focus();
+			});
+		});
+		document.querySelectorAll('.js-seg-kansela').forEach(function (b) {
+			b.addEventListener('click', function () { document.getElementById('form-' + b.dataset.target).reset(); taka(b.dataset.target); });
+		});
+	})();
+</script>
 {% endblock %}

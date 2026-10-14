@@ -28,6 +28,7 @@ def home(request):
 		context['tot_rascunho'] = qs.filter(status__in=[DRAFT, ONGOING, PENDING]).count()
 		context['tot_haruka'] = qs.filter(status__in=[SYNCED, VERIFIED]).count()
 		context['tot_rejeitadu'] = qs.filter(status=REJECTED).count()
+		context['followup'] = qs.filter(status='FOLLOWUP', followup_ba=request.user)
 		context['kazu_ikus'] = qs[:5]
 		return render(request, 'home/home_investigador.html', context)
 	context['tot_kazu'] = qs.exclude(status__in=[DRAFT, ONGOING, PENDING]).count()

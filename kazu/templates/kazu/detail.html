@@ -85,9 +85,13 @@
 			{% endif %}
 
 			<!-- Segimentu kazu (eskritóriu RbR) -->
-			<div class="card card-rbr mb-3"><div class="card-body">
-				<div class="d-flex justify-content-between align-items-center"><h3 class="h-line mb-2">{% trans "Segimentu Kazu" %}</h3>
-				{% if can_segimentu %}<a href="{% url 'kazu-segimentu' obj.pk %}" class="btn btn-sm btn-outline-rbr"><i class="fa fa-pencil"></i> {% trans "Atualiza segimentu" %}</a>{% endif %}</div>
+			<div class="card card-rbr mb-3" id="segimentu"><div class="card-body">
+				<h3 class="h-line mb-2">{% trans "Segimentu Kazu" %}</h3>
+				{% if seg_seksaun %}
+				<div class="seg-butaun mb-2">
+					{% for s in seg_seksaun %}<button type="button" class="btn btn-sm btn-outline-rbr mr-1 mb-1" data-toggle="modal" data-target="#seg-modal-{{ s.xave }}"><i class="fa {{ s.ikon }}"></i> {{ s.titulu }}</button>{% endfor %}
+				</div>
+				{% endif %}
 				{% if segimentu %}
 				<table class="table table-sm table-detail mb-2">
 					<tr><th>{% trans "Status rezolusaun" %}</th><td>{{ segimentu.get_status_rezolusaun_display|default:"-" }}{% if segimentu.data_ikus_cek %} <small class="text-muted">· {% trans "cek ikus" %} {{ segimentu.data_ikus_cek|date:"d/m/Y" }}</small>{% endif %}</td></tr>
@@ -168,7 +172,7 @@
 	</div>
 
 	<!-- ══ Butaun aksaun (iha okos) ══ -->
-	{% if can_edit or action_buttons %}
+	{% if can_edit or action_buttons or can_followup %}
 	<div class="card card-rbr action-bar mb-3"><div class="card-body">
 		<h3 class="h-line">{% trans "Aksaun" %}</h3>
 		{% if can_edit %}
@@ -181,6 +185,12 @@
 				</form>
 			</div>
 		</div>
+		{% endif %}
+		{% if can_followup %}
+		<div class="form-row"><div class="col-md-4 mb-2">
+			<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-followup"><i class="fa fa-street-view"></i> {% trans "Follow-up" %}</button>
+			<small class="d-block text-muted text-center mt-1">{% trans "Tuun fali ba terrenu (survei foun)" %}</small>
+		</div></div>
 		{% endif %}
 		{% if action_buttons %}
 		<div class="form-row">
@@ -198,6 +208,56 @@
 		</div>
 		{% endif %}
 	</div></div>
+	{% endif %}
+
+	<!-- Modal Segimentu: seksaun ida kada butaun (rai → fila ba kartaun Segimentu) -->
+	{% for s in seg_seksaun %}
+	<div class="modal fade" id="seg-modal-{{ s.xave }}" tabindex="-1" aria-labelledby="seg-modal-{{ s.xave }}-label" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<form method="post" action="{% url 'kazu-segimentu' obj.pk %}" class="modal-content" novalidate>
+				{% csrf_token %}
+				<input type="hidden" name="seksaun" value="{{ s.xave }}">
+				<input type="hidden" name="next" value="detalla">
+				<div class="modal-header">
+					<h5 class="modal-title" id="seg-modal-{{ s.xave }}-label"><i class="fa {{ s.ikon }}"></i> {{ s.titulu }}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Taka" %}"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">{% crispy s.form %}</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Kansela" %}</button>
+					<button type="submit" class="btn btn-rbr"><i class="fa fa-save"></i> {% trans "Rai" %}</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	{% endfor %}
+
+	<!-- Modal Follow-up: hili Investigadór + instrusaun -->
+	{% if can_followup %}
+	<div class="modal fade" id="modal-followup" tabindex="-1" aria-labelledby="modal-followup-label" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<form method="post" action="{% url 'kazu-followup' obj.pk %}" class="modal-content">
+				{% csrf_token %}
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal-followup-label"><i class="fa fa-street-view"></i> {% trans "Follow-up: tuun fali ba terrenu" %}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Taka" %}"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<p class="small mb-2">{% trans "Kazu sei loke fali ba Investigadór (online no app offline) atu survei fali iha fatin. Hafoin haruka fali, kazu tenke Verifika no Aprova fali." %}</p>
+					<label for="followup-investigador" class="font-weight-bold mb-1">{% trans "Investigadór / Fokal point" %} <span class="text-danger">*</span></label>
+					<select name="investigador" id="followup-investigador" class="custom-select" required>
+						{% for u in investigador_followup %}<option value="{{ u.pk }}"{% if u.pk == obj.created_by_id %} selected{% endif %}>{{ u.pesoaluser.pesoal|default:u.username }}{% if u.pk == obj.created_by_id %} ({% trans "kria kazu" %}){% endif %}</option>{% empty %}<option value="">{% trans "La iha Investigadór ativu iha munisípiu ne'e" %}</option>{% endfor %}
+					</select>
+					<label for="followup-nota" class="font-weight-bold mt-3 mb-1">{% trans "Instrusaun follow-up" %} <span class="text-danger">*</span></label>
+					<textarea name="nota" id="followup-nota" rows="3" class="form-control" required minlength="5" placeholder="{% trans "Ex.: Foti foto foun, sukat fali poligon rai, ko'alia ho xefe suku…" %}"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Lae, fila" %}</button>
+					<button type="submit" class="btn btn-warning"><i class="fa fa-street-view"></i> {% trans "Haruka follow-up" %}</button>
+				</div>
+			</form>
+		</div>
+	</div>
 	{% endif %}
 
 	<!-- Modal aksaun (Verifika / Aprova / Remata / Rejeita / Kansela) -->

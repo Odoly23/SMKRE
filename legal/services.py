@@ -29,7 +29,7 @@ VAULT_TIPU = {
 	'png': (b'\x89PNG\r\n\x1a\n',),
 	'docx': (b'PK\x03\x04',),
 }
-KAZU_STATUS_LEGAL = ('VERIFIED', 'APPROVED', 'COMPLETED')   # kazu tenke verifika uluk
+KAZU_STATUS_LEGAL = ('VERIFIED', 'APPROVED', 'COMPLETED', 'FOLLOWUP')   # kazu tenke verifika uluk
 
 
 # ── Asesu ──

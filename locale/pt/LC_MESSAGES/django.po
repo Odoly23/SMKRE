@@ -3473,3 +3473,107 @@ msgstr "do polígono"
 #: kazu/poligon.py
 msgid "uluk"
 msgstr "antes"
+
+#: kazu/templates/kazu/detail.html
+msgid "Ex.: Foti foto foun, sukat fali poligon rai, ko'alia ho xefe suku…"
+msgstr ""
+"Ex.: Tirar novas fotos, medir de novo o polígono, falar com o chefe de suco…"
+
+#: kazu/services.py
+msgid "Favor hakerek instrusaun follow-up (minimu karakter 5)."
+msgstr "Escreva as instruções do follow-up (mínimo 5 caracteres)."
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Fila ba detalla kazu"
+msgstr "Voltar aos detalhes do caso"
+
+#: kazu/models.py
+msgid "Follow-up"
+msgstr "Follow-up"
+
+#: kazu/models.py
+msgid "Follow-up ba"
+msgstr "Follow-up para"
+
+#: kazu/services.py
+#, python-format
+msgid "Follow-up ba %(naran)s: %(nota)s"
+msgstr "Follow-up para %(naran)s: %(nota)s"
+
+#: kazu/services.py
+msgid "Follow-up bele halo de'it ba kazu Verifikadu ka Aprovadu."
+msgstr "O follow-up só é possível para casos Verificados ou Aprovados."
+
+#: kazu/views/status_v.py
+msgid "Follow-up haruka ona. Investigadór sei simu notifikasaun."
+msgstr "Follow-up enviado. O investigador receberá uma notificação."
+
+#: kazu/services.py
+#, python-format
+msgid "Follow-up: kazu %(kode)s — tuun fali ba terrenu. %(nota)s"
+msgstr "Follow-up: caso %(kode)s — voltar ao terreno. %(nota)s"
+
+#: kazu/templates/kazu/detail.html
+msgid "Follow-up: tuun fali ba terrenu"
+msgstr "Follow-up: voltar ao terreno"
+
+#: kazu/services.py
+msgid "Haruka fali hafoin follow-up"
+msgstr "Reenviado após follow-up"
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka follow-up"
+msgstr "Enviar follow-up"
+
+#: kazu/services.py
+msgid "Hein Investigadór halo follow-up no haruka fali."
+msgstr "A aguardar que o investigador faça o follow-up e reenvie."
+
+#: kazu/services.py
+msgid "Hili Investigadór ativu husi munisípiu kazu nian."
+msgstr "Escolha um investigador ativo do município do caso."
+
+#: kazu/templates/kazu/detail.html
+msgid "Instrusaun follow-up"
+msgstr "Instruções do follow-up"
+
+#: kazu/templates/kazu/detail.html
+msgid "Investigadór / Fokal point"
+msgstr "Investigador / Ponto focal"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu sei loke fali ba Investigadór (online no app offline) atu survei fali "
+"iha fatin. Hafoin haruka fali, kazu tenke Verifika no Aprova fali."
+msgstr ""
+"O caso será reaberto para o investigador (online e app offline) fazer um "
+"novo levantamento no local. Depois de reenviado, o caso tem de ser "
+"verificado e aprovado de novo."
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Klik Edita iha seksaun ida atu prenxe seksaun ne'e de'it."
+msgstr "Clique em Editar numa secção para preencher só essa secção."
+
+#: kazu/templates/kazu/detail.html
+msgid "La iha Investigadór ativu iha munisípiu ne'e"
+msgstr "Não há investigadores ativos neste município"
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Prenxe"
+msgstr "Preencher"
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Seidauk iha dadus."
+msgstr "Ainda sem dados."
+
+#: kazu/templates/kazu/detail.html
+msgid "Tuun fali ba terrenu (survei foun)"
+msgstr "Voltar ao terreno (novo levantamento)"
+
+#: kazu/templates/kazu/detail.html
+msgid "kria kazu"
+msgstr "criou o caso"
+
+#: main/templates/home/home_investigador.html
+msgid "tuun fali ba terrenu, hadia no haruka fali."
+msgstr "volte ao terreno, corrija e reenvie."

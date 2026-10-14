@@ -28,6 +28,9 @@
 		<a href="{% url 'kazu-list' %}?status=REJECTED" class="stat" style="background:#dc3545"><b>{{ tot_rejeitadu }}</b><span>{% trans "Rejeitadu" %}</span></a>
 	</div>
 
+	{% for k in followup %}
+	<a href="{% url 'kazu-detail' k.pk %}" class="alert alert-warning d-block mb-2"><i class="fa fa-street-view"></i> <b>{% trans "Follow-up" %}: {{ k }}</b> — {% trans "tuun fali ba terrenu, hadia no haruka fali." %}</a>
+	{% endfor %}
 	<a href="{% url 'kazu-add' %}" class="btn btn-rbr btn-block btn-lg mb-3"><i class="fa fa-plus"></i> {% trans "Rejista Kazu Foun" %}</a>
 
 	<div class="card card-rbr">

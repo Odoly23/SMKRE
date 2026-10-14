@@ -18,6 +18,7 @@ urlpatterns = [
 	path('import/<uuid:uuid>/kansela/', import_v.KazuImportKansela, name="kazu-import-kansela"),
 	path('<uuid:uuid>/lokasaun/', import_v.KazuLokasaun, name="kazu-lokasaun"),
 	path('<uuid:uuid>/poligon/', poligon_v.KazuPoligon, name="kazu-poligon"),
+	path('<uuid:uuid>/followup/', status_v.KazuFollowup, name="kazu-followup"),
 	# Segimentu kazu (eskritóriu RbR)
 	path('<uuid:uuid>/segimentu/', segimentu_v.KazuSegimentuUpdate, name="kazu-segimentu"),
 	path('<uuid:uuid>/akompanamentu/', segimentu_v.KazuAkompanamentuAdd, name="kazu-akompanamentu"),

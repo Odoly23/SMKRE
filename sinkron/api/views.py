@@ -1,5 +1,6 @@
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import translation
 from django.utils.translation import gettext as _
@@ -14,9 +15,9 @@ from config.rbac import INVESTIGADOR
 from custom.data.opsaun import TIPU_ENTIDADE
 from custom.models import PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, TipuEviksaun, \
 	TipuAtor, EstraguPatrimoniu, NesesidadeUrjente
-from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_EDITABLE, REJECTED
+from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_EDITABLE, REJECTED, FOLLOWUP
 from kazu.services import submit_kazu
-from sinkron.services import sync_kazu, sync_evidensia
+from sinkron.services import sync_kazu, sync_evidensia, kazu_ba_hp
 from users.auth_utils import c_user_pesoal
 
 
@@ -72,11 +73,12 @@ class APIKazuLista(_SinkronAPI):
 
 	def get(self, request, format=None):
 		status_label = dict(STATUS_CHOICES)
-		objects = Kazu.objects.filter(created_by=request.user).order_by('-updated_at')[:100]
-		rejeita = {h.kazu_id: h.nota for h in KazuHistoria.objects.filter(kazu__in=objects, status_foun=REJECTED).order_by('created_at')}
+		objects = Kazu.objects.filter(Q(created_by=request.user) | Q(followup_ba=request.user)).order_by('-updated_at')[:100]
+		nota = {(h.kazu_id, h.status_foun): h.nota for h in KazuHistoria.objects.filter(kazu__in=objects, status_foun__in=[REJECTED, FOLLOWUP]).order_by('created_at')}
 		data = [{
 			'id': str(k.pk), 'kode': k.kode, 'status': k.status, 'status_label': str(status_label[k.status]),
-			'nota': rejeita.get(k.pk, '') if k.status == REJECTED else '', 'updated_at': k.updated_at.isoformat(),
+			'nota': nota.get((k.pk, k.status), '') if k.status in (REJECTED, FOLLOWUP) else '', 'updated_at': k.updated_at.isoformat(),
+			'followup': k.status == FOLLOWUP and k.followup_ba_id == request.user.id,
 		} for k in objects]
 		return Response({'kazu': data})
 
@@ -102,7 +104,7 @@ class APIEvidensia(_SinkronAPI):
 	parser_classes = [MultiPartParser]
 
 	def post(self, request, uuid, format=None):
-		kazu = get_object_or_404(Kazu, pk=uuid, created_by=request.user)
+		kazu = get_object_or_404(Kazu.objects.filter(Q(created_by=request.user) | Q(followup_ba=request.user)), pk=uuid)
 		f = request.FILES.get('file')
 		if not f:
 			return Response({'erru': {'file': [_('File la iha.')]}}, status=400)
@@ -122,7 +124,7 @@ class APIEvidensia(_SinkronAPI):
 class APIHaruka(_SinkronAPI):
 	# Pasu ikus: kazu kompletu → Hein Verifikasaun (kódigu SIBAR-...) + notifikasaun Admin/Superadmin
 	def post(self, request, uuid, format=None):
-		kazu = get_object_or_404(Kazu, pk=uuid, created_by=request.user)
+		kazu = get_object_or_404(Kazu.objects.filter(Q(created_by=request.user) | Q(followup_ba=request.user)), pk=uuid)
 		if kazu.status not in STATUS_EDITABLE:          # haruka ona (koko fali)
 			return Response({'id': str(kazu.pk), 'kode': kazu.kode, 'status': kazu.status})
 		try:
@@ -130,3 +132,10 @@ class APIHaruka(_SinkronAPI):
 		except ValidationError as e:
 			return Response(_erru(e), status=400)
 		return Response({'id': str(kazu.pk), 'kode': kazu.kode, 'status': kazu.status}, status=status.HTTP_200_OK)
+
+
+class APIFollowup(_SinkronAPI):
+	# Download kazu follow-up ba HP (Investigadór tuun fali ba terrenu, edita offline, sinkron fali)
+	def get(self, request, uuid, format=None):
+		kazu = get_object_or_404(Kazu.objects.select_related('segimentu'), pk=uuid, followup_ba=request.user, status=FOLLOWUP)
+		return Response(kazu_ba_hp(kazu))

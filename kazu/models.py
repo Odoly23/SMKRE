@@ -11,6 +11,7 @@ from custom.models import Munisipiu, PostuAdministrativu, Suku, Aldeia, TipuKonf
 DRAFT, ONGOING, PENDING = 'DRAFT', 'ONGOING', 'PENDING'
 SYNCED, VERIFIED, APPROVED, COMPLETED = 'SYNCED', 'VERIFIED', 'APPROVED', 'COMPLETED'
 REJECTED, CANCELED = 'REJECTED', 'CANCELED'
+FOLLOWUP = 'FOLLOWUP'                                     # tuun fali ba terrenu (survei foun)
 
 STATUS_CHOICES = [
 	(DRAFT, _('Rascunho')),
@@ -21,6 +22,7 @@ STATUS_CHOICES = [
 	(APPROVED, _('Aprovadu')),
 	(COMPLETED, _('Remata')),
 	(REJECTED, _('Rejeitadu')),
+	(FOLLOWUP, _('Follow-up')),
 	(CANCELED, _('Kanseladu')),
 ]
 # Opsaun husi formuláriu baze dadus sentrál RbR (Airtable) — Sin / Lae / La hatene
@@ -36,7 +38,7 @@ ENTIDADE_CHOICES = [
 ]
 RAI_UNIDADE_CHOICES = [('M2', _('Metru kuadradu (m²)')), ('HA', _('Hektar (ha)'))]
 
-STATUS_EDITABLE = [DRAFT, ONGOING, PENDING, REJECTED]     # Investigadór bele edita
+STATUS_EDITABLE = [DRAFT, ONGOING, PENDING, REJECTED, FOLLOWUP]     # Investigadór bele edita
 STATUS_SUBMITTED = [SYNCED, VERIFIED, APPROVED, COMPLETED]
 
 # Status Kazu (prosesu kazu — Anexu A)
@@ -131,6 +133,9 @@ class Kazu(models.Model):
 	verified_at = models.DateTimeField(null=True, blank=True)
 	approved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 	approved_at = models.DateTimeField(null=True, blank=True)
+	# Follow-up: Investigadór ne'ebé tenke tuun fali ba terrenu (bele la'ós ida ne'ebé kria kazu)
+	followup_ba = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='kazu_followup', verbose_name=_("Follow-up ba"))
+	followup_at = models.DateTimeField(null=True, blank=True)
 
 	class Meta:
 		ordering = ['-urjente', '-created_at']

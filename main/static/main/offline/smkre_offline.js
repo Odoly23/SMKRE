@@ -180,7 +180,7 @@
 			$('pin').value = '';
 			msg(null);
 			baVaranda();
-			if (navigator.onLine) { atualizaOpsaun(); atualizaServer(); }
+			if (navigator.onLine) atualizaOpsaun();
 		}).catch(function () {
 			$('pin').value = '';
 			DB.metaGet('pin_sala').then(function (n) {
@@ -227,6 +227,7 @@
 	function baVaranda() {
 		S.kazu = null;
 		limpaUrls();
+		if (navigator.onLine && S.auth && !S.relogin) atualizaServer();     // status server + kazu follow-up
 		var me = S.auth.me || {};
 		$('off-user').textContent = (me.naran || me.email || '') + (me.munisipiu_naran ? ' · ' + me.munisipiu_naran : '');
 		var box = $('perm-box');
@@ -265,7 +266,8 @@
 				var titulu = r.kode || (k && (k.titulu || naranSuku(k.suku))) || 'Kazu';
 				var edita = r.estadu !== 'SINKRON';
 				return '<div class="lokal-item" data-id="' + esc(r.id) + '">' +
-					'<div class="d-flex justify-content-between"><b>' + esc(titulu) + '</b><span class="badge ' + e[1] + '">' + e[0] + '</span></div>' +
+					'<div class="d-flex justify-content-between"><b>' + esc(titulu) + '</b><span>' + (r.followup && r.estadu !== 'SINKRON' ? '<span class="badge badge-warning mr-1">Follow-up</span>' : '') +
+					'<span class="badge ' + e[1] + '">' + e[0] + '</span></span></div>' +
 					'<small class="text-muted">Kria ' + dataTL(r.kria_iha) + (k && k.urjente ? ' · <span class="text-danger">URJENTE</span>' : '') + '</small>' +
 					(r.erru ? '<div class="small text-danger mt-1">' + r.erru.map(esc).join('<br>') + '</div>' : '') +
 					(edita ? '<div class="mt-1"><button type="button" class="btn btn-sm btn-outline-rbr js-edita"><i class="fa fa-pencil"></i> Loke</button>' +
@@ -285,7 +287,7 @@
 		}
 	});
 
-	var STATUS_KOR = { SYNCED: 'badge-info', VERIFIED: 'badge-primary', APPROVED: 'badge-success', COMPLETED: 'badge-dark', REJECTED: 'badge-danger', CANCELED: 'badge-secondary', PENDING: 'badge-warning' };
+	var STATUS_KOR = { FOLLOWUP: 'badge-warning', SYNCED: 'badge-info', VERIFIED: 'badge-primary', APPROVED: 'badge-success', COMPLETED: 'badge-dark', REJECTED: 'badge-danger', CANCELED: 'badge-secondary', PENDING: 'badge-warning' };
 
 	function atualizaServer() {
 		if (!navigator.onLine || !S.auth) { $('lista-server').innerHTML = '<p class="text-muted small">Offline.</p>'; return; }
@@ -295,10 +297,33 @@
 			$('lista-server').innerHTML = lista.length ? lista.map(function (k) {
 				return '<div class="lokal-item"><div class="d-flex justify-content-between"><b>' + esc(k.kode || 'Hein kódigu') + '</b>' +
 					'<span class="badge ' + (STATUS_KOR[k.status] || 'badge-light') + '">' + esc(k.status_label) + '</span></div>' +
-					(k.nota ? '<small class="text-danger">Razaun: ' + esc(k.nota) + ' — hadia iha SIBAR-RbR online.</small>' : '') + '</div>';
+					(k.followup ? '<small class="text-warning d-block"><i class="fa fa-street-view"></i> Follow-up: ' + esc(k.nota) + '</small>' +
+						'<button type="button" class="btn btn-sm btn-warning mt-1 js-followup" data-id="' + esc(k.id) + '"><i class="fa fa-download"></i> Download ba HP</button>'
+					: (k.nota ? '<small class="text-danger">Razaun: ' + esc(k.nota) + ' — hadia iha SIBAR-RbR online.</small>' : '')) + '</div>';
 			}).join('') : '<p class="text-muted small">Seidauk iha.</p>';
 		}).catch(function (e) { if (e.relogin) pedeRelogin(); });
 	}
+
+	// Follow-up: download kazu husi server ba HP (enkriptadu) → edita iha terrenu → sinkron fali
+	$('lista-server').addEventListener('click', function (ev) {
+		var b = ev.target.closest('.js-followup');
+		if (!b) return;
+		var id = b.dataset.id;
+		DB.get('kazu', id).then(function (uluk) {
+			if (uluk && uluk.estadu !== 'SINKRON' && !confirm('Kazu ne\'e iha HP ona. Troka ho dadus husi server?')) return;
+			b.disabled = true;
+			return apiJSON(B.apiKazu + id + '/followup/').then(function (r) {
+				if (!r.ok) { msg('Kazu follow-up la bele download.'); b.disabled = false; return; }
+				var k = r.data;
+				return K.encryptJSON(S.xavi, k).then(function (box) {
+					return DB.put('kazu', { id: k.id, estadu: 'RASCUNHO', kria_iha: k.kria_iha, atualiza: new Date().toISOString(), box: box, erru: null, kode: k.kode, followup: true });
+				}).then(function () {
+					msg('Kazu ' + (k.kode || '') + ' iha HP ona. Klik Loke, tuun ba terrenu, hadia no Prontu → Sinkron.', 'success');
+					listaLokal();
+				});
+			});
+		}).catch(function (e) { b.disabled = false; if (e && e.relogin) pedeRelogin(); else msg('Kazu follow-up la bele download.'); });
+	});
 
 	function atualizaOpsaun() {
 		apiJSON(B.apiOpsaun).then(function (r) { if (r.ok) { S.opsaun = r.data; raiOpsaun(); } }).catch(function () {});
@@ -625,14 +650,15 @@
 	function raiKazu(estadu) {
 		var k = S.kazu;
 		return K.encryptJSON(S.xavi, k).then(function (box) {
-			return DB.put('kazu', { id: k.id, estadu: estadu, kria_iha: k.kria_iha, atualiza: new Date().toISOString(), box: box, erru: null });
+			return DB.put('kazu', { id: k.id, estadu: estadu, kria_iha: k.kria_iha, atualiza: new Date().toISOString(), box: box, erru: null,
+				kode: k.kode || null, followup: !!k.followup });
 		});
 	}
 
 	function rezumu() {
 		var k = S.kazu;
-		var foto = S.media.filter(function (m) { return m.tipu === 'FOTO'; }).length;
-		var video = S.media.filter(function (m) { return m.tipu === 'VIDEO'; }).length;
+		var foto = nMedia('FOTO');
+		var video = nMedia('VIDEO');
 		var afe = k.afetadu || {};
 		$('rezumu').innerHTML = '<div class="sub-box"><b>Rezumu</b><br>' +
 			'Fatin: ' + esc(naranSuku(k.suku)) + ', ' + esc(S.opsaun.munisipiu.name) + '<br>' +
@@ -803,12 +829,17 @@
 	});
 
 	// ══════════════ EVIDÉNSIA (kámera ka galeria) ══════════════
+	// Evidénsia iha HP + ida ne'ebé iha server ona (kazu follow-up)
+	function nMedia(tipu) {
+		var server = (S.kazu && S.kazu[tipu === 'FOTO' ? 'foto_server' : 'video_server']) || 0;
+		return server + S.media.filter(function (m) { return m.tipu === tipu; }).length;
+	}
 	function limpaUrls() { S.urls.forEach(URL.revokeObjectURL); S.urls = []; }
 
 	function hatuduMedia() {
 		limpaUrls();
-		var foto = S.media.filter(function (m) { return m.tipu === 'FOTO'; }).length;
-		var video = S.media.filter(function (m) { return m.tipu === 'VIDEO'; }).length;
+		var foto = nMedia('FOTO');
+		var video = nMedia('VIDEO');
 		$('n-foto').textContent = foto + '/' + MAX_FOTO;
 		$('n-video').textContent = video + '/' + MAX_VIDEO;
 		$('btn-foto').disabled = foto >= MAX_FOTO;
@@ -851,7 +882,7 @@
 	// Galeria: hili foto barak dala ida (to'o restu husi 5)
 	$('btn-galeria').addEventListener('click', function () {
 		S.ativu = Date.now();
-		var restu = MAX_FOTO - S.media.filter(function (m) { return m.tipu === 'FOTO'; }).length;
+		var restu = MAX_FOTO - nMedia('FOTO');
 		KAM.galeria(restu).then(function (r) {
 			var pasu = Promise.resolve();
 			r.blobs.forEach(function (b) { pasu = pasu.then(function () { return raiMedia('FOTO', b); }); });

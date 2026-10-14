@@ -6,10 +6,10 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU
+from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_FOLLOWUP
 from kazu.models import Kazu
-from kazu.permissions import can_view
-from kazu.services import submit_kazu, change_status, change_status_kazu, STATUS_LABEL
+from kazu.permissions import can_view, is_responsavel
+from kazu.services import submit_kazu, change_status, change_status_kazu, followup_kazu, STATUS_LABEL
 
 
 @login_required
@@ -17,7 +17,9 @@ from kazu.services import submit_kazu, change_status, change_status_kazu, STATUS
 @require_POST
 def KazuSubmit(request, uuid):
 	# Investigadór haruka kazu ba Admin (online)
-	objects = get_object_or_404(Kazu, pk=uuid, created_by=request.user)
+	objects = get_object_or_404(Kazu, pk=uuid)
+	if not is_responsavel(request.user, objects):
+		return render(request, 'home/403.html', status=403)
 	try:
 		objects = submit_kazu(objects, request.user)
 		messages.success(request, _('Kazu %(kode)s haruka ona. Admin sei simu notifikasaun.') % {'kode': objects.kode})
@@ -58,4 +60,22 @@ def KazuStatusKazu(request, uuid):
 	next_url = request.POST.get('next', '')
 	if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
 		return redirect(next_url)
+	return redirect('kazu-detail', uuid=uuid)
+
+
+@login_required
+@allowed_users(allowed_roles=ROLE_FOLLOWUP)
+@require_POST
+def KazuFollowup(request, uuid):
+	# Follow-up: kazu loke fali ba Investigadór (hili) atu tuun ba terrenu → haruka fali → Verifika → Aprova
+	from django.contrib.auth.models import User
+	objects = get_object_or_404(Kazu, pk=uuid)
+	investigador = User.objects.filter(pk=request.POST.get('investigador') or 0).first()
+	try:
+		objects = followup_kazu(objects, request.user, investigador, request.POST.get('nota', ''))
+		messages.success(request, _('Follow-up haruka ona. Investigadór sei simu notifikasaun.'))
+	except PermissionDenied:
+		return render(request, 'home/403.html', status=403)
+	except ValidationError as e:
+		messages.error(request, ' '.join(e.messages))
 	return redirect('kazu-detail', uuid=uuid)

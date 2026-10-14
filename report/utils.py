@@ -3,8 +3,8 @@ from kazu.models import DRAFT, ONGOING, PENDING, CANCELED, SYNCED, VERIFIED, APP
 from kazu.permissions import kazu_queryset
 
 # Relatóriu: kazu ne'ebé haruka ona ba server (la'ós rascunho iha HP, la'ós kanseladu)
-STATUS_RELATORIU = [SYNCED, VERIFIED, APPROVED, 'REJECTED', COMPLETED]
-STATUS_AKTIVU = [SYNCED, VERIFIED, APPROVED]
+STATUS_RELATORIU = [SYNCED, VERIFIED, APPROVED, 'REJECTED', COMPLETED, 'FOLLOWUP']
+STATUS_AKTIVU = [SYNCED, VERIFIED, APPROVED, 'FOLLOWUP']
 # Tipu kazu ne'ebé signifika eviksaun (komunidade hasai husi rai); DESLOKAMENTU = tipu tuan
 TIPU_EVIKSAUN = ['GOV-RAI-ESTADU', 'GOV-RAI-ABANDONADU', 'DESLOKAMENTU']
 

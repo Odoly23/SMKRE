@@ -21,9 +21,9 @@ from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from config.upload_utils import compress_image
 from kazu.forms import KazuForm, AfetaduForm, InsidenteForm, AtorForm, EvidensiaForm
-from kazu.models import Kazu, Evidensia, KazuHistoria, STATUS_EDITABLE, PENDING
+from kazu.models import Kazu, Evidensia, KazuHistoria, STATUS_EDITABLE, PENDING, FOLLOWUP
 from kazu.poligon import kalkula as kalkula_poligon, aplika as aplika_poligon
-from kazu.services import refresh_auto_fields
+from kazu.services import refresh_auto_fields, enxe_fokal
 from users.auth_utils import c_user_pesoal
 from users.models import OfflinePermission
 
@@ -32,12 +32,13 @@ logger = logging.getLogger('smkre.sinkron')
 TOLERANSIA_RELOJIU = timedelta(minutes=10)        # relójiu HP bele sala uitoan
 KAZU_CAMPO = ['titulu', 'data_relatoriu', 'postu', 'suku', 'aldeia', 'latitude', 'longitude', 'gps_akurasia',
 	'data_akontesimentu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai', 'deskrisaun',
-	'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun',
-	# Formuláriu RbR
+	'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
+KAZU_CAMPO_RBR = [   # Formuláriu RbR
 	'enderesu_fatin', 'rai_luan', 'rai_luan_unidade', 'tinan_disputa_hahu', 'projetu', 'entidade_foti',
 	'entidade_kategoria', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
 	'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
 	'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun']
+KAZU_CAMPO += KAZU_CAMPO_RBR
 # lista laran kazu: (xave JSON, formuláriu, máximu)
 KAZU_LISTA = [('afetadu', AfetaduForm, 5), ('insidente', InsidenteForm, 10), ('ator', AtorForm, 20)]
 
@@ -93,14 +94,15 @@ def sync_kazu(user, data):
 		raise ValidationError(_('Data kria kazu la iha.'))
 	if timezone.is_naive(kria_iha):
 		kria_iha = timezone.make_aware(kria_iha)
-	check_permission_window(user, kria_iha)
-
 	instance = Kazu.objects.select_for_update().filter(pk=kazu_id).first()
 	if instance:
-		if instance.created_by_id != user.id:
+		if user.id not in (instance.created_by_id, instance.followup_ba_id):
 			raise PermissionDenied
 		if instance.status not in STATUS_EDITABLE:
 			return instance, False                 # sinkron ona (koko fali) → la muda buat ida
+	# Follow-up: kazu tuan ne'ebé Admin haruka fali (la presiza períodu autorizasaun offline husi data kria)
+	if not (instance and instance.status == FOLLOWUP and instance.followup_ba_id == user.id):
+		check_permission_window(user, kria_iha)
 
 	# Validasaun hanesan formuláriu web (GPS iha TL, akurasia ≤ 50 m, lokalizasaun, konsentimentu...)
 	form = KazuForm(data=_form_data(data), instance=instance, munisipiu_knaar=pesoal.munisipiu, submit=True)
@@ -146,6 +148,8 @@ def sync_kazu(user, data):
 		child.kazu = obj
 		child.save()
 	refresh_auto_fields(obj)
+	if foun:
+		enxe_fokal(obj, user)
 	KazuHistoria.objects.create(kazu=obj, user=user, tipu=KazuHistoria.EDITA, status_foun=obj.status, nota='SINKRON')
 	logger.info(f'Sinkron kazu {obj.pk} ({"foun" if foun else "atualiza"}) husi {user.username}')
 	return obj, foun
@@ -155,7 +159,7 @@ def sync_kazu(user, data):
 def sync_evidensia(user, kazu, ev_id, tipu, f):
 	# Foto (kompresa, EXIF hamoos) ka vídeo husi kámera HP. Retorna (evidensia, foun_ka_lae).
 	kazu = Kazu.objects.select_for_update().get(pk=kazu.pk)
-	if kazu.created_by_id != user.id:
+	if user.id not in (kazu.created_by_id, kazu.followup_ba_id):
 		raise PermissionDenied
 	ev_id = parse_uuid(ev_id)
 	ev = Evidensia.objects.filter(pk=ev_id).first()
@@ -184,3 +188,36 @@ def sync_evidensia(user, kazu, ev_id, tipu, f):
 	refresh_auto_fields(kazu)
 	logger.info(f'Sinkron evidénsia {tipu} ba kazu {kazu.pk} husi {user.username}')
 	return ev, True
+
+
+def _str(v):
+	return '' if v is None else str(v)
+
+
+def kazu_ba_hp(kazu):
+	"""Kazu follow-up → formatu app offline (HP rai enkriptadu, Investigadór edita iha terrenu, sinkron fali)."""
+	af = kazu.afetadu.first()
+	ins = kazu.insidente.first()
+	data = {
+		'id': str(kazu.pk), 'kria_iha': kazu.created_at.isoformat(), 'followup': True, 'kode': kazu.kode,
+		'titulu': kazu.titulu, 'data_relatoriu': _str(kazu.data_relatoriu),
+		'postu': _str(kazu.postu_id), 'suku': _str(kazu.suku_id), 'aldeia': _str(kazu.aldeia_id),
+		'latitude': float(kazu.latitude) if kazu.latitude is not None else None,
+		'longitude': float(kazu.longitude) if kazu.longitude is not None else None, 'gps_akurasia': kazu.gps_akurasia,
+		'data_akontesimentu': _str(kazu.data_akontesimentu), 'tipu_konflitu': list(kazu.tipu_konflitu.values_list('pk', flat=True)),
+		'tipu_seluk': kazu.tipu_seluk, 'tipu_rai': _str(kazu.tipu_rai_id), 'deskrisaun': kazu.deskrisaun,
+		'afetadu': {c: getattr(af, c) for c in ('uma_kain', 'total_ema', 'mane', 'feto', 'labarik', 'katuas_ferik', 'defisiensia')} if af else {},
+		'insidente': {'tipu_eviksaun': _str(ins.tipu_eviksaun_id), 'loron_avizu': ins.loron_avizu, 'forsa_seguransa': ins.forsa_seguransa,
+			'estragu': ins.estragu} if ins else None,
+		'ator': [{'tipu_ator': _str(a.tipu_ator_id), 'naran': a.naran, 'papel': a.papel} for a in kazu.ator.all()],
+		'estragu': list(kazu.estragu.values_list('pk', flat=True)), 'estragu_seluk': kazu.estragu_seluk,
+		'nesesidade': list(kazu.nesesidade.values_list('pk', flat=True)),
+		'konsentimentu': kazu.konsentimentu, 'la_publika': kazu.la_publika, 'observasaun': kazu.observasaun,
+		# Poligon: anel la ho pontu taka (HP aumenta fali), akurasia la hatene
+		'poligon_pontu': [[[c[0], c[1], None] for c in f['geometry']['coordinates'][0][:-1]] for f in (kazu.poligon or {}).get('features', [])] or [[]],
+		'foto_server': kazu.foto_count(), 'video_server': kazu.video_count(),
+	}
+	for c in KAZU_CAMPO_RBR:
+		v = getattr(kazu, c)
+		data[c] = float(v) if isinstance(v, Decimal) else (_str(v) if hasattr(v, 'isoformat') else v)
+	return data

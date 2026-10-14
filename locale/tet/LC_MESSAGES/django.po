@@ -3548,3 +3548,105 @@ msgstr "husi poligon"
 #: kazu/poligon.py
 msgid "uluk"
 msgstr "uluk"
+
+#: kazu/templates/kazu/detail.html
+msgid "Ex.: Foti foto foun, sukat fali poligon rai, ko'alia ho xefe suku…"
+msgstr "Ex.: Foti foto foun, sukat fali poligon rai, ko'alia ho xefe suku…"
+
+#: kazu/services.py
+msgid "Favor hakerek instrusaun follow-up (minimu karakter 5)."
+msgstr "Favor hakerek instrusaun follow-up (minimu karakter 5)."
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Fila ba detalla kazu"
+msgstr "Fila ba detalla kazu"
+
+#: kazu/models.py
+msgid "Follow-up"
+msgstr "Follow-up"
+
+#: kazu/models.py
+msgid "Follow-up ba"
+msgstr "Follow-up ba"
+
+#: kazu/services.py
+#, python-format
+msgid "Follow-up ba %(naran)s: %(nota)s"
+msgstr "Follow-up ba %(naran)s: %(nota)s"
+
+#: kazu/services.py
+msgid "Follow-up bele halo de'it ba kazu Verifikadu ka Aprovadu."
+msgstr "Follow-up bele halo de'it ba kazu Verifikadu ka Aprovadu."
+
+#: kazu/views/status_v.py
+msgid "Follow-up haruka ona. Investigadór sei simu notifikasaun."
+msgstr "Follow-up haruka ona. Investigadór sei simu notifikasaun."
+
+#: kazu/services.py
+#, python-format
+msgid "Follow-up: kazu %(kode)s — tuun fali ba terrenu. %(nota)s"
+msgstr "Follow-up: kazu %(kode)s — tuun fali ba terrenu. %(nota)s"
+
+#: kazu/templates/kazu/detail.html
+msgid "Follow-up: tuun fali ba terrenu"
+msgstr "Follow-up: tuun fali ba terrenu"
+
+#: kazu/services.py
+msgid "Haruka fali hafoin follow-up"
+msgstr "Haruka fali hafoin follow-up"
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka follow-up"
+msgstr "Haruka follow-up"
+
+#: kazu/services.py
+msgid "Hein Investigadór halo follow-up no haruka fali."
+msgstr "Hein Investigadór halo follow-up no haruka fali."
+
+#: kazu/services.py
+msgid "Hili Investigadór ativu husi munisípiu kazu nian."
+msgstr "Hili Investigadór ativu husi munisípiu kazu nian."
+
+#: kazu/templates/kazu/detail.html
+msgid "Instrusaun follow-up"
+msgstr "Instrusaun follow-up"
+
+#: kazu/templates/kazu/detail.html
+msgid "Investigadór / Fokal point"
+msgstr "Investigadór / Fokal point"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu sei loke fali ba Investigadór (online no app offline) atu survei fali "
+"iha fatin. Hafoin haruka fali, kazu tenke Verifika no Aprova fali."
+msgstr ""
+"Kazu sei loke fali ba Investigadór (online no app offline) atu survei fali "
+"iha fatin. Hafoin haruka fali, kazu tenke Verifika no Aprova fali."
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Klik Edita iha seksaun ida atu prenxe seksaun ne'e de'it."
+msgstr "Klik Edita iha seksaun ida atu prenxe seksaun ne'e de'it."
+
+#: kazu/templates/kazu/detail.html
+msgid "La iha Investigadór ativu iha munisípiu ne'e"
+msgstr "La iha Investigadór ativu iha munisípiu ne'e"
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Prenxe"
+msgstr "Prenxe"
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Seidauk iha dadus."
+msgstr "Seidauk iha dadus."
+
+#: kazu/templates/kazu/detail.html
+msgid "Tuun fali ba terrenu (survei foun)"
+msgstr "Tuun fali ba terrenu (survei foun)"
+
+#: kazu/templates/kazu/detail.html
+msgid "kria kazu"
+msgstr "kria kazu"
+
+#: main/templates/home/home_investigador.html
+msgid "tuun fali ba terrenu, hadia no haruka fali."
+msgstr "tuun fali ba terrenu, hadia no haruka fali."

@@ -3450,3 +3450,107 @@ msgstr "dari poligon"
 #: kazu/poligon.py
 msgid "uluk"
 msgstr "sebelumnya"
+
+#: kazu/templates/kazu/detail.html
+msgid "Ex.: Foti foto foun, sukat fali poligon rai, ko'alia ho xefe suku…"
+msgstr ""
+"Mis.: Ambil foto baru, ukur ulang poligon tanah, bicara dengan kepala suku…"
+
+#: kazu/services.py
+msgid "Favor hakerek instrusaun follow-up (minimu karakter 5)."
+msgstr "Tulis instruksi follow-up (minimal 5 karakter)."
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Fila ba detalla kazu"
+msgstr "Kembali ke detail kasus"
+
+#: kazu/models.py
+msgid "Follow-up"
+msgstr "Follow-up"
+
+#: kazu/models.py
+msgid "Follow-up ba"
+msgstr "Follow-up ke"
+
+#: kazu/services.py
+#, python-format
+msgid "Follow-up ba %(naran)s: %(nota)s"
+msgstr "Follow-up ke %(naran)s: %(nota)s"
+
+#: kazu/services.py
+msgid "Follow-up bele halo de'it ba kazu Verifikadu ka Aprovadu."
+msgstr "Follow-up hanya untuk kasus Terverifikasi atau Disetujui."
+
+#: kazu/views/status_v.py
+msgid "Follow-up haruka ona. Investigadór sei simu notifikasaun."
+msgstr "Follow-up terkirim. Investigador akan menerima notifikasi."
+
+#: kazu/services.py
+#, python-format
+msgid "Follow-up: kazu %(kode)s — tuun fali ba terrenu. %(nota)s"
+msgstr "Follow-up: kasus %(kode)s — turun lagi ke lapangan. %(nota)s"
+
+#: kazu/templates/kazu/detail.html
+msgid "Follow-up: tuun fali ba terrenu"
+msgstr "Follow-up: turun lagi ke lapangan"
+
+#: kazu/services.py
+msgid "Haruka fali hafoin follow-up"
+msgstr "Dikirim ulang setelah follow-up"
+
+#: kazu/templates/kazu/detail.html
+msgid "Haruka follow-up"
+msgstr "Kirim follow-up"
+
+#: kazu/services.py
+msgid "Hein Investigadór halo follow-up no haruka fali."
+msgstr "Menunggu investigador melakukan follow-up dan mengirim ulang."
+
+#: kazu/services.py
+msgid "Hili Investigadór ativu husi munisípiu kazu nian."
+msgstr "Pilih investigador aktif dari munisipiu kasus."
+
+#: kazu/templates/kazu/detail.html
+msgid "Instrusaun follow-up"
+msgstr "Instruksi follow-up"
+
+#: kazu/templates/kazu/detail.html
+msgid "Investigadór / Fokal point"
+msgstr "Investigador / Narahubung"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu sei loke fali ba Investigadór (online no app offline) atu survei fali "
+"iha fatin. Hafoin haruka fali, kazu tenke Verifika no Aprova fali."
+msgstr ""
+"Kasus akan dibuka kembali untuk investigador (online dan app offline) untuk "
+"survei ulang di lokasi. Setelah dikirim ulang, kasus harus diverifikasi dan "
+"disetujui lagi."
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Klik Edita iha seksaun ida atu prenxe seksaun ne'e de'it."
+msgstr "Klik Edit pada satu bagian untuk mengisi bagian itu saja."
+
+#: kazu/templates/kazu/detail.html
+msgid "La iha Investigadór ativu iha munisípiu ne'e"
+msgstr "Tidak ada investigador aktif di munisipiu ini"
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Prenxe"
+msgstr "Isi"
+
+#: kazu/templates/kazu/segimentu_form.html
+msgid "Seidauk iha dadus."
+msgstr "Belum ada data."
+
+#: kazu/templates/kazu/detail.html
+msgid "Tuun fali ba terrenu (survei foun)"
+msgstr "Turun lagi ke lapangan (survei baru)"
+
+#: kazu/templates/kazu/detail.html
+msgid "kria kazu"
+msgstr "pembuat kasus"
+
+#: main/templates/home/home_investigador.html
+msgid "tuun fali ba terrenu, hadia no haruka fali."
+msgstr "turun lagi ke lapangan, perbaiki dan kirim ulang."

@@ -291,3 +291,31 @@ class KomanduTesteTest(SinkronBase):
 		from django.core.management import call_command
 		call_command('teste_offline', '--email', 'hp@teste.tl', '--munisipiu', 'DIL', stdout=StringIO())
 		self.assertEqual(self.client.post(reverse('api-token'), {'username': 'hp@teste.tl', 'password': 'Teste#Offline-2026'}).json()['offline_ativu'], True)
+
+
+class FollowupSinkronTest(SinkronBase):
+	# Kazu follow-up: download ba HP → edita offline → sinkron fali (la presiza períodu autorizasaun husi data kria)
+	def test_download_no_sinkron_fali(self):
+		from kazu.services import change_status, followup_kazu
+		data = self.payload()
+		self.assertEqual(self.send(data).status_code, 201)
+		self.assertEqual(self.client.post(reverse('api-sinkron-haruka', args=[data['id']]), **self.auth()).status_code, 200)
+		k = Kazu.objects.get(pk=data['id'])
+		admin = self.admin
+		k = change_status(k, admin, 'verifika')
+		url = reverse('api-sinkron-followup', args=[k.pk])
+		self.assertEqual(self.client.get(url, **self.auth()).status_code, 404)        # seidauk follow-up
+		followup_kazu(k, admin, self.inv, 'Sukat fali poligon rai')
+		lista = self.client.get(reverse('api-sinkron-kazu'), **self.auth()).json()['kazu']
+		self.assertTrue(any(x['followup'] and x['nota'].startswith('Follow-up') for x in lista))
+		hp = self.client.get(url, **self.auth()).json()
+		self.assertEqual((hp['id'], hp['kode'], hp['followup']), (str(k.pk), k.kode, True))
+		self.assertEqual(hp['afetadu']['uma_kain'], 15)
+		# HP haruka fali (kria_iha tuan → la presiza períodu autorizasaun)
+		OfflinePermission.objects.filter(pk=self.perm.pk).update(end_date=timezone.now() - timedelta(days=1), start_date=timezone.now() - timedelta(days=2))
+		hp.update(deskrisaun='Survei foun: komunidade sai ona.', insidente=[hp['insidente']] if hp['insidente'] else [], afetadu=[hp['afetadu']])
+		r = self.send(hp)
+		self.assertEqual(r.status_code, 200, r.content)
+		k.refresh_from_db()
+		self.assertEqual(k.deskrisaun, 'Survei foun: komunidade sai ona.')
+		self.assertEqual(self.client.post(reverse('api-sinkron-haruka', args=[k.pk]), **self.auth()).json()['status'], 'SYNCED')

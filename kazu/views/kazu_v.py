@@ -10,10 +10,10 @@ from config.decorators import allowed_users
 from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm, AkompanamentuForm
-from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES
+from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.importa import pode_muda_lokasaun
-from kazu.services import action_buttons, refresh_auto_fields, submit_kazu
+from kazu.services import action_buttons, refresh_auto_fields, submit_kazu, enxe_fokal, can_followup, investigador_followup
 from users.auth_utils import c_user_pesoal
 
 
@@ -62,6 +62,19 @@ BUTAUN_STILU = {
 }
 
 
+SEG_IKON = {'status': 'fa-flag', 'tribunal': 'fa-gavel', 'notifikasaun': 'fa-envelope-o', 'fokal': 'fa-user', 'org_seluk': 'fa-users'}
+
+
+def seg_seksaun(kazu):
+	# Butaun + modal kada seksaun segimentu (formuláriu badak: seksaun ida de'it)
+	from kazu.forms import SegimentuForm, SEGIMENTU_SEKSAUN
+	from kazu.models import KazuSegimentu
+	seg = getattr(kazu, 'segimentu', None) if hasattr(kazu, 'segimentu') else None
+	seg = seg or KazuSegimentu(kazu=kazu)
+	return [{'xave': x, 'titulu': t, 'ikon': SEG_IKON.get(x, 'fa-pencil'), 'form': SegimentuForm(instance=seg, seksaun=x, prefix=x)}
+		for x, t, _r in SEGIMENTU_SEKSAUN]
+
+
 @login_required
 @allowed_users(allowed_roles=ROLE_ALL)
 def KazuDetail(request, uuid):
@@ -79,11 +92,14 @@ def KazuDetail(request, uuid):
 		'segimentu': getattr(objects, 'segimentu', None) if hasattr(objects, 'segimentu') else None,
 		'akompanamentu': objects.akompanamentu.select_related('created_by')[:30],
 		'can_segimentu': group in ROLE_SEGIMENTU,
+		'seg_seksaun': seg_seksaun(objects) if group in ROLE_SEGIMENTU and objects.status != CANCELED else [],
 		'akomp_form': AkompanamentuForm() if group in ROLE_SEGIMENTU else None,
 		'can_edit': can_edit(request.user, objects),
 		'can_poligon': can_poligon(request.user, objects),
-		'can_status_kazu': group in ROLE_STATUS_KAZU and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
-		'can_legal': group in ROLE_LEGAL and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
+		'can_status_kazu': group in ROLE_STATUS_KAZU and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED', 'FOLLOWUP'),
+		'can_legal': group in ROLE_LEGAL and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED', 'FOLLOWUP'),
+		'can_followup': can_followup(request.user, objects),
+		'investigador_followup': investigador_followup(objects) if can_followup(request.user, objects) else [],
 		'action_form': ActionForm(), 'status_kazu_form': StatusKazuForm(initial={'status_kazu': objects.status_kazu}),
 		'status_kazu_choices': STATUS_KAZU_CHOICES,
 		'title': str(objects), 'legend': _('Detalla Kazu')
@@ -103,6 +119,8 @@ def _save_kazu(request, form, formsets, instance=None):
 			fs.instance = obj
 			fs.save()
 		refresh_auto_fields(obj)
+		if instance is None:
+			enxe_fokal(obj, request.user)
 		KazuHistoria.objects.create(kazu=obj, user=request.user, tipu=KazuHistoria.EDITA,
 			status_foun=obj.status, nota='KRIA' if instance is None else 'EDITA')
 	return obj
