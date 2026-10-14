@@ -3457,12 +3457,12 @@ msgid "Kansela mudansa"
 msgstr "Kansela mudansa"
 
 #: kazu/templates/kazu/_poligon.html
-msgid "Keliling"
-msgstr "Keliling"
+msgid "Haleu"
+msgstr "Haleu"
 
 #: kazu/models.py
-msgid "Keliling poligon (m)"
-msgstr "Keliling poligon (m)"
+msgid "Haleu poligon (m)"
+msgstr "Haleu poligon (m)"
 
 #: kazu/templates/kazu/_poligon.html
 msgid "Liña kruza malu. Muda pontu atu liña la kruza."
@@ -3485,8 +3485,8 @@ msgid "Luan poligon (m²)"
 msgstr "Luan poligon (m²)"
 
 #: kazu/templates/kazu/_poligon.html
-msgid "Naruk × Lebar"
-msgstr "Naruk × Lebar"
+msgid "Naruk × Luan"
+msgstr "Naruk × Luan"
 
 #: kazu/templates/kazu/_poligon.html
 msgid "Poligon Rai"

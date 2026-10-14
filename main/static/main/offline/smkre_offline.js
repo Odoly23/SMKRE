@@ -655,7 +655,7 @@
 	}
 	function luanRai(m2) { return m2 >= 10000 ? [Math.round(m2 / 100) / 100, 'HA'] : [Math.round(m2 * 100) / 100, 'M2']; }
 
-	// Sketch SVG (la presiza mapa / internet) + luan, keliling, naruk × lebar
+	// Sketch SVG (la presiza mapa / internet) + luan, haleu, naruk × luan
 	function polHatudu() {
 		var k = S.kazu, P = SIBARPoligon;
 		if (!k.poligon_pontu || !k.poligon_pontu.length) k.poligon_pontu = [[]];
@@ -687,7 +687,7 @@
 		if (fs.length) {
 			var r = P.kalkula(fs);
 			r.bidang.forEach(function (m, i) {
-				linha.push('<b>Área ' + (i + 1) + '</b>: ' + P.luan(m.luan_m2) + ' · keliling ' + P.metru(m.keliling_m) + ' · ' + P.metru(m.naruk_m) + ' × ' + P.metru(m.lebar_m) +
+				linha.push('<b>Área ' + (i + 1) + '</b>: ' + P.luan(m.luan_m2) + ' · haleu ' + P.metru(m.keliling_m) + ' · ' + P.metru(m.naruk_m) + ' × ' + P.metru(m.lebar_m) +
 					(P.kruza(fs[i]) ? ' <span class="text-danger">· liña kruza!</span>' : ''));
 			});
 			if (fs.length > 1) linha.push('<b>Total: ' + P.luan(r.luan_m2) + '</b>');

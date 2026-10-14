@@ -1,5 +1,5 @@
 {% load static i18n l10n %}
-{# Poligon rai: mapa + luan/keliling/naruk/lebar (Turf.js). Edita ho Leaflet-Geoman se can_poligon. #}
+{# Poligon rai: mapa + luan/haleu/naruk/luan (Turf.js). Edita ho Leaflet-Geoman se can_poligon. #}
 <div class="card card-rbr mb-3" id="kartaun-poligon"><div class="card-body">
 	<h3 class="h-line"><i class="fa fa-object-ungroup"></i> {% trans "Poligon Rai" %}</h3>
 	<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
@@ -16,7 +16,7 @@
 	{{ obj.poligon|json_script:"poligon-dadus" }}
 	<div class="table-responsive mt-2">
 		<table class="table table-sm small mb-1" id="poligon-tabela">
-			<thead><tr><th>{% trans "Área" %}</th><th>{% trans "Luan" %}</th><th>{% trans "Keliling" %}</th><th>{% trans "Naruk × Lebar" %}</th></tr></thead>
+			<thead><tr><th>{% trans "Área" %}</th><th>{% trans "Luan" %}</th><th>{% trans "Haleu" %}</th><th>{% trans "Naruk × Luan" %}</th></tr></thead>
 			<tbody></tbody>
 			<tfoot><tr class="font-weight-bold"><td>{% trans "Total" %}</td><td id="poligon-total">—</td><td id="poligon-keliling">—</td><td></td></tr></tfoot>
 		</table>

@@ -78,7 +78,7 @@ class Kazu(models.Model):
 	# Poligon rai (GeoJSON FeatureCollection, bidang ida ka barak) — luan kalkula husi server (rumus hanesan Turf.js)
 	poligon = models.JSONField(null=True, blank=True, verbose_name=_("Poligon rai"))
 	poligon_luan_m2 = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, verbose_name=_("Luan poligon (m²)"))
-	poligon_keliling_m = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, verbose_name=_("Keliling poligon (m)"))
+	poligon_keliling_m = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, verbose_name=_("Haleu poligon (m)"))
 
 	# Insidente (A.1)
 	data_akontesimentu = models.DateField(null=True, blank=True, verbose_name=_("Data Akontesimentu"))

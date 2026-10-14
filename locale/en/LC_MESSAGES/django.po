@@ -3369,11 +3369,11 @@ msgid "Kansela mudansa"
 msgstr "Discard changes"
 
 #: kazu/templates/kazu/_poligon.html
-msgid "Keliling"
+msgid "Haleu"
 msgstr "Perimeter"
 
 #: kazu/models.py
-msgid "Keliling poligon (m)"
+msgid "Haleu poligon (m)"
 msgstr "Polygon perimeter (m)"
 
 #: kazu/templates/kazu/_poligon.html
@@ -3397,7 +3397,7 @@ msgid "Luan poligon (m²)"
 msgstr "Polygon area (m²)"
 
 #: kazu/templates/kazu/_poligon.html
-msgid "Naruk × Lebar"
+msgid "Naruk × Luan"
 msgstr "Length × Width"
 
 #: kazu/templates/kazu/_poligon.html
