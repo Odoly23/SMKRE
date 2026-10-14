@@ -184,6 +184,21 @@ class KampuRbrSinkronTest(SinkronBase):
 		self.assertEqual((k.tinan_disputa_hahu, k.eviksaun_akontese, k.portavos_naran, k.entidade_kategoria), (2018, 'SIN', 'Maria', 'KOMPANIA_NASIONAL'))
 
 
+class PoligonSinkronTest(SinkronBase):
+	def test_poligon_la_o_haleu_husi_hp(self):
+		anel = [[125.3412, -8.5874], [125.34175, -8.5874], [125.34175, -8.58776], [125.3412, -8.58776], [125.3412, -8.5874]]
+		data = self.payload(poligon={'type': 'FeatureCollection', 'features': [{'type': 'Feature', 'properties': {}, 'geometry': {'type': 'Polygon', 'coordinates': [anel]}}]})
+		self.assertEqual(self.send(data).status_code, 201)
+		k = Kazu.objects.get(pk=data['id'])
+		self.assertAlmostEqual(float(k.poligon_luan_m2), 2420.7, places=0)
+		self.assertEqual(k.rai_luan_unidade, 'M2')
+		# Poligon la validu → rejeita
+		data = self.payload(poligon={'type': 'Polygon', 'coordinates': [[[10, 10], [10.1, 10], [10.1, 10.1], [10, 10]]]})
+		r = self.send(data)
+		self.assertEqual(r.status_code, 400)
+		self.assertIn('poligon', str(r.json()))
+
+
 class AutorizasaunSinkronTest(SinkronBase):
 	def test_kazu_kria_li_ur_periodu_rejeita(self):
 		r = self.send(self.payload(kria_iha=(timezone.now() - timedelta(days=3)).isoformat()))

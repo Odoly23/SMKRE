@@ -11,8 +11,8 @@ BASE = Path(__file__).resolve().parent.parent
 LANGS = ['tet', 'pt', 'en', 'id']   # tet: testu fonte (bele edita Tetun iha tet/django.po)
 SKIP = ('locale', 'staticfiles', 'media', 'node_modules', '.git')
 
-TPL_TRANS = re.compile(r'{%\s*trans(?:late)?\s+"([^"]+)"')
-TPL_TRANS1 = re.compile(r"{%\s*trans(?:late)?\s+'([^']+)'")
+TPL_TRANS = re.compile(r'{%\s*trans(?:late)?\s+"((?:\\.|[^"\\])+)"')    # aseita \" laran testu
+TPL_TRANS1 = re.compile(r"{%\s*trans(?:late)?\s+'((?:\\.|[^'\\])+)'")
 TPL_UNDERSCORE = re.compile(r'_\("([^"]+)"\)')
 TPL_BLOCK = re.compile(r'{%\s*blocktrans(?:late)?(?P<args>[^%]*)%}(?P<one>.*?)(?:{%\s*plural\s*%}(?P<many>.*?))?{%\s*endblocktrans(?:late)?\s*%}', re.S)
 PY_CALL = re.compile(r'''\b_\(\s*(?P<q>['"])(?P<s>(?:\\.|(?!(?P=q)).)*)(?P=q)\s*\)''')
@@ -38,7 +38,8 @@ def collect():
 			for rx in (TPL_TRANS, TPL_TRANS1, TPL_UNDERSCORE):
 				for m in rx.finditer(src):
 					# {% trans %} Django duplika "%" → "%%" iha msgid
-					singles.setdefault(m.group(1).replace('%', '%%') if rx is not TPL_UNDERSCORE else m.group(1), rel)
+					txt = m.group(1).replace('\\"', '"').replace("\\'", "'")
+					singles.setdefault(txt.replace('%', '%%') if rx is not TPL_UNDERSCORE else txt, rel)
 			for m in TPL_BLOCK.finditer(src):
 				one = norm_block(m.group('one'))
 				if m.group('many'):

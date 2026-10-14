@@ -52,3 +52,11 @@
 @keyframes rec { 50% { opacity: .6; } }
 .kam-timer { position: absolute; top: calc(16px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
 	background: #dc3545; color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px; font-size: 20px; }
+/* Poligon rai: la'o haleu ho GPS (sketch SVG, la presiza mapa) */
+.poligon-box { border: 1px dashed var(--border); border-radius: 10px; padding: 10px; margin-top: 4px; }
+.pol-sketch { width: 100%; height: 180px; background: #eef5f1; border-radius: 8px; }
+.pol-sketch polygon { fill: rgba(22,183,138,.3); stroke: #0E8A68; stroke-width: 2; }
+.pol-sketch polyline { fill: none; stroke: #0E8A68; stroke-width: 2; stroke-dasharray: 5 4; }
+.pol-sketch circle { fill: #fff; stroke: #0E8A68; stroke-width: 2; }
+.pol-sketch circle.ativu { fill: #d63c3c; stroke: #d63c3c; }
+.pol-sketch text { font-size: 11px; fill: #0E8A68; font-weight: 700; }

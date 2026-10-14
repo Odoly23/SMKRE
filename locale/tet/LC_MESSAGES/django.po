@@ -3410,3 +3410,141 @@ msgstr "Iha portavós komunidade?"
 #, python-format
 msgid "Vídeo máximu %(n)s kada kazu."
 msgstr "Vídeo máximu %(n)s kada kazu."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Bidang"
+msgstr "Bidang"
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
+msgstr "Bidang %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: pontu la iha territóriu Timor-Leste."
+msgstr "Bidang %(i)s: pontu la iha territóriu Timor-Leste."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: pontu máximu %(n)s."
+msgstr "Bidang %(i)s: pontu máximu %(n)s."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: presiza pontu 3 ka liu."
+msgstr "Bidang %(i)s: presiza pontu 3 ka liu."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang rai máximu %(n)s kada kazu."
+msgstr "Bidang rai máximu %(n)s kada kazu."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Hamoos poligon hotu?"
+msgstr "Hamoos poligon hotu?"
+
+#: kazu/views/poligon_v.py
+msgid "Ita la iha asesu atu edita poligon kazu ne'e."
+msgstr "Ita la iha asesu atu edita poligon kazu ne'e."
+
+#: kazu/forms.py
+msgid "Kalkula automátiku husi poligon rai (edita poligon iha detalla kazu)."
+msgstr "Kalkula automátiku husi poligon rai (edita poligon iha detalla kazu)."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Kansela mudansa"
+msgstr "Kansela mudansa"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Keliling"
+msgstr "Keliling"
+
+#: kazu/models.py
+msgid "Keliling poligon (m)"
+msgstr "Keliling poligon (m)"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Liña kruza malu. Muda pontu atu liña la kruza."
+msgstr "Liña kruza malu. Muda pontu atu liña la kruza."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Luan"
+msgstr "Luan"
+
+#: kazu/templates/kazu/_poligon.html
+msgid ""
+"Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta "
+"dala rua. Rai nia luan kazu atualiza automátiku."
+msgstr ""
+"Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta "
+"dala rua. Rai nia luan kazu atualiza automátiku."
+
+#: kazu/models.py
+msgid "Luan poligon (m²)"
+msgstr "Luan poligon (m²)"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Naruk × Lebar"
+msgstr "Naruk × Lebar"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon Rai"
+msgstr "Poligon Rai"
+
+#: kazu/views/poligon_v.py
+msgid "Poligon boot liu."
+msgstr "Poligon boot liu."
+
+#: kazu/poligon.py
+msgid "Poligon de'it mak bele rai."
+msgstr "Poligon de'it mak bele rai."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon la rai. Koko fali."
+msgstr "Poligon la rai. Koko fali."
+
+#: kazu/poligon.py
+msgid "Poligon la validu."
+msgstr "Poligon la validu."
+
+#: kazu/models.py
+msgid "Poligon rai"
+msgstr "Poligon rai"
+
+#: kazu/poligon.py
+msgid "Poligon rai hamoos"
+msgstr "Poligon rai hamoos"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon rai ona."
+msgstr "Poligon rai ona."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Poligon rai: %(n)s bidang, %(m2)s m²"
+msgstr "Poligon rai: %(n)s bidang, %(m2)s m²"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Rai poligon"
+msgstr "Rai poligon"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Seidauk iha poligon."
+msgstr "Seidauk iha poligon."
+
+#: kazu/templates/kazu/_poligon.html
+msgid ""
+"Seidauk iha poligon. Klik ikon poligon iha mapa, klik kada kantu rai, depois"
+" klik pontu dahuluk atu taka."
+msgstr ""
+"Seidauk iha poligon. Klik ikon poligon iha mapa, klik kada kantu rai, depois"
+" klik pontu dahuluk atu taka."
+
+#: kazu/templates/kazu/detail.html
+msgid "husi poligon"
+msgstr "husi poligon"
+
+#: kazu/poligon.py
+msgid "uluk"
+msgstr "uluk"

@@ -22,6 +22,7 @@ from django.utils.translation import gettext as _
 from config.upload_utils import compress_image
 from kazu.forms import KazuForm, AfetaduForm, InsidenteForm, AtorForm, EvidensiaForm
 from kazu.models import Kazu, Evidensia, KazuHistoria, STATUS_EDITABLE, PENDING
+from kazu.poligon import kalkula as kalkula_poligon, aplika as aplika_poligon
 from kazu.services import refresh_auto_fields
 from users.auth_utils import c_user_pesoal
 from users.models import OfflinePermission
@@ -116,6 +117,13 @@ def sync_kazu(user, data):
 				lista.append(f)
 			else:
 				erru.update({f'{xave}.{n}.{k}': list(v) for k, v in f.errors.items()})
+	# Poligon rai (la'o haleu ho GPS): server kalkula fali luan. La haruka = la muda poligon iha server
+	poligon = data.get('poligon')
+	if poligon:
+		try:
+			kalkula_poligon(poligon)
+		except ValidationError as e:
+			erru['poligon'] = e.messages
 	if erru:
 		raise SyncError(erru)
 
@@ -125,6 +133,8 @@ def sync_kazu(user, data):
 		obj.id = kazu_id
 		obj.created_by = user
 		obj.status = PENDING
+	if poligon:
+		aplika_poligon(obj, poligon)
 	obj.save()
 	form.save_m2m()
 	# Lista laran: troka hotu (HP haruka lista kompletu)

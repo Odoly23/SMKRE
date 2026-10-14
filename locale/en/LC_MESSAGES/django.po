@@ -3318,3 +3318,145 @@ msgstr "Is there a community spokesperson?"
 #, python-format
 msgid "Vídeo máximu %(n)s kada kazu."
 msgstr "Maximum %(n)s videos per case."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Bidang"
+msgstr "Plot"
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
+msgstr ""
+"Plot %(i)s: lines cross each other (%(r)s). Move the points so the lines do "
+"not cross."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: pontu la iha territóriu Timor-Leste."
+msgstr "Plot %(i)s: points are outside Timor-Leste territory."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: pontu máximu %(n)s."
+msgstr "Plot %(i)s: maximum %(n)s points."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: presiza pontu 3 ka liu."
+msgstr "Plot %(i)s: needs 3 or more points."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang rai máximu %(n)s kada kazu."
+msgstr "Maximum %(n)s plots per case."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Hamoos poligon hotu?"
+msgstr "Delete all polygons?"
+
+#: kazu/views/poligon_v.py
+msgid "Ita la iha asesu atu edita poligon kazu ne'e."
+msgstr "You do not have access to edit this case's polygon."
+
+#: kazu/forms.py
+msgid "Kalkula automátiku husi poligon rai (edita poligon iha detalla kazu)."
+msgstr ""
+"Calculated automatically from the land polygon (edit the polygon on the case"
+" detail page)."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Kansela mudansa"
+msgstr "Discard changes"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Keliling"
+msgstr "Perimeter"
+
+#: kazu/models.py
+msgid "Keliling poligon (m)"
+msgstr "Polygon perimeter (m)"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Liña kruza malu. Muda pontu atu liña la kruza."
+msgstr "Lines cross each other. Move the points so they do not cross."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Luan"
+msgstr "Area"
+
+#: kazu/templates/kazu/_poligon.html
+msgid ""
+"Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta "
+"dala rua. Rai nia luan kazu atualiza automátiku."
+msgstr ""
+"Area calculated with Turf.js (m² and hectares). Overlapping plots are not "
+"counted twice. The case land area updates automatically."
+
+#: kazu/models.py
+msgid "Luan poligon (m²)"
+msgstr "Polygon area (m²)"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Naruk × Lebar"
+msgstr "Length × Width"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon Rai"
+msgstr "Land Polygon"
+
+#: kazu/views/poligon_v.py
+msgid "Poligon boot liu."
+msgstr "Polygon too large."
+
+#: kazu/poligon.py
+msgid "Poligon de'it mak bele rai."
+msgstr "Only polygons can be saved."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon la rai. Koko fali."
+msgstr "Polygon not saved. Try again."
+
+#: kazu/poligon.py
+msgid "Poligon la validu."
+msgstr "Invalid polygon."
+
+#: kazu/models.py
+msgid "Poligon rai"
+msgstr "Land polygon"
+
+#: kazu/poligon.py
+msgid "Poligon rai hamoos"
+msgstr "Land polygon deleted"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon rai ona."
+msgstr "Polygon saved."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Poligon rai: %(n)s bidang, %(m2)s m²"
+msgstr "Land polygon: %(n)s plot(s), %(m2)s m²"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Rai poligon"
+msgstr "Save polygon"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Seidauk iha poligon."
+msgstr "No polygon yet."
+
+#: kazu/templates/kazu/_poligon.html
+msgid ""
+"Seidauk iha poligon. Klik ikon poligon iha mapa, klik kada kantu rai, depois"
+" klik pontu dahuluk atu taka."
+msgstr ""
+"No polygon yet. Click the polygon icon on the map, click each corner of the "
+"land, then click the first point to close it."
+
+#: kazu/templates/kazu/detail.html
+msgid "husi poligon"
+msgstr "from polygon"
+
+#: kazu/poligon.py
+msgid "uluk"
+msgstr "before"

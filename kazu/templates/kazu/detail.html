@@ -24,9 +24,11 @@
 					<tr><th>{% trans "Fatin" %}</th><td>{{ obj.aldeia|default:"" }}{% if obj.aldeia %}, {% endif %}{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.postu|default:"" }}{% if obj.postu %}, {% endif %}{{ obj.munisipiu }}</td></tr>
 					<tr><th>{% trans "Koordenada GPS" %}</th><td>{% if obj.latitude %}{{ obj.latitude }}, {{ obj.longitude }} <small class="text-muted">(± {{ obj.gps_akurasia|default:"?" }} m)</small>{% if can_mapa %} <a href="{% url 'report-mapa' %}#{{ obj.latitude|unlocalize }},{{ obj.longitude|unlocalize }}" class="btn btn-sm btn-outline-rbr ml-1"><i class="fa fa-map-marker"></i> {% trans "Haree iha mapa" %}</a>{% endif %}{% if obj.gps_aproksimadu %} <span class="badge badge-warning">{% trans "GPS aproksimadu" %}</span>{% endif %}{% if can_lokasaun %} <a href="{% url 'kazu-lokasaun' obj.pk %}" class="btn btn-sm {% if obj.gps_aproksimadu %}btn-warning{% else %}btn-outline-secondary{% endif %} ml-1"><i class="fa fa-arrows"></i> {% trans "Hadia lokasaun" %}</a>{% endif %}{% if obj.importasaun_id %} <span class="badge badge-info">{% trans "Import Excel" %}</span>{% endif %}{% else %}<span class="text-danger">{% trans "Seidauk iha" %}</span>{% endif %}</td></tr>
 					{% if obj.enderesu_fatin %}<tr><th>{% trans "Enderesu ka deskrisaun fatin" %}</th><td>{{ obj.enderesu_fatin }}</td></tr>{% endif %}
-					{% if obj.rai_luan %}<tr><th>{% trans "Rai nia luan" %}</th><td>{{ obj.rai_luan }} {{ obj.get_rai_luan_unidade_display }}</td></tr>{% endif %}
+					{% if obj.rai_luan or can_poligon %}<tr><th>{% trans "Rai nia luan" %}</th><td id="detalla-rai-luan">{% if obj.rai_luan %}{{ obj.rai_luan }} {{ obj.get_rai_luan_unidade_display }}{% else %}-{% endif %} {% if obj.poligon %} <span class="badge badge-success">{% trans "husi poligon" %}</span>{% endif %}</td></tr>{% endif %}
 				</table>
 			</div></div>
+
+			{% if obj.poligon or can_poligon %}{% include 'kazu/_poligon.html' %}{% endif %}
 
 			<!-- 2. Insidente -->
 			<div class="card card-rbr mb-3"><div class="card-body">

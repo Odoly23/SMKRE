@@ -344,7 +344,7 @@
 			postu: '', suku: '', aldeia: '', latitude: null, longitude: null, gps_akurasia: null,
 			data_akontesimentu: '', tipu_konflitu: [], tipu_seluk: '', tipu_rai: '', deskrisaun: '',
 			afetadu: {}, insidente: null, ator: [], estragu: [], estragu_seluk: '', nesesidade: [],
-			konsentimentu: false, la_publika: false, observasaun: '', rai_luan_unidade: 'M2'
+			konsentimentu: false, la_publika: false, observasaun: '', rai_luan_unidade: 'M2', poligon_pontu: [[]]
 		};
 	}
 
@@ -432,7 +432,7 @@
 		hatuduMedia();
 		// Switch "Iha …?" loke automátiku se iha ona dadus
 		var afe = k.afetadu || {};
-		$('sw-rai').checked = !!(k.enderesu_fatin || k.rai_luan != null);
+		$('sw-rai').checked = !!(k.enderesu_fatin || k.rai_luan != null || polPontuHotu(k) > 0);
 		$('sw-portavos').checked = !!(k.portavos_naran || k.portavos_kontaktu || k.portavos_observasaun);
 		$('sw-ator').checked = (k.ator || []).length > 0;
 		$('sw-estragu').checked = (k.estragu || []).length > 0 || !!k.estragu_seluk;
@@ -441,6 +441,7 @@
 		// Kazu tuan la iha resposta "Dadus uma-kain iha?" maibé iha ona detalla → hatudu
 		S.umaKainTuan = !k.iha_dadus_uma_kain && ['mane', 'feto', 'labarik', 'katuas_ferik', 'defisiensia'].some(function (x) { return afe[x] != null; });
 		hatuduKond();
+		polHatudu();
 		if (tkTuan.length) msg('Tipu konflitu tuan la uza ona. Favor hili fali tipu konflitu iha pasu 2.', 'warning');
 	}
 
@@ -534,6 +535,8 @@
 		leeKampu(k);
 		document.querySelectorAll('.kond[hidden] [data-kampu]').forEach(function (el) { k[el.dataset.kampu] = null; });
 		document.querySelectorAll('.kond[hidden] [data-afetadu]').forEach(function (el) { k.afetadu[el.dataset.afetadu] = null; });
+		if (subar('grp-rai')) k.poligon_pontu = [[]];
+		if (polBidang(k).length) { var lr = luanRai(SIBARPoligon.kalkula(polBidang(k)).luan_m2); k.rai_luan = lr[0]; k.rai_luan_unidade = lr[1]; }
 		if (subar('grp-ator')) k.ator = [];
 		if (subar('grp-estragu')) { k.estragu = []; k.estragu_seluk = ''; }
 		if (subar('grp-nesesidade')) { k.nesesidade = []; k.urjente = false; }
@@ -550,6 +553,10 @@
 			if (!k.suku) e.push('Hili Suku.');
 			if (k.latitude == null) e.push('Foti koordenada GPS iha fatin akontesimentu.');
 			else if (k.gps_akurasia > GPS_MAX) e.push('Akurasia GPS ' + k.gps_akurasia + ' m. Tenke ≤ 50 m.');
+			(k.poligon_pontu || []).forEach(function (b, i) {
+				if (b.length && b.length < 3) e.push('Poligon bidang ' + (i + 1) + ': presiza pontu 3 ka liu (ka hamoos).');
+			});
+			polBidang(k).forEach(function (f, i) { if (SIBARPoligon.kruza(f)) e.push('Poligon bidang ' + (i + 1) + ': liña kruza malu. Hamoos pontu ikus no foti fali.'); });
 		}
 		if (pasu === 2) {
 			if (!k.data_akontesimentu) e.push('Data Akontesimentu obrigatóriu.');
@@ -634,6 +641,115 @@
 			'Foto: ' + foto + '/' + MAX_FOTO + ' · Vídeo: ' + video + '/' + MAX_VIDEO +
 			(k.nesesidade.length ? '<br><span class="badge badge-urjente">URJENTE</span>' : '') + '</div>';
 	}
+
+	// ══════════════ POLIGON RAI (la'o haleu rai ho GPS, offline) ══════════════
+	var POL_GPS_MAX = 10;
+	function polPontuHotu(k) { return (k.poligon_pontu || []).reduce(function (s, b) { return s + b.length; }, 0); }
+	// Bidang ho pontu 3+ → Feature Polygon (anel taka)
+	function polBidang(k) {
+		return (k.poligon_pontu || []).filter(function (b) { return b.length >= 3; }).map(function (b) {
+			var anel = b.map(function (p) { return [p[0], p[1]]; });
+			anel.push(anel[0]);
+			return turf.polygon([anel]);
+		});
+	}
+	function luanRai(m2) { return m2 >= 10000 ? [Math.round(m2 / 100) / 100, 'HA'] : [Math.round(m2 * 100) / 100, 'M2']; }
+
+	// Sketch SVG (la presiza mapa / internet) + luan, keliling, naruk × lebar
+	function polHatudu() {
+		var k = S.kazu, P = SIBARPoligon;
+		if (!k.poligon_pontu || !k.poligon_pontu.length) k.poligon_pontu = [[]];
+		var bidang = k.poligon_pontu, fs = polBidang(k), hotu = [].concat.apply([], bidang), html = '';
+		if (hotu.length) {
+			var kx = Math.cos(hotu[0][1] * Math.PI / 180);
+			var xs = hotu.map(function (p) { return p[0] * kx; }), ys = hotu.map(function (p) { return p[1]; });
+			var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs), minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+			var sk = Math.min(270 / ((maxX - minX) || 1e-9), 150 / ((maxY - minY) || 1e-9));
+			var ox = (300 - (maxX - minX) * sk) / 2, oy = (180 - (maxY - minY) * sk) / 2;
+			var pt = function (p) { return [(ox + (p[0] * kx - minX) * sk).toFixed(1), (180 - oy - (p[1] - minY) * sk).toFixed(1)]; };
+			bidang.forEach(function (b, i) {
+				var pts = b.map(function (p) { return pt(p).join(','); }).join(' ');
+				if (b.length >= 3) html += '<polygon points="' + pts + '"/>';
+				else if (b.length === 2) html += '<polyline points="' + pts + '"/>';
+				b.forEach(function (p, j) {
+					var c = pt(p);
+					html += '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="4"' + (i === bidang.length - 1 && j === b.length - 1 ? ' class="ativu"' : '') + '/>';
+				});
+				if (b.length >= 3) {
+					var cc = pt(turf.centroid(polBidang({ poligon_pontu: [b] })[0]).geometry.coordinates);
+					html += '<text x="' + cc[0] + '" y="' + cc[1] + '" text-anchor="middle">' + (i + 1) + '</text>';
+				}
+			});
+		}
+		$('pol-sketch').innerHTML = html;
+		var atual = bidang[bidang.length - 1];
+		var linha = ['Bidang ' + bidang.length + ': ' + atual.length + ' pontu' + (atual.length && atual.length < 3 ? ' (presiza 3+)' : '')];
+		if (fs.length) {
+			var r = P.kalkula(fs);
+			r.bidang.forEach(function (m, i) {
+				linha.push('<b>Bidang ' + (i + 1) + '</b>: ' + P.luan(m.luan_m2) + ' · keliling ' + P.metru(m.keliling_m) + ' · ' + P.metru(m.naruk_m) + ' × ' + P.metru(m.lebar_m) +
+					(P.kruza(fs[i]) ? ' <span class="text-danger">· liña kruza!</span>' : ''));
+			});
+			if (fs.length > 1) linha.push('<b>Total: ' + P.luan(r.luan_m2) + '</b>');
+			var lr = luanRai(r.luan_m2);
+			$('f-rai_luan').value = lr[0]; $('f-rai_luan_unidade').value = lr[1];
+		}
+		$('pol-info').innerHTML = linha.join('<br>');
+		$('f-rai_luan').readOnly = $('f-rai_luan_unidade').disabled = fs.length > 0;
+		$('pol-desfaz').disabled = $('pol-hamoos').disabled = !hotu.length;
+		$('pol-foun').disabled = atual.length < 3;
+	}
+
+	var polWatch = null, polTimer = null;
+	function polPara() {
+		if (polWatch !== null) navigator.geolocation.clearWatch(polWatch);
+		clearTimeout(polTimer); polWatch = null;
+		$('pol-pontu').disabled = false;
+		$('pol-pontu').innerHTML = '<i class="fa fa-crosshairs"></i> Aumenta pontu';
+	}
+	// Pontu ida = GPS diak liu to'o ±10 m (hein máximu minutu 1)
+	$('pol-pontu').addEventListener('click', function () {
+		if (!navigator.geolocation) { msg('HP ne\'e la iha GPS.'); return; }
+		var btn = this, diak = null;
+		btn.disabled = true;
+		btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Buka GPS…';
+		polWatch = navigator.geolocation.watchPosition(function (p) {
+			var c = p.coords;
+			if (!diak || c.accuracy < diak.accuracy) diak = c;
+			btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> ±' + Math.round(diak.accuracy) + ' m…';
+			if (diak.accuracy > POL_GPS_MAX) return;
+			polPara();
+			var bidang = S.kazu.poligon_pontu, atual = bidang[bidang.length - 1];
+			var foun = [Math.round(diak.longitude * 1e7) / 1e7, Math.round(diak.latitude * 1e7) / 1e7, Math.round(diak.accuracy)];
+			var ikus = atual[atual.length - 1];
+			if (ikus && turf.distance(ikus.slice(0, 2), foun.slice(0, 2), { units: 'meters' }) < 1) { msg('Pontu besik liu pontu ikus (< 1 m). La\'o ba kantu tuir mai.', 'info'); return; }
+			atual.push(foun);
+			msg(null);
+			polHatudu(); raiRascunho(true);
+		}, function (err) {
+			polPara();
+			msg(err.code === 1 ? 'Favor permite GPS (lokalizasaun) ba SIBAR-RbR iha setting browser.' : 'GPS la hetan sinál. Ba fatin loke no koko fali.');
+		}, { enableHighAccuracy: true, maximumAge: 0, timeout: 60000 });
+		polTimer = setTimeout(function () {
+			polPara();
+			msg('GPS la to\'o ±' + POL_GPS_MAX + ' m' + (diak ? ' (diak liu: ±' + Math.round(diak.accuracy) + ' m)' : '') + '. Hein uitoan iha fatin loke no koko fali.');
+		}, 60000);
+	});
+	$('pol-desfaz').addEventListener('click', function () {
+		var bidang = S.kazu.poligon_pontu;
+		if (!bidang[bidang.length - 1].length && bidang.length > 1) bidang.pop();
+		bidang[bidang.length - 1].pop();
+		polHatudu(); raiRascunho(true);
+	});
+	$('pol-foun').addEventListener('click', function () {
+		S.kazu.poligon_pontu.push([]);
+		polHatudu(); raiRascunho(true);
+	});
+	$('pol-hamoos').addEventListener('click', function () {
+		if (!confirm('Hamoos poligon hotu?')) return;
+		S.kazu.poligon_pontu = [[]];
+		polHatudu(); raiRascunho(true);
+	});
 
 	// ══════════════ GPS ══════════════
 	var gpsWatch = null, gpsTimer = null;
@@ -816,7 +932,8 @@
 			data_akontesimentu: k.data_akontesimentu, tipu_konflitu: k.tipu_konflitu, tipu_seluk: k.tipu_seluk,
 			tipu_rai: k.tipu_rai, deskrisaun: k.deskrisaun, estragu: k.estragu, estragu_seluk: k.estragu_seluk,
 			nesesidade: k.nesesidade, konsentimentu: k.konsentimentu, la_publika: !!k.la_publika, observasaun: k.observasaun,
-			afetadu: temAfetadu ? [afe] : [], insidente: k.insidente ? [k.insidente] : [], ator: k.ator || []
+			afetadu: temAfetadu ? [afe] : [], insidente: k.insidente ? [k.insidente] : [], ator: k.ator || [],
+			poligon: polBidang(k).length ? SIBARPoligon.fc(polBidang(k)) : null
 		});
 	}
 

@@ -38,7 +38,7 @@ def exportExcel(request):
 	# Eksporta kazu (tuir filtru) ba Excel. La inklui naran/kontaktu ema afetadu (privasidade).
 	from kazu.importa import KAMPU_KAZU_RBR, KAMPU_SEGIMENTU
 	from kazu.models import Kazu, KazuSegimentu
-	kampu_kazu = [c for c in KAMPU_KAZU_RBR if c not in SUBAR_EXPORT]
+	kampu_kazu = [c for c in KAMPU_KAZU_RBR if c not in SUBAR_EXPORT] + ['poligon_luan_m2', 'poligon_keliling_m']
 	kampu_seg = [c for c in KAMPU_SEGIMENTU if c not in SUBAR_EXPORT]
 	objects = report_queryset(request).select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai', 'created_by__pesoaluser__pesoal', 'segimentu') \
 		.prefetch_related('tipu_konflitu', 'estragu', 'nesesidade', 'afetadu', 'insidente__tipu_eviksaun').order_by('kode')

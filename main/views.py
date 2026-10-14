@@ -96,7 +96,7 @@ SW_ASSETS = [
 	'main/fonts/lato-latin-400-normal.woff2', 'main/fonts/lato-latin-700-normal.woff2',
 	'main/fonts/montserrat-latin-700-normal.woff2',
 	'main/offline/offline.css', 'main/offline/smkre_kripto.js', 'main/offline/smkre_db.js',
-	'main/offline/smkre_kamera.js', 'main/offline/smkre_offline.js',
+	'main/offline/smkre_kamera.js', 'main/offline/smkre_offline.js', 'main/turf/turf.min.js', 'main/mapa/poligon.js',
 ]
 
 

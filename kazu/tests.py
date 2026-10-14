@@ -581,3 +581,81 @@ class SegimentuTest(KazuBase):
 		self.assertContains(self.client.get(reverse('kazu-detail', args=[kazu.pk])), 'Vizita komunidade')
 		self.client.force_login(self.inv)
 		self.assertEqual(self.post(url, {'data': timezone.localdate().isoformat(), 'asaun': 'x'}).status_code, 403)
+
+
+def _bidang(*pontu):
+	anel = [list(p) for p in pontu] + [list(pontu[0])]
+	return {'type': 'Feature', 'properties': {}, 'geometry': {'type': 'Polygon', 'coordinates': [anel]}}
+
+
+BIDANG_A = _bidang((125.5600, -8.5560), (125.5612, -8.5561), (125.5615, -8.5572), (125.5603, -8.5575))
+BIDANG_B = _bidang((125.5610, -8.5565), (125.5620, -8.5565), (125.5620, -8.5570), (125.5610, -8.5570))
+
+
+class PoligonTest(KazuBase):
+	def fc(self, *features):
+		return {'type': 'FeatureCollection', 'features': list(features)}
+
+	def rai(self, kazu, data):
+		import json
+		return self.client.post(reverse('kazu-poligon', args=[kazu.pk]), json.dumps({'poligon': data}), content_type='application/json')
+
+	def test_kalkula_hanesan_turf(self):
+		# Valór referénsia husi Turf.js 7.2 (turf.area / turf.length / turf.union)
+		from kazu.poligon import kalkula
+		fc, luan, keliling = kalkula(self.fc(BIDANG_A, BIDANG_B))
+		self.assertAlmostEqual(fc['features'][0]['properties']['luan_m2'], 19440.48, places=1)
+		self.assertAlmostEqual(fc['features'][0]['properties']['keliling_m'], 565.22, places=1)
+		self.assertAlmostEqual(fc['features'][1]['properties']['luan_m2'], 6113.36, places=1)
+		self.assertAlmostEqual(luan, 23247.44, places=1)          # uniaun: sobrepoin la konta dala rua
+		self.assertGreater(fc['features'][0]['properties']['naruk_m'], fc['features'][0]['properties']['lebar_m'])
+
+	def test_validasaun(self):
+		from django.core.exceptions import ValidationError
+		from kazu.poligon import valida
+		with self.assertRaisesMessage(ValidationError, 'Timor-Leste'):
+			valida(self.fc(_bidang((10, 10), (10.001, 10), (10.001, 10.001))))
+		with self.assertRaisesMessage(ValidationError, 'kruza'):            # liña kruza (forma 8)
+			valida(self.fc(_bidang((125.56, -8.556), (125.561, -8.557), (125.561, -8.556), (125.56, -8.557))))
+		with self.assertRaisesMessage(ValidationError, 'pontu 3'):
+			valida({'type': 'Polygon', 'coordinates': [[[125.56, -8.556], [125.561, -8.556], [125.56, -8.556]]]})
+
+	def test_investigador_rai_no_rai_luan_otomatiku(self):
+		kazu = self.create_kazu('rai')
+		r = self.rai(kazu, self.fc(BIDANG_A))
+		self.assertEqual(r.status_code, 200)
+		kazu.refresh_from_db()
+		self.assertEqual((str(kazu.rai_luan), kazu.rai_luan_unidade), ('1.94', 'HA'))
+		self.assertEqual(str(kazu.poligon_luan_m2), '19440.48')
+		self.assertTrue(kazu.historia.filter(nota__startswith='Poligon rai: 1 bidang').exists())
+		# Formuláriu: Rai nia luan xavi (husi poligon)
+		form = self.client.get(reverse('kazu-update', args=[kazu.pk])).context['form']
+		self.assertTrue(form.fields['rai_luan'].disabled)
+		# Hamoos poligon
+		self.assertEqual(self.rai(kazu, None).status_code, 200)
+		kazu.refresh_from_db()
+		self.assertIsNone(kazu.poligon)
+
+	def test_permisaun(self):
+		kazu = self.create_kazu('haruka')                          # haruka ona → Investigadór la bele edita
+		self.assertEqual(self.rai(kazu, self.fc(BIDANG_A)).status_code, 403)
+		self.client.force_login(make_user(ANALISTA, email='an@teste.tl'))
+		self.assertEqual(self.rai(kazu, self.fc(BIDANG_A)).status_code, 403)
+		self.client.force_login(self.admin)
+		self.assertEqual(self.rai(kazu, self.fc(BIDANG_A, BIDANG_B)).status_code, 200)
+		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
+		self.assertContains(r, 'leaflet-geoman.min.js')
+		self.assertContains(r, 'id="poligon-dadus"')
+		Kazu.objects.filter(pk=kazu.pk).update(status='CANCELED')
+		self.assertEqual(self.rai(kazu, self.fc(BIDANG_A)).status_code, 403)
+		outro = make_user(INVESTIGADOR, email='outro@teste.tl')
+		self.client.force_login(outro)
+		self.assertEqual(self.rai(kazu, self.fc(BIDANG_A)).status_code, 404)
+
+	def test_poligon_la_validu_la_rai(self):
+		kazu = self.create_kazu('rai')
+		r = self.rai(kazu, self.fc(_bidang((125.56, -8.556), (125.561, -8.557), (125.561, -8.556), (125.56, -8.557))))
+		self.assertEqual(r.status_code, 400)
+		self.assertIn('kruza', r.json()['erru'])
+		kazu.refresh_from_db()
+		self.assertIsNone(kazu.poligon)

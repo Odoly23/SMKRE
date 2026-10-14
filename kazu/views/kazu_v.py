@@ -11,7 +11,7 @@ from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMEN
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm, AkompanamentuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES
-from kazu.permissions import kazu_queryset, can_view, can_edit
+from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.importa import pode_muda_lokasaun
 from kazu.services import action_buttons, refresh_auto_fields, submit_kazu
 from users.auth_utils import c_user_pesoal
@@ -81,6 +81,7 @@ def KazuDetail(request, uuid):
 		'can_segimentu': group in ROLE_SEGIMENTU,
 		'akomp_form': AkompanamentuForm() if group in ROLE_SEGIMENTU else None,
 		'can_edit': can_edit(request.user, objects),
+		'can_poligon': can_poligon(request.user, objects),
 		'can_status_kazu': group in ROLE_STATUS_KAZU and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
 		'can_legal': group in ROLE_LEGAL and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED'),
 		'action_form': ActionForm(), 'status_kazu_form': StatusKazuForm(initial={'status_kazu': objects.status_kazu}),

@@ -36,6 +36,7 @@ ROLE_USER_MANAGE  = [SUPERADMIN, ADMIN]
 ROLE_OFFLINE_FO   = [ADMIN]
 ROLE_SEGIMENTU    = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Segimentu kazu: tribunál, notifikasaun, status rezolusaun
 ROLE_IMPORT_KAZU  = [ADMIN]                  # Import Excel + hadia lokasaun iha mapa
+ROLE_POLIGON      = [SUPERADMIN, ADMIN]      # Edita poligon rai kualkér tempu (Investigadór: kazu rasik ne'ebé bele edita)
 
 
 def roles_admin_can_assign(group):

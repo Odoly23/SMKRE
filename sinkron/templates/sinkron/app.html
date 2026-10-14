@@ -127,6 +127,18 @@
 					<div class="form-group col-7"><label for="f-rai_luan">Rai nia luan</label><input id="f-rai_luan" data-kampu="rai_luan" data-tipu="decimal" type="number" min="0" step="any" class="form-control" inputmode="decimal"></div>
 					<div class="form-group col-5"><label for="f-rai_luan_unidade">Unidade</label><select id="f-rai_luan_unidade" data-kampu="rai_luan_unidade" class="custom-select"><option value="M2">m²</option><option value="HA">Hektar</option></select></div>
 				</div>
+				<div class="poligon-box">
+					<b><i class="fa fa-object-ungroup"></i> Poligon rai (la'o haleu rai)</b>
+					<p class="small text-muted mb-2">Hamriik iha kada kantu rai, klik <b>Aumenta pontu</b> (GPS ≤ 10 m). Pontu 3 ka liu = bidang. Luan kalkula automátiku (Turf.js), la presiza internet.</p>
+					<svg id="pol-sketch" class="pol-sketch" viewBox="0 0 300 180" role="img" aria-label="Sketch poligon"></svg>
+					<div id="pol-info" class="small my-2"></div>
+					<div class="d-flex flex-wrap">
+						<button type="button" id="pol-pontu" class="btn btn-sm btn-rbr mr-2 mb-1"><i class="fa fa-crosshairs"></i> Aumenta pontu</button>
+						<button type="button" id="pol-desfaz" class="btn btn-sm btn-outline-secondary mr-2 mb-1"><i class="fa fa-undo"></i> Hamoos pontu ikus</button>
+						<button type="button" id="pol-foun" class="btn btn-sm btn-outline-rbr mr-2 mb-1"><i class="fa fa-plus"></i> Bidang foun</button>
+						<button type="button" id="pol-hamoos" class="btn btn-sm btn-link text-danger mb-1"><i class="fa fa-trash"></i> Hamoos poligon</button>
+					</div>
+				</div>
 				</div>
 			</fieldset>
 
@@ -306,6 +318,8 @@
 <script src="{% static 'main/offline/smkre_kripto.js' %}"></script>
 <script src="{% static 'main/offline/smkre_db.js' %}"></script>
 <script src="{% static 'main/offline/smkre_kamera.js' %}"></script>
+<script src="{% static 'main/turf/turf.min.js' %}"></script>
+<script src="{% static 'main/mapa/poligon.js' %}"></script>
 <script src="{% static 'main/offline/smkre_offline.js' %}"></script>
 </body>
 </html>

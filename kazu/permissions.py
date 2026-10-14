@@ -1,6 +1,6 @@
 """Regra asesu ba kazu ida (haree / edita). Uza iha view, media no API."""
-from config.rbac import INVESTIGADOR, ROLE_DASHBOARD
-from kazu.models import Kazu, STATUS_EDITABLE
+from config.rbac import INVESTIGADOR, ROLE_DASHBOARD, ROLE_POLIGON
+from kazu.models import Kazu, STATUS_EDITABLE, CANCELED, COMPLETED
 from users.auth_utils import c_user_group
 
 
@@ -26,3 +26,10 @@ def can_edit(user, kazu):
 	# Investigadór nia kazu rasik, status Rascunho / Iha Terrenu / Hein Sinál / Rejeitadu deit
 	return (c_user_group(user) == INVESTIGADOR and kazu.created_by_id == user.id
 		and kazu.status in STATUS_EDITABLE)
+
+
+def can_poligon(user, kazu):
+	# Poligon rai: Investigadór (hanesan can_edit) · Admin / Superadmin kualkér tempu exeptu Kanseladu / Remata
+	if c_user_group(user) in ROLE_POLIGON:
+		return kazu.status not in (CANCELED, COMPLETED)
+	return can_edit(user, kazu)

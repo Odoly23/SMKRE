@@ -361,3 +361,8 @@ body.smkre-map-full-body { overflow: hidden; }
 
 /* ── Formuláriu badak: grupu kondisionál (hatudu tuir resposta / switch "Iha …?") ── */
 .kond.sub-box { background: #f7f9f7; border: 1px solid #e3ebe6; border-left: 3px solid var(--rbr-teal-dk); border-radius: 8px; padding: 12px 12px 4px; margin-bottom: 12px; }
+
+/* ── Poligon rai (detalla kazu) ── */
+.mapa-poligon { height: 420px; border-radius: 10px; }
+.poligon-label { background: rgba(255,255,255,.92); border: 1px solid #0E8A68; color: #0E8A68; font-weight: 700; font-size: 12px; border-radius: 6px; padding: 2px 6px; box-shadow: none; }
+@media (max-width: 575px) { .mapa-poligon { height: 340px; } }

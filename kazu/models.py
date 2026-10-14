@@ -75,6 +75,10 @@ class Kazu(models.Model):
 	enderesu_fatin = models.CharField(max_length=255, blank=True, verbose_name=_("Enderesu ka deskrisaun fatin"))
 	rai_luan = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, verbose_name=_("Rai nia luan"))
 	rai_luan_unidade = models.CharField(max_length=2, choices=RAI_UNIDADE_CHOICES, default='M2', blank=True, verbose_name=_("Unidade"))
+	# Poligon rai (GeoJSON FeatureCollection, bidang ida ka barak) — luan kalkula husi server (rumus hanesan Turf.js)
+	poligon = models.JSONField(null=True, blank=True, verbose_name=_("Poligon rai"))
+	poligon_luan_m2 = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, verbose_name=_("Luan poligon (m²)"))
+	poligon_keliling_m = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, verbose_name=_("Keliling poligon (m)"))
 
 	# Insidente (A.1)
 	data_akontesimentu = models.DateField(null=True, blank=True, verbose_name=_("Data Akontesimentu"))

@@ -3310,3 +3310,143 @@ msgstr "Ada juru bicara komunitas?"
 #, python-format
 msgid "Vídeo máximu %(n)s kada kazu."
 msgstr "Maksimal %(n)s video per kasus."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Bidang"
+msgstr "Bidang"
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: liña kruza malu (%(r)s). Muda pontu atu liña la kruza."
+msgstr ""
+"Bidang %(i)s: garis saling bersilangan (%(r)s). Geser titik agar garis tidak"
+" bersilangan."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: pontu la iha territóriu Timor-Leste."
+msgstr "Bidang %(i)s: ada titik di luar wilayah Timor-Leste."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: pontu máximu %(n)s."
+msgstr "Bidang %(i)s: maksimal %(n)s titik."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang %(i)s: presiza pontu 3 ka liu."
+msgstr "Bidang %(i)s: perlu 3 titik atau lebih."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Bidang rai máximu %(n)s kada kazu."
+msgstr "Maksimal %(n)s bidang per kasus."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Hamoos poligon hotu?"
+msgstr "Hapus semua poligon?"
+
+#: kazu/views/poligon_v.py
+msgid "Ita la iha asesu atu edita poligon kazu ne'e."
+msgstr "Anda tidak punya akses untuk mengedit poligon kasus ini."
+
+#: kazu/forms.py
+msgid "Kalkula automátiku husi poligon rai (edita poligon iha detalla kazu)."
+msgstr "Dihitung otomatis dari poligon tanah (edit poligon di detail kasus)."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Kansela mudansa"
+msgstr "Batalkan perubahan"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Keliling"
+msgstr "Keliling"
+
+#: kazu/models.py
+msgid "Keliling poligon (m)"
+msgstr "Keliling poligon (m)"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Liña kruza malu. Muda pontu atu liña la kruza."
+msgstr "Garis bersilangan. Geser titik agar tidak bersilangan."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Luan"
+msgstr "Luas"
+
+#: kazu/templates/kazu/_poligon.html
+msgid ""
+"Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta "
+"dala rua. Rai nia luan kazu atualiza automátiku."
+msgstr ""
+"Luas dihitung dengan Turf.js (m² dan hektar). Bidang yang tumpang tindih "
+"tidak dihitung dua kali. Luas tanah kasus diperbarui otomatis."
+
+#: kazu/models.py
+msgid "Luan poligon (m²)"
+msgstr "Luas poligon (m²)"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Naruk × Lebar"
+msgstr "Panjang × Lebar"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon Rai"
+msgstr "Poligon Tanah"
+
+#: kazu/views/poligon_v.py
+msgid "Poligon boot liu."
+msgstr "Poligon terlalu besar."
+
+#: kazu/poligon.py
+msgid "Poligon de'it mak bele rai."
+msgstr "Hanya poligon yang bisa disimpan."
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon la rai. Koko fali."
+msgstr "Poligon tidak tersimpan. Coba lagi."
+
+#: kazu/poligon.py
+msgid "Poligon la validu."
+msgstr "Poligon tidak valid."
+
+#: kazu/models.py
+msgid "Poligon rai"
+msgstr "Poligon tanah"
+
+#: kazu/poligon.py
+msgid "Poligon rai hamoos"
+msgstr "Poligon tanah dihapus"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Poligon rai ona."
+msgstr "Poligon tersimpan."
+
+#: kazu/poligon.py
+#, python-format
+msgid "Poligon rai: %(n)s bidang, %(m2)s m²"
+msgstr "Poligon tanah: %(n)s bidang, %(m2)s m²"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Rai poligon"
+msgstr "Simpan poligon"
+
+#: kazu/templates/kazu/_poligon.html
+msgid "Seidauk iha poligon."
+msgstr "Belum ada poligon."
+
+#: kazu/templates/kazu/_poligon.html
+msgid ""
+"Seidauk iha poligon. Klik ikon poligon iha mapa, klik kada kantu rai, depois"
+" klik pontu dahuluk atu taka."
+msgstr ""
+"Belum ada poligon. Klik ikon poligon di peta, klik setiap sudut tanah, lalu "
+"klik titik pertama untuk menutup."
+
+#: kazu/templates/kazu/detail.html
+msgid "husi poligon"
+msgstr "dari poligon"
+
+#: kazu/poligon.py
+msgid "uluk"
+msgstr "sebelumnya"

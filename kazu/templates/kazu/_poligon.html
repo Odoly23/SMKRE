@@ -1,0 +1,39 @@
+{% load static i18n l10n %}
+{# Poligon rai: mapa + luan/keliling/naruk/lebar (Turf.js). Edita ho Leaflet-Geoman se can_poligon. #}
+<div class="card card-rbr mb-3" id="kartaun-poligon"><div class="card-body">
+	<h3 class="h-line"><i class="fa fa-object-ungroup"></i> {% trans "Poligon Rai" %}</h3>
+	<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
+	{% if can_poligon %}<link rel="stylesheet" href="{% static 'main/leaflet/geoman/leaflet-geoman.css' %}">{% endif %}
+	<div id="mapa-poligon" class="mapa-poligon"
+		data-url="{% url 'kazu-poligon' obj.pk %}" data-csrf="{{ csrf_token }}" data-edita="{{ can_poligon|yesno:'1,' }}" data-lian="{{ LANGUAGE_CODE }}"
+		data-lat="{{ obj.latitude|default_if_none:''|unlocalize }}" data-lng="{{ obj.longitude|default_if_none:''|unlocalize }}"
+		data-mapbox="{{ MAPBOX_TOKEN }}" data-ikon="{% static 'main/mapa/marker-red.svg' %}" data-sombra="{% static 'main/mapa/marker-shadow.png' %}"
+		data-l-fullscreen="{% trans "Ekran tomak" %}" data-l-ha-u="{% trans "Ha'u-nia fatin" %}" data-l-sukat="{% trans "Sukat distánsia" %}"
+		data-l-gps-erru="{% trans "Labele hetan ita-nia fatin. Loke GPS no fó autorizasaun ba browser." %}"
+		data-l-bidang="{% trans "Bidang" %}" data-l-kruza="{% trans "Liña kruza malu. Muda pontu atu liña la kruza." %}"
+		data-l-rai-ona="{% trans "Poligon rai ona." %}" data-l-erru="{% trans "Poligon la rai. Koko fali." %}"
+		data-l-hamoos="{% trans "Hamoos poligon hotu?" %}"></div>
+	{{ obj.poligon|json_script:"poligon-dadus" }}
+	<div class="table-responsive mt-2">
+		<table class="table table-sm small mb-1" id="poligon-tabela">
+			<thead><tr><th>{% trans "Bidang" %}</th><th>{% trans "Luan" %}</th><th>{% trans "Keliling" %}</th><th>{% trans "Naruk × Lebar" %}</th></tr></thead>
+			<tbody></tbody>
+			<tfoot><tr class="font-weight-bold"><td>{% trans "Total" %}</td><td id="poligon-total">—</td><td id="poligon-keliling">—</td><td></td></tr></tfoot>
+		</table>
+	</div>
+	<p class="small text-muted mb-2" id="poligon-mamuk">{% if can_poligon %}{% trans "Seidauk iha poligon. Klik ikon poligon iha mapa, klik kada kantu rai, depois klik pontu dahuluk atu taka." %}{% else %}{% trans "Seidauk iha poligon." %}{% endif %}</p>
+	{% if can_poligon %}
+	<div class="d-flex flex-wrap align-items-center">
+		<button type="button" class="btn btn-rbr btn-sm mr-2 mb-1" id="poligon-rai" disabled><i class="fa fa-save"></i> {% trans "Rai poligon" %}</button>
+		<button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-1" id="poligon-kansela" disabled><i class="fa fa-undo"></i> {% trans "Kansela mudansa" %}</button>
+		<span class="small text-muted mb-1" id="poligon-status"></span>
+	</div>
+	<p class="small text-muted mb-0 mt-1"><i class="fa fa-info-circle"></i> {% trans "Luan kalkula ho Turf.js (m² no hektar). Bidang ne'ebé sobrepoin la konta dala rua. Rai nia luan kazu atualiza automátiku." %}</p>
+	{% endif %}
+	<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+	<script src="{% static 'main/turf/turf.min.js' %}"></script>
+	{% if can_poligon %}<script src="{% static 'main/leaflet/geoman/leaflet-geoman.min.js' %}"></script>{% endif %}
+	<script src="{% static 'main/mapa/smkre_mapa.js' %}"></script>
+	<script src="{% static 'main/mapa/poligon.js' %}"></script>
+	<script src="{% static 'main/mapa/poligon_edita.js' %}"></script>
+</div></div>

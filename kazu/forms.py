@@ -82,6 +82,11 @@ class KazuForm(forms.ModelForm):
 		self.fields['tipu_rai'].queryset = TipuRai.active.all()
 		self.fields['estragu'].queryset = EstraguPatrimoniu.active.all()
 		self.fields['nesesidade'].queryset = NesesidadeUrjente.active.all()
+		# Iha poligon → Rai nia luan kalkula husi poligon (la bele hakerek)
+		if self.instance.pk and self.instance.poligon:
+			for c in ('rai_luan', 'rai_luan_unidade'):
+				self.fields[c].disabled = True
+			self.fields['rai_luan'].help_text = _('Kalkula automátiku husi poligon rai (edita poligon iha detalla kazu).')
 		# Tipu Governu / entidade legál → hatudu Projetu no Entidade (JS lee lista id)
 		self.fields['tipu_konflitu'].widget.attrs['data-entidade-ids'] = ','.join(
 			str(pk) for pk in TipuKonflitu.objects.filter(code__in=TIPU_ENTIDADE).values_list('pk', flat=True))
