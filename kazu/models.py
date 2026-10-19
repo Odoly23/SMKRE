@@ -61,6 +61,7 @@ class Kazu(models.Model):
 	# UUID: bele kria iha HP (offline) la iha risku ID bentrok
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	kode = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("ID Kazu"))
+	referensia_rbr = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("Referénsia RbR (Airtable)"))
 	titulu = models.CharField(max_length=200, blank=True, verbose_name=_("Naran kazu"))
 	status = models.CharField(max_length=12, choices=STATUS_CHOICES, default=DRAFT, db_index=True, verbose_name=_("Status Dadus"))
 	status_kazu = models.CharField(max_length=15, choices=STATUS_KAZU_CHOICES, default=ABERTU, db_index=True, verbose_name=_("Status Kazu"))

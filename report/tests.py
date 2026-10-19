@@ -107,11 +107,16 @@ class ExportTest(ReportBase):
 		self.client.force_login(self.analista)
 		ws = load_workbook(BytesIO(self.client.get(reverse('report-export-excel'), {'munisipiu': self.dil.pk}).content)).active
 		kab = [c.value for c in ws[1]]
-		self.assertIn('Status rezolusaun kazu', kab)
+		self.assertEqual(kab[:3], ['Identifikasaun kazu', 'Kazu nia numero', 'Numero Referensia Kazu (auto)'])   # kolun Airtable
+		self.assertEqual(kab.count('Status Kazu'), 1)
 		valores = [str(c.value) for row in ws.iter_rows(min_row=2) for c in row]
 		self.assertIn('Seidauk resolve', valores)
 		self.assertNotIn('77009988', valores)                      # kontaktu ema la sai
 		self.assertNotIn('77112233', valores)
+		# Admin haree kontaktu (formatu kompletu ba import fali)
+		self.client.force_login(make_user(ADMIN, email='adm2@teste.tl'))
+		ws = load_workbook(BytesIO(self.client.get(reverse('report-export-excel'), {'munisipiu': self.dil.pk}).content)).active
+		self.assertIn('77112233', [str(c.value) for row in ws.iter_rows(min_row=2) for c in row])
 
 
 class MapaTest(ReportBase):

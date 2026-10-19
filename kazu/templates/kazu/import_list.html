@@ -11,9 +11,11 @@
 			<div class="card-body">
 				<ol class="small pl-3 mb-3">
 					<li class="mb-1"><a href="{% url 'kazu-import-template' %}" class="font-weight-bold"><i class="fa fa-download"></i> {% trans "Download template Excel" %}</a></li>
-					<li class="mb-1">{% trans "Prenxe aba \"Kazu\": liña ida = kazu ida. Kolun verde obrigatóriu. Haree kódigu iha aba seluk." %}</li>
-					<li class="mb-1">{% trans "Koordenada mamuk ka la kompletu: sistema uza fatin aproksimadu; ita hadia iha mapa depois." %}</li>
-					<li>{% trans "Upload → haree pratinjau → konfirma. Kazu tama ho status \"Hein Verifikasaun\"." %}</li>
+					<li class="mb-1">{% trans "Kolun hanesan baze dadus sentrál RbR (Airtable \"Kazu Hotu\"): bele upload direta export Airtable (.csv ka .xlsx) ka export SIBAR-RbR." %}</li>
+					<li class="mb-1">{% trans "Liña ida = kazu ida. Kolun verde obrigatóriu (Munisipiu, Tipu Kazu). Opsaun iha aba \"Opsaun\"." %}</li>
+					<li class="mb-1">{% trans "Koordenada mamuk ka link Google Maps badak: sistema uza fatin aproksimadu; ita hadia iha mapa depois." %}</li>
+					<li class="mb-1">{% trans "Referénsia RBR/… ne'ebé iha sistema ona la import dala rua." %}</li>
+					<li>{% trans "Upload → haree pratinjau → konfirma. Kazu \"Verified\" tama hanesan Verifikadu; seluk \"Hein Verifikasaun\"." %}</li>
 				</ol>
 				{% crispy form %}
 			</div>

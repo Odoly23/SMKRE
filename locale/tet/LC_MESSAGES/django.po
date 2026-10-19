@@ -3662,3 +3662,77 @@ msgstr "Fo esplikasaun badak kona ba tipu kazu, se karik presiza."
 #: kazu/importa.py
 msgid "Kolun la tuir template (presiza \"munisipiu\"…). Download template."
 msgstr "Kolun la tuir template (presiza \"munisipiu\"…). Download template."
+
+#: kazu/importa.py
+msgid "Data simu kazu la iha."
+msgstr "Data simu kazu la iha."
+
+#: kazu/forms.py
+msgid "File Excel (.xlsx) ka CSV"
+msgstr "File Excel (.xlsx) ka CSV"
+
+#: kazu/importa.py
+msgid "File tenke Excel .xlsx ka .csv (uza template ka export Airtable)."
+msgstr "File tenke Excel .xlsx ka .csv (uza template ka export Airtable)."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Kolun hanesan baze dadus sentrál RbR (Airtable \"Kazu Hotu\"): bele upload "
+"direta export Airtable (.csv ka .xlsx) ka export SIBAR-RbR."
+msgstr ""
+"Kolun hanesan baze dadus sentrál RbR (Airtable \"Kazu Hotu\"): bele upload "
+"direta export Airtable (.csv ka .xlsx) ka export SIBAR-RbR."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Koordenada mamuk ka link Google Maps badak: sistema uza fatin aproksimadu; "
+"ita hadia iha mapa depois."
+msgstr ""
+"Koordenada mamuk ka link Google Maps badak: sistema uza fatin aproksimadu; "
+"ita hadia iha mapa depois."
+
+#: kazu/importa.py
+msgid "Labele lee file CSV ne'e."
+msgstr "Labele lee file CSV ne'e."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Liña ida = kazu ida. Kolun verde obrigatóriu (Munisipiu, Tipu Kazu). Opsaun "
+"iha aba \"Opsaun\"."
+msgstr ""
+"Liña ida = kazu ida. Kolun verde obrigatóriu (Munisipiu, Tipu Kazu). Opsaun "
+"iha aba \"Opsaun\"."
+
+#: kazu/importa.py
+#, python-format
+msgid "Referénsia %(r)s iha sistema ona (import ona)."
+msgstr "Referénsia %(r)s iha sistema ona (import ona)."
+
+#: kazu/templates/kazu/import_list.html
+msgid "Referénsia RBR/… ne'ebé iha sistema ona la import dala rua."
+msgstr "Referénsia RBR/… ne'ebé iha sistema ona la import dala rua."
+
+#: kazu/models.py
+msgid "Referénsia RbR (Airtable)"
+msgstr "Referénsia RbR (Airtable)"
+
+#: kazu/importa.py
+#, python-format
+msgid "Suku \"%(v)s\" → %(s)s (naran besik; haree loos ka lae)."
+msgstr "Suku \"%(v)s\" → %(s)s (naran besik; haree loos ka lae)."
+
+#: kazu/forms.py
+msgid ""
+"Template ka export baze dadus sentrál RbR (Airtable \"Kazu Hotu\"). Máximu "
+"500 liña, 5 MB."
+msgstr ""
+"Template ka export baze dadus sentrál RbR (Airtable \"Kazu Hotu\"). Máximu "
+"500 liña, 5 MB."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Upload → haree pratinjau → konfirma. Kazu \"Verified\" tama hanesan "
+"Verifikadu; seluk \"Hein Verifikasaun\"."
+msgstr ""
+"Upload → haree pratinjau → konfirma. Kazu \"Verified\" tama hanesan "
+"Verifikadu; seluk \"Hein Verifikasaun\"."

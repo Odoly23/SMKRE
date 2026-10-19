@@ -21,6 +21,7 @@ from openpyxl.styles import Font, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
 from config.rbac import SUPERADMIN
 from custom.models import Munisipiu, PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai
+from kazu import airtable
 from kazu.forms import TL_LAT, TL_LON
 from kazu.models import Kazu, KazuHistoria, KazuImport, KazuSegimentu, UmaKainAfetada, SYNCED, VERIFIED
 from kazu.services import generate_kode, _historia
@@ -79,28 +80,30 @@ NARAN_KOLUN = [k[0] for k in KOLUN]
 
 # ══════════════ 1. Template ══════════════
 def template_excel():
+	"""Template ho kabesallu hanesan baze dadus sentrál RbR (Airtable "Kazu Hotu") + lista opsaun."""
+	from openpyxl.utils import get_column_letter
 	wb = Workbook()
 	ws = wb.active
-	ws.title = 'Kazu'
+	ws.title = 'Kazu Hotu'
 	kab = PatternFill('solid', fgColor='0B4F3C')
 	obrig = PatternFill('solid', fgColor='0E8A68')
-	ws.append(NARAN_KOLUN)
-	ws.append([d for _k, d, _o in KOLUN])
-	for i, (_k, _d, o) in enumerate(KOLUN, start=1):
+	presiza = {'Munisipiu', 'Tipu Kazu'}
+	ws.append(airtable.KABESALLU)
+	for i, h in enumerate(airtable.KABESALLU, start=1):
 		c = ws.cell(row=1, column=i)
-		c.font, c.fill = Font(bold=True, color='FFFFFF'), (obrig if o else kab)
-		ws.cell(row=2, column=i).font = Font(italic=True, color='5E6B66')
-		ws.column_dimensions[c.column_letter].width = 22
-	ezemplu = {'data_relatoriu': '2026-09-15', 'munisipiu': 'LIQ', 'data_akontesimentu': '2026-09-10', 'tipu_konflitu': 'GOV-RAI-ESTADU',
-		'deskrisaun': 'Ezemplu: família 12 hetan avizu atu sai husi rai.', 'uma_kain': 12, 'mane': 30, 'feto': 28, 'labarik': 20,
-		'konsentimentu': 'SIN', 'la_publika': 'LAE', 'titulu': 'Hamoos liña ezemplu ne\'e', 'eviksaun_akontese': 'Sin',
-		'tinan_disputa_hahu': 2019, 'status_rezolusaun': 'Seidauk resolve', 'desizaun_rbr': 'Monitorizasaun'}
-	ws.append([ezemplu.get(k, '') for k in NARAN_KOLUN])
-	for c in ws[3]:
+		c.font, c.fill = Font(bold=True, color='FFFFFF'), (obrig if h in presiza else kab)
+		ws.column_dimensions[get_column_letter(i)].width = 24
+	ezemplu = {airtable.H_ID: 'RBR/999_2026_Ezemplu (hamoos liña ne\'e)', airtable.H_REF: 'RBR/999', 'Tinan Kazu Hahu': 2019,
+		'Data Simu Kazu iha RBR': '15/09/2026', 'Kazu': 'Ezemplu kazu', 'Tipu Kazu': 'Governu hasai komunidade husi rai estadu',
+		'Munisipiu': 'Liquiçá', 'Suku': 'Dato', 'Dadus Uma Kain iha ka lae?': 'Iha', 'Uma Kain afetadu hira': 12, 'Total Ema': 58,
+		'Feto ': 28, 'Mane': 30, 'Eviksaun Akontese ona?': 'Lae', 'Status Kazu': 'Seidauk resolve', "RBR nia desizaun ba Kazu ne'e": 'Monitorizasaun',
+		'Pontu Kordenadu (GPS)': '-8.5871, 125.3410'}
+	ws.append([ezemplu.get(h, '') for h in airtable.KABESALLU])
+	for c in ws[2]:
 		c.font = Font(color='9AA59F')
-	ws.freeze_panes = 'A3'
+	ws.freeze_panes = 'B2'
 
-	# Aba lista (kódigu + naran) — ajuda prenxe
+	# Aba lista (naran ne'ebé sistema rekoñese) + dropdown
 	def aba(naran, kab_list, rows):
 		w = wb.create_sheet(naran)
 		w.append(kab_list)
@@ -111,32 +114,28 @@ def template_excel():
 		for col in w.columns:
 			w.column_dimensions[col[0].column_letter].width = 28
 		return w
-	aba('Munisipiu', ['code', 'naran'], Munisipiu.active.values_list('code', 'name'))
-	aba('Postu', ['code', 'naran', 'munisipiu'], PostuAdministrativu.active.values_list('code', 'name', 'munisipiu__code'))
-	aba('Suku', ['code', 'naran', 'postu'], Suku.active.values_list('code', 'name', 'postu__code'))
-	aba('TipuKonflitu', ['code', 'naran'], TipuKonflitu.active.values_list('code', 'name'))
-	aba('TipuRai', ['code', 'naran'], TipuRai.active.values_list('code', 'name'))
-
-	# Dropdown iha aba Kazu
-	n_mun = Munisipiu.active.count() + 1
-	from openpyxl.utils import get_column_letter
-	kol = lambda campo: get_column_letter(NARAN_KOLUN.index(campo) + 1)
-	validasaun = {'munisipiu': f'=Munisipiu!$A$2:$A${n_mun}', 'konsentimentu': '"SIN,LAE"', 'la_publika': '"SIN,LAE"'}
-	# Kolun ho opsaun (Sin/Lae, kategoria, status…): lista iha aba "Opsaun" (label bele iha vírgula)
+	aba('Munisipiu', ['naran', 'code'], Munisipiu.active.values_list('name', 'code'))
+	aba('Postu', ['naran', 'munisipiu'], PostuAdministrativu.active.values_list('name', 'munisipiu__name'))
+	aba('Suku', ['naran', 'postu', 'munisipiu'], Suku.active.values_list('name', 'postu__name', 'postu__munisipiu__name'))
+	opsaun = {'Tipu Kazu': [n for n in TipuKonflitu.active.values_list('name', flat=True)], 'Verified': ['checked']}
+	for h, campo in airtable.OPSAUN.items():
+		model = Kazu if hasattr(Kazu, campo) else KazuSegimentu
+		opsaun[h] = [str(l) for _c, l in model._meta.get_field(campo).choices]
+	opsaun['Dadus Uma Kain iha ka lae?'] = ['Iha', 'Laiha', 'La hatene']
 	aba_ops = wb.create_sheet('Opsaun')
-	for i, (model, campo) in enumerate([(Kazu, c) for c in KAMPU_KAZU_RBR] + [(KazuSegimentu, c) for c in KAMPU_SEGIMENTU], start=1):
-		f = model._meta.get_field(campo)
-		if not f.choices:
-			continue
+	n_mun = Munisipiu.active.count() + 1
+	validasaun = {'Munisipiu': f'=Munisipiu!$A$2:$A${n_mun}'}
+	for i, (h, lista) in enumerate(opsaun.items(), start=1):
 		letra = get_column_letter(i)
-		aba_ops.cell(row=1, column=i, value=campo).font = Font(bold=True)
-		for j, (_c, label) in enumerate(f.choices, start=2):
-			aba_ops.cell(row=j, column=i, value=str(label))
-		validasaun[campo] = f'=Opsaun!${letra}$2:${letra}${len(f.choices) + 1}'
-	for campo, formula in validasaun.items():
-		dv = DataValidation(type='list', formula1=formula, allow_blank=True)
+		aba_ops.cell(row=1, column=i, value=h).font = Font(bold=True)
+		for j, label in enumerate(lista, start=2):
+			aba_ops.cell(row=j, column=i, value=label)
+		validasaun[h] = f'=Opsaun!${letra}$2:${letra}${len(lista) + 1}'
+	for h, formula in validasaun.items():
+		dv = DataValidation(type='list', formula1=formula, allow_blank=True, showErrorMessage=False)
 		ws.add_data_validation(dv)
-		dv.add(f'{kol(campo)}3:{kol(campo)}{MAX_LINA + 2}')
+		kol = get_column_letter(airtable.KABESALLU.index(h) + 1)
+		dv.add(f'{kol}2:{kol}{MAX_LINA + 1}')
 	buf = BytesIO()
 	wb.save(buf)
 	return buf.getvalue()
@@ -148,16 +147,23 @@ def lee_excel(f):
 	if f.size > MAX_BYTES:
 		raise ValidationError(_('File boot liu (máximu 5 MB).'))
 	raw = f.read()
-	if not f.name.lower().endswith('.xlsx') or raw[:2] != b'PK':
-		raise ValidationError(_('File tenke Excel .xlsx (uza template).'))
-	try:
-		wb = load_workbook(BytesIO(raw), read_only=True, data_only=True)
-	except Exception:
-		raise ValidationError(_('Labele lee file Excel ne\'e.'))
-	ws = wb['Kazu'] if 'Kazu' in wb.sheetnames else wb.worksheets[0]
-	rows = list(ws.iter_rows(values_only=True))
+	rows = _lee_rows(f.name, raw)
 	if not rows:
 		raise ValidationError(_('File mamuk.'))
+	# Formatu baze dadus sentrál RbR (Airtable "Kazu Hotu"): kabesallu orijinál
+	if airtable.e_airtable(rows[0]):
+		kab = [str(c or '').strip() for c in rows[0]]
+		lina = []
+		for n, r in enumerate(rows[1:], start=2):
+			row = dict(zip(kab, r))
+			if not airtable.iha_dadus(row):              # rejistu Airtable mamuk (ID automátiku de'it)
+				continue
+			d = airtable.lina_interna(row)
+			d['_lina'] = n
+			lina.append(d)
+		if len(lina) > MAX_LINA:
+			raise ValidationError(_('Liña barak liu (máximu %(n)s). Fahe ba file barak.') % {'n': MAX_LINA})
+		return f.name[:255], hashlib.sha256(raw).hexdigest(), lina
 	kab = [str(c or '').strip().lower() for c in rows[0]]
 	if 'munisipiu' not in kab:
 		raise ValidationError(_('Kolun la tuir template (presiza "munisipiu"…). Download template.'))
@@ -173,6 +179,30 @@ def lee_excel(f):
 	if len(lina) > MAX_LINA:
 		raise ValidationError(_('Liña barak liu (máximu %(n)s). Fahe ba file barak.') % {'n': MAX_LINA})
 	return f.name[:255], hashlib.sha256(raw).hexdigest(), lina
+
+
+def _lee_rows(naran, raw):
+	# .xlsx (aba "Kazu" ka dahuluk) ka .csv (UTF-8 / Excel Windows)
+	if naran.lower().endswith('.csv'):
+		import csv
+		import io
+		for kodifika in ('utf-8-sig', 'cp1252'):
+			try:
+				testu = raw.decode(kodifika)
+				break
+			except UnicodeDecodeError:
+				continue
+		else:
+			raise ValidationError(_('Labele lee file CSV ne\'e.'))
+		return [tuple(r) for r in csv.reader(io.StringIO(testu, newline=''))]
+	if not naran.lower().endswith('.xlsx') or raw[:2] != b'PK':
+		raise ValidationError(_('File tenke Excel .xlsx ka .csv (uza template ka export Airtable).'))
+	try:
+		wb = load_workbook(BytesIO(raw), read_only=True, data_only=True)
+	except Exception:
+		raise ValidationError(_('Labele lee file Excel ne\'e.'))
+	ws = wb['Kazu'] if 'Kazu' in wb.sheetnames else wb.worksheets[0]
+	return list(ws.iter_rows(values_only=True))
 
 
 def _testu(v):
@@ -211,8 +241,8 @@ def _dec(v):
 
 
 def _normal(t):
-	import unicodedata
-	return unicodedata.normalize('NFKD', str(t)).encode('ascii', 'ignore').decode().upper().replace('-', ' ').replace('_', ' ').strip()
+	# La sensível ba aksentu, espasu, pontuasaun (ex. "Claim balu resolve balu seidauk" = "Claim balu resolve, balu seidauk")
+	return airtable.normal(t)
 
 
 def _konverte(model, campo, raw):
@@ -236,13 +266,15 @@ def _konverte(model, campo, raw):
 	return _testu(raw)[:f.max_length] if f.max_length else _testu(raw)
 
 
-def _kampu_extra(model, campos, d, erru):
+def _kampu_extra(model, campos, d, erru, avizu=None):
+	# avizu (dadus Airtable tuan): valór la validu → avizu, kampu mamuk (la blokeia liña)
 	out = {}
 	for campo in campos:
 		try:
 			v = _konverte(model, campo, d.get(campo))
 		except (ValueError, TypeError, InvalidOperation):
-			erru.append(_('"%(c)s": valór "%(v)s" la validu.') % {'c': model._meta.get_field(campo).verbose_name, 'v': _testu(d.get(campo))})
+			msg = _('"%(c)s": valór "%(v)s" la validu.') % {'c': model._meta.get_field(campo).verbose_name, 'v': _testu(d.get(campo))}
+			(avizu if avizu is not None else erru).append(msg)
 			continue
 		if v is not None:
 			out[campo] = v
@@ -255,7 +287,7 @@ class _Buka:
 		self.code = {o.code.upper(): o for o in qs}
 		self.naran = {}
 		for o in qs:
-			self.naran.setdefault(o.name.strip().upper(), []).append(o)
+			self.naran.setdefault(_normal(o.name), []).append(o)     # "Ataúro" = "Atauro", "Cristo Rei " = "Cristo Rei"
 
 	def __call__(self, v, filtru=None):
 		t = _testu(v).upper()
@@ -264,8 +296,22 @@ class _Buka:
 		o = self.code.get(t)
 		if o:
 			return o
-		opsaun = [x for x in self.naran.get(t, []) if not filtru or filtru(x)]
+		opsaun = [x for x in self.naran.get(_normal(t), []) if not filtru or filtru(x)]
+		if not opsaun:                                  # "Oecusse" → "Oé-Cusse Ambeno (RAEOA)" (naran badak)
+			n = _normal(t)
+			opsaun = [x for k, xs in self.naran.items() if len(n) >= 4 and k.startswith(n) for x in xs if not filtru or filtru(x)]
 		return opsaun[0] if len(opsaun) == 1 else False   # False = la hetan ka naran duplikadu
+
+	def besik(self, v, filtru=None, korte=0.82):
+		# Naran hakerek la hanesan (ex. "Akadirihun" / "Acadiruhun"): kandidatu ida ne'ebé besik liu
+		import difflib
+		n = _normal(v)
+		kand = {k: xs for k, xs in self.naran.items() if any(not filtru or filtru(x) for x in xs)}
+		hetan = difflib.get_close_matches(n, list(kand), n=2, cutoff=korte)
+		if len(hetan) == 1 or (len(hetan) == 2 and difflib.SequenceMatcher(None, n, hetan[0]).ratio() > difflib.SequenceMatcher(None, n, hetan[1]).ratio()):
+			xs = [x for x in kand[hetan[0]] if not filtru or filtru(x)]
+			return xs[0] if len(xs) == 1 else None
+		return None
 
 
 def valida(lina):
@@ -278,9 +324,11 @@ def valida(lina):
 	buka_rai = _Buka(list(TipuRai.active.all()))
 	hoje = timezone.localdate()
 	haree = set()
+	ref_iha = set(Kazu.objects.exclude(referensia_rbr=None).values_list('referensia_rbr', flat=True))
 	rezultadu = []
 	for d in lina:
-		erru, avizu, out = [], [], {}
+		erru, avizu, out = [], list(d.get('_avizu', [])), {}
+		at = d.get('_airtable', False)               # dadus Airtable tuan: lokalizasaun / data la kompletu = avizu
 
 		# Data
 		for campo, label in (('data_relatoriu', _('Data relatóriu')), ('data_akontesimentu', _('Data akontesimentu'))):
@@ -290,7 +338,7 @@ def valida(lina):
 				erru.append(_('%(c)s la validu (uza AAAA-MM-LL).') % {'c': label})
 				out[campo] = None
 		if not out['data_relatoriu'] and not any(_('Data relatóriu') in e for e in erru):
-			erru.append(_('Data relatóriu obrigatóriu.'))
+			(avizu if at else erru).append(_('Data relatóriu obrigatóriu.') if not at else _('Data simu kazu la iha.'))
 		if out['data_relatoriu'] and out['data_relatoriu'] > hoje:
 			erru.append(_('Data relatóriu labele iha futuru.'))
 		if out['data_relatoriu'] and out['data_akontesimentu'] and out['data_akontesimentu'] > out['data_relatoriu']:
@@ -301,11 +349,35 @@ def valida(lina):
 		if not mun:
 			erru.append(_('Munisípiu "%(v)s" la hetan.') % {'v': _testu(d.get('munisipiu'))} if _testu(d.get('munisipiu')) else _('Munisípiu obrigatóriu.'))
 		postu = buka_postu(d.get('postu'), lambda o: mun and o.munisipiu_id == mun.pk)
-		suku = buka_suku(d.get('suku'), lambda o: not postu or o.postu_id == postu.pk)
-		aldeia = buka_aldeia(d.get('aldeia'), lambda o: not suku or o.suku_id == suku.pk)
+		f_suku = lambda o: (not postu or o.postu_id == postu.pk) and (not mun or o.postu.munisipiu_id == mun.pk)
+		suku = buka_suku(d.get('suku'), f_suku)
+		if suku is False and at and mun:                # Airtable: postu tuan (DM 31/2026 muda postu) → buka iha munisípiu
+			f_mun = lambda o: o.postu.munisipiu_id == mun.pk
+			suku = buka_suku(d.get('suku'), f_mun)
+			if suku is False:                           # naran hakerek la hanesan → besik liu iha munisípiu
+				suku = buka_suku.besik(d.get('suku'), f_mun) or False
+				if suku:
+					avizu.append(_('Suku "%(v)s" → %(s)s (naran besik; haree loos ka lae).') % {'v': _testu(d.get('suku')), 's': suku.name})
+			if suku and postu and suku.postu_id != postu.pk:
+				postu = suku.postu                          # postu tuir suku (divizaun foun)
+		# Aldeia: iha suku ne'ebé hetan; la iha suku → aldeia úniku iha munisípiu (suku/postu tuir aldeia)
+		aldeia = buka_aldeia(d.get('aldeia'), lambda o: (o.suku_id == suku.pk) if suku else bool(mun and o.suku.postu.munisipiu_id == mun.pk))
+		if aldeia and not suku:
+			suku = aldeia.suku
+			postu = postu if (postu and suku.postu_id == postu.pk) else suku.postu
+		la_hetan = []
 		for obj, campo, label in ((postu, 'postu', _('Postu')), (suku, 'suku', _('Suku')), (aldeia, 'aldeia', _('Aldeia'))):
 			if obj is False:
-				erru.append(_('%(c)s "%(v)s" la hetan (ka naran duplikadu: uza kódigu).') % {'c': label, 'v': _testu(d.get(campo))})
+				msg = _('%(c)s "%(v)s" la hetan (ka naran duplikadu: uza kódigu).') % {'c': label, 'v': _testu(d.get(campo))}
+				if at:                                  # Airtable: rai naran orijinál iha enderesu, Admin hadia depois
+					avizu.append(msg)
+					la_hetan.append(f'{label}: {_testu(d.get(campo))}')
+				else:
+					erru.append(msg)
+		if at:
+			postu, suku, aldeia = (postu or None), (suku or None), (aldeia or None)
+			if la_hetan:
+				d['enderesu_fatin'] = ' · '.join(filter(None, [_testu(d.get('enderesu_fatin'))] + la_hetan))[:255]
 		if mun and postu and postu.munisipiu_id != mun.pk:
 			erru.append(_('Postu la iha munisípiu ne\'e.'))
 		if postu and suku and suku.postu_id != postu.pk:
@@ -368,8 +440,13 @@ def valida(lina):
 		if not konsentimentu:
 			avizu.append(_('La iha konsentimentu — kazu la sei mosu iha portal públiku.'))
 
-		# Duplikadu (iha file ka iha sistema)
-		chave = (mun.pk if mun else None, out['data_relatoriu'], deskrisaun[:80].upper())
+		# Duplikadu: referénsia RBR (Airtable) ka munisípiu + data + observasaun
+		ref = d.get('_referensia')
+		if ref and ref in ref_iha:
+			erru.append(_('Referénsia %(r)s iha sistema ona (import ona).') % {'r': ref})
+		if ref:
+			ref_iha.add(ref)
+		chave = (mun.pk if mun else None, out['data_relatoriu'], deskrisaun[:80].upper(), ref)
 		if chave in haree:
 			avizu.append(_('Liña hanesan iha file ne\'e (duplikadu?).'))
 		haree.add(chave)
@@ -391,14 +468,15 @@ def valida(lina):
 				'konsentimentu': konsentimentu, 'la_publika': _testu(d.get('la_publika')).upper() in SIN,
 				'observasaun': _testu(d.get('observasaun')),
 				**pop,
-				'rbr': _kampu_extra(Kazu, KAMPU_KAZU_RBR, d, erru),
-				'segimentu': _kampu_extra(KazuSegimentu, KAMPU_SEGIMENTU, d, erru),
+				'rbr': _kampu_extra(Kazu, KAMPU_KAZU_RBR, d, erru, avizu if at else None),
+				'segimentu': _kampu_extra(KazuSegimentu, KAMPU_SEGIMENTU, d, erru, avizu if at else None),
+				'referensia_rbr': ref, 'verifikadu': bool(d.get('_verifikadu')),
 			},
 			'rezumu': {
 				'munisipiu': mun.name if mun else _testu(d.get('munisipiu')),
 				'suku': suku.name if suku else '',
 				'tipu': ', '.join(t.name for t in tipu),
-				'deskrisaun': deskrisaun[:90],
+				'deskrisaun': deskrisaun[:90], 'referensia': ref or '',
 			},
 		})
 		rezultadu[-1]['ok'] = not erru                   # kampu RbR mós bele hatama erru
@@ -425,9 +503,12 @@ def konfirma(imp, user):
 		if not r['ok']:
 			continue
 		d = r['dadus']
+		verifikadu = d.get('verifikadu')                   # "Verified" iha Airtable → Verifikadu (hein Superadmin aprova)
 		kazu = Kazu(
-			titulu=d['titulu'], status=SYNCED, synced_at=timezone.now(),
-			data_relatoriu=date.fromisoformat(d['data_relatoriu']),
+			titulu=d['titulu'], status=VERIFIED if verifikadu else SYNCED, synced_at=timezone.now(),
+			referensia_rbr=d.get('referensia_rbr'),
+			verified_by=user if verifikadu else None, verified_at=timezone.now() if verifikadu else None,
+			data_relatoriu=date.fromisoformat(d['data_relatoriu']) if d['data_relatoriu'] else None,
 			data_akontesimentu=date.fromisoformat(d['data_akontesimentu']) if d['data_akontesimentu'] else None,
 			munisipiu_id=d['munisipiu'], postu_id=d['postu'], suku_id=d['suku'], aldeia_id=d['aldeia'],
 			latitude=Decimal(d['latitude']), longitude=Decimal(d['longitude']), gps_aproksimadu=d['gps_aproksimadu'],
@@ -446,7 +527,8 @@ def konfirma(imp, user):
 		if d.get('segimentu'):                              # tribunál, notifikasaun, status (dadus tuan Airtable)
 			KazuSegimentu.objects.create(kazu=kazu, updated_by=user, **{
 				c: KazuSegimentu._meta.get_field(c).to_python(v) for c, v in d['segimentu'].items()})
-		_historia(kazu, user, '', SYNCED, _('Import Excel: %(f)s · liña %(n)s') % {'f': imp.naran_file, 'n': r['lina']})
+		_historia(kazu, user, '', kazu.status, _('Import Excel: %(f)s · liña %(n)s') % {'f': imp.naran_file, 'n': r['lina']} +
+			(f' · {kazu.referensia_rbr}' if kazu.referensia_rbr else ''))
 		kria += 1
 	imp.status = KazuImport.REMATA
 	imp.konfirma_iha = timezone.now()

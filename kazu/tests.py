@@ -726,3 +726,81 @@ class ObservasaunTipuTest(KazuBase):
 		r = self.client.get(reverse('kazu-add'))
 		self.assertContains(r, 'Fo esplikasaun badak kona ba tipu kazu, se karik presiza.')
 		self.assertContains(r, 'Observasaun kona-ba tipu kazu')
+
+
+class AirtableImportTest(KazuBase):
+	# Import CSV / Excel ho kabesallu baze dadus sentrál RbR (Airtable "Kazu Hotu") + export → import fali
+	def csv(self, lina):
+		import csv
+		import io
+		from django.core.files.uploadedfile import SimpleUploadedFile
+		from kazu.airtable import KABESALLU
+		buf = io.StringIO()
+		w = csv.writer(buf)
+		w.writerow(KABESALLU)
+		for d in lina:
+			w.writerow([d.get(h, '') for h in KABESALLU])
+		return SimpleUploadedFile('Baze_Central-Kazu_Hotu_.csv', buf.getvalue().encode('utf-8-sig'), 'text/csv')
+
+	def upload(self, f):
+		from kazu.models import KazuImport
+		self.client.force_login(self.admin)
+		r = self.client.post(reverse('kazu-import'), {'file': f})
+		self.assertEqual(r.status_code, 302, r.content[:300])
+		return KazuImport.objects.latest('created_at')
+
+	LINA = {
+		'Identifikasaun kazu': 'RBR/7_2015_Vatuvou', 'Kazu nia numero': '7', 'Numero Referensia Kazu (auto)': 'RBR/7',
+		'Tinan Kazu Hahu': '2015', 'Data Simu Kazu iha RBR': '22/9/2016', 'Tinan Simu Kazu iha RBR': '2016',
+		'Kazu': 'Vatuvou', 'Tipu Kazu': 'Governu hasai komunidade husi rai abandonadu ou rai estatutu la klaru', 'Verified': 'checked',
+		'Entidade Benefisiariu': 'Governu,Kompanhia Nasional', 'Munisipiu': 'Liquica', 'Suku': 'Vatuvou ',
+		'Rai nia Luan (Metru ka Hektar)': '17.000 M2', 'Rai nia luan (ha)': '0.0', 'Dadus Uma Kain iha ka lae?': 'Iha',
+		'Uma Kain afetadu hira': '12', 'Feto ': '28', 'Mane': '30', 'Total Ema': '58',
+		'Naran fokal point RBR nian': 'Domingos', 'Tipu Fokal Point': 'Sekretariadu RBR', 'Rejistu iha tribunal?': 'Agora dadaun registu hela iha tribunal ',
+		'Data rejistu iha tribunal': '10/16/09', 'Simu Notifikasaun Ona?': 'Lahatene', 'Eviksaun Akontese ona?': 'Sin', 'Data Eviksaun': 'La hatene',
+		'Status Kazu': 'Claim balu resolve balu seidauk', "RBR nia desizaun ba Kazu ne'e": 'Advokasia Ativu',
+		'Pontu Kordenadu (GPS)': 'https://maps.app.goo.gl/abc', 'Formatu update kazu': 'https://airtable.com/x', 'Created By': 'Tahan Airtable',
+	}
+
+	def test_import_airtable_csv(self):
+		from kazu.importa import konfirma
+		imp = self.upload(self.csv([self.LINA, {'Numero Referensia Kazu (auto)': 'RBR/8', 'Kazu nia numero': '8', 'Rai nia luan (ha)': '0.0'}]))
+		self.assertEqual((imp.total, imp.total_ok), (1, 1))                 # liña mamuk (ID automátiku de'it) la tama
+		self.assertEqual(konfirma(imp, self.admin), 1)
+		k = Kazu.objects.get(referensia_rbr='RBR/7')
+		self.assertEqual((k.status, k.verified_by, k.titulu, k.kode[:13]), ('VERIFIED', self.admin, 'Vatuvou', 'RbR-LIQ-2016-'))
+		self.assertEqual((str(k.data_relatoriu), k.tinan_disputa_hahu, k.suku, k.gps_aproksimadu), ('2016-09-22', 2015, self.suku, True))
+		self.assertEqual(list(k.tipu_konflitu.values_list('code', flat=True)), ['GOV-RAI-ABANDONADU'])
+		self.assertEqual((str(k.rai_luan), k.rai_luan_unidade, k.entidade_kategoria, k.iha_dadus_uma_kain, k.eviksaun_akontese), ('17000.00', 'M2', 'GOVERNU', 'SIN', 'SIN'))
+		af = k.afetadu.get()
+		self.assertEqual((af.uma_kain, af.total_ema, af.mane, af.feto), (12, 58, 30, 28))
+		s = k.segimentu
+		self.assertEqual((s.fokal_tipu, s.tribunal_rejistu, str(s.tribunal_data), s.notif_simu, s.status_rezolusaun, s.desizaun_rbr),
+			('SEKRETARIADU', 'DADAUN', '2009-10-16', 'LAHATENE', 'BALU_RESOLVE', 'ADVOKASIA'))
+		self.assertIn('La hatene', k.observasaun_eviksaun)               # data la klaru → observasaun
+		self.assertIn('maps.app.goo.gl', k.observasaun)
+		# Import fali → referénsia iha ona (la duplika)
+		imp2 = self.upload(self.csv([self.LINA]))
+		self.assertEqual(imp2.total_ok, 0)
+		self.assertIn('RBR/7', imp2.dadus[0]['erru'][0])
+
+	def test_export_import_fali(self):
+		# Export SIBAR (kolun Airtable) → import iha sistema seluk: dadus hanesan
+		import io
+		from openpyxl import load_workbook
+		from django.core.files.uploadedfile import SimpleUploadedFile
+		from kazu.importa import lee_excel, valida
+		k = self.create_kazu('haruka', rai_luan='2.5', rai_luan_unidade='HA', eviksaun_akontese='SIN')
+		self.client.force_login(self.admin)
+		self.post(reverse('kazu-action', args=[k.pk, 'verifika']))
+		xlsx = self.client.get(reverse('report-export-excel')).content
+		ws = load_workbook(io.BytesIO(xlsx)).active
+		self.assertEqual(ws['A1'].value, 'Identifikasaun kazu')
+		Kazu.objects.all().update(referensia_rbr=None)
+		_n, _s, lina = lee_excel(SimpleUploadedFile('export.xlsx', xlsx))
+		r = valida(lina)[0]
+		self.assertTrue(r['ok'], r['erru'])
+		d = r['dadus']
+		self.assertEqual((d['munisipiu'], d['tipu_konflitu'], d['latitude'], d['verifikadu']), (self.liq.pk, list(k.tipu_konflitu.values_list('pk', flat=True)), '-8.612100', True))
+		from decimal import Decimal
+		self.assertEqual((Decimal(d['rbr']['rai_luan']), d['rbr']['rai_luan_unidade'], d['rbr']['eviksaun_akontese']), (Decimal('2.5'), 'HA', 'SIN'))

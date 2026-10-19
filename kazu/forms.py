@@ -499,11 +499,11 @@ class StatusKazuForm(forms.Form):
 
 # ══════════════ Import Excel + hadia lokasaun (Admin) ══════════════
 class ImportForm(forms.Form):
-	file = forms.FileField(label=_("File Excel (.xlsx)"), help_text=_("Uza template. Máximu 500 liña, 5 MB."))
+	file = forms.FileField(label=_("File Excel (.xlsx) ka CSV"), help_text=_("Template ka export baze dadus sentrál RbR (Airtable \"Kazu Hotu\"). Máximu 500 liña, 5 MB."))
 
 	def __init__(self, *args, **kwargs):
 		super(ImportForm, self).__init__(*args, **kwargs)
-		self.fields['file'].widget.attrs.update({'accept': '.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+		self.fields['file'].widget.attrs.update({'accept': '.xlsx,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv'})
 		self.helper = FormHelper()
 		self.helper.form_tag = False
 		self.helper.disable_csrf = True

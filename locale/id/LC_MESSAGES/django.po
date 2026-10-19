@@ -3566,3 +3566,78 @@ msgstr "Beri penjelasan singkat tentang jenis kasus, jika perlu."
 #: kazu/importa.py
 msgid "Kolun la tuir template (presiza \"munisipiu\"…). Download template."
 msgstr "Kolom tidak sesuai template (perlu \"munisipiu\"…). Unduh template."
+
+#: kazu/importa.py
+msgid "Data simu kazu la iha."
+msgstr "Tanggal kasus diterima tidak ada."
+
+#: kazu/forms.py
+msgid "File Excel (.xlsx) ka CSV"
+msgstr "File Excel (.xlsx) atau CSV"
+
+#: kazu/importa.py
+msgid "File tenke Excel .xlsx ka .csv (uza template ka export Airtable)."
+msgstr ""
+"File harus Excel .xlsx atau .csv (pakai template atau export Airtable)."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Kolun hanesan baze dadus sentrál RbR (Airtable \"Kazu Hotu\"): bele upload "
+"direta export Airtable (.csv ka .xlsx) ka export SIBAR-RbR."
+msgstr ""
+"Kolom sama dengan basis data pusat RbR (Airtable \"Kazu Hotu\"): bisa "
+"langsung upload export Airtable (.csv atau .xlsx) atau export SIBAR-RbR."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Koordenada mamuk ka link Google Maps badak: sistema uza fatin aproksimadu; "
+"ita hadia iha mapa depois."
+msgstr ""
+"Koordinat kosong atau link Google Maps pendek: sistem memakai lokasi "
+"perkiraan; perbaiki di peta nanti."
+
+#: kazu/importa.py
+msgid "Labele lee file CSV ne'e."
+msgstr "File CSV ini tidak bisa dibaca."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Liña ida = kazu ida. Kolun verde obrigatóriu (Munisipiu, Tipu Kazu). Opsaun "
+"iha aba \"Opsaun\"."
+msgstr ""
+"Satu baris = satu kasus. Kolom hijau wajib (Munisipiu, Tipu Kazu). Pilihan "
+"ada di sheet \"Opsaun\"."
+
+#: kazu/importa.py
+#, python-format
+msgid "Referénsia %(r)s iha sistema ona (import ona)."
+msgstr "Referensi %(r)s sudah ada di sistem (sudah diimpor)."
+
+#: kazu/templates/kazu/import_list.html
+msgid "Referénsia RBR/… ne'ebé iha sistema ona la import dala rua."
+msgstr "Referensi RBR/… yang sudah ada di sistem tidak diimpor dua kali."
+
+#: kazu/models.py
+msgid "Referénsia RbR (Airtable)"
+msgstr "Referensi RbR (Airtable)"
+
+#: kazu/importa.py
+#, python-format
+msgid "Suku \"%(v)s\" → %(s)s (naran besik; haree loos ka lae)."
+msgstr "Suku \"%(v)s\" → %(s)s (nama mirip; cek benar atau tidak)."
+
+#: kazu/forms.py
+msgid ""
+"Template ka export baze dadus sentrál RbR (Airtable \"Kazu Hotu\"). Máximu "
+"500 liña, 5 MB."
+msgstr ""
+"Template atau export basis data pusat RbR (Airtable \"Kazu Hotu\"). Maksimal"
+" 500 baris, 5 MB."
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Upload → haree pratinjau → konfirma. Kazu \"Verified\" tama hanesan "
+"Verifikadu; seluk \"Hein Verifikasaun\"."
+msgstr ""
+"Upload → lihat pratinjau → konfirmasi. Kasus \"Verified\" masuk sebagai "
+"Terverifikasi; lainnya \"Menunggu Verifikasi\"."
