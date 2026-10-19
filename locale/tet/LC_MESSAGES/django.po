@@ -3650,3 +3650,15 @@ msgstr "kria kazu"
 #: main/templates/home/home_investigador.html
 msgid "tuun fali ba terrenu, hadia no haruka fali."
 msgstr "tuun fali ba terrenu, hadia no haruka fali."
+
+#: kazu/models.py
+msgid "Esplika tipu konflitu \"Seluk\""
+msgstr "Esplika tipu konflitu \"Seluk\""
+
+#: kazu/forms.py
+msgid "Fo esplikasaun badak kona ba tipu kazu, se karik presiza."
+msgstr "Fo esplikasaun badak kona ba tipu kazu, se karik presiza."
+
+#: kazu/importa.py
+msgid "Kolun la tuir template (presiza \"munisipiu\"…). Download template."
+msgstr "Kolun la tuir template (presiza \"munisipiu\"…). Download template."

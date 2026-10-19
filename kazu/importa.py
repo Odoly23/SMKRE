@@ -43,7 +43,7 @@ KOLUN = [
 	('tipu_konflitu', 'Tipu konflitu (kódigu, separa ho ;)', True),
 	('tipu_seluk', 'Tipu "Seluk": esplika', False),
 	('tipu_rai', 'Tipu rai (kódigu)', False),
-	('deskrisaun', 'Deskrisaun insidente', True),
+	('deskrisaun', 'Observasaun kona-ba tipu kazu', False),
 	('uma_kain', 'Uma-kain afetada', False),
 	('mane', 'Mane', False),
 	('feto', 'Feto', False),
@@ -159,8 +159,8 @@ def lee_excel(f):
 	if not rows:
 		raise ValidationError(_('File mamuk.'))
 	kab = [str(c or '').strip().lower() for c in rows[0]]
-	if 'munisipiu' not in kab or 'deskrisaun' not in kab:
-		raise ValidationError(_('Kolun la tuir template (presiza "munisipiu", "deskrisaun"…). Download template.'))
+	if 'munisipiu' not in kab:
+		raise ValidationError(_('Kolun la tuir template (presiza "munisipiu"…). Download template.'))
 	lina = []
 	for n, r in enumerate(rows[1:], start=2):
 		d = {k: v for k, v in zip(kab, r) if k in NARAN_KOLUN}
@@ -353,9 +353,7 @@ def valida(lina):
 		if rai is False:
 			erru.append(_('Tipu rai "%(v)s" la hetan.') % {'v': _testu(d.get('tipu_rai'))})
 
-		deskrisaun = _testu(d.get('deskrisaun'))
-		if not deskrisaun:
-			erru.append(_('Deskrisaun obrigatóriu.'))
+		deskrisaun = _testu(d.get('deskrisaun'))         # Observasaun kona-ba tipu kazu (opsionál)
 
 		# Populasaun
 		pop = {}

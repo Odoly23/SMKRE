@@ -588,7 +588,6 @@
 			if (k.data_akontesimentu > hoje()) e.push('Data Akontesimentu labele iha futuru.');
 			if (!k.tipu_konflitu.length) e.push('Hili tipu konflitu rai.');
 			if (!$('grp-tipu_seluk').hidden && !k.tipu_seluk) e.push('Favor esplika tipu konflitu "Seluk".');
-			if (!k.deskrisaun) e.push('Deskrisaun Insidente obrigatóriu.');
 		}
 		if (pasu === 3) {
 			var a = k.afetadu;

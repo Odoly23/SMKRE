@@ -3577,3 +3577,17 @@ msgstr "criou o caso"
 #: main/templates/home/home_investigador.html
 msgid "tuun fali ba terrenu, hadia no haruka fali."
 msgstr "volte ao terreno, corrija e reenvie."
+
+#: kazu/models.py
+msgid "Esplika tipu konflitu \"Seluk\""
+msgstr "Explique o tipo de conflito \"Outro\""
+
+#: kazu/forms.py
+msgid "Fo esplikasaun badak kona ba tipu kazu, se karik presiza."
+msgstr "Dê uma breve explicação sobre o tipo de caso, se necessário."
+
+#: kazu/importa.py
+msgid "Kolun la tuir template (presiza \"munisipiu\"…). Download template."
+msgstr ""
+"As colunas não seguem o modelo (é preciso \"munisipiu\"…). Descarregue o "
+"modelo."

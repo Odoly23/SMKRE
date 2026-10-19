@@ -716,3 +716,13 @@ class FollowupTest(KazuBase):
 		self.post(reverse('kazu-followup', args=[kazu.pk]), {'investigador': seluk.pk, 'nota': 'Survei fali'})
 		kazu.refresh_from_db()
 		self.assertEqual(kazu.status, 'VERIFIED')        # munisípiu seluk → rejeita
+
+
+class ObservasaunTipuTest(KazuBase):
+	def test_observasaun_tipu_kazu_opsional(self):
+		# "Observasaun kona-ba tipu kazu" (uluk Deskrisaun Insidente): bele haruka mamuk
+		kazu = self.create_kazu('haruka', deskrisaun='')
+		self.assertEqual(kazu.status, 'SYNCED')
+		r = self.client.get(reverse('kazu-add'))
+		self.assertContains(r, 'Fo esplikasaun badak kona ba tipu kazu, se karik presiza.')
+		self.assertContains(r, 'Observasaun kona-ba tipu kazu')

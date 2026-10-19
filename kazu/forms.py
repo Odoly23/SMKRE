@@ -64,7 +64,7 @@ class KazuForm(forms.ModelForm):
 			'tipu_konflitu': forms.CheckboxSelectMultiple,
 			'estragu': forms.CheckboxSelectMultiple,
 			'nesesidade': forms.CheckboxSelectMultiple,
-			'deskrisaun': forms.Textarea(attrs={'rows': 4, 'placeholder': _('Deskreve badak saida mak akontese, inklui sekuénsia akontesimentu, asaun husi autoridade ka atór no impaktu ba komunidade.')}),
+			'deskrisaun': forms.Textarea(attrs={'rows': 4, 'placeholder': _('Fo esplikasaun badak kona ba tipu kazu, se karik presiza.')}),
 			'observasaun': forms.Textarea(attrs={'rows': 2}),
 			'observasaun_afetadu': forms.Textarea(attrs={'rows': 2}),
 			'observasaun_eviksaun': forms.Textarea(attrs={'rows': 2}),
@@ -297,7 +297,7 @@ class KazuForm(forms.ModelForm):
 		# Bainhira haruka: kampu importante obrigatóriu
 		if self.submit:
 			obrigatoriu = {'postu': _('Postu Administrativu'), 'suku': _('Suku'), 'data_akontesimentu': _('Data Akontesimentu'),
-				'deskrisaun': _('Deskrisaun Insidente'), 'latitude': _('Latitude'), 'longitude': _('Longitude')}
+				'latitude': _('Latitude'), 'longitude': _('Longitude')}
 			for campo in obrigatoriu:
 				if not cleaned.get(campo) and campo not in self.errors:
 					self.add_error(campo, _('Kampu ne\'e obrigatóriu atu haruka.'))

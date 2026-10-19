@@ -3554,3 +3554,15 @@ msgstr "pembuat kasus"
 #: main/templates/home/home_investigador.html
 msgid "tuun fali ba terrenu, hadia no haruka fali."
 msgstr "turun lagi ke lapangan, perbaiki dan kirim ulang."
+
+#: kazu/models.py
+msgid "Esplika tipu konflitu \"Seluk\""
+msgstr "Jelaskan jenis konflik \"Lainnya\""
+
+#: kazu/forms.py
+msgid "Fo esplikasaun badak kona ba tipu kazu, se karik presiza."
+msgstr "Beri penjelasan singkat tentang jenis kasus, jika perlu."
+
+#: kazu/importa.py
+msgid "Kolun la tuir template (presiza \"munisipiu\"…). Download template."
+msgstr "Kolom tidak sesuai template (perlu \"munisipiu\"…). Unduh template."

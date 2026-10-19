@@ -149,7 +149,7 @@ def validate_submit(kazu):
 	if not kazu.tipu_konflitu.exists():
 		erru.append(_('Hili tipu konflitu rai.'))
 	for campo, label in (('data_relatoriu', _('Data Relatóriu')), ('data_akontesimentu', _('Data Akontesimentu')),
-			('postu', _('Postu Administrativu')), ('suku', _('Suku')), ('deskrisaun', _('Deskrisaun Insidente'))):
+			('postu', _('Postu Administrativu')), ('suku', _('Suku'))):
 		if not getattr(kazu, campo):
 			erru.append(_('%(campo)s obrigatóriu.') % {'campo': label})
 	if erru:
