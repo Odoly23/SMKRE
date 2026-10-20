@@ -804,3 +804,33 @@ class AirtableImportTest(KazuBase):
 		self.assertEqual((d['munisipiu'], d['tipu_konflitu'], d['latitude'], d['verifikadu']), (self.liq.pk, list(k.tipu_konflitu.values_list('pk', flat=True)), '-8.612100', True))
 		from decimal import Decimal
 		self.assertEqual((Decimal(d['rbr']['rai_luan']), d['rbr']['rai_luan_unidade'], d['rbr']['eviksaun_akontese']), (Decimal('2.5'), 'HA', 'SIN'))
+
+
+class FormulariuDocxTest(KazuBase):
+	# Pergunta tuir orden dokumentu "Perguntas husi Baze de Dadus Central nian"
+	def test_orden_no_label_dokumentu(self):
+		self.client.force_login(self.inv)
+		html = self.client.get(reverse('kazu-add')).content.decode()
+		orden = ['Numeru kazu', 'Data Simu Kazu iha RbR', 'Tinan Simu Kazu iha RbR', 'Tinan Kazu Hahu', 'Tipu Kazu',
+			'Observasaun kona-ba tipu kazu', 'Munisipiu', 'Pontu Kordenadu (GPS)', 'Enderesu ka Deskrisaun Fatin',
+			'Dadus Uma Kain iha ka lae?', 'Fontes Dadus Uma Kain', 'Organizasaun seluk ne&#x27;ebé halo akompaniamentu',
+			'Rejistu iha tribunal?', 'Notifikasaun husi se?', 'Eviksaun Akontese ona?', 'Data ikus cek status kazu',
+			'RBR nia desizaun ba Kazu ne&#x27;e', 'Molok eviksaun iha konsultasaun ka lae?', 'Akompanamentu ba Kazu']
+		pos = [html.find(t) for t in orden]
+		self.assertTrue(all(p > 0 for p in pos), [t for t, p in zip(orden, pos) if p < 0])
+		self.assertEqual(pos, sorted(pos))
+
+	def test_numeru_tinan_segimentu_no_akompanamentu(self):
+		kazu = self.create_kazu('rai', numeru_rbr='42', **{'seg-tribunal_rejistu': 'SIN', 'seg-status_rezolusaun': 'SEIDAUK',
+			'seg-org_seluk': 'HAK'}, akompanamentu_foun='Vizita komunidade')
+		kazu.refresh_from_db()
+		self.assertEqual((kazu.referensia_rbr, kazu.tinan_simu), ('RBR/42', timezone.localdate().year))
+		self.assertEqual((kazu.segimentu.tribunal_rejistu, kazu.segimentu.status_rezolusaun, kazu.segimentu.org_seluk), ('SIN', 'SEIDAUK', 'HAK'))
+		self.assertEqual(kazu.segimentu.fokal_naran, 'Investigador Teste')          # fokal point automátiku la lakon
+		self.assertEqual(kazu.akompanamentu.get().asaun, 'Vizita komunidade')
+		# Numeru duplikadu → erru
+		r = self.client.post(reverse('kazu-add'), self.form_data('rai', numeru_rbr='42'))
+		self.assertContains(r, 'RBR/42 iha sistema ona')
+		# Data la hatene: tinan de'it
+		k2 = self.create_kazu('rai', data_relatoriu='', tinan_simu='2015', numeru_rbr='43')
+		self.assertEqual((k2.data_relatoriu, k2.tinan_simu), (None, 2015))

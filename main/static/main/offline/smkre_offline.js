@@ -7,7 +7,7 @@
 	var K = SmkreKripto, DB = SmkreDB, KAM = SmkreKamera;
 
 	var TL_LAT = [-9.60, -8.10], TL_LON = [124.00, 127.40], GPS_MAX = 50;
-	var MAX_FOTO = 5, MAX_VIDEO = 3, PIN_SALA_MAX = 5, XAVI_MINUTU = 5, PASU_TOTAL = 6;
+	var MAX_FOTO = 5, MAX_VIDEO = 3, PIN_SALA_MAX = 5, XAVI_MINUTU = 5, PASU_TOTAL = 8;
 	var VERIFIKA_TESTU = 'SMKRE-PIN-OK';
 
 	// Estadu app (iha memória deit; lakon bainhira xavi)
@@ -369,7 +369,7 @@
 			postu: '', suku: '', aldeia: '', latitude: null, longitude: null, gps_akurasia: null,
 			data_akontesimentu: '', tipu_konflitu: [], tipu_seluk: '', tipu_rai: '', deskrisaun: '',
 			afetadu: {}, insidente: null, ator: [], estragu: [], estragu_seluk: '', nesesidade: [],
-			konsentimentu: false, la_publika: false, observasaun: '', rai_luan_unidade: 'M2', poligon_pontu: [[]]
+			konsentimentu: false, la_publika: false, observasaun: '', rai_luan_unidade: 'M2', poligon_pontu: [[]], segimentu: {}
 		};
 	}
 
@@ -388,7 +388,7 @@
 			k[el.dataset.kampu] = v;
 		});
 	}
-	var KAMPU_RBR = ['enderesu_fatin', 'rai_luan', 'rai_luan_unidade', 'tinan_disputa_hahu', 'projetu', 'entidade_foti',
+	var KAMPU_RBR = ['numeru_rbr', 'tinan_simu', 'akompanamentu_foun', 'enderesu_fatin', 'rai_luan', 'rai_luan_unidade', 'tinan_disputa_hahu', 'projetu', 'entidade_foti',
 		'entidade_kategoria', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
 		'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
 		'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun'];
@@ -453,11 +453,14 @@
 		$('f-konsentimentu').checked = !!k.konsentimentu;
 		$('f-la_publika').checked = !!k.la_publika;
 		enxeKampu(k);
+		// Segimentu (tribunál, notifikasaun, status kazu, organizasaun seluk)
+		var seg = k.segimentu || {};
+		document.querySelectorAll('[data-seg]').forEach(function (el) { var v = seg[el.dataset.seg]; el.value = v == null ? '' : v; });
+		tinanSimu();
 		hatuduSeluk();
 		hatuduMedia();
 		// Switch "Iha …?" loke automátiku se iha ona dadus
 		var afe = k.afetadu || {};
-		$('sw-rai').checked = !!(k.enderesu_fatin || k.rai_luan != null || polPontuHotu(k) > 0);
 		$('sw-portavos').checked = !!(k.portavos_naran || k.portavos_kontaktu || k.portavos_observasaun);
 		$('sw-ator').checked = (k.ator || []).length > 0;
 		$('sw-estragu').checked = (k.estragu || []).length > 0 || !!k.estragu_seluk;
@@ -492,7 +495,7 @@
 		var tk = $('f-tipu_konflitu');
 		$('grp-entidade').hidden = !tk.querySelector('input[data-entidade]:checked');
 		$('grp-uma_kain').hidden = !($('f-iha_dadus_uma_kain').value === 'SIN' || (S.umaKainTuan && !$('f-iha_dadus_uma_kain').value));
-		$('grp-eviksaun').hidden = $('f-eviksaun_akontese').value !== 'SIN';
+		$('grp-eviksaun').hidden = $('grp-eviksaun2').hidden = $('f-eviksaun_akontese').value !== 'SIN';
 		document.querySelectorAll('[data-switch]').forEach(function (sw) { $(sw.dataset.switch).hidden = !sw.checked; });
 		if (!$('grp-ator').hidden && !$('lista-ator').children.length) aumentaAtor(null);
 	}
@@ -558,9 +561,10 @@
 		k.konsentimentu = $('f-konsentimentu').checked;
 		k.la_publika = $('f-la_publika').checked;
 		leeKampu(k);
+		k.segimentu = {};
+		document.querySelectorAll('[data-seg]').forEach(function (el) { var v = el.value.trim(); if (v) k.segimentu[el.dataset.seg] = v; });
 		document.querySelectorAll('.kond[hidden] [data-kampu]').forEach(function (el) { k[el.dataset.kampu] = null; });
 		document.querySelectorAll('.kond[hidden] [data-afetadu]').forEach(function (el) { k.afetadu[el.dataset.afetadu] = null; });
-		if (subar('grp-rai')) k.poligon_pontu = [[]];
 		if (polBidang(k).length) { var lr = luanRai(SIBARPoligon.kalkula(polBidang(k)).luan_m2); k.rai_luan = lr[0]; k.rai_luan_unidade = lr[1]; }
 		if (subar('grp-ator')) k.ator = [];
 		if (subar('grp-estragu')) { k.estragu = []; k.estragu_seluk = ''; }
@@ -568,12 +572,16 @@
 		return k;
 	}
 
-	// Validasaun kada pasu (hanesan regra server)
+	// Validasaun kada pasu (hanesan regra server) — pasu tuir orden dokumentu pergunta RbR
 	function valida(pasu) {
 		var k = S.kazu, e = [];
 		if (pasu === 1) {
-			if (!k.data_relatoriu) e.push('Data Relatóriu obrigatóriu.');
-			if (k.data_relatoriu > hoje()) e.push('Data Relatóriu labele iha futuru.');
+			if (!k.data_relatoriu && !k.tinan_simu) e.push('Hakerek Data Simu ka Tinan Simu Kazu iha RbR.');
+			if (k.data_relatoriu > hoje()) e.push('Data Simu labele iha futuru.');
+			if (!k.tipu_konflitu.length) e.push('Hili Tipu Kazu.');
+			if (!$('grp-tipu_seluk').hidden && !k.tipu_seluk) e.push('Favor esplika tipu konflitu "Seluk".');
+		}
+		if (pasu === 2) {
 			if (!k.postu) e.push('Hili Postu Administrativu.');
 			if (!k.suku) e.push('Hili Suku.');
 			if (k.latitude == null) e.push('Foti koordenada GPS iha fatin akontesimentu.');
@@ -583,21 +591,26 @@
 			});
 			polBidang(k).forEach(function (f, i) { if (SIBARPoligon.kruza(f)) e.push('Poligon área ' + (i + 1) + ': liña kruza malu. Hamoos pontu ikus no foti fali.'); });
 		}
-		if (pasu === 2) {
-			if (!k.data_akontesimentu) e.push('Data Akontesimentu obrigatóriu.');
-			if (k.data_akontesimentu > hoje()) e.push('Data Akontesimentu labele iha futuru.');
-			if (!k.tipu_konflitu.length) e.push('Hili tipu konflitu rai.');
-			if (!$('grp-tipu_seluk').hidden && !k.tipu_seluk) e.push('Favor esplika tipu konflitu "Seluk".');
-		}
 		if (pasu === 3) {
 			var a = k.afetadu;
 			if (a.total_ema != null && a.mane != null && a.feto != null && a.mane + a.feto !== a.total_ema) e.push('Mane + Feto tenke hanesan Total Ema (' + (a.mane + a.feto) + ').');
+		}
+		if (pasu === 7) {
+			if (k.data_akontesimentu && k.data_akontesimentu > hoje()) e.push('Data Akontesimentu labele iha futuru.');
 			if (k.insidente && !k.insidente.tipu_eviksaun) e.push('Hili Tipu Eviksaun.');
 			if (k.ator.some(function (x) { return !x.tipu_ator; })) e.push('Hili Tipu Atór ba atór hotu.');
 		}
-		if (pasu === 6 && !k.konsentimentu) e.push('Laiha konsentimentu = labele rai kazu.');
+		if (pasu === 8 && !k.konsentimentu) e.push('Laiha konsentimentu = labele rai kazu.');
 		return e;
 	}
+
+	// Tinan Simu automátiku husi Data Simu (manuál de'it se data la hatene)
+	function tinanSimu() {
+		var d = $('f-data_relatoriu').value, t = $('f-tinan_simu');
+		if (d) t.value = parseInt(d.slice(0, 4), 10);
+		t.readOnly = !!d;
+	}
+	$('f-data_relatoriu').addEventListener('change', tinanSimu);
 
 	function baPasu(n) {
 		S.pasu = n;
@@ -963,7 +976,8 @@
 			tipu_rai: k.tipu_rai, deskrisaun: k.deskrisaun, estragu: k.estragu, estragu_seluk: k.estragu_seluk,
 			nesesidade: k.nesesidade, konsentimentu: k.konsentimentu, la_publika: !!k.la_publika, observasaun: k.observasaun,
 			afetadu: temAfetadu ? [afe] : [], insidente: k.insidente ? [k.insidente] : [], ator: k.ator || [],
-			poligon: polBidang(k).length ? SIBARPoligon.fc(polBidang(k)) : null
+			poligon: polBidang(k).length ? SIBARPoligon.fc(polBidang(k)) : null,
+			segimentu: k.segimentu || {}
 		});
 	}
 

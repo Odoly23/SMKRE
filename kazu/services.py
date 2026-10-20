@@ -118,7 +118,7 @@ def _historia(kazu, user, antes, foun, nota='', tipu=KazuHistoria.DADUS):
 
 def generate_kode(kazu):
 	# RbR-LIQ-2026-0012 — kontador xave (select_for_update) atu la iha kódigu duplikadu
-	tinan = (kazu.data_relatoriu or timezone.localdate()).year
+	tinan = kazu.data_relatoriu.year if kazu.data_relatoriu else (kazu.tinan_simu or timezone.localdate().year)
 	seq, _c = KazuSequence.objects.select_for_update().get_or_create(munisipiu=kazu.munisipiu, tinan=tinan)
 	seq.last += 1
 	seq.save(update_fields=['last'])
@@ -148,8 +148,9 @@ def validate_submit(kazu):
 		erru.append(_('Koordenada GPS obrigatóriu.'))
 	if not kazu.tipu_konflitu.exists():
 		erru.append(_('Hili tipu konflitu rai.'))
-	for campo, label in (('data_relatoriu', _('Data Relatóriu')), ('data_akontesimentu', _('Data Akontesimentu')),
-			('postu', _('Postu Administrativu')), ('suku', _('Suku'))):
+	if not kazu.data_relatoriu and not kazu.tinan_simu:
+		erru.append(_('Hakerek Data Simu ka Tinan Simu Kazu iha RbR.'))
+	for campo, label in (('postu', _('Postu Administrativu')), ('suku', _('Suku'))):
 		if not getattr(kazu, campo):
 			erru.append(_('%(campo)s obrigatóriu.') % {'campo': label})
 	if erru:

@@ -17,10 +17,31 @@
 					<div class="alert alert-danger small"><i class="fa fa-undo"></i> <b>{% trans "Kazu rejeitadu." %}</b> {% trans "Haree razaun iha istória kazu, hadia no haruka fali." %}</div>
 					{% endif %}
 
-					{% crispy form form.helper %}
+					{# Pergunta tuir orden dokumentu "Perguntas husi Baze de Dadus Central nian" #}
+					{% crispy form form.helper_a %}
+					{% crispy form form.helper_b %}
+					{% crispy form form.helper_pop %}
+					{{ afetadu_fs.management_form }}
+					{% for f in afetadu_fs %}
+					<div class="formset-row">{% crispy f %}</div>
+					{% endfor %}
+					{% crispy form form.helper_pop_b %}
+					{% crispy seg_form seg_form.helper_org %}
+					<h4 class="form-sub">{% trans "Portavós Komunidade" %}</h4>
+					{% crispy form form.helper_portavos %}
+					{% crispy seg_form seg_form.helper_tribunal %}
+					{% crispy form form.helper_eviksaun %}
+					{% crispy seg_form seg_form.helper_status %}
+					{% crispy form form.helper_eviksaun_b %}
+					{% crispy form form.helper_akomp %}
 
-					<!-- 3. Atór envolvidu no populasaun afetada (formset) -->
-					<h3 class="form-section"><span>3</span> {% trans "Atór Envolvidu no Populasaun Afetada" %}</h3>
+					{# Informasaun adisionál SIBAR (la iha iha dokumentu) #}
+					{% crispy form form.helper_extra %}
+					<h4 class="form-sub">{% trans "Insidente Deslokamentu / Eviksaun" %}</h4>
+					{{ insidente_fs.management_form }}
+					{% for f in insidente_fs %}
+					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
+					{% endfor %}
 					{{ ator_fs.management_form }}
 					<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-ator" data-switch="ator"><label class="custom-control-label" for="sw-ator">{% trans "Iha atór envolvidu?" %}</label></div>
 					<div class="kond sub-box" data-grp="ator">
@@ -28,24 +49,7 @@
 					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
 					{% endfor %}
 					</div>
-					<h4 class="form-sub">{% trans "Populasaun Afetada" %}</h4>
-					{% crispy form form.helper_pop %}
-					{{ afetadu_fs.management_form }}
-					{% for f in afetadu_fs %}
-					<div class="formset-row">{% crispy f %}</div>
-					{% endfor %}
-					{% crispy form form.helper_pop_b %}
-					<h4 class="form-sub">{% trans "Eviksaun" %}</h4>
-					{% crispy form form.helper_eviksaun %}
-					<h4 class="form-sub">{% trans "Portavós Komunidade" %}</h4>
-					{% crispy form form.helper_portavos %}
-					<h4 class="form-sub">{% trans "Insidente Deslokamentu / Eviksaun" %}</h4>
-					{{ insidente_fs.management_form }}
-					{% for f in insidente_fs %}
-					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
-					{% endfor %}
-
-					{% crispy form form.helper_b %}
+					{% crispy form form.helper_b2 %}
 
 					<div class="alert alert-light border small mt-3"><i class="fa fa-camera"></i> {% trans "Seksaun 5 (Evidénsia: foto, vídeo, dokumentu) iha pájina tuir mai hafoin rai kazu." %}</div>
 					<div class="form-actions">
@@ -60,6 +64,19 @@
 {% endblock %}
 {% block scripts %}
 <script nonce="{{ request.csp_nonce }}">
+	// Tinan Simu Kazu iha RbR: automátiku husi Data Simu (hakerek manuál de'it se data la hatene)
+	(function () {
+		var data = document.getElementById('id_data_relatoriu'), tinan = document.getElementById('id_tinan_simu');
+		if (!data || !tinan) return;
+		function sync() {
+			var y = data.value ? data.value.slice(0, 4) : '';
+			if (y) tinan.value = parseInt(y, 10);
+			tinan.readOnly = !!y;
+		}
+		data.addEventListener('change', sync);
+		sync();
+	})();
+
 	// Formuláriu badak: grupu [data-grp] hatudu tuir resposta ka switch "Iha …?"
 	(function () {
 		var form = document.getElementById('KazuForm');

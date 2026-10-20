@@ -5,12 +5,13 @@ from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
 from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
-from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm, AkompanamentuForm
-from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED
+from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm, AkompanamentuForm, SegimentuKazuForm
+from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED, KazuAkompanamentu
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.importa import pode_muda_lokasaun
 from kazu.services import action_buttons, refresh_auto_fields, submit_kazu, enxe_fokal, can_followup, investigador_followup
@@ -107,8 +108,8 @@ def KazuDetail(request, uuid):
 	return render(request, 'kazu/detail.html', context)
 
 
-def _save_kazu(request, form, formsets, instance=None):
-	# Rai kazu + formset hotu iha transaksaun ida; retorna kazu ka None
+def _save_kazu(request, form, formsets, instance=None, seg_form=None):
+	# Rai kazu + formset + segimentu (tribunál, notifikasaun, status) iha transaksaun ida
 	with transaction.atomic():
 		obj = form.save(commit=False)
 		if instance is None:
@@ -121,9 +122,26 @@ def _save_kazu(request, form, formsets, instance=None):
 		refresh_auto_fields(obj)
 		if instance is None:
 			enxe_fokal(obj, request.user)
+		if seg_form is not None:                        # segimentu (fokal point automátiku la muda)
+			from kazu.models import KazuSegimentu
+			seg, _c = KazuSegimentu.objects.get_or_create(kazu=obj)
+			for campo, valor in seg_form.cleaned_data.items():
+				setattr(seg, campo, valor)
+			seg.updated_by = request.user
+			seg.save()
+		asaun = form.cleaned_data.get('akompanamentu_foun', '').strip()
+		if asaun:
+			KazuAkompanamentu.objects.create(kazu=obj, data=timezone.localdate(), asaun=asaun, created_by=request.user)
 		KazuHistoria.objects.create(kazu=obj, user=request.user, tipu=KazuHistoria.EDITA,
 			status_foun=obj.status, nota='KRIA' if instance is None else 'EDITA')
 	return obj
+
+
+def _segimentu(kazu):
+	from kazu.models import KazuSegimentu
+	if kazu is None:
+		return KazuSegimentu()
+	return KazuSegimentu.objects.filter(kazu=kazu).first() or KazuSegimentu(kazu=kazu)
 
 
 def _form_view(request, instance=None):
@@ -135,11 +153,12 @@ def _form_view(request, instance=None):
 	submit = request.POST.get('aksaun') == 'haruka'
 	if request.method == 'POST':
 		form = KazuForm(request.POST, instance=instance, munisipiu_knaar=pesoal.munisipiu, submit=submit)
+		seg_form = SegimentuKazuForm(request.POST, instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(request.POST, instance=instance or Kazu(), prefix='afetadu'),
 			InsidenteFormSet(request.POST, instance=instance or Kazu(), prefix='insidente'),
 			AtorFormSet(request.POST, instance=instance or Kazu(), prefix='ator')]
-		if form.is_valid() and all(fs.is_valid() for fs in formsets):
-			obj = _save_kazu(request, form, formsets, instance)
+		if form.is_valid() and seg_form.is_valid() and all(fs.is_valid() for fs in formsets):
+			obj = _save_kazu(request, form, formsets, instance, seg_form)
 			if submit:
 				try:
 					obj = submit_kazu(obj, request.user)
@@ -152,13 +171,14 @@ def _form_view(request, instance=None):
 		messages.error(request, _('Favor hadia erru iha formuláriu.'))
 	else:
 		form = KazuForm(instance=instance, munisipiu_knaar=pesoal.munisipiu)
+		seg_form = SegimentuKazuForm(instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(instance=instance or Kazu(), prefix='afetadu'),
 			InsidenteFormSet(instance=instance or Kazu(), prefix='insidente'),
 			AtorFormSet(instance=instance or Kazu(), prefix='ator')]
 	legend = _('Edita Kazu') if instance else _('Rejista Kazu Foun')
 	context = {
 		'group': group, "page": "kazu-add" if instance is None else "kazu",
-		'form': form, 'afetadu_fs': formsets[0], 'insidente_fs': formsets[1], 'ator_fs': formsets[2],
+		'form': form, 'seg_form': seg_form, 'afetadu_fs': formsets[0], 'insidente_fs': formsets[1], 'ator_fs': formsets[2],
 		'objects': instance,
 		'title': legend, 'legend': legend
 	}

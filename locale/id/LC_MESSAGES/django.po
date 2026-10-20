@@ -3641,3 +3641,208 @@ msgid ""
 msgstr ""
 "Upload → lihat pratinjau → konfirmasi. Kasus \"Verified\" masuk sebagai "
 "Terverifikasi; lainnya \"Menunggu Verifikasi\"."
+
+#: kazu/forms.py
+msgid ""
+"'Arkivu' signifika katak kazu resolve ona ka RbR refere ona ba advogadu "
+"privadu sira."
+msgstr ""
+"'Arsip' berarti kasus sudah selesai atau RbR sudah merujuknya ke pengacara "
+"swasta."
+
+#: kazu/forms.py
+msgid "Advogadu nia naran sa, telefone, organizasaun"
+msgstr "Nama pengacara, telepon, organisasi"
+
+#: kazu/forms.py
+msgid "Akompanamentu ba Kazu"
+msgstr "Pendampingan kasus"
+
+#: kazu/forms.py
+msgid "Automátiku husi Data Simu. Hakerek tinan de'it se data la hatene."
+msgstr ""
+"Otomatis dari tanggal diterima. Isi tahun saja jika tanggal tidak diketahui."
+
+#: kazu/forms.py
+msgid ""
+"Bele hetan numero husi versaun hard copy (file). Hakerek numero deit, lalika"
+" hakerek 'RBR'"
+msgstr "Nomor ada di versi cetak (berkas). Tulis nomornya saja, tanpa 'RBR'"
+
+#: kazu/forms.py
+msgid "Dadus Uma Kain iha ka lae?"
+msgstr "Ada data rumah tangga?"
+
+#: kazu/forms.py
+msgid "Data Eviksaun"
+msgstr "Tanggal penggusuran"
+
+#: kazu/forms.py
+msgid "Data Simu Kazu iha RbR"
+msgstr "Tanggal kasus diterima RbR"
+
+#: kazu/forms.py
+msgid "Data rejistu iha tribunal"
+msgstr "Tanggal pendaftaran di pengadilan"
+
+#: kazu/forms.py
+msgid "Desizaun hatun sá data?"
+msgstr "Tanggal putusan?"
+
+#: kazu/forms.py
+msgid "Enderesu ka Deskrisaun Fatin"
+msgstr "Alamat atau deskripsi lokasi"
+
+#: kazu/forms.py
+msgid "Entidade Benefisiariu (kategoria)"
+msgstr "Entitas penerima manfaat (kategori)"
+
+#: kazu/forms.py
+msgid "Entidade ne'ebe foti rai (se mak foti rai?)"
+msgstr "Entitas yang mengambil tanah (siapa?)"
+
+#: kazu/forms.py
+msgid "Eviksaun Akontese ona?"
+msgstr "Apakah penggusuran sudah terjadi?"
+
+#: kazu/forms.py
+msgid "Eviksaun no Status Kazu"
+msgstr "Penggusuran dan status kasus"
+
+#: kazu/forms.py
+msgid "Fo esplikasaun badak kona ba RbR nia desizaun kona ba kazu ida ne"
+msgstr "Jelaskan singkat keputusan RbR atas kasus ini"
+
+#: kazu/forms.py
+msgid ""
+"Fokal Point RbR (pergunta 28–32): automátiku husi Investigadór ne'ebé "
+"rejista kazu. Admin bele muda iha detalla kazu."
+msgstr ""
+"Narahubung RbR (pertanyaan 28–32): otomatis dari investigador yang "
+"mendaftarkan kasus. Admin bisa mengubah di detail kasus."
+
+#: kazu/forms.py
+msgid "Fokal Point no Organizasaun Seluk"
+msgstr "Narahubung dan organisasi lain"
+
+#: kazu/forms.py
+msgid "Fontes Dadus Uma Kain"
+msgstr "Sumber data rumah tangga"
+
+#: kazu/services.py
+msgid "Hakerek Data Simu ka Tinan Simu Kazu iha RbR."
+msgstr "Isi tanggal atau tahun kasus diterima RbR."
+
+#: kazu/forms.py
+msgid "Identifikasaun Kazu"
+msgstr "Identifikasi kasus"
+
+#: kazu/forms.py
+msgid "Iha ona desizaun husi tribunal"
+msgstr "Sudah ada putusan pengadilan"
+
+#: kazu/forms.py
+msgid "Informasaun Adisionál"
+msgstr "Informasi tambahan"
+
+#: kazu/forms.py
+msgid "Informasaun kontaktu advogadu nian"
+msgstr "Informasi kontak pengacara"
+
+#: kazu/forms.py
+msgid "Karik RbR refere kazu ida ne tiha ona, bele husik mamuk"
+msgstr "Jika RbR sudah merujuk kasus ini, boleh dikosongkan"
+
+#: kazu/forms.py
+msgid "Munisipiu"
+msgstr "Munisipiu"
+
+#: kazu/forms.py
+msgid "Naran kazu ne'ebe Sekretariadu rejistu"
+msgstr "Nama kasus yang didaftarkan Sekretariat"
+
+#: kazu/forms.py
+msgid "Naran portavos husi komunidade"
+msgstr "Nama juru bicara komunitas"
+
+#: kazu/forms.py
+msgid "Numero kontaktu portavos komunidade"
+msgstr "Nomor kontak juru bicara komunitas"
+
+#: kazu/forms.py
+msgid "Numeru kazu"
+msgstr "Nomor kasus"
+
+#: kazu/forms.py
+#, python-format
+msgid "Numeru kazu RBR/%(n)s iha sistema ona."
+msgstr "Nomor kasus RBR/%(n)s sudah ada di sistem."
+
+#: kazu/forms.py
+msgid "Numor Kontaktu (ema husi org seluk)"
+msgstr "Nomor kontak (orang dari organisasi lain)"
+
+#: kazu/forms.py
+msgid "Observasaun kona ba kazu"
+msgstr "Catatan tentang kasus"
+
+#: kazu/forms.py
+msgid "Observasaun kona-ba eviksaun rasik"
+msgstr "Catatan tentang penggusuran"
+
+#: kazu/forms.py
+msgid "Observasaun kona-ba prosesu tribunal"
+msgstr "Catatan tentang proses pengadilan"
+
+#: kazu/forms.py
+msgid "Observasaun ruma kona ba portavos"
+msgstr "Catatan tentang juru bicara"
+
+#: kazu/forms.py
+msgid "Organizasaun seluk ne'ebé halo akompaniamentu"
+msgstr "Organisasi lain yang mendampingi"
+
+#: kazu/forms.py
+msgid "Pontu Kordenadu (GPS)"
+msgstr "Titik koordinat (GPS)"
+
+#: kazu/forms.py
+msgid ""
+"Projetu (karik kazu ne'e tipu Governu foti rai - foti atu hari'i saida?)"
+msgstr "Proyek (jika Pemerintah mengambil tanah – untuk membangun apa?)"
+
+#: kazu/forms.py
+msgid "RBR nia desizaun ba Kazu ne'e"
+msgstr "Keputusan RbR atas kasus ini"
+
+#: kazu/forms.py
+msgid "Rai nia Luan (Metru ka Hektar)"
+msgstr "Luas tanah (meter atau hektar)"
+
+#: kazu/forms.py
+msgid "Rejistu iha tribunal?"
+msgstr "Terdaftar di pengadilan?"
+
+#: kazu/forms.py
+msgid "Se mak rejistu ka representa"
+msgstr "Siapa yang mendaftarkan atau mewakili"
+
+#: kazu/forms.py
+msgid "Simu Notifikasaun Ona?"
+msgstr "Sudah menerima notifikasi?"
+
+#: kazu/forms.py
+msgid "Tinan Kazu Hahu"
+msgstr "Tahun kasus dimulai"
+
+#: kazu/models.py
+msgid "Tinan Simu Kazu iha RbR"
+msgstr "Tahun kasus diterima RbR"
+
+#: kazu/forms.py
+msgid "Tinan ne'ebe disputa hahu entre parte rua"
+msgstr "Tahun sengketa dimulai antara kedua pihak"
+
+#: kazu/forms.py
+msgid "Tribunál no Notifikasaun"
+msgstr "Pengadilan dan notifikasi"

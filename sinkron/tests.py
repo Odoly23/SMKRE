@@ -199,6 +199,21 @@ class PoligonSinkronTest(SinkronBase):
 		self.assertIn('poligon', str(r.json()))
 
 
+class DocxSinkronTest(SinkronBase):
+	def test_segimentu_no_numeru_husi_hp(self):
+		data = self.payload(numeru_rbr=77, tinan_simu=None, akompanamentu_foun='Reuniaun ho xefe suku',
+			segimentu={'tribunal_rejistu': 'DADAUN', 'notif_simu': 'LAE', 'desizaun_rbr': 'MONITORIZASAUN', 'fokal_naran': 'La bele muda'})
+		self.assertEqual(self.send(data).status_code, 201)
+		self.assertEqual(self.send(data).status_code, 200)                       # sinkron dala rua
+		k = Kazu.objects.get(pk=data['id'])
+		self.assertEqual((k.referensia_rbr, k.tinan_simu), ('RBR/77', timezone.localdate().year))
+		self.assertEqual((k.segimentu.tribunal_rejistu, k.segimentu.notif_simu, k.segimentu.desizaun_rbr), ('DADAUN', 'LAE', 'MONITORIZASAUN'))
+		self.assertNotEqual(k.segimentu.fokal_naran, 'La bele muda')               # fokal point automátiku
+		self.assertEqual(k.akompanamentu.count(), 1)
+		r = self.send(self.payload(segimentu={'tribunal_rejistu': 'XYZ'}))
+		self.assertEqual(r.status_code, 400)
+
+
 class AutorizasaunSinkronTest(SinkronBase):
 	def test_kazu_kria_li_ur_periodu_rejeita(self):
 		r = self.send(self.payload(kria_iha=(timezone.now() - timedelta(days=3)).isoformat()))

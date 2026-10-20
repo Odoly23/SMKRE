@@ -21,7 +21,9 @@ class DateInput(forms.DateInput):
 
 
 # Títulu seksaun formuláriu (lista ne'e atu tools/extract_lian.py hetan testu ba tradusaun)
-SECTION_TITLES = [_('Identifikasaun no Fatin'), _('Informasaun Insidente'), _('Atór Envolvidu no Populasaun Afetada'),
+SECTION_TITLES = [_('Identifikasaun Kazu'), _('Fatin'), _('Populasaun Afetada'), _('Fokal Point no Organizasaun Seluk'),
+	_('Tribunál no Notifikasaun'), _('Eviksaun no Status Kazu'), _('Informasaun Adisionál'), _('Konsentimentu'),
+	_('Identifikasaun no Fatin'), _('Informasaun Insidente'), _('Atór Envolvidu no Populasaun Afetada'),
 	_('Estragu Patrimóniu'), _('Evidénsia'), _('Nesesidade Urjente no Konsentimentu'),
 	_('Status no Desizaun RbR'), _('Tribunál'), _('Notifikasaun'), _('Fokal Point RbR'), _("Organizasaun Seluk ne'ebé Akompaña")]
 BTN_RAI = """ <button class="btn btn-rbr" type="submit"><i class="fa fa-save"></i> {% load i18n %}{% trans "Rai" %}</button> """
@@ -45,14 +47,37 @@ def grupu(grp, *fields):
 	return Div(*fields, css_class='kond sub-box', data_grp=grp)
 
 
+# Pergunta formuláriu tuir orden dokumentu "Perguntas husi Baze de Dadus Central nian" (RbR)
+LABEL_DOCX = {
+	'titulu': _('Kazu'), 'data_relatoriu': _('Data Simu Kazu iha RbR'), 'tinan_simu': _('Tinan Simu Kazu iha RbR'),
+	'tinan_disputa_hahu': _('Tinan Kazu Hahu'), 'tipu_konflitu': _('Tipu Kazu'), 'deskrisaun': _('Observasaun kona-ba tipu kazu'),
+	'projetu': _("Projetu (karik kazu ne'e tipu Governu foti rai - foti atu hari'i saida?)"),
+	'entidade_foti': _("Entidade ne'ebe foti rai (se mak foti rai?)"), 'entidade_kategoria': _('Entidade Benefisiariu (kategoria)'),
+	'munisipiu': _('Munisipiu'), 'postu': _('Postu Administrativu'), 'suku': _('Suku'), 'aldeia': _('Aldeia'),
+	'enderesu_fatin': _('Enderesu ka Deskrisaun Fatin'), 'rai_luan': _('Rai nia Luan (Metru ka Hektar)'),
+	'iha_dadus_uma_kain': _('Dadus Uma Kain iha ka lae?'), 'fonte_dadus_uma_kain': _('Fontes Dadus Uma Kain'),
+	'observasaun_afetadu': _('Observasaun kona-ba dadus ema afetadu'),
+	'portavos_observasaun': _('Observasaun ruma kona ba portavos'), 'portavos_naran': _('Naran portavos husi komunidade'),
+	'portavos_kontaktu': _('Numero kontaktu portavos komunidade'),
+	'eviksaun_akontese': _('Eviksaun Akontese ona?'), 'data_eviksaun': _('Data Eviksaun'),
+	'observasaun_eviksaun': _('Observasaun kona-ba eviksaun rasik'),
+	'konsultasaun_molok': _('Molok eviksaun iha konsultasaun ka lae?'), 'notifikasaun_klaru': _('Molok eviksaun iha notifikasaun klaru ka lae?'),
+	'uza_forsa': _('Durante eviksaun uza forsa ka lae?'),
+}
+
+
 class KazuForm(forms.ModelForm):
-	data_relatoriu = forms.DateField(label=_("Data simu kazu iha RbR"), widget=DateInput(), required=True, initial=timezone.localdate)
+	numeru_rbr = forms.IntegerField(label=_('Numeru kazu'), required=False, min_value=1,
+		help_text=_("Bele hetan numero husi versaun hard copy (file). Hakerek numero deit, lalika hakerek 'RBR'"))
+	data_relatoriu = forms.DateField(label=_("Data Simu Kazu iha RbR"), widget=DateInput(), required=False, initial=timezone.localdate)
 	data_akontesimentu = forms.DateField(label=_("Data Akontesimentu"), widget=DateInput(), required=False)
-	data_eviksaun = forms.DateField(label=_("Data eviksaun"), widget=DateInput(), required=False)
+	data_eviksaun = forms.DateField(label=_("Data Eviksaun"), widget=DateInput(), required=False)
+	akompanamentu_foun = forms.CharField(label=_('Akompanamentu ba Kazu'), required=False,
+		widget=forms.Textarea(attrs={'rows': 2, 'placeholder': _("Saida mak RbR halo? (vizita, reuniaun, karta, mediasaun…)")}))
 
 	class Meta:
 		model = Kazu
-		fields = ['titulu', 'data_relatoriu', 'munisipiu', 'postu', 'suku', 'aldeia',
+		fields = ['titulu', 'data_relatoriu', 'tinan_simu', 'munisipiu', 'postu', 'suku', 'aldeia',
 			'latitude', 'longitude', 'gps_akurasia', 'enderesu_fatin', 'rai_luan', 'rai_luan_unidade',
 			'data_akontesimentu', 'tinan_disputa_hahu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai',
 			'projetu', 'entidade_foti', 'entidade_kategoria', 'deskrisaun',
@@ -60,6 +85,9 @@ class KazuForm(forms.ModelForm):
 			'eviksaun_akontese', 'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
 			'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun',
 			'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
+		labels = LABEL_DOCX
+		help_texts = {'titulu': _("Naran kazu ne'ebe Sekretariadu rejistu"), 'tinan_disputa_hahu': _("Tinan ne'ebe disputa hahu entre parte rua"),
+			'tinan_simu': _('Automátiku husi Data Simu. Hakerek tinan de\'it se data la hatene.')}
 		widgets = {
 			'tipu_konflitu': forms.CheckboxSelectMultiple,
 			'estragu': forms.CheckboxSelectMultiple,
@@ -69,6 +97,7 @@ class KazuForm(forms.ModelForm):
 			'observasaun_afetadu': forms.Textarea(attrs={'rows': 2}),
 			'observasaun_eviksaun': forms.Textarea(attrs={'rows': 2}),
 			'tinan_disputa_hahu': forms.NumberInput(attrs={'min': 1900, 'placeholder': _('ex. 2019')}),
+			'tinan_simu': forms.NumberInput(attrs={'min': 1900, 'placeholder': _('ex. 2019')}),
 			'latitude': forms.NumberInput(attrs={'readonly': True, 'step': 'any'}),
 			'longitude': forms.NumberInput(attrs={'readonly': True, 'step': 'any'}),
 			'gps_akurasia': forms.NumberInput(attrs={'readonly': True}),
@@ -82,6 +111,9 @@ class KazuForm(forms.ModelForm):
 		self.fields['tipu_rai'].queryset = TipuRai.active.all()
 		self.fields['estragu'].queryset = EstraguPatrimoniu.active.all()
 		self.fields['nesesidade'].queryset = NesesidadeUrjente.active.all()
+		ref = (self.instance.referensia_rbr or '') if self.instance.pk else ''
+		if ref.upper().startswith('RBR/') and ref[4:].isdigit():
+			self.fields['numeru_rbr'].initial = int(ref[4:])
 		# Iha poligon → Rai nia luan kalkula husi poligon (la bele hakerek)
 		if self.instance.pk and self.instance.poligon:
 			for c in ('rai_luan', 'rai_luan_unidade'):
@@ -130,116 +162,54 @@ class KazuForm(forms.ModelForm):
 		elif self.instance.pk and self.instance.suku_id:
 			self.fields['aldeia'].queryset = self.instance.suku.aldeia_set.order_by('name')
 
-		# Formuláriu fahe ba parte rua: seksaun 1–2 (helper) · formset seksaun 3 iha template · seksaun 4 no 6 (helper_b)
-		self.helper = FormHelper()
-		self.helper.form_tag = False          # <form> iha template (pola form.html)
-		self.helper.disable_csrf = True
-		self.helper.layout = Layout(
-			section(1, 'Identifikasaun no Fatin'),
-			Row(
-				Column('titulu', css_class='form-group col-md-8 mb-0'),
-				Column('data_relatoriu', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			Row(
-				Column('munisipiu', css_class='form-group col-md-3 mb-0'),
-				Column('postu', css_class='form-group col-md-3 mb-0'),
-				Column('suku', css_class='form-group col-md-3 mb-0'),
-				Column('aldeia', css_class='form-group col-md-3 mb-0'),
-				css_class='form-row'
-			),
-			HTML(""" {% load i18n %}<div class="gps-box mb-2"><div class="d-flex justify-content-between align-items-center flex-wrap"><b><i class="fa fa-map-marker"></i> {% trans "Koordenada GPS" %}</b><button type="button" class="btn btn-sm btn-outline-rbr" id="btn-gps"><i class="fa fa-crosshairs"></i> {% trans "Foti GPS" %}</button></div><small id="gps-msg" class="text-muted">{% trans "Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m." %}</small></div> """),
-			Row(
-				Column('latitude', css_class='form-group col-6 col-md-4 mb-0'),
-				Column('longitude', css_class='form-group col-6 col-md-4 mb-0'),
-				Column('gps_akurasia', css_class='form-group col-12 col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			switch('rai', 'Iha detalla rai (enderesu, luan)?'),
-			grupu('rai', Row(
-				Column('enderesu_fatin', css_class='form-group col-md-6 mb-0'),
-				Column('rai_luan', css_class='form-group col-6 col-md-3 mb-0'),
-				Column('rai_luan_unidade', css_class='form-group col-6 col-md-3 mb-0'),
-				css_class='form-row'
-			)),
-			section(2, 'Informasaun Insidente'),
-			Row(
-				Column('data_akontesimentu', css_class='form-group col-md-4 mb-0'),
-				Column('tinan_disputa_hahu', css_class='form-group col-md-4 mb-0'),
-				Column('tipu_rai', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			),
-			Row(
-				Column('tipu_konflitu', css_class='form-group col-md-6 mb-0'),
-				Column('tipu_seluk', css_class='form-group col-md-6 mb-0'),
-				css_class='form-row'
-			),
-			grupu('entidade', Row(
-				Column('projetu', css_class='form-group col-md-4 mb-0'),
-				Column('entidade_foti', css_class='form-group col-md-4 mb-0'),
-				Column('entidade_kategoria', css_class='form-group col-md-4 mb-0'),
-				css_class='form-row'
-			)),
+		# Formuláriu tuir orden dokumentu (pergunta 1–65); template hatudu helper sira ho formset no segimentu
+		col = lambda c, w: Column(c, css_class=f'form-group col-md-{w} mb-0')
+		self.helper_a = _helper(        # 1. Identifikasaun kazu (pergunta 1–10)
+			section(1, 'Identifikasaun Kazu'),
+			Row(col('numeru_rbr', 3), col('data_relatoriu', 3), col('tinan_simu', 3), col('tinan_disputa_hahu', 3), css_class='form-row'),
+			'titulu',
+			Row(col('tipu_konflitu', 6), col('tipu_seluk', 6), css_class='form-row'),
 			'deskrisaun',
+			grupu('entidade', Row(col('projetu', 4), col('entidade_foti', 4), col('entidade_kategoria', 4), css_class='form-row')),
 		)
-		# Seksaun 3: dadus jerál populasaun afetada (molok formset uma-kain)
-		self.helper_pop = FormHelper()
-		self.helper_pop.form_tag = False
-		self.helper_pop.disable_csrf = True
-		self.helper_pop.layout = Layout(
-			Row(Column('iha_dadus_uma_kain', css_class='form-group col-md-4 mb-0'), css_class='form-row'),
+		self.helper_b = _helper(        # 2. Fatin (pergunta 11–17)
+			section(2, 'Fatin'),
+			Row(col('munisipiu', 3), col('postu', 3), col('suku', 3), col('aldeia', 3), css_class='form-row'),
+			HTML(""" {% load i18n %}<div class="gps-box mb-2"><div class="d-flex justify-content-between align-items-center flex-wrap"><b><i class="fa fa-map-marker"></i> {% trans "Pontu Kordenadu (GPS)" %}</b><button type="button" class="btn btn-sm btn-outline-rbr" id="btn-gps"><i class="fa fa-crosshairs"></i> {% trans "Foti GPS" %}</button></div><small id="gps-msg" class="text-muted">{% trans "Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m." %}</small></div> """),
+			Row(Column('latitude', css_class='form-group col-6 col-md-4 mb-0'), Column('longitude', css_class='form-group col-6 col-md-4 mb-0'),
+				Column('gps_akurasia', css_class='form-group col-12 col-md-4 mb-0'), css_class='form-row'),
+			'enderesu_fatin',
+			Row(Column('rai_luan', css_class='form-group col-7 col-md-4 mb-0'), Column('rai_luan_unidade', css_class='form-group col-5 col-md-3 mb-0'), css_class='form-row'),
 		)
-		self.helper_pop_b = FormHelper()
-		self.helper_pop_b.form_tag = False
-		self.helper_pop_b.disable_csrf = True
-		self.helper_pop_b.layout = Layout(grupu('uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu'))
-		# Seksaun 3: eviksaun no portavós komunidade
-		self.helper_eviksaun = FormHelper()
-		self.helper_eviksaun.form_tag = False
-		self.helper_eviksaun.disable_csrf = True
-		self.helper_eviksaun.layout = Layout(
-			Row(Column('eviksaun_akontese', css_class='form-group col-md-4 mb-0'), css_class='form-row'),
-			grupu('eviksaun',
-				Row(
-					Column('data_eviksaun', css_class='form-group col-md-4 mb-0'),
-					Column('uza_forsa', css_class='form-group col-md-4 mb-0'),
-					css_class='form-row'
-				),
-				Row(
-					Column('konsultasaun_molok', css_class='form-group col-md-6 mb-0'),
-					Column('notifikasaun_klaru', css_class='form-group col-md-6 mb-0'),
-					css_class='form-row'
-				),
-				'observasaun_eviksaun',
-			),
+		self.helper_pop = _helper(      # 3. Populasaun afetada (pergunta 18; formset 19–25 iha template)
+			section(3, 'Populasaun Afetada'),
+			Row(col('iha_dadus_uma_kain', 4), css_class='form-row'),
 		)
-		self.helper_portavos = FormHelper()
-		self.helper_portavos.form_tag = False
-		self.helper_portavos.disable_csrf = True
-		self.helper_portavos.layout = Layout(
+		self.helper_pop_b = _helper(grupu('uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu'))   # 26–27
+		self.helper_portavos = _helper(  # 38–39 / 64–65: portavós komunidade
 			switch('portavos', 'Iha portavós komunidade?'),
-			grupu('portavos', Row(
-				Column('portavos_naran', css_class='form-group col-md-4 mb-0'),
-				Column('portavos_kontaktu', css_class='form-group col-md-3 mb-0'),
-				Column('portavos_observasaun', css_class='form-group col-md-5 mb-0'),
-				css_class='form-row'
-			)),
+			grupu('portavos', 'portavos_observasaun', Row(col('portavos_naran', 7), col('portavos_kontaktu', 5), css_class='form-row')),
 		)
-		self.helper_b = FormHelper()
-		self.helper_b.form_tag = False
-		self.helper_b.disable_csrf = True
-		self.helper_b.layout = Layout(
-			section(4, 'Estragu Patrimóniu'),
+		self.helper_eviksaun = _helper(  # 6. Eviksaun (pergunta 51–53)
+			section(6, 'Eviksaun no Status Kazu'),
+			Row(col('eviksaun_akontese', 4), css_class='form-row'),
+			grupu('eviksaun', Row(col('data_eviksaun', 4), css_class='form-row'), 'observasaun_eviksaun'),
+		)
+		self.helper_eviksaun_b = _helper(  # 59–61 (depois status kazu, tuir dokumentu)
+			grupu('eviksaun', Row(col('konsultasaun_molok', 4), col('notifikasaun_klaru', 4), col('uza_forsa', 4), css_class='form-row')),
+		)
+		self.helper_akomp = _helper('akompanamentu_foun')   # 63
+		self.helper_extra = _helper(     # 7. Informasaun adisionál SIBAR (la iha iha dokumentu)
+			section(7, 'Informasaun Adisionál'),
+			Row(col('data_akontesimentu', 4), col('tipu_rai', 4), css_class='form-row'),
+		)
+		self.helper_b2 = _helper(
 			switch('estragu', 'Iha estragu patrimóniu?'),
-			grupu('estragu', Row(
-				Column('estragu', css_class='form-group col-md-6 mb-0'),
-				Column('estragu_seluk', css_class='form-group col-md-6 mb-0'),
-				css_class='form-row'
-			)),
-			section(6, 'Nesesidade Urjente no Konsentimentu'),
+			grupu('estragu', Row(col('estragu', 6), col('estragu_seluk', 6), css_class='form-row')),
 			switch('nesesidade', 'Iha nesesidade urjente?'),
 			grupu('nesesidade', 'nesesidade'),
 			'observasaun',
+			section(8, 'Konsentimentu'),
 			Field('konsentimentu', wrapper_class='konsentimentu-box'),
 			Field('la_publika'),                    # komunidade husu atu kazu la mosu iha portal públiku
 		)
@@ -247,6 +217,12 @@ class KazuForm(forms.ModelForm):
 	def clean_munisipiu(self):
 		# Campo disabled: uza munisípiu knaar (labele manipula husi browser)
 		return self.munisipiu_knaar or self.cleaned_data.get('munisipiu')
+
+	def clean_numeru_rbr(self):
+		n = self.cleaned_data.get('numeru_rbr')
+		if n and Kazu.objects.filter(referensia_rbr__iexact=f'RBR/{n}').exclude(pk=self.instance.pk).exists():
+			raise forms.ValidationError(_("Numeru kazu RBR/%(n)s iha sistema ona.") % {'n': n})
+		return n
 
 	def clean(self):
 		cleaned = super().clean()
@@ -256,9 +232,14 @@ class KazuForm(forms.ModelForm):
 			self.add_error('data_relatoriu', _('Data relatóriu labele iha futuru.'))
 		if dr and da and da > dr:
 			self.add_error('data_akontesimentu', _('Data akontesimentu labele liu data relatóriu.'))
-		tinan = cleaned.get('tinan_disputa_hahu')
-		if tinan and not (1900 <= tinan <= hoje.year):
-			self.add_error('tinan_disputa_hahu', _('Tinan la validu (1900 to\'o %(t)s).') % {'t': hoje.year})
+		if dr:
+			cleaned['tinan_simu'] = dr.year             # Tinan Simu automátiku husi data
+		for campo in ('tinan_disputa_hahu', 'tinan_simu'):
+			tinan = cleaned.get(campo)
+			if tinan and not (1900 <= tinan <= hoje.year):
+				self.add_error(campo, _('Tinan la validu (1900 to\'o %(t)s).') % {'t': hoje.year})
+		if not dr and not cleaned.get('tinan_simu'):
+			self.add_error('data_relatoriu', _('Hakerek Data Simu ka Tinan Simu Kazu iha RbR.'))
 		de = cleaned.get('data_eviksaun')
 		if de and de > hoje:
 			self.add_error('data_eviksaun', _('Data eviksaun labele iha futuru.'))
@@ -296,8 +277,7 @@ class KazuForm(forms.ModelForm):
 
 		# Bainhira haruka: kampu importante obrigatóriu
 		if self.submit:
-			obrigatoriu = {'postu': _('Postu Administrativu'), 'suku': _('Suku'), 'data_akontesimentu': _('Data Akontesimentu'),
-				'latitude': _('Latitude'), 'longitude': _('Longitude')}
+			obrigatoriu = {'postu': _('Postu Administrativu'), 'suku': _('Suku'), 'latitude': _('Latitude'), 'longitude': _('Longitude')}
 			for campo in obrigatoriu:
 				if not cleaned.get(campo) and campo not in self.errors:
 					self.add_error(campo, _('Kampu ne\'e obrigatóriu atu haruka.'))
@@ -306,6 +286,79 @@ class KazuForm(forms.ModelForm):
 			if not cleaned.get('konsentimentu'):
 				self.add_error('konsentimentu', _('Laiha konsentimentu = labele rai kazu.'))
 		return cleaned
+
+	def save(self, commit=True):
+		obj = super().save(commit=False)
+		n = self.cleaned_data.get('numeru_rbr')
+		if n:
+			obj.referensia_rbr = f'RBR/{n}'
+		elif 'numeru_rbr' in self.changed_data and (obj.referensia_rbr or '').upper().startswith('RBR/'):
+			obj.referensia_rbr = None                   # numeru hamoos
+		if commit:
+			obj.save()
+			self.save_m2m()
+		return obj
+
+
+def _helper(*layout):
+	h = FormHelper()
+	h.form_tag = False
+	h.disable_csrf = True
+	h.layout = Layout(*layout)
+	return h
+
+
+# Segimentu iha formuláriu kazu (pergunta 33–37, 40–50, 54–58); Fokal point automátiku (la iha formuláriu)
+LABEL_SEG_DOCX = {
+	'org_seluk': _("Organizasaun seluk ne'ebé halo akompaniamentu"), 'org_seluk_naran': _('Naran ema husi organizasaun seluk'),
+	'org_seluk_kontaktu': _('Numor Kontaktu (ema husi org seluk)'),
+	'tribunal_rejistu': _('Rejistu iha tribunal?'), 'tribunal_data': _('Data rejistu iha tribunal'),
+	'tribunal_representa': _('Se mak rejistu ka representa'), 'advogadu_kontaktu': _('Informasaun kontaktu advogadu nian'),
+	'tribunal_observasaun': _('Observasaun kona-ba prosesu tribunal'), 'tribunal_desizaun': _('Iha ona desizaun husi tribunal'),
+	'tribunal_desizaun_data': _('Desizaun hatun sá data?'), 'notif_simu': _('Simu Notifikasaun Ona?'),
+	'notif_data': _('Data simu notifikasaun'), 'notif_observasaun': _('Observasaun kona-ba prosesu notifikasaun'),
+	'notif_husi': _('Notifikasaun husi se?'), 'data_ikus_cek': _('Data ikus cek status kazu'), 'status_rezolusaun': _('Status Kazu'),
+	'desizaun_rbr': _("RBR nia desizaun ba Kazu ne'e"), 'observasaun_kazu': _('Observasaun kona ba kazu'),
+}
+
+
+class SegimentuKazuForm(forms.ModelForm):
+	class Meta:
+		model = KazuSegimentu
+		fields = list(LABEL_SEG_DOCX)
+		labels = LABEL_SEG_DOCX
+		help_texts = {
+			'advogadu_kontaktu': _('Advogadu nia naran sa, telefone, organizasaun'),
+			'status_rezolusaun': _('Karik RbR refere kazu ida ne tiha ona, bele husik mamuk'),
+			'desizaun_rbr': _("'Arkivu' signifika katak kazu resolve ona ka RbR refere ona ba advogadu privadu sira."),
+			'observasaun_kazu': _('Fo esplikasaun badak kona ba RbR nia desizaun kona ba kazu ida ne'),
+		}
+		widgets = {
+			'tribunal_data': DateInput(), 'tribunal_desizaun_data': DateInput(), 'notif_data': DateInput(), 'data_ikus_cek': DateInput(),
+			'tribunal_observasaun': forms.Textarea(attrs={'rows': 2}), 'notif_observasaun': forms.Textarea(attrs={'rows': 2}),
+			'observasaun_kazu': forms.Textarea(attrs={'rows': 2}),
+		}
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		col = lambda c, w: Column(c, css_class=f'form-group col-md-{w} mb-0')
+		self.helper_org = _helper(       # 4. Fokal point (automátiku) + organizasaun seluk (pergunta 28–37)
+			section(4, 'Fokal Point no Organizasaun Seluk'),
+			HTML(""" {% load i18n %}<div class="alert alert-light border small py-2"><i class="fa fa-user"></i> {% trans "Fokal Point RbR (pergunta 28–32): automátiku husi Investigadór ne'ebé rejista kazu. Admin bele muda iha detalla kazu." %}</div> """),
+			Row(col('org_seluk', 4), col('org_seluk_naran', 4), col('org_seluk_kontaktu', 4), css_class='form-row'),
+		)
+		self.helper_tribunal = _helper(  # 5. Tribunál no notifikasaun (pergunta 40–50)
+			section(5, 'Tribunál no Notifikasaun'),
+			Row(col('tribunal_rejistu', 4), col('tribunal_data', 4), col('tribunal_representa', 4), css_class='form-row'),
+			'advogadu_kontaktu', 'tribunal_observasaun',
+			Row(col('tribunal_desizaun', 6), col('tribunal_desizaun_data', 6), css_class='form-row'),
+			Row(col('notif_simu', 6), col('notif_data', 6), css_class='form-row'),
+			'notif_observasaun', 'notif_husi',
+		)
+		self.helper_status = _helper(    # pergunta 54–58
+			Row(col('data_ikus_cek', 4), col('status_rezolusaun', 8), css_class='form-row'),
+			'desizaun_rbr', 'observasaun_kazu',
+		)
 
 
 class _InlineBase(forms.ModelForm):

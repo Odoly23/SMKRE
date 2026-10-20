@@ -68,6 +68,7 @@ class Kazu(models.Model):
 
 	# Identifikasaun no lokalizasaun (A.2)
 	data_relatoriu = models.DateField(null=True, blank=True, verbose_name=_("Data simu kazu iha RbR"))
+	tinan_simu = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name=_("Tinan Simu Kazu iha RbR"))   # automátiku husi data; manuál se data la hatene
 	munisipiu = models.ForeignKey(Munisipiu, on_delete=models.PROTECT, related_name='kazu_set', verbose_name=_("Munisípiu"))
 	postu = models.ForeignKey(PostuAdministrativu, on_delete=models.PROTECT, null=True, blank=True, verbose_name=_("Postu Administrativu"))
 	suku = models.ForeignKey(Suku, on_delete=models.PROTECT, null=True, blank=True, verbose_name=_("Suku"))

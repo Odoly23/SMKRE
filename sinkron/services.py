@@ -20,8 +20,8 @@ from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext as _
 from config.upload_utils import compress_image
-from kazu.forms import KazuForm, AfetaduForm, InsidenteForm, AtorForm, EvidensiaForm
-from kazu.models import Kazu, Evidensia, KazuHistoria, STATUS_EDITABLE, PENDING, FOLLOWUP
+from kazu.forms import KazuForm, AfetaduForm, InsidenteForm, AtorForm, EvidensiaForm, SegimentuKazuForm
+from kazu.models import Kazu, Evidensia, KazuHistoria, KazuSegimentu, KazuAkompanamentu, STATUS_EDITABLE, PENDING, FOLLOWUP
 from kazu.poligon import kalkula as kalkula_poligon, aplika as aplika_poligon
 from kazu.services import refresh_auto_fields, enxe_fokal
 from users.auth_utils import c_user_pesoal
@@ -37,8 +37,8 @@ KAZU_CAMPO_RBR = [   # Formuláriu RbR
 	'enderesu_fatin', 'rai_luan', 'rai_luan_unidade', 'tinan_disputa_hahu', 'projetu', 'entidade_foti',
 	'entidade_kategoria', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
 	'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
-	'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun']
-KAZU_CAMPO += KAZU_CAMPO_RBR
+	'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun', 'tinan_simu']
+KAZU_CAMPO += KAZU_CAMPO_RBR + ['numeru_rbr', 'akompanamentu_foun']   # kampu formuláriu (la'ós modelu)
 # lista laran kazu: (xave JSON, formuláriu, máximu)
 KAZU_LISTA = [('afetadu', AfetaduForm, 5), ('insidente', InsidenteForm, 10), ('ator', AtorForm, 20)]
 
@@ -126,6 +126,11 @@ def sync_kazu(user, data):
 			kalkula_poligon(poligon)
 		except ValidationError as e:
 			erru['poligon'] = e.messages
+	# Segimentu (tribunál, notifikasaun, status kazu, organizasaun seluk) husi HP
+	seg_dadus = data.get('segimentu') if isinstance(data.get('segimentu'), dict) else {}
+	seg_form = SegimentuKazuForm(data={c: v for c, v in seg_dadus.items() if c in SegimentuKazuForm.Meta.fields})
+	if seg_dadus and not seg_form.is_valid():
+		erru.update({f'segimentu.{k}': list(v) for k, v in seg_form.errors.items()})
 	if erru:
 		raise SyncError(erru)
 
@@ -150,6 +155,15 @@ def sync_kazu(user, data):
 	refresh_auto_fields(obj)
 	if foun:
 		enxe_fokal(obj, user)
+	if seg_dadus:
+		seg, _c = KazuSegimentu.objects.get_or_create(kazu=obj)
+		for campo, valor in seg_form.cleaned_data.items():
+			setattr(seg, campo, valor)
+		seg.updated_by = user
+		seg.save()
+	asaun = (form.cleaned_data.get('akompanamentu_foun') or '').strip()
+	if asaun and not obj.akompanamentu.filter(asaun=asaun).exists():      # sinkron dala rua la duplika
+		KazuAkompanamentu.objects.create(kazu=obj, data=timezone.localdate(), asaun=asaun, created_by=user)
 	KazuHistoria.objects.create(kazu=obj, user=user, tipu=KazuHistoria.EDITA, status_foun=obj.status, nota='SINKRON')
 	logger.info(f'Sinkron kazu {obj.pk} ({"foun" if foun else "atualiza"}) husi {user.username}')
 	return obj, foun
@@ -217,6 +231,11 @@ def kazu_ba_hp(kazu):
 		'poligon_pontu': [[[c[0], c[1], None] for c in f['geometry']['coordinates'][0][:-1]] for f in (kazu.poligon or {}).get('features', [])] or [[]],
 		'foto_server': kazu.foto_count(), 'video_server': kazu.video_count(),
 	}
+	seg = KazuSegimentu.objects.filter(kazu=kazu).first()
+	data['segimentu'] = {c: (_str(getattr(seg, c)) if hasattr(getattr(seg, c), 'isoformat') else getattr(seg, c))
+		for c in SegimentuKazuForm.Meta.fields if seg and getattr(seg, c) not in (None, '')}
+	ref = kazu.referensia_rbr or ''
+	data['numeru_rbr'] = int(ref[4:]) if ref.upper().startswith('RBR/') and ref[4:].isdigit() else None
 	for c in KAZU_CAMPO_RBR:
 		v = getattr(kazu, c)
 		data[c] = float(v) if isinstance(v, Decimal) else (_str(v) if hasattr(v, 'isoformat') else v)

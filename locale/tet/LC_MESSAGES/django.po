@@ -3736,3 +3736,210 @@ msgid ""
 msgstr ""
 "Upload → haree pratinjau → konfirma. Kazu \"Verified\" tama hanesan "
 "Verifikadu; seluk \"Hein Verifikasaun\"."
+
+#: kazu/forms.py
+msgid ""
+"'Arkivu' signifika katak kazu resolve ona ka RbR refere ona ba advogadu "
+"privadu sira."
+msgstr ""
+"'Arkivu' signifika katak kazu resolve ona ka RbR refere ona ba advogadu "
+"privadu sira."
+
+#: kazu/forms.py
+msgid "Advogadu nia naran sa, telefone, organizasaun"
+msgstr "Advogadu nia naran sa, telefone, organizasaun"
+
+#: kazu/forms.py
+msgid "Akompanamentu ba Kazu"
+msgstr "Akompanamentu ba Kazu"
+
+#: kazu/forms.py
+msgid "Automátiku husi Data Simu. Hakerek tinan de'it se data la hatene."
+msgstr "Automátiku husi Data Simu. Hakerek tinan de'it se data la hatene."
+
+#: kazu/forms.py
+msgid ""
+"Bele hetan numero husi versaun hard copy (file). Hakerek numero deit, lalika"
+" hakerek 'RBR'"
+msgstr ""
+"Bele hetan numero husi versaun hard copy (file). Hakerek numero deit, lalika"
+" hakerek 'RBR'"
+
+#: kazu/forms.py
+msgid "Dadus Uma Kain iha ka lae?"
+msgstr "Dadus Uma Kain iha ka lae?"
+
+#: kazu/forms.py
+msgid "Data Eviksaun"
+msgstr "Data Eviksaun"
+
+#: kazu/forms.py
+msgid "Data Simu Kazu iha RbR"
+msgstr "Data Simu Kazu iha RbR"
+
+#: kazu/forms.py
+msgid "Data rejistu iha tribunal"
+msgstr "Data rejistu iha tribunal"
+
+#: kazu/forms.py
+msgid "Desizaun hatun sá data?"
+msgstr "Desizaun hatun sá data?"
+
+#: kazu/forms.py
+msgid "Enderesu ka Deskrisaun Fatin"
+msgstr "Enderesu ka Deskrisaun Fatin"
+
+#: kazu/forms.py
+msgid "Entidade Benefisiariu (kategoria)"
+msgstr "Entidade Benefisiariu (kategoria)"
+
+#: kazu/forms.py
+msgid "Entidade ne'ebe foti rai (se mak foti rai?)"
+msgstr "Entidade ne'ebe foti rai (se mak foti rai?)"
+
+#: kazu/forms.py
+msgid "Eviksaun Akontese ona?"
+msgstr "Eviksaun Akontese ona?"
+
+#: kazu/forms.py
+msgid "Eviksaun no Status Kazu"
+msgstr "Eviksaun no Status Kazu"
+
+#: kazu/forms.py
+msgid "Fo esplikasaun badak kona ba RbR nia desizaun kona ba kazu ida ne"
+msgstr "Fo esplikasaun badak kona ba RbR nia desizaun kona ba kazu ida ne"
+
+#: kazu/forms.py
+msgid ""
+"Fokal Point RbR (pergunta 28–32): automátiku husi Investigadór ne'ebé "
+"rejista kazu. Admin bele muda iha detalla kazu."
+msgstr ""
+"Fokal Point RbR (pergunta 28–32): automátiku husi Investigadór ne'ebé "
+"rejista kazu. Admin bele muda iha detalla kazu."
+
+#: kazu/forms.py
+msgid "Fokal Point no Organizasaun Seluk"
+msgstr "Fokal Point no Organizasaun Seluk"
+
+#: kazu/forms.py
+msgid "Fontes Dadus Uma Kain"
+msgstr "Fontes Dadus Uma Kain"
+
+#: kazu/services.py
+msgid "Hakerek Data Simu ka Tinan Simu Kazu iha RbR."
+msgstr "Hakerek Data Simu ka Tinan Simu Kazu iha RbR."
+
+#: kazu/forms.py
+msgid "Identifikasaun Kazu"
+msgstr "Identifikasaun Kazu"
+
+#: kazu/forms.py
+msgid "Iha ona desizaun husi tribunal"
+msgstr "Iha ona desizaun husi tribunal"
+
+#: kazu/forms.py
+msgid "Informasaun Adisionál"
+msgstr "Informasaun Adisionál"
+
+#: kazu/forms.py
+msgid "Informasaun kontaktu advogadu nian"
+msgstr "Informasaun kontaktu advogadu nian"
+
+#: kazu/forms.py
+msgid "Karik RbR refere kazu ida ne tiha ona, bele husik mamuk"
+msgstr "Karik RbR refere kazu ida ne tiha ona, bele husik mamuk"
+
+#: kazu/forms.py
+msgid "Munisipiu"
+msgstr "Munisipiu"
+
+#: kazu/forms.py
+msgid "Naran kazu ne'ebe Sekretariadu rejistu"
+msgstr "Naran kazu ne'ebe Sekretariadu rejistu"
+
+#: kazu/forms.py
+msgid "Naran portavos husi komunidade"
+msgstr "Naran portavos husi komunidade"
+
+#: kazu/forms.py
+msgid "Numero kontaktu portavos komunidade"
+msgstr "Numero kontaktu portavos komunidade"
+
+#: kazu/forms.py
+msgid "Numeru kazu"
+msgstr "Numeru kazu"
+
+#: kazu/forms.py
+#, python-format
+msgid "Numeru kazu RBR/%(n)s iha sistema ona."
+msgstr "Numeru kazu RBR/%(n)s iha sistema ona."
+
+#: kazu/forms.py
+msgid "Numor Kontaktu (ema husi org seluk)"
+msgstr "Numor Kontaktu (ema husi org seluk)"
+
+#: kazu/forms.py
+msgid "Observasaun kona ba kazu"
+msgstr "Observasaun kona ba kazu"
+
+#: kazu/forms.py
+msgid "Observasaun kona-ba eviksaun rasik"
+msgstr "Observasaun kona-ba eviksaun rasik"
+
+#: kazu/forms.py
+msgid "Observasaun kona-ba prosesu tribunal"
+msgstr "Observasaun kona-ba prosesu tribunal"
+
+#: kazu/forms.py
+msgid "Observasaun ruma kona ba portavos"
+msgstr "Observasaun ruma kona ba portavos"
+
+#: kazu/forms.py
+msgid "Organizasaun seluk ne'ebé halo akompaniamentu"
+msgstr "Organizasaun seluk ne'ebé halo akompaniamentu"
+
+#: kazu/forms.py
+msgid "Pontu Kordenadu (GPS)"
+msgstr "Pontu Kordenadu (GPS)"
+
+#: kazu/forms.py
+msgid ""
+"Projetu (karik kazu ne'e tipu Governu foti rai - foti atu hari'i saida?)"
+msgstr ""
+"Projetu (karik kazu ne'e tipu Governu foti rai - foti atu hari'i saida?)"
+
+#: kazu/forms.py
+msgid "RBR nia desizaun ba Kazu ne'e"
+msgstr "RBR nia desizaun ba Kazu ne'e"
+
+#: kazu/forms.py
+msgid "Rai nia Luan (Metru ka Hektar)"
+msgstr "Rai nia Luan (Metru ka Hektar)"
+
+#: kazu/forms.py
+msgid "Rejistu iha tribunal?"
+msgstr "Rejistu iha tribunal?"
+
+#: kazu/forms.py
+msgid "Se mak rejistu ka representa"
+msgstr "Se mak rejistu ka representa"
+
+#: kazu/forms.py
+msgid "Simu Notifikasaun Ona?"
+msgstr "Simu Notifikasaun Ona?"
+
+#: kazu/forms.py
+msgid "Tinan Kazu Hahu"
+msgstr "Tinan Kazu Hahu"
+
+#: kazu/models.py
+msgid "Tinan Simu Kazu iha RbR"
+msgstr "Tinan Simu Kazu iha RbR"
+
+#: kazu/forms.py
+msgid "Tinan ne'ebe disputa hahu entre parte rua"
+msgstr "Tinan ne'ebe disputa hahu entre parte rua"
+
+#: kazu/forms.py
+msgid "Tribunál no Notifikasaun"
+msgstr "Tribunál no Notifikasaun"

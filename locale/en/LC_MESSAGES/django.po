@@ -3654,3 +3654,211 @@ msgid ""
 msgstr ""
 "Upload → preview → confirm. \"Verified\" cases come in as Verified; others "
 "as \"Awaiting verification\"."
+
+#: kazu/forms.py
+msgid ""
+"'Arkivu' signifika katak kazu resolve ona ka RbR refere ona ba advogadu "
+"privadu sira."
+msgstr ""
+"'Archive' means the case is resolved or RbR has referred it to private "
+"lawyers."
+
+#: kazu/forms.py
+msgid "Advogadu nia naran sa, telefone, organizasaun"
+msgstr "Lawyer name, phone, organisation"
+
+#: kazu/forms.py
+msgid "Akompanamentu ba Kazu"
+msgstr "Case follow-up"
+
+#: kazu/forms.py
+msgid "Automátiku husi Data Simu. Hakerek tinan de'it se data la hatene."
+msgstr ""
+"Automatic from the received date. Enter only the year if the date is "
+"unknown."
+
+#: kazu/forms.py
+msgid ""
+"Bele hetan numero husi versaun hard copy (file). Hakerek numero deit, lalika"
+" hakerek 'RBR'"
+msgstr ""
+"Find the number on the hard copy (file). Write the number only, without "
+"'RBR'"
+
+#: kazu/forms.py
+msgid "Dadus Uma Kain iha ka lae?"
+msgstr "Is there household data?"
+
+#: kazu/forms.py
+msgid "Data Eviksaun"
+msgstr "Eviction date"
+
+#: kazu/forms.py
+msgid "Data Simu Kazu iha RbR"
+msgstr "Date case received by RbR"
+
+#: kazu/forms.py
+msgid "Data rejistu iha tribunal"
+msgstr "Court registration date"
+
+#: kazu/forms.py
+msgid "Desizaun hatun sá data?"
+msgstr "Decision date?"
+
+#: kazu/forms.py
+msgid "Enderesu ka Deskrisaun Fatin"
+msgstr "Address or description of the place"
+
+#: kazu/forms.py
+msgid "Entidade Benefisiariu (kategoria)"
+msgstr "Beneficiary entity (category)"
+
+#: kazu/forms.py
+msgid "Entidade ne'ebe foti rai (se mak foti rai?)"
+msgstr "Entity that took the land (who took it?)"
+
+#: kazu/forms.py
+msgid "Eviksaun Akontese ona?"
+msgstr "Has the eviction happened?"
+
+#: kazu/forms.py
+msgid "Eviksaun no Status Kazu"
+msgstr "Eviction and case status"
+
+#: kazu/forms.py
+msgid "Fo esplikasaun badak kona ba RbR nia desizaun kona ba kazu ida ne"
+msgstr "Briefly explain RbR's decision on this case"
+
+#: kazu/forms.py
+msgid ""
+"Fokal Point RbR (pergunta 28–32): automátiku husi Investigadór ne'ebé "
+"rejista kazu. Admin bele muda iha detalla kazu."
+msgstr ""
+"RbR focal point (questions 28–32): automatic from the investigator who "
+"registers the case. Admin can change it on the case detail page."
+
+#: kazu/forms.py
+msgid "Fokal Point no Organizasaun Seluk"
+msgstr "Focal point and other organisations"
+
+#: kazu/forms.py
+msgid "Fontes Dadus Uma Kain"
+msgstr "Household data sources"
+
+#: kazu/services.py
+msgid "Hakerek Data Simu ka Tinan Simu Kazu iha RbR."
+msgstr "Enter the date or year the case was received by RbR."
+
+#: kazu/forms.py
+msgid "Identifikasaun Kazu"
+msgstr "Case identification"
+
+#: kazu/forms.py
+msgid "Iha ona desizaun husi tribunal"
+msgstr "Is there a court decision"
+
+#: kazu/forms.py
+msgid "Informasaun Adisionál"
+msgstr "Additional information"
+
+#: kazu/forms.py
+msgid "Informasaun kontaktu advogadu nian"
+msgstr "Lawyer contact information"
+
+#: kazu/forms.py
+msgid "Karik RbR refere kazu ida ne tiha ona, bele husik mamuk"
+msgstr "If RbR has already referred this case, you may leave it blank"
+
+#: kazu/forms.py
+msgid "Munisipiu"
+msgstr "Municipality"
+
+#: kazu/forms.py
+msgid "Naran kazu ne'ebe Sekretariadu rejistu"
+msgstr "Case name registered by the Secretariat"
+
+#: kazu/forms.py
+msgid "Naran portavos husi komunidade"
+msgstr "Community spokesperson name"
+
+#: kazu/forms.py
+msgid "Numero kontaktu portavos komunidade"
+msgstr "Community spokesperson contact number"
+
+#: kazu/forms.py
+msgid "Numeru kazu"
+msgstr "Case number"
+
+#: kazu/forms.py
+#, python-format
+msgid "Numeru kazu RBR/%(n)s iha sistema ona."
+msgstr "Case number RBR/%(n)s already exists in the system."
+
+#: kazu/forms.py
+msgid "Numor Kontaktu (ema husi org seluk)"
+msgstr "Contact number (person from other organisation)"
+
+#: kazu/forms.py
+msgid "Observasaun kona ba kazu"
+msgstr "Notes on the case"
+
+#: kazu/forms.py
+msgid "Observasaun kona-ba eviksaun rasik"
+msgstr "Notes on the eviction itself"
+
+#: kazu/forms.py
+msgid "Observasaun kona-ba prosesu tribunal"
+msgstr "Notes on the court process"
+
+#: kazu/forms.py
+msgid "Observasaun ruma kona ba portavos"
+msgstr "Notes on the spokesperson"
+
+#: kazu/forms.py
+msgid "Organizasaun seluk ne'ebé halo akompaniamentu"
+msgstr "Other organisation following the case"
+
+#: kazu/forms.py
+msgid "Pontu Kordenadu (GPS)"
+msgstr "Coordinates (GPS)"
+
+#: kazu/forms.py
+msgid ""
+"Projetu (karik kazu ne'e tipu Governu foti rai - foti atu hari'i saida?)"
+msgstr "Project (if Government took the land – to build what?)"
+
+#: kazu/forms.py
+msgid "RBR nia desizaun ba Kazu ne'e"
+msgstr "RbR decision on this case"
+
+#: kazu/forms.py
+msgid "Rai nia Luan (Metru ka Hektar)"
+msgstr "Land area (metres or hectares)"
+
+#: kazu/forms.py
+msgid "Rejistu iha tribunal?"
+msgstr "Registered in court?"
+
+#: kazu/forms.py
+msgid "Se mak rejistu ka representa"
+msgstr "Who registered or represents"
+
+#: kazu/forms.py
+msgid "Simu Notifikasaun Ona?"
+msgstr "Notification received?"
+
+#: kazu/forms.py
+msgid "Tinan Kazu Hahu"
+msgstr "Year the case started"
+
+#: kazu/models.py
+msgid "Tinan Simu Kazu iha RbR"
+msgstr "Year case received by RbR"
+
+#: kazu/forms.py
+msgid "Tinan ne'ebe disputa hahu entre parte rua"
+msgstr "Year the dispute began between the parties"
+
+#: kazu/forms.py
+msgid "Tribunál no Notifikasaun"
+msgstr "Court and notification"
