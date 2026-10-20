@@ -323,3 +323,30 @@ class SurveiAPITest(SurveiBase):
 		give_offline(self.inv, by=self.admin)
 		self.assertEqual(self.api(self.inv).get(reverse('api-sinkron-survei')).status_code, 403)
 		self.assertEqual(self.api(self.legal).get(reverse('api-sinkron-opsaun')).status_code, 403)
+
+
+class AutorizasaunLegalTest(SurveiBase):
+	def test_admin_no_superadmin_ativa_input(self):
+		sa = make_user(SUPERADMIN)
+		for u in (self.admin, sa):
+			self.client.force_login(u)
+			self.assertContains(self.client.get(reverse('legal-kazu-list')), reverse('legal-autorizasaun'))
+			r = self.client.post(reverse('legal-autorizasaun'), {'users': [self.legal.pk], 'data_remata': str(timezone.localdate() + timedelta(days=3))})
+			self.assertRedirects(r, reverse('legal-autorizasaun'))
+		self.client.force_login(self.legal)
+		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)
+		self.assertEqual(OfflinePermission.objects.filter(user=self.legal, is_active=True).count(), 1)
+		perm = OfflinePermission.objects.get(user=self.legal, is_active=True)
+		self.client.force_login(self.admin)
+		self.client.post(reverse('legal-autorizasaun-kansela', args=[perm.pk]))
+		self.client.force_login(self.legal)
+		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 302)
+
+	def test_la_bele_hili_investigador_no_asesu(self):
+		self.client.force_login(self.admin)
+		r = self.client.post(reverse('legal-autorizasaun'), {'users': [self.inv.pk]})
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(OfflinePermission.objects.filter(user=self.inv).exists())
+		for u in (self.legal, self.analista):
+			self.client.force_login(u)
+			self.assertEqual(self.client.get(reverse('legal-autorizasaun')).status_code, 403)

@@ -4563,3 +4563,52 @@ msgstr "Viúvo/a"
 #: legal/forms.py
 msgid "— Kazu legál foun (fatin rasik) —"
 msgstr "— Novo caso legal (local próprio) —"
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Ativa Input"
+msgstr "Ativar entrada"
+
+#: legal/views/autorizasaun_v.py
+msgid "Ativa Input Legál"
+msgstr "Ativar Entrada Legal"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun offline ba Investigadór. Admin hili data hahú no remata (mamuk "
+"= loron 7). Bainhira remata, Investigadór labele kria kazu foun maibé bele "
+"nafatin sinkron. Autorizasaun Ofisiál Legál iha modulu Legál → Ativa Input "
+"Legál."
+msgstr ""
+"Autorização offline para Investigadores. O Admin escolhe as datas de início "
+"e fim (vazio = 7 dias). Quando termina, o Investigador não pode criar casos "
+"novos mas pode continuar a sincronizar. A autorização do Oficial Legal está "
+"no módulo Legal → Ativar Entrada Legal."
+
+#: legal/templates/legal/autorizasaun.html
+msgid ""
+"Hili Ofisiál Legál ne'ebé bele input survei legál (online no app offline) no"
+" data hahú–remata. Bainhira remata, butaun Input Legál subar automátiku."
+msgstr ""
+"Escolha os Oficiais Legais que podem registar inquéritos legais (online e "
+"app offline) e as datas de início e fim. Quando termina, o botão Entrada "
+"Legal desaparece automaticamente."
+
+#: legal/views/autorizasaun_v.py
+msgid "Input legál ativu ba Ofisiál Legál %(n)s to'o %(date)s."
+msgstr "Entrada legal ativa para %(n)s Oficial(is) Legal(is) até %(date)s."
+
+#: legal/views/autorizasaun_v.py
+msgid "Input legál kansela ona."
+msgstr "Entrada legal cancelada."
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Kansela input legál?"
+msgstr "Cancelar entrada legal?"
+
+#: legal/forms.py
+msgid "Mamuk = loron 7"
+msgstr "Vazio = 7 dias"
+
+#: legal/forms.py
+msgid "Ofisiál Legál ne'ebé bele input"
+msgstr "Oficiais Legais que podem registar"

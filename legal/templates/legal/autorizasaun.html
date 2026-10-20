@@ -1,0 +1,61 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<h2 class="mb-2">{{ legend }}</h2>
+	{% include 'legal/_tabs.html' with tab='autoriza' %}
+
+	<div class="row">
+		<div class="col-lg-5 mb-3">
+			<form method="post" class="card card-rbr" novalidate>{% csrf_token %}
+				<div class="card-header card-header-rbr"><i class="fa fa-unlock-alt"></i> {% trans "Ativa Input Legál" %}</div>
+				<div class="card-body">
+					<p class="small text-muted">{% trans "Hili Ofisiál Legál ne'ebé bele input survei legál (online no app offline) no data hahú–remata. Bainhira remata, butaun Input Legál subar automátiku." %}</p>
+					{{ form.users|as_crispy_field }}
+					<div class="form-row">
+						<div class="col-6">{{ form.data_hahu|as_crispy_field }}</div>
+						<div class="col-6">{{ form.data_remata|as_crispy_field }}</div>
+					</div>
+					{{ form.note|as_crispy_field }}
+					<button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-check"></i> {% trans "Ativa Input" %}</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-lg-7 mb-3">
+			<div class="card card-rbr"><div class="card-body">
+				<div class="table-responsive table-cards">
+					<table class="table table-sm table-hover">
+						<thead><tr><th>{% trans "Ofisiál Legál" %}</th><th>{% trans "Hahú" %}</th><th>{% trans "Remata" %}</th><th>{% trans "Status" %}</th><th></th></tr></thead>
+						<tbody>
+						{% for obj in objects %}
+						<tr>
+							<td data-label="{% trans "Ofisiál Legál" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b><br><small class="text-muted">{% trans "Fó husi" %}: {{ obj.given_by.pesoaluser.pesoal|default:obj.given_by.username|default:"-" }}</small></td>
+							<td data-label="{% trans "Hahú" %}">{{ obj.start_date|date:"d/m/Y" }}</td>
+							<td data-label="{% trans "Remata" %}">{{ obj.end_date|date:"d/m/Y" }}</td>
+							<td data-label="{% trans "Status" %}">
+								{% if obj.is_valid %}<span class="badge badge-success rounded-pill px-3"><i class="fa fa-check"></i> {% trans "Ativu" %}</span>
+								{% elif obj.is_future %}<span class="badge badge-warning rounded-pill px-3"><i class="fa fa-hourglass-start"></i> {% trans "Hein hahú" %}</span>
+								{% elif obj.cancelled_at %}<span class="badge badge-danger rounded-pill px-3"><i class="fa fa-ban"></i> {% trans "Kansela" %}</span>
+								{% else %}<span class="badge badge-secondary rounded-pill px-3"><i class="fa fa-clock-o"></i> {% trans "Remata" %}</span>{% endif %}
+							</td>
+							<td class="text-right text-nowrap">
+								{% if obj.is_active %}
+								<form method="post" action="{% url 'legal-autorizasaun-kansela' obj.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Kansela input legál?" %}">{% csrf_token %}<button class="btn btn-sm btn-outline-danger" type="submit"><i class="fa fa-ban"></i> {% trans "Kansela" %}</button></form>
+								{% else %}
+								<form method="post" action="{% url 'legal-autorizasaun-renova' obj.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Renova autorizasaun loron 7 tan?" %}">{% csrf_token %}<button class="btn btn-sm btn-outline-rbr" type="submit"><i class="fa fa-refresh"></i> {% trans "Renova" %}</button></form>
+								{% endif %}
+							</td>
+						</tr>
+						{% empty %}
+						<tr><td colspan="5" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div></div>
+		</div>
+	</div>
+{% endblock %}

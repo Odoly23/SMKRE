@@ -4627,3 +4627,51 @@ msgstr "Viúvu/a"
 #: legal/forms.py
 msgid "— Kazu legál foun (fatin rasik) —"
 msgstr "— Kazu legál foun (fatin rasik) —"
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Ativa Input"
+msgstr "Ativa Input"
+
+#: legal/views/autorizasaun_v.py
+msgid "Ativa Input Legál"
+msgstr "Ativa Input Legál"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun offline ba Investigadór. Admin hili data hahú no remata (mamuk "
+"= loron 7). Bainhira remata, Investigadór labele kria kazu foun maibé bele "
+"nafatin sinkron. Autorizasaun Ofisiál Legál iha modulu Legál → Ativa Input "
+"Legál."
+msgstr ""
+"Autorizasaun offline ba Investigadór. Admin hili data hahú no remata (mamuk "
+"= loron 7). Bainhira remata, Investigadór labele kria kazu foun maibé bele "
+"nafatin sinkron. Autorizasaun Ofisiál Legál iha modulu Legál → Ativa Input "
+"Legál."
+
+#: legal/templates/legal/autorizasaun.html
+msgid ""
+"Hili Ofisiál Legál ne'ebé bele input survei legál (online no app offline) no"
+" data hahú–remata. Bainhira remata, butaun Input Legál subar automátiku."
+msgstr ""
+"Hili Ofisiál Legál ne'ebé bele input survei legál (online no app offline) no"
+" data hahú–remata. Bainhira remata, butaun Input Legál subar automátiku."
+
+#: legal/views/autorizasaun_v.py
+msgid "Input legál ativu ba Ofisiál Legál %(n)s to'o %(date)s."
+msgstr "Input legál ativu ba Ofisiál Legál %(n)s to'o %(date)s."
+
+#: legal/views/autorizasaun_v.py
+msgid "Input legál kansela ona."
+msgstr "Input legál kansela ona."
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Kansela input legál?"
+msgstr "Kansela input legál?"
+
+#: legal/forms.py
+msgid "Mamuk = loron 7"
+msgstr "Mamuk = loron 7"
+
+#: legal/forms.py
+msgid "Ofisiál Legál ne'ebé bele input"
+msgstr "Ofisiál Legál ne'ebé bele input"

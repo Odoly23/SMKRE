@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, HTML
@@ -294,3 +295,25 @@ class SurveiFileForm(forms.ModelForm):
 		self.fields['file'].widget.attrs.update({'accept': ACCEPT})
 		self.fields['naran'].required = False
 		self.fields['tipu'].widget.attrs['class'] = 'custom-select custom-select-sm'
+
+
+class AutorizasaunLegalForm(forms.Form):
+	# Admin / Superadmin hili Ofisiál Legál (ida ka barak) + data hahú–remata
+	users = forms.ModelMultipleChoiceField(label=_('Ofisiál Legál ne\'ebé bele input'), queryset=None, widget=forms.CheckboxSelectMultiple)
+	data_hahu = forms.DateField(label=_('Data hahú'), required=False, widget=DateInput())
+	data_remata = forms.DateField(label=_('Data remata'), required=False, widget=DateInput(), help_text=_('Mamuk = loron 7'))
+	note = forms.CharField(label=_('Nota'), required=False, max_length=255)
+
+	def __init__(self, *args, **kwargs):
+		from django.contrib.auth.models import User
+		from config.rbac import OFISIAL_LEGAL
+		super().__init__(*args, **kwargs)
+		self.fields['users'].queryset = User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=True).select_related('pesoaluser__pesoal').order_by('username')
+		self.fields['users'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username})'
+
+	def clean(self):
+		d = super().clean()
+		hahu, remata = d.get('data_hahu'), d.get('data_remata')
+		if remata and remata < (hahu or timezone.localdate()):
+			self.add_error('data_remata', _('Data remata tenke depois data hahú.'))
+		return d

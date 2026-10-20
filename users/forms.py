@@ -133,7 +133,7 @@ class OfflinePermissionForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(OfflinePermissionForm, self).__init__(*args, **kwargs)
-		self.fields['user'].queryset = User.objects.filter(groups__name__in=ROLE_INPUT_OFFLINE, is_active=True).order_by('username')   # Investigadór + Ofisiál Legál
+		self.fields['user'].queryset = User.objects.filter(groups__name=INVESTIGADOR, is_active=True).order_by('username')   # Ofisiál Legál: tab Legál → Ativa Input
 		self.fields['user'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username})'
 		self.helper = FormHelper()
 		self.helper.form_tag = False

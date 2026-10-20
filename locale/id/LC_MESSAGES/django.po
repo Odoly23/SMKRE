@@ -4533,3 +4533,52 @@ msgstr "Janda/Duda"
 #: legal/forms.py
 msgid "— Kazu legál foun (fatin rasik) —"
 msgstr "— Kasus legal baru (lokasi sendiri) —"
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Ativa Input"
+msgstr "Aktifkan input"
+
+#: legal/views/autorizasaun_v.py
+msgid "Ativa Input Legál"
+msgstr "Aktifkan Input Legal"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun offline ba Investigadór. Admin hili data hahú no remata (mamuk "
+"= loron 7). Bainhira remata, Investigadór labele kria kazu foun maibé bele "
+"nafatin sinkron. Autorizasaun Ofisiál Legál iha modulu Legál → Ativa Input "
+"Legál."
+msgstr ""
+"Izin offline untuk Investigador. Admin memilih tanggal mulai dan selesai "
+"(kosong = 7 hari). Setelah berakhir, Investigador tidak bisa membuat kasus "
+"baru tetapi tetap bisa sinkron. Izin Petugas Legal ada di modul Legal → "
+"Aktifkan Input Legal."
+
+#: legal/templates/legal/autorizasaun.html
+msgid ""
+"Hili Ofisiál Legál ne'ebé bele input survei legál (online no app offline) no"
+" data hahú–remata. Bainhira remata, butaun Input Legál subar automátiku."
+msgstr ""
+"Pilih Petugas Legal yang boleh input survei legal (online dan app offline) "
+"serta tanggal mulai dan selesai. Setelah berakhir, tombol Input Legal "
+"otomatis disembunyikan."
+
+#: legal/views/autorizasaun_v.py
+msgid "Input legál ativu ba Ofisiál Legál %(n)s to'o %(date)s."
+msgstr "Input legal aktif untuk %(n)s Petugas Legal sampai %(date)s."
+
+#: legal/views/autorizasaun_v.py
+msgid "Input legál kansela ona."
+msgstr "Input legal dibatalkan."
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Kansela input legál?"
+msgstr "Batalkan input legal?"
+
+#: legal/forms.py
+msgid "Mamuk = loron 7"
+msgstr "Kosong = 7 hari"
+
+#: legal/forms.py
+msgid "Ofisiál Legál ne'ebé bele input"
+msgstr "Petugas Legal yang boleh input"

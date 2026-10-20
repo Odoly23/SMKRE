@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import ROLE_OFFLINE_FO, ROLE_USER_MANAGE, ROLE_INPUT_OFFLINE
+from config.rbac import ROLE_OFFLINE_FO, ROLE_USER_MANAGE, ROLE_INPUT_OFFLINE, INVESTIGADOR
 from users.auth_utils import c_user_pesoal
 from users.emails import kirim_email_offline
 from users.forms import OfflinePermissionForm
@@ -16,7 +16,7 @@ from users.services import give_offline, cancel_offline
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 def OfflineList(request):
 	group = request.user.groups.all()[0].name
-	objects = OfflinePermission.objects.select_related('user__pesoaluser__pesoal__munisipiu', 'given_by').prefetch_related('user__groups')[:300]
+	objects = OfflinePermission.objects.filter(user__groups__name=INVESTIGADOR).select_related('user__pesoaluser__pesoal__munisipiu', 'given_by').prefetch_related('user__groups')[:300]
 	context = {
 		'group': group, "page": "offline",
 		'objects': objects,

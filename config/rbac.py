@@ -41,6 +41,7 @@ ROLE_POLIGON      = [SUPERADMIN, ADMIN]      # Edita poligon rai kualkér tempu 
 ROLE_SURVEI_INPUT = [OFISIAL_LEGAL]          # Survei legál (ho autorizasaun input ativu husi Admin)
 ROLE_SURVEI_HAREE = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # dadus pesoál parte → la ba Analista
 ROLE_SURVEI_VERIFIKA = [SUPERADMIN, ADMIN]
+ROLE_LEGAL_AUTORIZA = [SUPERADMIN, ADMIN]    # ativa input legál ba Ofisiál Legál (tab iha modulu Legál)
 ROLE_INPUT_OFFLINE = [INVESTIGADOR, OFISIAL_LEGAL]       # autorizasaun input / app offline
 
 

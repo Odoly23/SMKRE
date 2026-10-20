@@ -1,9 +1,14 @@
 from django.urls import path
-from legal.views import vault_v, kazu_v, nota_v, survei_v, dash_v
+from legal.views import vault_v, kazu_v, nota_v, survei_v, dash_v, autorizasaun_v
 
 urlpatterns = [
 	# Dashboard legál
 	path('dashboard/', dash_v.LegalDash, name='legal-dash'),
+
+	# Ativa input legál (Admin / Superadmin hili Ofisiál Legál + data)
+	path('autorizasaun/', autorizasaun_v.AutorizasaunLegal, name='legal-autorizasaun'),
+	path('autorizasaun/<int:pk>/renova/', autorizasaun_v.AutorizasaunRenova, name='legal-autorizasaun-renova'),
+	path('autorizasaun/<int:pk>/kansela/', autorizasaun_v.AutorizasaunKansela, name='legal-autorizasaun-kansela'),
 
 	# Survei legál (Perguntas Xave Sira Legal)
 	path('survei/', survei_v.SurveiList, name='legal-survei-list'),
