@@ -9,6 +9,7 @@
 	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
 		<h2 class="mb-2">{{ objects.kode|default:_("Survei (rascunho)") }} {% include 'legal/_badge_survei.html' with s=objects %}</h2>
 		<div class="mb-2">
+			<a href="{% url 'legal-survei-pdf' objects.pk %}" target="_blank" rel="noopener" class="btn btn-outline-secondary"><i class="fa fa-file-pdf-o"></i> {% trans "Print PDF" %}</a>
 			{% if can_edit %}
 			<a href="{% url 'legal-survei-update' objects.pk %}" class="btn btn-outline-rbr"><i class="fa fa-pencil"></i> {% trans "Edita" %}</a>
 			<form method="post" action="{% url 'legal-survei-haruka' objects.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Manda survei ba server? Hafoin ne'e labele edita to'o Admin rejeita." %}">{% csrf_token %}<button class="btn btn-rbr" type="submit"><i class="fa fa-paper-plane"></i> {% trans "Manda ba Server" %}</button></form>

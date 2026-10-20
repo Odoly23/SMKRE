@@ -56,7 +56,7 @@
 						<td data-label="{% trans "Fatin" %}">{{ s.suku|default:"" }}{% if s.suku %}, {% endif %}{{ s.munisipiu }}</td>
 						<td data-label="{% trans "Data survei" %}">{{ s.data_survei|date:"d/m/Y" }}</td>
 						<td data-label="{% trans "Status" %}">{% include 'legal/_badge_survei.html' %}</td>
-						<td class="text-right"><a href="{% url 'legal-survei-detail' s.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
+						<td class="text-right text-nowrap"><a href="{% url 'legal-survei-pdf' s.pk %}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary" title="{% trans "Print PDF" %}" aria-label="{% trans "Print PDF" %}"><i class="fa fa-file-pdf-o"></i></a> <a href="{% url 'legal-survei-detail' s.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
 					</tr>
 					{% empty %}
 					<tr><td colspan="7" class="text-center text-muted">{% trans "Seidauk iha survei legál." %}</td></tr>

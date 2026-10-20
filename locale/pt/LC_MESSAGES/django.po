@@ -4612,3 +4612,47 @@ msgstr "Vazio = 7 dias"
 #: legal/forms.py
 msgid "Ofisiál Legál ne'ebé bele input"
 msgstr "Oficiais Legais que podem registar"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Asinatura"
+msgstr "Assinatura"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Entidade ne'ebe atu foti rai"
+msgstr "Entidade que vai tomar o terreno"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Identifikasaun Parte Sira (Disputante Sira)"
+msgstr "Identificação das Partes (Disputantes)"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Imprime"
+msgstr "Impresso"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "KONFIDENSIÁL"
+msgstr "CONFIDENCIAL"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Notas importante nebeé tenki halo kompleta"
+msgstr "Notas importantes que devem ser completadas"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "PERGUNTAS XAVE SIRA LEGAL"
+msgstr "PERGUNTAS-CHAVE LEGAIS"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Parte (Disputante)"
+msgstr "Parte (Disputante)"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Perguntas Xave Sira"
+msgstr "Perguntas-chave"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Print PDF"
+msgstr "Imprimir PDF"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Verifika husi"
+msgstr "Verificado por"

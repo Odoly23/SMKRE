@@ -1,0 +1,91 @@
+{% load i18n %}<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>{{ obj.kode|default:"Survei Legál" }} | Rede ba Rai</title>
+<meta name="author" content="Rede ba Rai">
+<style>
+	@page {
+		size: a4 portrait;
+		margin: 4.4cm 1.6cm 2cm 1.6cm;
+		@frame kop_frame { -pdf-frame-content: kop; left: 1.4cm; width: 18.2cm; top: 0.8cm; height: 3.4cm; }
+		@frame rodape_frame { -pdf-frame-content: rodape; left: 1.6cm; width: 17.8cm; bottom: 0.6cm; height: 1.2cm; }
+	}
+	body { font-family: Helvetica; font-size: 9.5pt; color: #222; }
+	/* Kop surat Rede ba Rai (hanesan dokumentu ofisiál): logo + testu Times metan */
+	.kop-naran { font-family: Times-Bold; font-size: 22pt; color: #000; line-height: 1; }
+	.kop-txt { font-family: Times-Bold; font-size: 10.5pt; color: #000; line-height: 1.15; }
+	.kop-liña { border-bottom: 1.5pt solid #000; margin-top: 2pt; }
+	.titulu { font-size: 13pt; font-weight: bold; text-align: center; margin: 0 0 3pt 0; }
+	.konf { border: 0.8pt solid #6B1E23; color: #6B1E23; text-align: center; font-weight: bold; font-size: 8pt; padding: 2pt; }
+	h2 { font-size: 10.5pt; color: #fff; background-color: #0E8A68; padding: 3pt 5pt; margin: 9pt 0 3pt 0; }
+	h3 { font-size: 10pt; color: #0B7358; margin: 6pt 0 2pt 0; border-bottom: 0.5pt solid #9fd3c1; }
+	table.tab { width: 100%; border: 0.5pt solid #b9cbc2; }
+	table.tab td { border: 0.5pt solid #b9cbc2; padding: 3pt 4pt; vertical-align: top; }
+	td.p { width: 42%; background-color: #f1f6f3; font-weight: bold; }
+	td.sub { padding-left: 14pt; }
+	.mamuk { color: #999; }
+	.kaixa { border: 0.8pt solid #333; width: 9pt; height: 9pt; text-align: center; font-weight: bold; font-size: 8pt; }
+	.rodape { font-size: 7.5pt; color: #666; text-align: center; border-top: 0.5pt solid #ccc; padding-top: 3pt; }
+	.foto td { text-align: center; vertical-align: top; padding: 3pt; font-size: 7.5pt; color: #555; }
+</style></head>
+<body>
+<div id="kop">
+	<table><tr>
+		<td width="3.1cm" valign="middle"><img src="static:main/images/logo_kop.jpg" width="2.7cm" height="3cm"></td>
+		<td valign="middle">
+			<div class="kop-naran">{{ kop.naran }}</div>
+			<div class="kop-txt">{% for l in kop.linha %}{{ l }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</div>
+		</td>
+	</tr></table>
+	<div class="kop-liña"></div>
+</div>
+<div id="rodape" class="rodape">
+	{% trans "KONFIDENSIÁL" %} · SIBAR - RbR · {{ obj.kode|default:_("RASCUNHO") }} · {{ obj.get_status_display }} · {% trans "Imprime" %} {{ agora|date:"d/m/Y H:i" }} · {{ user_naran }} · {% trans "Pájina" %} <pdf:pagenumber> / <pdf:pagecount>
+</div>
+
+<p class="titulu">{% trans "PERGUNTAS XAVE SIRA LEGAL" %}</p>
+<div class="konf">{% trans "KONFIDENSIÁL — ba uzu legál no advokasia deit. Labele fahe ba públiku." %}</div>
+
+<h2>{% trans "Kazu no Fatin" %}</h2>
+<table class="tab">
+	<tr><td class="p">{% trans "ID Survei" %}</td><td>{{ obj.kode|default:"-" }} ({{ obj.get_status_display }})</td></tr>
+	<tr><td class="p">{% trans "Data survei" %}</td><td>{{ obj.data_survei|date:"d/m/Y" }}</td></tr>
+	<tr><td class="p">{% trans "Kazu SIBAR" %}</td><td>{% if obj.kazu %}{{ obj.kazu }}{% if obj.kazu.titulu %} · {{ obj.kazu.titulu }}{% endif %}{% else %}{% trans "Kazu legál foun" %}{% endif %}</td></tr>
+	{% if obj.titulu %}<tr><td class="p">{% trans "Naran kazu legál" %}</td><td>{{ obj.titulu }}</td></tr>{% endif %}
+	<tr><td class="p">{% trans "Munisipiu" %} / {% trans "Postu Administrativu" %}</td><td>{{ obj.munisipiu }}{% if obj.postu %} / {{ obj.postu }}{% endif %}</td></tr>
+	<tr><td class="p">{% trans "Suku" %} / {% trans "Aldeia" %}</td><td>{{ obj.suku|default:"-" }}{% if obj.aldeia %} / {{ obj.aldeia }}{% endif %}</td></tr>
+	<tr><td class="p">{% trans "Koordenada GPS" %}</td><td>{% if obj.latitude %}{{ obj.latitude }}, {{ obj.longitude }}{% if obj.gps_akurasia %} (± {{ obj.gps_akurasia }} m){% endif %}{% else %}-{% endif %}</td></tr>
+</table>
+
+<h2>I. {% trans "Identifikasaun Parte Sira (Disputante Sira)" %}</h2>
+<table class="tab">{% for p, r, s in parte %}<tr><td class="p">{{ p }}</td><td>{% if r %}{{ r|linebreaksbr }}{% else %}<span class="mamuk">……………………</span>{% endif %}</td></tr>{% endfor %}</table>
+
+<h2>II. {% trans "Entidade ne'ebe atu foti rai" %}</h2>
+<table class="tab">{% for p, r, s in entidade %}<tr><td class="p">{{ p }}</td><td>{% if r %}{{ r|linebreaksbr }}{% else %}<span class="mamuk">……………………</span>{% endif %}</td></tr>{% endfor %}</table>
+
+<h2>III. {% trans "Perguntas Xave Sira" %}</h2>
+<p><b>{% trans "Meius ka maneira hetan rai" %}:</b></p>
+<table><tr>{% for lbl, ok in meius_opsaun %}<td width="0.5cm"><table><tr><td class="kaixa">{% if ok %}X{% endif %}</td></tr></table></td><td>{{ lbl }}</td>{% endfor %}</tr></table>
+{% if meius_linha %}
+<h3>{{ meius_titulu }}</h3>
+<table class="tab">{% for p, r, s in meius_linha %}<tr><td class="p{% if s %} sub{% endif %}">{% if s %}» {% endif %}{{ p }}</td><td>{% if r %}{{ r|linebreaksbr }}{% else %}<span class="mamuk">……………………</span>{% endif %}</td></tr>{% endfor %}</table>
+{% endif %}
+
+<h2>IV. {% trans "Notas importante nebeé tenki halo kompleta" %}</h2>
+{% for titulu, lista in notas %}
+<h3>{{ titulu }}</h3>
+<table>
+{% for lbl, ok in lista %}{% if forloop.counter0|divisibleby:3 %}<tr>{% endif %}<td width="0.5cm"><table><tr><td class="kaixa">{% if ok %}X{% endif %}</td></tr></table></td><td width="5.4cm">{{ lbl }}</td>{% if forloop.counter|divisibleby:3 or forloop.last %}</tr>{% endif %}{% endfor %}
+</table>
+{% endfor %}
+<h3>{% trans "Observasaun" %}</h3>
+<p>{% if obj.observasaun %}{{ obj.observasaun|linebreaksbr }}{% else %}<span class="mamuk">-</span>{% endif %}</p>
+
+{% if fotos %}
+<h2>{% trans "Foto no Dokumentu" %}</h2>
+<table class="foto">
+{% for pk, f in fotos %}{% if forloop.counter0|divisibleby:3 %}<tr>{% endif %}<td width="33%"><img src="file:{{ pk }}" width="5.4cm" height="4cm"><br>{{ f.get_tipu_display }}{% if f.naran %} · {{ f.naran }}{% endif %}</td>{% if forloop.counter|divisibleby:3 or forloop.last %}</tr>{% endif %}{% endfor %}
+</table>
+{% endif %}
+
+
+</body></html>

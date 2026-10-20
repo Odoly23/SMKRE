@@ -211,3 +211,52 @@ def SurveiFileDownload(request, pk):
 	response['Cache-Control'] = 'private, no-store'
 	response['X-Content-Type-Options'] = 'nosniff'
 	return response
+
+
+# ── PDF survei ida-ida (orden dokumentu "Perguntas Xave Sira Legal" + kop surat) ──
+MEIUS_PDF = {
+	'ERANSA': (_l('1. Eransa / Antesessor mate ona'), ['eransa_husi_se', 'eransa_relasaun', 'eransa_herdeiru', 'eransa_rai_seluk', 'eransa_fahe',
+		('eransa_fahe', 'SIN', ['eransa_fahe_ba_se', 'eransa_fahe_lokalizasaun', 'eransa_fahe_desde'])]),
+	'SOSA': (_l('2. Sosa'), ['sosa_husi_se', 'sosa_folin', 'sosa_bainhira', 'sosa_halo_saida', 'sosa_halo_desde', 'sosa_halo_se',
+		'sosa_akordu', ('sosa_akordu', 'SIN', ['sosa_akordu_fatin']), 'sosa_sasin', ('sosa_sasin', 'SIN', ['sasin_1', 'sasin_2', 'sasin_3', 'sasin_4'])]),
+	'FOO': (_l('3. Foó / doasaun (bele família ka ema seluk)'), ['foo_se', 'foo_bainhira', 'foo_akordu',
+		('foo_akordu', 'SIN', ['foo_akordu_fatin']), 'foo_relasaun']),
+	'POSSE': (_l('4. Posse / okupa'), SURVEI_GRUPU['posse']),
+}
+
+
+def _linha(obj, kampu):
+	# kampu ka (kondisaun, valor, [kampu]) → [(pergunta, resposta, sub)]
+	res = []
+	for c in kampu:
+		if isinstance(c, tuple):
+			if getattr(obj, c[0]) == c[1]:
+				res += [(l, v, True) for l, v, _s in _linha(obj, c[2])]
+			continue
+		f = obj._meta.get_field(c)
+		v = getattr(obj, f'get_{c}_display')() if f.choices else getattr(obj, c)
+		res.append((f.verbose_name, v.strftime('%d/%m/%Y') if hasattr(v, 'strftime') else (v or ''), False))
+	return res
+
+
+@login_required
+@allowed_users(allowed_roles=ROLE_SURVEI_HAREE)
+def SurveiPDF(request, pk):
+	from django.utils import timezone
+	from legal.pdf import render_pdf
+	obj = _survei_ka_404(request, pk)
+	files = {str(f.pk): f for f in obj.files.all() if f.is_image}
+	meius = MEIUS_PDF.get(obj.meius)
+	lista = lambda campo, choices: [(lbl, k in (getattr(obj, campo) or [])) for k, lbl in choices]
+	pesoal = lambda u: getattr(getattr(u, 'pesoaluser', None), 'pesoal', None) or (u.username if u else '')
+	context = {
+		'obj': obj, 'agora': timezone.localtime(), 'user_naran': pesoal(request.user),
+		'parte': _linha(obj, SEKSAUN_DETALLA[0][1]), 'entidade': _linha(obj, SURVEI_GRUPU['entidade']),
+		'meius_opsaun': [(lbl, k == obj.meius) for k, lbl in SurveiLegal.MEIUS_CHOICES],
+		'meius_titulu': meius[0] if meius else '', 'meius_linha': _linha(obj, meius[1]) if meius else [],
+		'notas': [(_('Dokumentus identifikasaun'), lista('dok_identifikasaun', SurveiLegal.DOK_IDENTIFIKASAUN)),
+			(_('Dokumentus relevante sira seluk'), lista('dok_relevante', SurveiLegal.DOK_RELEVANTE)),
+			(_('Fotografia'), lista('fotografia', SurveiLegal.FOTOGRAFIA))],
+		'fotos': [(pk_, f) for pk_, f in files.items()],
+	}
+	return render_pdf('legal/survei_pdf.html', context, slugify(obj.kode or f'survei-{str(obj.pk)[:8]}'), files)

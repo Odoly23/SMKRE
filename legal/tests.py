@@ -350,3 +350,21 @@ class AutorizasaunLegalTest(SurveiBase):
 		for u in (self.legal, self.analista):
 			self.client.force_login(u)
 			self.assertEqual(self.client.get(reverse('legal-autorizasaun')).status_code, 403)
+
+
+class SurveiPDFTest(SurveiBase):
+	def test_pdf_ho_kop_no_foto(self):
+		import io
+		from PIL import Image
+		give_offline(self.legal, by=self.admin)
+		self.client.force_login(self.legal)
+		self.client.post(reverse('legal-survei-add'), self.dadus())
+		s = SurveiLegal.objects.get()
+		buf = io.BytesIO(); Image.new('RGB', (40, 30), 'green').save(buf, 'JPEG')
+		self.client.post(reverse('legal-survei-file-add', args=[s.pk]), {'tipu': 'FOTO', 'file': SimpleUploadedFile('f.jpg', buf.getvalue())})
+		r = self.client.get(reverse('legal-survei-pdf', args=[s.pk]))
+		self.assertEqual(r.status_code, 200)
+		self.assertEqual(r['Content-Type'], 'application/pdf')
+		self.assertTrue(r.content.startswith(b'%PDF'))
+		self.client.force_login(self.analista)
+		self.assertEqual(self.client.get(reverse('legal-survei-pdf', args=[s.pk])).status_code, 403)

@@ -21,3 +21,4 @@ psycopg[binary]>=3.1        # PostgreSQL
 gunicorn>=22.0
 openpyxl>=3.1                 # eksporta Excel
 shapely>=2.0                  # poligon rai: validasaun + uniaun bidang (luan kalkula ho rumus Turf.js)
+xhtml2pdf>=0.2.16            # PDF survei legál ho kop surat (Python puru)

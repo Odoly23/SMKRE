@@ -4582,3 +4582,47 @@ msgstr "Kosong = 7 hari"
 #: legal/forms.py
 msgid "Ofisiál Legál ne'ebé bele input"
 msgstr "Petugas Legal yang boleh input"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Asinatura"
+msgstr "Tanda tangan"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Entidade ne'ebe atu foti rai"
+msgstr "Entitas yang akan mengambil tanah"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Identifikasaun Parte Sira (Disputante Sira)"
+msgstr "Identifikasi Para Pihak (Pihak Bersengketa)"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Imprime"
+msgstr "Dicetak"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "KONFIDENSIÁL"
+msgstr "RAHASIA"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Notas importante nebeé tenki halo kompleta"
+msgstr "Catatan penting yang harus dilengkapi"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "PERGUNTAS XAVE SIRA LEGAL"
+msgstr "PERTANYAAN KUNCI LEGAL"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Parte (Disputante)"
+msgstr "Pihak (Bersengketa)"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Perguntas Xave Sira"
+msgstr "Pertanyaan Kunci"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Print PDF"
+msgstr "Cetak PDF"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Verifika husi"
+msgstr "Diverifikasi oleh"

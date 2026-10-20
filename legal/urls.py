@@ -14,6 +14,7 @@ urlpatterns = [
 	path('survei/', survei_v.SurveiList, name='legal-survei-list'),
 	path('survei/foun/', survei_v.SurveiAdd, name='legal-survei-add'),
 	path('survei/<uuid:pk>/', survei_v.SurveiDetail, name='legal-survei-detail'),
+	path('survei/<uuid:pk>/pdf/', survei_v.SurveiPDF, name='legal-survei-pdf'),
 	path('survei/<uuid:pk>/edita/', survei_v.SurveiUpdate, name='legal-survei-update'),
 	path('survei/<uuid:pk>/haruka/', survei_v.SurveiHaruka, name='legal-survei-haruka'),
 	path('survei/<uuid:pk>/verifika/', survei_v.SurveiVerifika, name='legal-survei-verifika'),

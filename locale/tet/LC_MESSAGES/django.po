@@ -4675,3 +4675,47 @@ msgstr "Mamuk = loron 7"
 #: legal/forms.py
 msgid "Ofisiál Legál ne'ebé bele input"
 msgstr "Ofisiál Legál ne'ebé bele input"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Asinatura"
+msgstr "Asinatura"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Entidade ne'ebe atu foti rai"
+msgstr "Entidade ne'ebe atu foti rai"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Identifikasaun Parte Sira (Disputante Sira)"
+msgstr "Identifikasaun Parte Sira (Disputante Sira)"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Imprime"
+msgstr "Imprime"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "KONFIDENSIÁL"
+msgstr "KONFIDENSIÁL"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Notas importante nebeé tenki halo kompleta"
+msgstr "Notas importante nebeé tenki halo kompleta"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "PERGUNTAS XAVE SIRA LEGAL"
+msgstr "PERGUNTAS XAVE SIRA LEGAL"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Parte (Disputante)"
+msgstr "Parte (Disputante)"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Perguntas Xave Sira"
+msgstr "Perguntas Xave Sira"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Print PDF"
+msgstr "Print PDF"
+
+#: legal/templates/legal/survei_pdf.html
+msgid "Verifika husi"
+msgstr "Verifika husi"
