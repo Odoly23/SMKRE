@@ -1275,14 +1275,6 @@ msgstr "Página"
 msgid "REJEITA kazu ne'e? Investigadór sei hadia."
 msgstr "REJEITAR este caso? O Investigador irá corrigir."
 
-#: kazu/templates/kazu/form.html
-msgid "Rai Rascunho"
-msgstr "Guardar Rascunho"
-
-#: kazu/templates/kazu/form.html
-msgid "Rai no Haruka ba Verifikasaun"
-msgstr "Guardar e Enviar para Verificação"
-
 #: kazu/models.py
 msgid "Rascunho"
 msgstr "Rascunho"
@@ -3885,3 +3877,9 @@ msgstr "Há informação sobre o estado do caso / decisão da RbR?"
 #: kazu/forms.py
 msgid "Iha organizasaun seluk ne'ebé akompaña?"
 msgstr "Há outra organização que acompanha?"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Manda ba Server"
+msgstr "Manda ba Server"

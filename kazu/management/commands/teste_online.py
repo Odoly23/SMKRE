@@ -49,7 +49,7 @@ class Command(BaseCommand):
 		self.stdout.write('  Investigadór : teste.investigador@redebarai.org  (munisípiu %s)' % mun.name)
 		self.stdout.write('  Admin        : teste.admin@redebarai.org')
 		self.stdout.write('  Superadmin   : teste.superadmin@redebarai.org')
-		self.stdout.write('  1. Investigadór → Kazu Foun → prenxe → "Rai no Haruka ba Verifikasaun"')
+		self.stdout.write('  1. Investigadór → Kazu Foun → prenxe → "Manda ba Server"')
 		self.stdout.write('  2. Admin → 🔔 → loke kazu → Verifika')
 		self.stdout.write('  3. Superadmin → 🔔 → loke kazu → Aprova  → mosu iha Dashboard + Portal')
 		self.stdout.write('  Verifika: python manage.py cek_kazu')

@@ -1265,14 +1265,6 @@ msgstr "Halaman"
 msgid "REJEITA kazu ne'e? Investigadór sei hadia."
 msgstr "TOLAK kasus ini? Investigador akan memperbaikinya."
 
-#: kazu/templates/kazu/form.html
-msgid "Rai Rascunho"
-msgstr "Simpan Draf"
-
-#: kazu/templates/kazu/form.html
-msgid "Rai no Haruka ba Verifikasaun"
-msgstr "Simpan dan Kirim untuk Verifikasi"
-
 #: kazu/models.py
 msgid "Rascunho"
 msgstr "Draf"
@@ -3854,3 +3846,9 @@ msgstr "Ada informasi status kasus / keputusan RbR?"
 #: kazu/forms.py
 msgid "Iha organizasaun seluk ne'ebé akompaña?"
 msgstr "Ada organisasi lain yang mendampingi?"
+
+msgid "Save"
+msgstr "Simpan"
+
+msgid "Manda ba Server"
+msgstr "Kirim ke Server"

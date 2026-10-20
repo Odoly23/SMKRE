@@ -34,7 +34,7 @@ Opsi: `python manage.py teste_online --munisipiu DIL`. Jika munisípiu belum pun
 1. **Investigadór** → http://127.0.0.1:8000 → menu **Kazu Foun**:
    - Isi Postu → Suku (dropdown berurutan), klik **Foti GPS** (izinkan lokasi; jika akurasi laptop > 50 m pakai DevTools → *Sensors* → koordinat Timor-Leste, mis. -8.6121, 125.2107).
    - Isi tanggal akontesimentu, tipe konflik, deskripsi, uma-kain/mane/feto (mane + feto = total), centang **konsentimentu**.
-   - Klik **Rai no Haruka ba Verifikasaun** → muncul *"Kazu RbR-LIQ-2026-xxxx haruka ona"*.
+   - Klik **Manda ba Server** → muncul *"Kazu RbR-LIQ-2026-xxxx haruka ona"*.
 2. **Admin** → lonceng 🔔 → klik notifikasi *"Kazu foun …"* → tombol **Verifika** (paling bawah) → *"Status muda ona ba Verifikadu"*.
 3. **Superadmin** → 🔔 *"… verifika ona husi Admin. Hein ita-nia aprovasaun"* → **Aprova** → *"Status muda ona ba Aprovadu"*.
 4. Cek hasil:

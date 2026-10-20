@@ -1191,14 +1191,6 @@ msgstr "REJEITA kazu ne'e? Investigadór sei hadia."
 msgid "Rai"
 msgstr "Rai"
 
-#: kazu/templates/kazu/form.html
-msgid "Rai Rascunho"
-msgstr "Rai Rascunho"
-
-#: kazu/templates/kazu/form.html
-msgid "Rai no Haruka ba Verifikasaun"
-msgstr "Rai no Haruka ba Verifikasaun"
-
 #: kazu/models.py
 msgid "Rascunho"
 msgstr "Rascunho"
@@ -3951,3 +3943,9 @@ msgstr "Iha informasaun status kazu / desizaun RbR?"
 #: kazu/forms.py
 msgid "Iha organizasaun seluk ne'ebé akompaña?"
 msgstr "Iha organizasaun seluk ne'ebé akompaña?"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Manda ba Server"
+msgstr "Manda ba Server"
