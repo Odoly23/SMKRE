@@ -309,6 +309,7 @@ class AutorizasaunLegalForm(forms.Form):
 		from config.rbac import OFISIAL_LEGAL
 		super().__init__(*args, **kwargs)
 		self.fields['users'].queryset = User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=True).select_related('pesoaluser__pesoal').order_by('username')
+		self.fields['data_hahu'].initial = timezone.localdate()
 		self.fields['users'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username})'
 
 	def clean(self):

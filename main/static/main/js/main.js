@@ -109,6 +109,76 @@
 		});
 	});
 
+	// ── Data: hatudu sempre dd/mm/yyyy (formatu Timor-Leste), maske browser iha lian seluk (mm/dd/yyyy) ──
+	// Input orijinál (type=date, valor ISO) hela iha formuláriu ba server no script seluk; ema hakerek / hili iha testu dd/mm/yyyy.
+	function iso2dmy(v) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ''); return m ? m[3] + '/' + m[2] + '/' + m[1] : ''; }
+	function dmy2iso(v) {
+		var m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec((v || '').trim());
+		if (!m) return null;
+		var d = new Date(+m[3], +m[2] - 1, +m[1]);
+		if (d.getFullYear() !== +m[3] || d.getMonth() !== +m[2] - 1 || d.getDate() !== +m[1]) return null;
+		return m[3] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[1]).slice(-2);
+	}
+	window.SIBARData = function (root) {
+		(root || document).querySelectorAll('input[type="date"]:not([data-tl-data])').forEach(function (orig) {
+			orig.setAttribute('data-tl-data', '1');
+			var grp = document.createElement('div');
+			grp.className = 'input-group tl-data';
+			var txt = document.createElement('input');
+			txt.type = 'text';
+			txt.className = orig.className.replace('dateinput', '').trim() || 'form-control';
+			txt.placeholder = 'dd/mm/yyyy';
+			txt.inputMode = 'numeric';
+			txt.maxLength = 10;
+			txt.autocomplete = 'off';
+			if (orig.id) {
+				txt.id = orig.id + '_tl';
+				var lbl = document.querySelector('label[for="' + orig.id + '"]');
+				if (lbl) lbl.htmlFor = txt.id;
+			}
+			var ap = document.createElement('div');
+			ap.className = 'input-group-append position-relative';
+			ap.innerHTML = '<button type="button" class="btn btn-outline-secondary" tabindex="-1" aria-label="Kalendáriu"><i class="fa fa-calendar"></i></button>';
+			var btn = ap.firstChild;
+			orig.parentNode.insertBefore(grp, orig);
+			grp.appendChild(txt);
+			grp.appendChild(ap);
+			ap.appendChild(orig);
+			// Input orijinál subar iha butaun okos (kalendáriu browser)
+			orig.style.cssText = 'position:absolute;left:0;bottom:0;width:100%;height:1px;opacity:0;pointer-events:none;border:0;padding:0';
+			orig.tabIndex = -1;
+			function hatudu() {
+				txt.value = iso2dmy(orig.value);
+				txt.readOnly = orig.readOnly; txt.disabled = btn.disabled = orig.disabled || orig.readOnly;
+				txt.classList.toggle('is-invalid', orig.classList.contains('is-invalid'));
+			}
+			btn.addEventListener('click', function () {
+				try { orig.showPicker(); } catch (e) { orig.focus(); orig.click(); }
+			});
+			orig.addEventListener('change', hatudu);
+			txt.addEventListener('input', function () {
+				// Hatama "/" automátiku: 26102026 → 26/10/2026
+				var n = txt.value.replace(/[^0-9]/g, '').slice(0, 8);
+				if (/^[0-9/]*$/.test(txt.value) && txt.value.indexOf('/') < 0 && n.length > 2)
+					txt.value = n.slice(0, 2) + '/' + n.slice(2, 4) + (n.length > 4 ? '/' + n.slice(4) : '');
+			});
+			txt.addEventListener('change', function () {
+				var v = txt.value.trim(), iso = v ? dmy2iso(v) : '';
+				txt.classList.toggle('is-invalid', iso === null);
+				if (iso === null) return;
+				orig.value = iso;
+				orig.dispatchEvent(new Event('change', { bubbles: true }));
+				txt.value = iso2dmy(iso);
+			});
+			// Script seluk muda valor / readonly (ex. Tinan Simu) → atualiza testu
+			new MutationObserver(hatudu).observe(orig, { attributes: true, attributeFilter: ['readonly', 'disabled', 'class'] });
+			if (orig.classList.contains('is-invalid'))
+				grp.parentNode.querySelectorAll('.invalid-feedback').forEach(function (f) { f.classList.add('d-block'); });
+			hatudu();
+		});
+	};
+	window.SIBARData();
+
 	// ── PWA: registu service worker ──
 	if ('serviceWorker' in navigator && document.body.dataset.sw) {
 		window.addEventListener('load', function () {
