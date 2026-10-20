@@ -147,7 +147,8 @@
 					</div>
 					<div id="gps-info" class="small mt-1 text-muted">Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m.</div>
 				</div>
-				<div id="grp-rai">
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-rai" data-switch="grp-rai"><label class="custom-control-label" for="sw-rai">Iha detalla rai (enderesu, luan, poligon)?</label></div>
+				<div id="grp-rai" class="kond sub-box" hidden>
 				<div class="form-group"><label for="f-enderesu_fatin">Enderesu ka Deskrisaun Fatin</label><input id="f-enderesu_fatin" data-kampu="enderesu_fatin" class="form-control" maxlength="255"></div>
 				<div class="form-row">
 					<div class="form-group col-7"><label for="f-rai_luan">Rai nia Luan (Metru ka Hektar)</label><input id="f-rai_luan" data-kampu="rai_luan" data-tipu="decimal" type="number" min="0" step="any" class="form-control" inputmode="decimal"></div>
@@ -193,9 +194,12 @@
 			<fieldset class="step" data-step="4" hidden>
 				<legend>4. Fokal Point no Organizasaun Seluk</legend>
 				<div class="alert alert-light border small py-2"><i class="fa fa-user"></i> Fokal Point RbR (pergunta 28–32): automátiku husi ita (Investigadór ne'ebé rejista kazu).</div>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-org" data-switch="grp-org"><label class="custom-control-label" for="sw-org">Iha organizasaun seluk ne'ebé akompaña?</label></div>
+				<div id="grp-org" class="kond sub-box" hidden>
 				<div class="form-group"><label for="s-org_seluk">Organizasaun seluk ne'ebé halo akompaniamentu</label><input id="s-org_seluk" data-seg="org_seluk" class="form-control" maxlength="150"></div>
 				<div class="form-group"><label for="s-org_seluk_naran">Naran ema husi organizasaun seluk</label><input id="s-org_seluk_naran" data-seg="org_seluk_naran" class="form-control" maxlength="150"></div>
 				<div class="form-group"><label for="s-org_seluk_kontaktu">Numor Kontaktu (ema husi org seluk)</label><input id="s-org_seluk_kontaktu" data-seg="org_seluk_kontaktu" type="tel" class="form-control" maxlength="50"></div>
+				</div>
 				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-portavos" data-switch="grp-portavos"><label class="custom-control-label" for="sw-portavos">Iha portavós komunidade?</label></div>
 				<div id="grp-portavos" class="kond sub-box" hidden>
 					<div class="form-group"><label for="f-portavos_observasaun">Observasaun ruma kona ba portavos</label><input id="f-portavos_observasaun" data-kampu="portavos_observasaun" class="form-control" maxlength="255"></div>
@@ -208,6 +212,7 @@
 			<fieldset class="step" data-step="5" hidden>
 				<legend>5. Tribunál no Notifikasaun</legend>
 				<div class="form-group"><label for="s-tribunal_rejistu">Rejistu iha tribunal?</label><select id="s-tribunal_rejistu" data-seg="tribunal_rejistu" class="custom-select"><option value="">—</option>{% for c, l in seg_ops.tribunal_rejistu %}<option value="{{ c }}">{{ l }}</option>{% endfor %}</select></div>
+				<div id="grp-tribunal" class="kond sub-box" hidden>
 				<div class="form-group"><label for="s-tribunal_data">Data rejistu iha tribunal</label><input id="s-tribunal_data" data-seg="tribunal_data" type="date" class="form-control"></div>
 				<div class="form-group"><label for="s-tribunal_representa">Se mak rejistu ka representa</label><input id="s-tribunal_representa" data-seg="tribunal_representa" class="form-control" maxlength="255"></div>
 				<div class="form-group"><label for="s-advogadu_kontaktu">Informasaun kontaktu advogadu nian</label><input id="s-advogadu_kontaktu" data-seg="advogadu_kontaktu" class="form-control" maxlength="255">
@@ -215,14 +220,17 @@
 				<div class="form-group"><label for="s-tribunal_observasaun">Observasaun kona-ba prosesu tribunal</label><textarea id="s-tribunal_observasaun" data-seg="tribunal_observasaun" class="form-control" rows="2"></textarea></div>
 				<div class="form-row">
 					<div class="form-group col-6"><label for="s-tribunal_desizaun">Iha ona desizaun husi tribunal</label><select id="s-tribunal_desizaun" data-seg="tribunal_desizaun" class="custom-select"><option value="">—</option>{% for c, l in seg_ops.sin_lae %}<option value="{{ c }}">{{ l }}</option>{% endfor %}</select></div>
-					<div class="form-group col-6"><label for="s-tribunal_desizaun_data">Desizaun hatun sá data?</label><input id="s-tribunal_desizaun_data" data-seg="tribunal_desizaun_data" type="date" class="form-control"></div>
+					<div class="form-group col-6 kond" id="grp-tribunal_desizaun" hidden><label for="s-tribunal_desizaun_data">Desizaun hatun sá data?</label><input id="s-tribunal_desizaun_data" data-seg="tribunal_desizaun_data" type="date" class="form-control"></div>
+				</div>
 				</div>
 				<div class="form-row">
-					<div class="form-group col-6"><label for="s-notif_simu">Simu Notifikasaun Ona?</label><select id="s-notif_simu" data-seg="notif_simu" class="custom-select"><option value="">—</option>{% for c, l in seg_ops.sin_lae %}<option value="{{ c }}">{{ l }}</option>{% endfor %}</select></div>
-					<div class="form-group col-6"><label for="s-notif_data">Data simu notifikasaun</label><input id="s-notif_data" data-seg="notif_data" type="date" class="form-control"></div>
+					<div class="form-group col-12"><label for="s-notif_simu">Simu Notifikasaun Ona?</label><select id="s-notif_simu" data-seg="notif_simu" class="custom-select"><option value="">—</option>{% for c, l in seg_ops.sin_lae %}<option value="{{ c }}">{{ l }}</option>{% endfor %}</select></div>
 				</div>
+				<div id="grp-notif" class="kond sub-box" hidden>
+				<div class="form-group"><label for="s-notif_data">Data simu notifikasaun</label><input id="s-notif_data" data-seg="notif_data" type="date" class="form-control"></div>
 				<div class="form-group"><label for="s-notif_observasaun">Observasaun kona-ba prosesu notifikasaun</label><textarea id="s-notif_observasaun" data-seg="notif_observasaun" class="form-control" rows="2"></textarea></div>
 				<div class="form-group"><label for="s-notif_husi">Notifikasaun husi se?</label><input id="s-notif_husi" data-seg="notif_husi" class="form-control" maxlength="150"></div>
+				</div>
 			</fieldset>
 
 			<!-- Pasu 6: Eviksaun no Status Kazu (pergunta 51–63) -->
@@ -233,12 +241,15 @@
 					<div class="form-group"><label for="f-data_eviksaun">Data Eviksaun</label><input id="f-data_eviksaun" data-kampu="data_eviksaun" type="date" class="form-control"></div>
 					<div class="form-group"><label for="f-observasaun_eviksaun">Observasaun kona-ba eviksaun rasik</label><textarea id="f-observasaun_eviksaun" data-kampu="observasaun_eviksaun" class="form-control" rows="2"></textarea></div>
 				</div>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-status" data-switch="grp-status"><label class="custom-control-label" for="sw-status">Iha informasaun status kazu / desizaun RbR?</label></div>
+				<div id="grp-status" class="kond sub-box" hidden>
 				<div class="form-group"><label for="s-data_ikus_cek">Data ikus cek status kazu</label><input id="s-data_ikus_cek" data-seg="data_ikus_cek" type="date" class="form-control"></div>
 				<div class="form-group"><label for="s-status_rezolusaun">Status Kazu</label><select id="s-status_rezolusaun" data-seg="status_rezolusaun" class="custom-select"><option value="">—</option>{% for c, l in seg_ops.status_rezolusaun %}<option value="{{ c }}">{{ l }}</option>{% endfor %}</select>
 					<small class="form-text text-muted">Karik RbR refere kazu ida ne tiha ona, bele husik mamuk</small></div>
 				<div class="form-group"><label for="s-desizaun_rbr">RBR nia desizaun ba Kazu ne'e</label><select id="s-desizaun_rbr" data-seg="desizaun_rbr" class="custom-select"><option value="">—</option>{% for c, l in seg_ops.desizaun_rbr %}<option value="{{ c }}">{{ l }}</option>{% endfor %}</select>
 					<small class="form-text text-muted">'Arkivu' signifika katak kazu resolve ona ka RbR refere ona ba advogadu privadu sira.</small></div>
 				<div class="form-group"><label for="s-observasaun_kazu">Observasaun kona ba kazu</label><textarea id="s-observasaun_kazu" data-seg="observasaun_kazu" class="form-control" rows="2" placeholder="Fo esplikasaun badak kona ba RbR nia desizaun kona ba kazu ida ne"></textarea></div>
+				</div>
 				<div id="grp-eviksaun2" class="kond sub-box" hidden>
 					<div class="form-group"><label for="f-konsultasaun_molok">Molok eviksaun iha konsultasaun ka lae?</label><select id="f-konsultasaun_molok" data-kampu="konsultasaun_molok" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">Lahatene</option></select></div>
 					<div class="form-group"><label for="f-notifikasaun_klaru">Molok eviksaun iha notifikasaun klaru ka lae?</label><select id="f-notifikasaun_klaru" data-kampu="notifikasaun_klaru" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option><option value="LAHATENE">Lahatene</option></select></div>

@@ -3943,3 +3943,11 @@ msgstr "Tinan ne'ebe disputa hahu entre parte rua"
 #: kazu/forms.py
 msgid "Tribunál no Notifikasaun"
 msgstr "Tribunál no Notifikasaun"
+
+#: kazu/forms.py
+msgid "Iha informasaun status kazu / desizaun RbR?"
+msgstr "Iha informasaun status kazu / desizaun RbR?"
+
+#: kazu/forms.py
+msgid "Iha organizasaun seluk ne'ebé akompaña?"
+msgstr "Iha organizasaun seluk ne'ebé akompaña?"

@@ -90,13 +90,19 @@
 		}
 		var tk = document.querySelector('[data-entidade-ids]');
 		var entidadeIds = tk ? tk.dataset.entidadeIds.split(',') : [];
+		var selukIds = tk ? tk.dataset.selukIds.split(',') : [];
+		function tipuIha(ids) {
+			return Array.prototype.some.call(document.querySelectorAll('input[name="tipu_konflitu"]:checked'), function (i) { return ids.indexOf(i.value) >= 0; });
+		}
 		var umaKainTuan = !val('id_iha_dadus_uma_kain') && Array.prototype.some.call(document.querySelectorAll('[data-grp="uma_kain"]'), ihaDadus);
 		var regra = {
-			entidade: function () {
-				return Array.prototype.some.call(document.querySelectorAll('input[name="tipu_konflitu"]:checked'), function (i) { return entidadeIds.indexOf(i.value) >= 0; });
-			},
+			entidade: function () { return tipuIha(entidadeIds); },
+			seluk: function () { return tipuIha(selukIds); },
 			uma_kain: function () { var v = val('id_iha_dadus_uma_kain'); return v === 'SIN' || (umaKainTuan && !v); },
-			eviksaun: function () { return val('id_eviksaun_akontese') === 'SIN'; }
+			eviksaun: function () { return val('id_eviksaun_akontese') === 'SIN'; },
+			tribunal: function () { return ['SIN', 'DADAUN'].indexOf(val('id_seg-tribunal_rejistu')) >= 0; },
+			tribunal_desizaun: function () { return val('id_seg-tribunal_desizaun') === 'SIN'; },
+			notif: function () { return val('id_seg-notif_simu') === 'SIN'; }
 		};
 		document.querySelectorAll('[data-switch]').forEach(function (sw) {
 			var grp = document.querySelector('[data-grp="' + sw.dataset.switch + '"]');
@@ -107,7 +113,7 @@
 			document.querySelectorAll('[data-grp]').forEach(function (g) { g.hidden = !(regra[g.dataset.grp] && regra[g.dataset.grp]()); });
 		}
 		form.addEventListener('change', function (e) {
-			if (e.target.dataset.switch || e.target.name === 'tipu_konflitu' || e.target.id === 'id_iha_dadus_uma_kain' || e.target.id === 'id_eviksaun_akontese') atualiza();
+			if (e.target.dataset.switch || e.target.tagName === 'SELECT' || e.target.name === 'tipu_konflitu') atualiza();
 		});
 		// Haruka: dadus iha grupu subar la rai (atór tuan → hamoos)
 		form.addEventListener('submit', function () {

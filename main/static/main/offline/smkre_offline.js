@@ -461,6 +461,10 @@
 		hatuduMedia();
 		// Switch "Iha …?" loke automátiku se iha ona dadus
 		var afe = k.afetadu || {};
+		var seg0 = k.segimentu || {}, iha = function (cs) { return cs.some(function (c) { return seg0[c] != null && seg0[c] !== ''; }); };
+		$('sw-rai').checked = !!(k.enderesu_fatin || k.rai_luan != null || polPontuHotu(k) > 0);
+		$('sw-org').checked = iha(['org_seluk', 'org_seluk_naran', 'org_seluk_kontaktu']);
+		$('sw-status').checked = iha(['data_ikus_cek', 'status_rezolusaun', 'desizaun_rbr', 'observasaun_kazu']);
 		$('sw-portavos').checked = !!(k.portavos_naran || k.portavos_kontaktu || k.portavos_observasaun);
 		$('sw-ator').checked = (k.ator || []).length > 0;
 		$('sw-estragu').checked = (k.estragu || []).length > 0 || !!k.estragu_seluk;
@@ -496,10 +500,13 @@
 		$('grp-entidade').hidden = !tk.querySelector('input[data-entidade]:checked');
 		$('grp-uma_kain').hidden = !($('f-iha_dadus_uma_kain').value === 'SIN' || (S.umaKainTuan && !$('f-iha_dadus_uma_kain').value));
 		$('grp-eviksaun').hidden = $('grp-eviksaun2').hidden = $('f-eviksaun_akontese').value !== 'SIN';
+		$('grp-tribunal').hidden = ['SIN', 'DADAUN'].indexOf($('s-tribunal_rejistu').value) < 0;
+		$('grp-tribunal_desizaun').hidden = $('s-tribunal_desizaun').value !== 'SIN';
+		$('grp-notif').hidden = $('s-notif_simu').value !== 'SIN';
 		document.querySelectorAll('[data-switch]').forEach(function (sw) { $(sw.dataset.switch).hidden = !sw.checked; });
 		if (!$('grp-ator').hidden && !$('lista-ator').children.length) aumentaAtor(null);
 	}
-	['f-iha_dadus_uma_kain', 'f-eviksaun_akontese'].forEach(function (id) { $(id).addEventListener('change', hatuduKond); });
+	['f-iha_dadus_uma_kain', 'f-eviksaun_akontese', 's-tribunal_rejistu', 's-tribunal_desizaun', 's-notif_simu'].forEach(function (id) { $(id).addEventListener('change', hatuduKond); });
 	document.querySelectorAll('[data-switch]').forEach(function (sw) {
 		sw.addEventListener('change', function () {
 			if (sw.id === 'sw-video' && !sw.checked && S.media.some(function (m) { return m.tipu === 'VIDEO'; })) {
@@ -565,6 +572,8 @@
 		document.querySelectorAll('[data-seg]').forEach(function (el) { var v = el.value.trim(); if (v) k.segimentu[el.dataset.seg] = v; });
 		document.querySelectorAll('.kond[hidden] [data-kampu]').forEach(function (el) { k[el.dataset.kampu] = null; });
 		document.querySelectorAll('.kond[hidden] [data-afetadu]').forEach(function (el) { k.afetadu[el.dataset.afetadu] = null; });
+		document.querySelectorAll('.kond[hidden] [data-seg]').forEach(function (el) { delete k.segimentu[el.dataset.seg]; });
+		if (subar('grp-rai')) k.poligon_pontu = [[]];
 		if (polBidang(k).length) { var lr = luanRai(SIBARPoligon.kalkula(polBidang(k)).luan_m2); k.rai_luan = lr[0]; k.rai_luan_unidade = lr[1]; }
 		if (subar('grp-ator')) k.ator = [];
 		if (subar('grp-estragu')) { k.estragu = []; k.estragu_seluk = ''; }

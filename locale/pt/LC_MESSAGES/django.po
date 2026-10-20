@@ -3877,3 +3877,11 @@ msgstr "Ano em que a disputa começou entre as partes"
 #: kazu/forms.py
 msgid "Tribunál no Notifikasaun"
 msgstr "Tribunal e notificação"
+
+#: kazu/forms.py
+msgid "Iha informasaun status kazu / desizaun RbR?"
+msgstr "Há informação sobre o estado do caso / decisão da RbR?"
+
+#: kazu/forms.py
+msgid "Iha organizasaun seluk ne'ebé akompaña?"
+msgstr "Há outra organização que acompanha?"

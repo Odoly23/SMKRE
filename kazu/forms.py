@@ -34,7 +34,7 @@ def section(num, title):
 
 
 # Formuláriu badak: grupu opsionál subar to'o resposta (haree kazu/form.html no app offline)
-SWITCH_LABELS = [_('Iha detalla rai (enderesu, luan)?'), _('Iha portavós komunidade?'), _('Iha atór envolvidu?'),
+SWITCH_LABELS = [_("Iha organizasaun seluk ne'ebé akompaña?"), _('Iha informasaun status kazu / desizaun RbR?'), _('Iha detalla rai (enderesu, luan)?'), _('Iha portavós komunidade?'), _('Iha atór envolvidu?'),
 	_('Iha estragu patrimóniu?'), _('Iha nesesidade urjente?')]
 
 
@@ -122,6 +122,8 @@ class KazuForm(forms.ModelForm):
 		# Tipu Governu / entidade legál → hatudu Projetu no Entidade (JS lee lista id)
 		self.fields['tipu_konflitu'].widget.attrs['data-entidade-ids'] = ','.join(
 			str(pk) for pk in TipuKonflitu.objects.filter(code__in=TIPU_ENTIDADE).values_list('pk', flat=True))
+		self.fields['tipu_konflitu'].widget.attrs['data-seluk-ids'] = ','.join(
+			str(pk) for pk in TipuKonflitu.objects.filter(presiza_esplika=True).values_list('pk', flat=True))
 
 		# Investigadór: munisípiu knaar deit (la bele muda)
 		if self.munisipiu_knaar:
@@ -168,7 +170,7 @@ class KazuForm(forms.ModelForm):
 			section(1, 'Identifikasaun Kazu'),
 			Row(col('numeru_rbr', 3), col('data_relatoriu', 3), col('tinan_simu', 3), col('tinan_disputa_hahu', 3), css_class='form-row'),
 			'titulu',
-			Row(col('tipu_konflitu', 6), col('tipu_seluk', 6), css_class='form-row'),
+			Row(col('tipu_konflitu', 6), Column(grupu('seluk', 'tipu_seluk'), css_class='col-md-6'), css_class='form-row'),   # "Seluk" → esplika
 			'deskrisaun',
 			grupu('entidade', Row(col('projetu', 4), col('entidade_foti', 4), col('entidade_kategoria', 4), css_class='form-row')),
 		)
@@ -178,8 +180,9 @@ class KazuForm(forms.ModelForm):
 			HTML(""" {% load i18n %}<div class="gps-box mb-2"><div class="d-flex justify-content-between align-items-center flex-wrap"><b><i class="fa fa-map-marker"></i> {% trans "Pontu Kordenadu (GPS)" %}</b><button type="button" class="btn btn-sm btn-outline-rbr" id="btn-gps"><i class="fa fa-crosshairs"></i> {% trans "Foti GPS" %}</button></div><small id="gps-msg" class="text-muted">{% trans "Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m." %}</small></div> """),
 			Row(Column('latitude', css_class='form-group col-6 col-md-4 mb-0'), Column('longitude', css_class='form-group col-6 col-md-4 mb-0'),
 				Column('gps_akurasia', css_class='form-group col-12 col-md-4 mb-0'), css_class='form-row'),
-			'enderesu_fatin',
-			Row(Column('rai_luan', css_class='form-group col-7 col-md-4 mb-0'), Column('rai_luan_unidade', css_class='form-group col-5 col-md-3 mb-0'), css_class='form-row'),
+			switch('rai', 'Iha detalla rai (enderesu, luan)?'),
+			grupu('rai', 'enderesu_fatin',
+				Row(Column('rai_luan', css_class='form-group col-7 col-md-4 mb-0'), Column('rai_luan_unidade', css_class='form-group col-5 col-md-3 mb-0'), css_class='form-row')),
 		)
 		self.helper_pop = _helper(      # 3. Populasaun afetada (pergunta 18; formset 19–25 iha template)
 			section(3, 'Populasaun Afetada'),
@@ -251,6 +254,8 @@ class KazuForm(forms.ModelForm):
 			self.add_error('tipu_seluk', _('Favor esplika tipu konflitu "Seluk".'))
 
 		# Resposta kondisionál: kampu ne'ebé la aplika la rai (hanesan formuláriu subar)
+		if tipu and not any(t.presiza_esplika for t in tipu):
+			cleaned['tipu_seluk'] = ''
 		if tipu and not any(t.code in TIPU_ENTIDADE for t in tipu):
 			cleaned.update(projetu='', entidade_foti='', entidade_kategoria='')
 		if cleaned.get('eviksaun_akontese') != 'SIN':
@@ -345,20 +350,36 @@ class SegimentuKazuForm(forms.ModelForm):
 		self.helper_org = _helper(       # 4. Fokal point (automátiku) + organizasaun seluk (pergunta 28–37)
 			section(4, 'Fokal Point no Organizasaun Seluk'),
 			HTML(""" {% load i18n %}<div class="alert alert-light border small py-2"><i class="fa fa-user"></i> {% trans "Fokal Point RbR (pergunta 28–32): automátiku husi Investigadór ne'ebé rejista kazu. Admin bele muda iha detalla kazu." %}</div> """),
-			Row(col('org_seluk', 4), col('org_seluk_naran', 4), col('org_seluk_kontaktu', 4), css_class='form-row'),
+			switch('org', "Iha organizasaun seluk ne'ebé akompaña?"),
+			grupu('org', Row(col('org_seluk', 4), col('org_seluk_naran', 4), col('org_seluk_kontaktu', 4), css_class='form-row')),
 		)
 		self.helper_tribunal = _helper(  # 5. Tribunál no notifikasaun (pergunta 40–50)
 			section(5, 'Tribunál no Notifikasaun'),
-			Row(col('tribunal_rejistu', 4), col('tribunal_data', 4), col('tribunal_representa', 4), css_class='form-row'),
-			'advogadu_kontaktu', 'tribunal_observasaun',
-			Row(col('tribunal_desizaun', 6), col('tribunal_desizaun_data', 6), css_class='form-row'),
-			Row(col('notif_simu', 6), col('notif_data', 6), css_class='form-row'),
-			'notif_observasaun', 'notif_husi',
+			Row(col('tribunal_rejistu', 4), css_class='form-row'),
+			grupu('tribunal',                # Rejistu = Sin / Agora dadaun → detalla tribunál
+				Row(col('tribunal_data', 4), col('tribunal_representa', 8), css_class='form-row'),
+				'advogadu_kontaktu', 'tribunal_observasaun',
+				Row(col('tribunal_desizaun', 6), Column(grupu('tribunal_desizaun', 'tribunal_desizaun_data'), css_class='col-md-6'), css_class='form-row'),
+			),
+			Row(col('notif_simu', 4), css_class='form-row'),
+			grupu('notif', Row(col('notif_data', 4), col('notif_husi', 8), css_class='form-row'), 'notif_observasaun'),   # Simu = Sin
 		)
 		self.helper_status = _helper(    # pergunta 54–58
-			Row(col('data_ikus_cek', 4), col('status_rezolusaun', 8), css_class='form-row'),
-			'desizaun_rbr', 'observasaun_kazu',
+			switch('status', 'Iha informasaun status kazu / desizaun RbR?'),
+			grupu('status', Row(col('data_ikus_cek', 4), col('status_rezolusaun', 8), css_class='form-row'), 'desizaun_rbr', 'observasaun_kazu'),
 		)
+
+	def clean(self):
+		# Resposta kondisionál: detalla ne'ebé la aplika la rai (hanesan formuláriu subar)
+		cleaned = super().clean()
+		if cleaned.get('tribunal_rejistu') not in ('SIN', 'DADAUN'):
+			cleaned.update(tribunal_data=None, tribunal_representa='', advogadu_kontaktu='', tribunal_observasaun='',
+				tribunal_desizaun='', tribunal_desizaun_data=None)
+		if cleaned.get('tribunal_desizaun') != 'SIN':
+			cleaned['tribunal_desizaun_data'] = None
+		if cleaned.get('notif_simu') != 'SIN':
+			cleaned.update(notif_data=None, notif_observasaun='', notif_husi='')
+		return cleaned
 
 
 class _InlineBase(forms.ModelForm):

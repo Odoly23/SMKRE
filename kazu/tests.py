@@ -834,3 +834,13 @@ class FormulariuDocxTest(KazuBase):
 		# Data la hatene: tinan de'it
 		k2 = self.create_kazu('rai', data_relatoriu='', tinan_simu='2015', numeru_rbr='43')
 		self.assertEqual((k2.data_relatoriu, k2.tinan_simu), (None, 2015))
+
+	def test_resposta_kondisional_segimentu(self):
+		# Rejistu tribunál = Lae → detalla tribunál la rai; Simu notifikasaun = Lae → detalla notifikasaun la rai; tipu la'ós Seluk → esplika la rai
+		kazu = self.create_kazu('rai', tipu_seluk='la presiza', **{'seg-tribunal_rejistu': 'LAE', 'seg-tribunal_representa': 'Advogadu',
+			'seg-notif_simu': 'LAE', 'seg-notif_husi': 'Ministériu', 'seg-tribunal_desizaun': 'SIN'})
+		s = kazu.segimentu
+		self.assertEqual((s.tribunal_representa, s.tribunal_desizaun, s.notif_husi, kazu.tipu_seluk), ('', '', '', ''))
+		html = self.client.get(reverse('kazu-update', args=[kazu.pk])).content.decode()
+		for g in ('rai', 'seluk', 'org', 'tribunal', 'tribunal_desizaun', 'notif', 'status'):
+			self.assertIn(f'data-grp="{g}"', html)

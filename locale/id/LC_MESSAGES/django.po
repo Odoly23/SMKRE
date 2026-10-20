@@ -3846,3 +3846,11 @@ msgstr "Tahun sengketa dimulai antara kedua pihak"
 #: kazu/forms.py
 msgid "Tribunál no Notifikasaun"
 msgstr "Pengadilan dan notifikasi"
+
+#: kazu/forms.py
+msgid "Iha informasaun status kazu / desizaun RbR?"
+msgstr "Ada informasi status kasus / keputusan RbR?"
+
+#: kazu/forms.py
+msgid "Iha organizasaun seluk ne'ebé akompaña?"
+msgstr "Ada organisasi lain yang mendampingi?"
