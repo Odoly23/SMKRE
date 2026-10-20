@@ -178,3 +178,148 @@ class ClientIPTest(TestCase):
 		from config.utils import get_client_ip
 		req = RequestFactory().get('/', HTTP_X_FORWARDED_FOR='1.2.3.4', REMOTE_ADDR='10.0.0.5')
 		self.assertEqual(get_client_ip(req), '10.0.0.5')
+
+
+# ══ Survei legál (Perguntas Xave Sira Legal) ══
+import json as _json
+import uuid as _uuid
+from rest_framework_simplejwt.tokens import RefreshToken
+from legal.models import SurveiLegal
+from users.models import OfflinePermission
+from users.services import give_offline
+
+JPG = b'\xff\xd8\xff\xe0' + b'0' * 200
+
+
+class SurveiBase(LegalBase):
+	def setUp(self):
+		super().setUp()
+		self.mun = Munisipiu.objects.get(code='LIQ')
+
+	def dadus(self, **extra):
+		d = {'data_survei': str(timezone.localdate()), 'munisipiu': self.mun.pk, 'parte_naran': 'Maria',
+			'meius': 'SOSA', 'sosa_husi_se': 'Joao', 'sosa_sasin': 'SIN', 'sasin_1': 'Sasin A',
+			'eransa_husi_se': 'la relevante', 'sosa_akordu': 'LAE', 'sosa_akordu_fatin': 'subar',
+			'dok_identifikasaun': ['BI'], 'fotografia': ['UMA', 'NATAR']}
+		d.update(extra)
+		return d
+
+
+class SurveiWebTest(SurveiBase):
+	def test_labele_input_la_iha_autorizasaun(self):
+		self.client.force_login(self.legal)
+		r = self.client.get(reverse('legal-survei-add'))
+		self.assertRedirects(r, reverse('legal-survei-list'))
+		self.assertNotContains(self.client.get(reverse('home')), reverse('legal-survei-add'))
+
+	def test_autorizasaun_futuru_seidauk_ativu(self):
+		give_offline(self.legal, by=self.admin, hahu=timezone.localdate() + timedelta(days=2))
+		self.client.force_login(self.legal)
+		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 302)
+
+	def test_input_haruka_hamoos_grupu_subar(self):
+		give_offline(self.legal, by=self.admin)
+		self.client.force_login(self.legal)
+		self.assertContains(self.client.get(reverse('home')), reverse('legal-survei-add'))
+		with self.captureOnCommitCallbacks(execute=True):
+			r = self.client.post(reverse('legal-survei-add'), dict(self.dadus(), aksaun='haruka'))
+		s = SurveiLegal.objects.get()
+		self.assertRedirects(r, reverse('legal-survei-detail', args=[s.pk]))
+		self.assertEqual(s.status, SurveiLegal.HARUKA)
+		self.assertTrue(s.kode.startswith('LGL-LIQ-'))
+		self.assertEqual(s.eransa_husi_se, '')              # meius la'ós eransa
+		self.assertEqual(s.sosa_akordu_fatin, '')           # akordu = LAE
+		self.assertEqual(s.sasin_1, 'Sasin A')
+		self.assertEqual(s.fotografia, ['UMA', 'NATAR'])
+		self.assertTrue(Notification.objects.filter(recipient=self.admin).exists())
+
+	def test_kazu_sibar_kopia_fatin(self):
+		give_offline(self.legal, by=self.admin)
+		self.client.force_login(self.legal)
+		self.client.post(reverse('legal-survei-add'), self.dadus(kazu=self.kazu.pk, munisipiu=''))
+		s = SurveiLegal.objects.get()
+		self.assertEqual(s.munisipiu, self.kazu.munisipiu)
+		self.assertEqual(s.status, SurveiLegal.RASCUNHO)
+
+	def test_kazu_foun_presiza_munisipiu(self):
+		give_offline(self.legal, by=self.admin)
+		self.client.force_login(self.legal)
+		r = self.client.post(reverse('legal-survei-add'), self.dadus(munisipiu=''))
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(SurveiLegal.objects.exists())
+
+	def test_admin_verifika_rejeita_no_asesu(self):
+		give_offline(self.legal, by=self.admin)
+		self.client.force_login(self.legal)
+		self.client.post(reverse('legal-survei-add'), dict(self.dadus(), aksaun='haruka'))
+		s = SurveiLegal.objects.get()
+		self.client.force_login(self.analista)
+		self.assertEqual(self.client.get(reverse('legal-survei-detail', args=[s.pk])).status_code, 403)
+		self.client.force_login(self.admin)
+		self.client.post(reverse('legal-survei-verifika', args=[s.pk]), {'aksaun': 'rejeita', 'nota': ''})
+		s.refresh_from_db()
+		self.assertEqual(s.status, SurveiLegal.HARUKA)       # razaun obrigatóriu
+		self.client.post(reverse('legal-survei-verifika', args=[s.pk]), {'aksaun': 'rejeita', 'nota': 'Falta dokumentu'})
+		s.refresh_from_db()
+		self.assertEqual(s.status, SurveiLegal.REJEITADU)
+		self.client.force_login(self.legal)
+		self.assertEqual(self.client.get(reverse('legal-survei-update', args=[s.pk])).status_code, 200)
+
+	def test_upload_no_download_file(self):
+		give_offline(self.legal, by=self.admin)
+		self.client.force_login(self.legal)
+		self.client.post(reverse('legal-survei-add'), self.dadus())
+		s = SurveiLegal.objects.get()
+		self.client.post(reverse('legal-survei-file-add', args=[s.pk]), {'tipu': 'FOTO', 'naran': 'uma', 'file': SimpleUploadedFile('a.jpg', JPG)})
+		self.client.post(reverse('legal-survei-file-add', args=[s.pk]), {'tipu': 'FOTO', 'file': SimpleUploadedFile('a.jpg', b'falsu')})
+		self.assertEqual(s.files.count(), 1)
+		f = s.files.get()
+		self.client.force_login(self.admin)
+		self.assertEqual(self.client.get(reverse('legal-survei-file', args=[f.pk])).status_code, 404)   # rascunho: Admin la haree
+		self.client.force_login(self.inv)
+		self.assertEqual(self.client.get(reverse('legal-survei-file', args=[f.pk])).status_code, 403)
+
+	def test_dashboard(self):
+		for u in (self.legal, self.admin, self.analista):
+			self.client.force_login(u)
+			self.assertEqual(self.client.get(reverse('legal-dash')).status_code, 200)
+		self.client.force_login(self.inv)
+		self.assertEqual(self.client.get(reverse('legal-dash')).status_code, 403)
+
+
+class SurveiAPITest(SurveiBase):
+	def api(self, user):
+		from django.test import Client
+		return Client(HTTP_AUTHORIZATION='Bearer ' + str(RefreshToken.for_user(user).access_token))
+
+	def test_sinkron_survei_husi_hp(self):
+		give_offline(self.legal, by=self.admin)
+		c = self.api(self.legal)
+		r = c.get(reverse('api-sinkron-legal-opsaun'))
+		self.assertEqual(r.status_code, 200)
+		self.assertIn(str(self.kazu.pk), [k['id'] for k in r.json()['kazu']])
+		sid = str(_uuid.uuid4())
+		body = dict(self.dadus(), id=sid, kria_iha=timezone.now().isoformat())
+		url = reverse('api-sinkron-survei')
+		self.assertEqual(c.post(url, _json.dumps(body), content_type='application/json').status_code, 201)
+		self.assertEqual(c.post(url, _json.dumps(body), content_type='application/json').status_code, 200)   # idempotente
+		fid = str(_uuid.uuid4())
+		furl = reverse('api-sinkron-survei-file', args=[sid])
+		self.assertEqual(c.post(furl, {'id': fid, 'tipu': 'DOKUMENTU', 'file': SimpleUploadedFile('d.jpg', JPG)}).status_code, 201)
+		self.assertEqual(c.post(furl, {'id': fid, 'tipu': 'DOKUMENTU', 'file': SimpleUploadedFile('d.jpg', JPG)}).status_code, 200)
+		r = c.post(reverse('api-sinkron-survei-haruka', args=[sid]))
+		self.assertEqual(r.json()['status'], SurveiLegal.HARUKA)
+		s = SurveiLegal.objects.get(pk=sid)
+		self.assertEqual((s.files.count(), s.eransa_husi_se, s.created_by), (1, '', self.legal))
+
+	def test_sinkron_liur_periodu_autorizasaun(self):
+		perm = give_offline(self.legal, by=self.admin)
+		OfflinePermission.objects.filter(pk=perm.pk).update(start_date=timezone.now() - timedelta(days=9), end_date=timezone.now() - timedelta(days=2))
+		body = dict(self.dadus(), id=str(_uuid.uuid4()), kria_iha=timezone.now().isoformat())
+		r = self.api(self.legal).post(reverse('api-sinkron-survei'), _json.dumps(body), content_type='application/json')
+		self.assertEqual(r.status_code, 400)
+
+	def test_investigador_labele_uza_api_legal(self):
+		give_offline(self.inv, by=self.admin)
+		self.assertEqual(self.api(self.inv).get(reverse('api-sinkron-survei')).status_code, 403)
+		self.assertEqual(self.api(self.legal).get(reverse('api-sinkron-opsaun')).status_code, 403)

@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from config.permissions import HasRole
-from config.rbac import INVESTIGADOR
+from config.rbac import INVESTIGADOR, OFISIAL_LEGAL
 from custom.data.opsaun import TIPU_ENTIDADE
 from custom.models import PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, TipuEviksaun, \
 	TipuAtor, EstraguPatrimoniu, NesesidadeUrjente
@@ -139,3 +139,93 @@ class APIFollowup(_SinkronAPI):
 	def get(self, request, uuid, format=None):
 		kazu = get_object_or_404(Kazu.objects.select_related('segimentu'), pk=uuid, followup_ba=request.user, status=FOLLOWUP)
 		return Response(kazu_ba_hp(kazu))
+
+
+# ══ Survei legál (Ofisiál Legál) ══
+class _LegalAPI(_SinkronAPI):
+	permission_classes = [IsAuthenticated, HasRole(OFISIAL_LEGAL)]
+
+
+class APIOpsaunLegal(_LegalAPI):
+	# Ofisiál Legál servisu iha munisípiu hotu: fatin hotu + kazu SIBAR verifikadu (atu liga survei)
+	def get(self, request, format=None):
+		from custom.models import Munisipiu
+		from legal.services import KAZU_STATUS_LEGAL
+		mun = Munisipiu.active.all()
+		postu = PostuAdministrativu.active.filter(munisipiu__in=mun)
+		suku = Suku.active.filter(postu__in=postu)
+		aldeia = Aldeia.active.filter(suku__in=suku)
+		kazu = Kazu.objects.filter(status__in=KAZU_STATUS_LEGAL).order_by('munisipiu__name', 'kode').values_list('pk', 'kode', 'titulu', 'munisipiu_id')[:5000]
+		return Response({
+			'legal': True,
+			'munisipiu': {'id': None, 'code': '', 'name': ''},
+			'munisipiu_lista': _lista(mun),
+			'postu': _lista(postu, 'munisipiu_id'),
+			'suku': _lista(suku, 'postu_id'),
+			'aldeia': _lista(aldeia, 'suku_id'),
+			'kazu': [{'id': str(pk), 'kode': kode or '', 'titulu': (titulu or '')[:80], 'munisipiu_id': m} for pk, kode, titulu, m in kazu],
+		})
+
+
+class APISurveiLista(_LegalAPI):
+	parser_classes = [JSONParser]
+
+	def get(self, request, format=None):
+		from legal.models import SurveiLegal
+		objects = SurveiLegal.objects.filter(created_by=request.user).order_by('-updated_at')[:100]
+		return Response({'survei': [{
+			'id': str(s.pk), 'kode': s.kode, 'status': s.status, 'status_label': s.get_status_display(),
+			'nota': s.nota_rejeita if s.status == SurveiLegal.REJEITADU else '', 'parte': s.parte_naran,
+		} for s in objects]})
+
+	def post(self, request, format=None):
+		from legal.survei import sync_survei
+		if not isinstance(request.data, dict):
+			return Response({'erru': {'__all__': [_('Dadus la validu.')]}}, status=400)
+		try:
+			try:
+				s, foun = sync_survei(request.user, request.data)
+			except IntegrityError:
+				s, foun = sync_survei(request.user, request.data)
+		except PermissionDenied:
+			return Response({'erru': {'__all__': [_('La iha asesu.')]}}, status=403)
+		except ValidationError as e:
+			return Response(_erru(e), status=400)
+		return Response({'id': str(s.pk), 'kode': s.kode, 'status': s.status, 'files': s.files.count()}, status=201 if foun else 200)
+
+
+class APISurveiFile(_LegalAPI):
+	parser_classes = [MultiPartParser]
+
+	def post(self, request, uuid, format=None):
+		from legal.models import SurveiLegal
+		from legal.survei import sync_survei_file
+		s = get_object_or_404(SurveiLegal, pk=uuid, created_by=request.user)
+		f = request.FILES.get('file')
+		if not f:
+			return Response({'erru': {'file': [_('File la iha.')]}}, status=400)
+		try:
+			try:
+				obj, foun = sync_survei_file(request.user, s, request.data.get('id'), request.data.get('tipu'), f, request.data.get('naran', ''))
+			except IntegrityError:
+				f.seek(0)
+				obj, foun = sync_survei_file(request.user, s, request.data.get('id'), request.data.get('tipu'), f, request.data.get('naran', ''))
+		except PermissionDenied:
+			return Response({'erru': {'__all__': [_('La iha asesu.')]}}, status=403)
+		except ValidationError as e:
+			return Response(_erru(e), status=400)
+		return Response({'id': str(obj.pk), 'tipu': obj.tipu}, status=201 if foun else 200)
+
+
+class APISurveiHaruka(_LegalAPI):
+	def post(self, request, uuid, format=None):
+		from legal.models import SurveiLegal
+		from legal.survei import haruka
+		s = get_object_or_404(SurveiLegal, pk=uuid, created_by=request.user)
+		if not s.editable:
+			return Response({'id': str(s.pk), 'kode': s.kode, 'status': s.status})
+		try:
+			s = haruka(s, request.user)
+		except ValidationError as e:
+			return Response(_erru(e), status=400)
+		return Response({'id': str(s.pk), 'kode': s.kode, 'status': s.status})

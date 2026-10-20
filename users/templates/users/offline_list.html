@@ -6,24 +6,26 @@
 		<h2 class="mb-2">{{ legend }}</h2>
 		{% if can_give_offline %}<a href="{% url 'offline-give' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Fó Autorizasaun" %}</a>{% endif %}
 	</div>
-	<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Autorizasaun validu loron 7. Bainhira remata, Investigadór labele kria kazu foun maibé bele nafatin sinkron." %}</div>
+	<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Autorizasaun input ba Investigadór (kazu) no Ofisiál Legál (survei legál). Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, butaun input subar no labele kria dadus foun, maibé bele nafatin sinkron." %}</div>
 	<div class="card card-rbr">
 		<div class="card-body">
 			<div class="table-responsive table-cards">
 				<table class="table table-sm table-hover">
 					<thead><tr>
-						<th>{% trans "Investigadór" %}</th><th>{% trans "Munisípiu" %}</th><th>{% trans "Hahú" %}</th>
+						<th>{% trans "Utilizador" %}</th><th>{% trans "Papél" %}</th><th>{% trans "Munisípiu" %}</th><th>{% trans "Hahú" %}</th>
 						<th>{% trans "Remata" %}</th><th>{% trans "Status" %}</th><th>{% trans "Fó husi" %}</th><th></th>
 					</tr></thead>
 					<tbody>
 					{% for obj in objects %}
 					<tr>
-						<td data-label="{% trans "Investigadór" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b></td>
+						<td data-label="{% trans "Utilizador" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b></td>
+						<td data-label="{% trans "Papél" %}">{% for g in obj.user.groups.all %}{% if g.name == 'ofisial_legal' %}<span class="badge badge-info">{% trans "Ofisiál Legál" %}</span>{% else %}<span class="badge badge-light">{% trans "Investigadór" %}</span>{% endif %}{% endfor %}</td>
 						<td data-label="{% trans "Munisípiu" %}">{{ obj.user.pesoaluser.pesoal.munisipiu|default:"-" }}</td>
 						<td data-label="{% trans "Hahú" %}">{{ obj.start_date|date:"d/m/Y H:i" }}</td>
 						<td data-label="{% trans "Remata" %}">{{ obj.end_date|date:"d/m/Y H:i" }}</td>
 						<td data-label="{% trans "Status" %}">
 							{% if obj.is_valid %}<span class="badge badge-success rounded-pill px-3"><i class="fa fa-check"></i> {% trans "Ativu" %}</span>
+							{% elif obj.is_future %}<span class="badge badge-warning rounded-pill px-3"><i class="fa fa-hourglass-start"></i> {% trans "Hein hahú" %}</span>
 							{% elif obj.cancelled_at %}<span class="badge badge-danger rounded-pill px-3"><i class="fa fa-ban"></i> {% trans "Kansela" %}</span>
 							{% else %}<span class="badge badge-secondary rounded-pill px-3"><i class="fa fa-clock-o"></i> {% trans "Remata" %}</span>{% endif %}
 						</td>
@@ -37,7 +39,7 @@
 						</td>
 					</tr>
 					{% empty %}
-					<tr><td colspan="7" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
+					<tr><td colspan="8" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
 					{% endfor %}
 					</tbody>
 				</table>

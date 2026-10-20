@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import ROLE_OFFLINE_FO, ROLE_USER_MANAGE, INVESTIGADOR
+from config.rbac import ROLE_OFFLINE_FO, ROLE_USER_MANAGE, ROLE_INPUT_OFFLINE
 from users.auth_utils import c_user_pesoal
 from users.emails import kirim_email_offline
 from users.forms import OfflinePermissionForm
@@ -16,7 +16,7 @@ from users.services import give_offline, cancel_offline
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 def OfflineList(request):
 	group = request.user.groups.all()[0].name
-	objects = OfflinePermission.objects.select_related('user__pesoaluser__pesoal__munisipiu', 'given_by')[:300]
+	objects = OfflinePermission.objects.select_related('user__pesoaluser__pesoal__munisipiu', 'given_by').prefetch_related('user__groups')[:300]
 	context = {
 		'group': group, "page": "offline",
 		'objects': objects,
@@ -33,7 +33,8 @@ def OfflineGive(request):
 		form = OfflinePermissionForm(request.POST)
 		if form.is_valid():
 			user = form.cleaned_data['user']
-			perm = give_offline(user, by=request.user, note=form.cleaned_data.get('note', ''))
+			perm = give_offline(user, by=request.user, note=form.cleaned_data.get('note', ''),
+				hahu=form.cleaned_data.get('data_hahu'), remata=form.cleaned_data.get('data_remata'))
 			kirim_email_offline(user, c_user_pesoal(user), perm)
 			messages.success(request, _('Autorizasaun offline fó ona to\'o %(date)s.') % {'date': perm.end_date.strftime('%d/%m/%Y')})
 			return redirect('offline-list')
@@ -52,7 +53,7 @@ def OfflineGive(request):
 @require_POST
 def OfflineRenew(request, pk):
 	obj = get_object_or_404(OfflinePermission, pk=pk)
-	if not obj.user.is_active or not obj.user.groups.filter(name=INVESTIGADOR).exists():
+	if not obj.user.is_active or not obj.user.groups.filter(name__in=ROLE_INPUT_OFFLINE).exists():
 		messages.error(request, _('Utilizador ne\'e labele hetan autorizasaun offline.'))
 		return redirect('offline-list')
 	perm = give_offline(obj.user, by=request.user, note=_('Renova'))

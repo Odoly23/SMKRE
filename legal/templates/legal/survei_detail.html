@@ -1,0 +1,88 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'legal-survei-list' %}">{% trans "SURVEI LEGÁL" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ objects.kode|default:_("RASCUNHO") }}</li>
+	</ol>
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ objects.kode|default:_("Survei (rascunho)") }} {% include 'legal/_badge_survei.html' with s=objects %}</h2>
+		<div class="mb-2">
+			{% if can_edit %}
+			<a href="{% url 'legal-survei-update' objects.pk %}" class="btn btn-outline-rbr"><i class="fa fa-pencil"></i> {% trans "Edita" %}</a>
+			<form method="post" action="{% url 'legal-survei-haruka' objects.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Manda survei ba server? Hafoin ne'e labele edita to'o Admin rejeita." %}">{% csrf_token %}<button class="btn btn-rbr" type="submit"><i class="fa fa-paper-plane"></i> {% trans "Manda ba Server" %}</button></form>
+			{% endif %}
+		</div>
+	</div>
+	{% if objects.status == 'REJEITADU' %}<div class="alert alert-danger small"><i class="fa fa-undo"></i> <b>{% trans "Razaun rejeita:" %}</b> {{ objects.nota_rejeita }}</div>{% endif %}
+
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h4 class="form-sub mt-0">{% trans "Kazu no Fatin" %}</h4>
+				<dl class="row mb-0 small">
+					<dt class="col-sm-4">{% trans "Kazu SIBAR" %}</dt><dd class="col-sm-8">{% if objects.kazu %}<a href="{% url 'legal-kazu' objects.kazu_id %}">{{ objects.kazu }}</a>{% else %}<span class="text-muted">{% trans "Kazu legál foun" %}</span>{% endif %}</dd>
+					{% if objects.titulu %}<dt class="col-sm-4">{% trans "Naran kazu legál" %}</dt><dd class="col-sm-8">{{ objects.titulu }}</dd>{% endif %}
+					<dt class="col-sm-4">{% trans "Data survei" %}</dt><dd class="col-sm-8">{{ objects.data_survei|date:"d/m/Y" }}</dd>
+					<dt class="col-sm-4">{% trans "Fatin" %}</dt><dd class="col-sm-8">{{ objects.aldeia|default:"" }}{% if objects.aldeia %}, {% endif %}{{ objects.suku|default:"" }}{% if objects.suku %}, {% endif %}{{ objects.postu|default:"" }}{% if objects.postu %}, {% endif %}{{ objects.munisipiu }}</dd>
+					{% if objects.latitude %}<dt class="col-sm-4">GPS</dt><dd class="col-sm-8">{{ objects.latitude }}, {{ objects.longitude }}{% if objects.gps_akurasia %} (± {{ objects.gps_akurasia }} m){% endif %}</dd>{% endif %}
+				</dl>
+				{% for titulu, linha in seksaun %}
+				<h4 class="form-sub">{{ titulu }}</h4>
+				{% if linha %}
+				<dl class="row mb-0 small">{% for k, v in linha %}<dt class="col-sm-5">{{ k }}</dt><dd class="col-sm-7" style="white-space: pre-line">{{ v }}</dd>{% endfor %}</dl>
+				{% else %}<p class="small text-muted mb-0">-</p>{% endif %}
+				{% endfor %}
+				<h4 class="form-sub">{% trans "IV. Notas importante" %}</h4>
+				<dl class="row mb-0 small">
+					{% for k, lista in notas %}<dt class="col-sm-5">{{ k }}</dt><dd class="col-sm-7">{% for i in lista %}<span class="badge badge-light border mr-1"><i class="fa fa-check text-rbr"></i> {{ i }}</span>{% empty %}-{% endfor %}</dd>{% endfor %}
+					{% if objects.observasaun %}<dt class="col-sm-5">{% trans "Observasaun" %}</dt><dd class="col-sm-7" style="white-space: pre-line">{{ objects.observasaun }}</dd>{% endif %}
+				</dl>
+			</div></div>
+		</div>
+		<div class="col-lg-4">
+			{% if can_verifika %}
+			<div class="card card-rbr mb-3 border-warning"><div class="card-body">
+				<h4 class="form-sub mt-0"><i class="fa fa-check-square-o"></i> {% trans "Verifika Survei" %}</h4>
+				<form method="post" action="{% url 'legal-survei-verifika' objects.pk %}">{% csrf_token %}
+					<textarea name="nota" class="form-control form-control-sm mb-2" rows="2" placeholder="{% trans "Razaun (obrigatóriu bainhira rejeita)" %}" aria-label="{% trans "Razaun" %}"></textarea>
+					<button class="btn btn-success btn-sm" type="submit" name="aksaun" value="aprova"><i class="fa fa-check"></i> {% trans "Verifika" %}</button>
+					<button class="btn btn-outline-danger btn-sm" type="submit" name="aksaun" value="rejeita"><i class="fa fa-undo"></i> {% trans "Rejeita" %}</button>
+				</form>
+			</div></div>
+			{% endif %}
+			<div class="card card-rbr mb-3"><div class="card-body">
+				<h4 class="form-sub mt-0"><i class="fa fa-paperclip"></i> {% trans "Foto no Dokumentu" %}</h4>
+				<div class="row no-gutters">
+				{% for f in files %}
+				<div class="col-12 d-flex align-items-center border-bottom py-1 small">
+					{% if f.is_image %}<a href="{% url 'legal-survei-file' f.pk %}?inline=1" target="_blank" rel="noopener"><img src="{% url 'legal-survei-file' f.pk %}?inline=1" alt="{{ f.naran }}" class="rounded mr-2" style="width:48px;height:48px;object-fit:cover"></a>
+					{% else %}<i class="fa fa-file-o fa-2x mr-2 text-muted"></i>{% endif %}
+					<div class="flex-grow-1"><a href="{% url 'legal-survei-file' f.pk %}">{{ f.naran|default:f.get_tipu_display }}</a><br><span class="text-muted">{{ f.get_tipu_display }} · {{ f.uploaded_at|date:"d/m/Y" }}</span></div>
+					{% if can_edit %}<form method="post" action="{% url 'legal-survei-file-delete' f.pk %}" class="js-confirm" data-confirm="{% trans "Hamoos file ne'e?" %}">{% csrf_token %}<button class="btn btn-sm btn-link text-danger" type="submit" aria-label="{% trans "Hamoos" %}"><i class="fa fa-trash"></i></button></form>{% endif %}
+				</div>
+				{% empty %}<p class="small text-muted mb-0">{% trans "Seidauk iha file." %}</p>{% endfor %}
+				</div>
+				{% if file_form %}
+				<form method="post" action="{% url 'legal-survei-file-add' objects.pk %}" enctype="multipart/form-data" class="mt-3">{% csrf_token %}
+					<div class="form-row">
+						<div class="col-5 mb-2">{{ file_form.tipu }}</div>
+						<div class="col-7 mb-2"><input type="text" name="naran" class="form-control form-control-sm" maxlength="150" placeholder="{% trans "Naran / deskrisaun" %}" aria-label="{% trans "Naran / deskrisaun" %}"></div>
+					</div>
+					<input type="file" name="file" class="form-control-file mb-2" accept="{{ file_form.file.field.widget.attrs.accept }}" required aria-label="{% trans "File" %}">
+					<button class="btn btn-sm btn-rbr" type="submit"><i class="fa fa-upload"></i> {% trans "Upload" %}</button>
+					<small class="d-block text-muted mt-1">{% trans "PDF, JPG, PNG ka DOCX · máximu 20 MB" %}</small>
+				</form>
+				{% endif %}
+			</div></div>
+			<div class="card card-rbr mb-3"><div class="card-body small">
+				<h4 class="form-sub mt-0">{% trans "Istória" %}</h4>
+				<p class="mb-1"><i class="fa fa-user"></i> {% trans "Ofisiál Legál" %}: {{ objects.created_by.pesoaluser.pesoal|default:objects.created_by.username }}</p>
+				<p class="mb-1"><i class="fa fa-clock-o"></i> {% trans "Kria" %}: {{ objects.created_at|date:"d/m/Y H:i" }}</p>
+				{% if objects.haruka_at %}<p class="mb-1"><i class="fa fa-paper-plane"></i> {% trans "Manda ba server" %}: {{ objects.haruka_at|date:"d/m/Y H:i" }}</p>{% endif %}
+				{% if objects.verified_at %}<p class="mb-0"><i class="fa fa-check"></i> {% trans "Verifika" %}: {{ objects.verified_at|date:"d/m/Y H:i" }} · {{ objects.verified_by.pesoaluser.pesoal|default:objects.verified_by.username }}</p>{% endif %}
+			</div></div>
+		</div>
+	</div>
+{% endblock %}

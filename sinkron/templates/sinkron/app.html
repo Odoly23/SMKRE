@@ -26,7 +26,8 @@
 </head>
 <body class="off-body" data-sw="{% url 'service-worker' %}"
 	data-api-token="{% url 'api-token' %}" data-api-refresh="{% url 'api-token-refresh' %}" data-api-me="{% url 'api-me' %}"
-	data-api-opsaun="{% url 'api-sinkron-opsaun' %}" data-api-kazu="{% url 'api-sinkron-kazu' %}" data-home="{% url 'home' %}">
+	data-api-opsaun="{% url 'api-sinkron-opsaun' %}" data-api-kazu="{% url 'api-sinkron-kazu' %}"
+	data-api-opsaun-legal="{% url 'api-sinkron-legal-opsaun' %}" data-api-survei="{% url 'api-sinkron-survei' %}" data-home="{% url 'home' %}">
 
 <header class="off-top">
 	<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" height="34">
@@ -88,10 +89,11 @@
 		<div id="perm-box" class="perm-box"></div>
 		<div class="d-flex mb-3">
 			<button type="button" id="btn-foun" class="btn btn-rbr btn-lg flex-fill mr-2"><i class="fa fa-plus-circle"></i> Kazu Foun</button>
+			<button type="button" id="btn-legal" class="btn btn-rbr btn-lg flex-fill mr-2" hidden><i class="fa fa-balance-scale"></i> Input Legál</button>
 			<button type="button" id="btn-sync" class="btn btn-outline-rbr btn-lg flex-fill"><i class="fa fa-refresh"></i> Sinkron <span id="sync-n" class="badge badge-warning"></span></button>
 		</div>
 		<div id="sync-progress" class="progress mb-3" hidden><div class="progress-bar bg-success" style="width:0%"></div></div>
-		<h6 class="text-muted">Kazu iha HP</h6>
+		<h6 class="text-muted" id="lbl-lokal">Kazu iha HP</h6>
 		<div id="lista-lokal" class="mb-3"></div>
 		<h6 class="text-muted">Status iha server <small>(atualiza bainhira online)</small></h6>
 		<div id="lista-server" class="mb-3"></div>
@@ -340,6 +342,125 @@
 		</div>
 	</section>
 
+
+	<!-- ══ 5b. SURVEI LEGÁL (Perguntas Xave Sira Legal) ══ -->
+	<section id="scr-legal" class="scr" hidden>
+		<div class="stepper" id="l-stepper">
+			<span data-step="1">1</span><span data-step="2">2</span><span data-step="3">3</span><span data-step="4">4</span><span data-step="5">5</span>
+		</div>
+		<form id="form-legal" novalidate>
+			<fieldset class="step" data-step="1">
+				<legend>Kazu no Fatin</legend>
+				<div class="form-group"><label for="l-kazu-buka">Kazu SIBAR (karik iha ona)</label>
+					<input id="l-kazu-buka" class="form-control mb-1" placeholder="Buka ID ka naran kazu…" autocomplete="off">
+					<select id="l-kazu" data-lk="kazu" class="custom-select"></select>
+					<small class="form-text text-muted">Mamuk = kazu legál foun: prense fatin iha okos.</small></div>
+				<div class="form-group"><label for="l-data_survei">Data survei</label><input id="l-data_survei" data-lk="data_survei" type="date" class="form-control"></div>
+				<div id="l-grp-fatin" class="kond sub-box">
+					<div class="form-group"><label for="l-titulu">Naran kazu legál</label><input id="l-titulu" data-lk="titulu" type="text" class="form-control" maxlength="200"></div>
+					<div class="form-group"><label for="l-munisipiu">Munisipiu *</label><select id="l-munisipiu" data-lk="munisipiu" class="custom-select"></select></div>
+					<div class="form-group"><label for="l-postu">Postu Administrativu</label><select id="l-postu" data-lk="postu" class="custom-select"></select></div>
+					<div class="form-group"><label for="l-suku">Suku</label><select id="l-suku" data-lk="suku" class="custom-select"></select></div>
+					<div class="form-group"><label for="l-aldeia">Aldeia</label><select id="l-aldeia" data-lk="aldeia" class="custom-select"></select></div>
+					<button type="button" class="btn btn-sm btn-outline-rbr" id="l-btn-gps"><i class="fa fa-crosshairs"></i> Foti GPS</button>
+					<div id="l-gps-info" class="small mt-1 text-muted">GPS opsionál.</div>
+				</div>
+			</fieldset>
+			<fieldset class="step" data-step="2" hidden>
+				<legend>I. Identifikasaun Parte Sira (Disputante Sira)</legend>
+				<div class="form-group"><label for="l-parte_naran">Naran *</label><input id="l-parte_naran" data-lk="parte_naran" type="text" class="form-control" maxlength="150"></div>
+				<div class="form-group"><label for="l-parte_sexu">Sexu/Generu</label><select id="l-parte_sexu" data-lk="parte_sexu" class="custom-select"><option value="">—</option><option value="MANE">Mane</option><option value="FETO">Feto</option></select></div>
+				<div class="form-group"><label for="l-parte_data_moris">Data Moris</label><input id="l-parte_data_moris" data-lk="parte_data_moris" type="date" class="form-control"></div>
+				<div class="form-group"><label for="l-parte_estadu_civil">Estadu civil</label><select id="l-parte_estadu_civil" data-lk="parte_estadu_civil" class="custom-select"><option value="">—</option><option value="SOLTEIRU">Solteiru/a</option><option value="KABEN">Kaben</option><option value="VIUVU">Viúvu/a</option><option value="DIVORSIADU">Divorsiadu/a</option><option value="SELUK">Seluk</option></select></div>
+				<div class="form-group"><label for="l-parte_hela_fatin">Hela Fatin</label><input id="l-parte_hela_fatin" data-lk="parte_hela_fatin" type="text" class="form-control" maxlength="255"></div>
+				<div class="form-group"><label for="l-parte_kartaun_eleitoral">Nu kartaun Eleitoral</label><input id="l-parte_kartaun_eleitoral" data-lk="parte_kartaun_eleitoral" type="text" class="form-control" maxlength="50"></div>
+				<div class="form-group"><label for="l-parte_profisaun">Profisaun</label><input id="l-parte_profisaun" data-lk="parte_profisaun" type="text" class="form-control" maxlength="100"></div>
+				<div class="form-group"><label for="l-parte_kontaktu">Numeru Kontaktu</label><input id="l-parte_kontaktu" data-lk="parte_kontaktu" type="tel" class="form-control" maxlength="50"></div>
+				<div class="form-group"><label for="l-parte_ehd">EhD ka lae? (Ema ho defisiénsia)</label><select id="l-parte_ehd" data-lk="parte_ehd" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option></select></div>
+			</fieldset>
+			<fieldset class="step" data-step="3" hidden>
+				<legend>II. Entidade ne'ebe atu foti rai</legend>
+				<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="l-sw-entidade"><label class="custom-control-label" for="l-sw-entidade">Iha entidade ne'ebé atu foti rai?</label></div>
+				<div class="kond sub-box" data-lgrp="entidade">
+					<div class="form-group"><label for="l-entidade_naran">Naran</label><input id="l-entidade_naran" data-lk="entidade_naran" type="text" class="form-control" maxlength="150"></div>
+					<div class="form-group"><label for="l-entidade_kontaktu">Numeru Kontaktu</label><input id="l-entidade_kontaktu" data-lk="entidade_kontaktu" type="tel" class="form-control" maxlength="50"></div>
+					<div class="form-group"><label for="l-entidade_instituisaun">Instituisaun Publiku/Privadu</label><select id="l-entidade_instituisaun" data-lk="entidade_instituisaun" class="custom-select"><option value="">—</option><option value="PUBLIKU">Publiku</option><option value="PRIVADU">Privadu</option></select></div>
+					<div class="form-group"><label for="l-entidade_enderesu">Domisiliu/enderesu</label><input id="l-entidade_enderesu" data-lk="entidade_enderesu" type="text" class="form-control" maxlength="255"></div>
+				</div>
+			</fieldset>
+			<fieldset class="step" data-step="4" hidden>
+				<legend>III. Perguntas Xave Sira</legend>
+				<div class="form-group"><label for="l-meius">Meius ka maneira hetan rai *</label><select id="l-meius" data-lk="meius" class="custom-select"><option value="">—</option><option value="SOSA">Sosa</option><option value="FOO">Foó ka Doasaun</option><option value="ERANSA">Eransa</option><option value="POSSE">Posse / Okupa</option></select></div>
+				<div class="kond sub-box" data-lgrp="eransa"><h6>1. Eransa / Antesessor mate ona</h6>
+					<div class="form-group"><label for="l-eransa_husi_se">Rai no uma ne'e hetan husi se?</label><input id="l-eransa_husi_se" data-lk="eransa_husi_se" type="text" class="form-control" maxlength="255"></div>
+					<div class="form-group"><label for="l-eransa_relasaun">Deskrisaun relasaun oinsa toó iha ita boot?</label><textarea id="l-eransa_relasaun" data-lk="eransa_relasaun" class="form-control" rows="2"></textarea></div>
+					<div class="form-group"><label for="l-eransa_herdeiru">Identifikasaun ba herdeiru sira?</label><textarea id="l-eransa_herdeiru" data-lk="eransa_herdeiru" class="form-control" rows="2"></textarea></div>
+					<div class="form-group"><label for="l-eransa_rai_seluk">Rai nebeé mak disputa iha ka lae antesessor nia rai seluk?</label><select id="l-eransa_rai_seluk" data-lk="eransa_rai_seluk" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option></select></div>
+					<div class="form-group"><label for="l-eransa_fahe">Eransa ne'e fahe ona ka seidauk?</label><select id="l-eransa_fahe" data-lk="eransa_fahe" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option></select></div>
+					<div class="kond sub-box" data-lgrp="eransa_fahe">
+						<div class="form-group"><label for="l-eransa_fahe_ba_se">Fahe ona ba se?</label><textarea id="l-eransa_fahe_ba_se" data-lk="eransa_fahe_ba_se" class="form-control" rows="2"></textarea></div>
+						<div class="form-group"><label for="l-eransa_fahe_lokalizasaun">Identifikasaun/lokalizasaun rai/uma seluk nebeé fahe ona?</label><textarea id="l-eransa_fahe_lokalizasaun" data-lk="eransa_fahe_lokalizasaun" class="form-control" rows="2"></textarea></div>
+						<div class="form-group"><label for="l-eransa_fahe_desde">Fahe desde horibainhira?</label><input id="l-eransa_fahe_desde" data-lk="eransa_fahe_desde" type="text" class="form-control" maxlength="100"></div>
+					</div>
+				</div>
+				<div class="kond sub-box" data-lgrp="sosa"><h6>2. Sosa</h6>
+					<div class="form-group"><label for="l-sosa_husi_se">Sosa husi se?</label><input id="l-sosa_husi_se" data-lk="sosa_husi_se" type="text" class="form-control" maxlength="255"></div>
+					<div class="form-group"><label for="l-sosa_folin">Folin hira?</label><input id="l-sosa_folin" data-lk="sosa_folin" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-sosa_bainhira">Sosa bainhira?</label><input id="l-sosa_bainhira" data-lk="sosa_bainhira" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-sosa_halo_saida">Depois de sosa halo saida iha rai nia leten?</label><textarea id="l-sosa_halo_saida" data-lk="sosa_halo_saida" class="form-control" rows="2"></textarea></div>
+					<div class="form-group"><label for="l-sosa_halo_desde">Halo desde iha sa tinan?</label><input id="l-sosa_halo_desde" data-lk="sosa_halo_desde" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-sosa_halo_se">Ema seluk mak halo ka halo rasik?</label><select id="l-sosa_halo_se" data-lk="sosa_halo_se" class="custom-select"><option value="">—</option><option value="RASIK">Halo rasik</option><option value="EMA_SELUK">Ema seluk mak halo</option></select></div>
+					<div class="form-group"><label for="l-sosa_akordu">Akordu iha ka lae?</label><select id="l-sosa_akordu" data-lk="sosa_akordu" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option></select></div>
+					<div class="kond sub-box" data-lgrp="sosa_akordu"><div class="form-group"><label for="l-sosa_akordu_fatin">Halo akordu iha ne'ebe?</label><input id="l-sosa_akordu_fatin" data-lk="sosa_akordu_fatin" type="text" class="form-control" maxlength="255"></div></div>
+					<div class="form-group"><label for="l-sosa_sasin">Sasin iha ka lae?</label><select id="l-sosa_sasin" data-lk="sosa_sasin" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option></select></div>
+					<div class="kond sub-box" data-lgrp="sosa_sasin"><p class="small text-muted mb-1">Semak sasin?</p>
+						<div class="form-group"><label for="l-sasin_1">Sasin 1</label><input id="l-sasin_1" data-lk="sasin_1" type="text" class="form-control" maxlength="150"></div><div class="form-group"><label for="l-sasin_2">Sasin 2</label><input id="l-sasin_2" data-lk="sasin_2" type="text" class="form-control" maxlength="150"></div>
+						<div class="form-group"><label for="l-sasin_3">Sasin 3</label><input id="l-sasin_3" data-lk="sasin_3" type="text" class="form-control" maxlength="150"></div><div class="form-group"><label for="l-sasin_4">Sasin 4</label><input id="l-sasin_4" data-lk="sasin_4" type="text" class="form-control" maxlength="150"></div>
+					</div>
+				</div>
+				<div class="kond sub-box" data-lgrp="foo"><h6>3. Foó / doasaun (bele família ka ema seluk)</h6>
+					<div class="form-group"><label for="l-foo_se">Semak foó?</label><input id="l-foo_se" data-lk="foo_se" type="text" class="form-control" maxlength="255"></div>
+					<div class="form-group"><label for="l-foo_bainhira">Foó horibainhira?</label><input id="l-foo_bainhira" data-lk="foo_bainhira" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-foo_akordu">Akordu iha ka lae?</label><select id="l-foo_akordu" data-lk="foo_akordu" class="custom-select"><option value="">—</option><option value="SIN">Sin</option><option value="LAE">Lae</option></select></div>
+					<div class="kond sub-box" data-lgrp="foo_akordu"><div class="form-group"><label for="l-foo_akordu_fatin">Halo akordu iha ne'ebe?</label><input id="l-foo_akordu_fatin" data-lk="foo_akordu_fatin" type="text" class="form-control" maxlength="255"></div></div>
+					<div class="form-group"><label for="l-foo_relasaun">Oinsa ita nia relasaun ho ema nebeé mak foó?</label><textarea id="l-foo_relasaun" data-lk="foo_relasaun" class="form-control" rows="2"></textarea></div>
+				</div>
+				<div class="kond sub-box" data-lgrp="posse"><h6>4. Posse / okupa</h6>
+					<div class="form-group"><label for="l-posse_hahu">Hahu hela / okupa bainhira?</label><input id="l-posse_hahu" data-lk="posse_hahu" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-posse_halo_saida">Halo saida iha rai ne'e nia leten?</label><textarea id="l-posse_halo_saida" data-lk="posse_halo_saida" class="form-control" rows="2"></textarea></div>
+					<div class="form-group"><label for="l-posse_se_mak_halo">Semak halo?</label><input id="l-posse_se_mak_halo" data-lk="posse_se_mak_halo" type="text" class="form-control" maxlength="255"></div>
+					<div class="form-group"><label for="l-posse_periodu">Hahu horibainhira to'o bainhira?</label><input id="l-posse_periodu" data-lk="posse_periodu" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-posse_ema_seluk_tinan">Se ema seluk mak halo husi sa tinan to'o sa tinan</label><input id="l-posse_ema_seluk_tinan" data-lk="posse_ema_seluk_tinan" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-posse_relasaun_sosa">Relasaun ho ema ne'ebe mak sosa rai ka uma neé oinsa?</label><textarea id="l-posse_relasaun_sosa" data-lk="posse_relasaun_sosa" class="form-control" rows="2"></textarea></div>
+					<div class="form-group"><label for="l-posse_uza_rai">Uza rai ne'e ba halo saida?</label><textarea id="l-posse_uza_rai" data-lk="posse_uza_rai" class="form-control" rows="2"></textarea></div>
+					<div class="form-group"><label for="l-posse_luan_rai">Rai tomak neé nia luan hira?</label><input id="l-posse_luan_rai" data-lk="posse_luan_rai" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-posse_luan_disputa">Rai ne'ebe mak disputa luan hira?</label><input id="l-posse_luan_disputa" data-lk="posse_luan_disputa" type="text" class="form-control" maxlength="100"></div>
+					<div class="form-group"><label for="l-posse_luan_uma">Uma nia luan hira?</label><input id="l-posse_luan_uma" data-lk="posse_luan_uma" type="text" class="form-control" maxlength="100"></div>
+				</div>
+			</fieldset>
+			<fieldset class="step" data-step="5" hidden>
+				<legend>IV. Notas importante nebeé tenki halo kompleta</legend>
+				<div class="form-group"><label>Dokumentus identifikasaun</label><div class="chk-list" data-lk-lista="dok_identifikasaun"><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_identifikasaun-KARTAUN_ELEITORAL" value="KARTAUN_ELEITORAL"><label class="custom-control-label" for="l-dok_identifikasaun-KARTAUN_ELEITORAL">Kartaun Eleitoral</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_identifikasaun-BI" value="BI"><label class="custom-control-label" for="l-dok_identifikasaun-BI">Bileti Identidade</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_identifikasaun-PASSAPORTE" value="PASSAPORTE"><label class="custom-control-label" for="l-dok_identifikasaun-PASSAPORTE">Passaporte</label></div></div></div>
+				<div class="form-group"><label>Dokumentus relevante sira seluk</label><div class="chk-list" data-lk-lista="dok_relevante"><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_relevante-DEKLARASAUN_SOSA" value="DEKLARASAUN_SOSA"><label class="custom-control-label" for="l-dok_relevante-DEKLARASAUN_SOSA">Deklarasaun sosa no faan</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_relevante-NOTIFIKASAUN" value="NOTIFIKASAUN"><label class="custom-control-label" for="l-dok_relevante-NOTIFIKASAUN">Notifikasaun</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_relevante-DESPASHO" value="DESPASHO"><label class="custom-control-label" for="l-dok_relevante-DESPASHO">Despasho</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_relevante-NUIP" value="NUIP"><label class="custom-control-label" for="l-dok_relevante-NUIP">NUIP (Numeru Uniku Identifikasaun Parcela)</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-dok_relevante-MAPA" value="MAPA"><label class="custom-control-label" for="l-dok_relevante-MAPA">Mapa rai nian</label></div></div></div>
+				<div class="form-group"><label>Fotografia</label><div class="chk-list" data-lk-lista="fotografia"><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-TOOS" value="TOOS"><label class="custom-control-label" for="l-fotografia-TOOS">To'os</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-NATAR" value="NATAR"><label class="custom-control-label" for="l-fotografia-NATAR">Natar</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-KANTADEIRO" value="KANTADEIRO"><label class="custom-control-label" for="l-fotografia-KANTADEIRO">Kantadeiro</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-AIHORIS" value="AIHORIS"><label class="custom-control-label" for="l-fotografia-AIHORIS">Aihoris</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-BALIZA" value="BALIZA"><label class="custom-control-label" for="l-fotografia-BALIZA">Baliza</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-FATUK_HADA" value="FATUK_HADA"><label class="custom-control-label" for="l-fotografia-FATUK_HADA">Fatuk hada</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-AIBOSSA" value="AIBOSSA"><label class="custom-control-label" for="l-fotografia-AIBOSSA">Aibossa</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-RATE" value="RATE"><label class="custom-control-label" for="l-fotografia-RATE">Rate</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-BEE_MATAN" value="BEE_MATAN"><label class="custom-control-label" for="l-fotografia-BEE_MATAN">Beé matan</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-FATIN_LULIK" value="FATIN_LULIK"><label class="custom-control-label" for="l-fotografia-FATIN_LULIK">Fatin lulik</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-UMA" value="UMA"><label class="custom-control-label" for="l-fotografia-UMA">Uma</label></div><div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="l-fotografia-KIOS" value="KIOS"><label class="custom-control-label" for="l-fotografia-KIOS">Kios</label></div></div></div>
+				<div class="form-group"><label for="l-observasaun">Observasaun</label><textarea id="l-observasaun" data-lk="observasaun" class="form-control" rows="3"></textarea></div>
+				<h6>Foto no dokumentu</h6>
+				<div class="d-flex mb-2">
+					<button type="button" id="l-btn-foto" class="btn btn-rbr flex-fill mr-2"><i class="fa fa-camera"></i> Foto <span id="l-n-file">0/10</span></button>
+					<button type="button" id="l-btn-dok" class="btn btn-outline-rbr flex-fill mr-2"><i class="fa fa-file-text-o"></i> Foto dokumentu</button>
+					<button type="button" id="l-btn-galeria" class="btn btn-outline-rbr flex-fill"><i class="fa fa-picture-o"></i> Galeria</button>
+				</div>
+				<div id="l-lista-media" class="media-grid"></div>
+				<div id="l-rezumu" class="small mt-3"></div>
+			</fieldset>
+		</form>
+		<div class="step-nav">
+			<button type="button" id="l-btn-kotuk" class="btn btn-light"><i class="fa fa-chevron-left"></i> Kotuk</button>
+			<button type="button" id="l-btn-rai" class="btn btn-outline-rbr"><i class="fa fa-save"></i> Save</button>
+			<button type="button" id="l-btn-oin" class="btn btn-rbr">Oin <i class="fa fa-chevron-right"></i></button>
+		</div>
+	</section>
+
 	<!-- ══ 6. KÁMERA ══ -->
 	<section id="scr-kamera" class="kamera" hidden>
 		<video id="kam-video" playsinline muted autoplay></video>
@@ -369,5 +490,6 @@
 <script src="{% static 'main/turf/turf.min.js' %}"></script>
 <script src="{% static 'main/mapa/poligon.js' %}"></script>
 <script src="{% static 'main/offline/smkre_offline.js' %}"></script>
+<script src="{% static 'main/offline/smkre_legal.js' %}"></script>
 </body>
 </html>

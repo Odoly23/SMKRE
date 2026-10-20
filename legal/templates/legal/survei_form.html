@@ -1,0 +1,115 @@
+{% extends "main/layout.html" %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'legal-survei-list' %}">{% trans "SURVEI LEGÁL" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<form method="POST" id="SurveiForm" data-posts-url="{% url 'ajax_load_post' %}" data-suku-url="{% url 'ajax_load_suku' %}" data-aldeia-url="{% url 'ajax_load_aldeia' %}" novalidate>
+	{% csrf_token %}
+	<div class="card card-rbr shadow-sm pt-1 rounded">
+		<div class="card-header card-header-rbr">{{ legend|upper }}{% if objects.kode %} · {{ objects.kode }}{% endif %}</div>
+		<div class="card-body">
+			{% if objects.status == 'REJEITADU' %}
+			<div class="alert alert-danger small"><i class="fa fa-undo"></i> <b>{% trans "Survei rejeitadu:" %}</b> {{ objects.nota_rejeita }}</div>
+			{% endif %}
+			{% if form.non_field_errors %}<div class="alert alert-danger small">{{ form.non_field_errors }}</div>{% endif %}
+			{# Pergunta tuir orden dokumentu "Perguntas Xave Sira Legal" #}
+			{% crispy form form.helper_kazu %}
+			{% crispy form form.helper_parte %}
+			{% crispy form form.helper_entidade %}
+			{% crispy form form.helper_meius %}
+			{% crispy form form.helper_nota %}
+			<div class="alert alert-light border small mt-3"><i class="fa fa-camera"></i> {% trans "Foto no dokumentu (upload) iha pájina detalla hafoin Save." %}</div>
+			<div class="form-actions">
+				<button class="btn btn-outline-rbr" type="submit" name="aksaun" value="rai"><i class="fa fa-save"></i> {% trans "Save" %}</button>
+				<button class="btn btn-rbr" type="submit" name="aksaun" value="haruka"><i class="fa fa-paper-plane"></i> {% trans "Manda ba Server" %}</button>
+			</div>
+		</div>
+	</div>
+	</form>
+{% endblock %}
+{% block scripts %}
+<script nonce="{{ request.csp_nonce }}">
+	// Hatudu / subar grupu tuir resposta (hanesan app offline no server legal/forms.py)
+	(function () {
+		var form = document.getElementById('SurveiForm');
+		function val(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+		function ihaDadus(grp) {
+			return Array.prototype.some.call(grp.querySelectorAll('input, select, textarea'), function (el) {
+				if (el.type === 'hidden' || el.dataset.switch) return false;
+				if (el.type === 'checkbox' || el.type === 'radio') return el.checked;
+				return el.value !== '';
+			});
+		}
+		var regra = {
+			fatin: function () { return !val('id_kazu'); },
+			eransa: function () { return val('id_meius') === 'ERANSA'; },
+			sosa: function () { return val('id_meius') === 'SOSA'; },
+			foo: function () { return val('id_meius') === 'FOO'; },
+			posse: function () { return val('id_meius') === 'POSSE'; },
+			eransa_fahe: function () { return val('id_eransa_fahe') === 'SIN'; },
+			sosa_akordu: function () { return val('id_sosa_akordu') === 'SIN'; },
+			sosa_sasin: function () { return val('id_sosa_sasin') === 'SIN'; },
+			foo_akordu: function () { return val('id_foo_akordu') === 'SIN'; }
+		};
+		document.querySelectorAll('[data-switch]').forEach(function (sw) {
+			var grp = document.querySelector('[data-grp="' + sw.dataset.switch + '"]');
+			sw.checked = !!grp && ihaDadus(grp);
+			regra[sw.dataset.switch] = function () { return sw.checked; };
+		});
+		function atualiza() {
+			document.querySelectorAll('[data-grp]').forEach(function (g) { g.hidden = !(regra[g.dataset.grp] && regra[g.dataset.grp]()); });
+		}
+		form.addEventListener('change', function (e) {
+			if (e.target.dataset.switch || e.target.tagName === 'SELECT') atualiza();
+		});
+		form.addEventListener('submit', function () {
+			document.querySelectorAll('[data-grp][hidden]').forEach(function (g) {
+				if (g.dataset.grp === 'fatin') return;       // server kopia fatin husi kazu
+				g.querySelectorAll('input, select, textarea').forEach(function (el) {
+					if (el.type === 'hidden') return;
+					if (el.type === 'checkbox' || el.type === 'radio') el.checked = false; else el.value = '';
+				});
+			});
+		});
+		atualiza();
+	})();
+
+	// Munisípiu → Postu → Suku → Aldeia
+	(function () {
+		var f = $("#SurveiForm");
+		$("#id_munisipiu").change(function () {
+			$.ajax({ url: f.attr("data-posts-url"), data: { munisipiu: $(this).val() }, success: function (data) {
+				$("#id_postu").html(data); $("#id_suku, #id_aldeia").html('<option value="">---------</option>');
+			} });
+		});
+		$("#id_postu").change(function () {
+			$.ajax({ url: f.attr("data-suku-url"), data: { postu: $(this).val() }, success: function (data) {
+				$("#id_suku").html(data); $("#id_aldeia").html('<option value="">---------</option>');
+			} });
+		});
+		$("#id_suku").change(function () {
+			$.ajax({ url: f.attr("data-aldeia-url"), data: { suku: $(this).val() }, success: function (data) { $("#id_aldeia").html(data); } });
+		});
+	})();
+
+	// GPS automátiku husi HP
+	$("#btn-gps").click(function () {
+		var msg = $("#gps-msg");
+		if (!navigator.geolocation) { msg.text("{% trans "HP la iha GPS." %}"); return; }
+		msg.text("{% trans "Buka lokalizasaun…" %}");
+		navigator.geolocation.getCurrentPosition(function (pos) {
+			$("#id_latitude").val(pos.coords.latitude.toFixed(6));
+			$("#id_longitude").val(pos.coords.longitude.toFixed(6));
+			$("#id_gps_akurasia").val(Math.round(pos.coords.accuracy));
+			var ok = pos.coords.accuracy <= 50;
+			msg.toggleClass("text-danger", !ok).toggleClass("text-rbr", ok)
+				.text(ok ? "{% trans "GPS OK" %} (" + Math.round(pos.coords.accuracy) + " m)" : "{% trans "Akurasia fraku. Ba fatin nakloke no koko fali." %}");
+		}, function () {
+			msg.addClass("text-danger").text("{% trans "La bele hetan GPS. Ativa Lokalizasaun no fó permisaun." %}");
+		}, { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
+	});
+</script>
+{% endblock %}

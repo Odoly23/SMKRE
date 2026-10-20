@@ -1,0 +1,76 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		{% if input_ativu %}<a href="{% url 'legal-survei-add' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Input Legál" %}</a>{% endif %}
+	</div>
+	{% include 'legal/_tabs.html' with tab='survei' %}
+	{% if is_input_role %}
+	{% if autorizasaun %}
+	<div class="alert alert-success small"><i class="fa fa-unlock"></i> {% trans "Autorizasaun input legál ativu to'o" %} <b>{{ autorizasaun.end_date|date:"d/m/Y H:i" }}</b>.</div>
+	{% else %}
+	<div class="alert alert-warning small"><i class="fa fa-lock"></i> {% trans "Autorizasaun input legál la ativu. Admin tenke fó autorizasaun (data hahú no remata) molok bele input survei." %}</div>
+	{% endif %}
+	{% endif %}
+
+	<form method="get" class="card card-rbr mb-3">
+		<div class="card-body py-3">
+			<div class="form-row">
+				<div class="col-md-4 mb-2"><input type="search" name="q" value="{{ q }}" class="form-control" placeholder="{% trans "Buka ID, parte, kazu, suku…" %}" aria-label="{% trans "Buka" %}"></div>
+				<div class="col-6 col-md-3 mb-2">
+					<select name="status" class="custom-select" aria-label="{% trans "Status" %}">
+						<option value="">{% trans "Status: Hotu" %}</option>
+						{% for code, label in status_choices %}<option value="{{ code }}" {% if f_status == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+					</select>
+				</div>
+				<div class="col-6 col-md-3 mb-2">
+					<select name="munisipiu" class="custom-select" aria-label="{% trans "Munisípiu" %}">
+						<option value="">{% trans "Munisípiu: Hotu" %}</option>
+						{% for m in munisipiu_list %}<option value="{{ m.pk }}" {% if f_munisipiu == m.pk|stringformat:"s" %}selected{% endif %}>{{ m }}</option>{% endfor %}
+					</select>
+				</div>
+				<div class="col-md-2 mb-2"><button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-filter"></i> {% trans "Filtra" %}</button></div>
+			</div>
+		</div>
+	</form>
+
+	<div class="card card-rbr">
+		<div class="card-body">
+			<div class="table-responsive table-cards">
+				<table class="table table-sm table-hover">
+					<thead><tr>
+						<th>{% trans "ID Survei" %}</th><th>{% trans "Parte" %}</th><th>{% trans "Meius" %}</th><th>{% trans "Fatin" %}</th>
+						<th>{% trans "Data survei" %}</th><th>{% trans "Status" %}</th><th></th>
+					</tr></thead>
+					<tbody>
+					{% for s in objects %}
+					<tr>
+						<td data-label="{% trans "ID Survei" %}"><b>{{ s.kode|default:_("Rascunho") }}</b>{% if s.kazu %}<br><small class="text-muted"><i class="fa fa-link"></i> {{ s.kazu }}</small>{% elif s.titulu %}<br><small class="text-muted">{{ s.titulu|truncatechars:40 }}</small>{% endif %}</td>
+						<td data-label="{% trans "Parte" %}">{{ s.parte_naran|default:"-" }}</td>
+						<td data-label="{% trans "Meius" %}">{{ s.get_meius_display|default:"-" }}</td>
+						<td data-label="{% trans "Fatin" %}">{{ s.suku|default:"" }}{% if s.suku %}, {% endif %}{{ s.munisipiu }}</td>
+						<td data-label="{% trans "Data survei" %}">{{ s.data_survei|date:"d/m/Y" }}</td>
+						<td data-label="{% trans "Status" %}">{% include 'legal/_badge_survei.html' %}</td>
+						<td class="text-right"><a href="{% url 'legal-survei-detail' s.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
+					</tr>
+					{% empty %}
+					<tr><td colspan="7" class="text-center text-muted">{% trans "Seidauk iha survei legál." %}</td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			{% if objects.has_other_pages %}
+			<nav aria-label="{% trans "Pájina" %}"><ul class="pagination pagination-sm justify-content-center mb-0">
+				{% if objects.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ objects.previous_page_number }}&q={{ q|urlencode }}&status={{ f_status }}&munisipiu={{ f_munisipiu }}">‹</a></li>{% endif %}
+				<li class="page-item disabled"><span class="page-link">{{ objects.number }} / {{ objects.paginator.num_pages }}</span></li>
+				{% if objects.has_next %}<li class="page-item"><a class="page-link" href="?page={{ objects.next_page_number }}&q={{ q|urlencode }}&status={{ f_status }}&munisipiu={{ f_munisipiu }}">›</a></li>{% endif %}
+			</ul></nav>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

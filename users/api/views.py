@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from config.rbac import INVESTIGADOR
+from config.rbac import ROLE_INPUT_OFFLINE
 from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline
 from users.models import OfflinePermission
 
@@ -17,8 +17,8 @@ logger = logging.getLogger('smkre.sinkron')
 def _check_offline(user):
 	# Token sinkron ba Investigadór ne'ebé simu ona autorizasaun offline husi Admin.
 	# Autorizasaun remata → token nafatin (bele sinkron), maibé app labele kria kazu foun (offline_ativu = False).
-	if c_user_group(user) != INVESTIGADOR:
-		raise serializers.ValidationError(_('Token sinkron ba Investigadór deit.'))
+	if c_user_group(user) not in ROLE_INPUT_OFFLINE:
+		raise serializers.ValidationError(_('Token sinkron ba Investigadór no Ofisiál Legál deit.'))
 	if not OfflinePermission.objects.filter(user=user).exists():
 		raise serializers.ValidationError(_('Autorizasaun offline la ativu. Kontaktu Admin.'))
 

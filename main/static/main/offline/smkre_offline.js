@@ -14,6 +14,10 @@
 	var S = { xavi: null, auth: null, opsaun: null, kazu: null, pasu: 1, media: [], urls: [], sinkron: false, ativu: Date.now(), relogin: false };
 
 	function $(id) { return document.getElementById(id); }
+	// Ofisiál Legál: app hanesan, maibé input survei legál (smkre_legal.js) duké kazu
+	function ehLegal() { return !!(S.auth && S.auth.me && S.auth.me.role === 'ofisial_legal'); }
+	function LEGAL() { return window.SmkreLegal; }
+	function urlOpsaun() { return ehLegal() ? B.apiOpsaunLegal : B.apiOpsaun; }
 	function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
 
 	function hoje() {
@@ -124,7 +128,7 @@
 			return apiJSON(B.apiMe).then(function (me) {
 				if (S.relogin && S.meEmail && me.data.email !== S.meEmail) throw new Error('HP ne\'e iha dadus husi utilizador seluk. Sinkron uluk ka hamoos dadus.');
 				auth.me = me.data;
-				return apiJSON(B.apiOpsaun);
+				return apiJSON(urlOpsaun());
 			}).then(function (op) {
 				if (!op.ok) throw new Error(erruLista(op.data).join(' '));
 				S.opsaun = op.data;
@@ -203,7 +207,7 @@
 
 	// Xavi app: hamoos xavi no dadus husi memória
 	function xavi() {
-		S.xavi = null; S.auth = null; S.opsaun = null; S.kazu = null;
+		S.xavi = null; S.auth = null; S.opsaun = null; S.kazu = null; S.legal = null;
 		limpaUrls();
 	}
 	$('btn-lock').addEventListener('click', function () { xavi(); msg(null); hatudu('scr-pin'); });
@@ -215,6 +219,7 @@
 	setInterval(function () {
 		if (S.xavi && !S.sinkron && Date.now() - S.ativu > XAVI_MINUTU * 60000) {
 			if (S.kazu) raiRascunho(true);
+			if (S.legal && LEGAL()) LEGAL().rai();
 			xavi(); msg('App xave tanba la uza minutu ' + XAVI_MINUTU + '.', 'info'); hatudu('scr-pin');
 		}
 	}, 30000);
@@ -225,7 +230,7 @@
 	}
 
 	function baVaranda() {
-		S.kazu = null;
+		S.kazu = null; S.legal = null;
 		limpaUrls();
 		if (navigator.onLine && S.auth && !S.relogin) atualizaServer();     // status server + kazu follow-up
 		var me = S.auth.me || {};
@@ -241,6 +246,12 @@
 			box.innerHTML = '<i class="fa fa-ban"></i> Autorizasaun offline remata. Ita bele <b>sinkron</b> kazu uluk deit. Kontaktu Admin atu hetan autorizasaun foun.';
 			$('btn-foun').disabled = true;
 		}
+		var legal = ehLegal();
+		$('btn-foun').hidden = legal;
+		$('btn-legal').hidden = !legal;
+		$('btn-legal').disabled = !permValidu();
+		$('lbl-lokal').textContent = legal ? 'Survei legál iha HP' : 'Kazu iha HP';
+		if (legal) box.innerHTML = box.innerHTML.replace('kazu uluk', 'survei uluk').replace('Autorizasaun offline', 'Autorizasaun input legál');
 		hatudu('scr-home');
 		listaLokal();
 	}
@@ -263,9 +274,9 @@
 			if (!items.length) { el.innerHTML = '<p class="text-muted small">Seidauk iha kazu iha HP.</p>'; return; }
 			el.innerHTML = items.map(function (it) {
 				var r = it[0], k = it[1], e = ESTADU[r.estadu] || ['?', 'badge-light'];
-				var titulu = r.kode || (k && (k.titulu || naranSuku(k.suku))) || 'Kazu';
+				var titulu = r.kode || (r.legal ? (k && (k.parte_naran || k.titulu)) || 'Survei legál' : (k && (k.titulu || naranSuku(k.suku))) || 'Kazu');
 				var edita = r.estadu !== 'SINKRON';
-				return '<div class="lokal-item" data-id="' + esc(r.id) + '">' +
+				return '<div class="lokal-item" data-id="' + esc(r.id) + '"' + (r.legal ? ' data-legal="1"' : '') + '>' +
 					'<div class="d-flex justify-content-between"><b>' + esc(titulu) + '</b><span>' + (r.followup && r.estadu !== 'SINKRON' ? '<span class="badge badge-warning mr-1">Follow-up</span>' : '') +
 					'<span class="badge ' + e[1] + '">' + e[0] + '</span></span></div>' +
 					'<small class="text-muted">Kria ' + dataTL(r.kria_iha) + (k && k.urjente ? ' · <span class="text-danger">URJENTE</span>' : '') + '</small>' +
@@ -281,8 +292,8 @@
 		var item = ev.target.closest('.lokal-item');
 		if (!item) return;
 		var id = item.dataset.id;
-		if (ev.target.closest('.js-edita')) loke(id);
-		if (ev.target.closest('.js-hamoos') && confirm('Hamoos kazu ne\'e husi HP?')) {
+		if (ev.target.closest('.js-edita')) { if (item.dataset.legal) LEGAL().loke(id); else loke(id); }
+		if (ev.target.closest('.js-hamoos') && confirm('Hamoos dadus ne\'e husi HP?')) {
 			DB.hamoosMediaKazu(id).then(function () { return DB.del('kazu', id); }).then(listaLokal);
 		}
 	});
@@ -291,6 +302,7 @@
 
 	function atualizaServer() {
 		if (!navigator.onLine || !S.auth) { $('lista-server').innerHTML = '<p class="text-muted small">Offline.</p>'; return; }
+		if (ehLegal()) { LEGAL().atualizaServer(); return; }
 		apiJSON(B.apiKazu).then(function (r) {
 			if (!r.ok) return;
 			var lista = r.data.kazu || [];
@@ -326,7 +338,7 @@
 	});
 
 	function atualizaOpsaun() {
-		apiJSON(B.apiOpsaun).then(function (r) { if (r.ok) { S.opsaun = r.data; raiOpsaun(); } }).catch(function () {});
+		apiJSON(urlOpsaun()).then(function (r) { if (r.ok) { S.opsaun = r.data; raiOpsaun(); } }).catch(function () {});
 	}
 
 	function pedeRelogin() {
@@ -1045,7 +1057,7 @@
 			$('btn-sync').disabled = true;
 			return lista.reduce(function (p, r, i) {
 				return p.then(function () {
-					return sinkronKazu(r).then(function (res) { if (res) ok++; else erru++; });
+					return (r.legal ? LEGAL().sinkron(r) : sinkronKazu(r)).then(function (res) { if (res) ok++; else erru++; });
 				}).then(function () { bar.firstElementChild.style.width = Math.round((i + 1) / total * 100) + '%'; });
 			}, Promise.resolve()).then(function () {
 				msg('Sinkron remata: ' + ok + ' susesu' + (erru ? ', ' + erru + ' presiza hadia' : '') + '.', erru ? 'warning' : 'success');
@@ -1061,6 +1073,13 @@
 		}).catch(function () { S.sinkron = false; });
 	}
 	$('btn-sync').addEventListener('click', function () { sinkronHotu(false); });
+
+	// Funsaun ba smkre_legal.js (survei legál)
+	window.SmkreApp = {
+		S: S, $: $, esc: esc, msg: msg, hatudu: hatudu, hoje: hoje, dataTL: dataTL, api: api, apiJSON: apiJSON,
+		erruLista: erruLista, baVaranda: baVaranda, listaLokal: listaLokal, sinkronHotu: sinkronHotu,
+		permValidu: permValidu, opsaunSelect: opsaunSelect, limpaUrls: limpaUrls, pedeRelogin: pedeRelogin, GPS_MAX: GPS_MAX
+	};
 
 	// ══════════════ ARRANKA ══════════════
 	function arranka() {

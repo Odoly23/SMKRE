@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, HTML
-from config.rbac import INVESTIGADOR, roles_admin_can_assign
+from config.rbac import INVESTIGADOR, ROLE_INPUT_OFFLINE, roles_admin_can_assign
 from custom.models import Munisipiu, Pozisaun
 from users.models import Pesoal, OfflinePermission
 
@@ -116,13 +116,24 @@ class ChangePasswordForm(PasswordChangeForm):
 
 
 class OfflinePermissionForm(forms.ModelForm):
+	# Autorizasaun input (web Legál + app offline): data hahú–remata (mamuk = ohin → loron 7)
+	data_hahu = forms.DateField(label=_('Data hahú'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+	data_remata = forms.DateField(label=_('Data remata'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+
 	class Meta:
 		model = OfflinePermission
 		fields = ['user', 'note']
 
+	def clean(self):
+		cleaned = super().clean()
+		hahu, remata = cleaned.get('data_hahu'), cleaned.get('data_remata')
+		if hahu and remata and remata < hahu:
+			self.add_error('data_remata', _('Data remata tenke depois data hahú.'))
+		return cleaned
+
 	def __init__(self, *args, **kwargs):
 		super(OfflinePermissionForm, self).__init__(*args, **kwargs)
-		self.fields['user'].queryset = User.objects.filter(groups__name=INVESTIGADOR, is_active=True).order_by('username')
+		self.fields['user'].queryset = User.objects.filter(groups__name__in=ROLE_INPUT_OFFLINE, is_active=True).order_by('username')   # Investigadór + Ofisiál Legál
 		self.fields['user'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username})'
 		self.helper = FormHelper()
 		self.helper.form_tag = False
@@ -131,6 +142,11 @@ class OfflinePermissionForm(forms.ModelForm):
 			Row(
 				Column('user', css_class='form-group col-md-6 mb-0'),
 				Column('note', css_class='form-group col-md-6 mb-0'),
+				css_class='form-row'
+			),
+			Row(
+				Column('data_hahu', css_class='form-group col-6 col-md-3 mb-0'),
+				Column('data_remata', css_class='form-group col-6 col-md-3 mb-0'),
 				css_class='form-row'
 			),
 			HTML(""" {% load i18n %}<button class="btn btn-rbr" type="submit"><i class="fa fa-check"></i> {% trans "Fó Autorizasaun" %}</button> """)

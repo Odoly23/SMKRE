@@ -3852,3 +3852,684 @@ msgstr "Simpan"
 
 msgid "Manda ba Server"
 msgstr "Kirim ke Server"
+
+#: legal/models.py
+msgid "Aibossa"
+msgstr "Aibossa"
+
+#: legal/models.py
+msgid "Aihoris"
+msgstr "Pohon batas (aihoris)"
+
+#: legal/models.py
+msgid "Akordu iha ka lae?"
+msgstr "Ada perjanjian?"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun input ba Investigadór (kazu) no Ofisiál Legál (survei legál). "
+"Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, butaun "
+"input subar no labele kria dadus foun, maibé bele nafatin sinkron."
+msgstr ""
+"Izin input untuk Investigador (kasus) dan Petugas Legal (survei legal). "
+"Admin memilih tanggal mulai dan selesai (kosong = 7 hari). Setelah berakhir,"
+" tombol input disembunyikan dan tidak bisa membuat data baru, tetapi tetap "
+"bisa sinkron."
+
+#: legal/templates/legal/survei_list.html
+msgid "Autorizasaun input legál ativu to'o"
+msgstr "Izin input legal aktif sampai"
+
+#: legal/templates/legal/survei_list.html
+msgid ""
+"Autorizasaun input legál la ativu. Admin tenke fó autorizasaun (data hahú no"
+" remata) molok bele input survei."
+msgstr ""
+"Izin input legal tidak aktif. Admin harus memberi izin (tanggal mulai dan "
+"selesai) sebelum bisa input survei."
+
+#: legal/views/survei_v.py
+msgid "Autorizasaun input legál la ativu. Kontaktu Admin."
+msgstr "Izin input legal tidak aktif. Hubungi Admin."
+
+#: legal/models.py
+msgid "Baliza"
+msgstr "Patok batas"
+
+#: legal/models.py
+msgid "Beé matan"
+msgstr "Mata air"
+
+#: legal/models.py
+msgid "Bileti Identidade"
+msgstr "Kartu Identitas"
+
+#: legal/templates/legal/survei_list.html
+msgid "Buka ID, parte, kazu, suku…"
+msgstr "Cari ID, pihak, kasus, suco…"
+
+#: legal/views/dash_v.py
+msgid "Dashboard Legál"
+msgstr "Dashboard Legal"
+
+#: legal/models.py
+msgid "Data Moris"
+msgstr "Tanggal Lahir"
+
+#: legal/survei.py
+msgid "Data kria la validu."
+msgstr "Tanggal pembuatan tidak valid."
+
+#: users/forms.py
+msgid "Data remata tenke depois data hahú."
+msgstr "Tanggal selesai harus setelah tanggal mulai."
+
+#: legal/models.py
+msgid "Data survei"
+msgstr "Tanggal survei"
+
+#: legal/models.py
+msgid "Deklarasaun sosa no faan"
+msgstr "Pernyataan jual beli"
+
+#: legal/models.py
+msgid "Depois de sosa halo saida iha rai nia leten?"
+msgstr "Setelah membeli, apa yang dilakukan di atas tanah?"
+
+#: legal/templates/legal/dash.html
+msgid "Desizaun tribunál"
+msgstr "Putusan pengadilan"
+
+#: legal/models.py
+msgid "Deskrisaun relasaun oinsa toó iha ita boot?"
+msgstr "Deskripsi hubungan: bagaimana sampai kepada Anda?"
+
+#: legal/models.py
+msgid "Despasho"
+msgstr "Keputusan (despacho)"
+
+#: legal/views/survei_v.py
+msgid "Detalla Survei Legál"
+msgstr "Detail Survei Legal"
+
+#: legal/models.py
+msgid "Divorsiadu/a"
+msgstr "Cerai"
+
+#: legal/templates/legal/dash.html
+msgid "Dokumentu iha vault"
+msgstr "Dokumen di vault"
+
+#: legal/models.py
+msgid "Dokumentus identifikasaun"
+msgstr "Dokumen identitas"
+
+#: legal/models.py
+msgid "Dokumentus relevante sira seluk"
+msgstr "Dokumen relevan lainnya"
+
+#: legal/models.py
+msgid "Domisiliu/enderesu"
+msgstr "Domisili/alamat"
+
+#: legal/views/survei_v.py
+msgid "Edita Survei Legál"
+msgstr "Edit Survei Legal"
+
+#: legal/models.py
+msgid "EhD ka lae?"
+msgstr "Penyandang disabilitas?"
+
+#: legal/models.py
+msgid "Ema ho defisiénsia"
+msgstr "Penyandang disabilitas"
+
+#: legal/models.py
+msgid "Ema seluk mak halo"
+msgstr "Orang lain yang mengerjakan"
+
+#: legal/models.py
+msgid "Ema seluk mak halo ka halo rasik?"
+msgstr "Orang lain yang mengerjakan atau dikerjakan sendiri?"
+
+#: legal/models.py
+msgid "Eransa"
+msgstr "Warisan"
+
+#: legal/forms.py
+msgid "Eransa / Antesessor mate ona"
+msgstr "Warisan / Pendahulu sudah meninggal"
+
+#: legal/models.py
+msgid "Eransa ne'e fahe ona ka seidauk?"
+msgstr "Apakah warisan sudah dibagi?"
+
+#: legal/models.py
+msgid "Estadu civil"
+msgstr "Status perkawinan"
+
+#: legal/models.py
+msgid "Fahe desde horibainhira?"
+msgstr "Dibagi sejak kapan?"
+
+#: legal/models.py
+msgid "Fahe ona ba se?"
+msgstr "Dibagi kepada siapa?"
+
+#: legal/models.py
+msgid "Fatin lulik"
+msgstr "Tempat sakral"
+
+#: legal/models.py
+msgid "Fatuk hada"
+msgstr "Tumpukan batu"
+
+#: legal/survei.py
+msgid "File barak liu."
+msgstr "Terlalu banyak file."
+
+#: legal/views/survei_v.py
+msgid "File hamoos ona."
+msgstr "File dihapus."
+
+#: legal/views/survei_v.py
+msgid "File upload ona."
+msgstr "File diunggah."
+
+#: legal/models.py
+msgid "Folin hira?"
+msgstr "Berapa harganya?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Foto no Dokumentu"
+msgstr "Foto dan Dokumen"
+
+#: legal/templates/legal/survei_form.html
+msgid "Foto no dokumentu (upload) iha pájina detalla hafoin Save."
+msgstr "Foto dan dokumen (upload) di halaman detail setelah Simpan."
+
+#: legal/models.py
+msgid "Fotografia"
+msgstr "Foto"
+
+#: legal/forms.py
+msgid "Foó / doasaun (bele família ka ema seluk)"
+msgstr "Hibah (bisa keluarga atau orang lain)"
+
+#: legal/models.py
+msgid "Foó horibainhira?"
+msgstr "Diberikan kapan?"
+
+#: legal/models.py
+msgid "Foó ka Doasaun"
+msgstr "Hibah"
+
+#: legal/templates/legal/dash.html
+msgid "Ha'u-nia survei (seidauk verifika)"
+msgstr "Survei saya (belum diverifikasi)"
+
+#: legal/models.py
+msgid "Hahu hela / okupa bainhira?"
+msgstr "Mulai tinggal / menempati kapan?"
+
+#: legal/models.py
+msgid "Hahu horibainhira to'o bainhira?"
+msgstr "Dari kapan sampai kapan?"
+
+#: legal/models.py
+msgid "Halo akordu iha ne'ebe?"
+msgstr "Di mana perjanjian dibuat?"
+
+#: legal/models.py
+msgid "Halo desde iha sa tinan?"
+msgstr "Sejak tahun berapa?"
+
+#: legal/models.py
+msgid "Halo rasik"
+msgstr "Dikerjakan sendiri"
+
+#: legal/models.py
+msgid "Halo saida iha rai ne'e nia leten?"
+msgstr "Apa yang dilakukan di atas tanah ini?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Hamoos file ne'e?"
+msgstr "Hapus file ini?"
+
+#: users/templates/users/offline_list.html
+msgid "Hein hahú"
+msgstr "Menunggu mulai"
+
+#: legal/templates/legal/dash.html
+msgid "Hein verifikasaun"
+msgstr "Menunggu verifikasi"
+
+#: legal/models.py
+msgid "Hela Fatin"
+msgstr "Tempat tinggal"
+
+#: legal/forms.py
+msgid ""
+"Hili kazu ne'ebé iha ona: fatin kopia husi kazu. Mamuk: prense fatin kazu "
+"legál foun."
+msgstr ""
+"Pilih kasus yang ada: lokasi disalin dari kasus. Kosong: isi lokasi kasus "
+"legal baru."
+
+#: legal/survei.py
+msgid "Hili meius ka maneira hetan rai."
+msgstr "Pilih cara memperoleh tanah."
+
+#: legal/models.py
+msgid "ID Survei"
+msgstr "ID Survei"
+
+#: legal/templates/legal/survei_detail.html
+msgid "IV. Notas importante"
+msgstr "IV. Catatan penting"
+
+#: legal/models.py
+msgid "Identifikasaun ba herdeiru sira?"
+msgstr "Identifikasi para ahli waris?"
+
+#: legal/models.py
+msgid "Identifikasaun/lokalizasaun rai/uma seluk nebeé fahe ona?"
+msgstr "Identifikasi/lokasi tanah/rumah lain yang sudah dibagi?"
+
+#: config/menu.py
+msgid "Input Legál"
+msgstr "Input Legal"
+
+#: legal/models.py
+msgid "Instituisaun Publiku/Privadu"
+msgstr "Institusi Publik/Swasta"
+
+#: legal/models.py
+msgid "Kaben"
+msgstr "Menikah"
+
+#: legal/models.py
+msgid "Kantadeiro"
+msgstr "Cantadeiro"
+
+#: legal/models.py
+msgid "Kartaun Eleitoral"
+msgstr "Kartu Pemilih"
+
+#: legal/templates/legal/dash.html
+msgid "Kazu Legál tuir Tinan"
+msgstr "Kasus Legal per Tahun"
+
+#: legal/models.py
+msgid "Kazu SIBAR"
+msgstr "Kasus SIBAR"
+
+#: legal/forms.py
+msgid "Kazu SIBAR (karik iha ona)"
+msgstr "Kasus SIBAR (jika sudah ada)"
+
+#: legal/templates/legal/dash.html
+msgid "Kazu iha prosesu legál"
+msgstr "Kasus dalam proses hukum"
+
+#: legal/views/dash_v.py
+msgid "Kazu legál"
+msgstr "Kasus legal"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Kazu legál foun"
+msgstr "Kasus legal baru"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Kazu no Fatin"
+msgstr "Kasus dan Lokasi"
+
+#: legal/templates/legal/dash.html
+msgid "Kazu no Survei Legál tuir Munisípiu"
+msgstr "Kasus dan Survei Legal per Munisipiu"
+
+#: legal/models.py
+msgid "Kios"
+msgstr "Kios"
+
+#: legal/templates/legal/dash.html
+msgid "La iha prazu iha loron 30 tuir mai."
+msgstr "Tidak ada tenggat dalam 30 hari ke depan."
+
+#: legal/templates/legal/dash.html
+msgid "La iha."
+msgstr "Tidak ada."
+
+#: legal/templates/legal/dash.html
+msgid "Liu prazu"
+msgstr "Lewat tenggat"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Manda ba server"
+msgstr "Dikirim ke server"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Manda survei ba server? Hafoin ne'e labele edita to'o Admin rejeita."
+msgstr ""
+"Kirim survei ke server? Setelah itu tidak bisa diedit sampai Admin menolak."
+
+#: legal/templates/legal/dash.html
+msgid "Mapa Kazu no Survei Legál"
+msgstr "Peta Kasus dan Survei Legal"
+
+#: legal/models.py
+msgid "Mapa rai nian"
+msgstr "Peta tanah"
+
+#: legal/templates/legal/survei_list.html
+msgid "Meius"
+msgstr "Cara"
+
+#: legal/models.py
+msgid "Meius ka maneira hetan rai"
+msgstr "Cara memperoleh tanah"
+
+#: legal/forms.py
+msgid "Munisípiu obrigatóriu ba kazu legál foun."
+msgstr "Munisipiu wajib untuk kasus legal baru."
+
+#: legal/models.py
+msgid "NUIP (Numeru Uniku Identifikasaun Parcela)"
+msgstr "NUIP (Nomor Unik Identifikasi Parsel)"
+
+#: legal/models.py
+msgid "Naran / deskrisaun"
+msgstr "Nama / deskripsi"
+
+#: legal/models.py
+msgid "Naran kazu legál"
+msgstr "Nama kasus legal"
+
+#: legal/survei.py
+msgid "Naran parte (disputante) obrigatóriu."
+msgstr "Nama pihak (bersengketa) wajib."
+
+#: legal/models.py
+msgid "Natar"
+msgstr "Sawah"
+
+#: legal/models.py
+msgid "Nu kartaun Eleitoral"
+msgstr "No. kartu pemilih"
+
+#: legal/models.py
+msgid "Numeru Kontaktu"
+msgstr "Nomor kontak"
+
+#: legal/models.py
+msgid "Observasaun"
+msgstr "Observasi"
+
+#: legal/templates/legal/dash.html
+msgid "Ofisiál Legál ho autorizasaun input ativu"
+msgstr "Petugas Legal dengan izin input aktif"
+
+#: legal/models.py
+msgid "Oinsa ita nia relasaun ho ema nebeé mak foó?"
+msgstr "Apa hubungan Anda dengan orang yang memberi?"
+
+#: legal/templates/legal/survei_list.html
+msgid "Parte"
+msgstr "Pihak"
+
+#: legal/models.py
+msgid "Passaporte"
+msgstr "Paspor"
+
+#: legal/models.py
+msgid "Posse / Okupa"
+msgstr "Penguasaan / Okupasi"
+
+#: legal/forms.py
+msgid "Posse / okupa"
+msgstr "Penguasaan / okupasi"
+
+#: legal/templates/legal/dash.html
+msgid "Prazu & Tarefa"
+msgstr "Tenggat & Tugas"
+
+#: legal/templates/legal/dash.html
+msgid "Prazu (loron 30)"
+msgstr "Tenggat (30 hari)"
+
+#: legal/templates/legal/dash.html
+msgid "Prazu loron 7 tuir mai"
+msgstr "Tenggat 7 hari ke depan"
+
+#: legal/models.py
+msgid "Privadu"
+msgstr "Swasta"
+
+#: legal/models.py
+msgid "Profisaun"
+msgstr "Pekerjaan"
+
+#: legal/models.py
+msgid "Publiku"
+msgstr "Publik"
+
+#: legal/templates/legal/survei_detail.html
+msgid "RASCUNHO"
+msgstr "DRAF"
+
+#: legal/models.py
+msgid "Rai ne'ebe mak disputa luan hira?"
+msgstr "Berapa luas tanah yang disengketakan?"
+
+#: legal/models.py
+msgid "Rai nebeé mak disputa iha ka lae antesessor nia rai seluk?"
+msgstr "Apakah tanah sengketa termasuk tanah lain milik pendahulu?"
+
+#: legal/models.py
+msgid "Rai no uma ne'e hetan husi se?"
+msgstr "Dari siapa tanah dan rumah ini diperoleh?"
+
+#: legal/models.py
+msgid "Rai tomak neé nia luan hira?"
+msgstr "Berapa luas seluruh tanah?"
+
+#: legal/models.py
+msgid "Rate"
+msgstr "Makam"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Razaun (obrigatóriu bainhira rejeita)"
+msgstr "Alasan (wajib saat menolak)"
+
+#: legal/models.py
+msgid "Razaun rejeita"
+msgstr "Alasan penolakan"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Razaun rejeita:"
+msgstr "Alasan penolakan:"
+
+#: legal/templates/legal/dash.html
+msgid "Rejistu iha Tribunál"
+msgstr "Registrasi di Pengadilan"
+
+#: legal/templates/legal/dash.html
+msgid "Rejistu iha tribunál"
+msgstr "Terdaftar di pengadilan"
+
+#: legal/models.py
+msgid "Relasaun ho ema ne'ebe mak sosa rai ka uma neé oinsa?"
+msgstr "Bagaimana hubungan dengan orang yang membeli tanah atau rumah?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "SURVEI LEGÁL"
+msgstr "SURVEI LEGAL"
+
+#: legal/models.py
+msgid "Sasin 1"
+msgstr "Saksi 1"
+
+#: legal/models.py
+msgid "Sasin 2"
+msgstr "Saksi 2"
+
+#: legal/models.py
+msgid "Sasin 3"
+msgstr "Saksi 3"
+
+#: legal/models.py
+msgid "Sasin 4"
+msgstr "Saksi 4"
+
+#: legal/models.py
+msgid "Sasin iha ka lae?"
+msgstr "Ada saksi?"
+
+#: legal/models.py
+msgid "Se ema seluk mak halo husi sa tinan to'o sa tinan"
+msgstr ""
+"Jika orang lain yang mengerjakan, dari tahun berapa sampai tahun berapa"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Seidauk iha file."
+msgstr "Belum ada file."
+
+#: legal/templates/legal/survei_list.html
+msgid "Seidauk iha survei legál."
+msgstr "Belum ada survei legal."
+
+#: legal/models.py
+msgid "Semak foó?"
+msgstr "Siapa yang memberi?"
+
+#: legal/models.py
+msgid "Semak halo?"
+msgstr "Siapa yang mengerjakan?"
+
+#: legal/forms.py
+msgid "Semak sasin?"
+msgstr "Siapa saksinya?"
+
+#: legal/models.py
+msgid "Sexu/Generu"
+msgstr "Jenis kelamin/Gender"
+
+#: legal/models.py
+msgid "Solteiru/a"
+msgstr "Lajang"
+
+#: legal/models.py
+msgid "Sosa"
+msgstr "Pembelian"
+
+#: legal/models.py
+msgid "Sosa bainhira?"
+msgstr "Membeli kapan?"
+
+#: legal/models.py
+msgid "Sosa husi se?"
+msgstr "Membeli dari siapa?"
+
+#: legal/templates/legal/dash.html
+msgid "Status Rezolusaun"
+msgstr "Status Resolusi"
+
+#: legal/survei.py
+msgid "Survei %(kode)s rejeita: %(nota)s"
+msgstr "Survei %(kode)s ditolak: %(nota)s"
+
+#: legal/survei.py
+msgid "Survei %(kode)s verifika ona."
+msgstr "Survei %(kode)s sudah diverifikasi."
+
+#: legal/templates/legal/survei_detail.html
+msgid "Survei (rascunho)"
+msgstr "Survei (draf)"
+
+#: legal/models.py
+msgid "Survei Legál"
+msgstr "Survei Legal"
+
+#: legal/views/survei_v.py
+msgid "Survei Legál Foun"
+msgstr "Survei Legal Baru"
+
+#: legal/templates/legal/dash.html
+msgid "Survei hein verifikasaun"
+msgstr "Survei menunggu verifikasi"
+
+#: legal/views/dash_v.py
+msgid "Survei legál"
+msgstr "Survei legal"
+
+#: legal/survei.py
+msgid "Survei legál foun %(kode)s husi %(naran)s · %(mun)s"
+msgstr "Survei legal baru %(kode)s dari %(naran)s · %(mun)s"
+
+#: legal/views/survei_v.py
+msgid "Survei manda ba server: hein verifikasaun Admin."
+msgstr "Survei dikirim ke server: menunggu verifikasi Admin."
+
+#: legal/survei.py
+msgid "Survei ne'e haruka ona."
+msgstr "Survei ini sudah dikirim."
+
+#: legal/survei.py
+msgid "Survei ne'e la hein verifikasaun."
+msgstr "Survei ini tidak menunggu verifikasi."
+
+#: legal/views/survei_v.py
+msgid "Survei rai ona (rascunho)."
+msgstr "Survei disimpan (draf)."
+
+#: legal/views/survei_v.py
+msgid "Survei rejeita: haruka fali ba Ofisiál Legál."
+msgstr "Survei ditolak: dikembalikan ke Petugas Legal."
+
+#: legal/templates/legal/survei_form.html
+msgid "Survei rejeitadu:"
+msgstr "Survei ditolak:"
+
+#: legal/templates/legal/dash.html
+msgid "Survei tuir Meius Hetan Rai"
+msgstr "Survei per Cara Memperoleh Tanah"
+
+#: legal/views/survei_v.py
+msgid "Survei verifika ona."
+msgstr "Survei sudah diverifikasi."
+
+#: legal/survei.py
+msgid "Tipu file la validu."
+msgstr "Tipe file tidak valid."
+
+#: legal/models.py
+msgid "To'os"
+msgstr "Kebun"
+
+#: users/api/views.py
+msgid "Token sinkron ba Investigadór no Ofisiál Legál deit."
+msgstr "Token sinkron hanya untuk Investigador dan Petugas Legal."
+
+#: legal/models.py
+msgid "Uma"
+msgstr "Rumah"
+
+#: legal/models.py
+msgid "Uma nia luan hira?"
+msgstr "Berapa luas rumah?"
+
+#: legal/models.py
+msgid "Uza rai ne'e ba halo saida?"
+msgstr "Tanah ini digunakan untuk apa?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Verifika Survei"
+msgstr "Verifikasi Survei"
+
+#: legal/models.py
+msgid "Viúvu/a"
+msgstr "Janda/Duda"
+
+#: legal/forms.py
+msgid "— Kazu legál foun (fatin rasik) —"
+msgstr "— Kasus legal baru (lokasi sendiri) —"

@@ -11,12 +11,13 @@ MENU = [
 	('home', 'home', 'fa-home', _('Varanda'), rbac.ROLE_ALL),
 	('kazu', 'kazu-list', 'fa-folder-open', _('Kazu'), rbac.ROLE_ALL),
 	('kazu-add', 'kazu-add', 'fa-plus-circle', _('Kazu Foun'), rbac.ROLE_INPUT_KAZU),
-	('sinkron', 'sinkron', 'fa-refresh', _('Sinkron'), rbac.ROLE_INPUT_KAZU),
+	('legal-input', 'legal-survei-add', 'fa-pencil-square-o', _('Input Legál'), rbac.ROLE_SURVEI_INPUT),   # autorizasaun ativu deit
+	('sinkron', 'sinkron', 'fa-refresh', _('Sinkron'), rbac.ROLE_INPUT_OFFLINE),
 	('dashboard', 'report-dash', 'fa-bar-chart', _('Dashboard'), rbac.ROLE_DASHBOARD),
 	('mapa', 'report-mapa', 'fa-map', _('Mapa'), rbac.ROLE_DASHBOARD),
 	('relatoriu', 'report-list', 'fa-file-text', _('Relatóriu'), rbac.ROLE_RELATORIU),
 	('publikasaun', 'publikasaun-list', 'fa-newspaper-o', _('Publikasaun'), rbac.ROLE_POLICY_KRIA),
-	('legal', 'legal-kazu-list', 'fa-balance-scale', _('Legál'), rbac.ROLE_LEGAL),
+	('legal', 'legal-dash', 'fa-balance-scale', _('Legál'), rbac.ROLE_LEGAL),
 	('user', 'pesoal-list', 'fa-users', _('Utilizador'), rbac.ROLE_USER_MANAGE),
 	('offline', 'offline-list', 'fa-mobile', _('Offline'), rbac.ROLE_USER_MANAGE),
 	('import', 'kazu-import', 'fa-upload', _('Import'), rbac.ROLE_IMPORT_KAZU),
@@ -26,11 +27,22 @@ MENU = [
 BOTTOM_NAV = ['home', 'kazu', 'kazu-add', 'sinkron', 'account']
 
 
-def menu_for(group):
+# Item ne'ebé presiza autorizasaun input (data hahú–remata) husi Admin
+PRESIZA_AUTORIZASAUN = {'legal-input'}
+
+
+def menu_for(group, user=None):
 	items = []
+	ativu = None
 	for page, url_name, icon, label, roles in MENU:
 		if group not in roles:
 			continue
+		if page in PRESIZA_AUTORIZASAUN:
+			if ativu is None:
+				from legal.survei import input_ativu
+				ativu = bool(user) and input_ativu(user)
+			if not ativu:
+				continue
 		try:
 			url = reverse(url_name)
 		except NoReverseMatch:

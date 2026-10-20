@@ -3868,3 +3868,684 @@ msgstr "Save"
 
 msgid "Manda ba Server"
 msgstr "Send to Server"
+
+#: legal/models.py
+msgid "Aibossa"
+msgstr "Aibossa"
+
+#: legal/models.py
+msgid "Aihoris"
+msgstr "Boundary trees (aihoris)"
+
+#: legal/models.py
+msgid "Akordu iha ka lae?"
+msgstr "Is there an agreement?"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun input ba Investigadór (kazu) no Ofisiál Legál (survei legál). "
+"Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, butaun "
+"input subar no labele kria dadus foun, maibé bele nafatin sinkron."
+msgstr ""
+"Input authorisation for Investigators (cases) and Legal Officers (legal "
+"surveys). Admin chooses the start and end dates (empty = 7 days). When it "
+"ends, the input button is hidden and no new data can be created, but syncing"
+" still works."
+
+#: legal/templates/legal/survei_list.html
+msgid "Autorizasaun input legál ativu to'o"
+msgstr "Legal input authorisation active until"
+
+#: legal/templates/legal/survei_list.html
+msgid ""
+"Autorizasaun input legál la ativu. Admin tenke fó autorizasaun (data hahú no"
+" remata) molok bele input survei."
+msgstr ""
+"Legal input authorisation is not active. The Admin must grant authorisation "
+"(start and end dates) before you can enter surveys."
+
+#: legal/views/survei_v.py
+msgid "Autorizasaun input legál la ativu. Kontaktu Admin."
+msgstr "Legal input authorisation is not active. Contact the Admin."
+
+#: legal/models.py
+msgid "Baliza"
+msgstr "Boundary marker"
+
+#: legal/models.py
+msgid "Beé matan"
+msgstr "Water spring"
+
+#: legal/models.py
+msgid "Bileti Identidade"
+msgstr "Identity Card"
+
+#: legal/templates/legal/survei_list.html
+msgid "Buka ID, parte, kazu, suku…"
+msgstr "Search ID, party, case, suco…"
+
+#: legal/views/dash_v.py
+msgid "Dashboard Legál"
+msgstr "Legal Dashboard"
+
+#: legal/models.py
+msgid "Data Moris"
+msgstr "Date of Birth"
+
+#: legal/survei.py
+msgid "Data kria la validu."
+msgstr "Invalid creation date."
+
+#: users/forms.py
+msgid "Data remata tenke depois data hahú."
+msgstr "The end date must be after the start date."
+
+#: legal/models.py
+msgid "Data survei"
+msgstr "Survey date"
+
+#: legal/models.py
+msgid "Deklarasaun sosa no faan"
+msgstr "Purchase and sale declaration"
+
+#: legal/models.py
+msgid "Depois de sosa halo saida iha rai nia leten?"
+msgstr "After buying, what did you do on the land?"
+
+#: legal/templates/legal/dash.html
+msgid "Desizaun tribunál"
+msgstr "Court decision"
+
+#: legal/models.py
+msgid "Deskrisaun relasaun oinsa toó iha ita boot?"
+msgstr "Describe the relationship: how did it come to you?"
+
+#: legal/models.py
+msgid "Despasho"
+msgstr "Order (despacho)"
+
+#: legal/views/survei_v.py
+msgid "Detalla Survei Legál"
+msgstr "Legal Survey Detail"
+
+#: legal/models.py
+msgid "Divorsiadu/a"
+msgstr "Divorced"
+
+#: legal/templates/legal/dash.html
+msgid "Dokumentu iha vault"
+msgstr "Documents in vault"
+
+#: legal/models.py
+msgid "Dokumentus identifikasaun"
+msgstr "Identification documents"
+
+#: legal/models.py
+msgid "Dokumentus relevante sira seluk"
+msgstr "Other relevant documents"
+
+#: legal/models.py
+msgid "Domisiliu/enderesu"
+msgstr "Domicile/address"
+
+#: legal/views/survei_v.py
+msgid "Edita Survei Legál"
+msgstr "Edit Legal Survey"
+
+#: legal/models.py
+msgid "EhD ka lae?"
+msgstr "Person with disability?"
+
+#: legal/models.py
+msgid "Ema ho defisiénsia"
+msgstr "Person with disability"
+
+#: legal/models.py
+msgid "Ema seluk mak halo"
+msgstr "Someone else did it"
+
+#: legal/models.py
+msgid "Ema seluk mak halo ka halo rasik?"
+msgstr "Did someone else do it or did you do it yourself?"
+
+#: legal/models.py
+msgid "Eransa"
+msgstr "Inheritance"
+
+#: legal/forms.py
+msgid "Eransa / Antesessor mate ona"
+msgstr "Inheritance / Predecessor deceased"
+
+#: legal/models.py
+msgid "Eransa ne'e fahe ona ka seidauk?"
+msgstr "Has the inheritance been divided?"
+
+#: legal/models.py
+msgid "Estadu civil"
+msgstr "Marital status"
+
+#: legal/models.py
+msgid "Fahe desde horibainhira?"
+msgstr "Divided since when?"
+
+#: legal/models.py
+msgid "Fahe ona ba se?"
+msgstr "Divided to whom?"
+
+#: legal/models.py
+msgid "Fatin lulik"
+msgstr "Sacred place"
+
+#: legal/models.py
+msgid "Fatuk hada"
+msgstr "Stacked stones"
+
+#: legal/survei.py
+msgid "File barak liu."
+msgstr "Too many files."
+
+#: legal/views/survei_v.py
+msgid "File hamoos ona."
+msgstr "File removed."
+
+#: legal/views/survei_v.py
+msgid "File upload ona."
+msgstr "File uploaded."
+
+#: legal/models.py
+msgid "Folin hira?"
+msgstr "What was the price?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Foto no Dokumentu"
+msgstr "Photos and Documents"
+
+#: legal/templates/legal/survei_form.html
+msgid "Foto no dokumentu (upload) iha pájina detalla hafoin Save."
+msgstr "Photos and documents (upload) on the detail page after Save."
+
+#: legal/models.py
+msgid "Fotografia"
+msgstr "Photographs"
+
+#: legal/forms.py
+msgid "Foó / doasaun (bele família ka ema seluk)"
+msgstr "Gift / donation (family or someone else)"
+
+#: legal/models.py
+msgid "Foó horibainhira?"
+msgstr "Given when?"
+
+#: legal/models.py
+msgid "Foó ka Doasaun"
+msgstr "Gift / Donation"
+
+#: legal/templates/legal/dash.html
+msgid "Ha'u-nia survei (seidauk verifika)"
+msgstr "My surveys (not verified)"
+
+#: legal/models.py
+msgid "Hahu hela / okupa bainhira?"
+msgstr "When did you start living / occupying?"
+
+#: legal/models.py
+msgid "Hahu horibainhira to'o bainhira?"
+msgstr "From when until when?"
+
+#: legal/models.py
+msgid "Halo akordu iha ne'ebe?"
+msgstr "Where was the agreement made?"
+
+#: legal/models.py
+msgid "Halo desde iha sa tinan?"
+msgstr "Since which year?"
+
+#: legal/models.py
+msgid "Halo rasik"
+msgstr "Did it yourself"
+
+#: legal/models.py
+msgid "Halo saida iha rai ne'e nia leten?"
+msgstr "What do you do on this land?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Hamoos file ne'e?"
+msgstr "Remove this file?"
+
+#: users/templates/users/offline_list.html
+msgid "Hein hahú"
+msgstr "Pending start"
+
+#: legal/templates/legal/dash.html
+msgid "Hein verifikasaun"
+msgstr "Awaiting verification"
+
+#: legal/models.py
+msgid "Hela Fatin"
+msgstr "Residence"
+
+#: legal/forms.py
+msgid ""
+"Hili kazu ne'ebé iha ona: fatin kopia husi kazu. Mamuk: prense fatin kazu "
+"legál foun."
+msgstr ""
+"Choose an existing case: the location is copied from the case. Empty: fill "
+"in the location of the new legal case."
+
+#: legal/survei.py
+msgid "Hili meius ka maneira hetan rai."
+msgstr "Choose how the land was acquired."
+
+#: legal/models.py
+msgid "ID Survei"
+msgstr "Survey ID"
+
+#: legal/templates/legal/survei_detail.html
+msgid "IV. Notas importante"
+msgstr "IV. Important notes"
+
+#: legal/models.py
+msgid "Identifikasaun ba herdeiru sira?"
+msgstr "Identification of the heirs?"
+
+#: legal/models.py
+msgid "Identifikasaun/lokalizasaun rai/uma seluk nebeé fahe ona?"
+msgstr "Identification/location of other land/houses already divided?"
+
+#: config/menu.py
+msgid "Input Legál"
+msgstr "Legal Input"
+
+#: legal/models.py
+msgid "Instituisaun Publiku/Privadu"
+msgstr "Public/Private institution"
+
+#: legal/models.py
+msgid "Kaben"
+msgstr "Married"
+
+#: legal/models.py
+msgid "Kantadeiro"
+msgstr "Cantadeiro"
+
+#: legal/models.py
+msgid "Kartaun Eleitoral"
+msgstr "Voter Card"
+
+#: legal/templates/legal/dash.html
+msgid "Kazu Legál tuir Tinan"
+msgstr "Legal Cases by Year"
+
+#: legal/models.py
+msgid "Kazu SIBAR"
+msgstr "SIBAR case"
+
+#: legal/forms.py
+msgid "Kazu SIBAR (karik iha ona)"
+msgstr "SIBAR case (if it exists)"
+
+#: legal/templates/legal/dash.html
+msgid "Kazu iha prosesu legál"
+msgstr "Cases in legal process"
+
+#: legal/views/dash_v.py
+msgid "Kazu legál"
+msgstr "Legal cases"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Kazu legál foun"
+msgstr "New legal case"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Kazu no Fatin"
+msgstr "Case and Location"
+
+#: legal/templates/legal/dash.html
+msgid "Kazu no Survei Legál tuir Munisípiu"
+msgstr "Legal Cases and Surveys by Municipality"
+
+#: legal/models.py
+msgid "Kios"
+msgstr "Kiosk"
+
+#: legal/templates/legal/dash.html
+msgid "La iha prazu iha loron 30 tuir mai."
+msgstr "No deadlines in the next 30 days."
+
+#: legal/templates/legal/dash.html
+msgid "La iha."
+msgstr "None."
+
+#: legal/templates/legal/dash.html
+msgid "Liu prazu"
+msgstr "Overdue"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Manda ba server"
+msgstr "Sent to server"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Manda survei ba server? Hafoin ne'e labele edita to'o Admin rejeita."
+msgstr ""
+"Send the survey to the server? After that you cannot edit until the Admin "
+"rejects it."
+
+#: legal/templates/legal/dash.html
+msgid "Mapa Kazu no Survei Legál"
+msgstr "Map of Legal Cases and Surveys"
+
+#: legal/models.py
+msgid "Mapa rai nian"
+msgstr "Land map"
+
+#: legal/templates/legal/survei_list.html
+msgid "Meius"
+msgstr "Means"
+
+#: legal/models.py
+msgid "Meius ka maneira hetan rai"
+msgstr "Means or way of acquiring the land"
+
+#: legal/forms.py
+msgid "Munisípiu obrigatóriu ba kazu legál foun."
+msgstr "Municipality is required for a new legal case."
+
+#: legal/models.py
+msgid "NUIP (Numeru Uniku Identifikasaun Parcela)"
+msgstr "NUIP (Unique Parcel Identification Number)"
+
+#: legal/models.py
+msgid "Naran / deskrisaun"
+msgstr "Name / description"
+
+#: legal/models.py
+msgid "Naran kazu legál"
+msgstr "Legal case name"
+
+#: legal/survei.py
+msgid "Naran parte (disputante) obrigatóriu."
+msgstr "Party (disputant) name is required."
+
+#: legal/models.py
+msgid "Natar"
+msgstr "Rice field"
+
+#: legal/models.py
+msgid "Nu kartaun Eleitoral"
+msgstr "Voter card no."
+
+#: legal/models.py
+msgid "Numeru Kontaktu"
+msgstr "Contact number"
+
+#: legal/models.py
+msgid "Observasaun"
+msgstr "Observation"
+
+#: legal/templates/legal/dash.html
+msgid "Ofisiál Legál ho autorizasaun input ativu"
+msgstr "Legal Officers with active input authorisation"
+
+#: legal/models.py
+msgid "Oinsa ita nia relasaun ho ema nebeé mak foó?"
+msgstr "What is your relationship with the person who gave it?"
+
+#: legal/templates/legal/survei_list.html
+msgid "Parte"
+msgstr "Party"
+
+#: legal/models.py
+msgid "Passaporte"
+msgstr "Passport"
+
+#: legal/models.py
+msgid "Posse / Okupa"
+msgstr "Possession / Occupation"
+
+#: legal/forms.py
+msgid "Posse / okupa"
+msgstr "Possession / occupation"
+
+#: legal/templates/legal/dash.html
+msgid "Prazu & Tarefa"
+msgstr "Deadlines & Tasks"
+
+#: legal/templates/legal/dash.html
+msgid "Prazu (loron 30)"
+msgstr "Deadlines (30 days)"
+
+#: legal/templates/legal/dash.html
+msgid "Prazu loron 7 tuir mai"
+msgstr "Deadlines in the next 7 days"
+
+#: legal/models.py
+msgid "Privadu"
+msgstr "Private"
+
+#: legal/models.py
+msgid "Profisaun"
+msgstr "Occupation"
+
+#: legal/models.py
+msgid "Publiku"
+msgstr "Public"
+
+#: legal/templates/legal/survei_detail.html
+msgid "RASCUNHO"
+msgstr "DRAFT"
+
+#: legal/models.py
+msgid "Rai ne'ebe mak disputa luan hira?"
+msgstr "What is the size of the disputed land?"
+
+#: legal/models.py
+msgid "Rai nebeé mak disputa iha ka lae antesessor nia rai seluk?"
+msgstr "Is the disputed land another piece of the predecessor's land?"
+
+#: legal/models.py
+msgid "Rai no uma ne'e hetan husi se?"
+msgstr "From whom did you receive this land and house?"
+
+#: legal/models.py
+msgid "Rai tomak neé nia luan hira?"
+msgstr "What is the total area of the land?"
+
+#: legal/models.py
+msgid "Rate"
+msgstr "Grave"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Razaun (obrigatóriu bainhira rejeita)"
+msgstr "Reason (required when rejecting)"
+
+#: legal/models.py
+msgid "Razaun rejeita"
+msgstr "Rejection reason"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Razaun rejeita:"
+msgstr "Rejection reason:"
+
+#: legal/templates/legal/dash.html
+msgid "Rejistu iha Tribunál"
+msgstr "Court Registration"
+
+#: legal/templates/legal/dash.html
+msgid "Rejistu iha tribunál"
+msgstr "Registered in court"
+
+#: legal/models.py
+msgid "Relasaun ho ema ne'ebe mak sosa rai ka uma neé oinsa?"
+msgstr "What is the relationship with whoever bought the land or house?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "SURVEI LEGÁL"
+msgstr "LEGAL SURVEY"
+
+#: legal/models.py
+msgid "Sasin 1"
+msgstr "Witness 1"
+
+#: legal/models.py
+msgid "Sasin 2"
+msgstr "Witness 2"
+
+#: legal/models.py
+msgid "Sasin 3"
+msgstr "Witness 3"
+
+#: legal/models.py
+msgid "Sasin 4"
+msgstr "Witness 4"
+
+#: legal/models.py
+msgid "Sasin iha ka lae?"
+msgstr "Are there witnesses?"
+
+#: legal/models.py
+msgid "Se ema seluk mak halo husi sa tinan to'o sa tinan"
+msgstr "If someone else did it, from which year to which year"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Seidauk iha file."
+msgstr "No files yet."
+
+#: legal/templates/legal/survei_list.html
+msgid "Seidauk iha survei legál."
+msgstr "No legal surveys yet."
+
+#: legal/models.py
+msgid "Semak foó?"
+msgstr "Who gave it?"
+
+#: legal/models.py
+msgid "Semak halo?"
+msgstr "Who did it?"
+
+#: legal/forms.py
+msgid "Semak sasin?"
+msgstr "Who are the witnesses?"
+
+#: legal/models.py
+msgid "Sexu/Generu"
+msgstr "Sex/Gender"
+
+#: legal/models.py
+msgid "Solteiru/a"
+msgstr "Single"
+
+#: legal/models.py
+msgid "Sosa"
+msgstr "Purchase"
+
+#: legal/models.py
+msgid "Sosa bainhira?"
+msgstr "When did you buy?"
+
+#: legal/models.py
+msgid "Sosa husi se?"
+msgstr "Bought from whom?"
+
+#: legal/templates/legal/dash.html
+msgid "Status Rezolusaun"
+msgstr "Resolution Status"
+
+#: legal/survei.py
+msgid "Survei %(kode)s rejeita: %(nota)s"
+msgstr "Survey %(kode)s rejected: %(nota)s"
+
+#: legal/survei.py
+msgid "Survei %(kode)s verifika ona."
+msgstr "Survey %(kode)s verified."
+
+#: legal/templates/legal/survei_detail.html
+msgid "Survei (rascunho)"
+msgstr "Survey (draft)"
+
+#: legal/models.py
+msgid "Survei Legál"
+msgstr "Legal Survey"
+
+#: legal/views/survei_v.py
+msgid "Survei Legál Foun"
+msgstr "New Legal Survey"
+
+#: legal/templates/legal/dash.html
+msgid "Survei hein verifikasaun"
+msgstr "Surveys awaiting verification"
+
+#: legal/views/dash_v.py
+msgid "Survei legál"
+msgstr "Legal survey"
+
+#: legal/survei.py
+msgid "Survei legál foun %(kode)s husi %(naran)s · %(mun)s"
+msgstr "New legal survey %(kode)s from %(naran)s · %(mun)s"
+
+#: legal/views/survei_v.py
+msgid "Survei manda ba server: hein verifikasaun Admin."
+msgstr "Survey sent to server: awaiting Admin verification."
+
+#: legal/survei.py
+msgid "Survei ne'e haruka ona."
+msgstr "This survey has already been sent."
+
+#: legal/survei.py
+msgid "Survei ne'e la hein verifikasaun."
+msgstr "This survey is not awaiting verification."
+
+#: legal/views/survei_v.py
+msgid "Survei rai ona (rascunho)."
+msgstr "Survey saved (draft)."
+
+#: legal/views/survei_v.py
+msgid "Survei rejeita: haruka fali ba Ofisiál Legál."
+msgstr "Survey rejected: returned to the Legal Officer."
+
+#: legal/templates/legal/survei_form.html
+msgid "Survei rejeitadu:"
+msgstr "Survey rejected:"
+
+#: legal/templates/legal/dash.html
+msgid "Survei tuir Meius Hetan Rai"
+msgstr "Surveys by Means of Acquisition"
+
+#: legal/views/survei_v.py
+msgid "Survei verifika ona."
+msgstr "Survey verified."
+
+#: legal/survei.py
+msgid "Tipu file la validu."
+msgstr "Invalid file type."
+
+#: legal/models.py
+msgid "To'os"
+msgstr "Garden (to'os)"
+
+#: users/api/views.py
+msgid "Token sinkron ba Investigadór no Ofisiál Legál deit."
+msgstr "Sync token for Investigators and Legal Officers only."
+
+#: legal/models.py
+msgid "Uma"
+msgstr "House"
+
+#: legal/models.py
+msgid "Uma nia luan hira?"
+msgstr "What is the size of the house?"
+
+#: legal/models.py
+msgid "Uza rai ne'e ba halo saida?"
+msgstr "What is this land used for?"
+
+#: legal/templates/legal/survei_detail.html
+msgid "Verifika Survei"
+msgstr "Verify Survey"
+
+#: legal/models.py
+msgid "Viúvu/a"
+msgstr "Widowed"
+
+#: legal/forms.py
+msgid "— Kazu legál foun (fatin rasik) —"
+msgstr "— New legal case (own location) —"

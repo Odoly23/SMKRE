@@ -13,7 +13,7 @@ def smkre(request):
 	if request.user.is_authenticated:
 		group = c_user_group(request.user)
 		pesoal = c_user_pesoal(request.user)
-		menu = menu_for(group)
+		menu = menu_for(group, request.user)
 		if group == rbac.INVESTIGADOR:
 			bnav = bottom_nav_for(group)
 	return {

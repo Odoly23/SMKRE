@@ -58,7 +58,8 @@ class PesoalUser(models.Model):
 
 class OfflinePermissionQuerySet(models.QuerySet):
 	def valid(self):
-		return self.filter(is_active=True, end_date__gt=timezone.now())
+		agora = timezone.now()
+		return self.filter(is_active=True, start_date__lte=agora, end_date__gt=agora)
 
 
 class OfflinePermission(models.Model):
@@ -88,7 +89,13 @@ class OfflinePermission(models.Model):
 
 	@property
 	def is_valid(self):
-		return self.is_active and self.end_date > timezone.now()
+		agora = timezone.now()
+		return self.is_active and self.start_date <= agora < self.end_date
+
+	@property
+	def is_future(self):
+		# Admin fó ho data hahú iha futuru → seidauk ativu
+		return self.is_active and self.start_date > timezone.now()
 
 	@property
 	def days_left(self):

@@ -1,0 +1,123 @@
+{% extends "main/layout.html" %}
+{% load static i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ legend|upper }}</li>
+	</ol>
+	<h2 class="mb-2">{{ legend }}</h2>
+	{% include 'legal/_tabs.html' with tab='dash' %}
+
+	{# 1. Sumáriu númeru #}
+	<div class="row legal-kpi">
+		<div class="col-6 col-md-3 mb-3"><a class="card card-rbr h-100 text-reset" href="{% url 'legal-kazu-list' %}"><div class="card-body"><small class="text-muted">{% trans "Kazu iha prosesu legál" %}</small><h3 class="mb-0 text-rbr">{{ kpi.legal }}</h3></div></a></div>
+		<div class="col-6 col-md-3 mb-3"><div class="card card-rbr h-100"><div class="card-body"><small class="text-muted">{% trans "Rejistu iha tribunál" %}</small><h3 class="mb-0">{{ kpi.tribunal }}</h3><small class="text-muted">{% trans "Desizaun tribunál" %}: {{ kpi.desizaun }}</small></div></div></div>
+		<div class="col-6 col-md-3 mb-3"><div class="card card-rbr h-100"><div class="card-body"><small class="text-muted">{% trans "Prazu loron 7 tuir mai" %}</small><h3 class="mb-0 {% if kpi.prazu %}text-warning{% endif %}">{{ kpi.prazu }}</h3>{% if kpi.liu_prazu %}<small class="text-danger font-weight-bold">{% trans "Liu prazu" %}: {{ kpi.liu_prazu }}</small>{% endif %}</div></div></div>
+		{% if haree_survei %}
+		<div class="col-6 col-md-3 mb-3"><a class="card card-rbr h-100 text-reset" href="{% url 'legal-survei-list' %}"><div class="card-body"><small class="text-muted">{% trans "Survei legál" %}</small><h3 class="mb-0">{{ kpi.survei }}</h3>{% if kpi.survei_hein %}<small class="text-warning font-weight-bold">{% trans "Hein verifikasaun" %}: {{ kpi.survei_hein }}</small>{% endif %}</div></a></div>
+		{% else %}
+		<div class="col-6 col-md-3 mb-3"><a class="card card-rbr h-100 text-reset" href="{% url 'legal-vault' %}"><div class="card-body"><small class="text-muted">{% trans "Dokumentu iha vault" %}</small><h3 class="mb-0">{{ kpi.dokumentu }}</h3></div></a></div>
+		{% endif %}
+	</div>
+
+	{# 2. Gráfiku #}
+	<div class="row">
+		<div class="col-lg-7 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr">{% trans "Kazu no Survei Legál tuir Munisípiu" %}</div><div class="card-body"><div id="ch_mun"></div></div></div></div>
+		<div class="col-lg-5 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr bg-dark2">{% trans "Rejistu iha Tribunál" %}</div><div class="card-body"><div id="ch_tribunal"></div></div></div></div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr">{% trans "Kazu Legál tuir Tinan" %}</div><div class="card-body"><div id="ch_tinan"></div></div></div></div>
+		<div class="col-lg-4 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr bg-maroon">{% trans "Desizaun RbR" %}</div><div class="card-body"><div id="ch_desizaun"></div></div></div></div>
+		<div class="col-lg-4 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr">{% if haree_survei %}{% trans "Survei tuir Meius Hetan Rai" %}{% else %}{% trans "Status Rezolusaun" %}{% endif %}</div><div class="card-body"><div id="ch_meius"></div></div></div></div>
+	</div>
+
+	<div class="row">
+		{# 3. Mapa #}
+		<div class="col-lg-7 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr">{% trans "Mapa Kazu no Survei Legál" %}</div><div class="card-body p-0">
+			<div id="mapa-legal" style="height:420px" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}"
+				data-ikon-kazu="{% static 'main/mapa/marker-violet.svg' %}" data-ikon-survei="{% static 'main/mapa/marker-gold.svg' %}" data-ikon-sombra="{% static 'main/mapa/marker-shadow.png' %}"
+				data-l-kazu="{% trans "Kazu legál" %}" data-l-survei="{% trans "Survei legál" %}" data-l-haree="{% trans "Haree Detalla" %}"></div>
+		</div></div></div>
+
+		{# 4. Prazu & tarefa #}
+		<div class="col-lg-5 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr bg-dark2">{% trans "Prazu & Tarefa" %}</div><div class="card-body small">
+			<h4 class="form-sub mt-0"><i class="fa fa-calendar"></i> {% trans "Prazu (loron 30)" %}</h4>
+			<ul class="list-unstyled mb-3">
+			{% for n in prazu %}
+				<li class="border-bottom py-1 d-flex justify-content-between">
+					<span><a href="{% url 'legal-kazu' n.kazu_id %}"><b>{{ n.kazu }}</b></a> · {{ n.get_tipu_display }}<br><span class="text-muted">{{ n.testu|truncatechars:60 }}</span></span>
+					<span class="text-nowrap {% if n.prazu < hoje %}text-danger font-weight-bold{% elif n.prazu <= limite %}text-warning font-weight-bold{% endif %}">{{ n.prazu|date:"d/m/Y" }}</span>
+				</li>
+			{% empty %}<li class="text-muted">{% trans "La iha prazu iha loron 30 tuir mai." %}</li>{% endfor %}
+			</ul>
+			{% if haree_survei and survei_hein %}
+			<h4 class="form-sub"><i class="fa fa-hourglass-half"></i> {% trans "Survei hein verifikasaun" %}</h4>
+			<ul class="list-unstyled mb-3">{% for s in survei_hein %}<li class="border-bottom py-1"><a href="{% url 'legal-survei-detail' s.pk %}"><b>{{ s.kode }}</b></a> · {{ s.parte_naran }} · {{ s.munisipiu }}</li>{% endfor %}</ul>
+			{% endif %}
+			{% if survei_foun %}
+			<h4 class="form-sub"><i class="fa fa-pencil"></i> {% trans "Ha'u-nia survei (seidauk verifika)" %}</h4>
+			<ul class="list-unstyled mb-3">{% for s in survei_foun %}<li class="border-bottom py-1"><a href="{% url 'legal-survei-detail' s.pk %}"><b>{{ s.kode|default:_("Rascunho") }}</b></a> · {{ s.parte_naran|default:"-" }} {% include 'legal/_badge_survei.html' %}</li>{% endfor %}</ul>
+			{% endif %}
+			{% if haree_survei %}
+			<h4 class="form-sub"><i class="fa fa-unlock"></i> {% trans "Ofisiál Legál ho autorizasaun input ativu" %}</h4>
+			<ul class="list-unstyled mb-0">{% for u in ofisial_ativu %}<li class="py-1"><i class="fa fa-user text-rbr"></i> {{ u.pesoaluser.pesoal|default:u.username }}</li>{% empty %}<li class="text-muted">{% trans "La iha." %}</li>{% endfor %}</ul>
+			{% endif %}
+		</div></div></div>
+	</div>
+	{{ charts|json_script:"legal-charts" }}
+	{{ pontu|json_script:"legal-pontu" }}
+{% endblock %}
+{% block scripts %}
+{% include 'report/_chart_assets.html' %}
+<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
+<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script nonce="{{ request.csp_nonce }}">
+(function () {
+	var C = JSON.parse(document.getElementById('legal-charts').textContent);
+	function bar(id, d, tipu) {
+		Highcharts.chart(id, { chart: { type: tipu || 'column', styledMode: true, height: 280 }, title: { text: '' },
+			xAxis: { categories: d.label }, yAxis: { title: { text: '' }, allowDecimals: false }, legend: { enabled: false },
+			plotOptions: { series: { borderRadius: 4, dataLabels: { enabled: true } } },
+			series: [{ name: C.labels.total, data: d.obj }] });
+	}
+	function pie(id, d) {
+		Highcharts.chart(id, { chart: { type: 'pie', styledMode: true, height: 280 }, title: { text: '' },
+			plotOptions: { pie: { innerSize: '55%', dataLabels: { enabled: true, format: '{point.name}: {point.y}' } } },
+			series: [{ name: C.labels.total, data: d.label.map(function (l, i) { return [l, d.obj[i]]; }).filter(function (p) { return p[1] > 0; }) }] });
+	}
+	if (window.Highcharts) {
+		Highcharts.chart('ch_mun', { chart: { type: 'column', styledMode: true, height: 300 }, title: { text: '' },
+			xAxis: { categories: C.mun.label }, yAxis: { title: { text: '' }, allowDecimals: false },
+			plotOptions: { column: { borderRadius: 4 } },
+			series: [{ name: C.labels.kazu, data: C.mun.kazu }, { name: C.labels.survei, data: C.mun.survei }] });
+		pie('ch_tribunal', C.tribunal);
+		bar('ch_tinan', C.tinan);
+		bar('ch_desizaun', C.desizaun, 'bar');
+		{% if haree_survei %}pie('ch_meius', C.meius);{% else %}bar('ch_meius', C.rezolusaun, 'bar');{% endif %}
+	}
+
+	// Mapa (baze offline: fronteira munisípiu; online: OpenStreetMap)
+	var el = document.getElementById('mapa-legal'), D = el.dataset;
+	var pontu = JSON.parse(document.getElementById('legal-pontu').textContent);
+	var baze = L.layerGroup();
+	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap', maxZoom: 19 });
+	var map = L.map(el, { center: [-8.85, 125.8], zoom: 8, layers: navigator.onLine ? [osm] : [] });
+	fetch(D.geojson).then(function (r) { return r.json(); }).then(function (g) {
+		L.geoJSON(g, { style: { color: '#0E8A68', weight: 1, fillOpacity: 0.04 }, interactive: false }).addTo(baze);
+		baze.addTo(map);                         // fronteira munisípiu sempre hatudu
+	}).catch(function () {});
+	function ikon(url) { return L.icon({ iconUrl: url, shadowUrl: D.ikonSombra, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }); }
+	var grupu = { kazu: L.layerGroup().addTo(map), survei: L.layerGroup().addTo(map) };
+	var ik = { kazu: ikon(D.ikonKazu), survei: ikon(D.ikonSurvei) };
+	pontu.forEach(function (p) {
+		var div = document.createElement('div');
+		var h = document.createElement('h6'); h.className = 'mb-1'; h.textContent = p.kode || '-'; div.appendChild(h);
+		var f = document.createElement('div'); f.textContent = p.fatin; div.appendChild(f);
+		var a = document.createElement('a'); a.href = p.url; a.className = 'btn btn-sm btn-rbr mt-1'; a.textContent = D.lHaree; div.appendChild(a);
+		L.marker([p.lat, p.lng], { icon: ik[p.t] }).bindPopup(div).addTo(grupu[p.t]);
+	});
+	var ov = {}; ov[D.lKazu] = grupu.kazu; ov[D.lSurvei] = grupu.survei;
+	L.control.layers(null, ov, { collapsed: false }).addTo(map);
+})();
+</script>
+{% endblock %}

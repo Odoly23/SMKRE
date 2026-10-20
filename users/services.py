@@ -26,9 +26,16 @@ def cancel_offline(user, by=None, note=''):
 	return n
 
 
-def give_offline(user, by, note=''):
-	# Fó (ka renova) autorizasaun offline: ida ativu deit kada utilizador
+def give_offline(user, by, note='', hahu=None, remata=None):
+	# Fó (ka renova) autorizasaun input / offline: ida ativu deit kada utilizador.
+	# hahu / remata (data): mamuk → agora to'o loron OFFLINE_PERMISSION_DAYS
+	from datetime import datetime, time
 	OfflinePermission.objects.filter(user=user, is_active=True).update(is_active=False)
-	perm = OfflinePermission.objects.create(user=user, given_by=by, note=note)
+	extra = {}
+	if hahu:
+		extra['start_date'] = timezone.make_aware(datetime.combine(hahu, time.min)) if hahu > timezone.localdate() else timezone.now()
+	if remata:
+		extra['end_date'] = timezone.make_aware(datetime.combine(remata, time.max))
+	perm = OfflinePermission.objects.create(user=user, given_by=by, note=note, **extra)
 	logger.info(f'Autorizasaun offline fó: {user.username} to\'o {perm.end_date:%d/%m/%Y} husi {by}')
 	return perm

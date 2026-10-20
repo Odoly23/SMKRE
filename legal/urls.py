@@ -1,7 +1,21 @@
 from django.urls import path
-from legal.views import vault_v, kazu_v, nota_v
+from legal.views import vault_v, kazu_v, nota_v, survei_v, dash_v
 
 urlpatterns = [
+	# Dashboard legál
+	path('dashboard/', dash_v.LegalDash, name='legal-dash'),
+
+	# Survei legál (Perguntas Xave Sira Legal)
+	path('survei/', survei_v.SurveiList, name='legal-survei-list'),
+	path('survei/foun/', survei_v.SurveiAdd, name='legal-survei-add'),
+	path('survei/<uuid:pk>/', survei_v.SurveiDetail, name='legal-survei-detail'),
+	path('survei/<uuid:pk>/edita/', survei_v.SurveiUpdate, name='legal-survei-update'),
+	path('survei/<uuid:pk>/haruka/', survei_v.SurveiHaruka, name='legal-survei-haruka'),
+	path('survei/<uuid:pk>/verifika/', survei_v.SurveiVerifika, name='legal-survei-verifika'),
+	path('survei/<uuid:pk>/file/', survei_v.SurveiFileAdd, name='legal-survei-file-add'),
+	path('survei/file/<uuid:pk>/', survei_v.SurveiFileDownload, name='legal-survei-file'),
+	path('survei/file/<uuid:pk>/hamoos/', survei_v.SurveiFileDelete, name='legal-survei-file-delete'),
+
 	# Document Vault
 	path('', vault_v.legalVault, name='legal-vault'),
 	path('dokumentu/foun/', vault_v.DokumentuAdd, name='legal-dok-add'),

@@ -38,6 +38,10 @@ ROLE_SEGIMENTU    = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Segimentu kazu: tribu
 ROLE_IMPORT_KAZU  = [ADMIN]                  # Import Excel + hadia lokasaun iha mapa
 ROLE_FOLLOWUP     = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Follow-up: haruka kazu fali ba Investigadór (survei foun iha terrenu)
 ROLE_POLIGON      = [SUPERADMIN, ADMIN]      # Edita poligon rai kualkér tempu (Investigadór: kazu rasik ne'ebé bele edita)
+ROLE_SURVEI_INPUT = [OFISIAL_LEGAL]          # Survei legál (ho autorizasaun input ativu husi Admin)
+ROLE_SURVEI_HAREE = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # dadus pesoál parte → la ba Analista
+ROLE_SURVEI_VERIFIKA = [SUPERADMIN, ADMIN]
+ROLE_INPUT_OFFLINE = [INVESTIGADOR, OFISIAL_LEGAL]       # autorizasaun input / app offline
 
 
 def roles_admin_can_assign(group):
