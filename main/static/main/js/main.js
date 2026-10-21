@@ -207,6 +207,14 @@
 	};
 	window.SIBARSeluk();
 
+	// ── Pájina erru: "Fila" = pájina antes (se la iha istória → Varanda) ──
+	document.querySelectorAll('.js-koko').forEach(function (b) { b.addEventListener('click', function () { location.reload(); }); });
+	document.querySelectorAll('.js-fila').forEach(function (a) {
+		a.addEventListener('click', function (e) {
+			if (window.history.length > 1 && document.referrer && document.referrer.indexOf(location.origin) === 0) { e.preventDefault(); history.back(); }
+		});
+	});
+
 	// ── PWA: registu service worker ──
 	if ('serviceWorker' in navigator && document.body.dataset.sw) {
 		window.addEventListener('load', function () {

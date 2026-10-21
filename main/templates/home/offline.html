@@ -1,7 +1,11 @@
 {% extends "home/error_base.html" %}
 {% load i18n %}
 {% block code %}<i class="fa fa-wifi"></i>{% endblock %}
-{% block heading %}Ita offline{% endblock %}
-{% block text %}La iha koneksaun internet. Pájina ne'e seidauk rai iha HP. Koko fali bainhira iha sinál.<br>
-Investigadór ho autorizasaun offline: <a href="/sinkron/" class="btn btn-sm btn-outline-rbr mt-2"><i class="fa fa-mobile"></i> Loke App Offline</a>{% endblock %}
+{% block heading %}{% trans "Ita offline" %}{% endblock %}
+{% block text %}{% trans "La iha koneksaun internet. Pájina ne'e presiza internet. Atu input kazu ka survei legál la iha sinál, uza App Offline (Investigadór no Ofisiál Legál ho autorizasaun)." %}{% endblock %}
+{% block botaun %}
+	<a href="/sinkron/" class="btn btn-rbr btn-lg"><i class="fa fa-mobile"></i> {% trans "Loke App Offline" %}</a>
+	<button type="button" class="btn btn-outline-rbr js-koko">{% trans "Koko fali" %}</button>
+	<p class="small text-muted mt-2">{% trans "Varanda no pájina seluk loke fali bainhira iha internet." %}</p>
+{% endblock %}
 {% block ref %}RbR-OFFLINE{% endblock %}

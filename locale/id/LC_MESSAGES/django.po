@@ -4662,3 +4662,29 @@ msgid "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
 msgid_plural "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
 msgstr[0] "Ada %(n)s Petugas Legal dengan akun tidak aktif."
 msgstr[1] "Ada %(n)s Petugas Legal dengan akun tidak aktif."
+
+#: main/templates/home/offline.html
+msgid "Ita offline"
+msgstr "Anda sedang offline"
+
+#: main/templates/home/offline.html
+msgid "Koko fali"
+msgstr "Coba lagi"
+
+#: main/templates/home/offline.html
+msgid ""
+"La iha koneksaun internet. Pájina ne'e presiza internet. Atu input kazu ka "
+"survei legál la iha sinál, uza App Offline (Investigadór no Ofisiál Legál ho"
+" autorizasaun)."
+msgstr ""
+"Tidak ada koneksi internet. Halaman ini butuh internet. Untuk input kasus "
+"atau survei legal tanpa sinyal, gunakan App Offline (Investigador dan "
+"Petugas Legal yang punya izin)."
+
+#: main/templates/home/offline.html
+msgid "Loke App Offline"
+msgstr "Buka App Offline"
+
+#: main/templates/home/offline.html
+msgid "Varanda no pájina seluk loke fali bainhira iha internet."
+msgstr "Beranda dan halaman lain terbuka lagi saat ada internet."

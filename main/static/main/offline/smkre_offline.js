@@ -52,7 +52,7 @@
 		n.textContent = navigator.onLine ? 'Online' : 'Offline';
 		n.className = 'badge badge-pill ' + (navigator.onLine ? 'badge-success' : 'badge-secondary');
 	}
-	window.addEventListener('online', function () { net(); if (S.xavi) { atualizaServer(); sinkronHotu(true); } });
+	window.addEventListener('online', function () { net(); if (S.xavi) { atualizaMe().then(function () { atualizaServer(); sinkronHotu(true); }); } });
 	window.addEventListener('offline', net);
 
 	// Erru server {'erru': {kampu: [..]}} → lista testu
@@ -184,7 +184,7 @@
 			$('pin').value = '';
 			msg(null);
 			baVaranda();
-			if (navigator.onLine) atualizaOpsaun();
+			if (navigator.onLine) atualizaMe();
 		}).catch(function () {
 			$('pin').value = '';
 			DB.metaGet('pin_sala').then(function (n) {
@@ -271,7 +271,7 @@
 			}));
 		}).then(function (items) {
 			var el = $('lista-lokal');
-			if (!items.length) { el.innerHTML = '<p class="text-muted small">Seidauk iha kazu iha HP.</p>'; return; }
+			if (!items.length) { el.innerHTML = '<p class="text-muted small">Seidauk iha dadus iha HP.</p>'; return; }
 			el.innerHTML = items.map(function (it) {
 				var r = it[0], k = it[1], e = ESTADU[r.estadu] || ['?', 'badge-light'];
 				var titulu = r.kode || (r.legal ? (k && (k.parte_naran || k.titulu)) || 'Survei legál' : (k && (k.titulu || naranSuku(k.suku))) || 'Kazu');
@@ -339,6 +339,32 @@
 
 	function atualizaOpsaun() {
 		apiJSON(urlOpsaun()).then(function (r) { if (r.ok) { S.opsaun = r.data; raiOpsaun(); } }).catch(function () {});
+	}
+
+	// Online: lee fali papél no autorizasaun husi server. Admin muda papél (ex. Investigadór → Ofisiál Legál)
+	// ka fó autorizasaun foun → app atualiza (opsaun, butaun Kazu Foun / Input Legál) la presiza login fali.
+	function atualizaMe() {
+		if (!navigator.onLine || !S.auth || S.relogin) return Promise.resolve();
+		var roleUluk = S.auth.me && S.auth.me.role;
+		return apiJSON(B.apiMe).then(function (r) {
+			if (!r.ok || !r.data || !r.data.role) return;
+			var muda = r.data.role !== roleUluk;
+			S.auth.me = r.data;
+			S.auth.offline_ativu = r.data.offline_ativu;
+			S.auth.offline_until = r.data.offline_until;
+			return raiAuth().then(function () {
+				if (!muda) return atualizaOpsaun();
+				return apiJSON(urlOpsaun()).then(function (op) {
+					if (!op.ok) return;
+					S.opsaun = op.data;
+					return raiOpsaun();
+				});
+			}).then(function () {
+				var home = !$('scr-home').hidden;
+				if (home) baVaranda();
+				if (muda) msg('Papél ita-nia muda ona iha server. App atualiza ona.', 'info');
+			});
+		}).catch(function (e) { if (e && e.relogin) pedeRelogin(); });
 	}
 
 	function pedeRelogin() {
@@ -1031,7 +1057,7 @@
 		S.sinkron = true;                        // xavi kedas: evento 'online' dala rua la halo sinkron paralelu
 		DB.all('kazu').then(function (lista) {
 			lista = lista.filter(function (r) { return r.estadu === 'PRONTU'; });
-			if (!lista.length) { S.sinkron = false; if (!silensiu) msg('La iha kazu atu sinkron.', 'info'); atualizaServer(); return; }
+			if (!lista.length) { S.sinkron = false; if (!silensiu) msg('La iha dadus atu sinkron.', 'info'); atualizaServer(); return; }
 			var bar = $('sync-progress'), total = lista.length, ok = 0, erru = 0;
 			bar.hidden = false; bar.firstElementChild.style.width = '5%';
 			$('btn-sync').disabled = true;
@@ -1053,6 +1079,16 @@
 		}).catch(function () { S.sinkron = false; });
 	}
 	$('btn-sync').addEventListener('click', function () { sinkronHotu(false); });
+
+	// Sai / troka utilizador: hamoos dadus iha HP (avizu se iha dadus seidauk sinkron)
+	$('btn-sai').addEventListener('click', function () {
+		DB.all('kazu').then(function (lista) {
+			var n = lista.filter(function (r) { return r.estadu !== 'SINKRON'; }).length;
+			var testu = n ? 'Iha dadus ' + n + ' SEIDAUK sinkron. Se sai, dadus ne\'e LAKON. Sai nafatin?' : 'Sai husi app no hamoos dadus iha HP? (Dadus hotu sinkron ona.)';
+			if (!confirm(testu)) return;
+			return DB.wipe().then(function () { xavi(); msg('Sai ona. Login ho utilizador ne\'ebé loos.', 'info'); hatudu('scr-login'); });
+		});
+	});
 
 	// Funsaun ba smkre_legal.js (survei legál)
 	window.SmkreApp = {

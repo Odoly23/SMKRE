@@ -54,8 +54,11 @@ self.addEventListener('fetch', (event) => {
 		return;
 	}
 
-	// Pájina HTML seluk: rede uluk; offline → pájina offline
+	// Pájina HTML seluk: rede uluk; offline → pájina offline.
+	// Input kazu / survei legál offline → loke App Offline direta (la presiza internet)
 	if (req.mode === 'navigate') {
-		event.respondWith(fetch(req).catch(() => caches.match('/offline/')));
+		const input = url.pathname === '/kazu/foun/' || url.pathname === '/legal/survei/foun/';
+		event.respondWith(fetch(req).catch(() => caches.match(input ? APP_URL : '/offline/')
+			.then((hit) => hit || caches.match('/offline/'))));
 	}
 });

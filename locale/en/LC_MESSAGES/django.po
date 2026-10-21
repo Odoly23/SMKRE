@@ -4678,3 +4678,29 @@ msgid "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
 msgid_plural "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
 msgstr[0] "There is %(n)s Legal Officer with an inactive account."
 msgstr[1] "There are %(n)s Legal Officers with inactive accounts."
+
+#: main/templates/home/offline.html
+msgid "Ita offline"
+msgstr "You are offline"
+
+#: main/templates/home/offline.html
+msgid "Koko fali"
+msgstr "Try again"
+
+#: main/templates/home/offline.html
+msgid ""
+"La iha koneksaun internet. Pájina ne'e presiza internet. Atu input kazu ka "
+"survei legál la iha sinál, uza App Offline (Investigadór no Ofisiál Legál ho"
+" autorizasaun)."
+msgstr ""
+"No internet connection. This page needs internet. To enter cases or legal "
+"surveys without signal, use the Offline App (Investigators and Legal "
+"Officers with authorisation)."
+
+#: main/templates/home/offline.html
+msgid "Loke App Offline"
+msgstr "Open Offline App"
+
+#: main/templates/home/offline.html
+msgid "Varanda no pájina seluk loke fali bainhira iha internet."
+msgstr "Home and other pages open again when there is internet."

@@ -163,10 +163,19 @@ var SmkreLegal = (function () {
 			if (navigator.onLine) A.sinkronHotu(true);
 		});
 	});
+	function mamuk(s) {
+		// Survei foun ne'ebé seidauk hakerek buat ida (data / munisípiu automátiku la konta)
+		var auto = ['id', 'kria_iha', 'data_survei', 'munisipiu'];
+		return !S.legal_media.length && Object.keys(s).every(function (c) {
+			var x = s[c];
+			return auto.indexOf(c) >= 0 || x == null || x === '' || (Array.isArray(x) && !x.length);
+		});
+	}
 	$('l-btn-kotuk').addEventListener('click', function () {
 		leeForm();
 		if (S.legal_pasu > 1) { rai(); baPasu(S.legal_pasu - 1); return; }
-		rai().then(A.baVaranda);
+		if (S.legal_foun && mamuk(S.legal)) { A.baVaranda(); return; }      // Taka: la rai rascunho mamuk
+		rai().then(A.baVaranda, function () { A.msg('La bele rai. Koko fali.'); });
 	});
 	$('l-btn-rai').addEventListener('click', function () {
 		leeForm();
@@ -177,7 +186,7 @@ var SmkreLegal = (function () {
 		DB.get('kazu', id).then(function (r) {
 			return K.decryptJSON(S.xavi, r.box);
 		}).then(function (s) {
-			S.legal = s;
+			S.legal = s; S.legal_foun = false;
 			return DB.mediaKazu(id);
 		}).then(function (media) {
 			S.legal_media = media;
@@ -186,7 +195,7 @@ var SmkreLegal = (function () {
 	}
 	$('btn-legal').addEventListener('click', function () {
 		if (!A.permValidu()) { msg('Autorizasaun input legál remata. Kontaktu Admin.'); return; }
-		S.legal = surveiFoun(); S.legal_media = [];
+		S.legal = surveiFoun(); S.legal_media = []; S.legal_foun = true;
 		enxeForm(); baPasu(1); A.hatudu('scr-legal');
 	});
 

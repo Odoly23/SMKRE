@@ -4755,3 +4755,29 @@ msgid "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
 msgid_plural "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
 msgstr[0] "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
 msgstr[1] "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
+
+#: main/templates/home/offline.html
+msgid "Ita offline"
+msgstr "Ita offline"
+
+#: main/templates/home/offline.html
+msgid "Koko fali"
+msgstr "Koko fali"
+
+#: main/templates/home/offline.html
+msgid ""
+"La iha koneksaun internet. Pájina ne'e presiza internet. Atu input kazu ka "
+"survei legál la iha sinál, uza App Offline (Investigadór no Ofisiál Legál ho"
+" autorizasaun)."
+msgstr ""
+"La iha koneksaun internet. Pájina ne'e presiza internet. Atu input kazu ka "
+"survei legál la iha sinál, uza App Offline (Investigadór no Ofisiál Legál ho"
+" autorizasaun)."
+
+#: main/templates/home/offline.html
+msgid "Loke App Offline"
+msgstr "Loke App Offline"
+
+#: main/templates/home/offline.html
+msgid "Varanda no pájina seluk loke fali bainhira iha internet."
+msgstr "Varanda no pájina seluk loke fali bainhira iha internet."
