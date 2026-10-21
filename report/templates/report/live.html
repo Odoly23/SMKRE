@@ -1,0 +1,103 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="tet">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="referrer" content="no-referrer">
+	<meta name="theme-color" content="#0B1A16">
+	<title>SIBAR-RbR Live{% if naran_ekran %} · {{ naran_ekran }}{% endif %}</title>
+	<link rel="icon" type="image/png" href="{% static 'main/images/favicon.png' %}">
+	<link rel="stylesheet" href="{% static 'main/css/fonts.css' %}">
+	<link rel="stylesheet" href="{% static 'main/font-awesome/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/live.css' %}">
+</head>
+<body data-url="{{ data_url }}" data-seg="{{ atualiza_seg }}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}">
+<div class="live">
+	<!-- Kabesallu -->
+	<header class="lv-top">
+		<div class="lv-brand">
+			<span class="lv-logo"><img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai"></span>
+			<div><h1>SIBAR-RbR <span>Live</span></h1><p>Monitorizasaun kazu konflitu rai · Rede ba Rai</p></div>
+		</div>
+		<div class="lv-relojiu"><div id="oras">--:--</div><div id="data">&nbsp;</div></div>
+		<div class="lv-estadu">
+			<div id="estadu" class="lv-live"><i class="dot"></i> <span>LIVE</span></div>
+			<div id="atualiza" class="lv-sub">{% trans "Karrega dadus…" %}</div>
+			<div id="kordaun" class="lv-sub" hidden><i class="fa fa-eye"></i> <span>{% trans "Ekran sempre moris" %}</span></div>
+		</div>
+	</header>
+
+	<!-- KPI -->
+	<section class="lv-kpi">
+		<div class="kpi" id="k-total"><div class="kpi-l"><i class="fa fa-folder-open"></i> {% trans "Kazu iha sistema" %}</div><div class="kpi-n" data-k="total">0</div><div class="kpi-s"><b data-k="verifikadu">0</b> {% trans "verifikadu" %}</div></div>
+		<div class="kpi" id="k-hein"><div class="kpi-l"><i class="fa fa-hourglass-half"></i> {% trans "Hein verifikasaun" %}</div><div class="kpi-n" data-k="hein">0</div><div class="kpi-s">{% trans "Admin presiza haree" %}</div></div>
+		<div class="kpi" id="k-aktivu"><div class="kpi-l"><i class="fa fa-bolt"></i> {% trans "Kazu aktivu" %}</div><div class="kpi-n" data-k="aktivu">0</div><div class="kpi-s"><b data-k="eviksaun">0</b> {% trans "eviksaun" %}</div></div>
+		<div class="kpi kpi-krit" id="k-urjente"><div class="kpi-l"><i class="fa fa-exclamation-triangle"></i> {% trans "Urjente" %}</div><div class="kpi-n" data-k="urjente">0</div><div class="kpi-s">{% trans "presiza apoiu lalais" %}</div></div>
+		<div class="kpi" id="k-uma"><div class="kpi-l"><i class="fa fa-home"></i> {% trans "Uma-kain afetadu" %}</div><div class="kpi-n" data-k="uma_kain">0</div><div class="kpi-s"><b data-k="ema">0</b> {% trans "ema" %}</div></div>
+		<div class="kpi" id="k-legal"><div class="kpi-l"><i class="fa fa-balance-scale"></i> {% trans "Aksaun legál" %}</div><div class="kpi-n" data-k="legal">0</div><div class="kpi-s"><b data-k="survei_hein">0</b> {% trans "survei hein verifika" %}</div></div>
+	</section>
+
+	<!-- Mapa -->
+	<section class="pnl lv-mapa">
+		<div class="pnl-h"><h2><i class="fa fa-map"></i> {% trans "Mapa kazu" %}</h2>
+			<div class="lejenda"><span><i class="lg lg-n"></i>{% trans "Kazu" %}</span><span><i class="lg lg-foun"></i>{% trans "Foun (loron 7)" %}</span><span><i class="lg lg-u"></i><i class="fa fa-exclamation-triangle lg-ik"></i>{% trans "Urjente" %}</span></div></div>
+		<div id="mapa"></div>
+		<div class="mapa-eskala"><span>{% trans "Kazu kada munisípiu" %}</span><i class="esk"></i><span id="esk-max">0</span></div>
+	</section>
+
+	<!-- Tendénsia -->
+	<section class="pnl lv-trend">
+		<div class="pnl-h"><h2><i class="fa fa-line-chart"></i> {% trans "Kazu tuir fulan" %}</h2>
+			<div class="semana" id="semana"></div></div>
+		<div id="ch-trend" class="ch"></div>
+	</section>
+
+	<!-- Painel rotativu -->
+	<section class="pnl lv-rot">
+		<div class="pnl-h"><h2 id="rot-titulu"></h2><div class="rot-dots" id="rot-dots"></div></div>
+		<div id="ch-rot" class="ch"></div>
+	</section>
+
+	<!-- Atividade -->
+	<section class="pnl lv-ativ">
+		<div class="pnl-h"><h2><i class="fa fa-bell"></i> {% trans "Atividade ikus" %}</h2></div>
+		<ul id="atividade" class="ativ"></ul>
+	</section>
+
+	<!-- Prazu legál -->
+	<section class="pnl lv-prazu">
+		<div class="pnl-h"><h2><i class="fa fa-calendar"></i> {% trans "Prazu legál" %}</h2></div>
+		<ul id="prazu" class="prazu"></ul>
+	</section>
+</div>
+
+<!-- Hahú: ekran tomak + ekran la toba (browser presiza klik ida) -->
+<div id="hahu" class="lv-hahu">
+	<div class="hahu-box">
+		<span class="lv-logo lv-logo-boot"><img src="{% static 'main/images/logo.png' %}" alt=""></span>
+		<h2>SIBAR-RbR Live</h2>
+		{% if naran_ekran %}<p class="hahu-ekran"><i class="fa fa-desktop"></i> {{ naran_ekran }}</p>{% endif %}
+		<button type="button" id="btn-hahu" class="btn-hahu"><i class="fa fa-arrows-alt"></i> {% trans "Loke ekran tomak" %}</button>
+		<p class="hahu-nota">{% trans "Ekran sei la toba no dadus atualiza automátiku kada segundu 30." %}</p>
+	</div>
+</div>
+<button type="button" id="btn-tomak" class="btn-tomak" hidden title="{% trans "Ekran tomak" %}" aria-label="{% trans "Ekran tomak" %}"><i class="fa fa-expand"></i></button>
+<div id="toast" class="toast" hidden></div>
+
+<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script src="{% static 'main/charts/js/highcharts.js' %}"></script>
+<script nonce="{{ request.csp_nonce }}">
+window.LV_T = {
+	atualiza: "{% trans "Atualiza" %}", offline: "{% trans "Koneksaun lakon · dadus ikus" %}", sesaun: "{% trans "Sesaun remata. Login fali ka uza link ekran live." %}",
+	kansela: "{% trans "Link ekran ne'e kansela ona. Kontaktu Admin." %}", agora: "{% trans "agora" %}", min: "{% trans "min liu ba" %}", oras: "{% trans "oras liu ba" %}",
+	loron: "{% trans "loron liu ba" %}", semana: "{% trans "Semana ne'e" %}", semanaKotuk: "{% trans "semana kotuk" %}", kazu: "{% trans "kazu" %}",
+	foun: "{% trans "Kazu foun simu" %}", mun: "{% trans "Kazu tuir munisípiu" %}", tipu: "{% trans "Tipu konflitu" %}", status: "{% trans "Status kazu" %}",
+	laIha: "{% trans "La iha" %}", prazuOhin: "{% trans "ohin" %}", prazuLoron: "{% trans "loron" %}", prazuLiu: "{% trans "liu prazu" %}", laPrazu: "{% trans "La iha prazu iha loron 14 tuir mai." %}",
+	laAtiv: "{% trans "Seidauk iha atividade." %}"
+};
+</script>
+<script src="{% static 'main/js/live.js' %}"></script>
+</body>
+</html>

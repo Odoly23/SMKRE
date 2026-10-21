@@ -134,3 +134,54 @@ class MapaTest(ReportBase):
 		r = self.client.get(reverse('report-mapa'))
 		self.assertNotIn(b'<img src=x onerror', r.content)
 		self.assertIn(b'\\u0026lt\\u003Bimg', r.content)
+
+
+class LiveTest(TestCase):
+	def setUp(self):
+		from django.core.cache import cache
+		cache.clear()
+		setup_master()
+		self.admin = make_user(ADMIN)
+		self.inv = make_user(INVESTIGADOR)
+		self.analista = make_user(ANALISTA)
+		Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), status='VERIFIED', kode='RbR-LIQ-2026-0001',
+			created_by=self.inv, konsentimentu=True, latitude='-8.6', longitude='125.3', urjente=True)
+
+	def kria_link(self):
+		self.client.force_login(self.admin)
+		self.client.post(reverse('report-live-ekran-add'), {'naran': 'Sala reuniaun'})
+		url = self.client.session.get('live_link_foun')['url']
+		self.client.logout()
+		return url.split('/live/')[1].strip('/')
+
+	def test_link_kiosk_la_presiza_login(self):
+		token = self.kria_link()
+		r = self.client.get(reverse('live-kiosk', args=[token]))
+		self.assertEqual(r.status_code, 200)
+		self.assertEqual(r['Referrer-Policy'], 'no-referrer')
+		d = self.client.get(reverse('live-kiosk-dadus', args=[token])).json()
+		self.assertEqual(d['kpi']['total'], 1)
+		self.assertEqual(d['kpi']['urjente'], 1)
+		self.assertEqual(d['pontu'][0]['kode'], 'RbR-LIQ-2026-0001')
+		# Dadus anónimu: la iha naran / email utilizador
+		self.assertNotIn(self.inv.email, str(d))
+
+	def test_token_sala_no_kansela(self):
+		self.assertEqual(self.client.get(reverse('live-kiosk-dadus', args=['sala'])).status_code, 404)
+		token = self.kria_link()
+		from report.models import LiveEkran
+		ek = LiveEkran.objects.get()
+		self.assertNotEqual(ek.token_hash, token)          # token rai hanesan hash
+		self.client.force_login(self.admin)
+		self.client.post(reverse('report-live-ekran-kansela', args=[ek.pk]))
+		self.client.logout()
+		self.assertEqual(self.client.get(reverse('live-kiosk', args=[token])).status_code, 404)
+
+	def test_live_staff_no_jestaun(self):
+		self.assertEqual(self.client.get(reverse('report-live')).status_code, 302)
+		self.client.force_login(self.analista)
+		self.assertEqual(self.client.get(reverse('report-live')).status_code, 200)
+		self.assertEqual(self.client.get(reverse('report-live-dadus')).status_code, 200)
+		self.assertEqual(self.client.get(reverse('report-live-ekran')).status_code, 403)
+		self.client.force_login(self.inv)
+		self.assertEqual(self.client.get(reverse('report-live')).status_code, 403)

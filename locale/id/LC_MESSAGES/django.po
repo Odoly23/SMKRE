@@ -4688,3 +4688,293 @@ msgstr "Buka App Offline"
 #: main/templates/home/offline.html
 msgid "Varanda no pájina seluk loke fali bainhira iha internet."
 msgstr "Beranda dan halaman lain terbuka lagi saat ada internet."
+
+#: report/templates/report/live.html
+msgid "Admin presiza haree"
+msgstr "Perlu ditinjau Admin"
+
+#: report/templates/report/live.html
+msgid "Aksaun legál"
+msgstr "Aksi legal"
+
+#: report/templates/report/live.html
+msgid "Atividade ikus"
+msgstr "Aktivitas terbaru"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Atu loke automátiku bainhira komputadór moris: kria atallu Chrome ho --kiosk"
+" no link ne'e (haree guia iha okos)."
+msgstr ""
+"Agar terbuka otomatis saat komputer menyala: buat shortcut Chrome dengan "
+"--kiosk dan link ini (lihat panduan di bawah)."
+
+#: report/templates/report/live.html
+msgid "Atualiza"
+msgstr "Diperbarui"
+
+#: report/templates/report/live_ekran.html
+msgid "Ekran"
+msgstr "Layar"
+
+#: report/models.py
+msgid "Ekran Live"
+msgstr "Layar Live"
+
+#: report/views/live_v.py
+msgid "Ekran Live (link privadu)"
+msgstr "Layar Live (link pribadi)"
+
+#: report/templates/report/live.html
+msgid "Ekran sei la toba no dadus atualiza automátiku kada segundu 30."
+msgstr "Layar tidak akan tidur dan data diperbarui otomatis setiap 30 detik."
+
+#: report/templates/report/live.html
+msgid "Ekran sempre moris"
+msgstr "Layar selalu menyala"
+
+#: report/live.py
+msgid "Follow-up ba terrenu"
+msgstr "Follow-up ke lapangan"
+
+#: report/templates/report/live.html
+msgid "Foun (loron 7)"
+msgstr "Baru (7 hari)"
+
+#: report/templates/report/live_ekran.html
+msgid "Guia desktop all-in-one (Windows)"
+msgstr "Panduan desktop all-in-one (Windows)"
+
+#: report/templates/report/live_ekran.html
+msgid "Haree Live (ho login)"
+msgstr "Lihat Live (dengan login)"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Iha desktop: loke link ho Chrome ka Edge, klik \"Loke ekran tomak\". Ekran "
+"sei la toba durante pájina loke."
+msgstr ""
+"Di desktop: buka link dengan Chrome atau Edge, klik \"Buka layar penuh\". "
+"Layar tidak akan tidur selama halaman terbuka."
+
+#: report/templates/report/live_ekran.html
+msgid "Kansela link ekran ne'e? Ekran sei la bele loke tan."
+msgstr "Batalkan link layar ini? Layar tidak bisa dibuka lagi."
+
+#: report/templates/report/live.html
+msgid "Karrega dadus…"
+msgstr "Memuat data…"
+
+#: report/templates/report/live.html
+msgid "Kazu aktivu"
+msgstr "Kasus aktif"
+
+#: report/live.py
+msgid "Kazu aprovadu"
+msgstr "Kasus disetujui"
+
+#: report/live.py
+msgid "Kazu fila ba hadia"
+msgstr "Kasus dikembalikan untuk diperbaiki"
+
+#: report/live.py
+msgid "Kazu foun simu"
+msgstr "Kasus baru diterima"
+
+#: report/templates/report/live.html
+msgid "Kazu iha sistema"
+msgstr "Kasus di sistem"
+
+#: report/live.py
+msgid "Kazu remata"
+msgstr "Kasus selesai"
+
+#: report/templates/report/live.html
+msgid "Kazu tuir fulan"
+msgstr "Kasus per bulan"
+
+#: report/templates/report/live.html
+msgid "Koneksaun lakon · dadus ikus"
+msgstr "Koneksi terputus · data terakhir"
+
+#: report/templates/report/live_ekran.html
+msgid "Kopia"
+msgstr "Salin"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Kopia agora no loke iha desktop all-in-one. Link ne'e hatudu dala ida de'it:"
+" se lakon, kria link foun no kansela ida tuan."
+msgstr ""
+"Salin sekarang dan buka di desktop all-in-one. Link ini hanya ditampilkan "
+"sekali: kalau hilang, buat link baru dan batalkan yang lama."
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Kopia atallu ba folder Startup (Win + R → shell:startup) atu loke automátiku"
+" bainhira komputadór moris."
+msgstr ""
+"Salin shortcut ke folder Startup (Win + R → shell:startup) agar terbuka "
+"otomatis saat komputer menyala."
+
+#: report/templates/report/live_ekran.html
+msgid "Kria atallu iha Desktop:"
+msgstr "Buat shortcut di Desktop:"
+
+#: report/templates/report/live_ekran.html
+msgid "Kria link"
+msgstr "Buat link"
+
+#: report/templates/report/live_ekran.html
+msgid "Kria link ekran foun"
+msgstr "Buat link layar baru"
+
+#: report/templates/report/live.html
+msgid "La iha"
+msgstr "Tidak ada"
+
+#: report/templates/report/live.html
+msgid "La iha prazu iha loron 14 tuir mai."
+msgstr "Tidak ada tenggat dalam 14 hari ke depan."
+
+#: report/views/live_v.py
+msgid "Link ekran \"%(n)s\" kansela ona. Ekran ne'e la bele loke tan."
+msgstr "Link layar \"%(n)s\" dibatalkan. Layar ini tidak bisa dibuka lagi."
+
+#: report/templates/report/live_ekran.html
+msgid "Link ekran live"
+msgstr "Link layar live"
+
+#: report/views/live_v.py
+msgid ""
+"Link ekran live kria ona. Kopia agora: link ne'e hatudu dala ida de'it."
+msgstr ""
+"Link layar live dibuat. Salin sekarang: link hanya ditampilkan sekali."
+
+#: report/templates/report/live.html
+msgid "Link ekran ne'e kansela ona. Kontaktu Admin."
+msgstr "Link layar ini sudah dibatalkan. Hubungi Admin."
+
+#: report/templates/report/live_ekran.html
+msgid "Link foun ba ekran"
+msgstr "Link baru untuk layar"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Link privadu: ema ne'ebé iha link mak bele haree. La presiza login, la iha "
+"naran ka kontaktu ema — dadus agregadu no anónimu de'it."
+msgstr ""
+"Link pribadi: siapa pun yang punya link bisa melihat. Tidak perlu login, "
+"tanpa nama atau kontak — hanya data agregat dan anonim."
+
+#: report/templates/report/live.html
+msgid "Loke ekran tomak"
+msgstr "Buka layar penuh"
+
+#: report/templates/report/live.html
+msgid "Mapa kazu"
+msgstr "Peta kasus"
+
+#: report/models.py
+msgid "Naran ekran"
+msgstr "Nama layar"
+
+#: report/templates/report/live.html
+msgid "Prazu legál"
+msgstr "Tenggat legal"
+
+#: report/templates/report/live_ekran.html
+msgid "Sai husi modu kiosk: Alt + F4."
+msgstr "Keluar dari mode kiosk: Alt + F4."
+
+#: report/templates/report/live.html
+msgid "Seidauk iha atividade."
+msgstr "Belum ada aktivitas."
+
+#: report/templates/report/live_ekran.html
+msgid "Seidauk iha link ekran."
+msgstr "Belum ada link layar."
+
+#: report/templates/report/live.html
+msgid "Semana ne'e"
+msgstr "Minggu ini"
+
+#: report/templates/report/live.html
+msgid "Sesaun remata. Login fali ka uza link ekran live."
+msgstr "Sesi berakhir. Login lagi atau gunakan link layar live."
+
+#: report/templates/report/live_ekran.html
+msgid "Settings → System → Power: Screen / Sleep = \"Never\"."
+msgstr "Settings → System → Power: Screen / Sleep = \"Never\"."
+
+#: report/templates/report/live.html
+msgid "Status kazu"
+msgstr "Status kasus"
+
+#: report/live.py
+msgid "Status kazu: %(s)s"
+msgstr "Status kasus: %(s)s"
+
+#: report/live.py
+msgid "Survei legál foun"
+msgstr "Survei legal baru"
+
+#: report/live.py
+msgid "Survei legál verifikadu"
+msgstr "Survei legal diverifikasi"
+
+#: report/models.py
+msgid "Uza ikus"
+msgstr "Terakhir dipakai"
+
+#: report/templates/report/live.html
+msgid "agora"
+msgstr "baru saja"
+
+#: report/templates/report/live.html
+msgid "eviksaun"
+msgstr "penggusuran"
+
+#: report/templates/report/live_ekran.html
+msgid "ex. Ekran sala reuniaun"
+msgstr "mis. Layar ruang rapat"
+
+#: report/templates/report/live.html
+msgid "liu prazu"
+msgstr "lewat tenggat"
+
+#: report/templates/report/live.html
+msgid "loron"
+msgstr "hari"
+
+#: report/templates/report/live.html
+msgid "loron liu ba"
+msgstr "hari lalu"
+
+#: report/templates/report/live.html
+msgid "min liu ba"
+msgstr "menit lalu"
+
+#: report/templates/report/live.html
+msgid "ohin"
+msgstr "hari ini"
+
+#: report/templates/report/live.html
+msgid "oras liu ba"
+msgstr "jam lalu"
+
+#: report/templates/report/live.html
+msgid "presiza apoiu lalais"
+msgstr "butuh bantuan segera"
+
+#: report/templates/report/live.html
+msgid "semana kotuk"
+msgstr "minggu lalu"
+
+#: report/templates/report/live.html
+msgid "survei hein verifika"
+msgstr "survei menunggu verifikasi"
+
+#: report/templates/report/live.html
+msgid "verifikadu"
+msgstr "terverifikasi"

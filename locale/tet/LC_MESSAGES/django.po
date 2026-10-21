@@ -4781,3 +4781,293 @@ msgstr "Loke App Offline"
 #: main/templates/home/offline.html
 msgid "Varanda no pájina seluk loke fali bainhira iha internet."
 msgstr "Varanda no pájina seluk loke fali bainhira iha internet."
+
+#: report/templates/report/live.html
+msgid "Admin presiza haree"
+msgstr "Admin presiza haree"
+
+#: report/templates/report/live.html
+msgid "Aksaun legál"
+msgstr "Aksaun legál"
+
+#: report/templates/report/live.html
+msgid "Atividade ikus"
+msgstr "Atividade ikus"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Atu loke automátiku bainhira komputadór moris: kria atallu Chrome ho --kiosk"
+" no link ne'e (haree guia iha okos)."
+msgstr ""
+"Atu loke automátiku bainhira komputadór moris: kria atallu Chrome ho --kiosk"
+" no link ne'e (haree guia iha okos)."
+
+#: report/templates/report/live.html
+msgid "Atualiza"
+msgstr "Atualiza"
+
+#: report/templates/report/live_ekran.html
+msgid "Ekran"
+msgstr "Ekran"
+
+#: report/models.py
+msgid "Ekran Live"
+msgstr "Ekran Live"
+
+#: report/views/live_v.py
+msgid "Ekran Live (link privadu)"
+msgstr "Ekran Live (link privadu)"
+
+#: report/templates/report/live.html
+msgid "Ekran sei la toba no dadus atualiza automátiku kada segundu 30."
+msgstr "Ekran sei la toba no dadus atualiza automátiku kada segundu 30."
+
+#: report/templates/report/live.html
+msgid "Ekran sempre moris"
+msgstr "Ekran sempre moris"
+
+#: report/live.py
+msgid "Follow-up ba terrenu"
+msgstr "Follow-up ba terrenu"
+
+#: report/templates/report/live.html
+msgid "Foun (loron 7)"
+msgstr "Foun (loron 7)"
+
+#: report/templates/report/live_ekran.html
+msgid "Guia desktop all-in-one (Windows)"
+msgstr "Guia desktop all-in-one (Windows)"
+
+#: report/templates/report/live_ekran.html
+msgid "Haree Live (ho login)"
+msgstr "Haree Live (ho login)"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Iha desktop: loke link ho Chrome ka Edge, klik \"Loke ekran tomak\". Ekran "
+"sei la toba durante pájina loke."
+msgstr ""
+"Iha desktop: loke link ho Chrome ka Edge, klik \"Loke ekran tomak\". Ekran "
+"sei la toba durante pájina loke."
+
+#: report/templates/report/live_ekran.html
+msgid "Kansela link ekran ne'e? Ekran sei la bele loke tan."
+msgstr "Kansela link ekran ne'e? Ekran sei la bele loke tan."
+
+#: report/templates/report/live.html
+msgid "Karrega dadus…"
+msgstr "Karrega dadus…"
+
+#: report/templates/report/live.html
+msgid "Kazu aktivu"
+msgstr "Kazu aktivu"
+
+#: report/live.py
+msgid "Kazu aprovadu"
+msgstr "Kazu aprovadu"
+
+#: report/live.py
+msgid "Kazu fila ba hadia"
+msgstr "Kazu fila ba hadia"
+
+#: report/live.py
+msgid "Kazu foun simu"
+msgstr "Kazu foun simu"
+
+#: report/templates/report/live.html
+msgid "Kazu iha sistema"
+msgstr "Kazu iha sistema"
+
+#: report/live.py
+msgid "Kazu remata"
+msgstr "Kazu remata"
+
+#: report/templates/report/live.html
+msgid "Kazu tuir fulan"
+msgstr "Kazu tuir fulan"
+
+#: report/templates/report/live.html
+msgid "Koneksaun lakon · dadus ikus"
+msgstr "Koneksaun lakon · dadus ikus"
+
+#: report/templates/report/live_ekran.html
+msgid "Kopia"
+msgstr "Kopia"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Kopia agora no loke iha desktop all-in-one. Link ne'e hatudu dala ida de'it:"
+" se lakon, kria link foun no kansela ida tuan."
+msgstr ""
+"Kopia agora no loke iha desktop all-in-one. Link ne'e hatudu dala ida de'it:"
+" se lakon, kria link foun no kansela ida tuan."
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Kopia atallu ba folder Startup (Win + R → shell:startup) atu loke automátiku"
+" bainhira komputadór moris."
+msgstr ""
+"Kopia atallu ba folder Startup (Win + R → shell:startup) atu loke automátiku"
+" bainhira komputadór moris."
+
+#: report/templates/report/live_ekran.html
+msgid "Kria atallu iha Desktop:"
+msgstr "Kria atallu iha Desktop:"
+
+#: report/templates/report/live_ekran.html
+msgid "Kria link"
+msgstr "Kria link"
+
+#: report/templates/report/live_ekran.html
+msgid "Kria link ekran foun"
+msgstr "Kria link ekran foun"
+
+#: report/templates/report/live.html
+msgid "La iha"
+msgstr "La iha"
+
+#: report/templates/report/live.html
+msgid "La iha prazu iha loron 14 tuir mai."
+msgstr "La iha prazu iha loron 14 tuir mai."
+
+#: report/views/live_v.py
+msgid "Link ekran \"%(n)s\" kansela ona. Ekran ne'e la bele loke tan."
+msgstr "Link ekran \"%(n)s\" kansela ona. Ekran ne'e la bele loke tan."
+
+#: report/templates/report/live_ekran.html
+msgid "Link ekran live"
+msgstr "Link ekran live"
+
+#: report/views/live_v.py
+msgid ""
+"Link ekran live kria ona. Kopia agora: link ne'e hatudu dala ida de'it."
+msgstr ""
+"Link ekran live kria ona. Kopia agora: link ne'e hatudu dala ida de'it."
+
+#: report/templates/report/live.html
+msgid "Link ekran ne'e kansela ona. Kontaktu Admin."
+msgstr "Link ekran ne'e kansela ona. Kontaktu Admin."
+
+#: report/templates/report/live_ekran.html
+msgid "Link foun ba ekran"
+msgstr "Link foun ba ekran"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Link privadu: ema ne'ebé iha link mak bele haree. La presiza login, la iha "
+"naran ka kontaktu ema — dadus agregadu no anónimu de'it."
+msgstr ""
+"Link privadu: ema ne'ebé iha link mak bele haree. La presiza login, la iha "
+"naran ka kontaktu ema — dadus agregadu no anónimu de'it."
+
+#: report/templates/report/live.html
+msgid "Loke ekran tomak"
+msgstr "Loke ekran tomak"
+
+#: report/templates/report/live.html
+msgid "Mapa kazu"
+msgstr "Mapa kazu"
+
+#: report/models.py
+msgid "Naran ekran"
+msgstr "Naran ekran"
+
+#: report/templates/report/live.html
+msgid "Prazu legál"
+msgstr "Prazu legál"
+
+#: report/templates/report/live_ekran.html
+msgid "Sai husi modu kiosk: Alt + F4."
+msgstr "Sai husi modu kiosk: Alt + F4."
+
+#: report/templates/report/live.html
+msgid "Seidauk iha atividade."
+msgstr "Seidauk iha atividade."
+
+#: report/templates/report/live_ekran.html
+msgid "Seidauk iha link ekran."
+msgstr "Seidauk iha link ekran."
+
+#: report/templates/report/live.html
+msgid "Semana ne'e"
+msgstr "Semana ne'e"
+
+#: report/templates/report/live.html
+msgid "Sesaun remata. Login fali ka uza link ekran live."
+msgstr "Sesaun remata. Login fali ka uza link ekran live."
+
+#: report/templates/report/live_ekran.html
+msgid "Settings → System → Power: Screen / Sleep = \"Never\"."
+msgstr "Settings → System → Power: Screen / Sleep = \"Never\"."
+
+#: report/templates/report/live.html
+msgid "Status kazu"
+msgstr "Status kazu"
+
+#: report/live.py
+msgid "Status kazu: %(s)s"
+msgstr "Status kazu: %(s)s"
+
+#: report/live.py
+msgid "Survei legál foun"
+msgstr "Survei legál foun"
+
+#: report/live.py
+msgid "Survei legál verifikadu"
+msgstr "Survei legál verifikadu"
+
+#: report/models.py
+msgid "Uza ikus"
+msgstr "Uza ikus"
+
+#: report/templates/report/live.html
+msgid "agora"
+msgstr "agora"
+
+#: report/templates/report/live.html
+msgid "eviksaun"
+msgstr "eviksaun"
+
+#: report/templates/report/live_ekran.html
+msgid "ex. Ekran sala reuniaun"
+msgstr "ex. Ekran sala reuniaun"
+
+#: report/templates/report/live.html
+msgid "liu prazu"
+msgstr "liu prazu"
+
+#: report/templates/report/live.html
+msgid "loron"
+msgstr "loron"
+
+#: report/templates/report/live.html
+msgid "loron liu ba"
+msgstr "loron liu ba"
+
+#: report/templates/report/live.html
+msgid "min liu ba"
+msgstr "min liu ba"
+
+#: report/templates/report/live.html
+msgid "ohin"
+msgstr "ohin"
+
+#: report/templates/report/live.html
+msgid "oras liu ba"
+msgstr "oras liu ba"
+
+#: report/templates/report/live.html
+msgid "presiza apoiu lalais"
+msgstr "presiza apoiu lalais"
+
+#: report/templates/report/live.html
+msgid "semana kotuk"
+msgstr "semana kotuk"
+
+#: report/templates/report/live.html
+msgid "survei hein verifika"
+msgstr "survei hein verifika"
+
+#: report/templates/report/live.html
+msgid "verifikadu"
+msgstr "verifikadu"

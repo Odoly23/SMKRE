@@ -4704,3 +4704,293 @@ msgstr "Open Offline App"
 #: main/templates/home/offline.html
 msgid "Varanda no pájina seluk loke fali bainhira iha internet."
 msgstr "Home and other pages open again when there is internet."
+
+#: report/templates/report/live.html
+msgid "Admin presiza haree"
+msgstr "Admin needs to review"
+
+#: report/templates/report/live.html
+msgid "Aksaun legál"
+msgstr "Legal action"
+
+#: report/templates/report/live.html
+msgid "Atividade ikus"
+msgstr "Recent activity"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Atu loke automátiku bainhira komputadór moris: kria atallu Chrome ho --kiosk"
+" no link ne'e (haree guia iha okos)."
+msgstr ""
+"To open automatically when the computer starts: create a Chrome shortcut "
+"with --kiosk and this link (see the guide below)."
+
+#: report/templates/report/live.html
+msgid "Atualiza"
+msgstr "Updated"
+
+#: report/templates/report/live_ekran.html
+msgid "Ekran"
+msgstr "Screen"
+
+#: report/models.py
+msgid "Ekran Live"
+msgstr "Live Screen"
+
+#: report/views/live_v.py
+msgid "Ekran Live (link privadu)"
+msgstr "Live Screen (private link)"
+
+#: report/templates/report/live.html
+msgid "Ekran sei la toba no dadus atualiza automátiku kada segundu 30."
+msgstr ""
+"The screen will not sleep and data refreshes automatically every 30 seconds."
+
+#: report/templates/report/live.html
+msgid "Ekran sempre moris"
+msgstr "Screen always on"
+
+#: report/live.py
+msgid "Follow-up ba terrenu"
+msgstr "Field follow-up"
+
+#: report/templates/report/live.html
+msgid "Foun (loron 7)"
+msgstr "New (7 days)"
+
+#: report/templates/report/live_ekran.html
+msgid "Guia desktop all-in-one (Windows)"
+msgstr "All-in-one desktop guide (Windows)"
+
+#: report/templates/report/live_ekran.html
+msgid "Haree Live (ho login)"
+msgstr "View Live (with login)"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Iha desktop: loke link ho Chrome ka Edge, klik \"Loke ekran tomak\". Ekran "
+"sei la toba durante pájina loke."
+msgstr ""
+"On the desktop: open the link in Chrome or Edge and click \"Open full "
+"screen\". The screen will not sleep while the page is open."
+
+#: report/templates/report/live_ekran.html
+msgid "Kansela link ekran ne'e? Ekran sei la bele loke tan."
+msgstr "Cancel this screen link? The screen will no longer open."
+
+#: report/templates/report/live.html
+msgid "Karrega dadus…"
+msgstr "Loading data…"
+
+#: report/templates/report/live.html
+msgid "Kazu aktivu"
+msgstr "Active cases"
+
+#: report/live.py
+msgid "Kazu aprovadu"
+msgstr "Case approved"
+
+#: report/live.py
+msgid "Kazu fila ba hadia"
+msgstr "Case returned for correction"
+
+#: report/live.py
+msgid "Kazu foun simu"
+msgstr "New case received"
+
+#: report/templates/report/live.html
+msgid "Kazu iha sistema"
+msgstr "Cases in the system"
+
+#: report/live.py
+msgid "Kazu remata"
+msgstr "Case completed"
+
+#: report/templates/report/live.html
+msgid "Kazu tuir fulan"
+msgstr "Cases per month"
+
+#: report/templates/report/live.html
+msgid "Koneksaun lakon · dadus ikus"
+msgstr "Connection lost · last data"
+
+#: report/templates/report/live_ekran.html
+msgid "Kopia"
+msgstr "Copy"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Kopia agora no loke iha desktop all-in-one. Link ne'e hatudu dala ida de'it:"
+" se lakon, kria link foun no kansela ida tuan."
+msgstr ""
+"Copy it now and open it on the all-in-one desktop. This link is shown only "
+"once: if lost, create a new one and cancel the old one."
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Kopia atallu ba folder Startup (Win + R → shell:startup) atu loke automátiku"
+" bainhira komputadór moris."
+msgstr ""
+"Copy the shortcut to the Startup folder (Win + R → shell:startup) to open "
+"automatically when the computer starts."
+
+#: report/templates/report/live_ekran.html
+msgid "Kria atallu iha Desktop:"
+msgstr "Create a shortcut on the Desktop:"
+
+#: report/templates/report/live_ekran.html
+msgid "Kria link"
+msgstr "Create link"
+
+#: report/templates/report/live_ekran.html
+msgid "Kria link ekran foun"
+msgstr "Create new screen link"
+
+#: report/templates/report/live.html
+msgid "La iha"
+msgstr "None"
+
+#: report/templates/report/live.html
+msgid "La iha prazu iha loron 14 tuir mai."
+msgstr "No deadlines in the next 14 days."
+
+#: report/views/live_v.py
+msgid "Link ekran \"%(n)s\" kansela ona. Ekran ne'e la bele loke tan."
+msgstr "Screen link \"%(n)s\" cancelled. This screen can no longer open."
+
+#: report/templates/report/live_ekran.html
+msgid "Link ekran live"
+msgstr "Live screen link"
+
+#: report/views/live_v.py
+msgid ""
+"Link ekran live kria ona. Kopia agora: link ne'e hatudu dala ida de'it."
+msgstr "Live screen link created. Copy it now: the link is shown only once."
+
+#: report/templates/report/live.html
+msgid "Link ekran ne'e kansela ona. Kontaktu Admin."
+msgstr "This screen link was cancelled. Contact the Admin."
+
+#: report/templates/report/live_ekran.html
+msgid "Link foun ba ekran"
+msgstr "New link for screen"
+
+#: report/templates/report/live_ekran.html
+msgid ""
+"Link privadu: ema ne'ebé iha link mak bele haree. La presiza login, la iha "
+"naran ka kontaktu ema — dadus agregadu no anónimu de'it."
+msgstr ""
+"Private link: anyone with the link can view. No login needed, no names or "
+"contacts — only aggregated, anonymous data."
+
+#: report/templates/report/live.html
+msgid "Loke ekran tomak"
+msgstr "Open full screen"
+
+#: report/templates/report/live.html
+msgid "Mapa kazu"
+msgstr "Case map"
+
+#: report/models.py
+msgid "Naran ekran"
+msgstr "Screen name"
+
+#: report/templates/report/live.html
+msgid "Prazu legál"
+msgstr "Legal deadlines"
+
+#: report/templates/report/live_ekran.html
+msgid "Sai husi modu kiosk: Alt + F4."
+msgstr "Exit kiosk mode: Alt + F4."
+
+#: report/templates/report/live.html
+msgid "Seidauk iha atividade."
+msgstr "No activity yet."
+
+#: report/templates/report/live_ekran.html
+msgid "Seidauk iha link ekran."
+msgstr "No screen links yet."
+
+#: report/templates/report/live.html
+msgid "Semana ne'e"
+msgstr "This week"
+
+#: report/templates/report/live.html
+msgid "Sesaun remata. Login fali ka uza link ekran live."
+msgstr "Session ended. Log in again or use the live screen link."
+
+#: report/templates/report/live_ekran.html
+msgid "Settings → System → Power: Screen / Sleep = \"Never\"."
+msgstr "Settings → System → Power: Screen / Sleep = \"Never\"."
+
+#: report/templates/report/live.html
+msgid "Status kazu"
+msgstr "Case status"
+
+#: report/live.py
+msgid "Status kazu: %(s)s"
+msgstr "Case status: %(s)s"
+
+#: report/live.py
+msgid "Survei legál foun"
+msgstr "New legal survey"
+
+#: report/live.py
+msgid "Survei legál verifikadu"
+msgstr "Legal survey verified"
+
+#: report/models.py
+msgid "Uza ikus"
+msgstr "Last used"
+
+#: report/templates/report/live.html
+msgid "agora"
+msgstr "now"
+
+#: report/templates/report/live.html
+msgid "eviksaun"
+msgstr "evictions"
+
+#: report/templates/report/live_ekran.html
+msgid "ex. Ekran sala reuniaun"
+msgstr "e.g. Meeting room screen"
+
+#: report/templates/report/live.html
+msgid "liu prazu"
+msgstr "overdue"
+
+#: report/templates/report/live.html
+msgid "loron"
+msgstr "days"
+
+#: report/templates/report/live.html
+msgid "loron liu ba"
+msgstr "days ago"
+
+#: report/templates/report/live.html
+msgid "min liu ba"
+msgstr "min ago"
+
+#: report/templates/report/live.html
+msgid "ohin"
+msgstr "today"
+
+#: report/templates/report/live.html
+msgid "oras liu ba"
+msgstr "hours ago"
+
+#: report/templates/report/live.html
+msgid "presiza apoiu lalais"
+msgstr "need urgent support"
+
+#: report/templates/report/live.html
+msgid "semana kotuk"
+msgstr "last week"
+
+#: report/templates/report/live.html
+msgid "survei hein verifika"
+msgstr "surveys awaiting verification"
+
+#: report/templates/report/live.html
+msgid "verifikadu"
+msgstr "verified"

@@ -1,0 +1,73 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% block content %}
+	<ol class="breadcrumb mb-2 mt-1">
+		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
+		<li class="breadcrumb-item"><a href="{% url 'report-dash' %}">{% trans "DASHBOARD" %}</a></li>
+		<li class="breadcrumb-item active" aria-current="page">{{ title|upper }}</li>
+	</ol>
+	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
+		<h2 class="mb-2">{{ legend }}</h2>
+		<a href="{% url 'report-live' %}" target="_blank" rel="noopener" class="btn btn-dark mb-2"><i class="fa fa-television"></i> {% trans "Haree Live (ho login)" %}</a>
+	</div>
+
+	{% if link_foun %}
+	<div class="alert alert-success">
+		<b><i class="fa fa-check"></i> {% trans "Link foun ba ekran" %} "{{ link_foun.naran }}":</b>
+		<div class="input-group mt-2">
+			<input type="text" class="form-control" id="link-foun" value="{{ link_foun.url }}" readonly aria-label="{% trans "Link ekran live" %}">
+			<div class="input-group-append"><button type="button" class="btn btn-rbr js-kopia" data-target="link-foun"><i class="fa fa-copy"></i> {% trans "Kopia" %}</button></div>
+		</div>
+		<small class="d-block mt-2">{% trans "Kopia agora no loke iha desktop all-in-one. Link ne'e hatudu dala ida de'it: se lakon, kria link foun no kansela ida tuan." %}</small>
+	</div>
+	{% endif %}
+
+	<div class="row">
+		<div class="col-lg-5 mb-3">
+			<form method="post" action="{% url 'report-live-ekran-add' %}" class="card card-rbr">{% csrf_token %}
+				<div class="card-header card-header-rbr"><i class="fa fa-plus"></i> {% trans "Kria link ekran foun" %}</div>
+				<div class="card-body">
+					<label for="naran-ekran">{% trans "Naran ekran" %}</label>
+					<input type="text" name="naran" id="naran-ekran" class="form-control mb-3" maxlength="100" placeholder="{% trans "ex. Ekran sala reuniaun" %}" required>
+					<button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-link"></i> {% trans "Kria link" %}</button>
+					<div class="small text-muted mt-3">
+						<p class="mb-1"><i class="fa fa-lock"></i> {% trans "Link privadu: ema ne'ebé iha link mak bele haree. La presiza login, la iha naran ka kontaktu ema — dadus agregadu no anónimu de'it." %}</p>
+						<p class="mb-1"><i class="fa fa-desktop"></i> {% trans "Iha desktop: loke link ho Chrome ka Edge, klik \"Loke ekran tomak\". Ekran sei la toba durante pájina loke." %}</p>
+						<p class="mb-0"><i class="fa fa-power-off"></i> {% trans "Atu loke automátiku bainhira komputadór moris: kria atallu Chrome ho --kiosk no link ne'e (haree guia iha okos)." %}</p>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-lg-7 mb-3">
+			<div class="card card-rbr"><div class="card-body">
+				<div class="table-responsive table-cards">
+					<table class="table table-sm table-hover">
+						<thead><tr><th>{% trans "Ekran" %}</th><th>{% trans "Kria" %}</th><th>{% trans "Uza ikus" %}</th><th>{% trans "Status" %}</th><th></th></tr></thead>
+						<tbody>
+						{% for e in objects %}
+						<tr>
+							<td data-label="{% trans "Ekran" %}"><b>{{ e.naran }}</b><br><small class="text-muted">{{ e.created_by.pesoaluser.pesoal|default:e.created_by.username|default:"-" }}</small></td>
+							<td data-label="{% trans "Kria" %}">{{ e.created_at|date:"d/m/Y H:i" }}</td>
+							<td data-label="{% trans "Uza ikus" %}">{{ e.last_seen|date:"d/m/Y H:i"|default:"-" }}</td>
+							<td data-label="{% trans "Status" %}">{% if e.ativu %}<span class="badge badge-success rounded-pill px-3">{% trans "Ativu" %}</span>{% else %}<span class="badge badge-secondary rounded-pill px-3">{% trans "Kansela" %}</span>{% endif %}</td>
+							<td class="text-right">{% if e.ativu %}<form method="post" action="{% url 'report-live-ekran-kansela' e.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Kansela link ekran ne'e? Ekran sei la bele loke tan." %}">{% csrf_token %}<button class="btn btn-sm btn-outline-danger" type="submit"><i class="fa fa-ban"></i> {% trans "Kansela" %}</button></form>{% endif %}</td>
+						</tr>
+						{% empty %}
+						<tr><td colspan="5" class="text-center text-muted">{% trans "Seidauk iha link ekran." %}</td></tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div></div>
+			<div class="card card-rbr mt-3"><div class="card-body small">
+				<h4 class="form-sub mt-0"><i class="fa fa-cog"></i> {% trans "Guia desktop all-in-one (Windows)" %}</h4>
+				<ol class="mb-0 pl-3">
+					<li>{% trans "Settings → System → Power: Screen / Sleep = \"Never\"." %}</li>
+					<li>{% trans "Kria atallu iha Desktop:" %} <code>chrome.exe --kiosk "LINK" </code></li>
+					<li>{% trans "Kopia atallu ba folder Startup (Win + R → shell:startup) atu loke automátiku bainhira komputadór moris." %}</li>
+					<li>{% trans "Sai husi modu kiosk: Alt + F4." %}</li>
+				</ol>
+			</div></div>
+		</div>
+	</div>
+{% endblock %}

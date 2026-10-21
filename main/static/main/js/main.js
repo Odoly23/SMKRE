@@ -215,6 +215,16 @@
 		});
 	});
 
+	// ── Butaun "Kopia" (input readonly) ──
+	document.querySelectorAll('.js-kopia').forEach(function (b) {
+		b.addEventListener('click', function () {
+			var inp = document.getElementById(b.dataset.target);
+			inp.select();
+			(navigator.clipboard ? navigator.clipboard.writeText(inp.value) : Promise.reject()).catch(function () { document.execCommand('copy'); });
+			b.innerHTML = '<i class="fa fa-check"></i>';
+		});
+	});
+
 	// ── PWA: registu service worker ──
 	if ('serviceWorker' in navigator && document.body.dataset.sw) {
 		window.addEventListener('load', function () {

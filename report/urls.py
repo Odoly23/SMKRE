@@ -1,8 +1,13 @@
 from django.urls import path
-from report.views import dash_v, mapa_v, export_v
+from report.views import dash_v, mapa_v, export_v, live_v
 
 urlpatterns = [
 	path('dash/', dash_v.reportDash, name='report-dash'),
+	path('live/', live_v.LiveStaff, name='report-live'),
+	path('live/dadus/', live_v.LiveStaffDadus, name='report-live-dadus'),
+	path('live/ekran/', live_v.LiveEkranList, name='report-live-ekran'),
+	path('live/ekran/foun/', live_v.LiveEkranAdd, name='report-live-ekran-add'),
+	path('live/ekran/<int:pk>/kansela/', live_v.LiveEkranKansela, name='report-live-ekran-kansela'),
 	path('grafiku/', dash_v.reportChart, name='report-chart'),
 	path('mapa/', mapa_v.reportMapa, name='report-mapa'),
 

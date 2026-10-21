@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from report.views import live_v
 
 urlpatterns = [
 	path(settings.ADMIN_URL, admin.site.urls),
@@ -13,6 +14,9 @@ urlpatterns = [
 	path('sinkron/', include('sinkron.urls')),
 	path('legal/', include('legal.urls')),
 	path('portal/', include('publiku.urls')),
+	# Ekran Live (link privadu ba desktop all-in-one; la presiza login)
+	path('live/<str:token>/', live_v.LiveKiosk, name='live-kiosk'),
+	path('live/<str:token>/dadus/', live_v.LiveKioskDadus, name='live-kiosk-dadus'),
 
 	# API
 	path('api/notif/', include('notification.api.urls')),
