@@ -4642,3 +4642,19 @@ msgstr "Print PDF"
 #: legal/templates/legal/survei_pdf.html
 msgid "Verifika husi"
 msgstr "Verified by"
+
+#: kazu/forms.py
+msgid "Esplika desizaun tribunal \"Seluk\""
+msgstr "Explain court decision \"Other\""
+
+#: kazu/models.py
+msgid "Esplika desizaun tribunál \"Seluk\""
+msgstr "Explain court decision \"Other\""
+
+#: kazu/models.py
+msgid "Esplika entidade \"Seluk\""
+msgstr "Explain entity \"Other\""
+
+#: legal/models.py
+msgid "Esplika estadu civil \"Seluk\""
+msgstr "Explain marital status \"Other\""

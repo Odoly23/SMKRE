@@ -111,7 +111,7 @@ class NotaForm(forms.ModelForm):
 # ── Survei legál: "Perguntas Xave Sira Legal" (orden dokumentu, grupu subar to'o resposta) ──
 from crispy_forms.layout import Div
 from custom.models import Munisipiu, PostuAdministrativu, Suku, Aldeia
-from kazu.forms import section, switch, grupu, _helper
+from kazu.forms import section, switch, grupu, seluk, _helper
 from legal.models import SurveiLegal, SurveiLegalFile
 
 GRUPU_MEIUS = {'ERANSA': 'eransa', 'SOSA': 'sosa', 'FOO': 'foo', 'POSSE': 'posse'}
@@ -129,9 +129,10 @@ SURVEI_GRUPU = {
 	'posse': ['posse_hahu', 'posse_halo_saida', 'posse_se_mak_halo', 'posse_periodu', 'posse_ema_seluk_tinan',
 		'posse_relasaun_sosa', 'posse_uza_rai', 'posse_luan_rai', 'posse_luan_disputa', 'posse_luan_uma'],
 	'entidade': ['entidade_naran', 'entidade_kontaktu', 'entidade_instituisaun', 'entidade_enderesu'],
+	'estadu_seluk': ['parte_estadu_civil_seluk'],
 }
 SURVEI_KAMPU = ['kazu', 'titulu', 'data_survei', 'munisipiu', 'postu', 'suku', 'aldeia', 'latitude', 'longitude', 'gps_akurasia',
-	'parte_naran', 'parte_sexu', 'parte_data_moris', 'parte_estadu_civil', 'parte_hela_fatin', 'parte_kartaun_eleitoral',
+	'parte_naran', 'parte_sexu', 'parte_data_moris', 'parte_estadu_civil', 'parte_estadu_civil_seluk', 'parte_hela_fatin', 'parte_kartaun_eleitoral',
 	'parte_profisaun', 'parte_kontaktu', 'parte_ehd'] + SURVEI_GRUPU['entidade'] + ['meius'] + SURVEI_GRUPU['eransa'] + \
 	SURVEI_GRUPU['sosa'] + SURVEI_GRUPU['foo'] + SURVEI_GRUPU['posse'] + ['dok_identifikasaun', 'dok_relevante', 'fotografia', 'observasaun']
 SURVEI_FATIN = ['munisipiu', 'postu', 'suku', 'aldeia', 'latitude', 'longitude', 'gps_akurasia']
@@ -142,6 +143,7 @@ def survei_grupu_ativu(d):
 	meius = d.get('meius') or ''
 	return {
 		'entidade': any(d.get(c) for c in SURVEI_GRUPU['entidade']),
+		'estadu_seluk': d.get('parte_estadu_civil') == 'SELUK',
 		'eransa': meius == 'ERANSA', 'sosa': meius == 'SOSA', 'foo': meius == 'FOO', 'posse': meius == 'POSSE',
 		'eransa_fahe': meius == 'ERANSA' and d.get('eransa_fahe') == 'SIN',
 		'sosa_akordu': meius == 'SOSA' and d.get('sosa_akordu') == 'SIN',
@@ -222,7 +224,8 @@ class SurveiLegalForm(forms.ModelForm):
 		self.helper_parte = _helper(
 			section('I', 'Identifikasaun Parte Sira (Disputante Sira)'),
 			row(col('parte_naran', 8), col('parte_sexu', 4)),
-			row(col('parte_data_moris', 4), col('parte_estadu_civil', 4), col('parte_ehd', 4)),
+			row(col('parte_data_moris', 4), Column('parte_estadu_civil', seluk('parte_estadu_civil', 'parte_estadu_civil_seluk'),
+				css_class='form-group col-md-4 mb-0'), col('parte_ehd', 4)),
 			row(col('parte_hela_fatin', 12)),
 			row(col('parte_kartaun_eleitoral', 4), col('parte_profisaun', 4), col('parte_kontaktu', 4)),
 		)

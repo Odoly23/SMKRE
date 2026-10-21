@@ -47,6 +47,14 @@ def grupu(grp, *fields):
 	return Div(*fields, css_class='kond sub-box', data_grp=grp)
 
 
+def seluk(kampu, *fields, ids=None):
+	# Opsaun "Seluk" hili → hatudu kampu esplika (main.js: data-seluk-for). ids = valor checkbox "Seluk" (lista)
+	attrs = {'data_seluk_for': kampu}
+	if ids is not None:
+		attrs['data_seluk_ids'] = ids
+	return Div(*fields, css_class='seluk-box', **attrs)
+
+
 # Pergunta formuláriu tuir orden dokumentu "Perguntas husi Baze de Dadus Central nian" (RbR)
 LABEL_DOCX = {
 	'titulu': _('Kazu'), 'data_relatoriu': _('Data Simu Kazu iha RbR'), 'tinan_simu': _('Tinan Simu Kazu iha RbR'),
@@ -80,7 +88,7 @@ class KazuForm(forms.ModelForm):
 		fields = ['titulu', 'data_relatoriu', 'tinan_simu', 'munisipiu', 'postu', 'suku', 'aldeia',
 			'latitude', 'longitude', 'gps_akurasia', 'enderesu_fatin', 'rai_luan', 'rai_luan_unidade',
 			'data_akontesimentu', 'tinan_disputa_hahu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai',
-			'projetu', 'entidade_foti', 'entidade_kategoria', 'deskrisaun',
+			'projetu', 'entidade_foti', 'entidade_kategoria', 'entidade_kategoria_seluk', 'deskrisaun',
 			'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu',
 			'eviksaun_akontese', 'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
 			'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun',
@@ -111,6 +119,7 @@ class KazuForm(forms.ModelForm):
 		self.fields['tipu_rai'].queryset = TipuRai.active.all()
 		self.fields['estragu'].queryset = EstraguPatrimoniu.active.all()
 		self.fields['nesesidade'].queryset = NesesidadeUrjente.active.all()
+		self.estragu_seluk_ids = ','.join(str(pk) for pk in EstraguPatrimoniu.objects.filter(code='SELUK').values_list('pk', flat=True))
 		ref = (self.instance.referensia_rbr or '') if self.instance.pk else ''
 		if ref.upper().startswith('RBR/') and ref[4:].isdigit():
 			self.fields['numeru_rbr'].initial = int(ref[4:])
@@ -172,7 +181,14 @@ class KazuForm(forms.ModelForm):
 			'titulu',
 			Row(col('tipu_konflitu', 6), Column(grupu('seluk', 'tipu_seluk'), css_class='col-md-6'), css_class='form-row'),   # "Seluk" → esplika
 			'deskrisaun',
-			grupu('entidade', Row(col('projetu', 4), col('entidade_foti', 4), col('entidade_kategoria', 4), css_class='form-row')),
+			grupu('entidade', 'projetu'),           # tipu Governu / entidade legál
+		)
+		# Troka "Iha atór envolvidu?": entidade ne'ebé foti rai + kategoria (Seluk → esplika)
+		self.helper_entidade = _helper(
+			switch('entidade_foti', "Entidade ne'ebe foti rai (se mak foti rai?)"),
+			grupu('entidade_foti',
+				Row(col('entidade_foti', 6), col('entidade_kategoria', 6), css_class='form-row'),
+				seluk('entidade_kategoria', 'entidade_kategoria_seluk')),
 		)
 		self.helper_b = _helper(        # 2. Fatin (pergunta 11–17)
 			section(2, 'Fatin'),
@@ -208,7 +224,7 @@ class KazuForm(forms.ModelForm):
 		)
 		self.helper_b2 = _helper(
 			switch('estragu', 'Iha estragu patrimóniu?'),
-			grupu('estragu', Row(col('estragu', 6), col('estragu_seluk', 6), css_class='form-row')),
+			grupu('estragu', Row(col('estragu', 6), Column(seluk('estragu', 'estragu_seluk', ids=self.estragu_seluk_ids), css_class='col-md-6'), css_class='form-row')),
 			switch('nesesidade', 'Iha nesesidade urjente?'),
 			grupu('nesesidade', 'nesesidade'),
 			'observasaun',
@@ -257,7 +273,9 @@ class KazuForm(forms.ModelForm):
 		if tipu and not any(t.presiza_esplika for t in tipu):
 			cleaned['tipu_seluk'] = ''
 		if tipu and not any(t.code in TIPU_ENTIDADE for t in tipu):
-			cleaned.update(projetu='', entidade_foti='', entidade_kategoria='')
+			cleaned['projetu'] = ''
+		if cleaned.get('entidade_kategoria') != 'SELUK':
+			cleaned['entidade_kategoria_seluk'] = ''
 		if cleaned.get('eviksaun_akontese') != 'SIN':
 			cleaned.update(data_eviksaun=None, konsultasaun_molok='', notifikasaun_klaru='', uza_forsa='', observasaun_eviksaun='')
 		if cleaned.get('iha_dadus_uma_kain') in ('LAE', 'LAHATENE'):
@@ -320,6 +338,7 @@ LABEL_SEG_DOCX = {
 	'tribunal_rejistu': _('Rejistu iha tribunal?'), 'tribunal_data': _('Data rejistu iha tribunal'),
 	'tribunal_representa': _('Se mak rejistu ka representa'), 'advogadu_kontaktu': _('Informasaun kontaktu advogadu nian'),
 	'tribunal_observasaun': _('Observasaun kona-ba prosesu tribunal'), 'tribunal_desizaun': _('Iha ona desizaun husi tribunal'),
+	'tribunal_desizaun_seluk': _('Esplika desizaun tribunal "Seluk"'),
 	'tribunal_desizaun_data': _('Desizaun hatun sá data?'), 'notif_simu': _('Simu Notifikasaun Ona?'),
 	'notif_data': _('Data simu notifikasaun'), 'notif_observasaun': _('Observasaun kona-ba prosesu notifikasaun'),
 	'notif_husi': _('Notifikasaun husi se?'), 'data_ikus_cek': _('Data ikus cek status kazu'), 'status_rezolusaun': _('Status Kazu'),
@@ -359,7 +378,8 @@ class SegimentuKazuForm(forms.ModelForm):
 			grupu('tribunal',                # Rejistu = Sin / Agora dadaun → detalla tribunál
 				Row(col('tribunal_data', 4), col('tribunal_representa', 8), css_class='form-row'),
 				'advogadu_kontaktu', 'tribunal_observasaun',
-				Row(col('tribunal_desizaun', 6), Column(grupu('tribunal_desizaun', 'tribunal_desizaun_data'), css_class='col-md-6'), css_class='form-row'),
+				Row(col('tribunal_desizaun', 6), Column(grupu('tribunal_desizaun', 'tribunal_desizaun_data'),
+					seluk('tribunal_desizaun', 'tribunal_desizaun_seluk'), css_class='col-md-6'), css_class='form-row'),
 			),
 			Row(col('notif_simu', 4), css_class='form-row'),
 			grupu('notif', Row(col('notif_data', 4), col('notif_husi', 8), css_class='form-row'), 'notif_observasaun'),   # Simu = Sin
@@ -377,6 +397,8 @@ class SegimentuKazuForm(forms.ModelForm):
 				tribunal_desizaun='', tribunal_desizaun_data=None)
 		if cleaned.get('tribunal_desizaun') != 'SIN':
 			cleaned['tribunal_desizaun_data'] = None
+		if cleaned.get('tribunal_desizaun') != 'SELUK':
+			cleaned['tribunal_desizaun_seluk'] = ''
 		if cleaned.get('notif_simu') != 'SIN':
 			cleaned.update(notif_data=None, notif_observasaun='', notif_husi='')
 		return cleaned
@@ -621,7 +643,7 @@ class LokasaunForm(forms.Form):
 SEGIMENTU_SEKSAUN = [
 	('status', _('Status no Desizaun RbR'), [[('data_ikus_cek', 3), ('status_rezolusaun', 5), ('desizaun_rbr', 4)], [('observasaun_kazu', 12)]]),
 	('tribunal', _('Tribunál'), [[('tribunal_rejistu', 4), ('tribunal_data', 4), ('tribunal_representa', 4)],
-		[('advogadu_kontaktu', 6), ('tribunal_desizaun', 3), ('tribunal_desizaun_data', 3)], [('tribunal_observasaun', 12)]]),
+		[('advogadu_kontaktu', 6), ('tribunal_desizaun', 3), ('tribunal_desizaun_data', 3)], [('tribunal_desizaun_seluk', 12)], [('tribunal_observasaun', 12)]]),
 	('notifikasaun', _('Notifikasaun'), [[('notif_simu', 4), ('notif_data', 4), ('notif_husi', 4)], [('notif_observasaun', 12)]]),
 	('fokal', _('Fokal Point RbR'), [[('fokal_naran', 4), ('fokal_telemovel', 4), ('fokal_tipu', 4)], [('fokal_organizasaun', 6), ('fokal_enderesu', 6)]]),
 	('org_seluk', _("Organizasaun Seluk ne'ebé Akompaña"), [[('org_seluk', 4), ('org_seluk_naran', 4), ('org_seluk_kontaktu', 4)]]),
@@ -654,9 +676,14 @@ class SegimentuForm(forms.ModelForm):
 		self.helper = FormHelper()
 		self.helper.form_tag = False
 		self.helper.disable_csrf = True
-		self.helper.layout = Layout(*[
-			Row(*[Column(c, css_class=f'form-group col-md-{w} mb-0') for c, w in row], css_class='form-row') for row in rows
-		])
+		cel = lambda c, w: Column(seluk('tribunal_desizaun', c) if c == 'tribunal_desizaun_seluk' else c, css_class=f'form-group col-md-{w} mb-0')
+		self.helper.layout = Layout(*[Row(*[cel(c, w) for c, w in row], css_class='form-row') for row in rows])
+
+	def clean(self):
+		cleaned = super().clean()
+		if 'tribunal_desizaun_seluk' in self.fields and cleaned.get('tribunal_desizaun') != 'SELUK':
+			cleaned['tribunal_desizaun_seluk'] = ''
+		return cleaned
 
 
 class AkompanamentuForm(forms.ModelForm):

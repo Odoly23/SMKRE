@@ -4626,3 +4626,19 @@ msgstr "Cetak PDF"
 #: legal/templates/legal/survei_pdf.html
 msgid "Verifika husi"
 msgstr "Diverifikasi oleh"
+
+#: kazu/forms.py
+msgid "Esplika desizaun tribunal \"Seluk\""
+msgstr "Jelaskan putusan pengadilan \"Lainnya\""
+
+#: kazu/models.py
+msgid "Esplika desizaun tribunál \"Seluk\""
+msgstr "Jelaskan putusan pengadilan \"Lainnya\""
+
+#: kazu/models.py
+msgid "Esplika entidade \"Seluk\""
+msgstr "Jelaskan entitas \"Lainnya\""
+
+#: legal/models.py
+msgid "Esplika estadu civil \"Seluk\""
+msgstr "Jelaskan status perkawinan \"Lainnya\""

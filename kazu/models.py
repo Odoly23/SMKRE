@@ -92,6 +92,7 @@ class Kazu(models.Model):
 	projetu = models.CharField(max_length=255, blank=True, verbose_name=_("Projetu (se Governu foti rai: atu hari'i saida?)"))
 	entidade_foti = models.CharField(max_length=255, blank=True, verbose_name=_("Entidade ne'ebé foti rai"))
 	entidade_kategoria = models.CharField(max_length=25, choices=ENTIDADE_CHOICES, blank=True, verbose_name=_("Entidade benefisiáriu (kategoria)"))
+	entidade_kategoria_seluk = models.CharField(max_length=255, blank=True, verbose_name=_('Esplika entidade "Seluk"'))
 	tipu_rai = models.ForeignKey(TipuRai, on_delete=models.PROTECT, null=True, blank=True, verbose_name=_("Tipu Rai"))
 	deskrisaun = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba tipu kazu"))
 
@@ -266,6 +267,7 @@ class KazuSegimentu(models.Model):
 		('RES_ABANDONA', _('Resolve ona - Parte seluk abandona disputa')), ('RES_KOMPENSASAUN', _('Resolve ona - Simu kompensasaun')),
 		('SEIDAUK', _('Seidauk resolve')),
 	]
+	TRIBUNAL_DESIZAUN_CHOICES = SIN_LAE_CHOICES + [('SELUK', _('Seluk'))]
 	DESIZAUN_RBR_CHOICES = [('ARKIVU', _('Arkivu')), ('MONITORIZASAUN', _('Monitorizasaun')), ('ADVOKASIA', _('Advokasia ativu'))]
 
 	kazu = models.OneToOneField(Kazu, on_delete=models.CASCADE, related_name='segimentu')
@@ -285,7 +287,8 @@ class KazuSegimentu(models.Model):
 	tribunal_representa = models.CharField(max_length=255, blank=True, verbose_name=_("Se mak rejistu ka reprezenta"))
 	advogadu_kontaktu = models.CharField(max_length=255, blank=True, verbose_name=_("Kontaktu advogadu (naran, telefone, organizasaun)"))
 	tribunal_observasaun = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba prosesu tribunál"))
-	tribunal_desizaun = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Iha ona desizaun husi tribunál?"))
+	tribunal_desizaun = models.CharField(max_length=8, choices=TRIBUNAL_DESIZAUN_CHOICES, blank=True, verbose_name=_("Iha ona desizaun husi tribunál?"))
+	tribunal_desizaun_seluk = models.CharField(max_length=255, blank=True, verbose_name=_('Esplika desizaun tribunál "Seluk"'))
 	tribunal_desizaun_data = models.DateField(null=True, blank=True, verbose_name=_("Data desizaun"))
 	# Notifikasaun
 	notif_simu = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Simu notifikasaun ona?"))

@@ -366,7 +366,7 @@
 		div.innerHTML = lista.map(function (o) {
 			var id = naran + '-' + o.id;
 			return '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="' + id + '" value="' + o.id + '"' +
-				(o.presiza_esplika ? ' data-esplika="1"' : '') + (o.entidade ? ' data-entidade="1"' : '') + (valor.indexOf(String(o.id)) >= 0 ? ' checked' : '') + '>' +
+				(o.presiza_esplika ? ' data-esplika="1"' : '') + (o.entidade ? ' data-entidade="1"' : '') + (o.code === 'SELUK' ? ' data-seluk="1"' : '') + (valor.indexOf(String(o.id)) >= 0 ? ' checked' : '') + '>' +
 				'<label class="custom-control-label" for="' + id + '">' + esc(o.name) + '</label></div>';
 		}).join('');
 	}
@@ -401,7 +401,7 @@
 		});
 	}
 	var KAMPU_RBR = ['numeru_rbr', 'tinan_simu', 'akompanamentu_foun', 'enderesu_fatin', 'rai_luan', 'rai_luan_unidade', 'tinan_disputa_hahu', 'projetu', 'entidade_foti',
-		'entidade_kategoria', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
+		'entidade_kategoria', 'entidade_kategoria_seluk', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
 		'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
 		'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun'];
 
@@ -456,8 +456,6 @@
 		$('i-loron_avizu').value = ins.loron_avizu == null ? '' : ins.loron_avizu;
 		$('i-forsa_seguransa').checked = !!ins.forsa_seguransa;
 		$('i-estragu').value = ins.estragu || '';
-		$('lista-ator').innerHTML = '';
-		(k.ator || []).forEach(aumentaAtor);
 		opsaunCheck($('f-estragu'), o.estragu, k.estragu, 'es');
 		$('f-estragu_seluk').value = k.estragu_seluk || '';
 		opsaunCheck($('f-nesesidade'), o.nesesidade, k.nesesidade, 'ne');
@@ -478,7 +476,8 @@
 		$('sw-org').checked = iha(['org_seluk', 'org_seluk_naran', 'org_seluk_kontaktu']);
 		$('sw-status').checked = iha(['data_ikus_cek', 'status_rezolusaun', 'desizaun_rbr', 'observasaun_kazu']);
 		$('sw-portavos').checked = !!(k.portavos_naran || k.portavos_kontaktu || k.portavos_observasaun);
-		$('sw-ator').checked = (k.ator || []).length > 0;
+		$('sw-entidade_foti').checked = !!(k.entidade_foti || k.entidade_kategoria);
+		S.estraguSelukTuan = !!k.estragu_seluk;          // testu tuan → hatudu nafatin
 		$('sw-estragu').checked = (k.estragu || []).length > 0 || !!k.estragu_seluk;
 		$('sw-nesesidade').checked = (k.nesesidade || []).length > 0;
 		$('sw-video').checked = S.media.some(function (m) { return m.tipu === 'VIDEO'; });
@@ -516,9 +515,12 @@
 		$('grp-tribunal_desizaun').hidden = $('s-tribunal_desizaun').value !== 'SIN';
 		$('grp-notif').hidden = $('s-notif_simu').value !== 'SIN';
 		document.querySelectorAll('[data-switch]').forEach(function (sw) { $(sw.dataset.switch).hidden = !sw.checked; });
-		if (!$('grp-ator').hidden && !$('lista-ator').children.length) aumentaAtor(null);
+		// Opsaun "Seluk" → kampu esplika
+		$('grp-entidade_seluk').hidden = $('f-entidade_kategoria').value !== 'SELUK';
+		$('grp-tribunal_desizaun_seluk').hidden = $('s-tribunal_desizaun').value !== 'SELUK';
+		$('grp-estragu_seluk').hidden = !($('f-estragu').querySelector('input[data-seluk]:checked') || S.estraguSelukTuan);
 	}
-	['f-iha_dadus_uma_kain', 'f-eviksaun_akontese', 's-tribunal_rejistu', 's-tribunal_desizaun', 's-notif_simu'].forEach(function (id) { $(id).addEventListener('change', hatuduKond); });
+	['f-iha_dadus_uma_kain', 'f-eviksaun_akontese', 's-tribunal_rejistu', 's-tribunal_desizaun', 's-notif_simu', 'f-entidade_kategoria', 'f-estragu'].forEach(function (id) { $(id).addEventListener('change', hatuduKond); });
 	document.querySelectorAll('[data-switch]').forEach(function (sw) {
 		sw.addEventListener('change', function () {
 			if (sw.id === 'sw-video' && !sw.checked && S.media.some(function (m) { return m.tipu === 'VIDEO'; })) {
@@ -530,21 +532,6 @@
 	// Grupu subar = dadus la rai (hamoos), atu la haruka dadus ne'ebé la relevante
 	function subar(id) { return $(id).hidden; }
 	$('i-ativu').addEventListener('change', function () { $('grp-insidente').hidden = !this.checked; });
-
-	function aumentaAtor(a) {
-		var node = $('tpl-ator').content.firstElementChild.cloneNode(true);
-		opsaunSelect(node.querySelector('[data-ator="tipu_ator"]'), S.opsaun.tipu_ator, a && a.tipu_ator, 'Tipu Atór');
-		node.querySelector('[data-ator="naran"]').value = (a && a.naran) || '';
-		node.querySelector('[data-ator="papel"]').value = (a && a.papel) || '';
-		$('lista-ator').appendChild(node);
-	}
-	$('btn-ator').addEventListener('click', function () {
-		if ($('lista-ator').children.length >= 20) { msg('Atór máximu 20.'); return; }
-		aumentaAtor(null);
-	});
-	$('lista-ator').addEventListener('click', function (ev) {
-		if (ev.target.closest('.js-ator-hamoos')) ev.target.closest('.ator-row').remove();
-	});
 
 	function num(v) { return v === '' || v == null ? null : parseInt(v, 10); }
 
@@ -565,13 +552,7 @@
 			tipu_eviksaun: $('i-tipu_eviksaun').value, loron_avizu: num($('i-loron_avizu').value),
 			forsa_seguransa: $('i-forsa_seguransa').checked, estragu: $('i-estragu').value.trim()
 		} : null;
-		k.ator = Array.prototype.map.call(document.querySelectorAll('#lista-ator .ator-row'), function (row) {
-			return {
-				tipu_ator: row.querySelector('[data-ator="tipu_ator"]').value,
-				naran: row.querySelector('[data-ator="naran"]').value.trim(),
-				papel: row.querySelector('[data-ator="papel"]').value.trim()
-			};
-		}).filter(function (a) { return a.tipu_ator || a.naran || a.papel; });
+		k.ator = k.ator || [];                         // atór tuan (husi server) la muda; formuláriu uza entidade
 		k.estragu = checkValor($('f-estragu'));
 		k.estragu_seluk = $('f-estragu_seluk').value.trim();
 		k.nesesidade = checkValor($('f-nesesidade'));
@@ -587,7 +568,7 @@
 		document.querySelectorAll('.kond[hidden] [data-seg]').forEach(function (el) { delete k.segimentu[el.dataset.seg]; });
 		if (subar('grp-rai')) k.poligon_pontu = [[]];
 		if (polBidang(k).length) { var lr = luanRai(SIBARPoligon.kalkula(polBidang(k)).luan_m2); k.rai_luan = lr[0]; k.rai_luan_unidade = lr[1]; }
-		if (subar('grp-ator')) k.ator = [];
+		if (subar('grp-estragu_seluk')) k.estragu_seluk = '';
 		if (subar('grp-estragu')) { k.estragu = []; k.estragu_seluk = ''; }
 		if (subar('grp-nesesidade')) { k.nesesidade = []; k.urjente = false; }
 		return k;
@@ -619,7 +600,6 @@
 		if (pasu === 7) {
 			if (k.data_akontesimentu && k.data_akontesimentu > hoje()) e.push('Data Akontesimentu labele iha futuru.');
 			if (k.insidente && !k.insidente.tipu_eviksaun) e.push('Hili Tipu Eviksaun.');
-			if (k.ator.some(function (x) { return !x.tipu_ator; })) e.push('Hili Tipu Atór ba atór hotu.');
 		}
 		if (pasu === 8 && !k.konsentimentu) e.push('Laiha konsentimentu = labele rai kazu.');
 		return e;

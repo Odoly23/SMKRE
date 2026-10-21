@@ -58,7 +58,7 @@ KOLUN = [
 	('observasaun', 'Observasaun', False),
 ]
 # Pergunta formuláriu RbR (Airtable): kolun ho naran field; valór konverte tuir tipu field iha modelu
-KAMPU_KAZU_RBR = ['tinan_disputa_hahu', 'projetu', 'entidade_foti', 'entidade_kategoria', 'enderesu_fatin', 'rai_luan',
+KAMPU_KAZU_RBR = ['tinan_disputa_hahu', 'projetu', 'entidade_foti', 'entidade_kategoria', 'entidade_kategoria_seluk', 'enderesu_fatin', 'rai_luan',
 	'rai_luan_unidade', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese', 'data_eviksaun',
 	'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun', 'portavos_naran', 'portavos_kontaktu',
 	'portavos_observasaun']
@@ -269,7 +269,22 @@ def _konverte(model, campo, raw):
 def _kampu_extra(model, campos, d, erru, avizu=None):
 	# avizu (dadus Airtable tuan): valór la validu → avizu, kampu mamuk (la blokeia liña)
 	out = {}
+	nomes = {f.name for f in model._meta.get_fields()}
 	for campo in campos:
+		# Opsaun ho "Seluk" + kampu esplika: "Seluk: testu" ka valór la koñesidu → SELUK + testu
+		if f'{campo}_seluk' in nomes and _testu(d.get(campo)):
+			raw = _testu(d.get(campo))
+			kab, _sep, rest = raw.partition(':')
+			try:
+				_konverte(model, campo, raw)
+			except ValueError:
+				if _normal(kab) == _normal('Seluk'):
+					out[campo], out[f'{campo}_seluk'] = 'SELUK', rest.strip()[:255]
+				else:
+					out[campo], out[f'{campo}_seluk'] = 'SELUK', raw[:255]
+				continue
+		if campo.endswith('_seluk') and campo in out:
+			continue
 		try:
 			v = _konverte(model, campo, d.get(campo))
 		except (ValueError, TypeError, InvalidOperation):

@@ -184,6 +184,7 @@ class SurveiLegal(models.Model):
 	parte_sexu = models.CharField(max_length=4, choices=SEXU_CHOICES, blank=True, verbose_name=_("Sexu/Generu"))
 	parte_data_moris = models.DateField(null=True, blank=True, verbose_name=_("Data Moris"))
 	parte_estadu_civil = models.CharField(max_length=12, choices=ESTADU_CIVIL_CHOICES, blank=True, verbose_name=_("Estadu civil"))
+	parte_estadu_civil_seluk = models.CharField(max_length=100, blank=True, verbose_name=_('Esplika estadu civil "Seluk"'))
 	parte_hela_fatin = models.CharField(max_length=255, blank=True, verbose_name=_("Hela Fatin"))
 	parte_kartaun_eleitoral = models.CharField(max_length=50, blank=True, verbose_name=_("Nu kartaun Eleitoral"))
 	parte_profisaun = models.CharField(max_length=100, blank=True, verbose_name=_("Profisaun"))

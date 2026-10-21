@@ -259,7 +259,9 @@ def _label(obj, campo):
 		return ''
 	f = obj._meta.get_field(campo)
 	if f.choices:
-		return str(getattr(obj, f'get_{campo}_display')())
+		label = str(getattr(obj, f'get_{campo}_display')())
+		seluk = getattr(obj, f'{campo}_seluk', '') if v == 'SELUK' else ''
+		return f'{label}: {seluk}' if seluk else label
 	if hasattr(v, 'strftime'):
 		return v.strftime('%d/%m/%Y')
 	return v

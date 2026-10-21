@@ -368,3 +368,13 @@ class SurveiPDFTest(SurveiBase):
 		self.assertTrue(r.content.startswith(b'%PDF'))
 		self.client.force_login(self.analista)
 		self.assertEqual(self.client.get(reverse('legal-survei-pdf', args=[s.pk])).status_code, 403)
+
+
+class SurveiSelukTest(SurveiBase):
+	def test_estadu_civil_seluk(self):
+		give_offline(self.legal, by=self.admin)
+		self.client.force_login(self.legal)
+		self.client.post(reverse('legal-survei-add'), self.dadus(parte_estadu_civil='SELUK', parte_estadu_civil_seluk='Hela hamutuk'))
+		self.client.post(reverse('legal-survei-add'), self.dadus(parte_estadu_civil='KABEN', parte_estadu_civil_seluk='x'))
+		a, b = SurveiLegal.objects.order_by('created_at')
+		self.assertEqual((a.parte_estadu_civil_seluk, b.parte_estadu_civil_seluk), ('Hela hamutuk', ''))

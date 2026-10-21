@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
 from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
-from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, AtorFormSet, ActionForm, StatusKazuForm, AkompanamentuForm, SegimentuKazuForm
+from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, StatusKazuForm, AkompanamentuForm, SegimentuKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED, KazuAkompanamentu
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.importa import pode_muda_lokasaun
@@ -155,8 +155,7 @@ def _form_view(request, instance=None):
 		form = KazuForm(request.POST, instance=instance, munisipiu_knaar=pesoal.munisipiu, submit=submit)
 		seg_form = SegimentuKazuForm(request.POST, instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(request.POST, instance=instance or Kazu(), prefix='afetadu'),
-			InsidenteFormSet(request.POST, instance=instance or Kazu(), prefix='insidente'),
-			AtorFormSet(request.POST, instance=instance or Kazu(), prefix='ator')]
+			InsidenteFormSet(request.POST, instance=instance or Kazu(), prefix='insidente')]
 		if form.is_valid() and seg_form.is_valid() and all(fs.is_valid() for fs in formsets):
 			obj = _save_kazu(request, form, formsets, instance, seg_form)
 			if submit:
@@ -173,12 +172,11 @@ def _form_view(request, instance=None):
 		form = KazuForm(instance=instance, munisipiu_knaar=pesoal.munisipiu)
 		seg_form = SegimentuKazuForm(instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(instance=instance or Kazu(), prefix='afetadu'),
-			InsidenteFormSet(instance=instance or Kazu(), prefix='insidente'),
-			AtorFormSet(instance=instance or Kazu(), prefix='ator')]
+			InsidenteFormSet(instance=instance or Kazu(), prefix='insidente')]
 	legend = _('Edita Kazu') if instance else _('Rejista Kazu Foun')
 	context = {
 		'group': group, "page": "kazu-add" if instance is None else "kazu",
-		'form': form, 'seg_form': seg_form, 'afetadu_fs': formsets[0], 'insidente_fs': formsets[1], 'ator_fs': formsets[2],
+		'form': form, 'seg_form': seg_form, 'afetadu_fs': formsets[0], 'insidente_fs': formsets[1],
 		'objects': instance,
 		'title': legend, 'legend': legend
 	}

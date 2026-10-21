@@ -179,6 +179,34 @@
 	};
 	window.SIBARData();
 
+	// ── Opsaun "Seluk": hili Seluk → kampu esplika mosu (data-seluk-for = naran kampu). Subar = mamuk bainhira haruka ──
+	window.SIBARSeluk = function (root) {
+		(root || document).querySelectorAll('[data-seluk-for]:not([data-seluk-ok])').forEach(function (box) {
+			box.setAttribute('data-seluk-ok', '1');
+			var form = box.closest('form') || document, f = box.getAttribute('data-seluk-for');
+			var ids = box.hasAttribute('data-seluk-ids') ? box.getAttribute('data-seluk-ids').split(',') : null;
+			var ctl = Array.prototype.filter.call(form.querySelectorAll('select, input'), function (el) {
+				var n = el.name || '';
+				return n === f || n.slice(-(f.length + 1)) === '-' + f;
+			});
+			function ativu() {
+				return ctl.some(function (el) {
+					if (el.type === 'checkbox' || el.type === 'radio') return el.checked && (ids ? ids.indexOf(el.value) >= 0 : el.value === 'SELUK');
+					return el.value === 'SELUK';
+				});
+			}
+			// Checkbox (ex. estragu): testu tuan iha ona → hatudu nafatin (la lakon dadus)
+			var tuan = !!ids && Array.prototype.some.call(box.querySelectorAll('input, textarea'), function (i) { return i.type !== 'hidden' && i.value.trim() !== ''; });
+			function atualiza() { box.hidden = !(ativu() || tuan); }
+			ctl.forEach(function (el) { el.addEventListener('change', atualiza); });
+			atualiza();
+			if (form !== document) form.addEventListener('submit', function () {
+				if (box.hidden) box.querySelectorAll('input, textarea').forEach(function (i) { if (i.type !== 'hidden') i.value = ''; });
+			});
+		});
+	};
+	window.SIBARSeluk();
+
 	// ── PWA: registu service worker ──
 	if ('serviceWorker' in navigator && document.body.dataset.sw) {
 		window.addEventListener('load', function () {

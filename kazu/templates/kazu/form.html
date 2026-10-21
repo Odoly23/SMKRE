@@ -42,13 +42,7 @@
 					{% for f in insidente_fs %}
 					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
 					{% endfor %}
-					{{ ator_fs.management_form }}
-					<div class="custom-control custom-switch mb-2"><input type="checkbox" class="custom-control-input" id="sw-ator" data-switch="ator"><label class="custom-control-label" for="sw-ator">{% trans "Iha atór envolvidu?" %}</label></div>
-					<div class="kond sub-box" data-grp="ator">
-					{% for f in ator_fs %}
-					<div class="formset-row">{% crispy f %}{% if f.instance.pk %}<div class="text-right small">{{ f.DELETE }} <label for="{{ f.DELETE.id_for_label }}">{% trans "Hamoos" %}</label></div>{% endif %}</div>
-					{% endfor %}
-					</div>
+					{% crispy form form.helper_entidade %}
 					{% crispy form form.helper_b2 %}
 
 					<div class="alert alert-light border small mt-3"><i class="fa fa-camera"></i> {% trans "Seksaun 5 (Evidénsia: foto, vídeo, dokumentu) iha pájina tuir mai hafoin rai kazu." %}</div>

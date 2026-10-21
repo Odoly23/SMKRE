@@ -12,6 +12,7 @@ var SmkreLegal = (function () {
 	// Grupu → kampu (hanesan server legal/forms.py SURVEI_GRUPU)
 	var GRUPU = {
 		entidade: ['entidade_naran', 'entidade_kontaktu', 'entidade_instituisaun', 'entidade_enderesu'],
+		estadu_seluk: ['parte_estadu_civil_seluk'],
 		eransa: ['eransa_husi_se', 'eransa_relasaun', 'eransa_herdeiru', 'eransa_rai_seluk', 'eransa_fahe', 'eransa_fahe_ba_se', 'eransa_fahe_lokalizasaun', 'eransa_fahe_desde'],
 		eransa_fahe: ['eransa_fahe_ba_se', 'eransa_fahe_lokalizasaun', 'eransa_fahe_desde'],
 		sosa: ['sosa_husi_se', 'sosa_folin', 'sosa_bainhira', 'sosa_halo_saida', 'sosa_halo_desde', 'sosa_halo_se', 'sosa_akordu', 'sosa_akordu_fatin', 'sosa_sasin', 'sasin_1', 'sasin_2', 'sasin_3', 'sasin_4'],
@@ -28,6 +29,7 @@ var SmkreLegal = (function () {
 		var m = v('meius');
 		return {
 			entidade: $('l-sw-entidade').checked,
+			estadu_seluk: v('parte_estadu_civil') === 'SELUK',
 			eransa: m === 'ERANSA', sosa: m === 'SOSA', foo: m === 'FOO', posse: m === 'POSSE',
 			eransa_fahe: m === 'ERANSA' && v('eransa_fahe') === 'SIN',
 			sosa_akordu: m === 'SOSA' && v('sosa_akordu') === 'SIN',

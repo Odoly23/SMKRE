@@ -92,7 +92,7 @@ def SurveiUpdate(request, pk):
 
 
 SEKSAUN_DETALLA = [
-	(_l('I. Identifikasaun Parte Sira (Disputante Sira)'), ['parte_naran', 'parte_sexu', 'parte_data_moris', 'parte_estadu_civil',
+	(_l('I. Identifikasaun Parte Sira (Disputante Sira)'), ['parte_naran', 'parte_sexu', 'parte_data_moris', 'parte_estadu_civil', 'parte_estadu_civil_seluk',
 		'parte_hela_fatin', 'parte_kartaun_eleitoral', 'parte_profisaun', 'parte_kontaktu', 'parte_ehd']),
 	(_l("II. Entidade ne'ebe atu foti rai"), SURVEI_GRUPU['entidade']),
 	(_l('III. Perguntas Xave Sira'), ['meius'] + SURVEI_GRUPU['eransa'] + SURVEI_GRUPU['sosa'] + SURVEI_GRUPU['foo'] + SURVEI_GRUPU['posse']),
@@ -251,7 +251,7 @@ def SurveiPDF(request, pk):
 	pesoal = lambda u: getattr(getattr(u, 'pesoaluser', None), 'pesoal', None) or (u.username if u else '')
 	context = {
 		'obj': obj, 'agora': timezone.localtime(), 'user_naran': pesoal(request.user),
-		'parte': _linha(obj, SEKSAUN_DETALLA[0][1]), 'entidade': _linha(obj, SURVEI_GRUPU['entidade']),
+		'parte': _linha(obj, [c if c != 'parte_estadu_civil_seluk' else ('parte_estadu_civil', 'SELUK', [c]) for c in SEKSAUN_DETALLA[0][1]]), 'entidade': _linha(obj, SURVEI_GRUPU['entidade']),
 		'meius_opsaun': [(lbl, k == obj.meius) for k, lbl in SurveiLegal.MEIUS_CHOICES],
 		'meius_titulu': meius[0] if meius else '', 'meius_linha': _linha(obj, meius[1]) if meius else [],
 		'notas': [(_('Dokumentus identifikasaun'), lista('dok_identifikasaun', SurveiLegal.DOK_IDENTIFIKASAUN)),

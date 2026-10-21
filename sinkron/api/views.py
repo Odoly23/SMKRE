@@ -61,7 +61,7 @@ class APIOpsaun(_SinkronAPI):
 			'tipu_rai': _lista(TipuRai.active.all()),
 			'tipu_eviksaun': _lista(TipuEviksaun.active.all()),
 			'tipu_ator': _lista(TipuAtor.active.all()),
-			'estragu': _lista(EstraguPatrimoniu.active.all()),
+			'estragu': _lista(EstraguPatrimoniu.active.all(), 'code'),
 			'nesesidade': _lista(NesesidadeUrjente.active.all()),
 		}
 		return Response(data)

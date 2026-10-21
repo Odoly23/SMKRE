@@ -35,7 +35,7 @@ KAZU_CAMPO = ['titulu', 'data_relatoriu', 'postu', 'suku', 'aldeia', 'latitude',
 	'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
 KAZU_CAMPO_RBR = [   # Formuláriu RbR
 	'enderesu_fatin', 'rai_luan', 'rai_luan_unidade', 'tinan_disputa_hahu', 'projetu', 'entidade_foti',
-	'entidade_kategoria', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
+	'entidade_kategoria', 'entidade_kategoria_seluk', 'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu', 'eviksaun_akontese',
 	'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
 	'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun', 'tinan_simu']
 KAZU_CAMPO += KAZU_CAMPO_RBR + ['numeru_rbr', 'akompanamentu_foun']   # kampu formuláriu (la'ós modelu)

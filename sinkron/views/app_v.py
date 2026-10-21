@@ -15,7 +15,7 @@ def sinkronApp(request):
 			"page": "sinkron",
 			# Opsaun segimentu (tribunál, status, desizaun RbR) ba formuláriu offline
 			'seg_ops': {'tribunal_rejistu': opsaun('tribunal_rejistu'), 'status_rezolusaun': opsaun('status_rezolusaun'),
-				'desizaun_rbr': opsaun('desizaun_rbr'), 'sin_lae': [(k, str(v)) for k, v in SIN_LAE_CHOICES]},
+				'desizaun_rbr': opsaun('desizaun_rbr'), 'tribunal_desizaun': opsaun('tribunal_desizaun'), 'sin_lae': [(k, str(v)) for k, v in SIN_LAE_CHOICES]},
 			'title': 'Sinkron', 'legend': 'SIBAR-RbR Offline'
 		}
 		return render(request, 'sinkron/app.html', context)

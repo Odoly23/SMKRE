@@ -73,7 +73,7 @@ class KazuFormTest(KazuBase):
 		self.assertIsNone(kazu.kode)
 		self.assertTrue(kazu.urjente)
 		self.assertEqual(kazu.afetadu.get().total_ema, 72)
-		self.assertEqual(kazu.ator.count(), 1)
+		self.assertEqual(kazu.ator.count(), 0)          # formuláriu la iha atór ona (troka ho entidade)
 
 	def test_munisipiu_knaar_la_bele_manipula(self):
 		dil = Munisipiu.objects.get(code='DIL')
@@ -283,12 +283,34 @@ class WorkflowTest(KazuBase):
 		kazu = self.create_kazu('rai', tipu_konflitu=[TipuKonflitu.objects.get(code='KOM-KOM').pk], projetu='Estrada',
 			entidade_kategoria='GOVERNU', eviksaun_akontese='LAE', uza_forsa='SIN', observasaun_eviksaun='x',
 			iha_dadus_uma_kain='LAE', fonte_dadus_uma_kain='Xefe suku')
-		self.assertEqual((kazu.projetu, kazu.entidade_kategoria, kazu.uza_forsa, kazu.observasaun_eviksaun, kazu.fonte_dadus_uma_kain), ('', '', '', '', ''))
+		self.assertEqual((kazu.projetu, kazu.uza_forsa, kazu.observasaun_eviksaun, kazu.fonte_dadus_uma_kain), ('', '', '', ''))
+		self.assertEqual(kazu.entidade_kategoria, 'GOVERNU')       # entidade ne'ebé foti rai: switch rasik (la depende tipu)
 		r = self.client.get(reverse('kazu-update', args=[kazu.pk]))
 		self.assertContains(r, 'data-grp="entidade"')
 		self.assertContains(r, 'data-switch="portavos"')
 		self.assertContains(r, 'data-entidade-ids=')
 		self.assertNotContains(r, 'maps-link')
+
+	def test_opsaun_seluk_esplika(self):
+		# Entidade "Seluk" → esplika rai; kategoria seluk → esplika hamoos
+		kazu = self.create_kazu('rai', entidade_foti='Empreza X', entidade_kategoria='SELUK', entidade_kategoria_seluk='Kooperativa')
+		self.assertEqual((kazu.entidade_kategoria, kazu.entidade_kategoria_seluk), ('SELUK', 'Kooperativa'))
+		kazu2 = self.create_kazu('rai', entidade_kategoria='GOVERNU', entidade_kategoria_seluk='la relevante')
+		self.assertEqual(kazu2.entidade_kategoria_seluk, '')
+		r = self.client.get(reverse('kazu-update', args=[kazu.pk]))
+		self.assertContains(r, 'data-switch="entidade_foti"')
+		self.assertContains(r, 'data-seluk-for="entidade_kategoria"')
+		self.assertContains(r, 'data-seluk-for="tribunal_desizaun"')
+		self.assertNotContains(r, 'ator-TOTAL_FORMS')
+
+	def test_desizaun_tribunal_seluk(self):
+		from kazu.forms import SegimentuKazuForm
+		f = SegimentuKazuForm(data={'tribunal_rejistu': 'SIN', 'tribunal_desizaun': 'SELUK', 'tribunal_desizaun_seluk': 'Rekursu'})
+		self.assertTrue(f.is_valid(), f.errors)
+		self.assertEqual(f.cleaned_data['tribunal_desizaun_seluk'], 'Rekursu')
+		f = SegimentuKazuForm(data={'tribunal_rejistu': 'SIN', 'tribunal_desizaun': 'SIN', 'tribunal_desizaun_seluk': 'x'})
+		self.assertTrue(f.is_valid())
+		self.assertEqual(f.cleaned_data['tribunal_desizaun_seluk'], '')
 
 	def test_kodigu_la_bentrok(self):
 		k1 = self.create_kazu('haruka')
