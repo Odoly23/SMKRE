@@ -6,7 +6,8 @@
 		<h2 class="mb-2">{{ legend }}</h2>
 		{% if can_give_offline %}<a href="{% url 'offline-give' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Fó Autorizasaun" %}</a>{% endif %}
 	</div>
-	<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Autorizasaun offline ba Investigadór. Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, Investigadór labele kria kazu foun maibé bele nafatin sinkron. Autorizasaun Ofisiál Legál iha modulu Legál → Ativa Input Legál." %}</div>
+	<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Autorizasaun offline ba Investigadór. Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, Investigadór labele kria kazu foun maibé bele nafatin sinkron. Autorizasaun Ofisiál Legál iha modulu Legál → Ativa Input Legál." %}
+		<a href="{% url 'legal-autorizasaun' %}" class="alert-link ml-1"><i class="fa fa-unlock-alt"></i> {% trans "Ativa Input Legál" %}</a></div>
 	<div class="card card-rbr">
 		<div class="card-body">
 			<div class="table-responsive table-cards">

@@ -24,8 +24,13 @@ def kirim_email_reset_admin(user, pesoal):
 
 
 def kirim_email_offline(user, pesoal, permission):
-	send_email_task.delay(
-		'SIBAR-RbR — Autorizasaun offline ativu',
-		'auth/email/offline.html',
-		{'naran': pesoal.name if pesoal else user.email, 'end_date': permission.end_date.strftime('%d/%m/%Y %H:%M')},
-		[user.email])
+	# Email falla (Gmail / Redis) la blokeia autorizasaun: rai iha log de'it
+	try:
+		send_email_task.delay(
+			'SIBAR-RbR — Autorizasaun input ativu',
+			'auth/email/offline.html',
+			{'naran': pesoal.name if pesoal else user.email, 'end_date': permission.end_date.strftime('%d/%m/%Y %H:%M')},
+			[user.email])
+	except Exception:
+		import logging
+		logging.getLogger('smkre').exception(f'Email autorizasaun la haruka: {user.email}')

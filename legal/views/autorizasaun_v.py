@@ -29,8 +29,11 @@ def AutorizasaunLegal(request):
 		messages.success(request, _('Input legál ativu ba Ofisiál Legál %(n)s to\'o %(date)s.') % {
 			'n': len(d['users']), 'date': perm.end_date.strftime('%d/%m/%Y')})
 		return redirect('legal-autorizasaun')
+	from django.contrib.auth.models import User
 	context = {
-		"page": "legal", 'form': form,
+		"page": "legal-autoriza", 'form': form,
+		'n_legal': form.fields['users'].queryset.count(),
+		'n_legal_la_ativu': User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=False).count(),
 		'objects': _perm_legal().select_related('user__pesoaluser__pesoal', 'given_by__pesoaluser__pesoal')[:200],
 		'title': _('Ativa Input Legál'), 'legend': _('Ativa Input Legál')
 	}

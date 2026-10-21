@@ -311,9 +311,13 @@ class AutorizasaunLegalForm(forms.Form):
 		from django.contrib.auth.models import User
 		from config.rbac import OFISIAL_LEGAL
 		super().__init__(*args, **kwargs)
-		self.fields['users'].queryset = User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=True).select_related('pesoaluser__pesoal').order_by('username')
+		self.fields['users'].queryset = User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=True).select_related('pesoaluser__pesoal__munisipiu').distinct().order_by('username')
 		self.fields['data_hahu'].initial = timezone.localdate()
-		self.fields['users'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username})'
+		def _naran(u):
+			p = getattr(getattr(u, 'pesoaluser', None), 'pesoal', None)
+			mun = f' · {p.munisipiu}' if p and getattr(p, 'munisipiu', None) else ''
+			return f'{p or u.username} ({u.email or u.username}){mun}'
+		self.fields['users'].label_from_instance = _naran
 
 	def clean(self):
 		d = super().clean()

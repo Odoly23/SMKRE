@@ -4672,3 +4672,23 @@ msgstr "Explique a entidade \"Outro\""
 #: legal/models.py
 msgid "Esplika estadu civil \"Seluk\""
 msgstr "Explique o estado civil \"Outro\""
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Ba Utilizador"
+msgstr "Ir para Utilizadores"
+
+#: legal/templates/legal/autorizasaun.html
+msgid ""
+"Seidauk iha utilizador ativu ho papél Ofisiál Legál. Kria utilizador foun "
+"(ka muda papél) ho papél \"Ofisiál Legál\" iha menu Utilizador, depois fila "
+"mai pájina ne'e."
+msgstr ""
+"Ainda não há utilizadores ativos com o papel Oficial Legal. Crie um "
+"utilizador (ou mude o papel) com o papel \"Oficial Legal\" no menu "
+"Utilizadores e volte a esta página."
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
+msgid_plural "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
+msgstr[0] "Há %(n)s Oficial Legal com conta inativa."
+msgstr[1] "Há %(n)s Oficiais Legais com conta inativa."

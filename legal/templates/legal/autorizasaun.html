@@ -14,13 +14,21 @@
 				<div class="card-header card-header-rbr"><i class="fa fa-unlock-alt"></i> {% trans "Ativa Input Legál" %}</div>
 				<div class="card-body">
 					<p class="small text-muted">{% trans "Hili Ofisiál Legál ne'ebé bele input survei legál (online no app offline) no data hahú–remata. Bainhira remata, butaun Input Legál subar automátiku." %}</p>
+					{% if n_legal %}
 					{{ form.users|as_crispy_field }}
+					{% else %}
+					<div class="alert alert-warning small"><i class="fa fa-exclamation-triangle"></i>
+						{% trans "Seidauk iha utilizador ativu ho papél Ofisiál Legál. Kria utilizador foun (ka muda papél) ho papél \"Ofisiál Legál\" iha menu Utilizador, depois fila mai pájina ne'e." %}
+						{% if n_legal_la_ativu %}<br>{% blocktrans count n=n_legal_la_ativu %}Iha Ofisiál Legál {{ n }} ne'ebé konta la ativu.{% plural %}Iha Ofisiál Legál {{ n }} ne'ebé konta la ativu.{% endblocktrans %}{% endif %}
+						<br><a href="{% url 'pesoal-list' %}" class="btn btn-sm btn-outline-rbr mt-2"><i class="fa fa-users"></i> {% trans "Ba Utilizador" %}</a>
+					</div>
+					{% endif %}
 					<div class="form-row">
 						<div class="col-6">{{ form.data_hahu|as_crispy_field }}</div>
 						<div class="col-6">{{ form.data_remata|as_crispy_field }}</div>
 					</div>
 					{{ form.note|as_crispy_field }}
-					<button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-check"></i> {% trans "Ativa Input" %}</button>
+					<button class="btn btn-rbr btn-block" type="submit"{% if not n_legal %} disabled{% endif %}><i class="fa fa-check"></i> {% trans "Ativa Input" %}</button>
 				</div>
 			</form>
 		</div>

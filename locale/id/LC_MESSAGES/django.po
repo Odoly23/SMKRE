@@ -4642,3 +4642,23 @@ msgstr "Jelaskan entitas \"Lainnya\""
 #: legal/models.py
 msgid "Esplika estadu civil \"Seluk\""
 msgstr "Jelaskan status perkawinan \"Lainnya\""
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Ba Utilizador"
+msgstr "Ke Pengguna"
+
+#: legal/templates/legal/autorizasaun.html
+msgid ""
+"Seidauk iha utilizador ativu ho papél Ofisiál Legál. Kria utilizador foun "
+"(ka muda papél) ho papél \"Ofisiál Legál\" iha menu Utilizador, depois fila "
+"mai pájina ne'e."
+msgstr ""
+"Belum ada pengguna aktif dengan peran Petugas Legal. Buat pengguna (atau "
+"ubah peran) dengan peran \"Ofisiál Legál\" di menu Pengguna, lalu kembali ke"
+" halaman ini."
+
+#: legal/templates/legal/autorizasaun.html
+msgid "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
+msgid_plural "Iha Ofisiál Legál %(n)s ne'ebé konta la ativu."
+msgstr[0] "Ada %(n)s Petugas Legal dengan akun tidak aktif."
+msgstr[1] "Ada %(n)s Petugas Legal dengan akun tidak aktif."

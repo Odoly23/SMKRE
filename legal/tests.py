@@ -378,3 +378,20 @@ class SurveiSelukTest(SurveiBase):
 		self.client.post(reverse('legal-survei-add'), self.dadus(parte_estadu_civil='KABEN', parte_estadu_civil_seluk='x'))
 		a, b = SurveiLegal.objects.order_by('created_at')
 		self.assertEqual((a.parte_estadu_civil_seluk, b.parte_estadu_civil_seluk), ('Hela hamutuk', ''))
+
+
+class AutorizasaunMamukTest(SurveiBase):
+	def test_la_iha_ofisial_legal_hatudu_mensajen(self):
+		self.legal.groups.clear()
+		self.client.force_login(self.admin)
+		r = self.client.get(reverse('legal-autorizasaun'))
+		self.assertContains(r, reverse('pesoal-list'))
+		self.assertContains(r, reverse('legal-autorizasaun'))      # menu
+
+	def test_email_falla_la_blokeia(self):
+		from unittest import mock
+		self.client.force_login(self.admin)
+		with mock.patch('users.emails.send_email_task.delay', side_effect=RuntimeError('smtp')):
+			r = self.client.post(reverse('legal-autorizasaun'), {'users': [self.legal.pk]})
+		self.assertRedirects(r, reverse('legal-autorizasaun'))
+		self.assertTrue(OfflinePermission.objects.filter(user=self.legal, is_active=True).exists())
