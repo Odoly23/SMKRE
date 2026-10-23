@@ -27,7 +27,7 @@ def NotaAdd(request, uuid):
 	else:
 		form = NotaForm()
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-kazu",
 		'form': form, 'kazu': kazu,
 		'title': _('Nota Legál'), 'legend': _('Aumenta Nota Legál')
 	}
@@ -48,7 +48,7 @@ def NotaUpdate(request, pk):
 	else:
 		form = NotaForm(instance=objects)
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-kazu",
 		'form': form, 'kazu': objects.kazu, 'objects': objects,
 		'title': _('Nota Legál'), 'legend': _('Edita Nota Legál')
 	}

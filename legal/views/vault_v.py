@@ -39,7 +39,7 @@ def legalVault(request):
 		objects = objects.filter(kazu=None)
 	objects = Paginator(objects, 25).get_page(request.GET.get('page'))
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-vault",
 		'objects': objects, 'q': q, 'f_kategoria': kategoria,
 		'kategoria_choices': DokumentuLegal.KATEGORIA_CHOICES, 'can_edit': can_edit_vault(request.user),
 		'title': _('Document Vault'), 'legend': _('Document Vault Legál')
@@ -53,7 +53,7 @@ def DokumentuDetail(request, pk):
 	group = request.user.groups.all()[0].name
 	objects = _dokumentu_ka_404(request, pk)
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-vault",
 		'objects': objects, 'versaun': objects.historia_versaun(),
 		'asesu': AsesuVault.objects.filter(dokumentu__in=objects.historia_versaun()).select_related('user__pesoaluser__pesoal')[:50],
 		'can_edit': can_edit_vault(request.user),
@@ -80,7 +80,7 @@ def DokumentuAdd(request, uuid=None):
 	else:
 		form = DokumentuForm(kazu=kazu)
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-vault",
 		'form': form, 'kazu': kazu,
 		'title': _('Aumenta Dokumentu'), 'legend': _('Aumenta Dokumentu Legál')
 	}
@@ -104,7 +104,7 @@ def DokumentuVersaun(request, pk):
 	else:
 		form = VersaunForm()
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-vault",
 		'form': form, 'objects': antes,
 		'title': _('Versaun Foun'), 'legend': _('Versaun Foun Dokumentu')
 	}

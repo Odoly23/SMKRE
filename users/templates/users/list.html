@@ -22,7 +22,7 @@
 						<td data-label="{% trans "Naran" %}"><b>{{ obj.name }}</b></td>
 						<td data-label="{% trans "Email" %}">{{ obj.email }}</td>
 						<td data-label="{% trans "Papél" %}"><span class="badge badge-role role-{{ u|role_code }} rounded-pill px-3">{{ u|role_of }}</span></td>
-						<td data-label="{% trans "Munisípiu" %}">{{ obj.munisipiu|default:"-" }}</td>
+						<td data-label="{% trans "Munisípiu" %}">{{ obj.munisipiu_lista|join:" / "|default:"-" }}</td>
 						<td data-label="{% trans "Status" %}">
 							{% if u.is_active %}<span class="badge badge-success rounded-pill px-3"><i class="fa fa-check"></i> {% trans "Ativu" %}</span>
 							{% else %}<span class="badge badge-secondary rounded-pill px-3"><i class="fa fa-ban"></i> {% trans "Hapara" %}</span>{% endif %}

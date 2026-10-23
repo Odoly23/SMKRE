@@ -78,7 +78,15 @@ a:hover { color: var(--rbr-teal-dk); }
 .brand span { font-size: 1.05rem; line-height: 1.1; }
 .brand small { display: block; font-family: 'Lato', sans-serif; font-weight: 400; font-size: .72rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; max-width: 46vw; }
 
-.nav-links { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; flex: 1 1 0; min-width: 0; overflow: hidden; }
+.nav-links { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; flex: 1 1 0; min-width: 0; }
+.nav-links .dropdown-toggle::after { margin-left: 2px; vertical-align: .15em; }
+.nav-links .dropdown-menu { margin-top: 6px; min-width: 230px; padding: 6px 0; }
+.nav-links .dropdown-item { display: flex; align-items: center; gap: 10px; font-size: .9rem; padding: 9px 16px; text-transform: none; letter-spacing: 0; font-weight: 400; color: #333; border: 0; border-radius: 0; }
+.nav-links .dropdown-item .fa:first-child { width: 18px; text-align: center; color: var(--rbr-teal-dk); }
+.nav-links .dropdown-item.active, .nav-links .dropdown-item:hover { background: #eefaf5; color: var(--rbr-teal-xd); }
+.nav-links .dropdown-item.active { font-weight: 700; }
+.nav-links .dropdown.show > a { background: #eefaf5; color: var(--rbr-teal-xd); }
+@media (min-width: 992px) and (max-width: 1199px) { .nav-links > li > a { padding: 8px 7px; letter-spacing: 0; } }
 .nav-links > li:first-child { margin-left: auto; }        /* menu iha los; bainhira sobra, sobra ba los (main.js sukat) */
 .nav-links li a {
 	color: #333; text-decoration: none; font-size: .8rem; font-weight: 700;
@@ -133,7 +141,7 @@ a:hover { color: var(--rbr-teal-dk); }
 @media (min-width: 992px) { #sidebar, #overlay { display: none !important; } }
 #sidebar {
 	position: fixed; top: var(--header-h); left: 0; bottom: 0; z-index: 1035;
-	width: var(--sb-w);
+	width: min(300px, 86vw);
 	background: var(--white);
 	border-right: 1px solid var(--border);
 	display: flex; flex-direction: column; overflow: hidden;
@@ -142,21 +150,28 @@ a:hover { color: var(--rbr-teal-dk); }
 	visibility: hidden;
 }
 #sidebar.active { transform: translateX(0); visibility: visible; box-shadow: 4px 0 20px rgba(0,0,0,.18); }
-.sb-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 0 calc(var(--bnav-h) + 10px); }
-.sb-sec { font-size: 11px; font-weight: 700; color: #7a8580; text-transform: uppercase; letter-spacing: .08em; text-align: center; padding: 10px 4px 4px; }
-.sb-body ul { list-style: none; padding: 0; margin: 0; }
-.sb-body ul li a {
-	display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
-	min-height: 60px; padding: 8px 4px; width: 100%;
-	color: #444; text-decoration: none; font-size: 11px; font-weight: 700; text-align: center; line-height: 1.2;
-	border-left: 4px solid transparent;
+.sb-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 0 calc(var(--bnav-h) + 16px); -webkit-overflow-scrolling: touch; }
+.sb-user { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
+.sb-user b { display: block; font-size: .95rem; line-height: 1.2; }
+.sb-user small { display: block; color: var(--muted); font-size: .78rem; }
+.sb-sec { font-size: 11px; font-weight: 700; color: #7a8580; text-transform: uppercase; letter-spacing: .08em; padding: 14px 18px 4px; }
+.sb-link, .sb-grupu > summary, .sb-sub {
+	display: flex; align-items: center; gap: 14px; width: 100%; min-height: 48px; padding: 10px 18px;
+	color: #333; text-decoration: none !important; font-size: .95rem; font-weight: 700; text-align: left;
+	border: 0; border-left: 4px solid transparent; background: none; cursor: pointer;
 }
-.sb-body ul li a i { font-size: 1.35rem; color: #7a8580; }
-.sb-body ul li a:hover, .sb-body ul li a:focus-visible, .sb-body ul li a:active { background: #eefaf5; color: var(--rbr-teal-xd); }
-.sb-body ul li a:hover i, .sb-body ul li a:active i { color: var(--rbr-teal-dk); }
-.sb-body ul li.sb-on a { background: #eefaf5; color: var(--rbr-teal-xd); border-left-color: var(--rbr-green); }
-.sb-body ul li.sb-on a i { color: var(--rbr-teal-dk); }
-.sb-body hr { margin: 6px 10px; }
+.sb-link i, .sb-grupu > summary > i:first-child, .sb-sub i { width: 22px; text-align: center; font-size: 1.15rem; color: #7a8580; flex: none; }
+.sb-grupu > summary { list-style: none; }
+.sb-grupu > summary::-webkit-details-marker { display: none; }
+.sb-seta { margin-left: auto; transition: transform .2s; color: #9aa5a0; }
+.sb-grupu[open] > summary .sb-seta { transform: rotate(180deg); }
+.sb-sub { min-height: 44px; padding-left: 34px; font-weight: 400; font-size: .92rem; }
+.sb-sub i { font-size: 1rem; }
+.sb-link:hover, .sb-grupu > summary:hover, .sb-sub:hover, .sb-link:active, .sb-sub:active { background: #eefaf5; color: var(--rbr-teal-xd); }
+.sb-on, .sb-grupu > summary.sb-on { color: var(--rbr-teal-xd) !important; }
+.sb-link.sb-on, .sb-sub.sb-on { background: #eefaf5; border-left-color: var(--rbr-green); }
+.sb-on i { color: var(--rbr-teal-dk) !important; }
+.sb-sai, .sb-sai i { color: #b91c1c !important; }
 #overlay { position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; z-index: 1034; background: rgba(0,0,0,.35); display: none; }
 #overlay.active { display: block; }
 
@@ -366,3 +381,14 @@ body.smkre-map-full-body { overflow: hidden; }
 .mapa-poligon { height: 420px; border-radius: 10px; }
 .poligon-label { background: rgba(255,255,255,.92); border: 1px solid #0E8A68; color: #0E8A68; font-weight: 700; font-size: 12px; border-radius: 6px; padding: 2px 6px; box-shadow: none; }
 @media (max-width: 575px) { .mapa-poligon { height: 340px; } }
+
+/* ── HP: butaun ulun pájina iha grelha kolun 2; tab sira iha liña ida (bele hakat) ── */
+@media (max-width: 767px) {
+	.page-head > div:not(:first-child) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+	.page-head > div:not(:first-child) > .btn, .page-head > div:not(:first-child) > form { width: 100%; margin: 0 !important; }
+	.page-head > div:not(:first-child) > form .btn { width: 100%; }
+	.legal-tabs, .nav-pills.mb-3 { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-left: -4px; margin-right: -4px; padding-bottom: 2px; }
+	.legal-tabs::-webkit-scrollbar { display: none; }
+	.legal-tabs .nav-link { white-space: nowrap; }
+	h2 { font-size: 1.35rem; }
+}

@@ -13,7 +13,7 @@
 			<div class="card card-rbr shadow-sm pt-1 rounded">
 				<div class="card-header card-header-rbr">{{ legend|upper }}</div>
 				<div class="card-body">
-					<p class="text-muted small">{{ user.email }} · {{ role_label }}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p>
+					<p class="text-muted small">{{ user.email }} · {{ role_label }}{% if pesoal.munisipiu_lista %} · {{ pesoal.munisipiu_lista|join:" / " }}{% endif %}</p>
 					{% crispy form %}
 				</div> <!--end card-body-->
 			</div> <!--end card-->

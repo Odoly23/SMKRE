@@ -71,6 +71,6 @@ class APIMe(APIView):
 			'naran': pesoal.name if pesoal else '',
 			'role': c_user_group(request.user),
 			'munisipiu': pesoal.munisipiu_id if pesoal else None,
-			'munisipiu_naran': pesoal.munisipiu.name if pesoal and pesoal.munisipiu else '',
+			'munisipiu_naran': ' / '.join(m.name for m in pesoal.munisipiu_lista) if pesoal else '',
 			**_offline_info(request.user),
 		})

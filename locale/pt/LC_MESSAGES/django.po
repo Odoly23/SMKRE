@@ -5008,3 +5008,47 @@ msgstr "inquéritos a aguardar verificação"
 #: report/templates/report/live.html
 msgid "verifikadu"
 msgstr "verificados"
+
+#: config/menu.py
+msgid "Administrasaun"
+msgstr "Administração"
+
+#: config/menu.py
+msgid "App Offline"
+msgstr "App Offline"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun offline ba Investigadór (kazu) no Ofisiál Legál (survei legál)."
+" Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, labele "
+"kria dadus foun maibé bele nafatin sinkron. Ofisiál Legál mós bele ativa iha"
+" Legál → Ativa Input Legál."
+msgstr ""
+"Autorização offline para Investigador (casos) e Oficial Legal (inquéritos "
+"legais). O Admin escolhe as datas de início e fim (vazio = 7 dias). Quando "
+"termina, não pode criar dados novos mas pode continuar a sincronizar. O "
+"Oficial Legal também pode ser ativado em Legal → Ativar Entrada Legal."
+
+#: kazu/forms.py
+msgid "Ita iha munisípiu knaar rua: hili ida ba kazu ne'e."
+msgstr "Tem dois municípios de trabalho: escolha um para este caso."
+
+#: config/menu.py
+msgid "Lista Relatóriu"
+msgstr "Lista de relatórios"
+
+#: config/menu.py
+msgid "Live"
+msgstr "Live"
+
+#: users/models.py
+msgid "Munisípiu Knaar 2"
+msgstr "Município de trabalho 2"
+
+#: users/models.py
+msgid "Opsionál: Investigadór bele input kazu iha munisípiu rua"
+msgstr "Opcional: o Investigador pode registar casos em dois municípios"
+
+#: kazu/forms.py
+msgid "— Hili munisípiu —"
+msgstr "— Escolha o município —"

@@ -5071,3 +5071,47 @@ msgstr "survei hein verifika"
 #: report/templates/report/live.html
 msgid "verifikadu"
 msgstr "verifikadu"
+
+#: config/menu.py
+msgid "Administrasaun"
+msgstr "Administrasaun"
+
+#: config/menu.py
+msgid "App Offline"
+msgstr "App Offline"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun offline ba Investigadór (kazu) no Ofisiál Legál (survei legál)."
+" Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, labele "
+"kria dadus foun maibé bele nafatin sinkron. Ofisiál Legál mós bele ativa iha"
+" Legál → Ativa Input Legál."
+msgstr ""
+"Autorizasaun offline ba Investigadór (kazu) no Ofisiál Legál (survei legál)."
+" Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, labele "
+"kria dadus foun maibé bele nafatin sinkron. Ofisiál Legál mós bele ativa iha"
+" Legál → Ativa Input Legál."
+
+#: kazu/forms.py
+msgid "Ita iha munisípiu knaar rua: hili ida ba kazu ne'e."
+msgstr "Ita iha munisípiu knaar rua: hili ida ba kazu ne'e."
+
+#: config/menu.py
+msgid "Lista Relatóriu"
+msgstr "Lista Relatóriu"
+
+#: config/menu.py
+msgid "Live"
+msgstr "Live"
+
+#: users/models.py
+msgid "Munisípiu Knaar 2"
+msgstr "Munisípiu Knaar 2"
+
+#: users/models.py
+msgid "Opsionál: Investigadór bele input kazu iha munisípiu rua"
+msgstr "Opsionál: Investigadór bele input kazu iha munisípiu rua"
+
+#: kazu/forms.py
+msgid "— Hili munisípiu —"
+msgstr "— Hili munisípiu —"

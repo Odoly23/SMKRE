@@ -460,8 +460,12 @@
 		$('f-titulu').value = k.titulu || '';
 		$('f-data_relatoriu').value = k.data_relatoriu || '';
 		$('f-data_relatoriu').max = hoje();
-		$('f-munisipiu').value = o.munisipiu.name;
-		opsaunSelect($('f-postu'), o.postu, k.postu);
+		// Munisípiu knaar: ida (fixu) ka rua (Investigadór hili)
+		var muns = munLista();
+		if (!k.munisipiu || !muns.some(function (m) { return String(m.id) === String(k.munisipiu); })) k.munisipiu = muns.length === 1 ? muns[0].id : '';
+		opsaunSelect($('f-munisipiu'), muns, k.munisipiu, muns.length > 1 ? '— Hili munisípiu —' : null);
+		$('f-munisipiu').disabled = muns.length === 1;
+		enxePostu();
 		enxeSuku(); enxeAldeia();
 		hatuduGPS();
 		$('f-data_akontesimentu').value = k.data_akontesimentu || '';
@@ -514,6 +518,17 @@
 		if (tkTuan.length) msg('Tipu konflitu tuan la uza ona. Favor hili fali tipu konflitu iha pasu 2.', 'warning');
 	}
 
+	function munLista() { return S.opsaun.munisipiu_lista || [S.opsaun.munisipiu]; }
+	function munNaran(id) {
+		var m = munLista().filter(function (x) { return String(x.id) === String(id); })[0];
+		return m ? m.name : '';
+	}
+	function enxePostu() {
+		var mun = $('f-munisipiu').value;
+		opsaunSelect($('f-postu'), S.opsaun.postu.filter(function (p) { return p.munisipiu_id == null || String(p.munisipiu_id) === mun; }), S.kazu.postu);
+		enxeSuku(); enxeAldeia();
+	}
+	$('f-munisipiu').addEventListener('change', function () { S.kazu.munisipiu = this.value; S.kazu.postu = S.kazu.suku = S.kazu.aldeia = ''; enxePostu(); });
 	function enxeSuku() {
 		var postu = $('f-postu').value;
 		opsaunSelect($('f-suku'), S.opsaun.suku.filter(function (s) { return String(s.postu_id) === postu; }), S.kazu.suku);
@@ -566,6 +581,7 @@
 		var k = S.kazu;
 		k.titulu = $('f-titulu').value.trim();
 		k.data_relatoriu = $('f-data_relatoriu').value;
+		k.munisipiu = $('f-munisipiu').value;
 		k.postu = $('f-postu').value; k.suku = $('f-suku').value; k.aldeia = $('f-aldeia').value;
 		k.data_akontesimentu = $('f-data_akontesimentu').value;
 		k.tipu_konflitu = checkValor($('f-tipu_konflitu'));
@@ -610,6 +626,7 @@
 			if (!$('grp-tipu_seluk').hidden && !k.tipu_seluk) e.push('Favor esplika tipu konflitu "Seluk".');
 		}
 		if (pasu === 2) {
+			if (!k.munisipiu) e.push('Hili Munisípiu.');
 			if (!k.postu) e.push('Hili Postu Administrativu.');
 			if (!k.suku) e.push('Hili Suku.');
 			if (k.latitude == null) e.push('Foti koordenada GPS iha fatin akontesimentu.');
@@ -700,7 +717,7 @@
 		var video = nMedia('VIDEO');
 		var afe = k.afetadu || {};
 		$('rezumu').innerHTML = '<div class="sub-box"><b>Rezumu</b><br>' +
-			'Fatin: ' + esc(naranSuku(k.suku)) + ', ' + esc(S.opsaun.munisipiu.name) + '<br>' +
+			'Fatin: ' + esc(naranSuku(k.suku)) + ', ' + esc(munNaran(k.munisipiu)) + '<br>' +
 			'GPS: ' + (k.latitude != null ? k.latitude.toFixed(5) + ', ' + k.longitude.toFixed(5) + (k.gps_akurasia == null ? '' : ' (±' + k.gps_akurasia + ' m)') : '-') + '<br>' +
 			'Uma-kain: ' + (afe.uma_kain == null ? '-' : afe.uma_kain) + ' · Ema: ' + (afe.total_ema == null ? '-' : afe.total_ema) + '<br>' +
 			'Foto: ' + foto + '/' + MAX_FOTO + ' · Vídeo: ' + video + '/' + MAX_VIDEO +
@@ -996,7 +1013,7 @@
 		var rbr = {};
 		KAMPU_RBR.forEach(function (c) { if (k[c] != null && k[c] !== '') rbr[c] = k[c]; });
 		return Object.assign(rbr, {
-			id: k.id, kria_iha: k.kria_iha, titulu: k.titulu, data_relatoriu: k.data_relatoriu,
+			id: k.id, kria_iha: k.kria_iha, titulu: k.titulu, data_relatoriu: k.data_relatoriu, munisipiu: k.munisipiu,
 			postu: k.postu, suku: k.suku, aldeia: k.aldeia,
 			latitude: k.latitude, longitude: k.longitude, gps_akurasia: k.gps_akurasia,
 			data_akontesimentu: k.data_akontesimentu, tipu_konflitu: k.tipu_konflitu, tipu_seluk: k.tipu_seluk,

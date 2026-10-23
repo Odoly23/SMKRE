@@ -334,3 +334,55 @@ class FollowupSinkronTest(SinkronBase):
 		k.refresh_from_db()
 		self.assertEqual(k.deskrisaun, 'Survei foun: komunidade sai ona.')
 		self.assertEqual(self.client.post(reverse('api-sinkron-haruka', args=[k.pk]), **self.auth()).json()['status'], 'SYNCED')
+
+
+class MunisipiuRuaTest(SinkronBase):
+	# Investigadór ho munisípiu knaar rua (Admin / Superadmin hili)
+	def setUp(self):
+		super().setUp()
+		self.dil = Munisipiu.objects.get(code='DIL')
+		self.postu_dil = PostuAdministrativu.objects.filter(munisipiu=self.dil).first()
+		self.suku_dil = Suku.objects.create(code='DIL-T-01', name='Suku Teste Dili', postu=self.postu_dil)
+		p = self.inv.pesoaluser.pesoal
+		p.munisipiu_2 = self.dil
+		p.save()
+
+	def test_opsaun_munisipiu_rua(self):
+		d = self.client.get(reverse('api-sinkron-opsaun'), **self.auth()).json()
+		self.assertEqual({m['code'] for m in d['munisipiu_lista']}, {'LIQ', 'DIL'})
+		self.assertIn(self.postu_dil.pk, [p['id'] for p in d['postu']])
+
+	def test_sinkron_kazu_iha_munisipiu_rua(self):
+		data = self.payload(munisipiu=self.dil.pk, postu=self.postu_dil.pk, suku=self.suku_dil.pk, latitude=-8.556, longitude=125.578)
+		r = self.send(data)
+		self.assertEqual(r.status_code, 201, r.content)
+		self.assertEqual(Kazu.objects.get(pk=data['id']).munisipiu, self.dil)
+
+	def test_munisipiu_la_knaar_rejeita(self):
+		bau = Munisipiu.objects.get(code='BAU')
+		postu = PostuAdministrativu.objects.filter(munisipiu=bau).first()
+		r = self.send(self.payload(munisipiu=bau.pk, postu=postu.pk))
+		self.assertEqual(r.status_code, 400)
+
+	def test_web_hili_munisipiu(self):
+		self.client.force_login(self.inv)
+		r = self.client.get(reverse('kazu-add'))
+		self.assertContains(r, 'Hili munisípiu')
+		self.assertNotContains(r, 'name="munisipiu" disabled')
+
+
+class OfflineLegalTest(SinkronBase):
+	def test_superadmin_fo_izin_ofisial_legal_no_login_app(self):
+		from config.rbac import OFISIAL_LEGAL
+		legal = make_user(OFISIAL_LEGAL, email='legal@teste.tl')
+		self.client.force_login(self.sa)
+		r = self.client.get(reverse('offline-give'))
+		self.assertContains(r, 'legal@teste.tl')
+		self.client.post(reverse('offline-give'), {'user': legal.pk, 'note': ''})
+		self.assertTrue(OfflinePermission.objects.filter(user=legal, is_active=True).exists())
+		self.assertContains(self.client.get(reverse('offline-list')), 'legal@teste.tl'.split('@')[0][:3])
+		self.client.logout()
+		tok = self.login('legal@teste.tl')
+		self.assertTrue(tok)
+		r = self.client.get(reverse('api-sinkron-legal-opsaun'), HTTP_AUTHORIZATION=f'Bearer {tok}')
+		self.assertEqual(r.status_code, 200)

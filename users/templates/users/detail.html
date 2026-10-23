@@ -21,7 +21,7 @@
 						<tr><th>{% trans "Sexu" %}</th><td>{{ objects.get_sexo_display|default:"-" }}</td></tr>
 						<tr><th>{% trans "Nu. Telf." %}</th><td>{{ objects.phone|default:"-" }}</td></tr>
 						<tr><th>{% trans "Pozisaun" %}</th><td>{{ objects.pos|default:"-" }}</td></tr>
-						<tr><th>{% trans "Munisípiu Knaar" %}</th><td>{{ objects.munisipiu|default:"-" }}</td></tr>
+						<tr><th>{% trans "Munisípiu Knaar" %}</th><td>{{ objects.munisipiu_lista|join:" / "|default:"-" }}</td></tr>
 						<tr><th>{% trans "Login ikus" %}</th><td>{{ u.last_login|date:"d/m/Y H:i"|default:"-" }}</td></tr>
 						<tr><th>{% trans "Kria iha" %}</th><td>{{ objects.created_at|date:"d/m/Y H:i" }}</td></tr>
 					</table>

@@ -30,7 +30,7 @@ from users.models import OfflinePermission
 logger = logging.getLogger('smkre.sinkron')
 
 TOLERANSIA_RELOJIU = timedelta(minutes=10)        # relójiu HP bele sala uitoan
-KAZU_CAMPO = ['titulu', 'data_relatoriu', 'postu', 'suku', 'aldeia', 'latitude', 'longitude', 'gps_akurasia',
+KAZU_CAMPO = ['titulu', 'data_relatoriu', 'munisipiu', 'postu', 'suku', 'aldeia', 'latitude', 'longitude', 'gps_akurasia',
 	'data_akontesimentu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai', 'deskrisaun',
 	'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
 KAZU_CAMPO_RBR = [   # Formuláriu RbR
@@ -105,7 +105,7 @@ def sync_kazu(user, data):
 		check_permission_window(user, kria_iha)
 
 	# Validasaun hanesan formuláriu web (GPS iha TL, akurasia ≤ 50 m, lokalizasaun, konsentimentu...)
-	form = KazuForm(data=_form_data(data), instance=instance, munisipiu_knaar=pesoal.munisipiu, submit=True)
+	form = KazuForm(data=_form_data(data), instance=instance, munisipiu_knaar=pesoal.munisipiu_lista, submit=True)
 	erru = {} if form.is_valid() else {k: list(v) for k, v in form.errors.items()}
 	lista = []
 	for xave, Form, maximu in KAZU_LISTA:
@@ -214,7 +214,7 @@ def kazu_ba_hp(kazu):
 	ins = kazu.insidente.first()
 	data = {
 		'id': str(kazu.pk), 'kria_iha': kazu.created_at.isoformat(), 'followup': True, 'kode': kazu.kode,
-		'titulu': kazu.titulu, 'data_relatoriu': _str(kazu.data_relatoriu),
+		'titulu': kazu.titulu, 'data_relatoriu': _str(kazu.data_relatoriu), 'munisipiu': kazu.munisipiu_id,
 		'postu': _str(kazu.postu_id), 'suku': _str(kazu.suku_id), 'aldeia': _str(kazu.aldeia_id),
 		'latitude': float(kazu.latitude) if kazu.latitude is not None else None,
 		'longitude': float(kazu.longitude) if kazu.longitude is not None else None, 'gps_akurasia': kazu.gps_akurasia,

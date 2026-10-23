@@ -3,7 +3,7 @@
 {% block content %}
 	<div class="page-head">
 		<h2>{% trans "Bondia" %}, {{ pesoal.name|default:user.email }} 👋</h2>
-		<p class="text-muted mb-0">{% trans "Investigadór" %}{% if pesoal.munisipiu %} · {{ pesoal.munisipiu }}{% endif %}</p>
+		<p class="text-muted mb-0">{% trans "Investigadór" %}{% if pesoal.munisipiu_lista %} · {{ pesoal.munisipiu_lista|join:" / " }}{% endif %}</p>
 	</div>
 
 	{% if offline %}

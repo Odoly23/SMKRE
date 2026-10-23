@@ -4978,3 +4978,47 @@ msgstr "survei menunggu verifikasi"
 #: report/templates/report/live.html
 msgid "verifikadu"
 msgstr "terverifikasi"
+
+#: config/menu.py
+msgid "Administrasaun"
+msgstr "Administrasi"
+
+#: config/menu.py
+msgid "App Offline"
+msgstr "App Offline"
+
+#: users/templates/users/offline_list.html
+msgid ""
+"Autorizasaun offline ba Investigadór (kazu) no Ofisiál Legál (survei legál)."
+" Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, labele "
+"kria dadus foun maibé bele nafatin sinkron. Ofisiál Legál mós bele ativa iha"
+" Legál → Ativa Input Legál."
+msgstr ""
+"Izin offline untuk Investigador (kasus) dan Petugas Legal (survei legal). "
+"Admin memilih tanggal mulai dan selesai (kosong = 7 hari). Setelah berakhir,"
+" tidak bisa membuat data baru tetapi tetap bisa sinkron. Petugas Legal juga "
+"bisa diaktifkan di Legal → Aktifkan Input Legal."
+
+#: kazu/forms.py
+msgid "Ita iha munisípiu knaar rua: hili ida ba kazu ne'e."
+msgstr "Anda punya dua munisípiu kerja: pilih satu untuk kasus ini."
+
+#: config/menu.py
+msgid "Lista Relatóriu"
+msgstr "Daftar laporan"
+
+#: config/menu.py
+msgid "Live"
+msgstr "Live"
+
+#: users/models.py
+msgid "Munisípiu Knaar 2"
+msgstr "Munisípiu kerja 2"
+
+#: users/models.py
+msgid "Opsionál: Investigadór bele input kazu iha munisípiu rua"
+msgstr "Opsional: Investigador bisa input kasus di dua munisípiu"
+
+#: kazu/forms.py
+msgid "— Hili munisípiu —"
+msgstr "— Pilih munisípiu —"

@@ -41,7 +41,7 @@ def SurveiList(request):
 		objects = objects.filter(created_by=request.user)
 	objects = Paginator(objects, 25).get_page(request.GET.get('page'))
 	context = {
-		"page": "legal", 'objects': objects, 'q': q, 'f_status': status, 'f_munisipiu': mun,
+		"page": "legal-survei", 'objects': objects, 'q': q, 'f_status': status, 'f_munisipiu': mun,
 		'status_choices': SurveiLegal.STATUS_CHOICES, 'munisipiu_list': Munisipiu.active.all(),
 		'input_ativu': input_ativu(request.user), 'autorizasaun': c_user_offline(request.user),
 		'is_input_role': c_user_group(request.user) in ROLE_SURVEI_INPUT,
@@ -120,7 +120,7 @@ def SurveiDetail(request, pk):
 	obj = _survei_ka_404(request, pk)
 	can_edit = can_edit_survei(request.user, obj)
 	context = {
-		"page": "legal", 'objects': obj, 'seksaun': _resposta(obj),
+		"page": "legal-survei", 'objects': obj, 'seksaun': _resposta(obj),
 		'notas': [(_('Dokumentus identifikasaun'), obj.label_lista('dok_identifikasaun')),
 			(_('Dokumentus relevante sira seluk'), obj.label_lista('dok_relevante')), (_('Fotografia'), obj.label_lista('fotografia'))],
 		'files': obj.files.select_related('uploaded_by__pesoaluser__pesoal'),

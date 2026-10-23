@@ -3,22 +3,24 @@
 	<div class="container">
 		<a class="brand" href="{% url 'home' %}">
 			<img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai">
-			<span>SIBAR-RbR<small>{% if pesoal %}{{ role_label }}{% if pesoal.munisipiu and is_investigador %} · {{ pesoal.munisipiu }}{% endif %}{% else %}Rede ba Rai{% endif %}</small></span>
+			<span>SIBAR-RbR<small>{% if pesoal %}{{ role_label }}{% if is_investigador and pesoal.munisipiu_lista %} · {{ pesoal.munisipiu_lista|join:" / " }}{% endif %}{% else %}Rede ba Rai{% endif %}</small></span>
 		</a>
 
 		{% if user.is_authenticated %}
 		<ul class="nav-links">
-			{% for item in menu_items %}
-			<li class="{% if page == item.page %}active{% endif %}"><a href="{{ item.url }}"><i class="fa {{ item.icon }}"></i> {{ item.label }}</a></li>
+			{% for g in menu_grupu %}
+			{% if g.simples %}{% with i=g.items.0 %}
+			<li class="{% if page in g.pages %}active{% endif %}"><a href="{{ i.url }}"{% if i.tab_foun %} target="_blank" rel="noopener"{% endif %}><i class="fa {{ g.icon }}"></i> {{ g.label }}</a></li>
+			{% endwith %}{% else %}
+			<li class="dropdown{% if page in g.pages %} active{% endif %}">
+				<a href="#" class="dropdown-toggle" id="nav-{{ g.key }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa {{ g.icon }}"></i> {{ g.label }}</a>
+				<div class="dropdown-menu" aria-labelledby="nav-{{ g.key }}">
+					{% for i in g.items %}<a class="dropdown-item{% if page == i.page %} active{% endif %}" href="{{ i.url }}"{% if i.tab_foun %} target="_blank" rel="noopener"{% endif %}><i class="fa {{ i.icon }}"></i> {{ i.label }}{% if i.tab_foun %} <i class="fa fa-external-link small text-muted"></i>{% endif %}</a>{% endfor %}
+				</div>
+			</li>
+			{% endif %}
 			{% endfor %}
 		</ul>
-		<!-- Menu ne'ebé la kabe iha liña: muda automátiku ba "Seluk" (main.js → fitNav) -->
-		<div class="dropdown nav-more" id="nav-more" hidden>
-			<a href="#" class="nav-more-btn" id="nav-more-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<i class="fa fa-ellipsis-h"></i> {% trans "Seluk" %} <i class="fa fa-caret-down"></i>
-			</a>
-			<div class="dropdown-menu dropdown-menu-right" id="nav-more-menu" aria-labelledby="nav-more-btn"></div>
-		</div>
 
 		<div class="nav-right">
 			<div class="dropdown">

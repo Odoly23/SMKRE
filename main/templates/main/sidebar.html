@@ -1,20 +1,30 @@
 {% load i18n %}
 {% if user.is_authenticated %}
-<!-- Sidebar ikon: HP deit (< 992px) -->
+<!-- Menu HP (< 992px): gaveta ho grupu (loke / taka) -->
 <aside id="sidebar" aria-label="{% trans "Menu" %}" aria-hidden="true">
 	<div class="sb-body">
-		<div class="sb-sec">{% trans "Menu" %}</div>
-		<ul>
-			{% for item in menu_items %}
-			<li class="{% if page == item.page %}sb-on{% endif %}"><a href="{{ item.url }}"><i class="fa {{ item.icon }}"></i><span>{{ item.label }}</span></a></li>
+		<div class="sb-user">
+			<span class="av">{% if pesoal and pesoal.image %}<img src="{{ pesoal.image.url }}" alt="">{% else %}{{ pesoal.inisial|default:'?' }}{% endif %}</span>
+			<div><b>{{ pesoal.name|default:user.username }}</b><small>{{ role_label }}{% if is_investigador and pesoal.munisipiu_lista %} · {{ pesoal.munisipiu_lista|join:" / " }}{% endif %}</small></div>
+		</div>
+		{% for g in menu_grupu %}
+		{% if g.simples %}{% with i=g.items.0 %}
+		<a class="sb-link{% if page in g.pages %} sb-on{% endif %}" href="{{ i.url }}"{% if i.tab_foun %} target="_blank" rel="noopener"{% endif %}><i class="fa {{ g.icon }}"></i><span>{{ g.label }}</span></a>
+		{% endwith %}{% else %}
+		<details class="sb-grupu"{% if page in g.pages %} open{% endif %}>
+			<summary class="{% if page in g.pages %}sb-on{% endif %}"><i class="fa {{ g.icon }}"></i><span>{{ g.label }}</span><i class="fa fa-angle-down sb-seta"></i></summary>
+			{% for i in g.items %}
+			<a class="sb-sub{% if page == i.page %} sb-on{% endif %}" href="{{ i.url }}"{% if i.tab_foun %} target="_blank" rel="noopener"{% endif %}><i class="fa {{ i.icon }}"></i><span>{{ i.label }}</span></a>
 			{% endfor %}
-		</ul>
-		<hr>
+		</details>
+		{% endif %}
+		{% endfor %}
 		<div class="sb-sec">{% trans "Konta" %}</div>
-		<ul>
-			<li class="{% if page == 'notif' %}sb-on{% endif %}"><a href="{% url 'notification-list' %}"><i class="fa fa-bell"></i><span>{% trans "Notif" %}</span></a></li>
-			<li class="{% if page == 'account' %}sb-on{% endif %}"><a href="{% url 'user-account' %}"><i class="fa fa-user"></i><span>{% trans "Konta" %}</span></a></li>
-		</ul>
+		<a class="sb-link{% if page == 'notif' %} sb-on{% endif %}" href="{% url 'notification-list' %}"><i class="fa fa-bell"></i><span>{% trans "Notifikasaun" %}</span></a>
+		<a class="sb-link{% if page == 'account' %} sb-on{% endif %}" href="{% url 'user-account' %}"><i class="fa fa-user"></i><span>{% trans "Ha'u-nia Konta" %}</span></a>
+		<form action="{% url 'logout' %}" method="post" class="m-0">{% csrf_token %}
+			<button type="submit" class="sb-link sb-sai"><i class="fa fa-sign-out"></i><span>{% trans "Sai" %}</span></button>
+		</form>
 	</div>
 </aside>
 <div id="overlay"></div>

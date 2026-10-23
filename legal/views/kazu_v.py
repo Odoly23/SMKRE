@@ -32,7 +32,7 @@ def LegalKazuList(request):
 		objects = objects.filter(Q(kode__icontains=q) | Q(titulu__icontains=q) | Q(suku__name__icontains=q))
 	objects = Paginator(objects.order_by(F('prazu').asc(nulls_last=True), '-urjente', '-created_at'), 25).get_page(request.GET.get('page'))
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-kazu",
 		'objects': objects, 'q': q, 'f_status_kazu': status_kazu, 'status_kazu_choices': STATUS_KAZU_CHOICES,
 		'limite': hoje + timedelta(days=LOREN_LEMBRA),           # prazu besik → mean
 		'title': _('Kazu Legál'), 'legend': _('Kazu iha Prosesu Legál')
@@ -46,7 +46,7 @@ def LegalKazu(request, uuid):
 	group = request.user.groups.all()[0].name
 	objects = get_object_or_404(Kazu.objects.select_related('munisipiu', 'postu', 'suku', 'aldeia'), pk=uuid, status__in=KAZU_STATUS_LEGAL)
 	context = {
-		'group': group, "page": "legal",
+		'group': group, "page": "legal-kazu",
 		'objects': objects,
 		'dokumentu': dokumentu_queryset(request.user).filter(kazu=objects),
 		'nota': nota_queryset(request.user, objects),

@@ -24,7 +24,7 @@ class PesoalForm(forms.ModelForm):
 
 	class Meta:
 		model = Pesoal
-		fields = ['name', 'sexo', 'email', 'phone', 'pos', 'munisipiu', 'image']
+		fields = ['name', 'sexo', 'email', 'phone', 'pos', 'munisipiu', 'munisipiu_2', 'image']
 
 	def __init__(self, *args, **kwargs):
 		admin_group = kwargs.pop('admin_group', None)
@@ -36,6 +36,7 @@ class PesoalForm(forms.ModelForm):
 		self.fields['pos'].queryset = Pozisaun.active.all()
 		self.fields['munisipiu'].queryset = Munisipiu.active.all()
 		self.fields['munisipiu'].help_text = _("Obrigatóriu ba Investigadór")
+		self.fields['munisipiu_2'].queryset = Munisipiu.active.all()
 		self.helper = FormHelper()
 		self.helper.form_tag = False          # <form> iha template (pola form.html)
 		self.helper.disable_csrf = True
@@ -54,9 +55,10 @@ class PesoalForm(forms.ModelForm):
 			Row(
 				Column('pos', css_class='form-group col-md-4 mb-0'),
 				Column('munisipiu', css_class='form-group col-md-4 mb-0'),
-				Column('image', css_class='form-group col-md-4 mb-0'),
+				Column('munisipiu_2', css_class='form-group col-md-4 mb-0'),
 				css_class='form-row'
 			),
+			'image',
 			HTML(BTN_RAI)
 		)
 
@@ -73,6 +75,11 @@ class PesoalForm(forms.ModelForm):
 		cleaned = super().clean()
 		if cleaned.get('role') == INVESTIGADOR and not cleaned.get('munisipiu'):
 			self.add_error('munisipiu', _("Investigadór tenke iha munisípiu knaar."))
+		m2 = cleaned.get('munisipiu_2')
+		if m2 and not cleaned.get('munisipiu'):
+			cleaned['munisipiu'], cleaned['munisipiu_2'] = m2, None
+		elif m2 and m2 == cleaned.get('munisipiu'):
+			cleaned['munisipiu_2'] = None             # hanesan → ida de'it
 		return cleaned
 
 
@@ -133,8 +140,10 @@ class OfflinePermissionForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(OfflinePermissionForm, self).__init__(*args, **kwargs)
-		self.fields['user'].queryset = User.objects.filter(groups__name=INVESTIGADOR, is_active=True).order_by('username')   # Ofisiál Legál: tab Legál → Ativa Input
-		self.fields['user'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username})'
+		self.fields['user'].queryset = User.objects.filter(groups__name__in=ROLE_INPUT_OFFLINE, is_active=True).distinct().order_by('username')   # Investigadór + Ofisiál Legál
+		papel = {INVESTIGADOR: _('Investigadór')}
+		self.fields['user'].label_from_instance = lambda u: f'{getattr(getattr(u, "pesoaluser", None), "pesoal", None) or u.username} ({u.username}) · ' + \
+			str(papel.get(u.groups.values_list('name', flat=True).first(), _('Ofisiál Legál')))
 		self.helper = FormHelper()
 		self.helper.form_tag = False
 		self.helper.disable_csrf = True

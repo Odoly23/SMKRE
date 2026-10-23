@@ -6,7 +6,7 @@
 		<h2 class="mb-2">{{ legend }}</h2>
 		{% if can_give_offline %}<a href="{% url 'offline-give' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Fó Autorizasaun" %}</a>{% endif %}
 	</div>
-	<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Autorizasaun offline ba Investigadór. Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, Investigadór labele kria kazu foun maibé bele nafatin sinkron. Autorizasaun Ofisiál Legál iha modulu Legál → Ativa Input Legál." %}
+	<div class="alert alert-info small"><i class="fa fa-info-circle"></i> {% trans "Autorizasaun offline ba Investigadór (kazu) no Ofisiál Legál (survei legál). Admin hili data hahú no remata (mamuk = loron 7). Bainhira remata, labele kria dadus foun maibé bele nafatin sinkron. Ofisiál Legál mós bele ativa iha Legál → Ativa Input Legál." %}
 		<a href="{% url 'legal-autorizasaun' %}" class="alert-link ml-1"><i class="fa fa-unlock-alt"></i> {% trans "Ativa Input Legál" %}</a></div>
 	<div class="card card-rbr">
 		<div class="card-body">
@@ -21,7 +21,7 @@
 					<tr>
 						<td data-label="{% trans "Utilizador" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b></td>
 						<td data-label="{% trans "Papél" %}">{% for g in obj.user.groups.all %}{% if g.name == 'ofisial_legal' %}<span class="badge badge-info">{% trans "Ofisiál Legál" %}</span>{% else %}<span class="badge badge-light">{% trans "Investigadór" %}</span>{% endif %}{% endfor %}</td>
-						<td data-label="{% trans "Munisípiu" %}">{{ obj.user.pesoaluser.pesoal.munisipiu|default:"-" }}</td>
+						<td data-label="{% trans "Munisípiu" %}">{{ obj.user.pesoaluser.pesoal.munisipiu_lista|join:" / "|default:"-" }}</td>
 						<td data-label="{% trans "Hahú" %}">{{ obj.start_date|date:"d/m/Y H:i" }}</td>
 						<td data-label="{% trans "Remata" %}">{{ obj.end_date|date:"d/m/Y H:i" }}</td>
 						<td data-label="{% trans "Status" %}">

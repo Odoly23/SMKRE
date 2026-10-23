@@ -23,6 +23,8 @@ class Pesoal(models.Model):
 	phone = models.CharField(max_length=20, null=True, blank=True, verbose_name=_("Nu. Telf."))
 	email = models.EmailField(unique=True, null=True, blank=False, verbose_name=_("Email"))
 	munisipiu = models.ForeignKey(Munisipiu, on_delete=models.SET_NULL, null=True, blank=True, related_name="pesoal", verbose_name=_("Munisípiu Knaar"))
+	munisipiu_2 = models.ForeignKey(Munisipiu, on_delete=models.SET_NULL, null=True, blank=True, related_name="pesoal_2", verbose_name=_("Munisípiu Knaar 2"),
+		help_text=_("Opsionál: Investigadór bele input kazu iha munisípiu rua"))
 	image = models.ImageField(upload_to=pesoal_foto_path, null=True, blank=True, verbose_name=_("Foto"))
 	lian = models.CharField(max_length=5, choices=settings.LANGUAGES, default='tet', verbose_name=_("Lian"))
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -35,6 +37,11 @@ class Pesoal(models.Model):
 
 	def __str__(self):
 		return self.name or self.email or '-'
+
+	@property
+	def munisipiu_lista(self):
+		# Munisípiu knaar (1 ka 2) ne'ebé Admin / Superadmin hili
+		return [m for m in (self.munisipiu, self.munisipiu_2) if m]
 
 	@property
 	def inisial(self):

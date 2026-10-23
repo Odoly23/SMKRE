@@ -46,15 +46,17 @@ class APIOpsaun(_SinkronAPI):
 	# Dadus master ba formuláriu offline: munisípiu knaar + postu/suku/aldeia + opsaun padronizadu
 	def get(self, request, format=None):
 		pesoal = c_user_pesoal(request.user)
-		mun = pesoal.munisipiu if pesoal else None
-		if not mun:
+		lista = pesoal.munisipiu_lista if pesoal else []
+		if not lista:
 			return Response({'erru': {'__all__': [_('Ita seidauk iha munisípiu knaar. Kontaktu Admin.')]}}, status=400)
-		postu = PostuAdministrativu.active.filter(munisipiu=mun)
+		mun = lista[0]
+		postu = PostuAdministrativu.active.filter(munisipiu__in=lista)
 		suku = Suku.active.filter(postu__in=postu)
 		aldeia = Aldeia.active.filter(suku__in=suku)
 		data = {
 			'munisipiu': {'id': mun.pk, 'code': mun.code, 'name': mun.name},
-			'postu': _lista(postu),
+			'munisipiu_lista': [{'id': m.pk, 'code': m.code, 'name': m.name} for m in lista],
+			'postu': _lista(postu, 'munisipiu_id'),
 			'suku': _lista(suku, 'postu_id'),
 			'aldeia': _lista(aldeia, 'suku_id'),
 			'tipu_konflitu': [dict(_lista([t], 'presiza_esplika')[0], entidade=t.code in TIPU_ENTIDADE) for t in TipuKonflitu.active.all()],

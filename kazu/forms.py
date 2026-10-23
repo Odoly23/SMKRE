@@ -112,7 +112,9 @@ class KazuForm(forms.ModelForm):
 		}
 
 	def __init__(self, *args, **kwargs):
-		self.munisipiu_knaar = kwargs.pop('munisipiu_knaar', None)
+		knaar = kwargs.pop('munisipiu_knaar', None)
+		# Munisípiu knaar Investigadór: ida (fixu) ka rua (hili) — Admin / Superadmin mak determina
+		self.knaar_lista = [m for m in (knaar if isinstance(knaar, (list, tuple)) else [knaar]) if m]
 		self.submit = kwargs.pop('submit', False)
 		super(KazuForm, self).__init__(*args, **kwargs)
 		self.fields['tipu_konflitu'].queryset = TipuKonflitu.active.all()
@@ -134,11 +136,20 @@ class KazuForm(forms.ModelForm):
 		self.fields['tipu_konflitu'].widget.attrs['data-seluk-ids'] = ','.join(
 			str(pk) for pk in TipuKonflitu.objects.filter(presiza_esplika=True).values_list('pk', flat=True))
 
-		# Investigadór: munisípiu knaar deit (la bele muda)
+		# Investigadór: munisípiu knaar deit (ida → fixu; rua → hili)
+		self.knaar_ids = [m.pk for m in self.knaar_lista]
+		if self.knaar_ids and self.instance.pk and self.instance.munisipiu_id and self.instance.munisipiu_id not in self.knaar_ids:
+			self.knaar_ids.append(self.instance.munisipiu_id)      # kazu tuan iha munisípiu uluk: la lakon
+		self.munisipiu_knaar = Munisipiu.objects.get(pk=self.knaar_ids[0]) if len(self.knaar_ids) == 1 else None
 		if self.munisipiu_knaar:
 			self.fields['munisipiu'].queryset = Munisipiu.objects.filter(pk=self.munisipiu_knaar.pk)
 			self.fields['munisipiu'].initial = self.munisipiu_knaar.pk
 			self.fields['munisipiu'].disabled = True
+		elif self.knaar_ids:
+			self.fields['munisipiu'].queryset = Munisipiu.objects.filter(pk__in=self.knaar_ids)
+			self.fields['munisipiu'].required = True
+			self.fields['munisipiu'].empty_label = _('— Hili munisípiu —')
+			self.fields['munisipiu'].help_text = _('Ita iha munisípiu knaar rua: hili ida ba kazu ne\'e.')
 		else:
 			self.fields['munisipiu'].queryset = Munisipiu.active.all()
 
@@ -154,6 +165,8 @@ class KazuForm(forms.ModelForm):
 				pass
 		elif self.instance.pk and self.instance.munisipiu_id:
 			munisipiu_id = self.instance.munisipiu_id
+		if self.knaar_ids and munisipiu_id not in self.knaar_ids:
+			munisipiu_id = None                          # la'ós munisípiu knaar
 		if munisipiu_id:
 			self.fields['postu'].queryset = PostuAdministrativu.active.filter(munisipiu_id=munisipiu_id).order_by('name')
 
@@ -235,7 +248,7 @@ class KazuForm(forms.ModelForm):
 
 	def clean_munisipiu(self):
 		# Campo disabled: uza munisípiu knaar (labele manipula husi browser)
-		return self.munisipiu_knaar or self.cleaned_data.get('munisipiu')
+		return self.munisipiu_knaar or self.cleaned_data.get('munisipiu')     # rua: queryset limita ba knaar
 
 	def clean_numeru_rbr(self):
 		n = self.cleaned_data.get('numeru_rbr')

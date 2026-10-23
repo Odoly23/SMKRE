@@ -16,7 +16,7 @@ from users.services import give_offline, cancel_offline
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 def OfflineList(request):
 	group = request.user.groups.all()[0].name
-	objects = OfflinePermission.objects.filter(user__groups__name=INVESTIGADOR).select_related('user__pesoaluser__pesoal__munisipiu', 'given_by').prefetch_related('user__groups')[:300]
+	objects = OfflinePermission.objects.filter(user__groups__name__in=ROLE_INPUT_OFFLINE).distinct().select_related('user__pesoaluser__pesoal__munisipiu', 'given_by').prefetch_related('user__groups')[:300]
 	context = {
 		'group': group, "page": "offline",
 		'objects': objects,

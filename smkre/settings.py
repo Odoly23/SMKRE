@@ -287,7 +287,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
 	'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-	'REFRESH_TOKEN_LIFETIME': timedelta(days=OFFLINE_PERMISSION_DAYS),
+	'REFRESH_TOKEN_LIFETIME': timedelta(days=max(OFFLINE_PERMISSION_DAYS, 30)),   # HP la presiza login fali (PIN de'it); kansela autorizasaun → token kansela
 	'ROTATE_REFRESH_TOKENS': True,
 	'BLACKLIST_AFTER_ROTATION': True,
 	'UPDATE_LAST_LOGIN': True,

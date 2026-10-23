@@ -152,7 +152,7 @@ def _form_view(request, instance=None):
 		return redirect('kazu-list')
 	submit = request.POST.get('aksaun') == 'haruka'
 	if request.method == 'POST':
-		form = KazuForm(request.POST, instance=instance, munisipiu_knaar=pesoal.munisipiu, submit=submit)
+		form = KazuForm(request.POST, instance=instance, munisipiu_knaar=pesoal.munisipiu_lista, submit=submit)
 		seg_form = SegimentuKazuForm(request.POST, instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(request.POST, instance=instance or Kazu(), prefix='afetadu'),
 			InsidenteFormSet(request.POST, instance=instance or Kazu(), prefix='insidente')]
@@ -169,7 +169,7 @@ def _form_view(request, instance=None):
 			return redirect('kazu-detail', uuid=obj.pk)
 		messages.error(request, _('Favor hadia erru iha formuláriu.'))
 	else:
-		form = KazuForm(instance=instance, munisipiu_knaar=pesoal.munisipiu)
+		form = KazuForm(instance=instance, munisipiu_knaar=pesoal.munisipiu_lista)
 		seg_form = SegimentuKazuForm(instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(instance=instance or Kazu(), prefix='afetadu'),
 			InsidenteFormSet(instance=instance or Kazu(), prefix='insidente')]

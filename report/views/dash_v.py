@@ -65,7 +65,7 @@ def reportDash(request):
 def reportChart(request):
 	group = request.user.groups.all()[0].name
 	context = {
-		'group': group, "page": "dashboard",
+		'group': group, "page": "grafiku",
 		'munisipiu_list': Munisipiu.active.all(), 'tipu_list': TipuKonflitu.active.all(),
 		'title': _('Gráfiku'), 'legend': _('Gráfiku no Tendénsia'),
 		'chart_lang': chart_lang(),

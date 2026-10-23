@@ -255,8 +255,9 @@ STATUS_FOLLOWUP_ORIJEN = (VERIFIED, APPROVED)
 def investigador_followup(kazu):
 	# Investigadór ativu iha munisípiu kazu nian (bele simu follow-up)
 	from django.contrib.auth.models import User
-	return User.objects.filter(groups__name=INVESTIGADOR, is_active=True,
-		pesoaluser__pesoal__munisipiu=kazu.munisipiu).select_related('pesoaluser__pesoal').order_by('pesoaluser__pesoal__name')
+	from django.db.models import Q
+	return User.objects.filter(Q(pesoaluser__pesoal__munisipiu=kazu.munisipiu) | Q(pesoaluser__pesoal__munisipiu_2=kazu.munisipiu),
+		groups__name=INVESTIGADOR, is_active=True).select_related('pesoaluser__pesoal').distinct().order_by('pesoaluser__pesoal__name')
 
 
 def can_followup(user, kazu):

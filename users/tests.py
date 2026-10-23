@@ -166,9 +166,10 @@ class OfflinePermissionTest(TestCase):
 		self.assertAlmostEqual((perm.end_date - perm.start_date).days, 7)
 		self.assertEqual(len(mail.outbox), 1)
 
-	def test_superadmin_labele_fo(self):
+	def test_superadmin_bele_fo(self):
 		self.client.force_login(make_user(SUPERADMIN))
-		self.assertEqual(self.client.post(reverse('offline-give'), {'user': self.inv.pk}).status_code, 403)
+		self.assertEqual(self.client.post(reverse('offline-give'), {'user': self.inv.pk}).status_code, 302)
+		self.assertTrue(OfflinePermission.objects.filter(user=self.inv, is_active=True).exists())
 
 	def test_renova_troka_antigu(self):
 		p1 = OfflinePermission.objects.create(user=self.inv, given_by=self.admin)
