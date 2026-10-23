@@ -85,14 +85,10 @@ class KazuForm(forms.ModelForm):
 
 	class Meta:
 		model = Kazu
+		# Kampu tabela Kazu; kampu seksaun (fatin, entidade, populasaun, eviksaun, portavós) aumenta iha okos (KAMPU_SEKSAUN_FORM)
 		fields = ['titulu', 'data_relatoriu', 'tinan_simu', 'munisipiu', 'postu', 'suku', 'aldeia',
-			'latitude', 'longitude', 'gps_akurasia', 'enderesu_fatin', 'rai_luan', 'rai_luan_unidade',
-			'data_akontesimentu', 'tinan_disputa_hahu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai',
-			'projetu', 'entidade_foti', 'entidade_kategoria', 'entidade_kategoria_seluk', 'deskrisaun',
-			'iha_dadus_uma_kain', 'fonte_dadus_uma_kain', 'observasaun_afetadu',
-			'eviksaun_akontese', 'data_eviksaun', 'konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa', 'observasaun_eviksaun',
-			'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun',
-			'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
+			'latitude', 'longitude', 'gps_akurasia', 'data_akontesimentu', 'tinan_disputa_hahu', 'tipu_konflitu', 'tipu_seluk', 'tipu_rai',
+			'deskrisaun', 'estragu', 'estragu_seluk', 'nesesidade', 'konsentimentu', 'la_publika', 'observasaun']
 		labels = LABEL_DOCX
 		help_texts = {'titulu': _("Naran kazu ne'ebe Sekretariadu rejistu"), 'tinan_disputa_hahu': _("Tinan ne'ebe disputa hahu entre parte rua"),
 			'tinan_simu': _('Automátiku husi Data Simu. Hakerek tinan de\'it se data la hatene.')}
@@ -102,8 +98,6 @@ class KazuForm(forms.ModelForm):
 			'nesesidade': forms.CheckboxSelectMultiple,
 			'deskrisaun': forms.Textarea(attrs={'rows': 4, 'placeholder': _('Fo esplikasaun badak kona ba tipu kazu, se karik presiza.')}),
 			'observasaun': forms.Textarea(attrs={'rows': 2}),
-			'observasaun_afetadu': forms.Textarea(attrs={'rows': 2}),
-			'observasaun_eviksaun': forms.Textarea(attrs={'rows': 2}),
 			'tinan_disputa_hahu': forms.NumberInput(attrs={'min': 1900, 'placeholder': _('ex. 2019')}),
 			'tinan_simu': forms.NumberInput(attrs={'min': 1900, 'placeholder': _('ex. 2019')}),
 			'latitude': forms.NumberInput(attrs={'readonly': True, 'step': 'any'}),
@@ -117,6 +111,10 @@ class KazuForm(forms.ModelForm):
 		self.knaar_lista = [m for m in (knaar if isinstance(knaar, (list, tuple)) else [knaar]) if m]
 		self.submit = kwargs.pop('submit', False)
 		super(KazuForm, self).__init__(*args, **kwargs)
+		if self.instance.pk:                           # valór kampu seksaun (tabela OneToOne)
+			for c in KAMPU_SEKSAUN_FORM:
+				if c not in self.initial:
+					self.initial[c] = getattr(self.instance, c)
 		self.fields['tipu_konflitu'].queryset = TipuKonflitu.active.all()
 		self.fields['tipu_rai'].queryset = TipuRai.active.all()
 		self.fields['estragu'].queryset = EstraguPatrimoniu.active.all()
@@ -325,6 +323,9 @@ class KazuForm(forms.ModelForm):
 
 	def save(self, commit=True):
 		obj = super().save(commit=False)
+		for c in KAMPU_SEKSAUN_FORM:                   # Kazu.save() rai seksaun sira
+			if c in self.cleaned_data:
+				setattr(obj, c, self.cleaned_data[c])
 		n = self.cleaned_data.get('numeru_rbr')
 		if n:
 			obj.referensia_rbr = f'RBR/{n}'
@@ -334,6 +335,16 @@ class KazuForm(forms.ModelForm):
 			obj.save()
 			self.save_m2m()
 		return obj
+
+
+
+# Kampu husi tabela seksaun (naran hanesan uluk: formuláriu, app offline no sinkron la muda)
+KAMPU_SEKSAUN_FORM = [c for c in Kazu.KAMPU_SEKSAUN if c not in ('poligon', 'poligon_luan_m2', 'poligon_keliling_m')]
+KazuForm.base_fields.update({c: f for c, f in forms.fields_for_model(
+	Kazu.SEKSAUN['fatin'], fields=['enderesu_fatin', 'rai_luan', 'rai_luan_unidade'], labels=LABEL_DOCX).items()})
+for _rel in ('entidade', 'populasaun', 'eviksaun', 'portavos'):
+	KazuForm.base_fields.update(forms.fields_for_model(Kazu.SEKSAUN[_rel], exclude=['kazu', 'data_eviksaun'], labels=LABEL_DOCX,
+		widgets={'observasaun_afetadu': forms.Textarea(attrs={'rows': 2}), 'observasaun_eviksaun': forms.Textarea(attrs={'rows': 2})}))
 
 
 def _helper(*layout):

@@ -257,7 +257,7 @@ def _label(obj, campo):
 	v = getattr(obj, campo)
 	if v in (None, ''):
 		return ''
-	f = obj._meta.get_field(campo)
+	f = type(obj).kampu(campo) if hasattr(type(obj), 'kampu') else obj._meta.get_field(campo)
 	if f.choices:
 		label = str(getattr(obj, f'get_{campo}_display')())
 		seluk = getattr(obj, f'{campo}_seluk', '') if v == 'SELUK' else ''

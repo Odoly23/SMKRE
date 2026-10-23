@@ -9,6 +9,7 @@ from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
 from config.decorators import allowed_users
 from config.rbac import ROLE_RELATORIU, ADMIN, SUPERADMIN
+from kazu.models import SEKSAUN_REL
 from report.utils import report_queryset
 from users.auth_utils import c_user_group
 
@@ -28,7 +29,7 @@ def exportExcel(request):
 	from kazu.airtable import KABESALLU, lina_export
 	group = c_user_group(request.user)
 	subar = set() if group in (ADMIN, SUPERADMIN) else SUBAR_EXPORT
-	objects = report_queryset(request).select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai', 'created_by__pesoaluser__pesoal', 'segimentu') \
+	objects = report_queryset(request).select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai', 'created_by__pesoaluser__pesoal', 'segimentu', *SEKSAUN_REL) \
 		.prefetch_related('tipu_konflitu', 'estragu', 'nesesidade', 'afetadu', 'insidente__tipu_eviksaun').order_by('referensia_rbr', 'kode')
 	wb = Workbook()
 	ws = wb.active

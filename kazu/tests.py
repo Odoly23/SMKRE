@@ -866,3 +866,35 @@ class FormulariuDocxTest(KazuBase):
 		html = self.client.get(reverse('kazu-update', args=[kazu.pk])).content.decode()
 		for g in ('rai', 'seluk', 'org', 'tribunal', 'tribunal_desizaun', 'notif', 'status'):
 			self.assertIn(f'data-grp="{g}"', html)
+
+
+class SeksaunOneToOneTest(TestCase):
+	# Kampu seksaun (tabela OneToOne) lee / hakerek iha Kazu direta
+	def setUp(self):
+		setup_master()
+		self.inv = make_user(INVESTIGADOR)
+
+	def test_rai_no_lee_seksaun(self):
+		from kazu.models import KazuEviksaun, KazuFatin, KazuPortavos
+		k = Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), created_by=self.inv,
+			eviksaun_akontese='SIN', uza_forsa='LAE', portavos_naran='Joao', rai_luan='12.50')
+		self.assertEqual(KazuEviksaun.objects.get(kazu=k).eviksaun_akontese, 'SIN')
+		self.assertEqual(KazuPortavos.objects.get(kazu=k).portavos_naran, 'Joao')
+		k = Kazu.objects.get(pk=k.pk)
+		self.assertEqual((k.eviksaun_akontese, k.get_uza_forsa_display(), str(k.rai_luan)), ('SIN', 'Lae', '12.50'))
+		self.assertFalse(KazuFatin.objects.filter(kazu=k, enderesu_fatin='x').exists())
+		self.assertEqual(Kazu.objects.filter(eviksaun__eviksaun_akontese='SIN').count(), 1)
+		# update_fields ho kampu seksaun
+		k.enderesu_fatin = 'Fatin foun'
+		k.save(update_fields=['enderesu_fatin', 'updated_at'])
+		self.assertEqual(KazuFatin.objects.get(kazu=k).enderesu_fatin, 'Fatin foun')
+		# Kazu la iha seksaun → valór default, la iha erru
+		k2 = Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), created_by=self.inv)
+		self.assertEqual((k2.eviksaun_akontese, k2.rai_luan_unidade), ('', 'M2'))
+		self.assertFalse(KazuEviksaun.objects.filter(kazu=k2).exists())
+
+	def test_hapus_kazu_hapus_seksaun(self):
+		from kazu.models import KazuEviksaun
+		k = Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), created_by=self.inv, eviksaun_akontese='SIN')
+		k.delete()
+		self.assertFalse(KazuEviksaun.objects.exists())

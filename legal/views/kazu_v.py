@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from config.decorators import allowed_users
 from config.rbac import ROLE_LEGAL, ROLE_STATUS_KAZU
-from kazu.models import Kazu, STATUS_KAZU_CHOICES
+from kazu.models import Kazu, STATUS_KAZU_CHOICES, SEKSAUN_REL
 from legal.tasks import LOREN_LEMBRA
 from legal.services import dokumentu_queryset, nota_queryset, can_edit_vault, KAZU_STATUS_LEGAL
 from users.auth_utils import c_user_group
@@ -63,7 +63,7 @@ def LegalKazu(request, uuid):
 @allowed_users(allowed_roles=ROLE_LEGAL)
 def LegalDossier(request, uuid):
 	# Pájina imprime (ka "Save as PDF") ho kop Rede ba Rai — ba tribunál / autoridade
-	objects = get_object_or_404(Kazu.objects.select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai'),
+	objects = get_object_or_404(Kazu.objects.select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai', *SEKSAUN_REL),
 		pk=uuid, status__in=KAZU_STATUS_LEGAL)
 	context = {
 		'objects': objects,

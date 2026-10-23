@@ -102,7 +102,8 @@ class ExportTest(ReportBase):
 	def test_excel_kolun_rbr_sein_kontaktu(self):
 		from kazu.models import KazuSegimentu
 		k = Kazu.objects.filter(munisipiu=self.dil).exclude(status__in=['DRAFT', 'CANCELED']).first()
-		Kazu.objects.filter(pk=k.pk).update(eviksaun_akontese='SIN', portavos_kontaktu='77009988')
+		k.eviksaun_akontese, k.portavos_kontaktu = 'SIN', '77009988'      # kampu seksaun (KazuEviksaun / KazuPortavos)
+		k.save()
 		KazuSegimentu.objects.create(kazu=k, status_rezolusaun='SEIDAUK', fokal_telemovel='77112233')
 		self.client.force_login(self.analista)
 		ws = load_workbook(BytesIO(self.client.get(reverse('report-export-excel'), {'munisipiu': self.dil.pk}).content)).active

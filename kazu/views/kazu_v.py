@@ -11,7 +11,7 @@ from config.decorators import allowed_users
 from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, StatusKazuForm, AkompanamentuForm, SegimentuKazuForm
-from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED, KazuAkompanamentu
+from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.importa import pode_muda_lokasaun
 from kazu.services import action_buttons, refresh_auto_fields, submit_kazu, enxe_fokal, can_followup, investigador_followup
@@ -80,7 +80,7 @@ def seg_seksaun(kazu):
 @allowed_users(allowed_roles=ROLE_ALL)
 def KazuDetail(request, uuid):
 	group = request.user.groups.all()[0].name
-	objects = get_object_or_404(kazu_queryset(request.user).prefetch_related(
+	objects = get_object_or_404(kazu_queryset(request.user).select_related(*SEKSAUN_REL).prefetch_related(
 		'tipu_konflitu', 'estragu', 'nesesidade', 'afetadu', 'insidente__tipu_eviksaun', 'ator__tipu_ator', 'evidensia'), pk=uuid)
 	buttons = [dict(b, **BUTAUN_STILU[b['action']]) for b in action_buttons(request.user, objects)]
 	context = {

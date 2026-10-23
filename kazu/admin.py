@@ -1,5 +1,5 @@
 from django.contrib import admin
-from kazu.models import Kazu, UmaKainAfetada, InsidenteEviksaun, AtorEnvolvidu, Evidensia, KazuHistoria, KazuSequence
+from kazu.models import Kazu, UmaKainAfetada, InsidenteEviksaun, AtorEnvolvidu, Evidensia, KazuHistoria, KazuSequence, SEKSAUN
 
 
 class AfetaduInline(admin.TabularInline):
@@ -30,13 +30,18 @@ class HistoriaInline(admin.TabularInline):
 	readonly_fields = ['tipu', 'status_antes', 'status_foun', 'nota', 'user', 'created_at']
 
 
+# Seksaun OneToOne (KazuFatin, KazuEntidade, …): inline ida kada seksaun
+SEKSAUN_INLINES = [type(f'{m.__name__}Inline', (admin.StackedInline,), {'model': m, 'extra': 0, 'max_num': 1, 'can_delete': False})
+	for m in SEKSAUN.values()]
+
+
 @admin.register(Kazu)
 class KazuAdmin(admin.ModelAdmin):
 	list_display = ['__str__', 'status', 'status_kazu', 'munisipiu', 'urjente', 'created_by', 'created_at']
 	list_filter = ['status', 'status_kazu', 'urjente', 'munisipiu', 'tipu_konflitu']
 	search_fields = ['kode', 'titulu', 'deskrisaun']
 	readonly_fields = ['kode', 'synced_at', 'verified_by', 'verified_at', 'approved_by', 'approved_at', 'created_by']
-	inlines = [AfetaduInline, InsidenteInline, AtorInline, EvidensiaInline, HistoriaInline]
+	inlines = SEKSAUN_INLINES + [AfetaduInline, InsidenteInline, AtorInline, EvidensiaInline, HistoriaInline]
 
 
 admin.site.register(KazuSequence)

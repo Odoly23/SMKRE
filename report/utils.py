@@ -12,7 +12,7 @@ TIPU_EVIKSAUN = ['GOV-RAI-ESTADU', 'GOV-RAI-ABANDONADU', 'DESLOKAMENTU']
 def filtru_eviksaun():
 	# Kazu eviksaun: tipu eviksaun, "Eviksaun akontese ona = Sin" ka iha insidente eviksaun
 	from django.db.models import Q
-	return Q(tipu_konflitu__code__in=TIPU_EVIKSAUN) | Q(eviksaun_akontese='SIN') | Q(insidente__isnull=False)
+	return Q(tipu_konflitu__code__in=TIPU_EVIKSAUN) | Q(eviksaun__eviksaun_akontese='SIN') | Q(insidente__isnull=False)
 
 
 def report_queryset(request):

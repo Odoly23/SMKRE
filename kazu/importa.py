@@ -66,8 +66,13 @@ KAMPU_SEGIMENTU = [f.name for f in KazuSegimentu._meta.get_fields()
 	if getattr(f, 'concrete', False) and f.name not in ('id', 'kazu', 'updated_by', 'updated_at')]
 
 
+def _field(model, campo):
+	# Kazu: kampu bele iha tabela seksaun (KazuEviksaun, …)
+	return model.kampu(campo) if hasattr(model, 'kampu') else model._meta.get_field(campo)
+
+
 def _deskr(model, campo):
-	f = model._meta.get_field(campo)
+	f = _field(model, campo)
 	opsaun = ' / '.join(str(l) for _c, l in f.choices) if f.choices else ''
 	tipu = {'DateField': ' (AAAA-MM-LL)'}.get(f.get_internal_type(), '')
 	return f'{f.verbose_name}{tipu}' + (f' — {opsaun}' if opsaun else '')
@@ -120,7 +125,7 @@ def template_excel():
 	opsaun = {'Tipu Kazu': [n for n in TipuKonflitu.active.values_list('name', flat=True)], 'Verified': ['checked']}
 	for h, campo in airtable.OPSAUN.items():
 		model = Kazu if hasattr(Kazu, campo) else KazuSegimentu
-		opsaun[h] = [str(l) for _c, l in model._meta.get_field(campo).choices]
+		opsaun[h] = [str(l) for _c, l in _field(model, campo).choices]
 	opsaun['Dadus Uma Kain iha ka lae?'] = ['Iha', 'Laiha', 'La hatene']
 	aba_ops = wb.create_sheet('Opsaun')
 	n_mun = Munisipiu.active.count() + 1
@@ -247,7 +252,7 @@ def _normal(t):
 
 def _konverte(model, campo, raw):
 	# Valór Excel → valór JSON (string / númeru) tuir tipu field; ValueError bainhira la validu
-	f = model._meta.get_field(campo)
+	f = _field(model, campo)
 	if raw in (None, ''):
 		return None
 	if f.choices:
@@ -269,7 +274,7 @@ def _konverte(model, campo, raw):
 def _kampu_extra(model, campos, d, erru, avizu=None):
 	# avizu (dadus Airtable tuan): valór la validu → avizu, kampu mamuk (la blokeia liña)
 	out = {}
-	nomes = {f.name for f in model._meta.get_fields()}
+	nomes = {f.name for f in model._meta.get_fields()} | set(getattr(model, 'KAMPU_SEKSAUN', {}))
 	for campo in campos:
 		# Opsaun ho "Seluk" + kampu esplika: "Seluk: testu" ka valór la koñesidu → SELUK + testu
 		if f'{campo}_seluk' in nomes and _testu(d.get(campo)):
@@ -288,7 +293,7 @@ def _kampu_extra(model, campos, d, erru, avizu=None):
 		try:
 			v = _konverte(model, campo, d.get(campo))
 		except (ValueError, TypeError, InvalidOperation):
-			msg = _('"%(c)s": valór "%(v)s" la validu.') % {'c': model._meta.get_field(campo).verbose_name, 'v': _testu(d.get(campo))}
+			msg = _('"%(c)s": valór "%(v)s" la validu.') % {'c': _field(model, campo).verbose_name, 'v': _testu(d.get(campo))}
 			(avizu if avizu is not None else erru).append(msg)
 			continue
 		if v is not None:
@@ -531,7 +536,7 @@ def konfirma(imp, user):
 			konsentimentu=d['konsentimentu'], la_publika=d['la_publika'], observasaun=d['observasaun'],
 			created_by=user, importasaun=imp)
 		for campo, v in d.get('rbr', {}).items():           # pergunta formuláriu RbR
-			setattr(kazu, campo, Kazu._meta.get_field(campo).to_python(v))
+			setattr(kazu, campo, Kazu.kampu(campo).to_python(v))
 		kazu.kode = generate_kode(kazu)
 		kazu.save()
 		kazu.tipu_konflitu.set(d['tipu_konflitu'])
