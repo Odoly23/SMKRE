@@ -27,11 +27,25 @@ body.kursor-subar, body.kursor-subar * { cursor: none !important; }
 .lv-brand h1 { margin: 0; font-family: 'Montserrat', 'Lato', sans-serif; font-size: 3.6vh; font-weight: 800; letter-spacing: .02em; }
 .lv-brand h1 span { color: var(--lime); }
 .lv-brand p { margin: .2vh 0 0; color: var(--ink2); font-size: 1.7vh; }
-.lv-relojiu { text-align: center; }
-#oras { font-family: 'Montserrat', 'Lato', sans-serif; font-size: 5.2vh; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
-#data { color: var(--ink2); font-size: 1.7vh; margin-top: .4vh; }
+.lv-relojiu { display: flex; align-items: center; gap: 1.2vw; }
+.analog { width: 8.2vh; height: 8.2vh; flex: none; filter: drop-shadow(0 0 1.2vh rgba(31,181,143,.25)); }
+.analog .face { fill: var(--pnl); stroke: var(--brand); stroke-width: 2.2; }
+.analog .tk { stroke: var(--ink2); stroke-width: .8; stroke-linecap: round; opacity: .55; }
+.analog .tk5 { stroke: var(--ink); stroke-width: 2; opacity: 1; }
+.analog line[class^="jr-"] { stroke-linecap: round; }
+.analog .jr-oras { stroke: var(--ink); stroke-width: 4.2; }
+.analog .jr-min { stroke: var(--ink); stroke-width: 2.8; }
+.analog .jr-seg { stroke: var(--lime); stroke-width: 1.3; }
+.analog .pinu { fill: var(--lime); stroke: var(--pnl); stroke-width: 1; }
+.relojiu-tx { text-align: left; line-height: 1.15; }
+#loron { font-family: 'Montserrat', 'Lato', sans-serif; font-size: 2.6vh; font-weight: 800; }
+#data { color: var(--ink2); font-size: 1.8vh; }
+#oras { color: var(--lime); font-size: 1.8vh; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .05em; }
 .lv-estadu { text-align: right; min-width: 18vw; }
 .lv-live { display: inline-flex; align-items: center; gap: .5vw; font-weight: 800; font-size: 2.2vh; letter-spacing: .15em; color: var(--lime); }
+.lv-live span { animation: brilla 2.4s ease-in-out infinite; }
+.lv-live.offline span { animation: none; }
+@keyframes brilla { 0%, 100% { text-shadow: 0 0 0 rgba(130,218,54,0); opacity: 1; } 50% { text-shadow: 0 0 1.4vh rgba(130,218,54,.85); opacity: .82; } }
 .lv-live .dot { width: 1.4vh; height: 1.4vh; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 0 rgba(130,218,54,.6); animation: pulsu 2s infinite; }
 .lv-live.offline { color: var(--warn); }
 .lv-live.offline .dot { background: var(--warn); animation: none; }

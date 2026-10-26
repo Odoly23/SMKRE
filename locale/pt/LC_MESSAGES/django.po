@@ -5492,3 +5492,11 @@ msgstr "Ainda sem decisão"
 #: kazu
 msgid "kazu hetan ona eviksaun"
 msgstr "casos já despejados"
+
+#: report/templates/report/live.html
+msgid "Total kazu iha RbR"
+msgstr "Total de casos na RbR"
+
+#: report/templates/report/live.html
+msgid "Relójiu"
+msgstr "Relógio"

@@ -20,12 +20,25 @@
 		return { oras: o.hour + ':' + o.minute, seg: o.second, data: LORON[wd] + ', ' + parseInt(o.day, 10) + ' ' + FULAN[parseInt(o.month, 10) - 1] + ' ' + o.year, h: parseInt(o.hour, 10), m: parseInt(o.minute, 10) };
 	}
 	function relojiu() {
-		var d = dili();
+		var d = dili(), p = d.data.split(', ');
+		$('loron').textContent = p[0];
+		$('data').textContent = p[1] || '';
 		$('oras').textContent = d.oras;
-		$('data').textContent = d.data;
 		if (d.h === 3 && d.m === 0 && d.seg === '00') location.reload();      // kada loron 03:00: karrega versaun foun
 	}
 	setInterval(relojiu, 1000); relojiu();
+
+	// Relójiu analójiku: oras Dili (UTC+9, la iha horáriu verãu); jarum segundu la'o suave
+	var JR = { o: $('jarum-oras'), m: $('jarum-min'), s: $('jarum-seg') };
+	function jarum() {
+		var t = new Date(Date.now() + 9 * 3600000);
+		var s = t.getUTCSeconds() + t.getUTCMilliseconds() / 1000, m = t.getUTCMinutes() + s / 60, h = (t.getUTCHours() % 12) + m / 60;
+		JR.s.setAttribute('transform', 'rotate(' + (s * 6) + ' 50 50)');
+		JR.m.setAttribute('transform', 'rotate(' + (m * 6) + ' 50 50)');
+		JR.o.setAttribute('transform', 'rotate(' + (h * 30) + ' 50 50)');
+		requestAnimationFrame(jarum);
+	}
+	if (JR.s) requestAnimationFrame(jarum);
 
 	// ── Highcharts tema metan ──
 	Highcharts.setOptions({
@@ -125,8 +138,9 @@
 	}
 
 	// ── KPI ho animasaun ──
-	function konta(el, de, ba) {
-		var t0 = performance.now(), dur = 1100;
+	function konta(el, de, ba, dur) {
+		var t0 = performance.now();
+		dur = dur || 1100;
 		(function pasu(t) {
 			var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
 			el.textContent = num(de + (ba - de) * e);
@@ -151,6 +165,21 @@
 		$('semana').innerHTML = T.semana + ': <b>' + kpi.semana + '</b> ' + T.kazu + ' <span class="' + (dif >= 0 ? 'up' : 'down') + '"><i class="fa fa-caret-' + (dif >= 0 ? 'up' : 'down') + '"></i> ' + Math.abs(dif) + '</span>';
 		$('semana').title = T.semanaKotuk + ': ' + kpi.semana_kotuk;
 	}
+
+	// Kada minutu: númeru hotu konta fali husi 0 to'o total; barra eviksaun sae fali
+	function hahuFali() {
+		if (!S.d) return;
+		document.querySelectorAll('[data-k], [data-e]').forEach(function (el) {
+			var v = el.dataset.k ? (S.kpi[el.dataset.k] || 0) : ((S.d.evik || {})[el.dataset.e] || 0);
+			konta(el, 0, v, 1800);
+		});
+		Object.keys(EV_CHARTS).forEach(function (q) {
+			var ser = EV_CHARTS[q].series[0], dadus = ser.data.map(function (p) { return { y: p.y, color: p.color }; });
+			ser.setData(dadus.map(function (p) { return { y: 0, color: p.color }; }), true, false);
+			setTimeout(function () { ser.setData(dadus, true, { duration: 1400 }); }, 120);
+		});
+	}
+	setInterval(hahuFali, 60000);
 
 	// ── Eviksaun (painel vertikál): Lae / Sin kór tuir signifikadu ──
 	var EV_CHARTS = {};

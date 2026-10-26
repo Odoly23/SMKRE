@@ -5551,3 +5551,11 @@ msgstr "Seidauk iha desizaun"
 #: kazu
 msgid "kazu hetan ona eviksaun"
 msgstr "kazu hetan ona eviksaun"
+
+#: report/templates/report/live.html
+msgid "Total kazu iha RbR"
+msgstr "Total kazu iha RbR"
+
+#: report/templates/report/live.html
+msgid "Relójiu"
+msgstr "Relójiu"

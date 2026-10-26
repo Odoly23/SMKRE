@@ -5458,3 +5458,11 @@ msgstr "Belum ada keputusan"
 #: kazu
 msgid "kazu hetan ona eviksaun"
 msgstr "kazu sudah digusur"
+
+#: report/templates/report/live.html
+msgid "Total kazu iha RbR"
+msgstr "Total kazu di RbR"
+
+#: report/templates/report/live.html
+msgid "Relójiu"
+msgstr "Jam"
