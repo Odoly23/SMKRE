@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from custom.models import Munisipiu, PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, EstraguPatrimoniu, NesesidadeUrjente
-from .opsaun import STATUS_CHOICES, STATUS_KAZU_CHOICES, STATUS_EDITABLE, DRAFT, ABERTU
+from .opsaun import STATUS_CHOICES, STATUS_KAZU_CHOICES, STATUS_EDITABLE, DRAFT, ABERTU, APPROVED, COMPLETED
 
 
 class Kazu(models.Model):
@@ -137,6 +137,23 @@ class Kazu(models.Model):
 	@property
 	def is_editable(self):
 		return self.status in STATUS_EDITABLE
+
+	@property
+	def iha_portal(self):
+		# Regra hanesan publiku.services.portal_queryset: aprovadu + konsentimentu + la marka "La publika"
+		return self.status in (APPROVED, COMPLETED) and self.konsentimentu and not self.la_publika
+
+	@property
+	def portal_razaun(self):
+		# Tanba sá kazu la mosu iha portal (testu badak ba Admin)
+		from django.utils.translation import gettext as _t
+		if not self.konsentimentu:
+			return _t('Laiha konsentimentu')
+		if self.la_publika:
+			return _t('Marka "La publika"')
+		if self.status not in (APPROVED, COMPLETED):
+			return _t('Hein aprovasaun Superadmin')
+		return ''
 
 	@property
 	def total_afetadu(self):

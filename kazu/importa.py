@@ -92,7 +92,7 @@ def template_excel():
 	ws.title = 'Kazu Hotu'
 	kab = PatternFill('solid', fgColor='0B4F3C')
 	obrig = PatternFill('solid', fgColor='0E8A68')
-	presiza = {'Munisipiu', 'Tipu Kazu'}
+	presiza = {'Munisipiu', 'Tipu Kazu', airtable.H_KONSENTIMENTU}
 	ws.append(airtable.KABESALLU)
 	for i, h in enumerate(airtable.KABESALLU, start=1):
 		c = ws.cell(row=1, column=i)
@@ -102,7 +102,7 @@ def template_excel():
 		'Data Simu Kazu iha RBR': '15/09/2026', 'Kazu': 'Ezemplu kazu', 'Tipu Kazu': 'Governu hasai komunidade husi rai estadu',
 		'Munisipiu': 'Liquiçá', 'Suku': 'Dato', 'Dadus Uma Kain iha ka lae?': 'Iha', 'Uma Kain afetadu hira': 12, 'Total Ema': 58,
 		'Feto ': 28, 'Mane': 30, 'Eviksaun Akontese ona?': 'Lae', 'Status Kazu': 'Seidauk resolve', "RBR nia desizaun ba Kazu ne'e": 'Monitorizasaun',
-		'Pontu Kordenadu (GPS)': '-8.5871, 125.3410'}
+		'Pontu Kordenadu (GPS)': '-8.5871, 125.3410', airtable.H_KONSENTIMENTU: 'Sin', airtable.H_LA_PUBLIKA: 'Lae'}
 	ws.append([ezemplu.get(h, '') for h in airtable.KABESALLU])
 	for c in ws[2]:
 		c.font = Font(color='9AA59F')
@@ -127,6 +127,7 @@ def template_excel():
 		model = Kazu if hasattr(Kazu, campo) else KazuSegimentu
 		opsaun[h] = [str(l) for _c, l in _field(model, campo).choices]
 	opsaun['Dadus Uma Kain iha ka lae?'] = ['Iha', 'Laiha', 'La hatene']
+	opsaun[airtable.H_KONSENTIMENTU] = opsaun[airtable.H_LA_PUBLIKA] = ['Sin', 'Lae']
 	aba_ops = wb.create_sheet('Opsaun')
 	n_mun = Munisipiu.active.count() + 1
 	validasaun = {'Munisipiu': f'=Munisipiu!$A$2:$A${n_mun}'}
@@ -458,7 +459,7 @@ def valida(lina):
 
 		konsentimentu = _testu(d.get('konsentimentu')).upper() in SIN
 		if not konsentimentu:
-			avizu.append(_('La iha konsentimentu — kazu la sei mosu iha portal públiku.'))
+			avizu.append(_('La iha konsentimentu — kazu la sei mosu iha portal públiku (Admin bele marka iha pratinjau).'))
 
 		# Duplikadu: referénsia RBR (Airtable) ka munisípiu + data + observasaun
 		ref = d.get('_referensia')
@@ -514,7 +515,8 @@ def kria_pratinjau(f, user):
 
 # ══════════════ 3. Konfirma ══════════════
 @transaction.atomic
-def konfirma(imp, user):
+def konfirma(imp, user, pilih=None):
+	"""pilih: {'konsentimentu': {liña}, 'portal': {liña}} husi pratinjau (Admin marka) — None = tuir file."""
 	imp = KazuImport.objects.select_for_update().get(pk=imp.pk)
 	if imp.status != KazuImport.RASCUNHO:
 		raise ValidationError(_('Import ne\'e konfirma ka kansela ona.'))
@@ -523,6 +525,9 @@ def konfirma(imp, user):
 		if not r['ok']:
 			continue
 		d = r['dadus']
+		if pilih is not None:                              # Admin hili iha pratinjau
+			d['konsentimentu'] = r['lina'] in pilih['konsentimentu']
+			d['la_publika'] = not (d['konsentimentu'] and r['lina'] in pilih['portal'])
 		verifikadu = d.get('verifikadu')                   # "Verified" iha Airtable → Verifikadu (hein Superadmin aprova)
 		kazu = Kazu(
 			titulu=d['titulu'], status=VERIFIED if verifikadu else SYNCED, synced_at=timezone.now(),

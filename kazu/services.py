@@ -15,7 +15,7 @@ from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from config.rbac import ROLE_VERIFIKA, ROLE_APROVA, ROLE_REJEITA, ROLE_REMATA, ROLE_STATUS_KAZU, ROLE_FOLLOWUP, \
+from config.rbac import ROLE_PORTAL, ROLE_VERIFIKA, ROLE_APROVA, ROLE_REJEITA, ROLE_REMATA, ROLE_STATUS_KAZU, ROLE_FOLLOWUP, \
 	ADMIN, SUPERADMIN, INVESTIGADOR
 from kazu.models import Kazu, KazuHistoria, KazuSequence, STATUS_EDITABLE, STATUS_KAZU_CHOICES, \
 	ONGOING, DRAFT, SYNCED, VERIFIED, APPROVED, COMPLETED, REJECTED, CANCELED, FOLLOWUP, STATUS_CHOICES
@@ -114,6 +114,21 @@ def kazu_url(kazu):
 
 def _historia(kazu, user, antes, foun, nota='', tipu=KazuHistoria.DADUS):
 	return KazuHistoria.objects.create(kazu=kazu, user=user, status_antes=antes, status_foun=foun, nota=nota, tipu=tipu)
+
+
+def muda_portal(kazu, user, konsentimentu, publika, nota=''):
+	"""Admin / Superadmin: konsentimentu + hatudu kazu iha portal públiku. Publika presiza konsentimentu."""
+	if c_user_group(user) not in ROLE_PORTAL:
+		raise PermissionDenied
+	konsentimentu, publika = bool(konsentimentu), bool(publika and konsentimentu)
+	if kazu.konsentimentu == konsentimentu and kazu.la_publika == (not publika):
+		return False
+	kazu.konsentimentu, kazu.la_publika = konsentimentu, not publika
+	kazu.save(update_fields=['konsentimentu', 'la_publika', 'updated_at'])
+	testu = _('Portal públiku: konsentimentu %(k)s · %(p)s') % {
+		'k': _('Sin') if konsentimentu else _('Lae'), 'p': _('hatudu iha portal') if publika else _('la hatudu iha portal')}
+	_historia(kazu, user, kazu.status, kazu.status, testu + (f' · {nota}' if nota else ''), tipu=KazuHistoria.EDITA)
+	return True
 
 
 def generate_kode(kazu):

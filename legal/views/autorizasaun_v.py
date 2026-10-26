@@ -10,6 +10,7 @@ from legal.forms import AutorizasaunLegalForm
 from users.auth_utils import c_user_pesoal
 from users.emails import kirim_email_offline
 from users.models import OfflinePermission
+from users.pin import pin_se_laiha
 from users.services import give_offline, cancel_offline
 
 
@@ -25,7 +26,7 @@ def AutorizasaunLegal(request):
 		d = form.cleaned_data
 		for u in d['users']:
 			perm = give_offline(u, by=request.user, note=d.get('note', ''), hahu=d.get('data_hahu'), remata=d.get('data_remata'))
-			kirim_email_offline(u, c_user_pesoal(u), perm)
+			kirim_email_offline(u, c_user_pesoal(u), perm, pin=pin_se_laiha(u))     # PIN app offline (se seidauk iha)
 		messages.success(request, _('Input legál ativu ba Ofisiál Legál %(n)s to\'o %(date)s.') % {
 			'n': len(d['users']), 'date': perm.end_date.strftime('%d/%m/%Y')})
 		return redirect('legal-autorizasaun')
@@ -46,7 +47,7 @@ def AutorizasaunLegal(request):
 def AutorizasaunRenova(request, pk):
 	obj = get_object_or_404(_perm_legal(), pk=pk, user__is_active=True)
 	perm = give_offline(obj.user, by=request.user, note=_('Renova'))
-	kirim_email_offline(obj.user, c_user_pesoal(obj.user), perm)
+	kirim_email_offline(obj.user, c_user_pesoal(obj.user), perm, pin=pin_se_laiha(obj.user))
 	messages.success(request, _('Autorizasaun renova ona to\'o %(date)s.') % {'date': perm.end_date.strftime('%d/%m/%Y')})
 	return redirect('legal-autorizasaun')
 

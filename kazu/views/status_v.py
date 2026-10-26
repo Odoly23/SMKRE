@@ -6,10 +6,10 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_FOLLOWUP
+from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_FOLLOWUP, ROLE_PORTAL
 from kazu.models import Kazu
 from kazu.permissions import can_view, is_responsavel
-from kazu.services import submit_kazu, change_status, change_status_kazu, followup_kazu, STATUS_LABEL
+from kazu.services import muda_portal, submit_kazu, change_status, change_status_kazu, followup_kazu, STATUS_LABEL
 
 
 @login_required
@@ -78,4 +78,20 @@ def KazuFollowup(request, uuid):
 		return render(request, 'home/403.html', status=403)
 	except ValidationError as e:
 		messages.error(request, ' '.join(e.messages))
+	return redirect('kazu-detail', uuid=uuid)
+
+
+@login_required
+@allowed_users(allowed_roles=ROLE_PORTAL)
+@require_POST
+def KazuPortal(request, uuid):
+	# Admin / Superadmin: konsentimentu + hatudu kazu iha portal públiku
+	objects = get_object_or_404(Kazu, pk=uuid)
+	if not can_view(request.user, objects):
+		return render(request, 'home/403.html', status=403)
+	konsentimentu, publika = request.POST.get('konsentimentu') == '1', request.POST.get('publika') == '1'
+	if publika and not konsentimentu:
+		messages.warning(request, _('Kazu labele hatudu iha portal se laiha konsentimentu.'))
+	if muda_portal(objects, request.user, konsentimentu, publika):
+		messages.success(request, _('Portal públiku: rai ona.') + ('' if objects.iha_portal or not (publika and konsentimentu) else ' ' + _('Kazu sei mosu hafoin Superadmin aprova.')))
 	return redirect('kazu-detail', uuid=uuid)

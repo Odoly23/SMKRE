@@ -5109,3 +5109,132 @@ msgstr "Introduza o PIN que o Admin enviou por email."
 #: users/api/views.py
 msgid "PIN sala. Haree email husi Admin."
 msgstr "PIN errado. Veja o email do Admin."
+
+#: kazu
+msgid "Laiha konsentimentu"
+msgstr "Sem consentimento"
+
+#: kazu
+msgid "Marka \"La publika\""
+msgstr "Marcado \"Não publicar\""
+
+#: kazu
+msgid "Hein aprovasaun Superadmin"
+msgstr "A aguardar aprovação do Superadmin"
+
+#: kazu
+msgid "Portal públiku: konsentimentu %(k)s · %(p)s"
+msgstr "Portal público: consentimento %(k)s · %(p)s"
+
+#: kazu
+msgid "hatudu iha portal"
+msgstr "mostrar no portal"
+
+#: kazu
+msgid "la hatudu iha portal"
+msgstr "não mostrar no portal"
+
+#: kazu
+msgid "Kazu labele hatudu iha portal se laiha konsentimentu."
+msgstr "O caso não pode aparecer no portal sem consentimento."
+
+#: kazu
+msgid "Portal públiku: rai ona."
+msgstr "Portal público: guardado."
+
+#: kazu
+msgid "Kazu sei mosu hafoin Superadmin aprova."
+msgstr "O caso aparecerá após aprovação do Superadmin."
+
+#: kazu
+msgid "Hili kazu ida ka liu."
+msgstr "Escolha um ou mais casos."
+
+#: kazu
+msgid "husi import %(f)s"
+msgstr "da importação %(f)s"
+
+#: kazu
+msgid "Kazu %(n)s sei mosu iha portal (hafoin aprova)."
+msgstr "%(n)s casos aparecerão no portal (após aprovação)."
+
+#: kazu
+msgid "Kazu %(n)s la mosu tan iha portal."
+msgstr "%(n)s casos deixaram de aparecer no portal."
+
+#: kazu
+msgid ""
+"La iha konsentimentu — kazu la sei mosu iha portal públiku (Admin bele marka"
+" iha pratinjau)."
+msgstr ""
+"Sem consentimento — o caso não aparecerá no portal público (o Admin pode "
+"marcar na pré-visualização)."
+
+#: kazu
+msgid "Portal públiku: hili kazu, depois"
+msgstr "Portal público: escolha os casos e depois"
+
+#: kazu
+msgid "Konfirma: komunidade fó konsentimentu ba kazu hotu ne'ebé hili?"
+msgstr ""
+"Confirma: a comunidade deu consentimento para todos os casos escolhidos?"
+
+#: kazu
+msgid "Konsentimentu + hatudu"
+msgstr "Consentimento + mostrar"
+
+#: kazu
+msgid "La hatudu"
+msgstr "Não mostrar"
+
+#: kazu
+msgid "Hili hotu"
+msgstr "Escolher todos"
+
+#: kazu
+msgid "Portal"
+msgstr "Portal"
+
+#: kazu
+msgid "Mosu"
+msgstr "Visível"
+
+#: kazu
+msgid "Hein aprova"
+msgstr "A aguardar aprovação"
+
+#: kazu
+msgid "La mosu"
+msgstr "Não visível"
+
+#: kazu
+msgid "Marka hotu"
+msgstr "Marcar todos"
+
+#: kazu
+msgid ""
+"Marka Konsentimentu no Portal kada liña: kazu ho marka rua ne'e de'it mak "
+"mosu iha portal públiku (hafoin Superadmin aprova)."
+msgstr ""
+"Marque Consentimento e Portal em cada linha: só os casos com as duas marcas "
+"aparecem no portal público (após aprovação do Superadmin)."
+
+#: kazu
+msgid "Hatudu iha portal"
+msgstr "Mostrar no portal"
+
+#: kazu
+msgid "Portal públiku"
+msgstr "Portal público"
+
+#: kazu
+msgid "Ema afetada fó konsentimentu"
+msgstr "As pessoas afetadas deram consentimento"
+
+#: kazu
+msgid "Hatudu iha portal públiku (dadus agregadu de'it)"
+msgstr "Mostrar no portal público (só dados agregados)"
+
+#: kazu
+msgid "Rai portal"
+msgstr "Guardar portal"

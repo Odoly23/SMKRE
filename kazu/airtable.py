@@ -12,6 +12,10 @@ from decimal import Decimal, InvalidOperation
 H_ID = 'Identifikasaun kazu'
 H_NUMERU = 'Kazu nia numero'
 H_REF = 'Numero Referensia Kazu (auto)'
+# Kolun SIBAR (la iha Airtable tuan): Sin / Lae
+H_KONSENTIMENTU = 'Konsentimentu'
+H_LA_PUBLIKA = 'La publika iha portal'
+SIN_TESTU = {'SIN', 'S', 'IHA', 'YES', 'Y', 'SIM', 'YA', '1', 'TRUE', 'LOOS', 'CHECKED'}
 KABESALLU = [
 	H_ID, H_NUMERU, H_REF, 'Tinan Kazu Hahu', 'Data Simu Kazu iha RBR', 'Tinan Simu Kazu iha RBR', 'Kazu', 'Tipu Kazu',
 	'Verified', 'Observasaun kona-ba tipu kazu',
@@ -31,6 +35,7 @@ KABESALLU = [
 	'Status Kazu', "RBR nia desizaun ba Kazu ne'e", 'Observasaun kona ba kazu',
 	'Molok eviksaun iha konsultasaun ka lae?', 'Molok eviksaun iha notifikasaun klaru ka lae?',
 	'Durante eviksaun uza forsa ka lae?', 'Akompanamentu ba Kazu', 'Formatu update kazu', 'Created By',
+	H_KONSENTIMENTU, H_LA_PUBLIKA,
 ]
 
 # Kolun testu simples: kabesallu Airtable → kampu interna (Kazu ka KazuSegimentu)
@@ -245,6 +250,10 @@ def lina_interna(row):
 	d['observasaun'] = '\n'.join(nota)
 	d['_referensia'] = _t(g(H_REF))[:30] or None
 	d['_verifikadu'] = normal(g('Verified')) in ('CHECKED', 'TRUE', 'SIN', '1', 'YES')
+	# Konsentimentu / La publika: mamuk = LAE (Admin bele marka iha pratinjau)
+	for h, c in ((H_KONSENTIMENTU, 'konsentimentu'), (H_LA_PUBLIKA, 'la_publika')):
+		if _t(g(h)):
+			d[c] = 'SIN' if normal(g(h)) in SIN_TESTU else 'LAE'
 	d['_avizu'] = avizu
 	d['_airtable'] = True
 	return d
@@ -288,6 +297,7 @@ def lina_export(k, subar=()):
 		'Dadus Uma Kain iha ka lae?': {'SIN': 'Iha', 'LAE': 'Laiha'}.get(k.iha_dadus_uma_kain, _label(k, 'iha_dadus_uma_kain')),
 		'Akompanamentu ba Kazu': '', 'Formatu update kazu': '', 'Created By': str(getattr(getattr(k.created_by, 'pesoaluser', None), 'pesoal', '') or k.created_by.username),
 		'Entidade Benefisiariu': _label(k, 'entidade_kategoria'),
+		H_KONSENTIMENTU: 'Sin' if k.konsentimentu else 'Lae', H_LA_PUBLIKA: 'Sin' if k.la_publika else 'Lae',
 	}
 	for h, c in NUMERU.items():
 		if c == 'tinan_disputa_hahu':

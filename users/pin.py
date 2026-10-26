@@ -59,3 +59,12 @@ def verifika_pin(user, pin):
 	expiradu = pu.pin_sala_at and (timezone.now() - pu.pin_sala_at).total_seconds() >= PIN_XAVE_SEG
 	PesoalUser.objects.filter(pk=pu.pk).update(pin_sala=1 if expiradu else F('pin_sala') + 1, pin_sala_at=timezone.now())
 	return False
+
+
+def pin_se_laiha(user):
+	"""Utilizador seidauk iha PIN husi Admin → kria, rai no fó PIN (ba email). Iha ona → None (PIN la muda)."""
+	if iha_pin(user):
+		return None
+	pin = kria_pin()
+	rai_pin(user, pin)
+	return pin

@@ -121,6 +121,27 @@
 				<p class="mb-1"><b>{% trans "Estragu Patrimóniu" %}:</b> {% for e in obj.estragu.all %}{{ e.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}{% if obj.estragu_seluk %} · {{ obj.estragu_seluk }}{% endif %}</p>
 				<p class="mb-1"><b>{% trans "Nesesidade Urjente" %}:</b> {% for n in obj.nesesidade.all %}<span class="badge badge-urjente">{{ n.name }}</span> {% empty %}-{% endfor %}</p>
 				<p class="mb-1"><b>{% trans "Konsentimentu" %}:</b> {% if obj.konsentimentu %}<span class="text-rbr"><i class="fa fa-check"></i> {% trans "Sin" %}</span>{% else %}<span class="text-danger"><i class="fa fa-times"></i> {% trans "Lae" %}</span>{% endif %}</p>
+				<p class="mb-1"><b>{% trans "Portal públiku" %}:</b> {% if obj.iha_portal %}<span class="badge badge-success"><i class="fa fa-globe"></i> {% trans "Mosu" %}</span>{% else %}<span class="badge badge-secondary">{% trans "La mosu" %}</span> <small class="text-muted">{{ obj.portal_razaun }}</small>{% endif %}</p>
+				{% if can_portal %}
+				<form method="post" action="{% url 'kazu-portal' obj.pk %}" class="sub-card mt-2 mb-2" id="form-portal-kazu">{% csrf_token %}
+					<div class="custom-control custom-switch mb-1">
+						<input type="checkbox" class="custom-control-input" id="p-konsentimentu" name="konsentimentu" value="1" {% if obj.konsentimentu %}checked{% endif %}>
+						<label class="custom-control-label" for="p-konsentimentu">{% trans "Ema afetada fó konsentimentu" %}</label>
+					</div>
+					<div class="custom-control custom-switch mb-2">
+						<input type="checkbox" class="custom-control-input" id="p-publika" name="publika" value="1" {% if obj.konsentimentu and not obj.la_publika %}checked{% endif %}>
+						<label class="custom-control-label" for="p-publika">{% trans "Hatudu iha portal públiku (dadus agregadu de'it)" %}</label>
+					</div>
+					<button type="submit" class="btn btn-sm btn-outline-rbr"><i class="fa fa-save"></i> {% trans "Rai portal" %}</button>
+				</form>
+				<script nonce="{{ request.csp_nonce }}">
+				(function () {
+					var k = document.getElementById('p-konsentimentu'), p = document.getElementById('p-publika');
+					k.addEventListener('change', function () { if (!k.checked) p.checked = false; });
+					p.addEventListener('change', function () { if (p.checked) k.checked = true; });
+				})();
+				</script>
+				{% endif %}
 				{% if obj.observasaun %}<p class="mb-0 pre-line"><b>{% trans "Observasaun Adisionál" %}:</b> {{ obj.observasaun }}</p>{% endif %}
 			</div></div>
 

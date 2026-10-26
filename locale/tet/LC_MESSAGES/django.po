@@ -5169,3 +5169,131 @@ msgstr "Tama PIN ne'ebé Admin haruka liuhusi email."
 #: users/api/views.py
 msgid "PIN sala. Haree email husi Admin."
 msgstr "PIN sala. Haree email husi Admin."
+
+#: kazu
+msgid "Laiha konsentimentu"
+msgstr "Laiha konsentimentu"
+
+#: kazu
+msgid "Marka \"La publika\""
+msgstr "Marka \"La publika\""
+
+#: kazu
+msgid "Hein aprovasaun Superadmin"
+msgstr "Hein aprovasaun Superadmin"
+
+#: kazu
+msgid "Portal públiku: konsentimentu %(k)s · %(p)s"
+msgstr "Portal públiku: konsentimentu %(k)s · %(p)s"
+
+#: kazu
+msgid "hatudu iha portal"
+msgstr "hatudu iha portal"
+
+#: kazu
+msgid "la hatudu iha portal"
+msgstr "la hatudu iha portal"
+
+#: kazu
+msgid "Kazu labele hatudu iha portal se laiha konsentimentu."
+msgstr "Kazu labele hatudu iha portal se laiha konsentimentu."
+
+#: kazu
+msgid "Portal públiku: rai ona."
+msgstr "Portal públiku: rai ona."
+
+#: kazu
+msgid "Kazu sei mosu hafoin Superadmin aprova."
+msgstr "Kazu sei mosu hafoin Superadmin aprova."
+
+#: kazu
+msgid "Hili kazu ida ka liu."
+msgstr "Hili kazu ida ka liu."
+
+#: kazu
+msgid "husi import %(f)s"
+msgstr "husi import %(f)s"
+
+#: kazu
+msgid "Kazu %(n)s sei mosu iha portal (hafoin aprova)."
+msgstr "Kazu %(n)s sei mosu iha portal (hafoin aprova)."
+
+#: kazu
+msgid "Kazu %(n)s la mosu tan iha portal."
+msgstr "Kazu %(n)s la mosu tan iha portal."
+
+#: kazu
+msgid ""
+"La iha konsentimentu — kazu la sei mosu iha portal públiku (Admin bele marka"
+" iha pratinjau)."
+msgstr ""
+"La iha konsentimentu — kazu la sei mosu iha portal públiku (Admin bele marka"
+" iha pratinjau)."
+
+#: kazu
+msgid "Portal públiku: hili kazu, depois"
+msgstr "Portal públiku: hili kazu, depois"
+
+#: kazu
+msgid "Konfirma: komunidade fó konsentimentu ba kazu hotu ne'ebé hili?"
+msgstr "Konfirma: komunidade fó konsentimentu ba kazu hotu ne'ebé hili?"
+
+#: kazu
+msgid "Konsentimentu + hatudu"
+msgstr "Konsentimentu + hatudu"
+
+#: kazu
+msgid "La hatudu"
+msgstr "La hatudu"
+
+#: kazu
+msgid "Hili hotu"
+msgstr "Hili hotu"
+
+#: kazu
+msgid "Portal"
+msgstr "Portal"
+
+#: kazu
+msgid "Mosu"
+msgstr "Mosu"
+
+#: kazu
+msgid "Hein aprova"
+msgstr "Hein aprova"
+
+#: kazu
+msgid "La mosu"
+msgstr "La mosu"
+
+#: kazu
+msgid "Marka hotu"
+msgstr "Marka hotu"
+
+#: kazu
+msgid ""
+"Marka Konsentimentu no Portal kada liña: kazu ho marka rua ne'e de'it mak "
+"mosu iha portal públiku (hafoin Superadmin aprova)."
+msgstr ""
+"Marka Konsentimentu no Portal kada liña: kazu ho marka rua ne'e de'it mak "
+"mosu iha portal públiku (hafoin Superadmin aprova)."
+
+#: kazu
+msgid "Hatudu iha portal"
+msgstr "Hatudu iha portal"
+
+#: kazu
+msgid "Portal públiku"
+msgstr "Portal públiku"
+
+#: kazu
+msgid "Ema afetada fó konsentimentu"
+msgstr "Ema afetada fó konsentimentu"
+
+#: kazu
+msgid "Hatudu iha portal públiku (dadus agregadu de'it)"
+msgstr "Hatudu iha portal públiku (dadus agregadu de'it)"
+
+#: kazu
+msgid "Rai portal"
+msgstr "Rai portal"

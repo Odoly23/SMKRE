@@ -898,3 +898,54 @@ class SeksaunOneToOneTest(TestCase):
 		k = Kazu.objects.create(munisipiu=Munisipiu.objects.get(code='LIQ'), created_by=self.inv, eviksaun_akontese='SIN')
 		k.delete()
 		self.assertFalse(KazuEviksaun.objects.exists())
+
+
+class PortalKonsentimentuTest(KazuBase):
+	# Konsentimentu iha import + Admin hili kazu ne'ebé mosu iha portal públiku
+	csv, upload, LINA = AirtableImportTest.csv, AirtableImportTest.upload, AirtableImportTest.LINA
+	def test_kolun_konsentimentu_iha_template_no_csv(self):
+		from kazu.airtable import KABESALLU, H_KONSENTIMENTU, H_LA_PUBLIKA
+		self.assertIn(H_KONSENTIMENTU, KABESALLU)
+		self.assertIn(H_LA_PUBLIKA, KABESALLU)
+		imp = self.upload(self.csv([{**self.LINA, H_KONSENTIMENTU: 'Sin', H_LA_PUBLIKA: 'Lae'}]))
+		d = imp.dadus[0]['dadus']
+		self.assertEqual((d['konsentimentu'], d['la_publika']), (True, False))
+
+	def test_admin_marka_portal_iha_pratinjau(self):
+		ref2 = {**self.LINA, 'Numero Referensia Kazu (auto)': 'RBR/9', 'Identifikasaun kazu': 'RBR/9_x'}
+		imp = self.upload(self.csv([self.LINA, ref2]))          # laiha kolun konsentimentu → LAE
+		self.assertTrue(all(not r['dadus']['konsentimentu'] for r in imp.dadus))
+		lina1 = imp.dadus[0]['lina']
+		with self.captureOnCommitCallbacks(execute=True):
+			self.client.post(reverse('kazu-import-konfirma', args=[imp.pk]),
+				{'pilih_portal': '1', 'konsentimentu': [lina1], 'portal': [lina1, imp.dadus[1]['lina']]})
+		k1, k2 = Kazu.objects.get(referensia_rbr='RBR/7'), Kazu.objects.get(referensia_rbr='RBR/9')
+		self.assertEqual((k1.konsentimentu, k1.la_publika), (True, False))
+		self.assertEqual((k2.konsentimentu, k2.la_publika), (False, True))   # portal la bele laiha konsentimentu
+
+	def test_hafoin_import_hatudu_no_subar(self):
+		from kazu.importa import konfirma
+		from publiku.services import portal_queryset
+		imp = self.upload(self.csv([self.LINA]))
+		konfirma(imp, self.admin)
+		k = Kazu.objects.get(referensia_rbr='RBR/7')
+		Kazu.objects.filter(pk=k.pk).update(status='APPROVED')
+		self.client.post(reverse('kazu-import-portal', args=[imp.pk]), {'asaun': 'hatudu', 'kazu': [k.pk]})
+		self.assertTrue(portal_queryset().filter(pk=k.pk).exists())
+		self.client.post(reverse('kazu-import-portal', args=[imp.pk]), {'asaun': 'subar', 'kazu': [k.pk]})
+		self.assertFalse(portal_queryset().filter(pk=k.pk).exists())
+
+	def test_detalla_admin_muda_portal_investigador_labele(self):
+		k = self.create_kazu('haruka')
+		Kazu.objects.filter(pk=k.pk).update(status='APPROVED', konsentimentu=False)
+		self.client.force_login(self.inv)
+		self.client.post(reverse('kazu-portal', args=[k.pk]), {'konsentimentu': '1', 'publika': '1'})
+		k.refresh_from_db()
+		self.assertFalse(k.konsentimentu)
+		self.client.force_login(self.sa)
+		r = self.client.get(reverse('kazu-detail', args=[k.pk]))
+		self.assertContains(r, 'form-portal-kazu')
+		self.client.post(reverse('kazu-portal', args=[k.pk]), {'konsentimentu': '1', 'publika': '1'})
+		k.refresh_from_db()
+		self.assertTrue(k.iha_portal)
+		self.assertTrue(k.historia.filter(nota__icontains='Portal').exists())

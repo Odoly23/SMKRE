@@ -7,10 +7,11 @@ from django.urls import reverse
 from django.utils.translation import gettext as _, gettext_lazy as _l
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import ROLE_IMPORT_KAZU
+from config.rbac import ROLE_IMPORT_KAZU, ROLE_PORTAL
 from kazu.forms import ImportForm, LokasaunForm
 from kazu.importa import template_excel, kria_pratinjau, konfirma, pode_muda_lokasaun, muda_lokasaun
 from kazu.models import Kazu, KazuImport
+from kazu.services import muda_portal
 from users.auth_utils import c_user_group
 
 LINK_IMPORT = [{"link_name": "kazu-import", "link_text": _l("Import Kazu")}]
@@ -68,6 +69,7 @@ def KazuImportDetail(request, uuid):
 	context = {
 		'group': group, "page": "import",
 		'objects': objects, 'lina': objects.dadus, 'pontu': pontu,
+		'can_portal': group in ROLE_PORTAL,
 		'kazu_list': kazu_list,
 		'link_antes': LINK_IMPORT,
 		'title': objects.naran_file, 'legend': _('Pratinjau Import')
@@ -80,8 +82,12 @@ def KazuImportDetail(request, uuid):
 @require_POST
 def KazuImportKonfirma(request, uuid):
 	objects = get_object_or_404(KazuImport, pk=uuid)
+	pilih = None
+	if request.POST.get('pilih_portal') == '1':        # Admin marka konsentimentu / portal kada liña iha pratinjau
+		lina = lambda k: {int(v) for v in request.POST.getlist(k) if v.isdigit()}
+		pilih = {'konsentimentu': lina('konsentimentu'), 'portal': lina('portal')}
 	try:
-		n = konfirma(objects, request.user)
+		n = konfirma(objects, request.user, pilih)
 		messages.success(request, _('Kazu %(n)s import ona ho status "Hein Verifikasaun".') % {'n': n})
 	except ValidationError as e:
 		messages.error(request, ' '.join(e.messages))
@@ -126,3 +132,19 @@ def KazuLokasaun(request, uuid):
 		'title': _('Hadia lokasaun'), 'legend': _('Hadia lokasaun kazu')
 	}
 	return render(request, 'kazu/lokasaun.html', context)
+
+
+@login_required
+@allowed_users(allowed_roles=ROLE_IMPORT_KAZU)
+@require_POST
+def KazuImportPortal(request, uuid):
+	# Hafoin import: Admin hili kazu → konsentimentu Sin + hatudu iha portal, ka subar husi portal
+	imp = get_object_or_404(KazuImport, pk=uuid, status=KazuImport.REMATA)
+	asaun = request.POST.get('asaun')
+	kazu = imp.kazu_set.filter(pk__in=request.POST.getlist('kazu'))
+	if asaun not in ('hatudu', 'subar') or not kazu:
+		messages.warning(request, _('Hili kazu ida ka liu.'))
+		return redirect('kazu-import-detail', uuid=uuid)
+	n = sum(muda_portal(k, request.user, True if asaun == 'hatudu' else k.konsentimentu, asaun == 'hatudu', _('husi import %(f)s') % {'f': imp.naran_file}) for k in kazu)
+	messages.success(request, (_('Kazu %(n)s sei mosu iha portal (hafoin aprova).') if asaun == 'hatudu' else _('Kazu %(n)s la mosu tan iha portal.')) % {'n': n})
+	return redirect('kazu-import-detail', uuid=uuid)

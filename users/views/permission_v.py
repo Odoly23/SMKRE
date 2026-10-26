@@ -9,7 +9,7 @@ from users.auth_utils import c_user_pesoal
 from users.emails import kirim_email_offline
 from users.forms import OfflinePermissionForm
 from users.models import OfflinePermission
-from users.pin import kria_pin, rai_pin, iha_pin
+from users.pin import kria_pin, rai_pin, pin_se_laiha
 from users.services import give_offline, cancel_offline
 
 
@@ -61,11 +61,7 @@ def OfflineRenew(request, pk):
 		messages.error(request, _('Utilizador ne\'e labele hetan autorizasaun offline.'))
 		return redirect('offline-list')
 	perm = give_offline(obj.user, by=request.user, note=_('Renova'))
-	pin = None
-	if not iha_pin(obj.user):                    # seidauk iha PIN husi Admin → kria foun
-		pin = kria_pin()
-		rai_pin(obj.user, pin)
-	kirim_email_offline(obj.user, c_user_pesoal(obj.user), perm, pin=pin)
+	kirim_email_offline(obj.user, c_user_pesoal(obj.user), perm, pin=pin_se_laiha(obj.user))   # PIN la muda se iha ona
 	messages.success(request, _('Autorizasaun renova ona to\'o %(date)s.') % {'date': perm.end_date.strftime('%d/%m/%Y')})
 	return redirect('offline-list')
 

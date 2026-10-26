@@ -16,6 +16,7 @@ urlpatterns = [
 	path('import/<uuid:uuid>/', import_v.KazuImportDetail, name="kazu-import-detail"),
 	path('import/<uuid:uuid>/konfirma/', import_v.KazuImportKonfirma, name="kazu-import-konfirma"),
 	path('import/<uuid:uuid>/kansela/', import_v.KazuImportKansela, name="kazu-import-kansela"),
+	path('import/<uuid:uuid>/portal/', import_v.KazuImportPortal, name="kazu-import-portal"),
 	path('<uuid:uuid>/lokasaun/', import_v.KazuLokasaun, name="kazu-lokasaun"),
 	path('<uuid:uuid>/poligon/', poligon_v.KazuPoligon, name="kazu-poligon"),
 	path('<uuid:uuid>/followup/', status_v.KazuFollowup, name="kazu-followup"),
@@ -23,6 +24,7 @@ urlpatterns = [
 	path('<uuid:uuid>/segimentu/', segimentu_v.KazuSegimentuUpdate, name="kazu-segimentu"),
 	path('<uuid:uuid>/akompanamentu/', segimentu_v.KazuAkompanamentuAdd, name="kazu-akompanamentu"),
 
+	path('<uuid:uuid>/portal/', status_v.KazuPortal, name="kazu-portal"),
 	path('<uuid:uuid>/haruka/', status_v.KazuSubmit, name="kazu-submit"),
 	path('<uuid:uuid>/status-kazu/', status_v.KazuStatusKazu, name="kazu-status-kazu"),
 	path('<uuid:uuid>/<str:action>/', status_v.KazuAction, name="kazu-action"),

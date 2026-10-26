@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
-from config.rbac import ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
+from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, StatusKazuForm, AkompanamentuForm, SegimentuKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
@@ -89,7 +89,8 @@ def KazuDetail(request, uuid):
 		'historia': objects.historia.select_related('user__pesoaluser__pesoal')[:50],
 		'action_buttons': buttons,
 		'can_mapa': group in ROLE_DASHBOARD,
-		'can_lokasaun': group in ROLE_IMPORT_KAZU and pode_muda_lokasaun(objects),   # Admin: dada marka iha mapa
+		'can_lokasaun': group in ROLE_IMPORT_KAZU and pode_muda_lokasaun(objects),
+		'can_portal': group in ROLE_PORTAL,   # Admin: dada marka iha mapa
 		'segimentu': getattr(objects, 'segimentu', None) if hasattr(objects, 'segimentu') else None,
 		'akompanamentu': objects.akompanamentu.select_related('created_by')[:30],
 		'can_segimentu': group in ROLE_SEGIMENTU,

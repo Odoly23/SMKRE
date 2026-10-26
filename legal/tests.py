@@ -395,3 +395,22 @@ class AutorizasaunMamukTest(SurveiBase):
 			r = self.client.post(reverse('legal-autorizasaun'), {'users': [self.legal.pk]})
 		self.assertRedirects(r, reverse('legal-autorizasaun'))
 		self.assertTrue(OfflinePermission.objects.filter(user=self.legal, is_active=True).exists())
+
+
+class AutorizasaunLegalPinTest(TestCase):
+	# Ativa Input Legál mós fó PIN app offline (se Ofisiál Legál seidauk iha)
+	def test_ativa_legal_kria_pin_dala_ida(self):
+		from django.core import mail
+		from django.urls import reverse
+		from config.rbac import ADMIN, OFISIAL_LEGAL
+		from config.testing import setup_master, make_user
+		from users.models import PesoalUser
+		setup_master()
+		admin, legal = make_user(ADMIN), make_user(OFISIAL_LEGAL)
+		self.client.force_login(admin)
+		self.client.post(reverse('legal-autorizasaun'), {'users': [legal.pk]})
+		h = PesoalUser.objects.get(user=legal).pin_offline
+		self.assertTrue(h)
+		self.client.post(reverse('legal-autorizasaun'), {'users': [legal.pk]})
+		self.assertEqual(PesoalUser.objects.get(user=legal).pin_offline, h)       # PIN la muda
+		self.assertEqual(len(mail.outbox), 2)
