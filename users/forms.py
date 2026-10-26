@@ -126,6 +126,9 @@ class OfflinePermissionForm(forms.ModelForm):
 	# Autorizasaun input (web Legál + app offline): data hahú–remata (mamuk = ohin → loron 7)
 	data_hahu = forms.DateField(label=_('Data hahú'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
 	data_remata = forms.DateField(label=_('Data remata'), required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+	pin = forms.CharField(label=_('PIN app offline (númeru 6)'), required=False, max_length=6, min_length=6,
+		help_text=_('Mamuk → sistema kria PIN automátiku. PIN haruka ba utilizador liuhusi email.'),
+		widget=forms.TextInput(attrs={'inputmode': 'numeric', 'pattern': '[0-9]{6}', 'autocomplete': 'off', 'placeholder': '······'}))
 
 	class Meta:
 		model = OfflinePermission
@@ -137,6 +140,15 @@ class OfflinePermissionForm(forms.ModelForm):
 		if hahu and remata and remata < hahu:
 			self.add_error('data_remata', _('Data remata tenke depois data hahú.'))
 		return cleaned
+
+	def clean_pin(self):
+		from users.pin import pin_fasil
+		pin = (self.cleaned_data.get('pin') or '').strip()
+		if pin and not pin.isdigit():
+			raise forms.ValidationError(_('PIN tenke númeru 6.'))
+		if pin and pin_fasil(pin):
+			raise forms.ValidationError(_('PIN fásil liu (ex. 111111, 123456). Hili seluk.'))
+		return pin
 
 	def __init__(self, *args, **kwargs):
 		super(OfflinePermissionForm, self).__init__(*args, **kwargs)
@@ -156,6 +168,7 @@ class OfflinePermissionForm(forms.ModelForm):
 			Row(
 				Column('data_hahu', css_class='form-group col-6 col-md-3 mb-0'),
 				Column('data_remata', css_class='form-group col-6 col-md-3 mb-0'),
+				Column('pin', css_class='form-group col-md-6 mb-0'),
 				css_class='form-row'
 			),
 			HTML(""" {% load i18n %}<button class="btn btn-rbr" type="submit"><i class="fa fa-check"></i> {% trans "Fó Autorizasaun" %}</button> """)

@@ -43,12 +43,15 @@
 	<section id="scr-login" class="scr" hidden>
 		<div class="card card-rbr"><div class="card-body">
 			<h5><i class="fa fa-sign-in"></i> Login ba App Offline</h5>
-			<p class="small text-muted">Presiza internet dala ida. Admin tenke fó ona autorizasaun offline (loron 7).</p>
+			<p class="small text-muted">Presiza internet dala ida. Admin tenke fó ona autorizasaun offline no haruka username, password no PIN ba ita-nia email.</p>
 			<form id="form-login" autocomplete="on">
 				<div class="form-group"><label for="login-email">Email</label>
 					<input type="email" id="login-email" class="form-control" required autocomplete="username"></div>
 				<div class="form-group"><label for="login-pw">Password</label>
 					<input type="password" id="login-pw" class="form-control" required autocomplete="current-password"></div>
+				<div class="form-group" id="login-pin-box"><label for="login-pin">PIN app (númeru 6, husi email Admin)</label>
+					<input type="password" id="login-pin" class="form-control pin-input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="off" placeholder="······">
+					<small class="form-text text-muted">PIN ne'e xavi dadus iha HP. Depois login ne'e, app loke ho PIN de'it.</small></div>
 				<button class="btn btn-rbr btn-block btn-lg" type="submit"><i class="fa fa-sign-in"></i> Login</button>
 			</form>
 			<a href="{% url 'home' %}" class="btn btn-link btn-block">← Fila ba SIBAR-RbR online</a>

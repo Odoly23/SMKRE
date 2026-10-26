@@ -10,6 +10,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from config.rbac import ROLE_INPUT_OFFLINE
 from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline
 from users.models import OfflinePermission
+from users.pin import iha_pin, pin_xave, verifika_pin, PIN_SALA_MAX
 
 logger = logging.getLogger('smkre.sinkron')
 
@@ -28,13 +29,33 @@ def _offline_info(user):
 	return {'offline_ativu': bool(perm), 'offline_until': perm.end_date.isoformat() if perm else None}
 
 
+def _check_pin(user, pin):
+	# HP foun (setup): PIN husi Admin obrigatóriu se Admin fó ona PIN
+	if not iha_pin(user):
+		return
+	if pin_xave(user):
+		raise serializers.ValidationError(_('PIN sala dala %(n)s. Koko fali minutu 30 ka kontaktu Admin.') % {'n': PIN_SALA_MAX})
+	if not pin:
+		raise serializers.ValidationError(_('Tama PIN ne\'ebé Admin haruka liuhusi email.'))
+	if not verifika_pin(user, pin):
+		logger.warning(f'PIN offline sala: {user.username}')
+		raise serializers.ValidationError(_('PIN sala. Haree email husi Admin.'))
+
+
 class OfflineTokenObtainSerializer(TokenObtainPairSerializer):
 	username_field = 'username'
+	# setup=True: login dahuluk iha HP (seidauk iha PIN lokál) → verifika PIN husi Admin
+	pin = serializers.CharField(required=False, allow_blank=True, write_only=True, max_length=6)
+	setup = serializers.BooleanField(required=False, default=False, write_only=True)
 
 	def validate(self, attrs):
+		pin, setup = attrs.pop('pin', ''), attrs.pop('setup', False)
 		attrs['username'] = (attrs.get('username') or '').strip().lower()
 		data = super().validate(attrs)
 		_check_offline(self.user)
+		if setup:
+			_check_pin(self.user, pin)
+		data['pin_admin'] = iha_pin(self.user)
 		data.update(_offline_info(self.user))
 		logger.info(f'Token sinkron: {self.user.username}')
 		return data

@@ -5115,3 +5115,57 @@ msgstr "Opsionál: Investigadór bele input kazu iha munisípiu rua"
 #: kazu/forms.py
 msgid "— Hili munisípiu —"
 msgstr "— Hili munisípiu —"
+
+#: users/models.py
+msgid "PIN offline (hash)"
+msgstr "PIN offline (hash)"
+
+#: users/models.py
+msgid "PIN fó iha"
+msgstr "PIN fó iha"
+
+#: users/forms.py
+msgid "PIN app offline (númeru 6)"
+msgstr "PIN app offline (númeru 6)"
+
+#: users/forms.py
+msgid ""
+"Mamuk → sistema kria PIN automátiku. PIN haruka ba utilizador liuhusi email."
+msgstr ""
+"Mamuk → sistema kria PIN automátiku. PIN haruka ba utilizador liuhusi email."
+
+#: users/forms.py
+msgid "PIN tenke númeru 6."
+msgstr "PIN tenke númeru 6."
+
+#: users/forms.py
+msgid "PIN fásil liu (ex. 111111, 123456). Hili seluk."
+msgstr "PIN fásil liu (ex. 111111, 123456). Hili seluk."
+
+#: users/views/permission_v.py
+msgid ""
+"Autorizasaun offline fó ona to'o %(date)s. PIN app: %(pin)s (haruka ona ba "
+"%(email)s)."
+msgstr ""
+"Autorizasaun offline fó ona to'o %(date)s. PIN app: %(pin)s (haruka ona ba "
+"%(email)s)."
+
+#: users/templates/users/offline_form.html
+msgid ""
+"Sistema haruka email ho username, password default (se seidauk troka) no PIN"
+" app offline."
+msgstr ""
+"Sistema haruka email ho username, password default (se seidauk troka) no PIN"
+" app offline."
+
+#: users/api/views.py
+msgid "PIN sala dala %(n)s. Koko fali minutu 30 ka kontaktu Admin."
+msgstr "PIN sala dala %(n)s. Koko fali minutu 30 ka kontaktu Admin."
+
+#: users/api/views.py
+msgid "Tama PIN ne'ebé Admin haruka liuhusi email."
+msgstr "Tama PIN ne'ebé Admin haruka liuhusi email."
+
+#: users/api/views.py
+msgid "PIN sala. Haree email husi Admin."
+msgstr "PIN sala. Haree email husi Admin."

@@ -23,13 +23,18 @@ def kirim_email_reset_admin(user, pesoal):
 		[user.email])
 
 
-def kirim_email_offline(user, pesoal, permission):
-	# Email falla (Gmail / Redis) la blokeia autorizasaun: rai iha log de'it
+def kirim_email_offline(user, pesoal, permission, pin=None):
+	"""Email autorizasaun offline: username, password default (se seidauk troka) no PIN app.
+	pin=None (renova) → PIN la muda: email la hatudu PIN. Email falla la blokeia autorizasaun (log de'it)."""
+	pu = getattr(user, 'pesoaluser', None)
 	try:
 		send_email_task.delay(
 			'SIBAR-RbR — Autorizasaun input ativu',
 			'auth/email/offline.html',
-			{'naran': pesoal.name if pesoal else user.email, 'end_date': permission.end_date.strftime('%d/%m/%Y %H:%M')},
+			{'naran': pesoal.name if pesoal else user.email, 'end_date': permission.end_date.strftime('%d/%m/%Y %H:%M'),
+				'username': user.username, 'pin': pin,
+				'password': settings.DEFAULT_PASSWORD if (pu and pu.must_change_password) else None,
+				'app_url': settings.SITE_URL + reverse('sinkron')},
 			[user.email])
 	except Exception:
 		import logging

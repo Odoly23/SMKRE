@@ -9,6 +9,7 @@ from users.auth_utils import c_user_pesoal
 from users.emails import kirim_email_offline
 from users.forms import OfflinePermissionForm
 from users.models import OfflinePermission
+from users.pin import kria_pin, rai_pin, iha_pin
 from users.services import give_offline, cancel_offline
 
 
@@ -35,8 +36,11 @@ def OfflineGive(request):
 			user = form.cleaned_data['user']
 			perm = give_offline(user, by=request.user, note=form.cleaned_data.get('note', ''),
 				hahu=form.cleaned_data.get('data_hahu'), remata=form.cleaned_data.get('data_remata'))
-			kirim_email_offline(user, c_user_pesoal(user), perm)
-			messages.success(request, _('Autorizasaun offline fó ona to\'o %(date)s.') % {'date': perm.end_date.strftime('%d/%m/%Y')})
+			pin = form.cleaned_data.get('pin') or kria_pin()
+			rai_pin(user, pin)
+			kirim_email_offline(user, c_user_pesoal(user), perm, pin=pin)
+			messages.success(request, _('Autorizasaun offline fó ona to\'o %(date)s. PIN app: %(pin)s (haruka ona ba %(email)s).') % {
+				'date': perm.end_date.strftime('%d/%m/%Y'), 'pin': pin, 'email': user.email})
 			return redirect('offline-list')
 	else:
 		form = OfflinePermissionForm(initial={'user': request.GET.get('user')})
@@ -57,7 +61,11 @@ def OfflineRenew(request, pk):
 		messages.error(request, _('Utilizador ne\'e labele hetan autorizasaun offline.'))
 		return redirect('offline-list')
 	perm = give_offline(obj.user, by=request.user, note=_('Renova'))
-	kirim_email_offline(obj.user, c_user_pesoal(obj.user), perm)
+	pin = None
+	if not iha_pin(obj.user):                    # seidauk iha PIN husi Admin → kria foun
+		pin = kria_pin()
+		rai_pin(obj.user, pin)
+	kirim_email_offline(obj.user, c_user_pesoal(obj.user), perm, pin=pin)
 	messages.success(request, _('Autorizasaun renova ona to\'o %(date)s.') % {'date': perm.end_date.strftime('%d/%m/%Y')})
 	return redirect('offline-list')
 

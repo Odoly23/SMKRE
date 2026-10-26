@@ -5038,3 +5038,58 @@ msgstr "Optional: the Investigator can enter cases in two municipalities"
 #: kazu/forms.py
 msgid "— Hili munisípiu —"
 msgstr "— Choose municipality —"
+
+#: users/models.py
+msgid "PIN offline (hash)"
+msgstr "Offline PIN (hash)"
+
+#: users/models.py
+msgid "PIN fó iha"
+msgstr "PIN issued at"
+
+#: users/forms.py
+msgid "PIN app offline (númeru 6)"
+msgstr "Offline app PIN (6 digits)"
+
+#: users/forms.py
+msgid ""
+"Mamuk → sistema kria PIN automátiku. PIN haruka ba utilizador liuhusi email."
+msgstr ""
+"Empty → the system generates a PIN automatically. The PIN is sent to the "
+"user by email."
+
+#: users/forms.py
+msgid "PIN tenke númeru 6."
+msgstr "The PIN must be 6 digits."
+
+#: users/forms.py
+msgid "PIN fásil liu (ex. 111111, 123456). Hili seluk."
+msgstr "PIN too easy (e.g. 111111, 123456). Choose another."
+
+#: users/views/permission_v.py
+msgid ""
+"Autorizasaun offline fó ona to'o %(date)s. PIN app: %(pin)s (haruka ona ba "
+"%(email)s)."
+msgstr ""
+"Offline authorisation granted until %(date)s. App PIN: %(pin)s (sent to "
+"%(email)s)."
+
+#: users/templates/users/offline_form.html
+msgid ""
+"Sistema haruka email ho username, password default (se seidauk troka) no PIN"
+" app offline."
+msgstr ""
+"The system sends an email with the username, the default password (if not "
+"yet changed) and the offline app PIN."
+
+#: users/api/views.py
+msgid "PIN sala dala %(n)s. Koko fali minutu 30 ka kontaktu Admin."
+msgstr "Wrong PIN %(n)s times. Try again in 30 minutes or contact the Admin."
+
+#: users/api/views.py
+msgid "Tama PIN ne'ebé Admin haruka liuhusi email."
+msgstr "Enter the PIN the Admin sent by email."
+
+#: users/api/views.py
+msgid "PIN sala. Haree email husi Admin."
+msgstr "Wrong PIN. Check the email from the Admin."

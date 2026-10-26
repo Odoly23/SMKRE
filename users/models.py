@@ -53,6 +53,11 @@ class PesoalUser(models.Model):
 	pesoal = models.OneToOneField(Pesoal, on_delete=models.CASCADE, null=True, related_name="pesoaluser")
 	user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 	must_change_password = models.BooleanField(default=True, verbose_name=_("Tenke troka password"))
+	# PIN app offline husi Admin (hash deit, hanesan password). Mamuk → utilizador kria PIN rasik iha app.
+	pin_offline = models.CharField(max_length=128, blank=True, editable=False, verbose_name=_("PIN offline (hash)"))
+	pin_offline_at = models.DateTimeField(null=True, blank=True, editable=False, verbose_name=_("PIN fó iha"))
+	pin_sala = models.PositiveSmallIntegerField(default=0, editable=False)          # PIN sala iha login app
+	pin_sala_at = models.DateTimeField(null=True, blank=True, editable=False)
 
 	class Meta:
 		verbose_name = _("Konta Pesoal")

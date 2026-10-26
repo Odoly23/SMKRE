@@ -5022,3 +5022,57 @@ msgstr "Opsional: Investigador bisa input kasus di dua munisípiu"
 #: kazu/forms.py
 msgid "— Hili munisípiu —"
 msgstr "— Pilih munisípiu —"
+
+#: users/models.py
+msgid "PIN offline (hash)"
+msgstr "PIN offline (hash)"
+
+#: users/models.py
+msgid "PIN fó iha"
+msgstr "PIN diberikan pada"
+
+#: users/forms.py
+msgid "PIN app offline (númeru 6)"
+msgstr "PIN aplikasi offline (6 angka)"
+
+#: users/forms.py
+msgid ""
+"Mamuk → sistema kria PIN automátiku. PIN haruka ba utilizador liuhusi email."
+msgstr ""
+"Kosong → sistem membuat PIN otomatis. PIN dikirim ke pengguna lewat email."
+
+#: users/forms.py
+msgid "PIN tenke númeru 6."
+msgstr "PIN harus 6 angka."
+
+#: users/forms.py
+msgid "PIN fásil liu (ex. 111111, 123456). Hili seluk."
+msgstr "PIN terlalu mudah (mis. 111111, 123456). Pilih yang lain."
+
+#: users/views/permission_v.py
+msgid ""
+"Autorizasaun offline fó ona to'o %(date)s. PIN app: %(pin)s (haruka ona ba "
+"%(email)s)."
+msgstr ""
+"Izin offline diberikan sampai %(date)s. PIN aplikasi: %(pin)s (sudah dikirim"
+" ke %(email)s)."
+
+#: users/templates/users/offline_form.html
+msgid ""
+"Sistema haruka email ho username, password default (se seidauk troka) no PIN"
+" app offline."
+msgstr ""
+"Sistem mengirim email berisi username, password default (jika belum diganti)"
+" dan PIN aplikasi offline."
+
+#: users/api/views.py
+msgid "PIN sala dala %(n)s. Koko fali minutu 30 ka kontaktu Admin."
+msgstr "PIN salah %(n)s kali. Coba lagi 30 menit lagi atau hubungi Admin."
+
+#: users/api/views.py
+msgid "Tama PIN ne'ebé Admin haruka liuhusi email."
+msgstr "Masukkan PIN yang dikirim Admin lewat email."
+
+#: users/api/views.py
+msgid "PIN sala. Haree email husi Admin."
+msgstr "PIN salah. Lihat email dari Admin."

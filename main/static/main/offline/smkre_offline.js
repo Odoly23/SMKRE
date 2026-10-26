@@ -32,8 +32,12 @@
 	}
 
 	// ══════════════ Ekran no mensajen ══════════════
+	// HP foun (seidauk iha xavi lokál) → login presiza PIN husi Admin; relogin sesaun → la presiza
+	function ehSetup() { return !(S.relogin && S.xavi); }
+
 	function hatudu(scr) {
 		document.querySelectorAll('.scr').forEach(function (s) { s.hidden = s.id !== scr; });
+		if (scr === 'scr-login') { $('login-pin-box').hidden = !ehSetup(); $('login-pin').value = ''; }
 		$('btn-lock').hidden = !S.xavi;
 		window.scrollTo(0, 0);
 	}
@@ -115,8 +119,10 @@
 		ev.preventDefault();
 		if (!navigator.onLine) { msg('Login presiza internet. Buka fatin ho sinál.'); return; }
 		var email = $('login-email').value.trim().toLowerCase(), pw = $('login-pw').value;
+		var setup = ehSetup(), pin = setup ? $('login-pin').value.trim() : '';
+		if (pin && !/^\d{6}$/.test(pin)) { msg('PIN tenke númeru 6.'); return; }
 		msg('Hein…', 'info');
-		postJSON(B.apiToken, { username: email, password: pw }).then(function (r) {
+		postJSON(B.apiToken, { username: email, password: pw, pin: pin, setup: setup }).then(function (r) {
 			return r.json().catch(function () { return {}; }).then(function (d) {
 				if (r.status === 429) throw new Error('Konta xave tanba sala dala barak. Koko fali minutu 30 ka kontaktu Admin.');
 				if (!r.ok) throw new Error(d.detail || erruLista({ erru: d }).join(' ') || 'Email ka password sala.');
@@ -124,6 +130,7 @@
 			});
 		}).then(function (d) {
 			var auth = { access: d.access, refresh: d.refresh, offline_ativu: d.offline_ativu, offline_until: d.offline_until };
+			var pinAdmin = setup && d.pin_admin && pin;
 			S.auth = auth;
 			return apiJSON(B.apiMe).then(function (me) {
 				if (S.relogin && S.meEmail && me.data.email !== S.meEmail) throw new Error('HP ne\'e iha dadus husi utilizador seluk. Sinkron uluk ka hamoos dadus.');
@@ -132,13 +139,15 @@
 			}).then(function (op) {
 				if (!op.ok) throw new Error(erruLista(op.data).join(' '));
 				S.opsaun = op.data;
-				$('login-pw').value = '';
+				$('login-pw').value = ''; $('login-pin').value = '';
 				msg(null);
 				if (S.relogin && S.xavi) {
 					S.relogin = false;
 					return Promise.all([raiAuth(), raiOpsaun()]).then(function () { baVaranda(); sinkronHotu(true); });
 				}
-				hatudu('scr-pin-set');
+				S.relogin = false;
+				if (pinAdmin) return kriaXavi(pin);        // PIN husi Admin (server verifika ona)
+				hatudu('scr-pin-set');                     // utilizador seidauk iha PIN husi Admin → kria rasik
 			});
 		}).catch(function (e) { S.auth = null; msg(e.message || 'La bele login.'); });
 	});
@@ -150,19 +159,23 @@
 		if (!/^\d{6}$/.test(p1)) { msg('PIN tenke númeru 6.'); return; }
 		if (/^(\d)\1{5}$/.test(p1) || '0123456789'.indexOf(p1) >= 0 || '9876543210'.indexOf(p1) >= 0) { msg('PIN fásil liu (ex. 111111, 123456). Hili seluk.'); return; }
 		if (p1 !== p2) { msg('PIN la hanesan.'); return; }
+		kriaXavi(p1).then(function () { $('pin1').value = $('pin2').value = ''; });
+	});
+
+	// Kria xavi enkriptasaun husi PIN no rai dadus login (enkriptadu) iha HP
+	function kriaXavi(pin) {
 		msg('Kria xavi…', 'info');
 		var salt = K.randomBytes(16);
-		K.deriveKey(p1, salt).then(function (xavi) {
+		return K.deriveKey(pin, salt).then(function (xavi) {
 			S.xavi = xavi;
 			return K.encryptJSON(xavi, VERIFIKA_TESTU);
 		}).then(function (verif) {
 			return Promise.all([DB.metaSet('salt', salt), DB.metaSet('verifika', verif), DB.metaSet('pin_sala', 0), raiAuth(), raiOpsaun()]);
 		}).then(function () {
-			$('pin1').value = $('pin2').value = '';
 			msg(null);
 			baVaranda();
 		}).catch(function () { msg('La bele rai PIN. HP ne\'e presiza browser foun (Chrome / Safari).'); });
-	});
+	}
 
 	// ══════════════ 3. LOKE HO PIN ══════════════
 	$('form-pin').addEventListener('submit', function (ev) {

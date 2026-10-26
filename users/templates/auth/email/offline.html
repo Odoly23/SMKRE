@@ -2,5 +2,14 @@
 {% block body %}
 <p>Bondia {{ naran }},</p>
 <p>Ita-nia <b>autorizasaun offline</b> ativu ona to'o <b>{{ end_date }}</b>.</p>
-<p>Antes ba terrenu: login online, kria PIN, no konfirma GPS ativu.</p>
+<p>Dadus atu tama iha <b>App Offline</b>:</p>
+<table style="border-collapse:collapse;margin:6px 0 12px">
+	<tr><td style="padding:4px 12px 4px 0;color:#555">Username</td><td style="padding:4px 0"><b>{{ username }}</b></td></tr>
+	{% if password %}<tr><td style="padding:4px 12px 4px 0;color:#555">Password default</td><td style="padding:4px 0"><b>{{ password }}</b></td></tr>{% else %}<tr><td style="padding:4px 12px 4px 0;color:#555">Password</td><td style="padding:4px 0">Password ne'ebé ita troka ona</td></tr>{% endif %}
+	{% if pin %}<tr><td style="padding:4px 12px 4px 0;color:#555">PIN app (númeru 6)</td><td style="padding:4px 0;font-size:20px;letter-spacing:4px"><b>{{ pin }}</b></td></tr>{% else %}<tr><td style="padding:4px 12px 4px 0;color:#555">PIN app</td><td style="padding:4px 0">PIN la muda (uza PIN ne'ebé ita simu ona)</td></tr>{% endif %}
+</table>
+<p>Antes ba terrenu: loke App Offline ho internet, login ho username, password no PIN, no konfirma GPS ativu. Depois ne'e app loke ho PIN de'it.</p>
+{% if password %}<p>Iha login online dahuluk, ita <b>tenke troka</b> password default.</p>{% endif %}
+<p><a href="{{ app_url }}" style="display:inline-block;background:#0E8A68;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Loke App Offline</a></p>
+<p style="color:#6B1E23">Labele fahe password ka PIN ba ema seluk. Hamoos email ne'e hafoin rai PIN iha fatin seguru.</p>
 {% endblock %}

@@ -262,3 +262,72 @@ class ValidatorLianTest(TestCase):
 	def test_next_externu_la_permite(self):
 		r = self.client.post(reverse('set-language'), {'language': 'en', 'next': 'https://evil.example/'})
 		self.assertEqual(r['Location'], '/')
+
+
+class PinOfflineTest(TestCase):
+	# PIN app offline husi Admin: rai hash, haruka email, verifika iha login dahuluk app
+	def setUp(self):
+		setup_master()
+		self.admin = make_user(ADMIN)
+		self.inv = make_user(INVESTIGADOR, must_change=True)
+		self.url = reverse('api-token')
+
+	def _fo(self, pin=''):
+		self.client.force_login(self.admin)
+		return self.client.post(reverse('offline-give'), {'user': self.inv.pk, 'pin': pin})
+
+	def test_admin_fo_pin_no_email_iha_username_password_pin(self):
+		self._fo('482915')
+		pu = PesoalUser.objects.get(user=self.inv)
+		self.assertTrue(pu.pin_offline and '482915' not in pu.pin_offline)     # hash deit
+		body = mail.outbox[-1].alternatives[0][0] if mail.outbox[-1].alternatives else mail.outbox[-1].body
+		for testu in (self.inv.username, settings.DEFAULT_PASSWORD, '482915'):
+			self.assertIn(testu, body)
+
+	def test_pin_mamuk_sistema_kria(self):
+		self._fo('')
+		self.assertTrue(PesoalUser.objects.get(user=self.inv).pin_offline)
+
+	def test_pin_fasil_rejeita(self):
+		r = self._fo('123456')
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(OfflinePermission.objects.filter(user=self.inv).exists())
+
+	def test_password_troka_ona_la_haruka_password_default(self):
+		PesoalUser.objects.filter(user=self.inv).update(must_change_password=False)
+		self._fo('482915')
+		body = mail.outbox[-1].alternatives[0][0] if mail.outbox[-1].alternatives else mail.outbox[-1].body
+		self.assertNotIn(settings.DEFAULT_PASSWORD, body)
+
+	def test_login_app_setup_presiza_pin_loos(self):
+		self._fo('482915')
+		base = {'username': self.inv.username, 'password': PASSWORD, 'setup': True}
+		self.assertEqual(self.client.post(self.url, base).status_code, 400)                       # la iha PIN
+		self.assertEqual(self.client.post(self.url, {**base, 'pin': '000111'}).status_code, 400)  # PIN sala
+		r = self.client.post(self.url, {**base, 'pin': '482915'})
+		self.assertEqual(r.status_code, 200)
+		self.assertTrue(r.json()['pin_admin'])
+		# Relogin (sesaun remata, HP iha ona PIN) → la presiza PIN
+		self.assertEqual(self.client.post(self.url, {'username': self.inv.username, 'password': PASSWORD}).status_code, 200)
+
+	def test_pin_sala_dala_5_xave(self):
+		self._fo('482915')
+		base = {'username': self.inv.username, 'password': PASSWORD, 'setup': True}
+		for _ in range(5):
+			self.client.post(self.url, {**base, 'pin': '000111'})
+		self.assertEqual(self.client.post(self.url, {**base, 'pin': '482915'}).status_code, 400)
+
+	def test_renova_la_troka_pin(self):
+		self._fo('482915')
+		h = PesoalUser.objects.get(user=self.inv).pin_offline
+		perm = OfflinePermission.objects.get(user=self.inv, is_active=True)
+		self.client.post(reverse('offline-renew', args=[perm.pk]))
+		self.assertEqual(PesoalUser.objects.get(user=self.inv).pin_offline, h)
+		body = mail.outbox[-1].alternatives[0][0] if mail.outbox[-1].alternatives else mail.outbox[-1].body
+		self.assertNotIn('482915', body)
+
+	def test_utilizador_la_iha_pin_admin_bele_setup_hanesan_uluk(self):
+		OfflinePermission.objects.create(user=self.inv, given_by=self.admin)
+		r = self.client.post(self.url, {'username': self.inv.username, 'password': PASSWORD, 'setup': True})
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(r.json()['pin_admin'])
