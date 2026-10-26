@@ -43,7 +43,7 @@ class KazuEntidade(SeksaunBase):
 	kazu = models.OneToOneField(Kazu, on_delete=models.CASCADE, primary_key=True, related_name='entidade')
 	projetu = models.CharField(max_length=255, blank=True, verbose_name=_("Projetu (se Governu foti rai: atu hari'i saida?)"))
 	entidade_foti = models.CharField(max_length=255, blank=True, verbose_name=_("Entidade ne'ebé foti rai"))
-	entidade_kategoria = models.CharField(max_length=25, choices=ENTIDADE_CHOICES, blank=True, verbose_name=_("Entidade benefisiáriu (kategoria)"))
+	entidade_kategoria = models.CharField(max_length=25, choices=ENTIDADE_CHOICES, blank=True, db_index=True, verbose_name=_("Entidade benefisiáriu (kategoria)"))
 	entidade_kategoria_seluk = models.CharField(max_length=255, blank=True, verbose_name=_('Esplika entidade "Seluk"'))
 
 	class Meta:
@@ -65,7 +65,7 @@ class KazuPopulasaun(SeksaunBase):
 
 class KazuEviksaun(SeksaunBase):
 	kazu = models.OneToOneField(Kazu, on_delete=models.CASCADE, primary_key=True, related_name='eviksaun')
-	eviksaun_akontese = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Eviksaun akontese ona?"))
+	eviksaun_akontese = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, db_index=True, verbose_name=_("Eviksaun akontese ona?"))
 	data_eviksaun = models.DateField(null=True, blank=True, verbose_name=_("Data eviksaun"))
 	konsultasaun_molok = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Molok eviksaun iha konsultasaun ka lae?"))
 	notifikasaun_klaru = models.CharField(max_length=8, choices=SIN_LAE_CHOICES, blank=True, verbose_name=_("Molok eviksaun iha notifikasaun klaru ka lae?"))

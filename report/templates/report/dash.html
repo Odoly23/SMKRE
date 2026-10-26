@@ -129,4 +129,94 @@
 			</div>
 		</div>
 	</div>
+	<!-- Status kazu, tribunál, Governu foti rai no eviksaun (númeru) -->
+	<div class="stat-row mb-3">
+		<a href="{% url 'report-tabular-list' 0 'rez' 'seidauk' %}?{{ request.GET.urlencode }}" class="stat" style="background:#0B4F3C"><b>{{ adv.n_seidauk|intcomma }}</b><span>{% trans "Kazu seidauk rezolve" %}</span></a>
+		<a href="{% url 'report-tabular-list' 0 'trib' 'sin' %}?{{ request.GET.urlencode }}" class="stat" style="background:#2F6AA6"><b>{{ adv.n_tribunal|intcomma }}</b><span>{% trans "Rejistu iha tribunál" %}</span></a>
+		<a href="{% url 'report-tabular-list' 0 'evik' 'sin' %}?{{ request.GET.urlencode }}" class="stat" style="background:#E8772E"><b>{{ adv.evik_total|intcomma }}</b><span>{% trans "Kazu hetan eviksaun" %}</span></a>
+		<div class="stat" style="background:#C99A06"><b>{{ adv.evik_af.uma_kain|intcomma }}</b><span>{% trans "Uma-kain hetan eviksaun" %}</span></div>
+		<div class="stat" style="background:#6B1E23"><b>{{ adv.gov_total|intcomma }}</b><span>{% trans "Kazu Governu foti rai" %}</span></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 col-xl-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr">{% trans "Status Kazu (rezolusaun)" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Status" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for k, l, n in adv.status %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
+						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-xl-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-maroon">{% trans "Rejistu iha Tribunál" %}</div>
+				<div class="card-body">
+					<p class="small text-muted mb-1">{% trans "Kazu ne'ebé seidauk rezolve de'it" %}</p>
+					<table class="table table-sm table-num mb-2">
+						<thead><tr><th>{% trans "Rejistu iha tribunál?" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for k, l, n in adv.tribunal %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
+						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
+						</tbody>
+					</table>
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Tipu kazu seidauk rejistu iha tribunál" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for k, l, n in adv.tipu_la_trib %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
+						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 col-xl-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-dark2">{% trans "Eviksaun" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Pergunta" %}</th><th>{% trans "Sin" %}</th><th>{% trans "Lae" %}</th><th>{% trans "La hatene" %}</th></tr></thead>
+						<tbody>
+						{% for naran, sin, lae, seluk in adv.ev_tabela %}<tr><td>{{ naran }}</td><td>{{ sin }}</td><td>{{ lae }}</td><td>{{ seluk }}</td></tr>{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr">{% trans "Governu foti komunidade nia rai: populasaun afetada" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Kazu" %}</th><th>{% trans "Uma-Kain" %}</th><th>{% trans "Mane" %}</th><th>{% trans "Feto" %}</th><th>{% trans "Labarik" %}</th></tr></thead>
+						<tbody><tr><td>{{ adv.gov_total|intcomma }}</td><td>{{ adv.gov_af.uma_kain|intcomma }}</td><td>{{ adv.gov_af.mane|intcomma }}</td><td>{{ adv.gov_af.feto|intcomma }}</td><td>{{ adv.gov_af.labarik|intcomma }}</td></tr></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-maroon">{% trans "Entidade ne'ebé hetan benefísiu husi Governu foti rai" %}</div>
+				<div class="card-body">
+					<table class="table table-sm table-num mb-0">
+						<thead><tr><th>{% trans "Entidade" %}</th><th>{% trans "Total" %}</th></tr></thead>
+						<tbody>
+						{% for k, l, n in adv.entidade %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
+						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% include 'report/_tabular.html' %}
 {% endblock %}

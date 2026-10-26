@@ -70,6 +70,95 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-dark2">{% trans "Kazu tuir Tinan Rejistu iha RbR" %}</div>
+				<div class="card-body">
+					
+					<figure class="highcharts-figure"><div id="chart_tinan"></div></figure>
+					<p class="small mb-0">{{ graf.testu.tinan }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-maroon">{% trans "Status Kazu (rezolusaun)" %}</div>
+				<div class="card-body">
+					
+					<figure class="highcharts-figure"><div id="chart_rez"></div></figure>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr">{% trans "Kazu ne'ebé rejistu no la rejistu iha tribunál" %}</div>
+				<div class="card-body">
+					<p class="small text-muted mb-1">{% trans "Kazu ne'ebé seidauk rezolve de'it" %}</p>
+					<figure class="highcharts-figure"><div id="chart_tribunal"></div></figure>
+					<p class="small mb-0">{{ graf.testu.tribunal }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-maroon">{% trans "Tipu kazu ne'ebé seidauk rejistu iha tribunál" %}</div>
+				<div class="card-body">
+					<p class="small text-muted mb-1">{% trans "Kazu ne'ebé seidauk rezolve de'it" %}</p>
+					<figure class="highcharts-figure"><div id="chart_la_trib"></div></figure>
+					<p class="small mb-0">{{ graf.testu.la_trib }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-dark2">{% trans "Entidade ne'ebé hetan benefísiu husi Governu foti rai" %}</div>
+				<div class="card-body">
+					
+					<figure class="highcharts-figure"><div id="chart_entidade"></div></figure>
+					<p class="small mb-0">{{ graf.testu.gov }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr">{% trans "Molok eviksaun halo konsultasaun ka lae?" %}</div>
+				<div class="card-body">
+					
+					<figure class="highcharts-figure"><div id="chart_konsultasaun"></div></figure>
+					<p class="small mb-0">{{ graf.testu.konsultasaun_molok }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-maroon">{% trans "Molok eviksaun iha notifikasaun ka lae?" %}</div>
+				<div class="card-body">
+					
+					<figure class="highcharts-figure"><div id="chart_notifikasaun"></div></figure>
+					<p class="small mb-0">{{ graf.testu.notifikasaun_klaru }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 mb-3">
+			<div class="card card-rbr h-100">
+				<div class="card-header card-header-rbr bg-dark2">{% trans "Durante eviksaun uza forsa ka lae?" %}</div>
+				<div class="card-body">
+					
+					<figure class="highcharts-figure"><div id="chart_forsa"></div></figure>
+					<p class="small mb-0">{{ graf.testu.uza_forsa }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ graf|json_script:"graf-dadus" }}
 {% endblock %}
 {% block scripts %}
 {% include 'report/_chart_assets.html' %}
@@ -79,5 +168,6 @@
 		{% include 'chart/chart_tipu.js' %}
 		{% include 'chart/chart_status.js' %}
 		{% include 'chart/chart_afetadu.js' %}
+		{% include 'chart/chart_advokasia.js' %}
 	</script>
 {% endblock %}

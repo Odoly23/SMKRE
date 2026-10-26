@@ -1,5 +1,5 @@
 from django.urls import path
-from report.views import dash_v, mapa_v, export_v, live_v
+from report.views import dash_v, mapa_v, export_v, live_v, advokasia_v
 
 urlpatterns = [
 	path('dash/', dash_v.reportDash, name='report-dash'),
@@ -20,6 +20,7 @@ urlpatterns = [
 	path('lista/munisipiu/<int:pk>/', dash_v.rMunisipiuList, name='report-mun-list'),
 	path('lista/tinan/<int:tinan>/', dash_v.rTinanList, name='report-tinan-list'),
 	path('lista/investigador/<int:pk>/', dash_v.rStaffList, name='report-staff-list'),
+	path('lista/tabela/<int:mun>/<str:grupu>/<str:valor>/', advokasia_v.rTabularList, name='report-tabular-list'),
 
 	# Eksporta
 	path('eksporta/excel/', export_v.exportExcel, name='report-export-excel'),

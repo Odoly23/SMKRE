@@ -29,7 +29,7 @@ class Kazu(models.Model):
 	status_kazu = models.CharField(max_length=15, choices=STATUS_KAZU_CHOICES, default=ABERTU, db_index=True, verbose_name=_("Status Kazu"))
 
 	# Identifikasaun
-	data_relatoriu = models.DateField(null=True, blank=True, verbose_name=_("Data simu kazu iha RbR"))
+	data_relatoriu = models.DateField(null=True, blank=True, db_index=True, verbose_name=_("Data simu kazu iha RbR"))
 	tinan_simu = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name=_("Tinan Simu Kazu iha RbR"))   # automátiku husi data; manuál se data la hatene
 	data_akontesimentu = models.DateField(null=True, blank=True, verbose_name=_("Data Akontesimentu"))
 	tipu_konflitu = models.ManyToManyField(TipuKonflitu, blank=True, verbose_name=_("Tipu Konflitu Rai"))
@@ -77,6 +77,13 @@ class Kazu(models.Model):
 
 	class Meta:
 		ordering = ['-urjente', '-created_at']
+		# Index ba relatóriu, dashboard, portal no lista (filtru beibeik)
+		indexes = [
+			models.Index(fields=['status', 'munisipiu'], name='kazu_status_mun_idx'),
+			models.Index(fields=['status', 'data_relatoriu'], name='kazu_status_data_idx'),
+			models.Index(fields=['status', 'konsentimentu', 'la_publika'], name='kazu_portal_idx'),
+			models.Index(fields=['-urjente', '-created_at'], name='kazu_orden_idx'),
+		]
 		verbose_name = _("Kazu")
 		verbose_name_plural = _("Kazu")
 		permissions = [('verify_kazu', 'Bele verifika kazu'), ('approve_kazu', 'Bele aprova kazu')]

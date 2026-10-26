@@ -5205,3 +5205,184 @@ msgstr "Tampilkan di portal publik (data agregat saja)"
 #: kazu
 msgid "Rai portal"
 msgstr "Simpan portal"
+
+#: report
+msgid "Seidauk rezolve"
+msgstr "Belum selesai"
+
+#: report
+msgid "Rezolve ona"
+msgstr "Sudah selesai"
+
+#: report
+msgid "La hatene / laiha dadus"
+msgstr "Tidak tahu / tidak ada data"
+
+#: report
+msgid "Rejistu hela"
+msgstr "Sedang didaftarkan"
+
+#: report
+msgid "Eviksaun akontese"
+msgstr "Penggusuran terjadi"
+
+#: report
+msgid "Munisípiu ho kazu barak liu: %(t)s."
+msgstr "Munisípiu dengan kazu terbanyak: %(t)s."
+
+#: report
+msgid "Tipu kazu barak liu: %(t)s."
+msgstr "Tipe kazu terbanyak: %(t)s."
+
+#: report
+msgid "Tinan ho kazu rejistu barak liu: %(t)s."
+msgstr "Tahun dengan kazu terdaftar terbanyak: %(t)s."
+
+#: report
+msgid ""
+"Total uma-kain ida-ne'e seidauk reprezenta kazu hotu: kazu %(n)s seidauk iha"
+" dadus uma-kain."
+msgstr ""
+"Total uma-kain ini belum mewakili semua kazu: %(n)s kazu belum punya data "
+"uma-kain."
+
+#: report
+msgid ""
+"Husi kazu %(s)s ne'ebé seidauk rezolve, %(n)s (%(p)s%%) rejistu ona ka "
+"rejistu hela iha tribunál."
+msgstr ""
+"Dari %(s)s kazu yang belum selesai, %(n)s (%(p)s%%) sudah atau sedang "
+"didaftarkan di pengadilan."
+
+#: report
+msgid "Tipu kazu barak liu ne'ebé seidauk rejistu iha tribunál: %(t)s."
+msgstr "Tipe kazu terbanyak yang belum didaftarkan di pengadilan: %(t)s."
+
+#: report
+msgid ""
+"Husi tipu kazu Governu foti komunidade nia rai (kazu %(n)s): uma-kain, mane,"
+" feto no labarik iha leten, maske dadus balu seidauk kompletu."
+msgstr ""
+"Dari tipe kazu Pemerintah mengambil tanah komunitas (%(n)s kazu): uma-kain, "
+"laki-laki, perempuan dan anak di atas, meski sebagian data belum lengkap."
+
+#: report
+msgid "Kazu %(n)s hetan eviksaun ona; uma-kain %(u)s afetadu."
+msgstr "%(n)s kazu sudah digusur; %(u)s uma-kain terdampak."
+
+#: report
+msgid "Kazu eviksaun %(n)s (%(p)s%%) la iha konsultasaun molok eviksaun."
+msgstr "%(n)s kazu penggusuran (%(p)s%%) tanpa konsultasi sebelumnya."
+
+#: report
+msgid ""
+"Kazu eviksaun %(n)s (%(p)s%%) la iha notifikasaun klaru molok eviksaun."
+msgstr "%(n)s kazu penggusuran (%(p)s%%) tanpa notifikasi jelas sebelumnya."
+
+#: report
+msgid "Kazu eviksaun %(n)s (%(p)s%%) uza forsa durante eviksaun."
+msgstr "%(n)s kazu penggusuran (%(p)s%%) memakai kekerasan."
+
+#: report
+msgid "Molok eviksaun halo konsultasaun?"
+msgstr "Ada konsultasi sebelum penggusuran?"
+
+#: report
+msgid "Molok eviksaun iha notifikasaun?"
+msgstr "Ada notifikasi sebelum penggusuran?"
+
+#: report
+msgid "Durante eviksaun uza forsa?"
+msgstr "Kekerasan saat penggusuran?"
+
+#: report
+msgid "Kazu seidauk rezolve"
+msgstr "Kazu belum selesai"
+
+#: report
+msgid "Kazu hetan eviksaun"
+msgstr "Kazu digusur"
+
+#: report
+msgid "Uma-kain hetan eviksaun"
+msgstr "Uma-kain digusur"
+
+#: report
+msgid "Kazu Governu foti rai"
+msgstr "Kazu Pemerintah ambil tanah"
+
+#: report
+msgid "Status Kazu (rezolusaun)"
+msgstr "Status kazu (penyelesaian)"
+
+#: report
+msgid "Kazu ne'ebé seidauk rezolve de'it"
+msgstr "Hanya kazu yang belum selesai"
+
+#: report
+msgid "Tipu kazu seidauk rejistu iha tribunál"
+msgstr "Tipe kazu belum terdaftar di pengadilan"
+
+#: report
+msgid "Pergunta"
+msgstr "Pertanyaan"
+
+#: report
+msgid "Governu foti komunidade nia rai: populasaun afetada"
+msgstr "Pemerintah ambil tanah komunitas: populasi terdampak"
+
+#: report
+msgid "Entidade ne'ebé hetan benefísiu husi Governu foti rai"
+msgstr "Entitas yang diuntungkan dari pengambilan tanah oleh Pemerintah"
+
+#: report
+msgid "Entidade"
+msgstr "Entitas"
+
+#: report
+msgid "Relatóriu tabular: kazu tuir munisípiu"
+msgstr "Laporan tabel: kazu per munisípiu"
+
+#: report
+msgid ""
+"Klik númeru atu haree lista kazu. Kazu ida bele iha tipu liu ida, entaun "
+"soma kolun tipu bele boot liu total."
+msgstr ""
+"Klik angka untuk melihat daftar kazu. Satu kazu bisa punya lebih dari satu "
+"tipe, jadi jumlah kolom tipe bisa melebihi total."
+
+#: report
+msgid "Nu."
+msgstr "No."
+
+#: report
+msgid "Tipu kazu"
+msgstr "Tipe kazu"
+
+#: report
+msgid "Populasaun afetada"
+msgstr "Populasi terdampak"
+
+#: report
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#: report
+msgid "Kazu tuir Tinan Rejistu iha RbR"
+msgstr "Kazu per tahun terdaftar di RbR"
+
+#: report
+msgid "Kazu ne'ebé rejistu no la rejistu iha tribunál"
+msgstr "Kazu terdaftar dan tidak terdaftar di pengadilan"
+
+#: report
+msgid "Tipu kazu ne'ebé seidauk rejistu iha tribunál"
+msgstr "Tipe kazu yang belum terdaftar di pengadilan"
+
+#: report
+msgid "Molok eviksaun halo konsultasaun ka lae?"
+msgstr "Apakah ada konsultasi sebelum penggusuran?"
+
+#: report
+msgid "Molok eviksaun iha notifikasaun ka lae?"
+msgstr "Apakah ada notifikasi sebelum penggusuran?"

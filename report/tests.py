@@ -186,3 +186,53 @@ class LiveTest(TestCase):
 		self.assertEqual(self.client.get(reverse('report-live-ekran')).status_code, 403)
 		self.client.force_login(self.inv)
 		self.assertEqual(self.client.get(reverse('report-live')).status_code, 403)
+
+
+class AdvokasiaTest(ReportBase):
+	# Status kazu, tribunál, eviksaun, Governu foti rai: númeru iha Dashboard, gráfiku iha Gráfiku; tabela munisípiu → lista
+	def setUp(self):
+		super().setUp()
+		from kazu.models import KazuSegimentu
+		gov = TipuKonflitu.objects.get(code='GOV-RAI-PRIVADU')
+		k0, k1, k2 = (Kazu.objects.get(kode=f'T-{i}') for i in range(3))
+		k0.tipu_konflitu.add(gov)
+		k0.eviksaun_akontese, k0.konsultasaun_molok, k0.uza_forsa, k0.entidade_kategoria = 'SIN', 'LAE', 'SIN', 'GOVERNU'
+		k0.save()
+		KazuSegimentu.objects.create(kazu=k0, status_rezolusaun='SEIDAUK', tribunal_rejistu='LAE')
+		KazuSegimentu.objects.create(kazu=k1, status_rezolusaun='RES_MEDIASAUN', tribunal_rejistu='SIN')
+		KazuSegimentu.objects.create(kazu=k2, tribunal_rejistu='DADAUN')
+		self.client.force_login(self.analista)
+
+	def test_dashboard_numeru(self):
+		r = self.client.get(reverse('report-dash'))
+		self.assertEqual(r.status_code, 200)
+		d = r.context['adv']
+		self.assertEqual(d['n_seidauk'], 3)                      # T-1 rezolve ona (mediasaun) la tama
+		self.assertEqual(d['n_tribunal'], 1)
+		self.assertEqual(dict((k, n) for k, _l, n in d['tribunal']), {'LAE': 1, 'DADAUN': 1, '': 1})
+		self.assertEqual((d['gov_total'], d['gov_af']['labarik'], d['entidade'][0][0]), (1, 15, 'GOVERNU'))
+		self.assertEqual((d['evik_total'], d['evik_af']['uma_kain']), (1, 10))
+		self.assertEqual(d['ev_tabela'][2][1:], (1, 0, 0))       # uza forsa: Sin 1
+		self.assertContains(r, 'tab-rbr')                        # tabela munisípiu iha dashboard
+
+	def test_grafiku_dadus(self):
+		r = self.client.get(reverse('report-chart'))
+		self.assertEqual(r.status_code, 200)
+		g = r.context['graf']
+		self.assertEqual(dict(g['uza_forsa']), {'Sin': 1})
+		self.assertContains(r, 'chart_tribunal')
+
+	def test_tabular_no_link_lista(self):
+		t = self.client.get(reverse('report-dash')).context['t']
+		dil = next(x for x in t['rows'] if x['mun'] == self.dil)
+		sel = {(g, str(v)): n for g, v, n in dil['sel']}
+		self.assertEqual((sel[('total', 'total')], sel[('trib', 'dadaun')], sel[('rez', 'rezolve')], sel[('evik', 'sin')]), (3, 1, 1, 1))
+		for mun, g, v, n in ((self.dil.pk, 'trib', 'dadaun', 1), (0, 'total', 'total', 4), (self.dil.pk, 'tipu', self.deslok.pk, 2)):
+			lst = self.client.get(reverse('report-tabular-list', args=[mun, g, v]))
+			self.assertEqual(lst.status_code, 200)
+			self.assertEqual(lst.context['objects'].count(), n, (g, v))
+		self.assertEqual(self.client.get(reverse('report-tabular-list', args=[0, 'xxx', 'y'])).status_code, 404)
+
+	def test_investigador_labele_lista(self):
+		self.client.force_login(self.inv)
+		self.assertEqual(self.client.get(reverse('report-tabular-list', args=[0, 'total', 'total'])).status_code, 403)

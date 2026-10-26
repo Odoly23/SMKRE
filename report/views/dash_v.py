@@ -7,6 +7,7 @@ from config.decorators import allowed_users
 from config.rbac import ROLE_DASHBOARD, ROLE_RELATORIU, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.models import UmaKainAfetada, STATUS_CHOICES, COMPLETED
+from report import advokasia
 from report.utils import chart_lang, dt_lang, report_queryset, eviksaun_aktivu, STATUS_RELATORIU
 
 
@@ -55,9 +56,21 @@ def reportDash(request):
 		'objects1': objects1, 'objects2': objects2, 'objects3': objects3,
 		'objects4': objects4, 'objects5': objects5, 'objects6': objects6,
 		'munisipiu_list': muns, 'tipu_list': tipus,
+		'adv': advokasia.advokasia(kazu), 't': advokasia.tabular(kazu),     # status kazu, tribunál, eviksaun, Governu foti rai + tabela munisípiu
 		'title': _('Dashboard Relatóriu'), 'legend': _('Dashboard Relatóriu')
 	}
 	return render(request, 'report/dash.html', context)
+
+
+def _graf_advokasia(d):
+	# Dadus ba gráfiku foun (status kazu, tribunál, Governu foti rai, eviksaun) + testu rezumu
+	par = lambda lista: [[str(l), n] for _k, l, n in lista]
+	return {
+		'tinan': par(d['tinan']), 'status': par(d['status']), 'tribunal': par(d['tribunal']),
+		'tipu_la_trib': par(d['tipu_la_trib']), 'entidade': par(d['entidade']),
+		**{c: par(lista) for c, lista in d['ev'].items()},
+		'testu': {k: str(v) for k, v in d['testu'].items()},
+	}
 
 
 @login_required
@@ -68,7 +81,7 @@ def reportChart(request):
 		'group': group, "page": "grafiku",
 		'munisipiu_list': Munisipiu.active.all(), 'tipu_list': TipuKonflitu.active.all(),
 		'title': _('Gráfiku'), 'legend': _('Gráfiku no Tendénsia'),
-		'chart_lang': chart_lang(),
+		'chart_lang': chart_lang(), 'graf': _graf_advokasia(advokasia.advokasia(report_queryset(request))),
 	}
 	return render(request, 'report/chart_dash.html', context)
 

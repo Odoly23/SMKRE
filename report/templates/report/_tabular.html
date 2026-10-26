@@ -1,0 +1,69 @@
+{% load i18n humanize %}
+<style>
+	.tab-rbr { font-size: .82rem; }
+	.tab-rbr th, .tab-rbr td { vertical-align: middle; white-space: nowrap; }
+	.tab-rbr thead th { font-weight: 700; text-align: center; }
+	.tab-rbr thead tr.sub td { font-weight: 600; text-align: center; white-space: normal; min-width: 78px; max-width: 120px; line-height: 1.2; }
+	.tab-rbr tbody td.n, .tab-rbr tfoot td.n { text-align: center; }
+	.tab-rbr td.n a { display: block; font-weight: 600; }
+	.tab-rbr td.zero { color: #B5BDB9; }
+	.tab-rbr tfoot td { font-weight: 700; background: #EAF5EF; }
+	.h-mun { background: rgb(133, 203, 180); } .h-tot { background: rgb(133, 203, 180); }
+	.h-tipu { background: rgb(156, 217, 154); } .s-tipu { background: rgb(203, 234, 210); }
+	.h-rez { background: rgb(194, 202, 157); } .s-rez { background: rgb(242, 250, 208); }
+	.h-trib { background: rgb(160, 200, 230); } .s-trib { background: rgb(214, 233, 247); }
+	.h-evik { background: rgb(240, 190, 160); } .s-evik { background: rgb(252, 226, 210); }
+	.h-pop { background: rgb(205, 190, 230); } .s-pop { background: rgb(236, 228, 248); }
+</style>
+<div class="card card-rbr mb-3">
+					<div class="card-header card-header-rbr">{% trans "Relatóriu tabular: kazu tuir munisípiu" %}</div>
+					<p class="small text-muted mb-0 px-3 pt-2"><i class="fa fa-info-circle"></i> {% trans "Klik númeru atu haree lista kazu. Kazu ida bele iha tipu liu ida, entaun soma kolun tipu bele boot liu total." %}</p>
+					<div class="card-body p-0"><div class="table-responsive">
+						<table class="table table-sm table-bordered tab-rbr mb-0" width="100%" cellspacing="0">
+							<thead>
+								<tr>
+									<th rowspan="2" class="h-mun">{% trans "Nu." %}</th>
+									<th rowspan="2" class="h-mun">{% trans "Munisípiu" %}</th>
+									<th rowspan="2" class="h-tot">{% trans "Total kazu" %}</th>
+									<th colspan="{{ t.tipus|length }}" class="h-tipu">{% trans "Tipu kazu" %}</th>
+									<th colspan="{{ t.rez|length }}" class="h-rez">{% trans "Status kazu" %}</th>
+									<th colspan="{{ t.trib|length }}" class="h-trib">{% trans "Rejistu iha tribunál" %}</th>
+									<th colspan="{{ t.evik|length }}" class="h-evik">{% trans "Eviksaun akontese" %}</th>
+									<th colspan="2" class="h-pop">{% trans "Populasaun afetada" %}</th>
+								</tr>
+								<tr class="sub">
+									{% for x in t.tipus %}<td class="s-tipu">{{ x.name }}</td>{% endfor %}
+									{% for k, l, q in t.rez %}<td class="s-rez">{{ l }}</td>{% endfor %}
+									{% for k, l, q in t.trib %}<td class="s-trib">{{ l }}</td>{% endfor %}
+									{% for k, l, q in t.evik %}<td class="s-evik">{{ l }}</td>{% endfor %}
+									<td class="s-pop">{% trans "Uma-kain" %}</td><td class="s-pop">{% trans "Ema" %}</td>
+								</tr>
+							</thead>
+							<tbody>
+								{% for obj in t.rows %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ obj.mun.name }}</td>
+									{% for g, v, n in obj.sel %}
+									<td class="n{% if not n %} zero{% endif %}">{% if n %}<a href="{% url 'report-tabular-list' obj.mun.pk g v %}?{{ request.GET.urlencode }}">{{ n|intcomma }}</a>{% else %}0{% endif %}</td>
+									{% endfor %}
+									<td class="n">{{ obj.uma|intcomma }}</td><td class="n">{{ obj.ema|intcomma }}</td>
+								</tr>
+								{% empty %}
+								<tr><td colspan="40" class="text-center text-muted">{% trans "La iha dadus" %}</td></tr>
+								{% endfor %}
+							</tbody>
+							{% if t.rows %}
+							<tfoot>
+								<tr>
+									<td colspan="2">{% trans "TOTAL" %}</td>
+									{% for g, v, n in t.total %}
+									<td class="n">{% if n %}<a href="{% url 'report-tabular-list' 0 g v %}?{{ request.GET.urlencode }}">{{ n|intcomma }}</a>{% else %}0{% endif %}</td>
+									{% endfor %}
+									<td class="n">{{ t.uma|intcomma }}</td><td class="n">{{ t.ema|intcomma }}</td>
+								</tr>
+							</tfoot>
+							{% endif %}
+						</table>
+					</div></div>
+				</div>

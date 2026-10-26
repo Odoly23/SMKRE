@@ -33,7 +33,7 @@ class KazuSegimentu(models.Model):
 	org_seluk_naran = models.CharField(max_length=150, blank=True, verbose_name=_("Naran ema husi organizasaun seluk"))
 	org_seluk_kontaktu = models.CharField(max_length=50, blank=True, verbose_name=_("Númeru kontaktu (organizasaun seluk)"))
 	# Tribunál
-	tribunal_rejistu = models.CharField(max_length=10, choices=TRIBUNAL_CHOICES, blank=True, verbose_name=_("Rejistu iha tribunál?"))
+	tribunal_rejistu = models.CharField(max_length=10, choices=TRIBUNAL_CHOICES, blank=True, db_index=True, verbose_name=_("Rejistu iha tribunál?"))
 	tribunal_data = models.DateField(null=True, blank=True, verbose_name=_("Data rejistu iha tribunál"))
 	tribunal_representa = models.CharField(max_length=255, blank=True, verbose_name=_("Se mak rejistu ka reprezenta"))
 	advogadu_kontaktu = models.CharField(max_length=255, blank=True, verbose_name=_("Kontaktu advogadu (naran, telefone, organizasaun)"))
@@ -48,7 +48,7 @@ class KazuSegimentu(models.Model):
 	notif_observasaun = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba prosesu notifikasaun"))
 	# Status no desizaun RbR
 	data_ikus_cek = models.DateField(null=True, blank=True, verbose_name=_("Data ikus cek status kazu"))
-	status_rezolusaun = models.CharField(max_length=20, choices=REZOLUSAUN_CHOICES, blank=True, verbose_name=_("Status rezolusaun kazu"))
+	status_rezolusaun = models.CharField(max_length=20, choices=REZOLUSAUN_CHOICES, blank=True, db_index=True, verbose_name=_("Status rezolusaun kazu"))
 	desizaun_rbr = models.CharField(max_length=15, choices=DESIZAUN_RBR_CHOICES, blank=True, verbose_name=_("Desizaun RbR ba kazu"))
 	observasaun_kazu = models.TextField(blank=True, verbose_name=_("Observasaun kona-ba kazu (desizaun RbR)"))
 

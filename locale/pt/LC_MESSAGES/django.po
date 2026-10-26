@@ -5238,3 +5238,185 @@ msgstr "Mostrar no portal público (só dados agregados)"
 #: kazu
 msgid "Rai portal"
 msgstr "Guardar portal"
+
+#: report
+msgid "Seidauk rezolve"
+msgstr "Por resolver"
+
+#: report
+msgid "Rezolve ona"
+msgstr "Resolvido"
+
+#: report
+msgid "La hatene / laiha dadus"
+msgstr "Não sabe / sem dados"
+
+#: report
+msgid "Rejistu hela"
+msgstr "Em registo"
+
+#: report
+msgid "Eviksaun akontese"
+msgstr "Despejo aconteceu"
+
+#: report
+msgid "Munisípiu ho kazu barak liu: %(t)s."
+msgstr "Municípios com mais casos: %(t)s."
+
+#: report
+msgid "Tipu kazu barak liu: %(t)s."
+msgstr "Tipos de caso mais frequentes: %(t)s."
+
+#: report
+msgid "Tinan ho kazu rejistu barak liu: %(t)s."
+msgstr "Anos com mais casos registados: %(t)s."
+
+#: report
+msgid ""
+"Total uma-kain ida-ne'e seidauk reprezenta kazu hotu: kazu %(n)s seidauk iha"
+" dadus uma-kain."
+msgstr ""
+"Este total de agregados ainda não representa todos os casos: %(n)s casos "
+"ainda sem dados de agregados."
+
+#: report
+msgid ""
+"Husi kazu %(s)s ne'ebé seidauk rezolve, %(n)s (%(p)s%%) rejistu ona ka "
+"rejistu hela iha tribunál."
+msgstr ""
+"Dos %(s)s casos por resolver, %(n)s (%(p)s%%) estão registados ou em registo"
+" no tribunal."
+
+#: report
+msgid "Tipu kazu barak liu ne'ebé seidauk rejistu iha tribunál: %(t)s."
+msgstr ""
+"Tipos de caso mais frequentes ainda não registados no tribunal: %(t)s."
+
+#: report
+msgid ""
+"Husi tipu kazu Governu foti komunidade nia rai (kazu %(n)s): uma-kain, mane,"
+" feto no labarik iha leten, maske dadus balu seidauk kompletu."
+msgstr ""
+"Do tipo de caso Governo toma terra da comunidade (%(n)s casos): agregados, "
+"homens, mulheres e crianças acima, embora alguns dados estejam incompletos."
+
+#: report
+msgid "Kazu %(n)s hetan eviksaun ona; uma-kain %(u)s afetadu."
+msgstr "%(n)s casos já sofreram despejo; %(u)s agregados afetados."
+
+#: report
+msgid "Kazu eviksaun %(n)s (%(p)s%%) la iha konsultasaun molok eviksaun."
+msgstr "%(n)s casos de despejo (%(p)s%%) sem consulta prévia."
+
+#: report
+msgid ""
+"Kazu eviksaun %(n)s (%(p)s%%) la iha notifikasaun klaru molok eviksaun."
+msgstr "%(n)s casos de despejo (%(p)s%%) sem notificação clara prévia."
+
+#: report
+msgid "Kazu eviksaun %(n)s (%(p)s%%) uza forsa durante eviksaun."
+msgstr "%(n)s casos de despejo (%(p)s%%) com uso de força."
+
+#: report
+msgid "Molok eviksaun halo konsultasaun?"
+msgstr "Houve consulta antes do despejo?"
+
+#: report
+msgid "Molok eviksaun iha notifikasaun?"
+msgstr "Houve notificação antes do despejo?"
+
+#: report
+msgid "Durante eviksaun uza forsa?"
+msgstr "Usou-se força no despejo?"
+
+#: report
+msgid "Kazu seidauk rezolve"
+msgstr "Casos por resolver"
+
+#: report
+msgid "Kazu hetan eviksaun"
+msgstr "Casos com despejo"
+
+#: report
+msgid "Uma-kain hetan eviksaun"
+msgstr "Agregados despejados"
+
+#: report
+msgid "Kazu Governu foti rai"
+msgstr "Casos Governo toma terra"
+
+#: report
+msgid "Status Kazu (rezolusaun)"
+msgstr "Estado do caso (resolução)"
+
+#: report
+msgid "Kazu ne'ebé seidauk rezolve de'it"
+msgstr "Só casos por resolver"
+
+#: report
+msgid "Tipu kazu seidauk rejistu iha tribunál"
+msgstr "Tipos de caso não registados no tribunal"
+
+#: report
+msgid "Pergunta"
+msgstr "Pergunta"
+
+#: report
+msgid "Governu foti komunidade nia rai: populasaun afetada"
+msgstr "Governo toma terra da comunidade: população afetada"
+
+#: report
+msgid "Entidade ne'ebé hetan benefísiu husi Governu foti rai"
+msgstr "Entidades beneficiadas pela tomada de terra pelo Governo"
+
+#: report
+msgid "Entidade"
+msgstr "Entidade"
+
+#: report
+msgid "Relatóriu tabular: kazu tuir munisípiu"
+msgstr "Relatório tabular: casos por município"
+
+#: report
+msgid ""
+"Klik númeru atu haree lista kazu. Kazu ida bele iha tipu liu ida, entaun "
+"soma kolun tipu bele boot liu total."
+msgstr ""
+"Clique num número para ver a lista. Um caso pode ter mais de um tipo, por "
+"isso a soma dos tipos pode exceder o total."
+
+#: report
+msgid "Nu."
+msgstr "N.º"
+
+#: report
+msgid "Tipu kazu"
+msgstr "Tipo de caso"
+
+#: report
+msgid "Populasaun afetada"
+msgstr "População afetada"
+
+#: report
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#: report
+msgid "Kazu tuir Tinan Rejistu iha RbR"
+msgstr "Casos por ano de registo na RbR"
+
+#: report
+msgid "Kazu ne'ebé rejistu no la rejistu iha tribunál"
+msgstr "Casos registados e não registados no tribunal"
+
+#: report
+msgid "Tipu kazu ne'ebé seidauk rejistu iha tribunál"
+msgstr "Tipos de caso ainda não registados no tribunal"
+
+#: report
+msgid "Molok eviksaun halo konsultasaun ka lae?"
+msgstr "Houve consulta antes do despejo?"
+
+#: report
+msgid "Molok eviksaun iha notifikasaun ka lae?"
+msgstr "Houve notificação antes do despejo?"

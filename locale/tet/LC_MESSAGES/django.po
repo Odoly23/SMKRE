@@ -5297,3 +5297,185 @@ msgstr "Hatudu iha portal públiku (dadus agregadu de'it)"
 #: kazu
 msgid "Rai portal"
 msgstr "Rai portal"
+
+#: report
+msgid "Seidauk rezolve"
+msgstr "Seidauk rezolve"
+
+#: report
+msgid "Rezolve ona"
+msgstr "Rezolve ona"
+
+#: report
+msgid "La hatene / laiha dadus"
+msgstr "La hatene / laiha dadus"
+
+#: report
+msgid "Rejistu hela"
+msgstr "Rejistu hela"
+
+#: report
+msgid "Eviksaun akontese"
+msgstr "Eviksaun akontese"
+
+#: report
+msgid "Munisípiu ho kazu barak liu: %(t)s."
+msgstr "Munisípiu ho kazu barak liu: %(t)s."
+
+#: report
+msgid "Tipu kazu barak liu: %(t)s."
+msgstr "Tipu kazu barak liu: %(t)s."
+
+#: report
+msgid "Tinan ho kazu rejistu barak liu: %(t)s."
+msgstr "Tinan ho kazu rejistu barak liu: %(t)s."
+
+#: report
+msgid ""
+"Total uma-kain ida-ne'e seidauk reprezenta kazu hotu: kazu %(n)s seidauk iha"
+" dadus uma-kain."
+msgstr ""
+"Total uma-kain ida-ne'e seidauk reprezenta kazu hotu: kazu %(n)s seidauk iha"
+" dadus uma-kain."
+
+#: report
+msgid ""
+"Husi kazu %(s)s ne'ebé seidauk rezolve, %(n)s (%(p)s%%) rejistu ona ka "
+"rejistu hela iha tribunál."
+msgstr ""
+"Husi kazu %(s)s ne'ebé seidauk rezolve, %(n)s (%(p)s%%) rejistu ona ka "
+"rejistu hela iha tribunál."
+
+#: report
+msgid "Tipu kazu barak liu ne'ebé seidauk rejistu iha tribunál: %(t)s."
+msgstr "Tipu kazu barak liu ne'ebé seidauk rejistu iha tribunál: %(t)s."
+
+#: report
+msgid ""
+"Husi tipu kazu Governu foti komunidade nia rai (kazu %(n)s): uma-kain, mane,"
+" feto no labarik iha leten, maske dadus balu seidauk kompletu."
+msgstr ""
+"Husi tipu kazu Governu foti komunidade nia rai (kazu %(n)s): uma-kain, mane,"
+" feto no labarik iha leten, maske dadus balu seidauk kompletu."
+
+#: report
+msgid "Kazu %(n)s hetan eviksaun ona; uma-kain %(u)s afetadu."
+msgstr "Kazu %(n)s hetan eviksaun ona; uma-kain %(u)s afetadu."
+
+#: report
+msgid "Kazu eviksaun %(n)s (%(p)s%%) la iha konsultasaun molok eviksaun."
+msgstr "Kazu eviksaun %(n)s (%(p)s%%) la iha konsultasaun molok eviksaun."
+
+#: report
+msgid ""
+"Kazu eviksaun %(n)s (%(p)s%%) la iha notifikasaun klaru molok eviksaun."
+msgstr ""
+"Kazu eviksaun %(n)s (%(p)s%%) la iha notifikasaun klaru molok eviksaun."
+
+#: report
+msgid "Kazu eviksaun %(n)s (%(p)s%%) uza forsa durante eviksaun."
+msgstr "Kazu eviksaun %(n)s (%(p)s%%) uza forsa durante eviksaun."
+
+#: report
+msgid "Molok eviksaun halo konsultasaun?"
+msgstr "Molok eviksaun halo konsultasaun?"
+
+#: report
+msgid "Molok eviksaun iha notifikasaun?"
+msgstr "Molok eviksaun iha notifikasaun?"
+
+#: report
+msgid "Durante eviksaun uza forsa?"
+msgstr "Durante eviksaun uza forsa?"
+
+#: report
+msgid "Kazu seidauk rezolve"
+msgstr "Kazu seidauk rezolve"
+
+#: report
+msgid "Kazu hetan eviksaun"
+msgstr "Kazu hetan eviksaun"
+
+#: report
+msgid "Uma-kain hetan eviksaun"
+msgstr "Uma-kain hetan eviksaun"
+
+#: report
+msgid "Kazu Governu foti rai"
+msgstr "Kazu Governu foti rai"
+
+#: report
+msgid "Status Kazu (rezolusaun)"
+msgstr "Status Kazu (rezolusaun)"
+
+#: report
+msgid "Kazu ne'ebé seidauk rezolve de'it"
+msgstr "Kazu ne'ebé seidauk rezolve de'it"
+
+#: report
+msgid "Tipu kazu seidauk rejistu iha tribunál"
+msgstr "Tipu kazu seidauk rejistu iha tribunál"
+
+#: report
+msgid "Pergunta"
+msgstr "Pergunta"
+
+#: report
+msgid "Governu foti komunidade nia rai: populasaun afetada"
+msgstr "Governu foti komunidade nia rai: populasaun afetada"
+
+#: report
+msgid "Entidade ne'ebé hetan benefísiu husi Governu foti rai"
+msgstr "Entidade ne'ebé hetan benefísiu husi Governu foti rai"
+
+#: report
+msgid "Entidade"
+msgstr "Entidade"
+
+#: report
+msgid "Relatóriu tabular: kazu tuir munisípiu"
+msgstr "Relatóriu tabular: kazu tuir munisípiu"
+
+#: report
+msgid ""
+"Klik númeru atu haree lista kazu. Kazu ida bele iha tipu liu ida, entaun "
+"soma kolun tipu bele boot liu total."
+msgstr ""
+"Klik númeru atu haree lista kazu. Kazu ida bele iha tipu liu ida, entaun "
+"soma kolun tipu bele boot liu total."
+
+#: report
+msgid "Nu."
+msgstr "Nu."
+
+#: report
+msgid "Tipu kazu"
+msgstr "Tipu kazu"
+
+#: report
+msgid "Populasaun afetada"
+msgstr "Populasaun afetada"
+
+#: report
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#: report
+msgid "Kazu tuir Tinan Rejistu iha RbR"
+msgstr "Kazu tuir Tinan Rejistu iha RbR"
+
+#: report
+msgid "Kazu ne'ebé rejistu no la rejistu iha tribunál"
+msgstr "Kazu ne'ebé rejistu no la rejistu iha tribunál"
+
+#: report
+msgid "Tipu kazu ne'ebé seidauk rejistu iha tribunál"
+msgstr "Tipu kazu ne'ebé seidauk rejistu iha tribunál"
+
+#: report
+msgid "Molok eviksaun halo konsultasaun ka lae?"
+msgstr "Molok eviksaun halo konsultasaun ka lae?"
+
+#: report
+msgid "Molok eviksaun iha notifikasaun ka lae?"
+msgstr "Molok eviksaun iha notifikasaun ka lae?"
