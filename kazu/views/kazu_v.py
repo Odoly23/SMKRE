@@ -8,11 +8,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
-from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
+from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, ROLE_DUPLIKADU, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, AkompanamentuForm, SegimentuKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
+from kazu.duplikadu import posivel_duplikadu
 from kazu.importa import pode_muda_lokasaun
 from kazu.services import action_buttons, refresh_auto_fields, submit_kazu, enxe_fokal, can_followup, investigador_followup
 from users.auth_utils import c_user_pesoal
@@ -36,7 +37,7 @@ def KazuList(request):
 	if request.GET.get('urjente'):
 		objects = objects.filter(urjente=True)
 	if q:
-		objects = objects.filter(Q(kode__icontains=q) | Q(titulu__icontains=q) | Q(suku__name__icontains=q) | Q(aldeia__name__icontains=q))
+		objects = objects.filter(Q(kode__icontains=q) | Q(kode_hp__icontains=q) | Q(titulu__icontains=q) | Q(suku__name__icontains=q) | Q(aldeia__name__icontains=q))
 	page = Paginator(objects.distinct(), 25).get_page(request.GET.get('page'))
 	context = {
 		'group': group, "page": "kazu",
@@ -110,10 +111,22 @@ def KazuDetail(request, uuid):
 		'can_followup': can_followup(request.user, objects),
 		'investigador_followup': investigador_followup(objects) if can_followup(request.user, objects) else [],
 		'action_form': ActionForm(),
+		'duplikadu': _duplikadu(request.user, objects),
+		'can_duplikadu': group in ROLE_DUPLIKADU,
 		**desizaun_ctx(),
 		'title': str(objects), 'legend': _('Detalla Kazu')
 	}
 	return render(request, 'kazu/detail.html', context)
+
+
+def _duplikadu(user, kazu):
+	# Avizu "posivel duplikadu" (kazu seluk GPS besik ka aldeia + tipu konflitu hanesan)
+	if kazu.status == CANCELED:
+		return []
+	lista = posivel_duplikadu(kazu)
+	for d in lista:
+		d['pode_haree'] = can_view(user, d['kazu'])
+	return lista
 
 
 def _save_kazu(request, form, formsets, instance=None, seg_form=None):

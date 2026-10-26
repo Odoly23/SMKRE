@@ -37,6 +37,7 @@ ROLE_OFFLINE_FO   = [SUPERADMIN, ADMIN]       # fó autorizasaun offline (Invest
 ROLE_SEGIMENTU    = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Segimentu kazu: tribunál, notifikasaun, status rezolusaun
 ROLE_IMPORT_KAZU  = [ADMIN]                  # Import Excel + hadia lokasaun iha mapa
 ROLE_PORTAL       = [SUPERADMIN, ADMIN]      # Konsentimentu + hatudu kazu iha portal públiku
+ROLE_DUPLIKADU    = [SUPERADMIN, ADMIN]      # Konfirma "la'ós duplikadu"
 ROLE_FOLLOWUP     = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Follow-up: haruka kazu fali ba Investigadór (survei foun iha terrenu)
 ROLE_POLIGON      = [SUPERADMIN, ADMIN]      # Edita poligon rai kualkér tempu (Investigadór: kazu rasik ne'ebé bele edita)
 ROLE_SURVEI_INPUT = [OFISIAL_LEGAL]          # Survei legál (ho autorizasaun input ativu husi Admin)

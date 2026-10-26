@@ -272,6 +272,106 @@ class OpsaunTest(SinkronBase):
 		self.assertEqual(r.json()['kazu'][0]['status'], 'PENDING')
 
 
+class KodeHpDuplikaduTest(SinkronBase):
+	def test_kode_hp_formatu(self):
+		from datetime import datetime, timezone as tz
+		from kazu.duplikadu import kode_hp_baze
+		kid = uuid.UUID('7f3a9c12-0000-4000-8000-000000000000')
+		# 20:30 UTC = 05:30 loron tuir mai iha Dili → data Dili
+		self.assertEqual(kode_hp_baze(kid, datetime(2026, 10, 26, 20, 30, tzinfo=tz.utc)), 'HP-261027-7F3A9C')
+
+	def test_sinkron_fó_kode_hp_hanesan_ho_hp(self):
+		from kazu.duplikadu import kode_hp_baze
+		data = self.payload()
+		r = self.send(data)
+		kazu = Kazu.objects.get(pk=data['id'])
+		esperadu = kode_hp_baze(kazu.pk, timezone.datetime.fromisoformat(data['kria_iha']))
+		self.assertEqual(r.json()['kode_hp'], esperadu)
+		self.assertEqual(kazu.kode_hp, esperadu)
+		self.assertEqual(str(kazu), esperadu)                        # antes haruka: ID HP
+		self.assertEqual(self.send(data).json()['kode_hp'], esperadu)  # koko fali → hanesan
+		self.haruka(kazu.pk)
+		kazu.refresh_from_db()
+		self.assertTrue(str(kazu).startswith('RbR-LIQ-'))             # ID ofisiál, ID HP hela
+		self.assertEqual(kazu.kode_hp, esperadu)
+		lista = self.client.get(reverse('api-sinkron-kazu'), **self.auth()).json()['kazu']
+		self.assertEqual(lista[0]['kode_hp'], esperadu)
+
+	def test_kode_hp_bentrok_aumenta_karakter(self):
+		from kazu.duplikadu import kode_hp_baze
+		data = self.payload(id='7f3a9c12-0000-4000-8000-000000000001')
+		baze = kode_hp_baze(uuid.UUID(data['id']), timezone.datetime.fromisoformat(data['kria_iha']))
+		outro = Kazu.objects.create(munisipiu=self.liq, created_by=self.inv, kode_hp=baze)
+		r = self.send(data)
+		self.assertEqual(r.status_code, 201, r.content)
+		self.assertNotEqual(r.json()['kode_hp'], baze)
+		self.assertTrue(r.json()['kode_hp'].startswith(baze))
+		self.assertNotEqual(outro.pk, data['id'])
+
+	def test_avizu_duplikadu(self):
+		a = self.payload()
+		self.assertEqual(self.send(a).json()['duplikadu'], [])
+		kode_a = Kazu.objects.get(pk=a['id']).kode_hp
+		b = self.payload(latitude=-8.6125, longitude=125.2108)          # ~45 m husi A
+		r = self.send(b)
+		self.assertEqual(len(r.json()['duplikadu']), 1)
+		self.assertIn(kode_a, r.json()['duplikadu'][0])
+		c = self.payload(latitude=-8.70, longitude=125.30)              # ~13 km → la'ós duplikadu
+		self.assertEqual(self.send(c).json()['duplikadu'], [])
+
+		# Haruka → notifikasaun Admin iha avizu
+		self.haruka(b['id'])
+		n = Notification.objects.filter(recipient=self.admin).latest('pk')
+		self.assertIn(kode_a, n.message)
+
+		# Detalla: Admin haree avizu no konfirma "la'ós duplikadu"
+		kb = Kazu.objects.get(pk=b['id'])
+		self.client.force_login(self.admin)
+		r = self.client.get(reverse('kazu-detail', args=[kb.pk]))
+		self.assertContains(r, 'Posivel duplikadu')
+		self.assertContains(r, kode_a)
+		url = reverse('kazu-la-os-duplikadu', args=[kb.pk, a['id']])
+		self.client.force_login(self.inv)
+		self.assertEqual(self.client.post(url).status_code, 403)
+		self.client.force_login(self.admin)
+		self.client.post(url)
+		from kazu.duplikadu import posivel_duplikadu
+		self.assertEqual(posivel_duplikadu(kb), [])
+		self.assertEqual(posivel_duplikadu(Kazu.objects.get(pk=a['id'])), [])   # simétriku
+		r = self.client.get(reverse('kazu-detail', args=[kb.pk]))
+		self.assertNotContains(r, 'Posivel duplikadu')
+		self.assertTrue(KazuHistoria.objects.filter(kazu=kb, nota__contains=kode_a).exists())
+
+	def test_aldeia_no_tipu_hanesan(self):
+		from custom.models import Aldeia
+		from kazu.duplikadu import posivel_duplikadu
+		aldeia = Aldeia.objects.create(code='LIQ-03-01-01', name='Lebumeta', suku=self.suku)
+		a = self.payload(aldeia=aldeia.pk)
+		self.send(a)
+		b = self.payload(aldeia=aldeia.pk, latitude=-8.65, longitude=125.25)  # GPS dook, aldeia + tipu hanesan
+		self.send(b)
+		dup = posivel_duplikadu(Kazu.objects.get(pk=b['id']))
+		self.assertEqual([str(d['kazu'].pk) for d in dup], [a['id']])
+		self.assertIsNone(dup[0]['distansia'])
+
+	def test_gps_aproksimadu_la_konta(self):
+		from kazu.duplikadu import posivel_duplikadu
+		a = self.payload()
+		self.send(a)
+		Kazu.objects.filter(pk=a['id']).update(gps_aproksimadu=True)       # sentru suku husi import
+		b = self.payload()
+		self.assertEqual(self.send(b).json()['duplikadu'], [])
+		self.assertEqual(posivel_duplikadu(Kazu.objects.get(pk=a['id'])), [])
+
+	def test_buka_ho_kode_hp(self):
+		data = self.payload()
+		self.send(data)
+		kode = Kazu.objects.get(pk=data['id']).kode_hp
+		self.client.force_login(self.admin)
+		r = self.client.get(reverse('kazu-list'), {'q': kode[3:]})
+		self.assertContains(r, kode)
+
+
 class AppPageTest(TestCase):
 	def test_pajina_app_la_iha_dadus_privadu(self):
 		r = self.client.get(reverse('sinkron'))

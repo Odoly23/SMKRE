@@ -9,6 +9,7 @@
 	{% with obj=objects %}
 	<div class="page-head">
 		<h2 class="mb-1">{{ obj }}</h2>
+		{% if obj.kode_hp and obj.kode %}<small class="text-muted d-block mb-1"><i class="fa fa-mobile"></i> {% trans "ID HP" %}: {{ obj.kode_hp }}</small>{% endif %}
 		<div>{% include 'kazu/badge_status.html' %} {% include 'kazu/badge_status_kazu.html' %}</div>
 		{% if obj.titulu %}<p class="text-muted mb-0 mt-1">{{ obj.titulu }}</p>{% endif %}
 	</div>
@@ -161,6 +162,26 @@
 		</div>
 
 		<div class="col-lg-4">
+			{% if duplikadu %}
+			<!-- Avizu duplikadu -->
+			<div class="card card-rbr mb-3 border-warning dup-avizu"><div class="card-body">
+				<h3 class="h-line text-warning"><i class="fa fa-clone"></i> {% trans "Posivel duplikadu" %}</h3>
+				<p class="small text-muted mb-2">{% trans "Kazu seluk ho GPS besik (≤ 200 m) ka aldeia no tipu konflitu hanesan. Verifika antes aprova." %}</p>
+				{% for d in duplikadu %}
+				<div class="sub-card mb-2">
+					{% if d.pode_haree %}<a href="{% url 'kazu-detail' d.kazu.pk %}"><b>{{ d.kazu }}</b></a>{% else %}<b>{{ d.kazu }}</b>{% endif %}
+					<small class="text-muted"> · {{ d.kazu.get_status_display }}</small><br>
+					<small>{{ d.razaun }}{% if d.kazu.aldeia %} · {{ d.kazu.aldeia }}{% elif d.kazu.suku %} · {{ d.kazu.suku }}{% endif %}</small>
+					{% if can_duplikadu %}
+					<form method="post" action="{% url 'kazu-la-os-duplikadu' obj.pk d.kazu.pk %}" class="mt-1">{% csrf_token %}
+						<button type="submit" class="btn btn-sm btn-outline-secondary"><i class="fa fa-check"></i> {% trans "La'ós duplikadu" %}</button>
+					</form>
+					{% endif %}
+				</div>
+				{% endfor %}
+				{% if can_duplikadu %}<small class="text-muted">{% trans "Se duplikadu duni: Rejeita ka Kansela kazu ida ho nota (ex. «Duplikadu ho RbR-…»)." %}</small>{% endif %}
+			</div></div>
+			{% endif %}
 			<!-- Istória -->
 			<div class="card card-rbr mb-3"><div class="card-body">
 				<h3 class="h-line">{% trans "Istória" %}</h3>
@@ -168,7 +189,7 @@
 					{% for h in historia %}
 					<li class="{% if h.status_foun == 'REJECTED' or h.status_foun == 'CANCELED' %}bad{% endif %}">
 						<small class="text-muted">{{ h.created_at|date:"d/m/Y H:i" }} · {{ h.user.pesoaluser.pesoal|default:h.user.username|default:"-" }}</small><br>
-						{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% elif h.nota == 'SINKRON' %}<i class="fa fa-mobile"></i> {% trans "Sinkron husi HP" %}{% else %}{% trans "Edita" %}{% endif %}{% else %}<b>{{ h.status_antes_label }} → {{ h.status_foun_label }}</b>{% if h.nota %}<br><span class="pre-line">{{ h.nota }}</span>{% endif %}{% endif %}
+						{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% elif h.nota == 'SINKRON' %}<i class="fa fa-mobile"></i> {% trans "Sinkron husi HP" %}{% elif h.nota and h.nota != 'EDITA' %}<span class="pre-line">{{ h.nota }}</span>{% else %}{% trans "Edita" %}{% endif %}{% else %}<b>{{ h.status_antes_label }} → {{ h.status_foun_label }}</b>{% if h.nota %}<br><span class="pre-line">{{ h.nota }}</span>{% endif %}{% endif %}
 					</li>
 					{% empty %}<li class="text-muted">-</li>{% endfor %}
 				</ul>

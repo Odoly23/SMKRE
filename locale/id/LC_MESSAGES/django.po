@@ -5504,3 +5504,50 @@ msgstr ""
 #: users
 msgid "Erru. Koko fali."
 msgstr "Error. Coba lagi."
+
+msgid "ID HP (offline)"
+msgstr "ID HP (offline)"
+
+msgid "La'ós duplikadu ho"
+msgstr "Bukan duplikat dari"
+
+msgid "GPS besik: %(m)s m"
+msgstr "GPS berdekatan: %(m)s m"
+
+msgid "Aldeia no tipu konflitu hanesan"
+msgstr "Aldeia dan jenis konflik sama"
+
+msgid "Posivel duplikadu: %(lista)s"
+msgstr "Kemungkinan duplikat: %(lista)s"
+
+msgid "Kazu hanesan."
+msgstr "Kasus yang sama."
+
+msgid "La'ós duplikadu ho %(kode)s"
+msgstr "Bukan duplikat dari %(kode)s"
+
+msgid "Marka ona: %(a)s la'ós duplikadu ho %(b)s."
+msgstr "Ditandai: %(a)s bukan duplikat dari %(b)s."
+
+msgid "ID HP"
+msgstr "ID HP"
+
+msgid "Posivel duplikadu"
+msgstr "Kemungkinan duplikat"
+
+msgid ""
+"Kazu seluk ho GPS besik (≤ 200 m) ka aldeia no tipu konflitu hanesan. "
+"Verifika antes aprova."
+msgstr ""
+"Kasus lain dengan GPS berdekatan (≤ 200 m) atau aldeia dan jenis konflik "
+"sama. Periksa sebelum menyetujui."
+
+msgid "La'ós duplikadu"
+msgstr "Bukan duplikat"
+
+msgid ""
+"Se duplikadu duni: Rejeita ka Kansela kazu ida ho nota (ex. «Duplikadu ho "
+"RbR-…»)."
+msgstr ""
+"Jika memang duplikat: tolak atau batalkan salah satu kasus dengan catatan "
+"(mis. «Duplikat dari RbR-…»)."

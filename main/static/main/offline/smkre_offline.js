@@ -42,6 +42,13 @@
 		window.scrollTo(0, 0);
 	}
 
+	// ID HP automátiku (hanesan ho server kazu/duplikadu.py): HP-AAMMDD-XXXXXX, data oras Dili (UTC+9)
+	function kodeHp(id, kriaIha) {
+		var t = Date.parse(kriaIha);
+		var d = new Date((isNaN(t) ? Date.now() : t) + 9 * 3600000).toISOString();
+		return 'HP-' + d.slice(2, 4) + d.slice(5, 7) + d.slice(8, 10) + '-' + String(id).replace(/-/g, '').slice(0, 6).toUpperCase();
+	}
+
 	function msg(testu, tipu) {
 		var m = $('msg');
 		if (!testu) { m.hidden = true; return; }
@@ -287,11 +294,14 @@
 			if (!items.length) { el.innerHTML = '<p class="text-muted small">Seidauk iha dadus iha HP.</p>'; return; }
 			el.innerHTML = items.map(function (it) {
 				var r = it[0], k = it[1], e = ESTADU[r.estadu] || ['?', 'badge-light'];
-				var titulu = r.kode || (r.legal ? (k && (k.parte_naran || k.titulu)) || 'Survei legál' : (k && (k.titulu || naranSuku(k.suku))) || 'Kazu');
+				var naran = r.legal ? (k && (k.parte_naran || k.titulu)) || 'Survei legál' : (k && (k.titulu || naranSuku(k.suku))) || 'Kazu';
+				var idKazu = r.kode || r.kode_hp || (r.legal || r.followup ? '' : kodeHp(r.id, r.kria_iha));
+				var titulu = idKazu || naran;
 				var edita = r.estadu !== 'SINKRON';
 				return '<div class="lokal-item" data-id="' + esc(r.id) + '"' + (r.legal ? ' data-legal="1"' : '') + '>' +
 					'<div class="d-flex justify-content-between"><b>' + esc(titulu) + '</b><span>' + (r.followup && r.estadu !== 'SINKRON' ? '<span class="badge badge-warning mr-1">Follow-up</span>' : '') +
 					'<span class="badge ' + e[1] + '">' + e[0] + '</span></span></div>' +
+					(idKazu ? '<div class="small">' + esc(naran) + '</div>' : '') +
 					'<small class="text-muted">Kria ' + dataTL(r.kria_iha) + (k && k.urjente ? ' · <span class="text-danger">URJENTE</span>' : '') + '</small>' +
 					(r.erru ? '<div class="small text-danger mt-1">' + r.erru.map(esc).join('<br>') + '</div>' : '') +
 					(edita ? '<div class="mt-1"><button type="button" class="btn btn-sm btn-outline-rbr js-edita"><i class="fa fa-pencil"></i> Loke</button>' +
@@ -320,7 +330,7 @@
 			if (!r.ok) return;
 			var lista = r.data.kazu || [];
 			$('lista-server').innerHTML = lista.length ? lista.map(function (k) {
-				return '<div class="lokal-item"><div class="d-flex justify-content-between"><b>' + esc(k.kode || 'Hein kódigu') + '</b>' +
+				return '<div class="lokal-item"><div class="d-flex justify-content-between"><b>' + esc(k.kode || k.kode_hp || 'Hein kódigu') + '</b>' +
 					'<span class="badge ' + (STATUS_KOR[k.status] || 'badge-light') + '">' + esc(k.status_label) + '</span></div>' +
 					(k.followup ? '<small class="text-warning d-block"><i class="fa fa-street-view"></i> Follow-up: ' + esc(k.nota) + '</small>' +
 						'<button type="button" class="btn btn-sm btn-warning mt-1 js-followup" data-id="' + esc(k.id) + '"><i class="fa fa-download"></i> Download ba HP</button>'
@@ -415,13 +425,15 @@
 	}
 
 	function kazuFoun() {
-		return {
-			id: K.uuid(), kria_iha: new Date().toISOString(), titulu: '', data_relatoriu: hoje(),
+		var k = {
+			id: K.uuid(), kria_iha: new Date().toISOString(), kode_hp: null, titulu: '', data_relatoriu: hoje(),
 			postu: '', suku: '', aldeia: '', latitude: null, longitude: null, gps_akurasia: null,
 			data_akontesimentu: '', tipu_konflitu: [], tipu_seluk: '', tipu_rai: '', deskrisaun: '',
 			afetadu: {}, insidente: null, ator: [], estragu: [], estragu_seluk: '', nesesidade: [],
 			konsentimentu: false, la_publika: false, observasaun: '', rai_luan_unidade: 'M2', poligon_pontu: [[]], segimentu: {}
 		};
+		k.kode_hp = kodeHp(k.id, k.kria_iha);        // ID kedas, maski la iha internet
+		return k;
 	}
 
 	// Kampu simples (formuláriu RbR): input/select ho data-kampu — enxe no lee automátiku
@@ -671,6 +683,8 @@
 
 	function baPasu(n) {
 		S.pasu = n;
+		var idHp = S.kazu ? (S.kazu.kode || S.kazu.kode_hp || (S.kazu.followup ? '' : kodeHp(S.kazu.id, S.kazu.kria_iha))) : '';
+		$('kazu-id-hp').innerHTML = idHp ? '<i class="fa fa-id-card-o"></i> ID: <b>' + esc(idHp) + '</b>' : '';
 		document.querySelectorAll('#form-kazu .step').forEach(function (f) { f.hidden = parseInt(f.dataset.step, 10) !== n; });
 		document.querySelectorAll('#stepper span').forEach(function (s) {
 			var p = parseInt(s.dataset.step, 10);
@@ -720,7 +734,7 @@
 		var k = S.kazu;
 		return K.encryptJSON(S.xavi, k).then(function (box) {
 			return DB.put('kazu', { id: k.id, estadu: estadu, kria_iha: k.kria_iha, atualiza: new Date().toISOString(), box: box, erru: null,
-				kode: k.kode || null, followup: !!k.followup });
+				kode: k.kode || null, kode_hp: k.kode_hp || (k.followup ? null : kodeHp(k.id, k.kria_iha)), followup: !!k.followup });
 		});
 	}
 
@@ -1051,6 +1065,9 @@
 			return apiJSON(B.apiKazu, 'POST', payload(k));
 		}).then(function (res) {
 			if (!res.ok) { if (res.status >= 500) throw new Error('server'); return markaErru(r, erruLista(res.data)).then(function () { return false; }); }
+			if (res.data.kode_hp) k.kode_hp = res.data.kode_hp;
+			if (res.data.duplikadu && res.data.duplikadu.length && S.dupAvizu)
+				S.dupAvizu.push('⚠ ' + (k.kode_hp || 'Kazu') + ' bele duplikadu ho: ' + res.data.duplikadu.join(', ') + '. Admin sei verifika.');
 			return DB.mediaKazu(k.id).then(function (media) {
 				return media.reduce(function (p, m) {
 					return p.then(function (ok) {
@@ -1075,7 +1092,7 @@
 				if (!res.ok) { if (res.status >= 500) throw new Error('server'); return markaErru(r, erruLista(res.data)).then(function () { return false; }); }
 				// Susesu: hamoos dadus privadu husi HP; rai kódigu deit
 				return DB.hamoosMediaKazu(k.id).then(function () {
-					return DB.put('kazu', { id: k.id, estadu: 'SINKRON', kria_iha: k.kria_iha, atualiza: new Date().toISOString(), kode: res.data.kode, box: null, erru: null });
+					return DB.put('kazu', { id: k.id, estadu: 'SINKRON', kria_iha: k.kria_iha, atualiza: new Date().toISOString(), kode: res.data.kode, kode_hp: k.kode_hp || null, box: null, erru: null });
 				}).then(function () { return true; });
 			});
 		});
@@ -1084,7 +1101,7 @@
 	function sinkronHotu(silensiu) {
 		if (S.sinkron || !S.xavi) return;
 		if (!navigator.onLine) { if (!silensiu) msg('La iha sinál. Kazu seguru iha HP; sinkron bainhira iha internet.', 'warning'); return; }
-		S.sinkron = true;                        // xavi kedas: evento 'online' dala rua la halo sinkron paralelu
+		S.sinkron = true; S.dupAvizu = [];       // xavi kedas: evento 'online' dala rua la halo sinkron paralelu
 		DB.all('kazu').then(function (lista) {
 			lista = lista.filter(function (r) { return r.estadu === 'PRONTU'; });
 			if (!lista.length) { S.sinkron = false; if (!silensiu) msg('La iha dadus atu sinkron.', 'info'); atualizaServer(); return; }
@@ -1096,7 +1113,8 @@
 					return (r.legal ? LEGAL().sinkron(r) : sinkronKazu(r)).then(function (res) { if (res) ok++; else erru++; });
 				}).then(function () { bar.firstElementChild.style.width = Math.round((i + 1) / total * 100) + '%'; });
 			}, Promise.resolve()).then(function () {
-				msg('Sinkron remata: ' + ok + ' susesu' + (erru ? ', ' + erru + ' presiza hadia' : '') + '.', erru ? 'warning' : 'success');
+				msg(['Sinkron remata: ' + ok + ' susesu' + (erru ? ', ' + erru + ' presiza hadia' : '') + '.'].concat(S.dupAvizu),
+					erru || S.dupAvizu.length ? 'warning' : 'success');
 			}).catch(function (e) {
 				if (e.relogin) { pedeRelogin(); return; }
 				msg('Koneksaun kotu. Kazu seidauk sinkron sei hela iha HP. Koko fali.', 'warning');

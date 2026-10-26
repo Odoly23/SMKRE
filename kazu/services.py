@@ -190,8 +190,13 @@ def submit_kazu(kazu, user):
 	nota = {REJECTED: _('Haruka fali hafoin hadia'), FOLLOWUP: _('Haruka fali hafoin follow-up')}.get(antes, '')
 	_historia(kazu, user, antes, SYNCED, nota)
 	pesoal = c_user_pesoal(user)
-	msg = lambda: _('Kazu foun %(kode)s husi %(naran)s · %(mun)s') % {
-		'kode': kazu.kode, 'naran': pesoal.name if pesoal else user.username, 'mun': kazu.munisipiu.name}
+	from kazu.duplikadu import duplikadu_testu
+	dup = duplikadu_testu(kazu)
+
+	def msg():
+		text = _('Kazu foun %(kode)s husi %(naran)s · %(mun)s') % {
+			'kode': kazu.kode, 'naran': pesoal.name if pesoal else user.username, 'mun': kazu.munisipiu.name}
+		return text + (' · ⚠ ' + _('Posivel duplikadu: %(lista)s') % {'lista': ', '.join(dup[:2])} if dup else '')[:255]
 	transaction.on_commit(lambda: kirim_notif_role([ADMIN, SUPERADMIN], 'KAZU_FOUN', msg, url=kazu_url(kazu),
 		actor=user, urgent=kazu.urjente, email=True))
 	logger.info(f'Kazu haruka: {kazu.kode} husi {user.username}')
@@ -308,3 +313,17 @@ def followup_kazu(kazu, user, investigador, nota):
 	transaction.on_commit(lambda: kirim_notif(investigador, 'KAZU_STATUS', msg, url=url, actor=user, urgent=True, email=True))
 	logger.info(f'Follow-up kazu {kazu.kode} ba {investigador.username} husi {user.username}')
 	return kazu
+
+
+@transaction.atomic
+def marka_la_os_duplikadu(kazu, user, outro):
+	# Admin / Superadmin konfirma kazu rua la'ós hanesan → avizu la mosu tan ba par ne'e
+	from config.rbac import ROLE_DUPLIKADU
+	if c_user_group(user) not in ROLE_DUPLIKADU:
+		raise PermissionDenied
+	if kazu.pk == outro.pk:
+		raise ValidationError(_('Kazu hanesan.'))
+	kazu.duplikadu_la_os.add(outro)
+	for a, b in ((kazu, outro), (outro, kazu)):
+		_historia(a, user, a.status, a.status, _("La'ós duplikadu ho %(kode)s") % {'kode': b}, tipu=KazuHistoria.EDITA)
+	logger.info(f"La'ós duplikadu: {kazu} / {outro} husi {user.username}")

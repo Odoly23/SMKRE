@@ -26,6 +26,7 @@ urlpatterns = [
 
 	path('<uuid:uuid>/portal/', status_v.KazuPortal, name="kazu-portal"),
 	path('<uuid:uuid>/haruka/', status_v.KazuSubmit, name="kazu-submit"),
+	path('<uuid:uuid>/la-os-duplikadu/<uuid:outro>/', status_v.KazuLaOsDuplikadu, name="kazu-la-os-duplikadu"),
 	path('<uuid:uuid>/status-kazu/', status_v.KazuStatusKazu, name="kazu-status-kazu"),
 	path('<uuid:uuid>/<str:action>/', status_v.KazuAction, name="kazu-action"),
 ]

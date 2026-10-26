@@ -24,6 +24,7 @@ from kazu.forms import KazuForm, AfetaduForm, InsidenteForm, AtorForm, Evidensia
 from kazu.models import Kazu, Evidensia, KazuHistoria, KazuSegimentu, KazuAkompanamentu, STATUS_EDITABLE, PENDING, FOLLOWUP
 from kazu.poligon import kalkula as kalkula_poligon, aplika as aplika_poligon
 from kazu.services import refresh_auto_fields, enxe_fokal
+from kazu.duplikadu import atribui_kode_hp
 from users.auth_utils import c_user_pesoal
 from users.models import OfflinePermission
 
@@ -140,6 +141,7 @@ def sync_kazu(user, data):
 		obj.id = kazu_id
 		obj.created_by = user
 		obj.status = PENDING
+		atribui_kode_hp(obj, kria_iha)            # ID HP hanesan ho ida ne'ebé HP hatudu ona
 	if poligon:
 		aplika_poligon(obj, poligon)
 	obj.save()

@@ -5520,3 +5520,50 @@ msgstr ""
 #: users
 msgid "Erru. Koko fali."
 msgstr "Error. Try again."
+
+msgid "ID HP (offline)"
+msgstr "Phone ID (offline)"
+
+msgid "La'ós duplikadu ho"
+msgstr "Not a duplicate of"
+
+msgid "GPS besik: %(m)s m"
+msgstr "GPS nearby: %(m)s m"
+
+msgid "Aldeia no tipu konflitu hanesan"
+msgstr "Same aldeia and conflict type"
+
+msgid "Posivel duplikadu: %(lista)s"
+msgstr "Possible duplicate: %(lista)s"
+
+msgid "Kazu hanesan."
+msgstr "Same case."
+
+msgid "La'ós duplikadu ho %(kode)s"
+msgstr "Not a duplicate of %(kode)s"
+
+msgid "Marka ona: %(a)s la'ós duplikadu ho %(b)s."
+msgstr "Marked: %(a)s is not a duplicate of %(b)s."
+
+msgid "ID HP"
+msgstr "Phone ID"
+
+msgid "Posivel duplikadu"
+msgstr "Possible duplicate"
+
+msgid ""
+"Kazu seluk ho GPS besik (≤ 200 m) ka aldeia no tipu konflitu hanesan. "
+"Verifika antes aprova."
+msgstr ""
+"Other cases with nearby GPS (≤ 200 m) or the same aldeia and conflict type. "
+"Check before approving."
+
+msgid "La'ós duplikadu"
+msgstr "Not a duplicate"
+
+msgid ""
+"Se duplikadu duni: Rejeita ka Kansela kazu ida ho nota (ex. «Duplikadu ho "
+"RbR-…»)."
+msgstr ""
+"If it is a duplicate: reject or cancel one case with a note (e.g. «Duplicate"
+" of RbR-…»)."

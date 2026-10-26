@@ -23,6 +23,8 @@ class Kazu(models.Model):
 	# UUID: bele kria iha HP (offline) la iha risku ID bentrok
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	kode = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("ID Kazu"))
+	# ID HP: kria automátiku iha HP bainhira kazu foun offline (HP-AAMMDD-XXXXXX), hanesan iha server
+	kode_hp = models.CharField(max_length=48, unique=True, null=True, blank=True, verbose_name=_("ID HP (offline)"))
 	referensia_rbr = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("Referénsia RbR (Airtable)"))
 	titulu = models.CharField(max_length=200, blank=True, verbose_name=_("Naran kazu"))
 	status = models.CharField(max_length=12, choices=STATUS_CHOICES, default=DRAFT, db_index=True, verbose_name=_("Status Dadus"))
@@ -70,6 +72,8 @@ class Kazu(models.Model):
 	# Follow-up: Investigadór ne'ebé tenke tuun fali ba terrenu (bele la'ós ida ne'ebé kria kazu)
 	followup_ba = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='kazu_followup', verbose_name=_("Follow-up ba"))
 	followup_at = models.DateTimeField(null=True, blank=True)
+	# Admin konfirma "la'ós duplikadu" (par kazu la hatudu tan iha avizu duplikadu)
+	duplikadu_la_os = models.ManyToManyField('self', blank=True, verbose_name=_("La'ós duplikadu ho"))
 
 	# Rejistu seksaun OneToOne (enxe husi seksaun.py): {relasaun: Model} no {kampu: relasaun}
 	SEKSAUN = {}
@@ -89,7 +93,7 @@ class Kazu(models.Model):
 		permissions = [('verify_kazu', 'Bele verifika kazu'), ('approve_kazu', 'Bele aprova kazu')]
 
 	def __str__(self):
-		return self.kode or f'{_("Rascunho")} #{str(self.id)[:4].upper()}'
+		return self.kode or self.kode_hp or f'{_("Rascunho")} #{str(self.id)[:4].upper()}'
 
 	# ── Seksaun OneToOne ──
 	def seksaun(self, rel):

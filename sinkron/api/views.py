@@ -18,6 +18,7 @@ from custom.models import PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuR
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_EDITABLE, REJECTED, FOLLOWUP
 from kazu.services import submit_kazu
 from sinkron.services import sync_kazu, sync_evidensia, kazu_ba_hp
+from kazu.duplikadu import duplikadu_testu
 from users.auth_utils import c_user_pesoal
 
 
@@ -78,7 +79,7 @@ class APIKazuLista(_SinkronAPI):
 		objects = Kazu.objects.filter(Q(created_by=request.user) | Q(followup_ba=request.user)).order_by('-updated_at')[:100]
 		nota = {(h.kazu_id, h.status_foun): h.nota for h in KazuHistoria.objects.filter(kazu__in=objects, status_foun__in=[REJECTED, FOLLOWUP]).order_by('created_at')}
 		data = [{
-			'id': str(k.pk), 'kode': k.kode, 'status': k.status, 'status_label': str(status_label[k.status]),
+			'id': str(k.pk), 'kode': k.kode, 'kode_hp': k.kode_hp, 'status': k.status, 'status_label': str(status_label[k.status]),
 			'nota': nota.get((k.pk, k.status), '') if k.status in (REJECTED, FOLLOWUP) else '', 'updated_at': k.updated_at.isoformat(),
 			'followup': k.status == FOLLOWUP and k.followup_ba_id == request.user.id,
 		} for k in objects]
@@ -97,8 +98,9 @@ class APIKazuLista(_SinkronAPI):
 			return Response({'erru': {'__all__': [_('La iha asesu.')]}}, status=403)
 		except ValidationError as e:
 			return Response(_erru(e), status=400)
-		return Response({'id': str(kazu.pk), 'kode': kazu.kode, 'status': kazu.status,
-			'foto': kazu.foto_count(), 'video': kazu.video_count()}, status=201 if foun else 200)
+		# Avizu duplikadu: kódigu no razaun de'it (Investigadór la haree detalla kazu ema seluk)
+		return Response({'id': str(kazu.pk), 'kode': kazu.kode, 'kode_hp': kazu.kode_hp, 'status': kazu.status,
+			'foto': kazu.foto_count(), 'video': kazu.video_count(), 'duplikadu': duplikadu_testu(kazu)}, status=201 if foun else 200)
 
 
 class APIEvidensia(_SinkronAPI):

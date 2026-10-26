@@ -39,8 +39,8 @@ SEKSAUN_INLINES = [type(f'{m.__name__}Inline', (admin.StackedInline,), {'model':
 class KazuAdmin(admin.ModelAdmin):
 	list_display = ['__str__', 'status', 'status_kazu', 'munisipiu', 'urjente', 'created_by', 'created_at']
 	list_filter = ['status', 'status_kazu', 'urjente', 'munisipiu', 'tipu_konflitu']
-	search_fields = ['kode', 'titulu', 'deskrisaun']
-	readonly_fields = ['kode', 'synced_at', 'verified_by', 'verified_at', 'approved_by', 'approved_at', 'created_by']
+	search_fields = ['kode', 'kode_hp', 'titulu', 'deskrisaun']
+	readonly_fields = ['kode', 'kode_hp', 'duplikadu_la_os', 'synced_at', 'verified_by', 'verified_at', 'approved_by', 'approved_at', 'created_by']
 	inlines = SEKSAUN_INLINES + [AfetaduInline, InsidenteInline, AtorInline, EvidensiaInline, HistoriaInline]
 
 
