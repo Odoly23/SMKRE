@@ -5402,3 +5402,35 @@ msgstr "Was there consultation before eviction?"
 #: report
 msgid "Molok eviksaun iha notifikasaun ka lae?"
 msgstr "Was there notification before eviction?"
+
+#: report
+msgid "Gráfiku Influensia no Advokasia"
+msgstr "Influence and Advocacy charts"
+
+#: report
+msgid "Relatóriu Tabular"
+msgstr "Tabular report"
+
+#: report
+msgid "INFLUENSIA NO ADVOKASIA"
+msgstr "INFLUENCE AND ADVOCACY"
+
+#: report
+msgid "Rejistu iha tribunál (inklui rejistu hela)"
+msgstr "Registered in court (incl. being registered)"
+
+#: report
+msgid "Sin + rejistu hela"
+msgstr "Yes + being registered"
+
+#: report
+msgid "eviksaun aktivu"
+msgstr "active evictions"
+
+#: report
+msgid "kazu hetan ona"
+msgstr "cases evicted"
+
+#: report
+msgid "uma-kain"
+msgstr "households"

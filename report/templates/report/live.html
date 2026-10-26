@@ -33,7 +33,7 @@
 	<section class="lv-kpi">
 		<div class="kpi" id="k-total"><div class="kpi-l"><i class="fa fa-folder-open"></i> {% trans "Kazu iha sistema" %}</div><div class="kpi-n" data-k="total">0</div><div class="kpi-s"><b data-k="verifikadu">0</b> {% trans "verifikadu" %}</div></div>
 		<div class="kpi" id="k-hein"><div class="kpi-l"><i class="fa fa-hourglass-half"></i> {% trans "Hein verifikasaun" %}</div><div class="kpi-n" data-k="hein">0</div><div class="kpi-s">{% trans "Admin presiza haree" %}</div></div>
-		<div class="kpi" id="k-aktivu"><div class="kpi-l"><i class="fa fa-bolt"></i> {% trans "Kazu aktivu" %}</div><div class="kpi-n" data-k="aktivu">0</div><div class="kpi-s"><b data-k="eviksaun">0</b> {% trans "eviksaun" %}</div></div>
+		<div class="kpi" id="k-aktivu"><div class="kpi-l"><i class="fa fa-bolt"></i> {% trans "Kazu aktivu" %}</div><div class="kpi-n" data-k="aktivu">0</div><div class="kpi-s"><b data-k="eviksaun">0</b> {% trans "eviksaun aktivu" %}</div></div>
 		<div class="kpi kpi-krit" id="k-urjente"><div class="kpi-l"><i class="fa fa-exclamation-triangle"></i> {% trans "Urjente" %}</div><div class="kpi-n" data-k="urjente">0</div><div class="kpi-s">{% trans "presiza apoiu lalais" %}</div></div>
 		<div class="kpi" id="k-uma"><div class="kpi-l"><i class="fa fa-home"></i> {% trans "Uma-kain afetadu" %}</div><div class="kpi-n" data-k="uma_kain">0</div><div class="kpi-s"><b data-k="ema">0</b> {% trans "ema" %}</div></div>
 		<div class="kpi" id="k-legal"><div class="kpi-l"><i class="fa fa-balance-scale"></i> {% trans "Aksaun legál" %}</div><div class="kpi-n" data-k="legal">0</div><div class="kpi-s"><b data-k="survei_hein">0</b> {% trans "survei hein verifika" %}</div></div>
@@ -60,16 +60,13 @@
 		<div id="ch-rot" class="ch"></div>
 	</section>
 
-	<!-- Atividade -->
-	<section class="pnl lv-ativ">
-		<div class="pnl-h"><h2><i class="fa fa-bell"></i> {% trans "Atividade ikus" %}</h2></div>
-		<ul id="atividade" class="ativ"></ul>
-	</section>
-
-	<!-- Prazu legál -->
-	<section class="pnl lv-prazu">
-		<div class="pnl-h"><h2><i class="fa fa-calendar"></i> {% trans "Prazu legál" %}</h2></div>
-		<ul id="prazu" class="prazu"></ul>
+	<!-- Influensia no advokasia: eviksaun (vertikál) -->
+	<section class="pnl lv-evik">
+		<div class="pnl-h"><h2><i class="fa fa-bullhorn"></i> {% trans "Eviksaun" %}</h2>
+			<div class="evik-kpi"><b data-e="total">0</b> {% trans "kazu hetan ona" %} · <b data-e="uma_kain">0</b> {% trans "uma-kain" %}</div></div>
+		<div class="evik-q"><h3>{% trans "Molok eviksaun halo konsultasaun ka lae?" %}</h3><div id="ch-ev-konsultasaun" class="ch-ev"></div></div>
+		<div class="evik-q"><h3>{% trans "Molok eviksaun iha notifikasaun ka lae?" %}</h3><div id="ch-ev-notifikasaun" class="ch-ev"></div></div>
+		<div class="evik-q"><h3>{% trans "Durante eviksaun uza forsa ka lae?" %}</h3><div id="ch-ev-forsa" class="ch-ev"></div></div>
 	</section>
 </div>
 

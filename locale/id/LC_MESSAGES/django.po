@@ -5386,3 +5386,35 @@ msgstr "Apakah ada konsultasi sebelum penggusuran?"
 #: report
 msgid "Molok eviksaun iha notifikasaun ka lae?"
 msgstr "Apakah ada notifikasi sebelum penggusuran?"
+
+#: report
+msgid "Gráfiku Influensia no Advokasia"
+msgstr "Grafik Influensia dan Advokasi"
+
+#: report
+msgid "Relatóriu Tabular"
+msgstr "Laporan tabel"
+
+#: report
+msgid "INFLUENSIA NO ADVOKASIA"
+msgstr "INFLUENSIA DAN ADVOKASI"
+
+#: report
+msgid "Rejistu iha tribunál (inklui rejistu hela)"
+msgstr "Terdaftar di pengadilan (termasuk sedang didaftarkan)"
+
+#: report
+msgid "Sin + rejistu hela"
+msgstr "Ya + sedang didaftarkan"
+
+#: report
+msgid "eviksaun aktivu"
+msgstr "penggusuran aktif"
+
+#: report
+msgid "kazu hetan ona"
+msgstr "kazu sudah digusur"
+
+#: report
+msgid "uma-kain"
+msgstr "uma-kain"

@@ -11,7 +11,7 @@
 	{# 1. Sumáriu númeru #}
 	<div class="row legal-kpi">
 		<div class="col-6 col-md-3 mb-3"><a class="card card-rbr h-100 text-reset" href="{% url 'legal-kazu-list' %}"><div class="card-body"><small class="text-muted">{% trans "Kazu iha prosesu legál" %}</small><h3 class="mb-0 text-rbr">{{ kpi.legal }}</h3></div></a></div>
-		<div class="col-6 col-md-3 mb-3"><div class="card card-rbr h-100"><div class="card-body"><small class="text-muted">{% trans "Rejistu iha tribunál" %}</small><h3 class="mb-0">{{ kpi.tribunal }}</h3><small class="text-muted">{% trans "Desizaun tribunál" %}: {{ kpi.desizaun }}</small></div></div></div>
+		<div class="col-6 col-md-3 mb-3"><div class="card card-rbr h-100"><div class="card-body"><small class="text-muted">{% trans "Rejistu iha tribunál (inklui rejistu hela)" %}</small><h3 class="mb-0">{{ kpi.tribunal }}</h3><small class="text-muted">{% trans "Desizaun tribunál" %}: {{ kpi.desizaun }}</small></div></div></div>
 		<div class="col-6 col-md-3 mb-3"><div class="card card-rbr h-100"><div class="card-body"><small class="text-muted">{% trans "Prazu loron 7 tuir mai" %}</small><h3 class="mb-0 {% if kpi.prazu %}text-warning{% endif %}">{{ kpi.prazu }}</h3>{% if kpi.liu_prazu %}<small class="text-danger font-weight-bold">{% trans "Liu prazu" %}: {{ kpi.liu_prazu }}</small>{% endif %}</div></div></div>
 		{% if haree_survei %}
 		<div class="col-6 col-md-3 mb-3"><a class="card card-rbr h-100 text-reset" href="{% url 'legal-survei-list' %}"><div class="card-body"><small class="text-muted">{% trans "Survei legál" %}</small><h3 class="mb-0">{{ kpi.survei }}</h3>{% if kpi.survei_hein %}<small class="text-warning font-weight-bold">{% trans "Hein verifikasaun" %}: {{ kpi.survei_hein }}</small>{% endif %}</div></a></div>
@@ -23,7 +23,7 @@
 	{# 2. Gráfiku #}
 	<div class="row">
 		<div class="col-lg-7 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr">{% trans "Kazu no Survei Legál tuir Munisípiu" %}</div><div class="card-body"><div id="ch_mun"></div></div></div></div>
-		<div class="col-lg-5 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr bg-dark2">{% trans "Rejistu iha Tribunál" %}</div><div class="card-body"><div id="ch_tribunal"></div></div></div></div>
+		<div class="col-lg-5 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr bg-dark2">{% trans "Rejistu iha Tribunál" %}</div><div class="card-body"><p class="small text-muted mb-1">{% trans "Kazu ne'ebé seidauk rezolve de'it" %}</p><div id="ch_tribunal"></div></div></div></div>
 	</div>
 	<div class="row">
 		<div class="col-lg-4 mb-3"><div class="card card-rbr h-100"><div class="card-header card-header-rbr">{% trans "Kazu Legál tuir Tinan" %}</div><div class="card-body"><div id="ch_tinan"></div></div></div></div>

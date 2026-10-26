@@ -30,6 +30,8 @@ MENU = [
 		('live', 'report-live', 'fa-television', _('Live'), rbac.ROLE_DASHBOARD, {'tab_foun': True}),
 		('mapa', 'report-mapa', 'fa-map', _('Mapa'), rbac.ROLE_DASHBOARD),
 		('grafiku', 'report-chart', 'fa-line-chart', _('Gráfiku'), rbac.ROLE_DASHBOARD),
+		('advokasia', 'report-chart', 'fa-bullhorn', _('Gráfiku Influensia no Advokasia'), rbac.ROLE_DASHBOARD, {'anchor': 'advokasia'}),
+		('tabular', 'report-dash', 'fa-table', _('Relatóriu Tabular'), rbac.ROLE_DASHBOARD, {'anchor': 'tabular'}),
 		('relatoriu', 'report-list', 'fa-file-text', _('Lista Relatóriu'), rbac.ROLE_RELATORIU),
 		('publikasaun', 'publikasaun-list', 'fa-newspaper-o', _('Publikasaun'), rbac.ROLE_POLICY_KRIA),
 	]),
@@ -58,7 +60,7 @@ def _items(group, user, entries):
 			if not ativu:
 				continue
 		try:
-			url = reverse(url_name)
+			url = reverse(url_name) + (f"#{opt['anchor']}" if opt.get('anchor') else '')    # anchor: seksaun iha pájina
 		except NoReverseMatch:
 			continue
 		items.append({'page': page, 'url': url, 'icon': icon, 'label': label, 'tab_foun': opt.get('tab_foun', False)})

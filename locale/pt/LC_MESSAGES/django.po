@@ -5420,3 +5420,35 @@ msgstr "Houve consulta antes do despejo?"
 #: report
 msgid "Molok eviksaun iha notifikasaun ka lae?"
 msgstr "Houve notificação antes do despejo?"
+
+#: report
+msgid "Gráfiku Influensia no Advokasia"
+msgstr "Gráficos Influência e Advocacia"
+
+#: report
+msgid "Relatóriu Tabular"
+msgstr "Relatório tabular"
+
+#: report
+msgid "INFLUENSIA NO ADVOKASIA"
+msgstr "INFLUÊNCIA E ADVOCACIA"
+
+#: report
+msgid "Rejistu iha tribunál (inklui rejistu hela)"
+msgstr "Registado no tribunal (inclui em registo)"
+
+#: report
+msgid "Sin + rejistu hela"
+msgstr "Sim + em registo"
+
+#: report
+msgid "eviksaun aktivu"
+msgstr "despejos ativos"
+
+#: report
+msgid "kazu hetan ona"
+msgstr "casos já despejados"
+
+#: report
+msgid "uma-kain"
+msgstr "agregados"

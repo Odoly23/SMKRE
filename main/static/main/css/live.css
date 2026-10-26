@@ -16,8 +16,8 @@ body.kursor-subar, body.kursor-subar * { cursor: none !important; }
 	grid-template-areas:
 		"top top top top top top top top top top top top"
 		"kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi kpi"
-		"map map map map map map tr tr tr at at at"
-		"map map map map map map ro ro ro pz pz pz";
+		"map map map map map map tr tr tr ev ev ev"
+		"map map map map map map ro ro ro ev ev ev";
 }
 /* Kabesallu */
 .lv-top { grid-area: top; display: flex; align-items: center; justify-content: space-between; }
@@ -61,8 +61,14 @@ body.kursor-subar, body.kursor-subar * { cursor: none !important; }
 .lv-mapa { grid-area: map; }
 .lv-trend { grid-area: tr; }
 .lv-rot { grid-area: ro; }
-.lv-ativ { grid-area: at; }
-.lv-prazu { grid-area: pz; }
+.lv-evik { grid-area: ev; }
+.evik-kpi { font-size: 1.5vh; color: var(--ink2); white-space: nowrap; }
+.evik-kpi b { color: var(--ink); font-size: 2vh; }
+.evik-q { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--linha); padding-top: .8vh; }
+.evik-q:first-of-type { border-top: 0; padding-top: 0; }
+.evik-q h3 { margin: 0 0 .3vh; font-size: 1.6vh; font-weight: 700; color: var(--ink2); }
+.evik-q .nota { font-size: 1.35vh; color: var(--mute); margin-left: .3vw; font-weight: 400; }
+.ch-ev { flex: 1; min-height: 0; }
 #mapa { flex: 1; min-height: 0; background: transparent; border-radius: 1vh; }
 .leaflet-container { background: transparent; font-family: 'Lato', Arial, sans-serif; }
 .lejenda { display: flex; gap: 1vw; color: var(--ink2); font-size: 1.5vh; }
@@ -128,7 +134,8 @@ body.kursor-subar, body.kursor-subar * { cursor: none !important; }
 /* Ekran kiik (laptop / tablet): bele haree, maske diak liu iha 1920×1080 */
 @media (max-aspect-ratio: 4/3) {
 	html, body { overflow: auto; }
-	.live { height: auto; grid-template-columns: 1fr; grid-template-rows: auto; grid-template-areas: "top" "kpi" "map" "tr" "ro" "at" "pz"; }
+	.live { height: auto; grid-template-columns: 1fr; grid-template-rows: auto; grid-template-areas: "top" "kpi" "map" "tr" "ro" "ev"; }
 	.lv-kpi { grid-template-columns: repeat(2, 1fr); }
-	.lv-mapa, .lv-trend, .lv-rot, .lv-ativ, .lv-prazu { min-height: 45vh; }
+	.lv-mapa, .lv-trend, .lv-rot { min-height: 45vh; }
+	.lv-evik { min-height: 90vh; }
 }

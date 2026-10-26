@@ -5479,3 +5479,35 @@ msgstr "Molok eviksaun halo konsultasaun ka lae?"
 #: report
 msgid "Molok eviksaun iha notifikasaun ka lae?"
 msgstr "Molok eviksaun iha notifikasaun ka lae?"
+
+#: report
+msgid "Gráfiku Influensia no Advokasia"
+msgstr "Gráfiku Influensia no Advokasia"
+
+#: report
+msgid "Relatóriu Tabular"
+msgstr "Relatóriu Tabular"
+
+#: report
+msgid "INFLUENSIA NO ADVOKASIA"
+msgstr "INFLUENSIA NO ADVOKASIA"
+
+#: report
+msgid "Rejistu iha tribunál (inklui rejistu hela)"
+msgstr "Rejistu iha tribunál (inklui rejistu hela)"
+
+#: report
+msgid "Sin + rejistu hela"
+msgstr "Sin + rejistu hela"
+
+#: report
+msgid "eviksaun aktivu"
+msgstr "eviksaun aktivu"
+
+#: report
+msgid "kazu hetan ona"
+msgstr "kazu hetan ona"
+
+#: report
+msgid "uma-kain"
+msgstr "uma-kain"

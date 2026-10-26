@@ -15,7 +15,8 @@ from kazu.models import Kazu, KazuSegimentu, AKSAUN_LEGAL
 from legal.models import NotaLegal, SurveiLegal
 from legal.services import dokumentu_queryset, can_edit_vault, KAZU_STATUS_LEGAL
 from legal.tasks import LOREN_LEMBRA
-from report.utils import chart_lang
+from report.advokasia import tribunal_rezumu
+from report.utils import chart_lang, report_queryset
 from users.auth_utils import c_user_group
 from users.models import OfflinePermission
 
@@ -32,17 +33,20 @@ def LegalDash(request):
 	group = c_user_group(request.user)
 	kazu = Kazu.objects.filter(status__in=KAZU_STATUS_LEGAL)
 	legal = kazu.filter(status_kazu=AKSAUN_LEGAL)
-	seg = KazuSegimentu.objects.filter(kazu__in=kazu)
 	nota = NotaLegal.objects.filter(kazu__in=kazu, remata=False).select_related('kazu')
 	if not can_edit_vault(request.user):
 		nota = nota.filter(konfidensial=False)
 	haree_survei = group in ROLE_SURVEI_HAREE
 	survei = SurveiLegal.objects.exclude(status=SurveiLegal.RASCUNHO) if haree_survei else SurveiLegal.objects.none()
 
+	# Tribunál / rezolusaun: regra IDA ho Dashboard Relatóriu no Gráfiku (kazu hotu ne'ebé haruka ona)
+	baze = report_queryset(request)
+	trib = tribunal_rezumu(baze)
+	seg = KazuSegimentu.objects.filter(kazu__in=baze.values('pk'))
 	kpi = {
 		'legal': legal.count(),
-		'tribunal': seg.filter(tribunal_rejistu__in=['SIN', 'DADAUN']).count(),
-		'desizaun': seg.filter(tribunal_desizaun='SIN').count(),
+		'tribunal': trib['rejistu'],
+		'desizaun': trib['desizaun'],
 		'prazu': nota.filter(prazu__gte=hoje, prazu__lte=hoje + timedelta(days=7)).count(),
 		'liu_prazu': nota.filter(prazu__lt=hoje).count(),
 		'dokumentu': dokumentu_queryset(request.user).count(),
@@ -58,9 +62,9 @@ def LegalDash(request):
 		.values_list('t').annotate(n=Count('pk')).order_by('t')
 	charts = {
 		'mun': {'label': [m.name for m in mun], 'kazu': [n_mun.get(m.pk, 0) for m in mun], 'survei': [n_survei.get(m.pk, 0) for m in mun]},
-		'tribunal': _seri(seg, 'tribunal_rejistu', KazuSegimentu.TRIBUNAL_CHOICES),
+		'tribunal': {'label': [str(l) for _k, l, _n in trib['tribunal']], 'obj': [n for _k, _l, n in trib['tribunal']]},
 		'desizaun': _seri(seg, 'desizaun_rbr', KazuSegimentu.DESIZAUN_RBR_CHOICES),
-		'rezolusaun': _seri(seg, 'status_rezolusaun', KazuSegimentu.REZOLUSAUN_CHOICES),
+		'rezolusaun': {'label': [str(l) for _k, l, _n in trib['rezolusaun']], 'obj': [n for _k, _l, n in trib['rezolusaun']]},
 		'tinan': {'label': [str(t) for t, n in tinan], 'obj': [n for t, n in tinan]},
 		'meius': _seri(survei, 'meius', SurveiLegal.MEIUS_CHOICES),
 		'labels': {'kazu': _('Kazu legál'), 'survei': _('Survei legál'), 'total': _('Total')},

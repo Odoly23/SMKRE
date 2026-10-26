@@ -208,7 +208,7 @@ class AdvokasiaTest(ReportBase):
 		self.assertEqual(r.status_code, 200)
 		d = r.context['adv']
 		self.assertEqual(d['n_seidauk'], 3)                      # T-1 rezolve ona (mediasaun) la tama
-		self.assertEqual(d['n_tribunal'], 1)
+		self.assertEqual(d['n_tribunal'], 2)                     # Sin + rejistu hela
 		self.assertEqual(dict((k, n) for k, _l, n in d['tribunal']), {'LAE': 1, 'DADAUN': 1, '': 1})
 		self.assertEqual((d['gov_total'], d['gov_af']['labarik'], d['entidade'][0][0]), (1, 15, 'GOVERNU'))
 		self.assertEqual((d['evik_total'], d['evik_af']['uma_kain']), (1, 10))
@@ -236,3 +236,29 @@ class AdvokasiaTest(ReportBase):
 	def test_investigador_labele_lista(self):
 		self.client.force_login(self.inv)
 		self.assertEqual(self.client.get(reverse('report-tabular-list', args=[0, 'total', 'total'])).status_code, 403)
+
+
+class DadusHanesanTest(AdvokasiaTest):
+	# Dashboard Legál, Dashboard Relatóriu no Live: regra tribunál / eviksaun IDA
+	def test_legal_no_dashboard_hanesan(self):
+		self.client.force_login(make_user(OFISIAL_LEGAL, email='legal.hanesan@teste.tl'))
+		leg = self.client.get(reverse('legal-dash'))
+		dash = self.client.get(reverse('report-dash'))
+		self.assertEqual(leg.context['kpi']['tribunal'], dash.context['adv']['n_tribunal'])
+		tr = leg.context['charts']['tribunal']
+		self.assertEqual(dict(zip(tr['label'], tr['obj'])), {str(l): n for _k, l, n in dash.context['adv']['tribunal']})
+
+	def test_live_eviksaun(self):
+		from django.core.cache import cache
+		from report import live
+		cache.clear()
+		ev = live.kalkula()['evik']
+		self.assertEqual((ev['total'], ev['uma_kain']), (1, 10))
+		self.assertEqual({x['code']: x['n'] for x in ev['forsa']}, {'SIN': 1})
+		self.assertEqual({x['code']: x['n'] for x in ev['konsultasaun']}, {'LAE': 1})
+
+	def test_menu_anchor(self):
+		from config.menu import menu_for
+		urls = [i['url'] for i in menu_for(ADMIN)]
+		self.assertIn(reverse('report-chart') + '#advokasia', urls)
+		self.assertIn(reverse('report-dash') + '#tabular', urls)

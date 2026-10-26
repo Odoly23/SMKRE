@@ -132,7 +132,7 @@
 	<!-- Status kazu, tribunál, Governu foti rai no eviksaun (númeru) -->
 	<div class="stat-row mb-3">
 		<a href="{% url 'report-tabular-list' 0 'rez' 'seidauk' %}?{{ request.GET.urlencode }}" class="stat" style="background:#0B4F3C"><b>{{ adv.n_seidauk|intcomma }}</b><span>{% trans "Kazu seidauk rezolve" %}</span></a>
-		<a href="{% url 'report-tabular-list' 0 'trib' 'sin' %}?{{ request.GET.urlencode }}" class="stat" style="background:#2F6AA6"><b>{{ adv.n_tribunal|intcomma }}</b><span>{% trans "Rejistu iha tribunál" %}</span></a>
+		<a href="{% url 'report-tabular-list' 0 'trib' 'rejistu' %}?{{ request.GET.urlencode }}" class="stat" style="background:#2F6AA6"><b>{{ adv.n_tribunal|intcomma }}</b><span>{% trans "Rejistu iha tribunál (inklui rejistu hela)" %}</span></a>
 		<a href="{% url 'report-tabular-list' 0 'evik' 'sin' %}?{{ request.GET.urlencode }}" class="stat" style="background:#E8772E"><b>{{ adv.evik_total|intcomma }}</b><span>{% trans "Kazu hetan eviksaun" %}</span></a>
 		<div class="stat" style="background:#C99A06"><b>{{ adv.evik_af.uma_kain|intcomma }}</b><span>{% trans "Uma-kain hetan eviksaun" %}</span></div>
 		<div class="stat" style="background:#6B1E23"><b>{{ adv.gov_total|intcomma }}</b><span>{% trans "Kazu Governu foti rai" %}</span></div>

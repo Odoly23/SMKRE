@@ -94,8 +94,18 @@ def kalkula():
 			kazu__status__in=KAZU_STATUS_LEGAL).select_related('kazu').order_by('prazu')[:8]]
 	return {
 		'agora': agora.isoformat(), 'kpi': kpi, 'fulan': fulan, 'mun': mun, 'tipu': tipu[:8], 'status_kazu': status_kazu,
-		'pontu': pontu, 'prazu': prazu, 'atividade': _atividade(),
+		'pontu': pontu, 'prazu': prazu, 'atividade': _atividade(), 'evik': _eviksaun(kazu),
 	}
+
+
+def _eviksaun(kazu):
+	# Painel vertikál: kazu hetan eviksaun + konsultasaun / notifikasaun / forsa (regra hanesan Gráfiku)
+	from kazu.models.opsaun import SIN_LAE_CHOICES
+	from report.advokasia import kazu_eviksaun, _konta, _soma_afetadu
+	evik = kazu_eviksaun(kazu)
+	lista = lambda c: [{'code': k or 'LAIHA', 'name': l, 'n': n} for k, l, n in _konta(evik, f'eviksaun__{c}', SIN_LAE_CHOICES)]
+	return {'total': evik.count(), 'uma_kain': _soma_afetadu(evik)['uma_kain'],
+		'konsultasaun': lista('konsultasaun_molok'), 'notifikasaun': lista('notifikasaun_klaru'), 'forsa': lista('uza_forsa')}
 
 
 def dadus():

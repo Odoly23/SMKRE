@@ -32,6 +32,26 @@ EVIK_GRUPU = [
 ]
 
 
+def kazu_eviksaun(qs):
+	# Kazu ne'ebé hetan ona eviksaun ("Eviksaun akontese ona? = Sin") — fatin IDA (Dashboard, Gráfiku, Live)
+	return _baze(qs).filter(eviksaun__eviksaun_akontese='SIN')
+
+
+TRIBUNAL_REJISTU = ['SIN', 'DADAUN']     # "Rejistu iha tribunál" = rejistu ona + rejistu hela (regra IDA ba dashboard hotu)
+
+
+def tribunal_rezumu(qs):
+	"""Dadus tribunál hanesan iha Dashboard, Gráfiku no Dashboard Legál:
+	rejistu (Sin + rejistu hela), desizaun, pie tribunál (kazu seidauk rezolve) no status rezolusaun (kazu hotu)."""
+	kazu = _baze(qs)
+	return {
+		'rejistu': kazu.filter(segimentu__tribunal_rejistu__in=TRIBUNAL_REJISTU).count(),
+		'desizaun': kazu.filter(segimentu__tribunal_desizaun='SIN').count(),
+		'tribunal': _konta(kazu.filter(seidauk_rezolve()), 'segimentu__tribunal_rejistu', KazuSegimentu.TRIBUNAL_CHOICES),
+		'rezolusaun': _konta(kazu, 'segimentu__status_rezolusaun', KazuSegimentu.REZOLUSAUN_CHOICES),
+	}
+
+
 def seidauk_rezolve():
 	# Kazu seidauk rezolve: la iha status "Rezolve ona" ka "Abandona" (laiha dadus = seidauk)
 	return ~Q(segimentu__status_rezolusaun__in=REZ_REZOLVE + ['ABANDONA'])
@@ -43,6 +63,8 @@ def filtru(grupu, valor):
 		return Q()
 	if grupu == 'tipu':
 		return Q(tipu_konflitu__pk=valor) if str(valor).isdigit() else None
+	if grupu == 'trib' and valor == 'rejistu':
+		return Q(segimentu__tribunal_rejistu__in=TRIBUNAL_REJISTU)
 	tab = {'rez': REZ_GRUPU, 'trib': TRIB_GRUPU, 'evik': EVIK_GRUPU}.get(grupu)
 	for k, _l, q in tab or []:
 		if k == valor:
@@ -58,6 +80,8 @@ def label_filtru(grupu, valor):
 		return t.name if t else ''
 	naran = {'rez': _('Status kazu'), 'trib': _('Rejistu iha tribunál'), 'evik': _('Eviksaun akontese')}[grupu]
 	tab = {'rez': REZ_GRUPU, 'trib': TRIB_GRUPU, 'evik': EVIK_GRUPU}[grupu]
+	if grupu == 'trib' and valor == 'rejistu':
+		return f'{naran}: ' + _('Sin + rejistu hela')
 	return f'{naran}: ' + next((str(l) for k, l, _q in tab if k == valor), valor)
 
 
@@ -122,14 +146,14 @@ def advokasia(qs):
 	entidade = _konta(KazuEntidade.objects.filter(kazu__in=gov).exclude(entidade_kategoria=''), 'entidade_kategoria', ENTIDADE_CHOICES)
 
 	# Eviksaun
-	evik = kazu.filter(eviksaun__eviksaun_akontese='SIN')
+	evik = kazu_eviksaun(kazu)
 	evik_af = _soma_afetadu(evik)
 	ev = {c: _konta(evik, f'eviksaun__{c}', SIN_LAE_CHOICES) for c in ('konsultasaun_molok', 'notifikasaun_klaru', 'uza_forsa')}
 
 	def pct(n, d):
 		return round(100 * n / d) if d else 0
 
-	n_trib = sum(n for k, _l, n in tribunal if k in ('SIN', 'DADAUN'))
+	n_trib = sum(n for k, _l, n in tribunal if k in TRIBUNAL_REJISTU)
 	n_seid = seidauk.count()
 	testu = {
 		'mun': _('Munisípiu ho kazu barak liu: %(t)s.') % {'t': _top(mun, 3)} if mun else '',
@@ -156,7 +180,7 @@ def advokasia(qs):
 		for c, lista in ev.items()]
 	return {
 		'total': total, 'afetadu': af, 'laiha_uma': laiha_uma, 'ev_tabela': ev_tabela,
-		'n_tribunal': kazu.filter(segimentu__tribunal_rejistu='SIN').count(),
+		'n_tribunal': kazu.filter(segimentu__tribunal_rejistu__in=TRIBUNAL_REJISTU).count(),
 		'mun': mun, 'tipu': tipu, 'tinan': tinan_lista,
 		'status': status, 'tribunal': tribunal, 'tipu_la_trib': tipu_la_trib, 'n_seidauk': n_seid,
 		'gov_total': gov.count(), 'gov_af': gov_af, 'entidade': entidade,

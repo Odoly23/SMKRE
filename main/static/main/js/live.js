@@ -146,6 +146,37 @@
 		$('semana').title = T.semanaKotuk + ': ' + kpi.semana_kotuk;
 	}
 
+	// ── Eviksaun (painel vertikál): Lae / Sin kór tuir signifikadu ──
+	var EV_CHARTS = {};
+	function evKor(q, code) {
+		var aat = q === 'forsa' ? 'SIN' : 'LAE', diak = q === 'forsa' ? 'LAE' : 'SIN';
+		return code === aat ? KOR.krit : (code === diak ? KOR.brand : KOR.mute);
+	}
+	function evikRender(ev) {
+		if (!ev || !$('ch-ev-forsa')) return;
+		document.querySelectorAll('[data-e]').forEach(function (el) { el.textContent = num(ev[el.dataset.e] || 0); });
+		['konsultasaun', 'notifikasaun', 'forsa'].forEach(function (q) {
+			var lista = ev[q] || [];
+			var dadus = lista.map(function (x) { return { y: x.n, color: evKor(q, x.code) }; });
+			var cat = lista.map(function (x) { return x.name; });
+			if (EV_CHARTS[q] && EV_CHARTS[q].series[0].data.length === dadus.length) {
+				EV_CHARTS[q].xAxis[0].setCategories(cat, false);
+				EV_CHARTS[q].series[0].setData(dadus, true);
+				return;
+			}
+			if (EV_CHARTS[q]) EV_CHARTS[q].destroy();
+			EV_CHARTS[q] = Highcharts.chart('ch-ev-' + q, {
+				chart: { type: 'bar' },
+				xAxis: { categories: cat, labels: { style: { color: KOR.ink2, fontSize: '1.4vh' }, x: -6 } },
+				yAxis: { visible: false },
+				plotOptions: { bar: { borderRadius: 4, borderWidth: 0, pointPadding: 0.08, groupPadding: 0.04,
+					dataLabels: { enabled: true, style: { color: KOR.ink, fontSize: '1.5vh', textOutline: 'none' } } } },
+				tooltip: { pointFormat: '<b>{point.y}</b> ' + T.kazu },
+				series: [{ name: T.kazu, data: dadus }]
+			});
+		});
+	}
+
 	// ── Atividade no prazu ──
 	var IKON = { foun: 'fa-plus', ok: 'fa-check', alerta: 'fa-undo', info: 'fa-street-view', legal: 'fa-balance-scale' };
 	function liuBa(iso) {
@@ -156,7 +187,8 @@
 		return Math.round(s / 86400) + ' ' + T.loron;
 	}
 	function ativRender(lista) {
-		var el = $('atividade');
+		// Lista atividade la hatudu tan (painel eviksaun); kazu foun → toast nafatin
+		var el = $('atividade') || document.createElement('ul');
 		if (!lista.length) { el.innerHTML = '<li class="vaziu">' + esc(T.laAtiv) + '</li>'; return; }
 		var foun = [];
 		el.innerHTML = lista.map(function (e) {
@@ -171,6 +203,7 @@
 	}
 	function prazuRender(lista) {
 		var el = $('prazu');
+		if (!el) return;
 		if (!lista.length) { el.innerHTML = '<li class="vaziu">' + esc(T.laPrazu) + '</li>'; return; }
 		el.innerHTML = lista.map(function (p) {
 			var cls = p.loron < 0 ? 'krit' : (p.loron <= 3 ? 'warn' : ''), dt = p.data.split('-');
@@ -217,6 +250,7 @@
 				mapaRender(d);
 				ativRender(d.atividade);
 				prazuRender(d.prazu);
+				evikRender(d.evik);
 				if (S.primeiru) rotaRender();
 				S.primeiru = false;
 				S.ultimu = dili().oras + ':' + dili().seg;
