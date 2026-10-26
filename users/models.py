@@ -56,6 +56,8 @@ class PesoalUser(models.Model):
 	# PIN app offline husi Admin (hash deit, hanesan password). Mamuk → utilizador kria PIN rasik iha app.
 	pin_offline = models.CharField(max_length=128, blank=True, editable=False, verbose_name=_("PIN offline (hash)"))
 	pin_offline_at = models.DateTimeField(null=True, blank=True, editable=False, verbose_name=_("PIN fó iha"))
+	# PIN enkriptadu (Fernet, xave husi SECRET_KEY): Admin / Superadmin bele haree bainhira utilizador haluha PIN
+	pin_offline_enc = models.TextField(blank=True, editable=False, verbose_name=_("PIN offline (enkriptadu)"))
 	pin_sala = models.PositiveSmallIntegerField(default=0, editable=False)          # PIN sala iha login app
 	pin_sala_at = models.DateTimeField(null=True, blank=True, editable=False)
 

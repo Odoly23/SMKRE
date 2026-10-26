@@ -5559,3 +5559,41 @@ msgstr "Total kazu iha RbR"
 #: report/templates/report/live.html
 msgid "Relójiu"
 msgstr "Relójiu"
+
+#: users
+msgid "Haree PIN"
+msgstr "Haree PIN"
+
+#: users
+msgid "Haree PIN app offline"
+msgstr "Haree PIN app offline"
+
+#: users
+msgid "PIN app offline"
+msgstr "PIN app offline"
+
+#: users
+msgid "PIN offline (enkriptadu)"
+msgstr "PIN offline (enkriptadu)"
+
+#: users
+msgid ""
+"Fó PIN ba utilizador rasik de'it (telefone). PIN subar automátiku hafoin "
+"segundu 30. Asesu ida-ne'e rejista iha log."
+msgstr ""
+"Fó PIN ba utilizador rasik de'it (telefone). PIN subar automátiku hafoin "
+"segundu 30. Asesu ida-ne'e rejista iha log."
+
+#: users
+msgid ""
+"PIN ida-ne'e la bele hatudu (rai antes funsaun ne'e ka utilizador kria PIN "
+"rasik). Fó PIN foun liuhusi \"Fó Autorizasaun\"; utilizador tenke \"Sai / "
+"troka utilizador\" iha app no login fali."
+msgstr ""
+"PIN ida-ne'e la bele hatudu (rai antes funsaun ne'e ka utilizador kria PIN "
+"rasik). Fó PIN foun liuhusi \"Fó Autorizasaun\"; utilizador tenke \"Sai / "
+"troka utilizador\" iha app no login fali."
+
+#: users
+msgid "Erru. Koko fali."
+msgstr "Erru. Koko fali."

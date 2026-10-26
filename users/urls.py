@@ -16,6 +16,7 @@ urlpatterns = [
 	path('offline/fo/', permission_v.OfflineGive, name="offline-give"),
 	path('offline/<int:pk>/renova/', permission_v.OfflineRenew, name="offline-renew"),
 	path('offline/<int:pk>/kansela/', permission_v.OfflineCancel, name="offline-cancel"),
+	path('offline/<int:pk>/pin/', permission_v.OfflinePin, name="offline-pin"),
 
 	# Konta rasik
 	path('konta/', account_v.AccountUpdate, name="user-account"),

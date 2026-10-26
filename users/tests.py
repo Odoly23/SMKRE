@@ -331,3 +331,42 @@ class PinOfflineTest(TestCase):
 		r = self.client.post(self.url, {'username': self.inv.username, 'password': PASSWORD, 'setup': True})
 		self.assertEqual(r.status_code, 200)
 		self.assertFalse(r.json()['pin_admin'])
+
+
+class HareePinTest(TestCase):
+	# Admin / Superadmin haree PIN (utilizador haluha); Investigadór labele; PIN tuan (hash de'it) → mensajen
+	def setUp(self):
+		setup_master()
+		self.admin = make_user(ADMIN)
+		self.inv = make_user(INVESTIGADOR)
+
+	def test_admin_haree_pin(self):
+		self.client.force_login(self.admin)
+		self.client.post(reverse('offline-give'), {'user': self.inv.pk, 'pin': '482915'})
+		perm = OfflinePermission.objects.get(user=self.inv, is_active=True)
+		pu = PesoalUser.objects.get(user=self.inv)
+		self.assertNotIn('482915', pu.pin_offline_enc)                   # enkriptadu iha DB
+		with self.assertLogs('smkre.seguransa', level='WARNING') as log:
+			r = self.client.post(reverse('offline-pin', args=[perm.pk]))
+		self.assertEqual(r.json()['pin'], '482915')
+		self.assertIn(self.admin.username, log.output[0])
+		self.assertContains(self.client.get(reverse('offline-list')), 'js-pin')
+		self.assertEqual(self.client.get(reverse('offline-pin', args=[perm.pk])).status_code, 405)   # POST de'it
+
+	def test_superadmin_bele_investigador_labele(self):
+		from users.pin import rai_pin
+		perm = OfflinePermission.objects.create(user=self.inv, given_by=self.admin)
+		rai_pin(self.inv, '736251')
+		self.client.force_login(make_user(SUPERADMIN))
+		self.assertEqual(self.client.post(reverse('offline-pin', args=[perm.pk])).json()['pin'], '736251')
+		self.client.force_login(self.inv)
+		self.assertEqual(self.client.post(reverse('offline-pin', args=[perm.pk])).status_code, 403)
+
+	def test_pin_tuan_hash_deit(self):
+		from django.contrib.auth.hashers import make_password
+		perm = OfflinePermission.objects.create(user=self.inv, given_by=self.admin)
+		PesoalUser.objects.filter(user=self.inv).update(pin_offline=make_password('111222'), pin_offline_enc='')
+		self.client.force_login(self.admin)
+		d = self.client.post(reverse('offline-pin', args=[perm.pk])).json()
+		self.assertNotIn('pin', d)
+		self.assertIn('erru', d)

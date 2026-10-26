@@ -3,7 +3,10 @@
 Server rai hash deit (make_password). PIN uza iha app ba enkripta dadus iha HP;
 server verifika PIN iha login dahuluk app nian (HP foun / dadus hamoos).
 """
+import base64
+import hashlib
 import secrets
+from django.conf import settings
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
 
@@ -26,7 +29,26 @@ def kria_pin():
 def rai_pin(user, pin):
 	from users.models import PesoalUser
 	PesoalUser.objects.get_or_create(user=user, defaults={'must_change_password': False})
-	return PesoalUser.objects.filter(user=user).update(pin_offline=make_password(pin), pin_offline_at=timezone.now(), pin_sala=0, pin_sala_at=None)
+	return PesoalUser.objects.filter(user=user).update(pin_offline=make_password(pin), pin_offline_enc=_fernet().encrypt(pin.encode()).decode(),
+		pin_offline_at=timezone.now(), pin_sala=0, pin_sala_at=None)
+
+
+def _fernet():
+	# Xave enkriptasaun PIN husi SECRET_KEY (troka SECRET_KEY → PIN tuan labele lee; Admin fó PIN foun)
+	from cryptography.fernet import Fernet
+	xave = hashlib.sha256((settings.SECRET_KEY + '|smkre-pin-offline').encode()).digest()
+	return Fernet(base64.urlsafe_b64encode(xave))
+
+
+def lee_pin(user):
+	"""PIN husi Admin (testu) ka None: seidauk iha, ka rai antes funsaun ne'e (hash de'it)."""
+	pu = _pu(user)
+	if not pu or not pu.pin_offline_enc:
+		return None
+	try:
+		return _fernet().decrypt(pu.pin_offline_enc.encode()).decode()
+	except Exception:
+		return None
 
 
 def _pu(user):

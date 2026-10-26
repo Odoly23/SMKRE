@@ -32,6 +32,7 @@
 						</td>
 						<td data-label="{% trans "Fó husi" %}">{{ obj.given_by.pesoaluser.pesoal|default:obj.given_by.username|default:"-" }}</td>
 						<td class="text-right text-nowrap">
+							{% if can_haree_pin %}<button type="button" class="btn btn-sm btn-outline-secondary js-pin" data-url="{% url 'offline-pin' obj.pk %}" title="{% trans "Haree PIN app offline" %}"><i class="fa fa-key"></i> {% trans "Haree PIN" %}</button>{% endif %}
 							{% if can_give_offline %}
 							<form method="post" action="{% url 'offline-renew' obj.pk %}" class="d-inline js-confirm" data-confirm="{% trans "Renova autorizasaun loron 7 tan?" %}">{% csrf_token %}<button class="btn btn-sm btn-outline-rbr" type="submit"><i class="fa fa-refresh"></i> {% trans "Renova" %}</button></form>
 							{% if obj.is_valid %}
@@ -47,4 +48,40 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block scripts %}
+<div class="modal fade" id="modal-pin" tabindex="-1" aria-labelledby="modal-pin-t" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content">
+		<div class="modal-header"><h5 class="modal-title" id="modal-pin-t"><i class="fa fa-key"></i> {% trans "PIN app offline" %}</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Taka" %}"><span aria-hidden="true">&times;</span></button></div>
+		<div class="modal-body text-center">{% csrf_token %}
+			<p class="mb-1 text-muted" id="pin-naran"></p>
+			<div id="pin-valor" style="font-size:2.4rem;font-weight:800;letter-spacing:.35em;font-family:monospace"></div>
+			<p class="small text-danger mb-0 mt-2" id="pin-erru"></p>
+			<p class="small text-muted mb-0 mt-2"><i class="fa fa-shield"></i> {% trans "Fó PIN ba utilizador rasik de'it (telefone). PIN subar automátiku hafoin segundu 30. Asesu ida-ne'e rejista iha log." %}</p>
+		</div>
+	</div></div>
+</div>
+<script nonce="{{ request.csp_nonce }}">
+(function () {
+	var csrf = (document.cookie.match(/csrftoken=([^;]+)/) || [])[1] || (document.querySelector('[name=csrfmiddlewaretoken]') || {}).value;
+	var tm = null;
+	function hamoos() { $('#pin-valor').text(''); $('#pin-naran').text(''); $('#pin-erru').text(''); }
+	$(document).on('click', '.js-pin', function () {
+		var b = this;
+		b.disabled = true;
+		fetch(b.dataset.url, { method: 'POST', headers: { 'X-CSRFToken': csrf, 'Accept': 'application/json' }, credentials: 'same-origin' })
+			.then(function (r) { return r.json(); })
+			.then(function (d) {
+				hamoos();
+				if (d.pin) { $('#pin-valor').text(d.pin); $('#pin-naran').text(d.naran); } else { $('#pin-erru').text(d.erru || ''); }
+				$('#modal-pin').modal('show');
+				clearTimeout(tm); tm = setTimeout(function () { $('#modal-pin').modal('hide'); hamoos(); }, 30000);
+			})
+			.catch(function () { alert("{% trans "Erru. Koko fali." %}"); })
+			.then(function () { b.disabled = false; });
+	});
+	$('#modal-pin').on('hidden.bs.modal', hamoos);
+})();
+</script>
 {% endblock %}

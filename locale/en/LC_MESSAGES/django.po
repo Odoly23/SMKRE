@@ -5482,3 +5482,41 @@ msgstr "Total cases at RbR"
 #: report/templates/report/live.html
 msgid "Relójiu"
 msgstr "Clock"
+
+#: users
+msgid "Haree PIN"
+msgstr "View PIN"
+
+#: users
+msgid "Haree PIN app offline"
+msgstr "View offline app PIN"
+
+#: users
+msgid "PIN app offline"
+msgstr "Offline app PIN"
+
+#: users
+msgid "PIN offline (enkriptadu)"
+msgstr "Offline PIN (encrypted)"
+
+#: users
+msgid ""
+"Fó PIN ba utilizador rasik de'it (telefone). PIN subar automátiku hafoin "
+"segundu 30. Asesu ida-ne'e rejista iha log."
+msgstr ""
+"Give the PIN only to the user themself (by phone). The PIN hides after 30 "
+"seconds. This access is logged."
+
+#: users
+msgid ""
+"PIN ida-ne'e la bele hatudu (rai antes funsaun ne'e ka utilizador kria PIN "
+"rasik). Fó PIN foun liuhusi \"Fó Autorizasaun\"; utilizador tenke \"Sai / "
+"troka utilizador\" iha app no login fali."
+msgstr ""
+"This PIN cannot be shown (saved before this feature or created by the user)."
+" Give a new PIN via \"Give authorisation\"; the user must use \"Log out / "
+"switch user\" in the app and log in again."
+
+#: users
+msgid "Erru. Koko fali."
+msgstr "Error. Try again."
