@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="{% static 'main/css/fonts.css' %}">
 	<link rel="stylesheet" href="{% static 'main/font-awesome/css/font-awesome.min.css' %}">
 	<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
-	<link rel="stylesheet" href="{% static 'main/css/live.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/live.css' %}?v={{ v }}">
 </head>
 <body data-url="{{ data_url }}" data-seg="{{ atualiza_seg }}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}">
 <div class="live">
@@ -95,6 +95,6 @@ window.LV_T = {
 	laAtiv: "{% trans "Seidauk iha atividade." %}"
 };
 </script>
-<script src="{% static 'main/js/live.js' %}"></script>
+<script src="{% static 'main/js/live.js' %}?v={{ v }}"></script>
 </body>
 </html>

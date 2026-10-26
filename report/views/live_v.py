@@ -14,6 +14,20 @@ from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
 from config.rbac import ROLE_DASHBOARD, ROLE_USER_MANAGE
 from report.live import dadus, CACHE_SEG
+
+
+def _versaun_aset():
+	# Versaun live.css + live.js (data muda + tamañu): browser hetan file foun kedas (mós sein hash iha naran)
+	from django.contrib.staticfiles import finders
+	partes = []
+	for a in ('main/css/live.css', 'main/js/live.js'):
+		f = finders.find(a)
+		if f:
+			import os
+			st = os.stat(f)
+			partes.append(f'{int(st.st_mtime)}{st.st_size}')
+	import hashlib
+	return hashlib.md5('|'.join(partes).encode()).hexdigest()[:8]
 from report.models import LiveEkran
 
 ATUALIZA_SEG = 30
@@ -26,7 +40,7 @@ def _resposta(d):
 
 
 def _pajina(request, data_url, naran):
-	r = render(request, 'report/live.html', {'data_url': data_url, 'naran_ekran': naran, 'atualiza_seg': ATUALIZA_SEG})
+	r = render(request, 'report/live.html', {'data_url': data_url, 'naran_ekran': naran, 'atualiza_seg': ATUALIZA_SEG, 'v': _versaun_aset()})
 	r['Referrer-Policy'] = 'no-referrer'             # token iha URL la sai ba fatin seluk
 	r['X-Robots-Tag'] = 'noindex, nofollow'
 	return r

@@ -84,9 +84,15 @@
 	fetch(B.geojson).then(function (r) { return r.json(); }).then(function (g) {
 		munLayer = L.geoJSON(g, { style: function () { return { color: '#2C5A4E', weight: 1, fillColor: '#1A3A31', fillOpacity: 1 }; } }).addTo(mapa);
 		mapa.fitBounds(munLayer.getBounds(), { padding: [12, 12] });
-		window.addEventListener('resize', function () { mapa.invalidateSize(); mapa.fitBounds(munLayer.getBounds(), { padding: [12, 12] }); });
+		window.addEventListener('resize', mapaHadia);
 		if (S.d) mapaRender(S.d);
 	});
+	// Ekran muda tamañu: hadia mapa (mapa ho tamañu 0 → Leaflet NaN; la halo buat ida)
+	function mapaHadia() {
+		var el = $('mapa');
+		if (!munLayer || !el.clientWidth || !el.clientHeight) return;
+		try { mapa.invalidateSize(); mapa.fitBounds(munLayer.getBounds(), { padding: [12, 12] }); } catch (e) { /* layout seidauk prontu */ }
+	}
 	function mistura(t) {
 		// #1A3A31 → #1FB58F (sequensiál ida, kór ida)
 		var a = [26, 58, 49], b = [31, 181, 143];
@@ -244,14 +250,18 @@
 			.then(function (d) {
 				banner(null);
 				S.d = d;
-				kpiRender(d.kpi);
-				trend.xAxis[0].setCategories(d.fulan.map(function (f) { return f.label; }), false);
-				trend.series[0].setData(d.fulan.map(function (f) { return f.n; }), true, { duration: 900 });
-				mapaRender(d);
-				ativRender(d.atividade);
-				prazuRender(d.prazu);
-				evikRender(d.evik);
-				if (S.primeiru) rotaRender();
+				// Painel ida-idak separadu: erru iha painel ida la halo ekran tomak "OFFLINE"
+				[function () { kpiRender(d.kpi); },
+				 function () {
+					trend.xAxis[0].setCategories(d.fulan.map(function (f) { return f.label; }), false);
+					trend.series[0].setData(d.fulan.map(function (f) { return f.n; }), true, { duration: 900 });
+				 },
+				 function () { mapaRender(d); },
+				 function () { ativRender(d.atividade); },
+				 function () { prazuRender(d.prazu); },
+				 function () { evikRender(d.evik); },
+				 function () { if (S.primeiru) rotaRender(); }
+				].forEach(function (f) { try { f(); } catch (e) { if (window.console) console.error(e); } });
 				S.primeiru = false;
 				S.ultimu = dili().oras + ':' + dili().seg;
 				estadu(true, T.atualiza + ' ' + S.ultimu);
