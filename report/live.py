@@ -18,20 +18,20 @@ def _kazu():
 
 def _atividade(limit=14):
 	# Eventu ikus: kódigu + munisípiu + saida mak akontese (anónimu)
-	from kazu.models import KazuHistoria, STATUS_KAZU_CHOICES
+	from kazu.models import KazuHistoria, STATUS_KAZU_CHOICES, DESIZAUN_RBR_CHOICES
 	from legal.models import SurveiLegal
 	testu = {
 		'SYNCED': (_('Kazu foun simu'), 'foun'), 'VERIFIED': (_('Kazu verifikadu'), 'ok'),
 		'APPROVED': (_('Kazu aprovadu'), 'ok'), 'REJECTED': (_('Kazu fila ba hadia'), 'alerta'),
 		'COMPLETED': (_('Kazu remata'), 'ok'), 'FOLLOWUP': (_('Follow-up ba terrenu'), 'info'),
 	}
-	status_kazu = dict(STATUS_KAZU_CHOICES)
+	status_kazu = dict(STATUS_KAZU_CHOICES + DESIZAUN_RBR_CHOICES)
 	ev = []
 	hist = KazuHistoria.objects.filter(Q(tipu=KazuHistoria.DADUS, status_foun__in=list(testu)) | Q(tipu=KazuHistoria.KAZU)) \
 		.select_related('kazu__munisipiu').order_by('-created_at')[:limit]
 	for h in hist:
 		if h.tipu == KazuHistoria.KAZU:
-			t, k = _('Status kazu: %(s)s') % {'s': status_kazu.get(h.status_foun, h.status_foun)}, 'info'
+			t, k = _('Desizaun RbR: %(s)s') % {'s': status_kazu.get(h.status_foun, h.status_foun)}, 'info'
 		else:
 			t, k = testu[h.status_foun]
 		ev.append({'tempu': h.created_at, 'testu': t, 'kode': h.kazu.kode or '', 'fatin': h.kazu.munisipiu.name if h.kazu.munisipiu_id else '', 'tipu': k})
@@ -45,10 +45,11 @@ def _atividade(limit=14):
 
 def kalkula():
 	from custom.models import Munisipiu, TipuKonflitu
-	from kazu.models import UmaKainAfetada, STATUS_KAZU_CHOICES, SYNCED, VERIFIED, APPROVED, COMPLETED, AKSAUN_LEGAL
+	from kazu.models import UmaKainAfetada, DESIZAUN_RBR_CHOICES, SYNCED, VERIFIED, APPROVED, COMPLETED, ADVOKASIA
+	from report.advokasia import kazu_eviksaun
 	from legal.models import NotaLegal, SurveiLegal
 	from legal.services import KAZU_STATUS_LEGAL
-	from report.utils import STATUS_AKTIVU, eviksaun_aktivu
+	from report.utils import STATUS_AKTIVU
 	agora = timezone.localtime()
 	hoje = agora.date()
 	kazu = _kazu()
@@ -60,11 +61,11 @@ def kalkula():
 		'verifikadu': verifikadu.count(),
 		'hein': kazu.filter(status=SYNCED).count(),
 		'aktivu': kazu.filter(status__in=STATUS_AKTIVU).count(),
-		'eviksaun': eviksaun_aktivu(kazu).count(),
+		'eviksaun': kazu_eviksaun(kazu).count(),                 # kazu hetan ona eviksaun
 		'urjente': kazu.filter(urjente=True, status__in=STATUS_AKTIVU).count(),
 		'uma_kain': afe['uk'] or 0,
 		'ema': afe['ema'] or 0,
-		'legal': kazu.filter(status_kazu=AKSAUN_LEGAL).count(),
+		'legal': kazu.filter(segimentu__desizaun_rbr=ADVOKASIA).count(),   # Desizaun RbR: Advokasia ativu
 		'survei_hein': SurveiLegal.objects.filter(status=SurveiLegal.HARUKA).count(),
 		'semana': kazu.filter(created_at__date__gte=semana).count(),
 		'semana_kotuk': kazu.filter(created_at__date__gte=semana - timedelta(days=7), created_at__date__lt=semana).count(),
@@ -83,8 +84,8 @@ def kalkula():
 	mun_n = dict(kazu.values_list('munisipiu').annotate(n=Count('pk')).values_list('munisipiu', 'n'))
 	mun = [{'code': mm.code, 'name': mm.name, 'n': mun_n.get(mm.pk, 0)} for mm in Munisipiu.active.all()]
 	tipu = [{'name': t.name, 'n': t.n} for t in TipuKonflitu.active.annotate(n=Count('kazu', filter=Q(kazu__in=kazu), distinct=True)).order_by('-n') if t.n]
-	sk_n = dict(kazu.values_list('status_kazu').annotate(n=Count('pk')).values_list('status_kazu', 'n'))
-	status_kazu = [{'name': str(l), 'code': c, 'n': sk_n.get(c, 0)} for c, l in STATUS_KAZU_CHOICES]
+	sk_n = dict(kazu.values_list('segimentu__desizaun_rbr').annotate(n=Count('pk')).values_list('segimentu__desizaun_rbr', 'n'))
+	status_kazu = [{'name': str(l), 'code': c, 'n': sk_n.get(c, 0)} for c, l in DESIZAUN_RBR_CHOICES]   # Desizaun RbR
 	# Mapa: kazu ho GPS (kódigu + munisípiu de'it); foun = loron 7 ikus
 	pontu = [{'lat': float(k.latitude), 'lng': float(k.longitude), 'kode': k.kode or '', 'fatin': k.munisipiu.name,
 		'urjente': k.urjente, 'foun': k.created_at >= agora - timedelta(days=7)}

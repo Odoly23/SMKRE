@@ -318,19 +318,25 @@ class WorkflowTest(KazuBase):
 		self.assertNotEqual(k1.kode, k2.kode)
 		self.assertTrue(k2.kode.endswith('-0002'))
 
-	def test_status_kazu_ofisial_legal(self):
+	def test_desizaun_rbr_ofisial_legal(self):
+		# Desizaun RbR troka Status Kazu: kazu tenke verifika uluk; rejista iha istória
 		kazu = self.create_kazu('haruka')
 		legal = make_user(OFISIAL_LEGAL)
 		self.client.force_login(legal)
-		self.post(reverse('kazu-status-kazu', args=[kazu.pk]), {'status_kazu': 'AKSAUN_LEGAL'})
-		kazu.refresh_from_db()
-		self.assertEqual(kazu.status_kazu, 'ABERTU')        # seidauk verifika
+		self.post(reverse('kazu-status-kazu', args=[kazu.pk]), {'desizaun_rbr': 'ADVOKASIA'})
+		kazu = Kazu.objects.get(pk=kazu.pk)
+		self.assertEqual(kazu.desizaun, '')                  # seidauk verifika
 		self.client.force_login(self.admin)
 		self.post(reverse('kazu-action', args=[kazu.pk, 'verifika']))
 		self.client.force_login(legal)
-		self.post(reverse('kazu-status-kazu', args=[kazu.pk]), {'status_kazu': 'AKSAUN_LEGAL', 'nota': 'Tribunál Distritál'})
-		kazu.refresh_from_db()
-		self.assertEqual(kazu.status_kazu, 'AKSAUN_LEGAL')
+		self.post(reverse('kazu-status-kazu', args=[kazu.pk]), {'desizaun_rbr': 'ADVOKASIA', 'nota': 'Tribunál Distritál'})
+		kazu = Kazu.objects.get(pk=kazu.pk)
+		self.assertEqual((kazu.desizaun, kazu.get_desizaun_display()), ('ADVOKASIA', 'Advokasia ativu'))
+		self.assertTrue(kazu.historia.filter(status_foun='ADVOKASIA', nota='Tribunál Distritál').exists())
+		r = self.client.get(reverse('kazu-detail', args=[kazu.pk]))
+		self.assertContains(r, 'name="desizaun_rbr"')
+		self.assertContains(r, 'RbR refere ona ba advogadu privadu')
+		self.assertNotContains(r, 'name="status_kazu"')
 
 
 class AccessTest(KazuBase):
@@ -949,3 +955,21 @@ class PortalKonsentimentuTest(KazuBase):
 		k.refresh_from_db()
 		self.assertTrue(k.iha_portal)
 		self.assertTrue(k.historia.filter(nota__icontains='Portal').exists())
+
+
+class MigrasaunDesizaunTest(KazuBase):
+	# Status Kazu tuan → Desizaun RbR (migrasaun 0016): la troka desizaun ne'ebé iha ona
+	def test_mapa_status_kazu(self):
+		import importlib
+		from django.apps import apps
+		from kazu.models import KazuSegimentu
+		mig = importlib.import_module('kazu.migrations.0016_desizaun_husi_status_kazu')
+		k1, k2, k3 = (self.create_kazu('haruka') for _i in range(3))
+		Kazu.objects.filter(pk=k1.pk).update(status_kazu='AKSAUN_LEGAL')
+		Kazu.objects.filter(pk=k2.pk).update(status_kazu='TAKA')
+		Kazu.objects.filter(pk=k3.pk).update(status_kazu='ABERTU')
+		KazuSegimentu.objects.filter(kazu__in=[k1, k2, k3]).update(desizaun_rbr='')
+		KazuSegimentu.objects.update_or_create(kazu=k3, defaults={'desizaun_rbr': 'ADVOKASIA'})     # iha ona → la muda
+		mig.ba_desizaun(apps, None)
+		d = {k: Kazu.objects.get(pk=k.pk).desizaun for k in (k1, k2, k3)}
+		self.assertEqual((d[k1], d[k2], d[k3]), ('ADVOKASIA', 'ARKIVU', 'ADVOKASIA'))

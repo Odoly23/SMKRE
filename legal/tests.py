@@ -139,16 +139,21 @@ class NotaPrazuTest(LegalBase):
 		self.client.post(reverse('legal-nota-update', args=[nota.pk]), {'tipu': 'AUDIENSIA', 'testu': nota.testu, 'prazu': prazu.isoformat(), 'remata': 'on'})
 		self.assertEqual(lembra_prazu()['lembra'], 0)
 
-	def test_status_aksaun_legal_notifika(self):
+	def test_desizaun_advokasia_notifika_no_tama_kazu_legal(self):
 		self.client.force_login(self.admin)
 		with self.captureOnCommitCallbacks(execute=True):
-			self.client.post(reverse('kazu-status-kazu', args=[self.kazu.pk]), {'status_kazu': 'AKSAUN_LEGAL',
+			self.client.post(reverse('kazu-status-kazu', args=[self.kazu.pk]), {'desizaun_rbr': 'ADVOKASIA',
 				'next': reverse('legal-kazu', args=[self.kazu.pk])})
 		self.assertTrue(Notification.objects.filter(recipient=self.legal, tipu='LEGAL').exists())
+		r = self.client.get(reverse('legal-kazu-list'))
+		self.assertIn(self.kazu.pk, [k.pk for k in r.context['objects']])       # Kazu Legál = Advokasia ativu
+		self.client.post(reverse('kazu-status-kazu', args=[self.kazu.pk]), {'desizaun_rbr': 'ARKIVU'})
+		r = self.client.get(reverse('legal-kazu-list'))
+		self.assertNotIn(self.kazu.pk, [k.pk for k in r.context['objects']])
 
 	def test_next_la_seguru_la_redirect_li_ur(self):
 		self.client.force_login(self.admin)
-		r = self.client.post(reverse('kazu-status-kazu', args=[self.kazu.pk]), {'status_kazu': 'INVESTIGASAUN', 'next': 'https://evil.example/'})
+		r = self.client.post(reverse('kazu-status-kazu', args=[self.kazu.pk]), {'desizaun_rbr': 'MONITORIZASAUN', 'next': 'https://evil.example/'})
 		self.assertRedirects(r, reverse('kazu-detail', args=[self.kazu.pk]))
 
 	def test_dossier_la_hatudu_nota_konfidensial(self):

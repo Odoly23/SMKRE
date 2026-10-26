@@ -11,7 +11,7 @@ from django.utils.translation import gettext as _
 from config.decorators import allowed_users
 from config.rbac import ROLE_LEGAL, ROLE_SURVEI_HAREE, OFISIAL_LEGAL
 from custom.models import Munisipiu
-from kazu.models import Kazu, KazuSegimentu, AKSAUN_LEGAL
+from kazu.models import Kazu, KazuSegimentu, ADVOKASIA
 from legal.models import NotaLegal, SurveiLegal
 from legal.services import dokumentu_queryset, can_edit_vault, KAZU_STATUS_LEGAL
 from legal.tasks import LOREN_LEMBRA
@@ -32,7 +32,7 @@ def LegalDash(request):
 	hoje = timezone.localdate()
 	group = c_user_group(request.user)
 	kazu = Kazu.objects.filter(status__in=KAZU_STATUS_LEGAL)
-	legal = kazu.filter(status_kazu=AKSAUN_LEGAL)
+	legal = kazu.filter(segimentu__desizaun_rbr=ADVOKASIA)          # Kazu Legál = Desizaun RbR Advokasia ativu
 	nota = NotaLegal.objects.filter(kazu__in=kazu, remata=False).select_related('kazu')
 	if not can_edit_vault(request.user):
 		nota = nota.filter(konfidensial=False)

@@ -64,19 +64,7 @@
 		</div>
 
 		<div class="col-lg-4">
-			{% if can_status_kazu %}
-			<div class="card card-rbr mb-3"><div class="card-body">
-				<h3 class="h-line">{% trans "Status Kazu" %}</h3>
-				<form method="post" action="{% url 'kazu-status-kazu' obj.pk %}">{% csrf_token %}
-					<input type="hidden" name="next" value="{{ request.get_full_path }}">
-					<select name="status_kazu" class="custom-select mb-2" aria-label="{% trans "Status Kazu" %}">
-						{% for code, label in status_kazu_choices %}<option value="{{ code }}" {% if obj.status_kazu == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
-					</select>
-					<input type="text" name="nota" class="form-control mb-2" placeholder="{% trans "Nota (opsionál)" %}" maxlength="255">
-					<button type="submit" class="btn btn-outline-rbr btn-block"><i class="fa fa-save"></i> {% trans "Atualiza Status Kazu" %}</button>
-				</form>
-			</div></div>
-			{% endif %}
+			{% if can_status_kazu %}{% include 'kazu/_desizaun_form.html' %}{% endif %}
 
 			<div class="card card-rbr mb-3"><div class="card-body">
 				<h3 class="h-line">{% trans "Rezumu Kazu" %}</h3>

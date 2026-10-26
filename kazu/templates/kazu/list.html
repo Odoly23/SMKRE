@@ -42,7 +42,7 @@
 				<table class="table table-sm table-hover">
 					<thead><tr>
 						<th>{% trans "ID Kazu" %}</th><th>{% trans "Data" %}</th><th>{% trans "Fatin" %}</th>
-						<th>{% trans "Tipu Kazu" %}</th><th>{% trans "Status Dadus" %}</th><th>{% trans "Status Kazu" %}</th><th></th>
+						<th>{% trans "Tipu Kazu" %}</th><th>{% trans "Status Dadus" %}</th><th>{% trans "Desizaun RbR" %}</th><th></th>
 					</tr></thead>
 					<tbody>
 					{% for obj in objects %}
@@ -52,7 +52,7 @@
 						<td data-label="{% trans "Fatin" %}">{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.munisipiu }}</td>
 						<td data-label="{% trans "Tipu Kazu" %}">{% for t in obj.tipu_konflitu.all %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% empty %}-{% endfor %}</td>
 						<td data-label="{% trans "Status Dadus" %}">{% include 'kazu/badge_status.html' %}</td>
-						<td data-label="{% trans "Status Kazu" %}">{% include 'kazu/badge_status_kazu.html' %}</td>
+						<td data-label="{% trans "Desizaun RbR" %}">{% include 'kazu/badge_status_kazu.html' %}</td>
 						<td class="text-right"><a href="{% url 'kazu-detail' obj.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
 					</tr>
 					{% empty %}

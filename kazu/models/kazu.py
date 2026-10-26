@@ -145,6 +145,16 @@ class Kazu(models.Model):
 	def is_editable(self):
 		return self.status in STATUS_EDITABLE
 
+	# ── Desizaun RbR (iha KazuSegimentu; troka Status Kazu iha ekran) ──
+	@property
+	def desizaun(self):
+		seg = getattr(self, 'segimentu', None)          # kazu ho segimentu seidauk → ''
+		return seg.desizaun_rbr if seg else ''
+
+	def get_desizaun_display(self):
+		from .opsaun import DESIZAUN_RBR_CHOICES
+		return str(dict(DESIZAUN_RBR_CHOICES).get(self.desizaun, ''))
+
 	@property
 	def iha_portal(self):
 		# Regra hanesan publiku.services.portal_queryset: aprovadu + konsentimentu + la marka "La publika"

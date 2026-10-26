@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from .opsaun import SIN_LAE_CHOICES
+from .opsaun import SIN_LAE_CHOICES, DESIZAUN_RBR_CHOICES as _DESIZAUN
 
 
 # ══════════════ SEGIMENTU KAZU (eskritóriu: tribunál, notifikasaun, status rezolusaun) ══════════════
@@ -19,7 +19,7 @@ class KazuSegimentu(models.Model):
 		('SEIDAUK', _('Seidauk resolve')),
 	]
 	TRIBUNAL_DESIZAUN_CHOICES = SIN_LAE_CHOICES + [('SELUK', _('Seluk'))]
-	DESIZAUN_RBR_CHOICES = [('ARKIVU', _('Arkivu')), ('MONITORIZASAUN', _('Monitorizasaun')), ('ADVOKASIA', _('Advokasia ativu'))]
+	DESIZAUN_RBR_CHOICES = _DESIZAUN
 
 	kazu = models.OneToOneField('kazu.Kazu', on_delete=models.CASCADE, related_name='segimentu')
 	# Fokal point RbR

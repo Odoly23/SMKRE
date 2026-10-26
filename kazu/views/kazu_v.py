@@ -10,8 +10,8 @@ from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
 from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
-from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, StatusKazuForm, AkompanamentuForm, SegimentuKazuForm
-from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_KAZU_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
+from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, AkompanamentuForm, SegimentuKazuForm
+from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.importa import pode_muda_lokasaun
 from kazu.services import action_buttons, refresh_auto_fields, submit_kazu, enxe_fokal, can_followup, investigador_followup
@@ -22,7 +22,7 @@ from users.auth_utils import c_user_pesoal
 @allowed_users(allowed_roles=ROLE_ALL)
 def KazuList(request):
 	group = request.user.groups.all()[0].name
-	objects = kazu_queryset(request.user).prefetch_related('tipu_konflitu')
+	objects = kazu_queryset(request.user).select_related('segimentu').prefetch_related('tipu_konflitu')
 	f_status = request.GET.get('status', '')
 	f_mun = request.GET.get('munisipiu', '')
 	f_tipu = request.GET.get('tipu', '')
@@ -46,6 +46,13 @@ def KazuList(request):
 		'title': _('Lista Kazu'), 'legend': _('Lista Kazu')
 	}
 	return render(request, 'kazu/list.html', context)
+
+
+def desizaun_ctx():
+	# Opsaun no esplikasaun Desizaun RbR (detalla kazu + detalla legál)
+	from kazu.models import DESIZAUN_RBR_CHOICES, DESIZAUN_AJUDA
+	return {'desizaun_choices': DESIZAUN_RBR_CHOICES,
+		'desizaun_ajuda': [(c, l, DESIZAUN_AJUDA.get(c, '')) for c, l in DESIZAUN_RBR_CHOICES]}
 
 
 # Aparénsia butaun aksaun + testu modal (regra ativu/xave iha kazu.services.ACTIONS)
@@ -102,8 +109,8 @@ def KazuDetail(request, uuid):
 		'can_legal': group in ROLE_LEGAL and objects.status in ('VERIFIED', 'APPROVED', 'COMPLETED', 'FOLLOWUP'),
 		'can_followup': can_followup(request.user, objects),
 		'investigador_followup': investigador_followup(objects) if can_followup(request.user, objects) else [],
-		'action_form': ActionForm(), 'status_kazu_form': StatusKazuForm(initial={'status_kazu': objects.status_kazu}),
-		'status_kazu_choices': STATUS_KAZU_CHOICES,
+		'action_form': ActionForm(),
+		**desizaun_ctx(),
 		'title': str(objects), 'legend': _('Detalla Kazu')
 	}
 	return render(request, 'kazu/detail.html', context)

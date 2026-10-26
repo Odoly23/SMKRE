@@ -19,7 +19,6 @@
 
 	<div class="stat-row mb-3">
 		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="stat" style="background:#0E8A68"><b>{{ total|intcomma }}</b><span>{% trans "Total Kazu" %}</span></a>
-		<a href="{% url 'report-list-aktivu' %}?{{ request.GET.urlencode }}" class="stat" style="background:#6B1E23"><b>{{ tot_aktivu|intcomma }}</b><span>{% trans "Kazu Eviksaun Aktivu" %}</span></a>
 		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="stat" style="background:#16B78A"><b>{{ tot_uma_kain|intcomma }}</b><span>{% trans "Uma-Kain Afetadu" %}</span></a>
 		<a href="{% url 'report-status-list' 'COMPLETED' %}?{{ request.GET.urlencode }}" class="stat" style="background:#343a40"><b>{{ tot_remata|intcomma }}</b><span>{% trans "Kazu Remata" %}</span></a>
 		<a href="{% url 'report-list-urjente' %}?{{ request.GET.urlencode }}" class="stat" style="background:#c0392b"><b>{{ tot_urjente|intcomma }}</b><span>{% trans "Urjente" %}</span></a>

@@ -612,11 +612,6 @@ class ActionForm(forms.Form):
 	nota = forms.CharField(label=_("Razaun / Nota"), required=False, widget=forms.Textarea(attrs={'rows': 2}))
 
 
-class StatusKazuForm(forms.Form):
-	status_kazu = forms.ChoiceField(label=_("Status Kazu"), choices=STATUS_KAZU_CHOICES)
-	nota = forms.CharField(label=_("Nota"), required=False, max_length=255)
-
-
 # ══════════════ Import Excel + hadia lokasaun (Admin) ══════════════
 class ImportForm(forms.Form):
 	file = forms.FileField(label=_("File Excel (.xlsx) ka CSV"), help_text=_("Template ka export baze dadus sentrál RbR (Airtable \"Kazu Hotu\"). Máximu 500 liña, 5 MB."))

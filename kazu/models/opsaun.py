@@ -44,4 +44,12 @@ STATUS_KAZU_CHOICES = [
 	(AKSAUN_LEGAL, _('Aksaun Legál')),
 	(TAKA, _('Taka')),
 ]
+# Desizaun RbR ba kazu (troka Status Kazu iha ekran hotu; Status Kazu tuan rai iha DB de'it)
+ARKIVU, MONITORIZASAUN, ADVOKASIA = 'ARKIVU', 'MONITORIZASAUN', 'ADVOKASIA'
+DESIZAUN_RBR_CHOICES = [(ARKIVU, _('Arkivu')), (MONITORIZASAUN, _('Monitorizasaun')), (ADVOKASIA, _('Advokasia ativu'))]
+DESIZAUN_AJUDA = {
+	ARKIVU: _('Kazu rezolve ona ka RbR refere ona ba advogadu privadu.'),
+}
+# Migrasaun Status Kazu tuan → Desizaun RbR
+STATUS_KAZU_BA_DESIZAUN = {AKSAUN_LEGAL: ADVOKASIA, TAKA: ARKIVU, ABERTU: MONITORIZASAUN, INVESTIGASAUN: MONITORIZASAUN}
 

@@ -5,12 +5,13 @@ from django.utils.translation import gettext as _
 from config.decorators import allowed_users
 from config.rbac import ROLE_DASHBOARD
 from custom.models import Munisipiu, TipuKonflitu
-from kazu.models import Evidensia, STATUS_CHOICES, STATUS_KAZU_CHOICES
+from kazu.models import Evidensia, STATUS_CHOICES, DESIZAUN_RBR_CHOICES
 from report.utils import report_queryset, STATUS_RELATORIU
 
 MAPA_MAX_PIN = 3000
 # Kór ikon kada status kazu (urjente = mean)
-KOR_STATUS_KAZU = {'ABERTU': 'blue', 'INVESTIGASAUN': 'gold', 'AKSAUN_LEGAL': 'violet', 'TAKA': 'green'}
+# Kór ikon kada Desizaun RbR (laiha desizaun = grey)
+KOR_DESIZAUN = {'MONITORIZASAUN': 'blue', 'ADVOKASIA': 'violet', 'ARKIVU': 'green'}
 
 
 @login_required
@@ -21,7 +22,7 @@ def reportMapa(request):
 	kazu = report_queryset(request)
 
 	# Pin kada kazu (iha GPS) + foto dahuluk ba popup
-	mapobjects = kazu.exclude(latitude=None).select_related('munisipiu', 'postu', 'suku') \
+	mapobjects = kazu.exclude(latitude=None).select_related('munisipiu', 'postu', 'suku', 'segimentu') \
 		.prefetch_related('tipu_konflitu', 'afetadu',
 			Prefetch('evidensia', queryset=Evidensia.objects.filter(tipu=Evidensia.FOTO).exclude(file=''), to_attr='fotos'))[:MAPA_MAX_PIN]
 
@@ -32,7 +33,7 @@ def reportMapa(request):
 	context = {
 		'group': group, "page": "mapa",
 		'mapobjects': mapobjects, 'munobjects': munobjects,
-		'status_kazu_list': [(code, label, KOR_STATUS_KAZU.get(code, 'grey')) for code, label in STATUS_KAZU_CHOICES],
+		'status_kazu_list': [(code, label, KOR_DESIZAUN.get(code, 'grey')) for code, label in DESIZAUN_RBR_CHOICES] + [('', _('Seidauk iha desizaun'), 'grey')],
 		'munisipiu_list': Munisipiu.active.all(), 'tipu_list': TipuKonflitu.active.all(),
 		'status_list': [(s, status_label[s]) for s in STATUS_RELATORIU],
 		'link_antes': [{'link_name': 'report-dash', 'link_text': _('Dashboard')}],

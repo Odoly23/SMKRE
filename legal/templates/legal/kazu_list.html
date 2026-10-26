@@ -13,9 +13,9 @@
 			<div class="form-row">
 				<div class="col-md-5 mb-2"><input type="search" name="q" value="{{ q }}" class="form-control" placeholder="{% trans "Buka ID, títulu, suku…" %}" aria-label="{% trans "Buka" %}"></div>
 				<div class="col-6 col-md-4 mb-2">
-					<select name="status_kazu" class="custom-select" aria-label="{% trans "Status Kazu" %}">
-						<option value="" {% if not f_status_kazu %}selected{% endif %}>{% trans "Status Kazu: Hotu" %}</option>
-						{% for code, label in status_kazu_choices %}<option value="{{ code }}" {% if f_status_kazu == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+					<select name="desizaun" class="custom-select" aria-label="{% trans "Desizaun RbR" %}">
+						<option value="" {% if not f_desizaun %}selected{% endif %}>{% trans "Desizaun RbR: Hotu" %}</option>
+						{% for code, label in desizaun_choices %}<option value="{{ code }}" {% if f_desizaun == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
 					</select>
 				</div>
 				<div class="col-6 col-md-3 mb-2"><button class="btn btn-rbr btn-block" type="submit"><i class="fa fa-filter"></i> {% trans "Filtra" %}</button></div>
@@ -28,7 +28,7 @@
 			<div class="table-responsive table-cards">
 				<table class="table table-sm table-hover">
 					<thead><tr>
-						<th>{% trans "ID Kazu" %}</th><th>{% trans "Fatin" %}</th><th>{% trans "Status Kazu" %}</th>
+						<th>{% trans "ID Kazu" %}</th><th>{% trans "Fatin" %}</th><th>{% trans "Desizaun RbR" %}</th>
 						<th class="text-center">{% trans "Dokumentu" %}</th><th class="text-center">{% trans "Nota" %}</th><th>{% trans "Prazu tuir mai" %}</th><th></th>
 					</tr></thead>
 					<tbody>
@@ -36,7 +36,7 @@
 					<tr>
 						<td data-label="{% trans "ID Kazu" %}"><b>{{ obj }}</b>{% if obj.titulu %}<br><small class="text-muted">{{ obj.titulu|truncatechars:40 }}</small>{% endif %}</td>
 						<td data-label="{% trans "Fatin" %}">{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.munisipiu }}</td>
-						<td data-label="{% trans "Status Kazu" %}">{% include 'kazu/badge_status_kazu.html' %}</td>
+						<td data-label="{% trans "Desizaun RbR" %}">{% include 'kazu/badge_status_kazu.html' %}</td>
 						<td data-label="{% trans "Dokumentu" %}" class="text-center">{{ obj.n_dok }}</td>
 						<td data-label="{% trans "Nota" %}" class="text-center">{{ obj.n_nota }}</td>
 						<td data-label="{% trans "Prazu tuir mai" %}">{% if obj.prazu %}<span class="{% if obj.prazu <= limite %}text-danger font-weight-bold{% endif %}"><i class="fa fa-calendar"></i> {{ obj.prazu|date:"d/m/Y" }}</span>{% else %}-{% endif %}</td>
@@ -50,9 +50,9 @@
 			</div>
 			{% if objects.has_other_pages %}
 			<nav aria-label="{% trans "Pájina" %}"><ul class="pagination pagination-sm justify-content-center mb-0">
-				{% if objects.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ objects.previous_page_number }}&q={{ q|urlencode }}&status_kazu={{ f_status_kazu }}">‹</a></li>{% endif %}
+				{% if objects.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ objects.previous_page_number }}&q={{ q|urlencode }}&desizaun={{ f_desizaun }}">‹</a></li>{% endif %}
 				<li class="page-item disabled"><span class="page-link">{{ objects.number }} / {{ objects.paginator.num_pages }}</span></li>
-				{% if objects.has_next %}<li class="page-item"><a class="page-link" href="?page={{ objects.next_page_number }}&q={{ q|urlencode }}&status_kazu={{ f_status_kazu }}">›</a></li>{% endif %}
+				{% if objects.has_next %}<li class="page-item"><a class="page-link" href="?page={{ objects.next_page_number }}&q={{ q|urlencode }}&desizaun={{ f_desizaun }}">›</a></li>{% endif %}
 			</ul></nav>
 			{% endif %}
 		</div>

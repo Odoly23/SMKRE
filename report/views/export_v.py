@@ -35,7 +35,7 @@ def exportExcel(request):
 	ws = wb.active
 	ws.title = 'Kazu Hotu'
 	# Kolun SIBAR: naran la hanesan kolun Airtable (import fali la sala)
-	extra = [_('ID Kazu') + ' (SIBAR)', _('Latitude'), _('Longitude'), _('GPS aproksimadu'), _('Status Dadus') + ' (SIBAR)', _('Status Kazu') + ' (SIBAR)',
+	extra = [_('ID Kazu') + ' (SIBAR)', _('Latitude'), _('Longitude'), _('GPS aproksimadu'), _('Status Dadus') + ' (SIBAR)',
 		_('Data Akontesimentu'), _('Tipu Rai'), _('Luan poligon (m²)'), _('Urjente'), _('Investigadór')]
 	head = KABESALLU + [str(h) for h in extra]
 	ws.append(head)
@@ -47,7 +47,7 @@ def exportExcel(request):
 	for k in objects:
 		ws.append(lina_export(k, subar) + [
 			k.kode or '', float(k.latitude) if k.latitude is not None else None, float(k.longitude) if k.longitude is not None else None,
-			_('Sin') if k.gps_aproksimadu else _('Lae'), str(k.get_status_display()), str(k.get_status_kazu_display()),
+			_('Sin') if k.gps_aproksimadu else _('Lae'), str(k.get_status_display()),
 			k.data_akontesimentu, k.tipu_rai.name if k.tipu_rai else '',
 			float(k.poligon_luan_m2) if k.poligon_luan_m2 is not None else None, _('Sin') if k.urjente else _('Lae'),
 			str(getattr(getattr(k.created_by, 'pesoaluser', None), 'pesoal', '') or k.created_by.username),

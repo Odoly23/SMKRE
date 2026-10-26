@@ -1,0 +1,16 @@
+{% load i18n %}
+<div class="card card-rbr mb-3"><div class="card-body">
+	<h3 class="h-line">{% trans "Desizaun RbR ba kazu" %}</h3>
+	<form method="post" action="{% url 'kazu-status-kazu' obj.pk %}">{% csrf_token %}
+		{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+		<select name="desizaun_rbr" class="custom-select mb-2" aria-label="{% trans "Desizaun RbR ba kazu" %}" required>
+			{% if not obj.desizaun %}<option value="" selected disabled>{% trans "— Hili desizaun —" %}</option>{% endif %}
+			{% for code, label in desizaun_choices %}<option value="{{ code }}" {% if obj.desizaun == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+		</select>
+		<ul class="small text-muted pl-3 mb-2">
+			{% for code, label, ajuda in desizaun_ajuda %}<li><b>{{ label }}</b>{% if ajuda %} = {{ ajuda }}{% endif %}</li>{% endfor %}
+		</ul>
+		<input type="text" name="nota" class="form-control mb-2" placeholder="{% trans "Nota (opsionál)" %}" maxlength="255">
+		<button type="submit" class="btn btn-outline-rbr btn-block"><i class="fa fa-save"></i> {% trans "Atualiza Desizaun RbR" %}</button>
+	</form>
+</div></div>

@@ -20,7 +20,7 @@
 			<table class="table table-sm table-hover dt-responsive nowrap w-100" id="example" data-title="{{ legend }}">
 				<thead><tr>
 					<th>{% trans "ID Kazu" %}</th><th>{% trans "Data" %}</th><th>{% trans "Munisípiu" %}</th><th>{% trans "Suku" %}</th>
-					<th>{% trans "Tipu Kazu" %}</th><th>{% trans "Uma-Kain" %}</th><th>{% trans "Status Dadus" %}</th><th>{% trans "Status Kazu" %}</th><th>{% trans "Investigadór" %}</th>
+					<th>{% trans "Tipu Kazu" %}</th><th>{% trans "Uma-Kain" %}</th><th>{% trans "Status Dadus" %}</th><th>{% trans "Desizaun RbR" %}</th><th>{% trans "Investigadór" %}</th>
 				</tr></thead>
 				<tbody>
 				{% for obj in objects %}
@@ -32,7 +32,7 @@
 					<td>{% for t in obj.tipu_konflitu.all %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
 					<td class="text-right">{{ obj.total_uma_kain }}</td>
 					<td>{{ obj.get_status_display }}</td>
-					<td>{{ obj.get_status_kazu_display }}</td>
+					<td>{{ obj.get_desizaun_display|default:"-" }}</td>
 					<td>{{ obj.created_by.pesoaluser.pesoal|default:obj.created_by.username }}</td>
 				</tr>
 				{% endfor %}

@@ -243,21 +243,25 @@ def change_status(kazu, user, action, nota=''):
 
 
 @transaction.atomic
-def change_status_kazu(kazu, user, status_kazu, nota=''):
-	# Status prosesu kazu (Abertu → Investigasaun → Aksaun Legál → Taka)
+def muda_desizaun(kazu, user, desizaun, nota=''):
+	"""Desizaun RbR ba kazu (Arkivu · Monitorizasaun · Advokasia ativu) — troka Status Kazu tuan.
+	Advokasia ativu → ekipa legál simu notifikasaun (kazu tama iha Kazu Legál)."""
+	from kazu.models import KazuSegimentu, DESIZAUN_RBR_CHOICES, ADVOKASIA
 	if c_user_group(user) not in ROLE_STATUS_KAZU:
 		raise PermissionDenied
-	if status_kazu not in dict(STATUS_KAZU_CHOICES):
-		raise ValidationError(_('Status kazu la validu.'))
+	if desizaun not in dict(DESIZAUN_RBR_CHOICES):
+		raise ValidationError(_('Desizaun RbR la validu.'))
 	if kazu.status not in (VERIFIED, APPROVED, COMPLETED, FOLLOWUP):
 		raise ValidationError(_('Kazu tenke verifika uluk.'))
-	antes = kazu.status_kazu
-	if antes == status_kazu:
+	seg, _c = KazuSegimentu.objects.get_or_create(kazu=kazu)
+	antes = seg.desizaun_rbr
+	if antes == desizaun:
 		return kazu
-	kazu.status_kazu = status_kazu
-	kazu.save(update_fields=['status_kazu'])
-	_historia(kazu, user, antes, status_kazu, nota, tipu=KazuHistoria.KAZU)
-	if status_kazu == 'AKSAUN_LEGAL':
+	seg.desizaun_rbr, seg.updated_by = desizaun, user
+	seg.save(update_fields=['desizaun_rbr', 'updated_by', 'updated_at'])
+	kazu.__dict__.pop('_sek_cache', None)
+	_historia(kazu, user, antes, desizaun, nota, tipu=KazuHistoria.KAZU)
+	if desizaun == ADVOKASIA:
 		from legal.services import notifika_aksaun_legal      # import iha laran: evita import sirkulár
 		notifika_aksaun_legal(kazu, user)
 	return kazu

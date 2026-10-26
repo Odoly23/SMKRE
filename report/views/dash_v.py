@@ -90,7 +90,7 @@ def reportChart(request):
 
 def _list(request, objects, legend, template='report/list.html'):
 	group = request.user.groups.all()[0].name
-	objects = objects.select_related('munisipiu', 'postu', 'suku', 'created_by__pesoaluser__pesoal') \
+	objects = objects.select_related('munisipiu', 'postu', 'suku', 'segimentu', 'created_by__pesoaluser__pesoal') \
 		.prefetch_related('tipu_konflitu', 'afetadu').order_by('-data_relatoriu')
 	context = {
 		'group': group, "page": "relatoriu",

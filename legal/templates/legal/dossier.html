@@ -34,7 +34,7 @@
 
 	<h2>1. {% trans "Identifikasaun no Fatin" %}</h2>
 	<table class="tab">
-		<tr><th>{% trans "ID Kazu" %}</th><td>{{ obj.kode }}</td><th>{% trans "Status Kazu" %}</th><td>{{ obj.get_status_kazu_display }}</td></tr>
+		<tr><th>{% trans "ID Kazu" %}</th><td>{{ obj.kode }}</td><th>{% trans "Desizaun RbR" %}</th><td>{{ obj.get_desizaun_display|default:"-" }}</td></tr>
 		<tr><th>{% trans "Títulu" %}</th><td colspan="3">{{ obj.titulu|default:"-" }}</td></tr>
 		<tr><th>{% trans "Data Relatóriu" %}</th><td>{{ obj.data_relatoriu|date:"d/m/Y"|default:"-" }}</td><th>{% trans "Data Akontesimentu" %}</th><td>{{ obj.data_akontesimentu|date:"d/m/Y"|default:"-" }}</td></tr>
 		<tr><th>{% trans "Fatin" %}</th><td colspan="3">{{ obj.aldeia|default:"" }}{% if obj.aldeia %}, {% endif %}{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.postu|default:"" }}{% if obj.postu %}, {% endif %}{{ obj.munisipiu }}</td></tr>

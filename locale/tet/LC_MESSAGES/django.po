@@ -5511,3 +5511,43 @@ msgstr "kazu hetan ona"
 #: report
 msgid "uma-kain"
 msgstr "uma-kain"
+
+#: kazu
+msgid "Desizaun RbR: Hotu"
+msgstr "Desizaun RbR: Hotu"
+
+#: kazu
+msgid "Desizaun RbR: %(s)s"
+msgstr "Desizaun RbR: %(s)s"
+
+#: kazu
+msgid "Desizaun RbR la validu."
+msgstr "Desizaun RbR la validu."
+
+#: kazu
+msgid "Desizaun RbR atualiza ona."
+msgstr "Desizaun RbR atualiza ona."
+
+#: kazu
+msgid "Atualiza Desizaun RbR"
+msgstr "Atualiza Desizaun RbR"
+
+#: kazu
+msgid "— Hili desizaun —"
+msgstr "— Hili desizaun —"
+
+#: kazu
+msgid "Kazu rezolve ona ka RbR refere ona ba advogadu privadu."
+msgstr "Kazu rezolve ona ka RbR refere ona ba advogadu privadu."
+
+#: kazu
+msgid "Kazu %(kode)s: Desizaun RbR Advokasia ativu."
+msgstr "Kazu %(kode)s: Desizaun RbR Advokasia ativu."
+
+#: kazu
+msgid "Seidauk iha desizaun"
+msgstr "Seidauk iha desizaun"
+
+#: kazu
+msgid "kazu hetan ona eviksaun"
+msgstr "kazu hetan ona eviksaun"

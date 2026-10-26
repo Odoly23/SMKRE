@@ -153,8 +153,8 @@ def arkiva_dokumentu(request, doc, razaun):
 
 
 def notifika_aksaun_legal(kazu, actor):
-	# Status kazu → Aksaun Legál: equipa legál simu notifikasaun
+	# Desizaun RbR → Advokasia ativu: equipa legál simu notifikasaun
 	from django.urls import reverse
-	msg = lambda: _('Kazu %(kode)s tama faze Aksaun Legál.') % {'kode': kazu.kode}
+	msg = lambda: _('Kazu %(kode)s: Desizaun RbR Advokasia ativu.') % {'kode': kazu.kode}
 	transaction.on_commit(lambda: kirim_notif_role([OFISIAL_LEGAL, SUPERADMIN], 'LEGAL', msg,
 		url=reverse('legal-kazu', args=[kazu.pk]), actor=actor, email=True))

@@ -5452,3 +5452,43 @@ msgstr "casos já despejados"
 #: report
 msgid "uma-kain"
 msgstr "agregados"
+
+#: kazu
+msgid "Desizaun RbR: Hotu"
+msgstr "Decisão da RbR: Todas"
+
+#: kazu
+msgid "Desizaun RbR: %(s)s"
+msgstr "Decisão da RbR: %(s)s"
+
+#: kazu
+msgid "Desizaun RbR la validu."
+msgstr "Decisão da RbR inválida."
+
+#: kazu
+msgid "Desizaun RbR atualiza ona."
+msgstr "Decisão da RbR atualizada."
+
+#: kazu
+msgid "Atualiza Desizaun RbR"
+msgstr "Atualizar decisão da RbR"
+
+#: kazu
+msgid "— Hili desizaun —"
+msgstr "— Escolha a decisão —"
+
+#: kazu
+msgid "Kazu rezolve ona ka RbR refere ona ba advogadu privadu."
+msgstr "Caso já resolvido ou a RbR já o encaminhou para um advogado privado."
+
+#: kazu
+msgid "Kazu %(kode)s: Desizaun RbR Advokasia ativu."
+msgstr "Caso %(kode)s: decisão da RbR Advocacia ativa."
+
+#: kazu
+msgid "Seidauk iha desizaun"
+msgstr "Ainda sem decisão"
+
+#: kazu
+msgid "kazu hetan ona eviksaun"
+msgstr "casos já despejados"

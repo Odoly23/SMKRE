@@ -5434,3 +5434,43 @@ msgstr "cases evicted"
 #: report
 msgid "uma-kain"
 msgstr "households"
+
+#: kazu
+msgid "Desizaun RbR: Hotu"
+msgstr "RbR decision: All"
+
+#: kazu
+msgid "Desizaun RbR: %(s)s"
+msgstr "RbR decision: %(s)s"
+
+#: kazu
+msgid "Desizaun RbR la validu."
+msgstr "Invalid RbR decision."
+
+#: kazu
+msgid "Desizaun RbR atualiza ona."
+msgstr "RbR decision updated."
+
+#: kazu
+msgid "Atualiza Desizaun RbR"
+msgstr "Update RbR decision"
+
+#: kazu
+msgid "— Hili desizaun —"
+msgstr "— Choose a decision —"
+
+#: kazu
+msgid "Kazu rezolve ona ka RbR refere ona ba advogadu privadu."
+msgstr "Case already resolved or RbR has referred it to a private lawyer."
+
+#: kazu
+msgid "Kazu %(kode)s: Desizaun RbR Advokasia ativu."
+msgstr "Case %(kode)s: RbR decision Active advocacy."
+
+#: kazu
+msgid "Seidauk iha desizaun"
+msgstr "No decision yet"
+
+#: kazu
+msgid "kazu hetan ona eviksaun"
+msgstr "cases already evicted"

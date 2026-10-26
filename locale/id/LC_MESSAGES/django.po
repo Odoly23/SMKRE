@@ -5418,3 +5418,43 @@ msgstr "kazu sudah digusur"
 #: report
 msgid "uma-kain"
 msgstr "uma-kain"
+
+#: kazu
+msgid "Desizaun RbR: Hotu"
+msgstr "Keputusan RbR: Semua"
+
+#: kazu
+msgid "Desizaun RbR: %(s)s"
+msgstr "Keputusan RbR: %(s)s"
+
+#: kazu
+msgid "Desizaun RbR la validu."
+msgstr "Keputusan RbR tidak valid."
+
+#: kazu
+msgid "Desizaun RbR atualiza ona."
+msgstr "Keputusan RbR diperbarui."
+
+#: kazu
+msgid "Atualiza Desizaun RbR"
+msgstr "Perbarui keputusan RbR"
+
+#: kazu
+msgid "— Hili desizaun —"
+msgstr "— Pilih keputusan —"
+
+#: kazu
+msgid "Kazu rezolve ona ka RbR refere ona ba advogadu privadu."
+msgstr "Kazu sudah selesai atau RbR sudah merujuknya ke pengacara swasta."
+
+#: kazu
+msgid "Kazu %(kode)s: Desizaun RbR Advokasia ativu."
+msgstr "Kazu %(kode)s: keputusan RbR Advokasi aktif."
+
+#: kazu
+msgid "Seidauk iha desizaun"
+msgstr "Belum ada keputusan"
+
+#: kazu
+msgid "kazu hetan ona eviksaun"
+msgstr "kazu sudah digusur"

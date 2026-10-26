@@ -9,7 +9,7 @@ from config.decorators import allowed_users
 from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_FOLLOWUP, ROLE_PORTAL
 from kazu.models import Kazu
 from kazu.permissions import can_view, is_responsavel
-from kazu.services import muda_portal, submit_kazu, change_status, change_status_kazu, followup_kazu, STATUS_LABEL
+from kazu.services import muda_portal, submit_kazu, change_status, muda_desizaun, followup_kazu, STATUS_LABEL
 
 
 @login_required
@@ -52,8 +52,8 @@ def KazuAction(request, uuid, action):
 def KazuStatusKazu(request, uuid):
 	objects = get_object_or_404(Kazu, pk=uuid)
 	try:
-		change_status_kazu(objects, request.user, request.POST.get('status_kazu'), request.POST.get('nota', ''))
-		messages.success(request, _('Status kazu atualiza ona.'))
+		muda_desizaun(objects, request.user, request.POST.get('desizaun_rbr'), request.POST.get('nota', ''))
+		messages.success(request, _('Desizaun RbR atualiza ona.'))
 	except ValidationError as e:
 		messages.error(request, ' '.join(e.messages))
 	# Fila ba pájina orijen (ex. pájina Legál) se link seguru

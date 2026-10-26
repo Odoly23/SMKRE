@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from .opsaun import STATUS_CHOICES, STATUS_KAZU_CHOICES
+from .opsaun import STATUS_CHOICES, STATUS_KAZU_CHOICES, DESIZAUN_RBR_CHOICES
 
 
 # ══════════════ ISTÓRIA (se, bainhira, razaun) ══════════════
@@ -23,7 +23,7 @@ class KazuHistoria(models.Model):
 		verbose_name_plural = _("Istória Kazu")
 
 	def status_antes_label(self):
-		return dict(STATUS_CHOICES + STATUS_KAZU_CHOICES).get(self.status_antes, self.status_antes)
+		return dict(STATUS_CHOICES + STATUS_KAZU_CHOICES + DESIZAUN_RBR_CHOICES).get(self.status_antes, self.status_antes)
 
 	def status_foun_label(self):
-		return dict(STATUS_CHOICES + STATUS_KAZU_CHOICES).get(self.status_foun, self.status_foun)
+		return dict(STATUS_CHOICES + STATUS_KAZU_CHOICES + DESIZAUN_RBR_CHOICES).get(self.status_foun, self.status_foun)
