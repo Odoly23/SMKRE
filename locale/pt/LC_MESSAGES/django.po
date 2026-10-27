@@ -5585,3 +5585,40 @@ msgid ""
 msgstr ""
 "Se for mesmo duplicado: rejeite ou cancele um dos casos com nota (ex. "
 "«Duplicado de RbR-…»)."
+
+msgid ""
+"Konteúdu file la hanesan ho extensaun (%(naran)s). File bele estraga ka "
+"falsu."
+msgstr ""
+"O conteúdo do ficheiro não corresponde à extensão (%(naran)s). O ficheiro "
+"pode estar danificado ou ser falso."
+
+msgid "Imajen la validu ka estraga."
+msgstr "Imagem inválida ou danificada."
+
+msgid "Imajen iha kódigu subar. File la permite."
+msgstr "A imagem contém código escondido. Ficheiro não permitido."
+
+msgid "PDF la kompletu ka estraga."
+msgstr "PDF incompleto ou danificado."
+
+msgid ""
+"PDF iha JavaScript ka file subar. Ba seguransa, rai fali hanesan PDF simples"
+" (Print → PDF)."
+msgstr ""
+"O PDF contém JavaScript ou ficheiros escondidos. Por segurança, guarde "
+"novamente como PDF simples (Imprimir → PDF)."
+
+msgid "File Office estraga."
+msgstr "Ficheiro Office danificado."
+
+msgid "File Office boot liu bainhira loke."
+msgstr "O ficheiro Office é demasiado grande quando aberto."
+
+msgid "File iha makro ka programa. Rai fali hanesan .%(ext)s simples."
+msgstr ""
+"O ficheiro contém macros ou programas. Guarde novamente como .%(ext)s "
+"simples."
+
+msgid "File CSV la validu."
+msgstr "Ficheiro CSV inválido."

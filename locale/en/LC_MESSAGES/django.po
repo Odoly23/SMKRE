@@ -5567,3 +5567,39 @@ msgid ""
 msgstr ""
 "If it is a duplicate: reject or cancel one case with a note (e.g. «Duplicate"
 " of RbR-…»)."
+
+msgid ""
+"Konteúdu file la hanesan ho extensaun (%(naran)s). File bele estraga ka "
+"falsu."
+msgstr ""
+"File content does not match its extension (%(naran)s). The file may be "
+"damaged or fake."
+
+msgid "Imajen la validu ka estraga."
+msgstr "Invalid or damaged image."
+
+msgid "Imajen iha kódigu subar. File la permite."
+msgstr "The image contains hidden code. File not allowed."
+
+msgid "PDF la kompletu ka estraga."
+msgstr "Incomplete or damaged PDF."
+
+msgid ""
+"PDF iha JavaScript ka file subar. Ba seguransa, rai fali hanesan PDF simples"
+" (Print → PDF)."
+msgstr ""
+"The PDF contains JavaScript or hidden files. For security, save it again as "
+"a plain PDF (Print → PDF)."
+
+msgid "File Office estraga."
+msgstr "Damaged Office file."
+
+msgid "File Office boot liu bainhira loke."
+msgstr "The Office file is too large when opened."
+
+msgid "File iha makro ka programa. Rai fali hanesan .%(ext)s simples."
+msgstr ""
+"The file contains macros or programs. Save it again as a plain .%(ext)s."
+
+msgid "File CSV la validu."
+msgstr "Invalid CSV file."

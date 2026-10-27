@@ -21,14 +21,6 @@ from users.auth_utils import c_user_group
 logger = logging.getLogger('smkre.seguransa')
 
 VAULT_MAX_MB = 20
-# extensaun: bytes hahú (magic) — file tenke loos tuir konteúdu
-VAULT_TIPU = {
-	'pdf': (b'%PDF',),
-	'jpg': (b'\xff\xd8\xff',),
-	'jpeg': (b'\xff\xd8\xff',),
-	'png': (b'\x89PNG\r\n\x1a\n',),
-	'docx': (b'PK\x03\x04',),
-}
 KAZU_STATUS_LEGAL = ('VERIFIED', 'APPROVED', 'COMPLETED', 'FOLLOWUP')   # kazu tenke verifika uluk
 
 
@@ -71,19 +63,9 @@ def rejista_asesu(request, doc, aksaun):
 
 # ── File ──
 def valida_file(f):
-	# Tipu file tuir extensaun NO konteúdu (magic bytes) + tamañu máximu
-	naran = f.name or ''
-	ext = naran.rsplit('.', 1)[-1].lower() if '.' in naran else ''
-	if ext not in VAULT_TIPU:
-		raise ValidationError(_('Formatu file la permite. Uza: %(ext)s') % {'ext': 'PDF, JPG, PNG, DOCX'})
-	if f.size > VAULT_MAX_MB * 1024 * 1024:
-		raise ValidationError(_('File boot liu. Máximu %(mb)s MB.') % {'mb': VAULT_MAX_MB})
-	f.seek(0)
-	inisiu = f.read(16)
-	f.seek(0)
-	if not any(inisiu.startswith(m) for m in VAULT_TIPU[ext]):
-		raise ValidationError(_("Konteúdu file la hanesan ho extensaun (.%(ext)s). File bele estraga ka falsu.") % {'ext': ext})
-	return ext
+	# Tipu file tuir KONTEÚDU (la fiar extensaun): config.file_check
+	from config.file_check import valida_upload
+	return valida_upload(f, {'pdf', 'jpg', 'png', 'docx'}, VAULT_MAX_MB)
 
 
 def sha256_file(f):

@@ -372,6 +372,107 @@ class KodeHpDuplikaduTest(SinkronBase):
 		self.assertContains(r, kode)
 
 
+class UploadSeguruTest(SinkronBase):
+	"""File ho extensaun falsu (kódigu → .jpg/.png) tenke rejeita; sistema fiar konteúdu, la'ós extensaun."""
+
+	@staticmethod
+	def f(naran, dadus, ct='application/octet-stream'):
+		return SimpleUploadedFile(naran, dadus, content_type=ct)
+
+	@staticmethod
+	def jpeg_bytes(fmt='JPEG'):
+		buf = io.BytesIO()
+		Image.new('RGB', (40, 30), (200, 10, 10)).save(buf, fmt)
+		return buf.getvalue()
+
+	def kazu(self):
+		data = self.payload()
+		self.send(data)
+		return data['id']
+
+	def test_unit_deteta_no_rejeita(self):
+		from django.core.exceptions import ValidationError
+		from config.file_check import valida_upload
+		foto = {'jpg', 'png', 'webp'}
+		ataka = [
+			self.f('shell.jpg', b'<?php system($_GET["c"]); ?>'),                 # PHP → .jpg
+			self.f('foto.png', b'<html><script>alert(1)</script></html>'),        # HTML → .png
+			self.f('foto.jpg', self.jpeg_bytes() + b'<?php echo 1; ?>'),          # poliglota
+			self.f('foto.jpg', b'\xff\xd8\xff' + b'\x00' * 200),                  # header de'it
+			self.f('virus.jpg', b'MZ\x90\x00' + b'\x00' * 100),                    # .exe
+		]
+		for x in ataka:
+			with self.assertRaises(ValidationError, msg=x.name):
+				valida_upload(x, foto)
+		# PNG loos ho naran .jpg → simu, naran hadia
+		x = self.f('foto.jpg', self.jpeg_bytes('PNG'))
+		self.assertEqual(valida_upload(x, foto), 'png')
+		self.assertTrue(x.name.endswith('.png'))
+		# PDF
+		pdf_ok = b'%PDF-1.4\n1 0 obj<</Type/Catalog>>endobj\ntrailer<<>>\n%%EOF\n'
+		self.assertEqual(valida_upload(self.f('a.pdf', pdf_ok), {'pdf'}), 'pdf')
+		with self.assertRaises(ValidationError):
+			valida_upload(self.f('a.pdf', b'%PDF-1.4\n<</S/JavaScript/JS(app.alert(1))>>\n%%EOF'), {'pdf'})
+		with self.assertRaises(ValidationError):
+			valida_upload(self.f('a.pdf', b'<html>%PDF'), {'pdf'})
+		# DOCX ho makro
+		import zipfile
+		def docx(extra=None):
+			b = io.BytesIO()
+			with zipfile.ZipFile(b, 'w') as z:
+				z.writestr('[Content_Types].xml', '<Types/>')
+				z.writestr('word/document.xml', '<w:document/>')
+				if extra:
+					z.writestr(extra, 'x')
+			return b.getvalue()
+		self.assertEqual(valida_upload(self.f('a.docx', docx()), {'docx'}), 'docx')
+		with self.assertRaises(ValidationError):
+			valida_upload(self.f('a.docx', docx('word/vbaProject.bin')), {'docx'})
+		with self.assertRaises(ValidationError):
+			valida_upload(self.f('a.docx', b'PK\x03\x04 la loos'), {'docx'})
+		# Vídeo
+		mp4 = b'\x00\x00\x00\x18ftypmp42\x00\x00\x00\x00mp42isom' + b'\x00' * 64
+		self.assertEqual(valida_upload(self.f('v.mov', mp4), {'mp4', 'webm'}), 'mp4')
+		with self.assertRaises(ValidationError):
+			valida_upload(self.f('v.mp4', b'#!/bin/sh\nrm -rf /'), {'mp4', 'webm'})
+
+	def test_hp_sinkron_rejeita_foto_falsu(self):
+		kid = self.kazu()
+		r = self.upload(kid, f=self.f('foto.jpg', b'<?php system($_GET["c"]); ?>', 'image/jpeg'))
+		self.assertEqual(r.status_code, 400)
+		r = self.upload(kid, f=self.f('foto.jpg', self.jpeg_bytes() + b'<script>x</script>', 'image/jpeg'))
+		self.assertEqual(r.status_code, 400)
+		r = self.upload(kid, tipu='VIDEO', f=self.f('v.mp4', b'<?php echo 1; ?>', 'video/mp4'))
+		self.assertEqual(r.status_code, 400)
+		self.assertEqual(Evidensia.objects.filter(kazu_id=kid).count(), 0)
+		# Foto loos: simu no re-enkoda ba JPEG
+		self.assertEqual(self.upload(kid, f=jpg()).status_code, 201)
+		ev = Evidensia.objects.get(kazu_id=kid)
+		self.assertTrue(ev.file.name.endswith('.jpg'))
+		with ev.file.open('rb') as fh:
+			self.assertTrue(fh.read(3) == b'\xff\xd8\xff')
+
+	def test_web_evidensia_rejeita_foto_falsu(self):
+		kid = self.kazu()
+		self.client.force_login(self.inv)
+		url = reverse('kazu-evidensia', args=[kid])
+		r = self.client.post(url, {'tipu': 'FOTO', 'file': self.f('foto.png', b'<html><script>alert(1)</script></html>', 'image/png')})
+		self.assertEqual(r.status_code, 200)                      # formuláriu ho erru
+		self.assertContains(r, 'File bele estraga ka falsu')
+		r = self.client.post(url, {'tipu': 'DOKUMENTU', 'file': self.f('d.pdf', b'%PDF-1.4 /JavaScript (x) %%EOF', 'application/pdf')})
+		self.assertEqual(Evidensia.objects.filter(kazu_id=kid).count(), 0)
+
+	def test_header_seguru_iha_media(self):
+		kid = self.kazu()
+		self.upload(kid, f=jpg())
+		ev = Evidensia.objects.get(kazu_id=kid)
+		self.client.force_login(self.inv)
+		r = self.client.get('/media/' + ev.file.name)
+		self.assertEqual(r.status_code, 200)
+		self.assertEqual(r['X-Content-Type-Options'], 'nosniff')
+		self.assertIn('sandbox', r['Content-Security-Policy'])
+
+
 class AppPageTest(TestCase):
 	def test_pajina_app_la_iha_dadus_privadu(self):
 		r = self.client.get(reverse('sinkron'))

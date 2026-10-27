@@ -44,10 +44,6 @@ class PublikasaunForm(forms.ModelForm):
 	def clean_file(self):
 		f = self.cleaned_data.get('file')
 		if f and hasattr(f, 'read') and not getattr(f, '_committed', False):
-			if f.size > MAX_MB * 1024 * 1024:
-				raise forms.ValidationError(_('File boot liu. Máximu %(mb)s MB.') % {'mb': MAX_MB})
-			f.seek(0)
-			if not f.read(5).startswith(b'%PDF'):
-				raise forms.ValidationError(_('File tenke PDF loos.'))
-			f.seek(0)
+			from config.file_check import valida_upload
+			valida_upload(f, {'pdf'}, MAX_MB)          # PDF loos, la ho JavaScript / file subar
 		return f

@@ -27,10 +27,13 @@ def EvidensiaAdd(request, uuid):
 				instance = Evidensia(kazu=kazu, uploaded_by=request.user, tipu=form.cleaned_data['tipu'], file=f,
 					naran=form.cleaned_data.get('naran', ''), deskrisaun=form.cleaned_data.get('deskrisaun', ''),
 					latitude=kazu.latitude, longitude=kazu.longitude)
-				if instance.tipu == Evidensia.FOTO:
-					small = compress_image(f)
-					if small:
-						instance.file = small
+				if f.name.lower().rsplit('.', 1)[-1] in ('jpg', 'jpeg', 'png', 'webp'):
+					# Re-enkoda imajen hotu (foto no dokumentu skan): hamoos EXIF no kódigu subar
+					small = compress_image(f, max_px=1600 if instance.tipu == Evidensia.FOTO else 2400)
+					if not small:
+						messages.error(request, _('Imajen la validu ka estraga.'))
+						return redirect('kazu-evidensia', uuid=uuid)
+					instance.file = small
 				instance.save()
 			refresh_auto_fields(kazu)
 			messages.success(request, _('Evidénsia aumenta ona.'))

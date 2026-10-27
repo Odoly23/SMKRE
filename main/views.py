@@ -143,8 +143,8 @@ def protected_media(request, path):
 		raise Http404
 	response = FileResponse(open(full, 'rb'))
 	response['Cache-Control'] = 'private, max-age=3600'
-	response['X-Content-Type-Options'] = 'nosniff'
-	return response
+	from config.file_check import header_seguru
+	return header_seguru(response)
 
 
 def offline_page(request):

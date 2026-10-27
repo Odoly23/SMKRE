@@ -209,8 +209,8 @@ def SurveiFileDownload(request, pk):
 	response = FileResponse(fh, as_attachment=not (f.is_image and request.GET.get('inline')),
 		filename=f'{slugify(f.naran)[:60] or "survei"}.{ext}')
 	response['Cache-Control'] = 'private, no-store'
-	response['X-Content-Type-Options'] = 'nosniff'
-	return response
+	from config.file_check import header_seguru
+	return header_seguru(response)
 
 
 # ── PDF survei ida-ida (orden dokumentu "Perguntas Xave Sira Legal" + kop surat) ──

@@ -196,9 +196,10 @@ def sync_evidensia(user, kazu, ev_id, tipu, f):
 	ev.kazu = kazu
 	ev.uploaded_by = user
 	if tipu == Evidensia.FOTO:
-		small = compress_image(f)
-		if small:
-			ev.file = small
+		small = compress_image(f)                      # re-enkoda: hamoos EXIF no kódigu subar
+		if not small:
+			raise SyncError({'file': [_('Imajen la validu ka estraga.')]})
+		ev.file = small
 	ev.latitude, ev.longitude = kazu.latitude, kazu.longitude
 	ev.save()
 	refresh_auto_fields(kazu)

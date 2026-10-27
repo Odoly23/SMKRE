@@ -19,6 +19,19 @@ class EmailLoginForm(AuthenticationForm):
 		return self.cleaned_data['username'].strip().lower()
 
 
+
+def _foto_seguru(form):
+	# Foto pesoál: valida konteúdu + re-enkoda (hamoos kódigu subar no EXIF); la fiar extensaun
+	f = form.cleaned_data.get('image')
+	from django.core.files.uploadedfile import UploadedFile
+	if isinstance(f, UploadedFile):                 # upload foun de'it (la'ós foto ne'ebé iha ona)
+		from config.file_check import imajen_seguru
+		novu = imajen_seguru(f, max_px=800)
+		novu.name = 'foto.jpg'
+		return novu
+	return f
+
+
 class PesoalForm(forms.ModelForm):
 	role = forms.ChoiceField(label=_("Papél (Role)"), choices=[])
 
@@ -62,6 +75,9 @@ class PesoalForm(forms.ModelForm):
 			HTML(BTN_RAI)
 		)
 
+	def clean_image(self):
+		return _foto_seguru(self)
+
 	def clean_email(self):
 		email = self.cleaned_data['email'].strip().lower()
 		qs = User.objects.filter(username__iexact=email)
@@ -84,6 +100,9 @@ class PesoalForm(forms.ModelForm):
 
 
 class AccountForm(forms.ModelForm):
+	def clean_image(self):
+		return _foto_seguru(self)
+
 	# Utilizador atualiza nia konta rasik (email/role labele muda iha ne'e)
 	class Meta:
 		model = Pesoal

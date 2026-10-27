@@ -5551,3 +5551,38 @@ msgid ""
 msgstr ""
 "Jika memang duplikat: tolak atau batalkan salah satu kasus dengan catatan "
 "(mis. «Duplikat dari RbR-…»)."
+
+msgid ""
+"Konteúdu file la hanesan ho extensaun (%(naran)s). File bele estraga ka "
+"falsu."
+msgstr ""
+"Isi file tidak sesuai dengan ekstensinya (%(naran)s). File mungkin rusak "
+"atau palsu."
+
+msgid "Imajen la validu ka estraga."
+msgstr "Gambar tidak valid atau rusak."
+
+msgid "Imajen iha kódigu subar. File la permite."
+msgstr "Gambar berisi kode tersembunyi. File tidak diizinkan."
+
+msgid "PDF la kompletu ka estraga."
+msgstr "PDF tidak lengkap atau rusak."
+
+msgid ""
+"PDF iha JavaScript ka file subar. Ba seguransa, rai fali hanesan PDF simples"
+" (Print → PDF)."
+msgstr ""
+"PDF berisi JavaScript atau file tersembunyi. Demi keamanan, simpan ulang "
+"sebagai PDF biasa (Print → PDF)."
+
+msgid "File Office estraga."
+msgstr "File Office rusak."
+
+msgid "File Office boot liu bainhira loke."
+msgstr "File Office terlalu besar saat dibuka."
+
+msgid "File iha makro ka programa. Rai fali hanesan .%(ext)s simples."
+msgstr "File berisi makro atau program. Simpan ulang sebagai .%(ext)s biasa."
+
+msgid "File CSV la validu."
+msgstr "File CSV tidak valid."

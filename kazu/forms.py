@@ -1,5 +1,7 @@
 from decimal import Decimal
 from django import forms
+from django.core.exceptions import ValidationError
+from config.file_check import valida_upload
 from django.forms import inlineformset_factory
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -522,11 +524,11 @@ AtorFormSet = inlineformset_factory(Kazu, AtorEnvolvidu, form=AtorForm, extra=2,
 
 # ══════════════ EVIDÉNSIA ══════════════
 MAX_FOTO, MAX_VIDEO = 5, 3
-LIMITE = {  # tipu: (extensaun permite, tamañu máximu MB)
-	Evidensia.FOTO: (('jpg', 'jpeg', 'png', 'webp'), 15),
-	Evidensia.VIDEO: (('mp4', 'webm', 'mov', '3gp'), 50),
-	Evidensia.DOKUMENTU: (('pdf', 'jpg', 'jpeg', 'png'), 10),
-	Evidensia.DEKLARASAUN: (('pdf', 'jpg', 'jpeg', 'png'), 10),
+LIMITE = {  # tipu: (tipu konteúdu permite — verifika husi bytes, la'ós extensaun; tamañu máximu MB)
+	Evidensia.FOTO: ({'jpg', 'png', 'webp'}, 15),
+	Evidensia.VIDEO: ({'mp4', 'webm'}, 50),
+	Evidensia.DOKUMENTU: ({'pdf', 'jpg', 'png'}, 10),
+	Evidensia.DEKLARASAUN: ({'pdf', 'jpg', 'png'}, 10),
 }
 
 
@@ -588,13 +590,12 @@ class EvidensiaForm(forms.ModelForm):
 		tipu, files = cleaned.get('tipu'), cleaned.get('file') or []
 		if not tipu or not files:
 			return cleaned
-		exts, max_mb = LIMITE[tipu]
+		permite, max_mb = LIMITE[tipu]
 		for f in files:
-			ext = f.name.lower().rsplit('.', 1)[-1] if '.' in f.name else ''
-			if ext not in exts:
-				self.add_error('file', _('Formatu file la permite (%(naran)s). Uza: %(ext)s') % {'naran': f.name, 'ext': ', '.join(exts)})
-			if f.size > max_mb * 1024 * 1024:
-				self.add_error('file', _('File boot liu (%(naran)s). Máximu %(mb)s MB.') % {'naran': f.name, 'mb': max_mb})
+			try:
+				valida_upload(f, permite, max_mb)          # konteúdu loos, la fiar extensaun
+			except ValidationError as e:
+				self.add_error('file', e)
 		if tipu == Evidensia.FOTO:
 			restu = MAX_FOTO - self.kazu.foto_count()
 			if restu <= 0:
@@ -626,6 +627,12 @@ class ImportForm(forms.Form):
 			'file',
 			HTML(""" <button class="btn btn-rbr" type="submit"><i class="fa fa-upload"></i> {% load i18n %}{% trans "Upload no haree pratinjau" %}</button> """)
 		)
+
+	def clean_file(self):
+		f = self.cleaned_data.get('file')
+		if f:
+			valida_upload(f, {'xlsx', 'csv'}, 5)          # Excel loos (la ho makro) ka CSV testu
+		return f
 
 
 class LokasaunForm(forms.Form):

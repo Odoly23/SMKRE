@@ -124,8 +124,8 @@ def DokumentuDownload(request, pk):
 	naran = f'{slugify(doc.titulu)[:60] or "dokumentu"}-v{doc.versaun}.{doc.ext}'
 	response = FileResponse(f, as_attachment=True, filename=naran)
 	response['Cache-Control'] = 'private, no-store'
-	response['X-Content-Type-Options'] = 'nosniff'
-	return response
+	from config.file_check import header_seguru
+	return header_seguru(response)
 
 
 @login_required

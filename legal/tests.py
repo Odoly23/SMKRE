@@ -193,7 +193,16 @@ from legal.models import SurveiLegal
 from users.models import OfflinePermission
 from users.services import give_offline
 
-JPG = b'\xff\xd8\xff\xe0' + b'0' * 200
+def _jpg_loos():
+	# JPEG loos (sistema verifika konteúdu: header falsu + zero rejeita)
+	import io
+	from PIL import Image
+	buf = io.BytesIO()
+	Image.new('RGB', (20, 20), (120, 80, 40)).save(buf, 'JPEG')
+	return buf.getvalue()
+
+
+JPG = _jpg_loos()
 
 
 class SurveiBase(LegalBase):
