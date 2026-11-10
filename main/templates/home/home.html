@@ -17,7 +17,7 @@
 
 	{% if hein %}
 	<div class="card card-rbr mb-3"><div class="card-body">
-		<h3 class="h-line d-flex justify-content-between align-items-center">{% trans "Hein ita-nia aksaun" %} <small class="text-muted">{{ tot_hein }}</small></h3>
+		<h3 class="h-line">{% trans "Hein ita-nia aksaun" %} <span class="badge badge-pill badge-primary align-middle">{{ tot_hein }}</span></h3>
 		<div class="list-group list-group-flush">
 			{% for obj in hein %}
 			<a href="{% url 'kazu-detail' obj.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center flex-wrap">

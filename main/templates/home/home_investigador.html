@@ -36,7 +36,7 @@
 
 	<div class="card card-rbr">
 		<div class="card-body">
-			<h3 class="h-line d-flex justify-content-between align-items-center">{% trans "Ha'u-nia kazu ikus" %} <small class="text-muted">{{ tot_meu }}</small></h3>
+			<h3 class="h-line">{% trans "Ha'u-nia kazu ikus" %} <span class="badge badge-pill badge-secondary align-middle">{{ tot_meu }}</span></h3>
 			<div class="list-group list-group-flush">
 				{% for obj in kazu_ikus %}
 				<a href="{% url 'kazu-detail' obj.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0">
