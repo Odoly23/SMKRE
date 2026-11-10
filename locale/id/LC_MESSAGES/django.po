@@ -5604,3 +5604,9 @@ msgstr "Terakhir"
 
 msgid "La iha kazu."
 msgstr "Tidak ada kasus."
+
+msgid "Haree hotu"
+msgstr "Lihat semua"
+
+msgid "Follow-up hotu"
+msgstr "Semua follow-up"

@@ -31,21 +31,23 @@
 	{% for k in followup %}
 	<a href="{% url 'kazu-detail' k.pk %}" class="alert alert-warning d-block mb-2"><i class="fa fa-street-view"></i> <b>{% trans "Follow-up" %}: {{ k }}</b> — {% trans "tuun fali ba terrenu, hadia no haruka fali." %}</a>
 	{% endfor %}
+	{% if tot_followup > followup|length %}<a href="{% url 'kazu-list' %}?status=FOLLOWUP" class="btn btn-sm btn-warning btn-block mb-3">{% trans "Follow-up hotu" %} ({{ tot_followup }}) <i class="fa fa-angle-right"></i></a>{% endif %}
 	<a href="{% url 'kazu-add' %}" class="btn btn-rbr btn-block btn-lg mb-3"><i class="fa fa-plus"></i> {% trans "Rejista Kazu Foun" %}</a>
 
 	<div class="card card-rbr">
 		<div class="card-body">
-			<h3 class="h-line">{% trans "Ha'u-nia kazu ikus" %}</h3>
+			<h3 class="h-line d-flex justify-content-between align-items-center">{% trans "Ha'u-nia kazu ikus" %} <small class="text-muted">{{ tot_meu }}</small></h3>
 			<div class="list-group list-group-flush">
 				{% for obj in kazu_ikus %}
 				<a href="{% url 'kazu-detail' obj.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0">
-					<span><b>{{ obj }}</b><br><small class="text-muted">{{ obj.suku|default:obj.munisipiu }} · {{ obj.data_relatoriu|date:"d/m/Y" }}</small></span>
+					<span><span class="badge badge-light mr-1">{{ forloop.counter }}</span><b>{{ obj }}</b><br><small class="text-muted">{{ obj.suku|default:obj.munisipiu }} · {{ obj.data_relatoriu|date:"d/m/Y" }}</small></span>
 					{% include 'kazu/badge_status.html' %}
 				</a>
 				{% empty %}
 				<p class="text-muted small mb-0">{% trans "Seidauk iha kazu." %}</p>
 				{% endfor %}
 			</div>
+			{% if tot_meu > kazu_ikus|length %}<a href="{% url 'kazu-list' %}" class="btn btn-sm btn-outline-rbr btn-block mt-2">{% trans "Haree hotu" %} ({{ tot_meu }}) <i class="fa fa-angle-right"></i></a>{% endif %}
 		</div>
 	</div>
 {% endblock %}

@@ -1,4 +1,5 @@
 import os
+from django.db.models import F
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse, Http404
@@ -12,6 +13,9 @@ from django.views.decorators.http import require_POST
 from config.rbac import INVESTIGADOR, ROLE_USER_MANAGE
 from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline
 from users.models import OfflinePermission, Pesoal
+
+
+VARANDA_MAX = 5          # lista iha varanda: máximu 5 (foun liu iha leten); "Haree hotu" ba lista tomak
 
 
 def home(request):
@@ -28,8 +32,10 @@ def home(request):
 		context['tot_rascunho'] = qs.filter(status__in=[DRAFT, ONGOING, PENDING]).count()
 		context['tot_haruka'] = qs.filter(status__in=[SYNCED, VERIFIED]).count()
 		context['tot_rejeitadu'] = qs.filter(status=REJECTED).count()
-		context['followup'] = qs.filter(status='FOLLOWUP', followup_ba=request.user)
-		context['kazu_ikus'] = qs[:5]
+		fu = qs.filter(status='FOLLOWUP', followup_ba=request.user).order_by('-followup_at', '-created_at')
+		context['followup'], context['tot_followup'] = fu[:VARANDA_MAX], fu.count()
+		context['kazu_ikus'] = qs.order_by('-created_at', '-pk')[:VARANDA_MAX]      # foun liu = númeru 1
+		context['tot_meu'] = qs.count()
 		return render(request, 'home/home_investigador.html', context)
 	context['tot_kazu'] = qs.exclude(status__in=[DRAFT, ONGOING, PENDING]).count()
 	context['tot_synced'] = qs.filter(status=SYNCED).count()
@@ -37,10 +43,14 @@ def home(request):
 	context['tot_approved'] = qs.filter(status=APPROVED).count()
 	context['tot_urjente'] = qs.filter(urjente=True, status__in=[SYNCED, VERIFIED, APPROVED]).count()
 	# Kazu ne'ebé hein ita-nia aksaun
+	hein = None
 	if group == 'admin':
-		context['hein'] = qs.filter(status=SYNCED)[:8]
+		hein, context['hein_url'] = qs.filter(status=SYNCED), '?status=' + SYNCED
 	elif group == 'superadmin':
-		context['hein'] = qs.filter(status__in=[SYNCED, VERIFIED])[:8]
+		hein, context['hein_url'] = qs.filter(status__in=[SYNCED, VERIFIED]), '?status=' + VERIFIED
+	if hein is not None:
+		hein = hein.order_by(F('synced_at').desc(nulls_last=True), '-created_at')         # foun liu = númeru 1
+		context['hein'], context['tot_hein'] = hein[:VARANDA_MAX], hein.count()
 	if group in ROLE_USER_MANAGE:
 		context['tot_user'] = Pesoal.objects.count()
 		context['tot_offline'] = OfflinePermission.objects.valid().count()

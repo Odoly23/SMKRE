@@ -5621,3 +5621,9 @@ msgstr "Last"
 
 msgid "La iha kazu."
 msgstr "No cases."
+
+msgid "Haree hotu"
+msgstr "See all"
+
+msgid "Follow-up hotu"
+msgstr "All follow-ups"

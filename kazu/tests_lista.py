@@ -105,3 +105,35 @@ class MapaGpsTest(TestCase):
 		r = self.client.get(reverse('report-mapa'))
 		self.assertEqual(r.status_code, 200)
 		self.assertNotContains(r, 'None')                               # la iha koordenada mamuk iha JS
+
+
+class VarandaListaTest(TestCase):
+	"""Lista iha varanda: máximu 5, foun liu = númeru 1, link "Haree hotu" ho total."""
+	def setUp(self):
+		setup_master()
+		from kazu.models import SYNCED
+		self.liq = Munisipiu.objects.get(code='LIQ')
+		self.admin = make_user(ADMIN)
+		self.inv = make_user(INVESTIGADOR, email='inv3@teste.tl')
+		agora = timezone.now()
+		for i in range(8):
+			k = Kazu.objects.create(munisipiu=self.liq, created_by=self.inv, titulu=f'Kazu {i}', status=SYNCED)
+			Kazu.objects.filter(pk=k.pk).update(created_at=agora - timedelta(hours=10 - i), synced_at=agora - timedelta(hours=10 - i))
+
+	def test_investigador_5_foun_liu(self):
+		self.client.force_login(self.inv)
+		r = self.client.get(reverse('home'))
+		lista = list(r.context['kazu_ikus'])
+		self.assertEqual(len(lista), 5)
+		self.assertEqual(lista[0].titulu, 'Kazu 7')
+		self.assertContains(r, 'Haree hotu')
+		self.assertContains(r, '(8)')
+
+	def test_admin_hein_5_foun_liu(self):
+		self.client.force_login(self.admin)
+		r = self.client.get(reverse('home'))
+		hein = list(r.context['hein'])
+		self.assertEqual(len(hein), 5)
+		self.assertEqual(hein[0].titulu, 'Kazu 7')
+		self.assertEqual(r.context['tot_hein'], 8)
+		self.assertContains(r, '?status=SYNCED')

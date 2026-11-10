@@ -5640,3 +5640,9 @@ msgstr "Última"
 
 msgid "La iha kazu."
 msgstr "Não há casos."
+
+msgid "Haree hotu"
+msgstr "Ver tudo"
+
+msgid "Follow-up hotu"
+msgstr "Todos os follow-up"
