@@ -35,8 +35,10 @@ ok "$(git log --oneline -1)"
 
 pasu "2/7 Virtualenv (${PY}) no pakote"
 [ -x "${VENV}/bin/python" ] || "${PY}" -m venv "${VENV}"
-"${VENV}/bin/pip" install -q --upgrade pip
-"${VENV}/bin/pip" install -q -r requirements.txt
+# --no-cache-dir: la rai cache pip (kuota disku PythonAnywhere ki'ik)
+"${VENV}/bin/pip" install -q --no-cache-dir --upgrade pip
+"${VENV}/bin/pip" install -q --no-cache-dir -r requirements.txt
+rm -rf "${HOME}/.cache/pip"
 ok "virtualenv: ${VENV}"
 PYV="${VENV}/bin/python"
 
@@ -71,7 +73,7 @@ ${PYV} manage.py migrate --noinput
 ${PYV} manage.py setup_smkre
 ${PYV} manage.py import_wilayah custom/data/wilayah/wilayah_dm31_2026.xlsx   # suku no aldeia (DM 31/2026)
 ${PYV} manage.py compile_lian
-${PYV} manage.py collectstatic --noinput
+${PYV} manage.py collectstatic --noinput --clear     # --clear: hamoos file static tuan (hash) atu disku la nakonu
 ${PYV} manage.py check --deploy || true
 ok "base dadus prontu"
 
