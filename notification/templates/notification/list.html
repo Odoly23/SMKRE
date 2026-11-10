@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n %}
+{% load smkre_tags i18n %}
 {% block content %}
 	{% include 'main/page_header.html' %}
 	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
@@ -13,7 +13,7 @@
 			{% for obj in objects %}
 			<a href="{% url 'notification-open' obj.pk %}" class="list-group-item list-group-item-action {% if not obj.is_read %}unread{% endif %} {% if obj.is_urgent %}urgent{% endif %}">
 				{% if obj.is_urgent %}<span class="badge badge-urjente rounded-pill px-3"><i class="fa fa-exclamation-triangle"></i> {% trans "URJENTE" %}</span><br>{% endif %}
-				<b>{{ obj.message }}</b><br>
+				<span class="badge badge-light mr-1">{{ objects|numeru:forloop.counter0 }}</span><b>{{ obj.message }}</b><br>
 				<small class="text-muted">{{ obj.get_tipu_display }} · {{ obj.created_at|timesince }}</small>
 			</a>
 			{% empty %}
@@ -21,4 +21,5 @@
 			{% endfor %}
 		</div>
 	</div>
+	{% include 'main/_pajina.html' %}
 {% endblock %}

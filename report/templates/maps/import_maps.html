@@ -25,6 +25,7 @@ SMKREMapa.koordenada(map);
 function ikon(url) { return L.icon({ iconUrl: url, shadowUrl: D.sombra, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }); }
 var ikOk = ikon(D.ikonOk), ikAprox = ikon(D.ikonAprox);
 var grupu = L.featureGroup().addTo(map);
+pontu = pontu.filter(function (p) { return p.lat !== null && p.lng !== null && isFinite(p.lat) && isFinite(p.lng); });   // GPS la válidu: hakat
 pontu.forEach(function (p) {
 	// Popup ho DOM (la hatama HTML husi dadus)
 	var div = document.createElement('div');

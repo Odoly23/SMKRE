@@ -19,6 +19,7 @@ class KazuHistoria(models.Model):
 
 	class Meta:
 		ordering = ['-created_at']
+		indexes = [models.Index(fields=['kazu', '-created_at'], name='historia_kazu_idx')]
 		verbose_name = _("Istória Kazu")
 		verbose_name_plural = _("Istória Kazu")
 

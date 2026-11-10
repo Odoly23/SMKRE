@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n %}
+{% load smkre_tags i18n %}
 {% block content %}
 	<ol class="breadcrumb mb-2 mt-1">
 		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
@@ -27,13 +27,13 @@
 		<div class="card-body">
 			<div class="table-responsive table-cards">
 				<table class="table table-sm table-hover">
-					<thead><tr>
+					<thead><tr><th class="col-no">#</th>
 						<th>{% trans "ID Kazu" %}</th><th>{% trans "Fatin" %}</th><th>{% trans "Desizaun RbR" %}</th>
 						<th class="text-center">{% trans "Dokumentu" %}</th><th class="text-center">{% trans "Nota" %}</th><th>{% trans "Prazu tuir mai" %}</th><th></th>
 					</tr></thead>
 					<tbody>
 					{% for obj in objects %}
-					<tr>
+					<tr><td class="col-no text-muted" data-label="#">{{ objects|numeru:forloop.counter0 }}</td>
 						<td data-label="{% trans "ID Kazu" %}"><b>{{ obj }}</b>{% if obj.titulu %}<br><small class="text-muted">{{ obj.titulu|truncatechars:40 }}</small>{% endif %}</td>
 						<td data-label="{% trans "Fatin" %}">{{ obj.suku|default:"" }}{% if obj.suku %}, {% endif %}{{ obj.munisipiu }}</td>
 						<td data-label="{% trans "Desizaun RbR" %}">{% include 'kazu/badge_status_kazu.html' %}</td>
@@ -43,18 +43,12 @@
 						<td class="text-right"><a href="{% url 'legal-kazu' obj.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Dossier" %} <i class="fa fa-angle-right"></i></a></td>
 					</tr>
 					{% empty %}
-					<tr><td colspan="7" class="text-center text-muted">{% trans "La iha kazu iha filtru ne'e." %}</td></tr>
+					<tr><td colspan="8" class="text-center text-muted">{% trans "La iha kazu iha filtru ne'e." %}</td></tr>
 					{% endfor %}
 					</tbody>
 				</table>
 			</div>
-			{% if objects.has_other_pages %}
-			<nav aria-label="{% trans "Pájina" %}"><ul class="pagination pagination-sm justify-content-center mb-0">
-				{% if objects.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ objects.previous_page_number }}&q={{ q|urlencode }}&desizaun={{ f_desizaun }}">‹</a></li>{% endif %}
-				<li class="page-item disabled"><span class="page-link">{{ objects.number }} / {{ objects.paginator.num_pages }}</span></li>
-				{% if objects.has_next %}<li class="page-item"><a class="page-link" href="?page={{ objects.next_page_number }}&q={{ q|urlencode }}&desizaun={{ f_desizaun }}">›</a></li>{% endif %}
-			</ul></nav>
-			{% endif %}
+			{% include 'main/_pajina.html' %}
 		</div>
 	</div>
 {% endblock %}

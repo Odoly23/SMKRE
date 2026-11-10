@@ -1,7 +1,7 @@
 from django.contrib import messages
+from config.paginasaun import pajina
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
@@ -38,7 +38,7 @@ def KazuList(request):
 		objects = objects.filter(urjente=True)
 	if q:
 		objects = objects.filter(Q(kode__icontains=q) | Q(kode_hp__icontains=q) | Q(titulu__icontains=q) | Q(suku__name__icontains=q) | Q(aldeia__name__icontains=q))
-	page = Paginator(objects.distinct(), 25).get_page(request.GET.get('page'))
+	page = pajina(request, objects.distinct().order_by('-created_at', '-pk'))     # foun liu iha leten
 	context = {
 		'group': group, "page": "kazu",
 		'objects': page, 'status_choices': STATUS_CHOICES,

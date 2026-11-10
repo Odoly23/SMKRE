@@ -6,12 +6,13 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from notification.models import Notification
 from users.auth_utils import c_user_group
+from config.paginasaun import pajina
 
 
 @login_required
 def NotificationList(request):
 	group = c_user_group(request.user)
-	objects = Notification.objects.filter(recipient=request.user)[:200]
+	objects = pajina(request, Notification.objects.filter(recipient=request.user).order_by('-created_at', '-pk'))
 	context = {
 		'group': group, "page": "notif",
 		'objects': objects, 'title': _('Notifikasaun'), 'legend': _('Notifikasaun'),

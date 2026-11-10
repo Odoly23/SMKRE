@@ -1,7 +1,7 @@
 from datetime import timedelta
+from config.paginasaun import pajina
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from django.db.models import Count, F, Min, Q
+from django.db.models import Count, Min, Q
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -32,7 +32,7 @@ def LegalKazuList(request):
 	q = request.GET.get('q', '').strip()
 	if q:
 		objects = objects.filter(Q(kode__icontains=q) | Q(titulu__icontains=q) | Q(suku__name__icontains=q))
-	objects = Paginator(objects.order_by(F('prazu').asc(nulls_last=True), '-urjente', '-created_at'), 25).get_page(request.GET.get('page'))
+	objects = pajina(request, objects.order_by('-created_at', '-pk'))              # foun liu iha leten
 	context = {
 		'group': group, "page": "legal-kazu",
 		'objects': objects, 'q': q, 'f_desizaun': desizaun, 'desizaun_choices': DESIZAUN_RBR_CHOICES,

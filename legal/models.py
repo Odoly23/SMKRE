@@ -58,6 +58,7 @@ class DokumentuLegal(models.Model):
 
 	class Meta:
 		ordering = ['-uploaded_at']
+		indexes = [models.Index(fields=['-uploaded_at'], name='vault_upload_idx')]
 		verbose_name = _("Dokumentu Legál")
 		verbose_name_plural = _("Dokumentu Legál")
 
@@ -257,6 +258,7 @@ class SurveiLegal(models.Model):
 
 	class Meta:
 		ordering = ['-created_at']
+		indexes = [models.Index(fields=['-created_at'], name='survei_foun_idx')]
 		verbose_name = _("Survei Legál")
 		verbose_name_plural = _("Survei Legál")
 

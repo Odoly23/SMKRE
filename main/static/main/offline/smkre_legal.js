@@ -206,7 +206,7 @@ var SmkreLegal = (function () {
 		$('l-gps-info').textContent = s.latitude != null ? s.latitude.toFixed(6) + ', ' + s.longitude.toFixed(6) + ' (±' + s.gps_akurasia + ' m)' : 'GPS opsionál.';
 	}
 	function gpsPara() {
-		if (gpsWatch !== null) navigator.geolocation.clearWatch(gpsWatch);
+		if (gpsWatch !== null) { navigator.geolocation.clearWatch(gpsWatch); A.ekranMoris(false); }
 		clearTimeout(gpsTimer); gpsWatch = null;
 		$('l-btn-gps').disabled = false;
 	}
@@ -215,13 +215,18 @@ var SmkreLegal = (function () {
 		var diak = null;
 		$('l-btn-gps').disabled = true;
 		$('l-gps-info').textContent = 'Buka GPS…';
+		A.ekranMoris(true);
 		gpsWatch = navigator.geolocation.watchPosition(function (p) {
+			if (!isFinite(p.coords.latitude) || !isFinite(p.coords.longitude)) return;      // pontu la válidu
 			if (!diak || p.coords.accuracy < diak.accuracy) diak = p.coords;
 			S.legal.latitude = diak.latitude; S.legal.longitude = diak.longitude; S.legal.gps_akurasia = Math.round(diak.accuracy);
 			gpsInfo();
 			if (diak.accuracy <= A.GPS_MAX) { gpsPara(); rai(); }
-		}, function () { gpsPara(); msg('La bele hetan GPS. Ativa Lokalizasaun no fó permisaun.'); },
-		{ enableHighAccuracy: true, maximumAge: 0, timeout: 60000 });
+		}, function (err) {
+			// Permisaun de'it mak para; sinál fraku → kontinua buka to'o minutu 1
+			if (err.code === 1) { gpsPara(); msg('La bele hetan GPS. Ativa Lokalizasaun no fó permisaun.'); return; }
+			$('l-gps-info').textContent = 'Sinál GPS fraku… kontinua buka.';
+		}, { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 });
 		gpsTimer = setTimeout(gpsPara, 60000);
 	});
 

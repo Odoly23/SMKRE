@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n %}
+{% load smkre_tags i18n %}
 {% block content %}
 	{% include 'main/page_header.html' %}
 	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
@@ -12,13 +12,13 @@
 		<div class="card-body">
 			<div class="table-responsive table-cards">
 				<table class="table table-sm table-hover">
-					<thead><tr>
+					<thead><tr><th class="col-no">#</th>
 						<th>{% trans "Utilizador" %}</th><th>{% trans "Papél" %}</th><th>{% trans "Munisípiu" %}</th><th>{% trans "Hahú" %}</th>
 						<th>{% trans "Remata" %}</th><th>{% trans "Status" %}</th><th>{% trans "Fó husi" %}</th><th></th>
 					</tr></thead>
 					<tbody>
 					{% for obj in objects %}
-					<tr>
+					<tr><td class="col-no text-muted" data-label="#">{{ objects|numeru:forloop.counter0 }}</td>
 						<td data-label="{% trans "Utilizador" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b></td>
 						<td data-label="{% trans "Papél" %}">{% for g in obj.user.groups.all %}{% if g.name == 'ofisial_legal' %}<span class="badge badge-info">{% trans "Ofisiál Legál" %}</span>{% else %}<span class="badge badge-light">{% trans "Investigadór" %}</span>{% endif %}{% endfor %}</td>
 						<td data-label="{% trans "Munisípiu" %}">{{ obj.user.pesoaluser.pesoal.munisipiu_lista|join:" / "|default:"-" }}</td>
@@ -41,11 +41,12 @@
 						</td>
 					</tr>
 					{% empty %}
-					<tr><td colspan="8" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
+					<tr><td colspan="9" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
 					{% endfor %}
 					</tbody>
 				</table>
 			</div>
+			{% include 'main/_pajina.html' %}
 		</div>
 	</div>
 {% endblock %}

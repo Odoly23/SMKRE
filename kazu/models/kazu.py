@@ -87,6 +87,7 @@ class Kazu(models.Model):
 			models.Index(fields=['status', 'data_relatoriu'], name='kazu_status_data_idx'),
 			models.Index(fields=['status', 'konsentimentu', 'la_publika'], name='kazu_portal_idx'),
 			models.Index(fields=['-urjente', '-created_at'], name='kazu_orden_idx'),
+			models.Index(fields=['-created_at'], name='kazu_foun_idx'),                       # lista: foun liu iha leten
 		]
 		verbose_name = _("Kazu")
 		verbose_name_plural = _("Kazu")

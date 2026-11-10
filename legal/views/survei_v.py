@@ -1,8 +1,8 @@
 """Survei legál (Perguntas Xave Sira Legal): lista, input (ho autorizasaun Admin), detalla, haruka, verifika, file."""
+from config.paginasaun import pajina
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import FileResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -39,7 +39,7 @@ def SurveiList(request):
 		objects = objects.filter(munisipiu_id=mun)
 	if request.GET.get('mine'):
 		objects = objects.filter(created_by=request.user)
-	objects = Paginator(objects, 25).get_page(request.GET.get('page'))
+	objects = pajina(request, objects.order_by('-created_at', '-pk'))
 	context = {
 		"page": "legal-survei", 'objects': objects, 'q': q, 'f_status': status, 'f_munisipiu': mun,
 		'status_choices': SurveiLegal.STATUS_CHOICES, 'munisipiu_list': Munisipiu.active.all(),

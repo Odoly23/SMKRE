@@ -5586,3 +5586,21 @@ msgstr "File berisi makro atau program. Simpan ulang sebagai .%(ext)s biasa."
 
 msgid "File CSV la validu."
 msgstr "File CSV tidak valid."
+
+msgid "Hatudu %(a)s–%(b)s husi %(t)s"
+msgstr "Menampilkan %(a)s–%(b)s dari %(t)s"
+
+msgid "Dahuluk"
+msgstr "Pertama"
+
+msgid "Kotuk"
+msgstr "Sebelumnya"
+
+msgid "Oin"
+msgstr "Berikutnya"
+
+msgid "Ikus"
+msgstr "Terakhir"
+
+msgid "La iha kazu."
+msgstr "Tidak ada kasus."

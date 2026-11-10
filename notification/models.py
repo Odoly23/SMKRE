@@ -24,7 +24,11 @@ class Notification(models.Model):
 
 	class Meta:
 		ordering = ['-is_urgent', '-created_at']
-		indexes = [models.Index(fields=['recipient', 'is_read'])]
+		indexes = [
+			models.Index(fields=['recipient', 'is_read'], name='notif_rec_read_idx'),
+			models.Index(fields=['recipient', 'is_read', '-is_urgent', '-created_at'], name='notif_dropdown_idx'),   # 🔔 5 ikus
+			models.Index(fields=['recipient', '-created_at'], name='notif_lista_idx'),                              # lista (foun uluk)
+		]
 		verbose_name = _("Notifikasaun")
 		verbose_name_plural = _("Notifikasaun")
 

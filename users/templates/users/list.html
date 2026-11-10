@@ -12,13 +12,13 @@
 			<input type="search" class="form-control mb-3 js-filter" data-target="#tbl-user" placeholder="{% trans "Buka naran, email, munisípiu…" %}" aria-label="{% trans "Buka" %}">
 			<div class="table-responsive table-cards">
 				<table class="table table-sm table-hover" id="tbl-user">
-					<thead><tr>
+					<thead><tr><th class="col-no">#</th>
 						<th>{% trans "Naran" %}</th><th>{% trans "Email" %}</th><th>{% trans "Papél" %}</th>
 						<th>{% trans "Munisípiu" %}</th><th>{% trans "Status" %}</th><th></th>
 					</tr></thead>
 					<tbody>
 					{% for obj in objects %}{% with u=obj.pesoaluser.user %}
-					<tr>
+					<tr><td class="col-no text-muted" data-label="#">{{ objects|numeru:forloop.counter0 }}</td>
 						<td data-label="{% trans "Naran" %}"><b>{{ obj.name }}</b></td>
 						<td data-label="{% trans "Email" %}">{{ obj.email }}</td>
 						<td data-label="{% trans "Papél" %}"><span class="badge badge-role role-{{ u|role_code }} rounded-pill px-3">{{ u|role_of }}</span></td>
@@ -31,11 +31,12 @@
 						<td class="text-right"><a href="{% url 'pesoal-detail' obj.uuid %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
 					</tr>
 					{% endwith %}{% empty %}
-					<tr><td colspan="6" class="text-center text-muted">{% trans "Seidauk iha utilizador." %}</td></tr>
+					<tr><td colspan="7" class="text-center text-muted">{% trans "Seidauk iha utilizador." %}</td></tr>
 					{% endfor %}
 					</tbody>
 				</table>
 			</div>
+			{% include 'main/_pajina.html' %}
 		</div>
 	</div>
 {% endblock %}

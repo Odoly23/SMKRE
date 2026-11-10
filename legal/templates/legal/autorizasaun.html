@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n crispy_forms_tags %}
+{% load smkre_tags i18n crispy_forms_tags %}
 {% block content %}
 	<ol class="breadcrumb mb-2 mt-1">
 		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
@@ -36,10 +36,10 @@
 			<div class="card card-rbr"><div class="card-body">
 				<div class="table-responsive table-cards">
 					<table class="table table-sm table-hover">
-						<thead><tr><th>{% trans "Ofisiál Legál" %}</th><th>{% trans "Hahú" %}</th><th>{% trans "Remata" %}</th><th>{% trans "Status" %}</th><th></th></tr></thead>
+						<thead><tr><th class="col-no">#</th><th>{% trans "Ofisiál Legál" %}</th><th>{% trans "Hahú" %}</th><th>{% trans "Remata" %}</th><th>{% trans "Status" %}</th><th></th></tr></thead>
 						<tbody>
 						{% for obj in objects %}
-						<tr>
+						<tr><td class="col-no text-muted" data-label="#">{{ objects|numeru:forloop.counter0 }}</td>
 							<td data-label="{% trans "Ofisiál Legál" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b><br><small class="text-muted">{% trans "Fó husi" %}: {{ obj.given_by.pesoaluser.pesoal|default:obj.given_by.username|default:"-" }}</small></td>
 							<td data-label="{% trans "Hahú" %}">{{ obj.start_date|date:"d/m/Y" }}</td>
 							<td data-label="{% trans "Remata" %}">{{ obj.end_date|date:"d/m/Y" }}</td>
@@ -58,11 +58,12 @@
 							</td>
 						</tr>
 						{% empty %}
-						<tr><td colspan="5" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
+						<tr><td colspan="6" class="text-center text-muted">{% trans "Seidauk iha autorizasaun." %}</td></tr>
 						{% endfor %}
 						</tbody>
 					</table>
 				</div>
+			{% include 'main/_pajina.html' %}
 			</div></div>
 		</div>
 	</div>

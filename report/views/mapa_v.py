@@ -22,7 +22,7 @@ def reportMapa(request):
 	kazu = report_queryset(request)
 
 	# Pin kada kazu (iha GPS) + foto dahuluk ba popup
-	mapobjects = kazu.exclude(latitude=None).select_related('munisipiu', 'postu', 'suku', 'segimentu') \
+	mapobjects = kazu.exclude(latitude=None).exclude(longitude=None).select_related('munisipiu', 'postu', 'suku', 'segimentu') \
 		.prefetch_related('tipu_konflitu', 'afetadu',
 			Prefetch('evidensia', queryset=Evidensia.objects.filter(tipu=Evidensia.FOTO).exclude(file=''), to_attr='fotos'))[:MAPA_MAX_PIN]
 

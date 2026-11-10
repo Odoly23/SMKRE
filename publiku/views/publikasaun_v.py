@@ -1,4 +1,5 @@
 from django.contrib import messages
+from config.paginasaun import pajina
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -17,7 +18,7 @@ def PublikasaunList(request):
 	group = request.user.groups.all()[0].name
 	context = {
 		'group': group, "page": "publikasaun",
-		'objects': Publikasaun.objects.select_related('created_by__pesoaluser__pesoal'),
+		'objects': pajina(request, Publikasaun.objects.select_related('created_by__pesoaluser__pesoal').order_by('-created_at', '-pk')),
 		'can_publika': group in ROLE_POLICY_PUBLIKA,
 		'title': _('Publikasaun'), 'legend': _('Publikasaun (Policy Brief)')
 	}

@@ -94,6 +94,7 @@ function hiliSatelite() {
 	map.addLayer(sateliteMaps);
 }
 function zoomUma(lat, lng) {
+	if (!isFinite(lat) || !isFinite(lng)) return;          // ?fokus sala: la halo mapa para
 	hiliSatelite();
 	map.flyTo([lat, lng], ZOOM_UMA, {duration: 1.2});
 }
@@ -112,7 +113,7 @@ for (var i = 0; i < addressPoints.length; i++) {
 	var a = addressPoints[i];
 	var title = a[2];
 	var grupu = markers[a[3]];
-	if (!grupu) continue;
+	if (!grupu || !isFinite(a[0]) || !isFinite(a[1]) || a[0] === null || a[1] === null) continue;   // GPS la válidu: hakat
 	var marker = L.marker(new L.LatLng(a[0], a[1]), {
 		icon: a[4] ? redIcon : grupu.icon
 	});
@@ -144,7 +145,7 @@ fetch(L_.geojson).then(function (r) { return r.json(); }).then(function (geo) {
 var hotspot = L.layerGroup();
 Object.keys(munTotal).forEach(function (code) {
 	var m = munTotal[code];
-	if (!m[0] || m[1] === null) return;
+	if (!m[0] || m[1] === null || !isFinite(m[1]) || !isFinite(m[2])) return;
 	L.circleMarker([m[1], m[2]], {radius: 8 + Math.sqrt(m[0]) * 4, color: '#fff', weight: 2, fillColor: colorFor(m[0]), fillOpacity: 0.9})
 		.bindTooltip('<b>' + m[3] + '</b>: ' + m[0] + ' ' + L_.lKazu, {direction: 'top'}).addTo(hotspot);
 	L.marker([m[1], m[2]], {icon: L.divIcon({className: 'hot-label', html: String(m[0]), iconSize: [30, 16]}), interactive: false}).addTo(hotspot);

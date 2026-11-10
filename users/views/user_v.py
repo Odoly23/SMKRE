@@ -1,4 +1,5 @@
 import logging
+from config.paginasaun import pajina
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -31,7 +32,7 @@ def _can_edit(request, objects):
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 def PesoalList(request):
 	group = request.user.groups.all()[0].name
-	objects = Pesoal.objects.select_related('pesoaluser__user', 'munisipiu', 'pos').prefetch_related('pesoaluser__user__groups')
+	objects = pajina(request, Pesoal.objects.select_related('pesoaluser__user', 'munisipiu', 'pos').prefetch_related('pesoaluser__user__groups').order_by('-created_at', '-pk'))
 	context = {
 		'group': group, "page": "user",
 		'objects': objects, 'title': _('Lista Utilizador'), 'legend': _('Lista Utilizador')

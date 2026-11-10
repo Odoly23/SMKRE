@@ -1,4 +1,5 @@
 """Ativa input legál: Admin / Superadmin hili Ofisiál Legál ne'ebé bele input survei (online + app offline) ho data hahú–remata."""
+from config.paginasaun import pajina
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -35,7 +36,7 @@ def AutorizasaunLegal(request):
 		"page": "legal-autoriza", 'form': form,
 		'n_legal': form.fields['users'].queryset.count(),
 		'n_legal_la_ativu': User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=False).count(),
-		'objects': _perm_legal().select_related('user__pesoaluser__pesoal', 'given_by__pesoaluser__pesoal')[:200],
+		'objects': pajina(request, _perm_legal().select_related('user__pesoaluser__pesoal', 'given_by__pesoaluser__pesoal').order_by('-start_date', '-pk')),
 		'title': _('Ativa Input Legál'), 'legend': _('Ativa Input Legál')
 	}
 	return render(request, 'legal/autorizasaun.html', context)

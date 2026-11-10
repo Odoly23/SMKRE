@@ -1,0 +1,17 @@
+{% load i18n smkre_tags %}{% if objects.paginator %}
+<div class="d-flex justify-content-between align-items-center flex-wrap mt-2 pajina-bar">
+	<small class="text-muted mb-1">{% blocktrans with a=objects.start_index b=objects.end_index t=objects.paginator.count %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}</small>
+	{% if objects.paginator.num_pages > 1 %}
+	<nav aria-label="{% trans "Pájina" %}"><ul class="pagination pagination-sm mb-1">
+		{% if objects.has_previous %}
+		<li class="page-item"><a class="page-link" href="{% url_pajina 1 %}" aria-label="{% trans "Dahuluk" %}">«</a></li>
+		<li class="page-item"><a class="page-link" href="{% url_pajina objects.previous_page_number %}" aria-label="{% trans "Kotuk" %}">‹</a></li>
+		{% endif %}
+		<li class="page-item active"><span class="page-link">{{ objects.number }} / {{ objects.paginator.num_pages }}</span></li>
+		{% if objects.has_next %}
+		<li class="page-item"><a class="page-link" href="{% url_pajina objects.next_page_number %}" aria-label="{% trans "Oin" %}">›</a></li>
+		<li class="page-item"><a class="page-link" href="{% url_pajina objects.paginator.num_pages %}" aria-label="{% trans "Ikus" %}">»</a></li>
+		{% endif %}
+	</ul></nav>
+	{% endif %}
+</div>{% endif %}

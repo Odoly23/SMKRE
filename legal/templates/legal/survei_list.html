@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n %}
+{% load smkre_tags i18n %}
 {% block content %}
 	<ol class="breadcrumb mb-2 mt-1">
 		<li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "VARANDA" %}</a></li>
@@ -43,13 +43,13 @@
 		<div class="card-body">
 			<div class="table-responsive table-cards">
 				<table class="table table-sm table-hover">
-					<thead><tr>
+					<thead><tr><th class="col-no">#</th>
 						<th>{% trans "ID Survei" %}</th><th>{% trans "Parte" %}</th><th>{% trans "Meius" %}</th><th>{% trans "Fatin" %}</th>
 						<th>{% trans "Data survei" %}</th><th>{% trans "Status" %}</th><th></th>
 					</tr></thead>
 					<tbody>
 					{% for s in objects %}
-					<tr>
+					<tr><td class="col-no text-muted" data-label="#">{{ objects|numeru:forloop.counter0 }}</td>
 						<td data-label="{% trans "ID Survei" %}"><b>{{ s.kode|default:_("Rascunho") }}</b>{% if s.kazu %}<br><small class="text-muted"><i class="fa fa-link"></i> {{ s.kazu }}</small>{% elif s.titulu %}<br><small class="text-muted">{{ s.titulu|truncatechars:40 }}</small>{% endif %}</td>
 						<td data-label="{% trans "Parte" %}">{{ s.parte_naran|default:"-" }}</td>
 						<td data-label="{% trans "Meius" %}">{{ s.get_meius_display|default:"-" }}</td>
@@ -59,18 +59,12 @@
 						<td class="text-right text-nowrap"><a href="{% url 'legal-survei-pdf' s.pk %}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary" title="{% trans "Print PDF" %}" aria-label="{% trans "Print PDF" %}"><i class="fa fa-file-pdf-o"></i></a> <a href="{% url 'legal-survei-detail' s.pk %}" class="btn btn-sm btn-outline-rbr">{% trans "Detalla" %} <i class="fa fa-angle-right"></i></a></td>
 					</tr>
 					{% empty %}
-					<tr><td colspan="7" class="text-center text-muted">{% trans "Seidauk iha survei legál." %}</td></tr>
+					<tr><td colspan="8" class="text-center text-muted">{% trans "Seidauk iha survei legál." %}</td></tr>
 					{% endfor %}
 					</tbody>
 				</table>
 			</div>
-			{% if objects.has_other_pages %}
-			<nav aria-label="{% trans "Pájina" %}"><ul class="pagination pagination-sm justify-content-center mb-0">
-				{% if objects.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ objects.previous_page_number }}&q={{ q|urlencode }}&status={{ f_status }}&munisipiu={{ f_munisipiu }}">‹</a></li>{% endif %}
-				<li class="page-item disabled"><span class="page-link">{{ objects.number }} / {{ objects.paginator.num_pages }}</span></li>
-				{% if objects.has_next %}<li class="page-item"><a class="page-link" href="?page={{ objects.next_page_number }}&q={{ q|urlencode }}&status={{ f_status }}&munisipiu={{ f_munisipiu }}">›</a></li>{% endif %}
-			</ul></nav>
-			{% endif %}
+			{% include 'main/_pajina.html' %}
 		</div>
 	</div>
 {% endblock %}

@@ -5622,3 +5622,21 @@ msgstr ""
 
 msgid "File CSV la validu."
 msgstr "Ficheiro CSV inválido."
+
+msgid "Hatudu %(a)s–%(b)s husi %(t)s"
+msgstr "A mostrar %(a)s–%(b)s de %(t)s"
+
+msgid "Dahuluk"
+msgstr "Primeira"
+
+msgid "Kotuk"
+msgstr "Anterior"
+
+msgid "Oin"
+msgstr "Seguinte"
+
+msgid "Ikus"
+msgstr "Última"
+
+msgid "La iha kazu."
+msgstr "Não há casos."

@@ -90,6 +90,7 @@ class OfflinePermission(models.Model):
 
 	class Meta:
 		ordering = ['-start_date']
+		indexes = [models.Index(fields=['user', 'is_active', 'end_date'], name='offline_valid_idx')]   # autorizasaun ativu
 		verbose_name = _("Autorizasaun Offline")
 		verbose_name_plural = _("Autorizasaun Offline")
 

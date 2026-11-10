@@ -230,7 +230,7 @@ class AdvokasiaTest(ReportBase):
 		for mun, g, v, n in ((self.dil.pk, 'trib', 'dadaun', 1), (0, 'total', 'total', 4), (self.dil.pk, 'tipu', self.deslok.pk, 2)):
 			lst = self.client.get(reverse('report-tabular-list', args=[mun, g, v]))
 			self.assertEqual(lst.status_code, 200)
-			self.assertEqual(lst.context['objects'].count(), n, (g, v))
+			self.assertEqual(lst.context['objects'].paginator.count, n, (g, v))
 		self.assertEqual(self.client.get(reverse('report-tabular-list', args=[0, 'xxx', 'y'])).status_code, 404)
 
 	def test_investigador_labele_lista(self):

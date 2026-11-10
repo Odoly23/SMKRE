@@ -1,5 +1,5 @@
 {% extends "main/layout.html" %}
-{% load i18n crispy_forms_tags %}
+{% load smkre_tags i18n crispy_forms_tags %}
 {% block content %}
 {% include 'kazu/_pagetitle.html' %}
 <div class="row">
@@ -28,10 +28,10 @@
 			<div class="card-body p-0">
 				<div class="table-responsive">
 					<table class="table table-sm table-hover mb-0 small">
-						<thead><tr><th>{% trans "Data" %}</th><th>{% trans "File" %}</th><th class="text-center">{% trans "Liña" %}</th><th class="text-center">{% trans "Válidu" %}</th><th>{% trans "Status" %}</th><th>{% trans "Admin" %}</th></tr></thead>
+						<thead><tr><th class="col-no">#</th><th>{% trans "Data" %}</th><th>{% trans "File" %}</th><th class="text-center">{% trans "Liña" %}</th><th class="text-center">{% trans "Válidu" %}</th><th>{% trans "Status" %}</th><th>{% trans "Admin" %}</th></tr></thead>
 						<tbody>
 						{% for i in objects %}
-							<tr>
+							<tr><td class="col-no text-muted" data-label="#">{{ objects|numeru:forloop.counter0 }}</td>
 								<td>{{ i.created_at|date:"d/m/Y H:i" }}</td>
 								<td><a href="{% url 'kazu-import-detail' i.pk %}">{{ i.naran_file|truncatechars:34 }}</a></td>
 								<td class="text-center">{{ i.total }}</td>
@@ -40,11 +40,12 @@
 								<td>{{ i.created_by.email|truncatechars:22 }}</td>
 							</tr>
 						{% empty %}
-							<tr><td colspan="6" class="text-center text-muted py-4">{% trans "Seidauk iha import." %}</td></tr>
+							<tr><td colspan="7" class="text-center text-muted py-4">{% trans "Seidauk iha import." %}</td></tr>
 						{% endfor %}
 						</tbody>
 					</table>
 				</div>
+			{% include 'main/_pajina.html' %}
 			</div>
 		</div>
 	</div>

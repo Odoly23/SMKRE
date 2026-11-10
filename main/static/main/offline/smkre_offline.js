@@ -76,11 +76,44 @@
 		return lista.length ? lista : ['Erru server. Koko fali.'];
 	}
 
+	// ══════════════ Rede fraku: fetch ho timeout ══════════════
+	// Sinál fraku iha terrenu: pedidu bele hein la iha rohan → app "trava". Timeout halo sinkron remata
+	// ho mensajen klaru; dadus hela iha HP no bele koko fali (server idempotente).
+	var TEMPU_DADUS = 45000, TEMPU_UPLOAD = 180000;
+	function fetchTempu(url, opts) {
+		if (!window.AbortController) return fetch(url, opts);
+		var ctrl = new AbortController();
+		var t = setTimeout(function () { ctrl.abort(); }, (opts.body instanceof FormData) ? TEMPU_UPLOAD : TEMPU_DADUS);
+		opts.signal = ctrl.signal;
+		return fetch(url, opts).then(function (r) { clearTimeout(t); return r; }, function (e) {
+			clearTimeout(t);
+			if (e && e.name === 'AbortError') { var x = new Error('Sinál fraku: server la responde. Dadus seguru iha HP; koko fali.'); x.timeout = true; throw x; }
+			throw e;
+		});
+	}
+
+	// Ekran moris (Wake Lock) durante GPS, poligon no sinkron: ekran la mate → prosesu la para
+	var WL = { lock: null, n: 0 };
+	function pedeLock() {
+		if (!('wakeLock' in navigator) || WL.lock || WL.n === 0 || document.visibilityState !== 'visible') return;
+		navigator.wakeLock.request('screen').then(function (l) {
+			if (WL.n === 0) { l.release().catch(function () {}); return; }
+			WL.lock = l;
+			l.addEventListener('release', function () { WL.lock = null; });
+		}).catch(function () {});
+	}
+	function ekranMoris(liga) {
+		WL.n = Math.max(0, WL.n + (liga ? 1 : -1));
+		if (WL.n > 0) pedeLock();
+		else if (WL.lock) { WL.lock.release().catch(function () {}); WL.lock = null; }
+	}
+	document.addEventListener('visibilitychange', pedeLock);      // fila ba app → husu fali
+
 	// ══════════════ API (token JWT) ══════════════
 	function postJSON(url, body, token) {
 		var h = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
 		if (token) h.Authorization = 'Bearer ' + token;
-		return fetch(url, { method: 'POST', headers: h, body: JSON.stringify(body), credentials: 'omit' });
+		return fetchTempu(url, { method: 'POST', headers: h, body: JSON.stringify(body), credentials: 'omit' });
 	}
 
 	function refreshToken() {
@@ -103,7 +136,7 @@
 		opts.headers.Authorization = 'Bearer ' + S.auth.access;
 		opts.headers.Accept = 'application/json';
 		opts.credentials = 'omit';
-		return fetch(url, opts).then(function (r) {
+		return fetchTempu(url, opts).then(function (r) {
 			if (r.status === 401 && !dalaIda) return refreshToken().then(function () { return api(url, opts, true); });
 			return r;
 		});
@@ -811,7 +844,7 @@
 
 	var polWatch = null, polTimer = null;
 	function polPara() {
-		if (polWatch !== null) navigator.geolocation.clearWatch(polWatch);
+		if (polWatch !== null) { navigator.geolocation.clearWatch(polWatch); ekranMoris(false); }
 		clearTimeout(polTimer); polWatch = null;
 		$('pol-pontu').disabled = false;
 		$('pol-pontu').innerHTML = '<i class="fa fa-crosshairs"></i> Aumenta pontu';
@@ -822,8 +855,10 @@
 		var btn = this, diak = null;
 		btn.disabled = true;
 		btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Buka GPS…';
+		ekranMoris(true);
 		polWatch = navigator.geolocation.watchPosition(function (p) {
 			var c = p.coords;
+			if (!isFinite(c.latitude) || !isFinite(c.longitude) || !isFinite(c.accuracy)) return;
 			if (!diak || c.accuracy < diak.accuracy) diak = c;
 			btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> ±' + Math.round(diak.accuracy) + ' m…';
 			if (diak.accuracy > POL_GPS_MAX) return;
@@ -836,9 +871,10 @@
 			msg(null);
 			polHatudu(); raiRascunho(true);
 		}, function (err) {
-			polPara();
-			msg(err.code === 1 ? 'Favor permite GPS (lokalizasaun) ba SIBAR-RbR iha setting browser.' : 'GPS la hetan sinál. Ba fatin loke no koko fali.');
-		}, { enableHighAccuracy: true, maximumAge: 0, timeout: 60000 });
+			// Permisaun de'it mak para; sinál fraku (timeout/la disponível) → kontinua buka to'o minutu 1
+			if (err.code === 1) { polPara(); msg('Favor permite GPS (lokalizasaun) ba SIBAR-RbR iha setting browser.'); return; }
+			btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sinál GPS fraku… kontinua buka';
+		}, { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 });
 		polTimer = setTimeout(function () {
 			polPara();
 			msg('GPS la to\'o ±' + POL_GPS_MAX + ' m' + (diak ? ' (diak liu: ±' + Math.round(diak.accuracy) + ' m)' : '') + '. Hein uitoan iha fatin loke no koko fali.');
@@ -871,7 +907,7 @@
 	}
 
 	function paraGPS() {
-		if (gpsWatch !== null) navigator.geolocation.clearWatch(gpsWatch);
+		if (gpsWatch !== null) { navigator.geolocation.clearWatch(gpsWatch); ekranMoris(false); }
 		clearTimeout(gpsTimer);
 		gpsWatch = null;
 		$('btn-gps').disabled = false;
@@ -884,8 +920,10 @@
 		info.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Buka GPS… hein iha fatin loke (la iha uma laran).';
 		this.disabled = true;
 		var diak = null;
+		ekranMoris(true);
 		gpsWatch = navigator.geolocation.watchPosition(function (p) {
 			var c = p.coords;
+			if (!isFinite(c.latitude) || !isFinite(c.longitude) || !isFinite(c.accuracy)) return;   // pontu la válidu: hein tuir mai
 			if (c.latitude < TL_LAT[0] || c.latitude > TL_LAT[1] || c.longitude < TL_LON[0] || c.longitude > TL_LON[1]) {
 				paraGPS(); msg('Koordenada GPS la iha territóriu Timor-Leste.'); info.textContent = ''; return;
 			}
@@ -901,10 +939,10 @@
 				info.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Akurasia ±' + akur + ' m… hein (tenke ≤ 50 m)';
 			}
 		}, function (err) {
-			paraGPS();
-			msg(err.code === 1 ? 'Favor permite GPS (lokalizasaun) ba SIBAR-RbR iha setting browser.' : 'GPS la hetan sinál. Ba fatin loke no koko fali.');
-			hatuduGPS();
-		}, { enableHighAccuracy: true, maximumAge: 0, timeout: 60000 });
+			// Permisaun de'it mak para; sinál fraku (timeout/la disponível) → kontinua buka to'o minutu 2
+			if (err.code === 1) { paraGPS(); msg('Favor permite GPS (lokalizasaun) ba SIBAR-RbR iha setting browser.'); hatuduGPS(); return; }
+			if (S.kazu.latitude == null) info.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sinál GPS fraku… kontinua buka. Ba fatin loke.';
+		}, { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 });
 		gpsTimer = setTimeout(function () {
 			paraGPS();
 			if (S.kazu.latitude == null) msg('GPS la to\'o akurasia 50 m iha minutu 2. Koko fali iha fatin loke.');
@@ -1102,9 +1140,10 @@
 		if (S.sinkron || !S.xavi) return;
 		if (!navigator.onLine) { if (!silensiu) msg('La iha sinál. Kazu seguru iha HP; sinkron bainhira iha internet.', 'warning'); return; }
 		S.sinkron = true; S.dupAvizu = [];       // xavi kedas: evento 'online' dala rua la halo sinkron paralelu
+		ekranMoris(true);
 		DB.all('kazu').then(function (lista) {
 			lista = lista.filter(function (r) { return r.estadu === 'PRONTU'; });
-			if (!lista.length) { S.sinkron = false; if (!silensiu) msg('La iha dadus atu sinkron.', 'info'); atualizaServer(); return; }
+			if (!lista.length) { S.sinkron = false; ekranMoris(false); if (!silensiu) msg('La iha dadus atu sinkron.', 'info'); atualizaServer(); return; }
 			var bar = $('sync-progress'), total = lista.length, ok = 0, erru = 0;
 			bar.hidden = false; bar.firstElementChild.style.width = '5%';
 			$('btn-sync').disabled = true;
@@ -1117,14 +1156,15 @@
 					erru || S.dupAvizu.length ? 'warning' : 'success');
 			}).catch(function (e) {
 				if (e.relogin) { pedeRelogin(); return; }
-				msg('Koneksaun kotu. Kazu seidauk sinkron sei hela iha HP. Koko fali.', 'warning');
+				msg(e.timeout ? e.message : 'Koneksaun kotu. Kazu seidauk sinkron sei hela iha HP. Koko fali.', 'warning');
 			}).then(function () {
 				S.sinkron = false;
+				ekranMoris(false);
 				bar.hidden = true;
 				$('btn-sync').disabled = false;
 				if (S.xavi && !S.relogin) { listaLokal(); atualizaServer(); }
 			});
-		}).catch(function () { S.sinkron = false; });
+		}).catch(function () { S.sinkron = false; ekranMoris(false); $('btn-sync').disabled = false; });
 	}
 	$('btn-sync').addEventListener('click', function () { sinkronHotu(false); });
 
@@ -1142,7 +1182,8 @@
 	window.SmkreApp = {
 		S: S, $: $, esc: esc, msg: msg, hatudu: hatudu, hoje: hoje, dataTL: dataTL, api: api, apiJSON: apiJSON,
 		erruLista: erruLista, baVaranda: baVaranda, listaLokal: listaLokal, sinkronHotu: sinkronHotu,
-		permValidu: permValidu, opsaunSelect: opsaunSelect, limpaUrls: limpaUrls, pedeRelogin: pedeRelogin, GPS_MAX: GPS_MAX
+		permValidu: permValidu, opsaunSelect: opsaunSelect, limpaUrls: limpaUrls, pedeRelogin: pedeRelogin, GPS_MAX: GPS_MAX,
+		ekranMoris: ekranMoris
 	};
 
 	// ══════════════ ARRANKA ══════════════

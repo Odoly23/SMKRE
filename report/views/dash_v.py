@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from config.paginasaun import pajina
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404
@@ -8,7 +9,7 @@ from config.rbac import ROLE_DASHBOARD, ROLE_RELATORIU, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.models import UmaKainAfetada, STATUS_CHOICES, COMPLETED
 from report import advokasia
-from report.utils import chart_lang, dt_lang, report_queryset, eviksaun_aktivu, STATUS_RELATORIU
+from report.utils import chart_lang, report_queryset, eviksaun_aktivu, STATUS_RELATORIU
 
 
 @login_required
@@ -91,11 +92,14 @@ def reportChart(request):
 def _list(request, objects, legend, template='report/list.html'):
 	group = request.user.groups.all()[0].name
 	objects = objects.select_related('munisipiu', 'postu', 'suku', 'segimentu', 'created_by__pesoaluser__pesoal') \
-		.prefetch_related('tipu_konflitu', 'afetadu').order_by('-data_relatoriu')
+		.prefetch_related('tipu_konflitu', 'afetadu').order_by('-created_at', '-pk')
+	# Pájina 10 (server): kmaan ba HP; "Excel kompletu" exporta dadus hotu ho filtru hanesan
+	q = request.GET.copy()
+	q.pop('page', None)
 	context = {
 		'group': group, "page": "relatoriu",
-		'objects': objects, 'title': legend, 'legend': legend,
-		'export_query': request.GET.urlencode(), 'dt_lang': dt_lang(),
+		'objects': pajina(request, objects), 'title': legend, 'legend': legend,
+		'export_query': q.urlencode(),
 	}
 	return render(request, template, context)
 

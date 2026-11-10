@@ -1,4 +1,5 @@
 from django.contrib import messages
+from config.paginasaun import pajina
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
@@ -36,7 +37,7 @@ def KazuImportList(request):
 		form = ImportForm()
 	context = {
 		'group': group, "page": "import",
-		'form': form, 'objects': KazuImport.objects.select_related('created_by')[:30],
+		'form': form, 'objects': pajina(request, KazuImport.objects.select_related('created_by').order_by('-created_at', '-pk')),
 		'title': _('Import Kazu'), 'legend': _('Import Kazu husi Excel')
 	}
 	return render(request, 'kazu/import_list.html', context)

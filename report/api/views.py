@@ -102,7 +102,7 @@ class APIMapa(_ReportAPI):
 			'lng': float(m.longitude) if m.longitude else None, 'total': mun.get(m.code, 0)} for m in Munisipiu.active.all()]
 		status_label = dict(STATUS_CHOICES)
 		pins = []
-		for k in kazu.exclude(latitude=None).select_related('munisipiu', 'suku').prefetch_related('tipu_konflitu', 'afetadu')[:3000]:
+		for k in kazu.exclude(latitude=None).exclude(longitude=None).select_related('munisipiu', 'suku').prefetch_related('tipu_konflitu', 'afetadu')[:3000]:
 			pins.append({
 				'id': str(k.pk), 'kode': k.kode, 'lat': float(k.latitude), 'lng': float(k.longitude),
 				'suku': k.suku.name if k.suku else '', 'munisipiu': k.munisipiu.name,

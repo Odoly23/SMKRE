@@ -392,3 +392,7 @@ body.smkre-map-full-body { overflow: hidden; }
 	.legal-tabs .nav-link { white-space: nowrap; }
 	h2 { font-size: 1.35rem; }
 }
+
+/* Lista: koluna númeru (1 = foun liu) no paginasaun */
+.col-no { width: 2.6rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pajina-bar .pagination { margin: 0; }

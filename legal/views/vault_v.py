@@ -1,7 +1,7 @@
 from django.contrib import messages
+from config.paginasaun import pajina
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import FileResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -37,7 +37,7 @@ def legalVault(request):
 		objects = objects.filter(kategoria=kategoria)
 	if request.GET.get('jeral'):
 		objects = objects.filter(kazu=None)
-	objects = Paginator(objects, 25).get_page(request.GET.get('page'))
+	objects = pajina(request, objects.order_by('-uploaded_at', '-pk'))
 	context = {
 		'group': group, "page": "legal-vault",
 		'objects': objects, 'q': q, 'f_kategoria': kategoria,
