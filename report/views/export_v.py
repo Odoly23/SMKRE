@@ -27,6 +27,7 @@ def exportExcel(request):
 	"""Eksporta kazu (tuir filtru) ho kolun hanesan baze dadus sentrál RbR (Airtable "Kazu Hotu") → bele import fali.
 	Kolun SIBAR (ID, GPS, status…) iha ikus. Kontaktu pesoál: Admin / Superadmin de'it."""
 	from kazu.airtable import KABESALLU, lina_export
+	from config.excel_seguru import lina_seguru
 	group = c_user_group(request.user)
 	subar = set() if group in (ADMIN, SUPERADMIN) else SUBAR_EXPORT
 	objects = report_queryset(request).select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai', 'created_by__pesoaluser__pesoal', 'segimentu', *SEKSAUN_REL) \
@@ -45,13 +46,13 @@ def exportExcel(request):
 		c.fill = verde if i < len(KABESALLU) else azul             # azul = kolun SIBAR
 		c.alignment = Alignment(vertical='center', wrap_text=True)
 	for k in objects:
-		ws.append(lina_export(k, subar) + [
+		ws.append(lina_seguru(lina_export(k, subar) + [
 			k.kode or '', float(k.latitude) if k.latitude is not None else None, float(k.longitude) if k.longitude is not None else None,
 			_('Sin') if k.gps_aproksimadu else _('Lae'), str(k.get_status_display()),
 			k.data_akontesimentu, k.tipu_rai.name if k.tipu_rai else '',
 			float(k.poligon_luan_m2) if k.poligon_luan_m2 is not None else None, _('Sin') if k.urjente else _('Lae'),
 			str(getattr(getattr(k.created_by, 'pesoaluser', None), 'pesoal', '') or k.created_by.username),
-		])
+		]))
 	for i, _h in enumerate(head, start=1):
 		ws.column_dimensions[get_column_letter(i)].width = 20
 	ws.row_dimensions[1].height = 45

