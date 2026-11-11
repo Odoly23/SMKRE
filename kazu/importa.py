@@ -532,6 +532,7 @@ def konfirma(imp, user, pilih=None):
 		kazu = Kazu(
 			titulu=d['titulu'], status=VERIFIED if verifikadu else SYNCED, synced_at=timezone.now(),
 			referensia_rbr=d.get('referensia_rbr'),
+			kobo_uuid=d.get('kobo_uuid'),
 			verified_by=user if verifikadu else None, verified_at=timezone.now() if verifikadu else None,
 			data_relatoriu=date.fromisoformat(d['data_relatoriu']) if d['data_relatoriu'] else None,
 			data_akontesimentu=date.fromisoformat(d['data_akontesimentu']) if d['data_akontesimentu'] else None,
