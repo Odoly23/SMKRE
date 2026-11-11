@@ -26,7 +26,6 @@ class Kazu(models.Model):
 	# ID HP: kria automátiku iha HP bainhira kazu foun offline (HP-AAMMDD-XXXXXX), hanesan iha server
 	kode_hp = models.CharField(max_length=48, unique=True, null=True, blank=True, verbose_name=_("ID HP (offline)"))
 	referensia_rbr = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("Referénsia RbR (Airtable)"))
-	kobo_uuid = models.CharField(max_length=64, unique=True, null=True, blank=True, verbose_name=_("UUID KoboToolbox"))   # dedup import husi Kobo
 	titulu = models.CharField(max_length=200, blank=True, verbose_name=_("Naran kazu"))
 	status = models.CharField(max_length=12, choices=STATUS_CHOICES, default=DRAFT, db_index=True, verbose_name=_("Status Dadus"))
 	status_kazu = models.CharField(max_length=15, choices=STATUS_KAZU_CHOICES, default=ABERTU, db_index=True, verbose_name=_("Status Kazu"))

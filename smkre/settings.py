@@ -271,12 +271,6 @@ MAPBOX_TOKEN = env('MAPBOX_TOKEN', default='')
 
 PORTAL_LIMITE_SUBAR = 3              # númeru 1–2 hatudu "< 3" (privasidade)
 
-# KoboToolbox (opsionál): tarik submission → kria Kazu (haree kazu/kobo.py no `manage.py sync_kobo`).
-# Token API: rai iha .env DE'IT, labele iha kódigu. Mamuk → koneksaun Kobo la ativu.
-KOBO_BASE_URL = env('KOBO_BASE_URL', default='https://kf.kobotoolbox.org')
-KOBO_TOKEN = env('KOBO_TOKEN', default='')
-KOBO_ASSET_UID = env('KOBO_ASSET_UID', default='')
-
 
 # ══════════════════════════════════════════════
 # 8. REST FRAMEWORK & JWT (sinkron offline)
