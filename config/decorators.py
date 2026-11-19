@@ -3,6 +3,7 @@ from functools import wraps
 from users.auth_utils import c_user_group
 
 
+# dekorador: utilizador login ona la bele asesu (ex. pájina login) → redireta ba varanda
 def unauthenticated_user(view_func):
 	@wraps(view_func)
 	def wrapper_func(request, *args, **kwargs):
@@ -13,6 +14,7 @@ def unauthenticated_user(view_func):
 	return wrapper_func
 
 
+# dekorador: permite view ba papél (role) ne'ebé autoriza de'it, se la'ós → pájina 403
 def allowed_users(allowed_roles=[]):
 	def decorator(view_func):
 		@wraps(view_func)

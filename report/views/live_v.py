@@ -16,8 +16,8 @@ from config.rbac import ROLE_DASHBOARD, ROLE_USER_MANAGE
 from report.live import dadus, CACHE_SEG
 
 
+# versaun live.css + live.js (data muda + tamañu): browser hetan file foun kedas (mós sein hash iha naran)
 def _versaun_aset():
-	# Versaun live.css + live.js (data muda + tamañu): browser hetan file foun kedas (mós sein hash iha naran)
 	from django.contrib.staticfiles import finders
 	partes = []
 	for a in ('main/css/live.css', 'main/js/live.js'):
@@ -33,12 +33,14 @@ from report.models import LiveEkran
 ATUALIZA_SEG = 30
 
 
+# resposta JSON dadus Live ho Cache-Control privadu (la rai iha cache browser ka proxy)
 def _resposta(d):
 	r = JsonResponse(d)
 	r['Cache-Control'] = 'private, no-store'
 	return r
 
 
+# renderiza pájina Live (ekran tomak); token iha URL la sai ba fatin seluk (Referrer-Policy)
 def _pajina(request, data_url, naran):
 	r = render(request, 'report/live.html', {'data_url': data_url, 'naran_ekran': naran, 'atualiza_seg': ATUALIZA_SEG, 'v': _versaun_aset()})
 	r['Referrer-Policy'] = 'no-referrer'             # token iha URL la sai ba fatin seluk
@@ -46,6 +48,7 @@ def _pajina(request, data_url, naran):
 	return r
 
 
+# ekran Live ba staf ho login (/report/live/)
 @login_required
 @allowed_users(allowed_roles=ROLE_DASHBOARD)
 @never_cache
@@ -53,12 +56,14 @@ def LiveStaff(request):
 	return _pajina(request, reverse('report-live-dadus'), '')
 
 
+# dadus JSON ba ekran Live staf (agregadu, atualiza automátiku)
 @login_required
 @allowed_users(allowed_roles=ROLE_DASHBOARD)
 def LiveStaffDadus(request):
 	return _resposta(dadus())
 
 
+# buka ekran Live husi token (404 se la iha); atualiza "uza ikus" kada 5 minutu
 def _ekran(token):
 	ek = LiveEkran.husi_token(token)
 	if not ek:
@@ -69,17 +74,20 @@ def _ekran(token):
 	return ek
 
 
+# ekran kiosk /live/<token>/ (link privadu, la presiza login)
 @never_cache
 def LiveKiosk(request, token):
 	ek = _ekran(token)
 	return _pajina(request, reverse('live-kiosk-dadus', args=[token]), ek.naran)
 
 
+# dadus JSON ba ekran kiosk (verifika token uluk)
 def LiveKioskDadus(request, token):
 	_ekran(token)
 	return _resposta(dadus())
 
 
+# lista ekran Live (link privadu) ba Admin jere
 @login_required
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 def LiveEkranList(request):
@@ -91,6 +99,7 @@ def LiveEkranList(request):
 	return render(request, 'report/live_ekran.html', context)
 
 
+# kria link ekran Live foun; link kompletu hatudu dala ida de'it (depois rai hash)
 @login_required
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 @require_POST
@@ -102,6 +111,7 @@ def LiveEkranAdd(request):
 	return redirect('report-live-ekran')
 
 
+# kansela link ekran Live (la bele loke tan)
 @login_required
 @allowed_users(allowed_roles=ROLE_USER_MANAGE)
 @require_POST

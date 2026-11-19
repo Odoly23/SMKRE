@@ -8,8 +8,8 @@ FOTO_MAX_PX = 1600
 FOTO_QUALITY = 80
 
 
+# kompresa foto ba ~1 MB (JPEG, máximu 1600px) no hamoos metadata EXIF (privasidade)
 def compress_image(f, max_px=FOTO_MAX_PX, quality=FOTO_QUALITY):
-	# Kompresa foto ba ~1 MB (JPEG, maximu 1600px) no hamoos metadata EXIF (privasidade)
 	try:
 		img = Image.open(f)
 		img = ImageOps.exif_transpose(img)

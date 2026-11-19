@@ -7,10 +7,12 @@ from users.models import Pesoal, PesoalUser
 PASSWORD = 'Teste#Seguru-2026'
 
 
+# prepara dadus master (munisípiu, papél, admin) ba teste
 def setup_master():
 	call_command('setup_smkre', verbosity=0, stdout=open('/dev/null', 'w'))
 
 
+# kria utilizador teste ho papél (role) no pesoal iha munisípiu ida
 def make_user(role, email=None, munisipiu_code='LIQ', must_change=False, password=PASSWORD):
 	email = email or f'{role}@teste.tl'
 	user = User.objects.create_user(username=email, email=email, password=password)

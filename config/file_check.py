@@ -29,6 +29,7 @@ ZIP_MAX_DESKOMPRIME = 200 * 1024 * 1024            # proteje kontra zip-bomba
 TESTU_PERIGU = re.compile(rb'<\s*(script|html|iframe|object|embed|svg)\b|<\?php', re.I)
 
 
+# lee konteúdu file (tomak ka byte n dahuluk), depois fila fali pozisaun ba komesu
 def _le(f, n=None):
 	f.seek(0)
 	d = f.read() if n is None else f.read(n)
@@ -68,6 +69,7 @@ def deteta_tipu(f):
 	return None
 
 
+# valida imajen ho Pillow (descodifika pixel hotu) + tetu kódigu subar iha laran (anti poliglota)
 def _valida_imajen(f):
 	from PIL import Image
 	try:
@@ -87,6 +89,7 @@ def _valida_imajen(f):
 		raise ValidationError(_('Imajen iha kódigu subar. File la permite.'))
 
 
+# valida PDF: tenke kompletu (%%EOF) no la iha JavaScript/Launch/file embutidu
 def _valida_pdf(f):
 	dadus = _le(f)
 	if b'%%EOF' not in dadus[-2048:]:
@@ -95,6 +98,7 @@ def _valida_pdf(f):
 		raise ValidationError(_('PDF iha JavaScript ka file subar. Ba seguransa, rai fali hanesan PDF simples (Print → PDF).'))
 
 
+# valida DOCX/XLSX: ZIP Office loos, la iha makro (vbaProject.bin) ka zip-bomba
 def _valida_office(f, tipu):
 	try:
 		with zipfile.ZipFile(f) as z:
@@ -112,6 +116,7 @@ def _valida_office(f, tipu):
 		raise ValidationError(_('File iha makro ka programa. Rai fali hanesan .%(ext)s simples.') % {'ext': tipu})
 
 
+# valida CSV: la iha byte nulu ka kódigu HTML/script, no bele descodifika (UTF-8/cp1252/latin-1)
 def _valida_csv(f):
 	dadus = _le(f, 64 * 1024)
 	if b'\x00' in dadus or TESTU_PERIGU.search(dadus):

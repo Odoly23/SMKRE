@@ -7,8 +7,8 @@ from users.auth_utils import c_user_group, c_user_pesoal
 LANG_FLAGS = {'tet': 'tl', 'pt': 'pt', 'en': 'gb', 'id': 'id'}
 
 
+# variavel ne'ebé template hotu bele uza: group, pesoal, menu, RBAC, token mapa
 def smkre(request):
-	# Variavel ne'ebé template hotu bele uza: group, pesoal, menu, RBAC
 	group, pesoal, grupu, bnav = None, None, [], []
 	if request.user.is_authenticated:
 		group = c_user_group(request.user)

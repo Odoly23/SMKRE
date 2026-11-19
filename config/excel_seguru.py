@@ -15,11 +15,13 @@ GATILLU = ('=', '+', '-', '@', '\t', '\r', '\n', '|', '\x00')
 _NUMERIKU = re.compile(r'^[-+]?[\d.,%\s-]+$')
 
 
+# prefix apóstrofu se valór hahú ho karakter gatillu fórmula no la'ós númeru (anti formula injection)
 def seguru(valor):
 	if isinstance(valor, str) and valor[:1] in GATILLU and not _NUMERIKU.match(valor):
 		return "'" + valor
 	return valor
 
 
+# aplika seguru() ba selula hotu iha lina ida (uza iha export Excel/CSV)
 def lina_seguru(lina):
 	return [seguru(v) for v in lina]

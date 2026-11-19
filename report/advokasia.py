@@ -32,8 +32,8 @@ EVIK_GRUPU = [
 ]
 
 
+# kazu ne'ebé hetan ona eviksaun ("Eviksaun akontese ona? = Sin") — fatin IDA (Dashboard, Gráfiku, Live)
 def kazu_eviksaun(qs):
-	# Kazu ne'ebé hetan ona eviksaun ("Eviksaun akontese ona? = Sin") — fatin IDA (Dashboard, Gráfiku, Live)
 	return _baze(qs).filter(eviksaun__eviksaun_akontese='SIN')
 
 
@@ -52,8 +52,8 @@ def tribunal_rezumu(qs):
 	}
 
 
+# kazu seidauk rezolve: la iha status "Rezolve ona" ka "Abandona" (laiha dadus = seidauk)
 def seidauk_rezolve():
-	# Kazu seidauk rezolve: la iha status "Rezolve ona" ka "Abandona" (laiha dadus = seidauk)
 	return ~Q(segimentu__status_rezolusaun__in=REZ_REZOLVE + ['ABANDONA'])
 
 
@@ -72,6 +72,7 @@ def filtru(grupu, valor):
 	return None
 
 
+# label ba kolun relatóriu tabular (titulu lista bainhira klik númeru)
 def label_filtru(grupu, valor):
 	if grupu == 'total':
 		return _('Total')
@@ -85,8 +86,8 @@ def label_filtru(grupu, valor):
 	return f'{naran}: ' + next((str(l) for k, l, _q in tab if k == valor), valor)
 
 
+# report_queryset uza distinct(); agregasaun iha queryset foun ho pk de'it (la duplika kona join)
 def _baze(qs):
-	# report_queryset uza distinct(); agregasaun iha queryset foun ho pk de'it (la duplika)
 	return Kazu.objects.filter(pk__in=qs.values('pk'))
 
 
@@ -101,14 +102,15 @@ def _konta(qs, campo, choices, sem=_l('La iha dadus')):
 	return sorted(lista, key=lambda x: -x[2])
 
 
+# soma populasaun afetada (uma-kain, mane, feto, labarik, total) husi kazu sira
 def _soma_afetadu(qs):
 	a = UmaKainAfetada.objects.filter(kazu__in=qs).aggregate(
 		uma_kain=Sum('uma_kain'), mane=Sum('mane'), feto=Sum('feto'), labarik=Sum('labarik'), total=Sum('total_ema'))
 	return {k: v or 0 for k, v in a.items()}
 
 
+# testu badak husi n item boot liu: "Dili (87), Oecusse (13)"
 def _top(lista, n=2):
-	# Testu badak: "Dili (87), Oecusse (13)"
 	return ', '.join(f'{l} ({v})' for _k, l, v in lista[:n])
 
 

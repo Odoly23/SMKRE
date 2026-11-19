@@ -14,6 +14,7 @@ MAPA_MAX_PIN = 3000
 KOR_DESIZAUN = {'MONITORIZASAUN': 'blue', 'ADVOKASIA': 'violet', 'ARKIVU': 'green'}
 
 
+# hare mapa konflitu rai: pin kada kazu (iha GPS) + hotspot total kazu kada munisípiu
 @login_required
 @allowed_users(allowed_roles=ROLE_DASHBOARD)
 def reportMapa(request):

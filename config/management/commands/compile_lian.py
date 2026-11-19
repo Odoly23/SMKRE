@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand
 class Command(BaseCommand):
 	help = "Compila tradusaun locale/*/LC_MESSAGES/django.po → django.mo (la presiza gettext / msgfmt)."
 
+	# compila tradusaun .po → .mo ba locale hotu (la presiza gettext/msgfmt)
 	def handle(self, *args, **options):
 		for base in settings.LOCALE_PATHS:
 			for po_path in sorted(Path(base).glob('*/LC_MESSAGES/*.po')):

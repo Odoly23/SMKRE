@@ -13,11 +13,13 @@ from kazu.models import UmaKainAfetada, STATUS_CHOICES
 from report.utils import report_queryset, STATUS_RELATORIU, filtru_eviksaun
 
 
+# baze API relatóriu: sesaun + papél (role) ROLE_DASHBOARD de'it
 class _ReportAPI(APIView):
 	authentication_classes = [SessionAuthentication]
 	permission_classes = [IsAuthenticated, HasRole(*ROLE_DASHBOARD)]
 
 
+# API: total kazu kada munisípiu (dadus ba gráfiku)
 class APIKazuMun(_ReportAPI):
 	def get(self, request, format=None):
 		label, obj = list(), list()
@@ -30,6 +32,7 @@ class APIKazuMun(_ReportAPI):
 		return Response(data)
 
 
+# API: total kazu kada tipu konflitu (dadus ba gráfiku)
 class APIKazuTipu(_ReportAPI):
 	def get(self, request, format=None):
 		label, obj = list(), list()
@@ -41,6 +44,7 @@ class APIKazuTipu(_ReportAPI):
 		return Response({'label': label, 'obj': obj})
 
 
+# API: total kazu kada status (dadus ba gráfiku)
 class APIKazuStatus(_ReportAPI):
 	def get(self, request, format=None):
 		label, obj = list(), list()
@@ -53,8 +57,8 @@ class APIKazuStatus(_ReportAPI):
 		return Response({'label': label, 'obj': obj, 'code': STATUS_RELATORIU})
 
 
+# API tendénsia: kazu kada fulan (fulan 12 ikus) — total no deslokamentu/eviksaun
 class APIKazuTendensia(_ReportAPI):
-	# Tendénsia: kazu kada fulan (fulan 12 ikus) — total no deslokamentu/eviksaun
 	def get(self, request, format=None):
 		kazu = report_queryset(request).exclude(data_relatoriu=None)
 		hoje = date.today()
@@ -79,8 +83,8 @@ class APIKazuTendensia(_ReportAPI):
 		return Response({'label': label, 'total': [v[0] for v in months.values()], 'eviksaun': [v[1] for v in months.values()]})
 
 
+# API: populasaun afetada tuir munisípiu (gráfiku stacked: mane/feto/labarik)
 class APIAfetadu(_ReportAPI):
-	# Populasaun afetada tuir munisípiu (stacked)
 	def get(self, request, format=None):
 		kazu = report_queryset(request)
 		afetadu = UmaKainAfetada.objects.filter(kazu__in=kazu)
@@ -94,8 +98,8 @@ class APIAfetadu(_ReportAPI):
 		return Response({'label': label, 'mane': mane, 'feto': feto, 'labarik': labarik})
 
 
+# API mapa: total tuir munisípiu (hotspot) + pin kada kazu (koordenada GPS)
 class APIMapa(_ReportAPI):
-	# Mapa: total tuir munisípiu (hotspot) + pin kada kazu (koordenada GPS)
 	def get(self, request, format=None):
 		kazu = report_queryset(request)
 		mun = {r['munisipiu__code']: r['n'] for r in kazu.order_by().values('munisipiu__code').annotate(n=Count('id', distinct=True))}   # order_by(): la tama iha GROUP BY

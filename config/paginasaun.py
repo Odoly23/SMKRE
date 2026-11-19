@@ -4,6 +4,6 @@ from django.core.paginator import Paginator
 POR_PAJINA = 10
 
 
+# fahe queryset ba pájina; ?page sala (abc / 999) → pájina válida (la iha erru 404 ka 500)
 def pajina(request, qs, por=POR_PAJINA):
-	# Pájina sala (?page=abc / 999) → pájina válida (la iha erru 404 ka 500)
 	return Paginator(qs, por).get_page(request.GET.get('page'))

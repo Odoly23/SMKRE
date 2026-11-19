@@ -11,10 +11,10 @@ from report.utils import report_queryset
 from report.views.dash_v import _list
 
 
+# lista kazu husi relatóriu tabular (klik númeru iha Dashboard); mun=0: munisípiu hotu
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rTabularList(request, mun, grupu, valor):
-	# mun=0: munisípiu hotu
 	q = advokasia.filtru(grupu, valor)
 	if q is None:
 		raise Http404

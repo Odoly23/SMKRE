@@ -88,8 +88,8 @@ def reportDash(request):
 	return render(request, 'report/dash.html', context)
 
 
+# dadus ba gráfiku advokasia (status kazu, tribunál, Governu foti rai, eviksaun) + testu rezumu
 def _graf_advokasia(d):
-	# Dadus ba gráfiku foun (status kazu, tribunál, Governu foti rai, eviksaun) + testu rezumu
 	par = lambda lista: [[str(l), n] for _k, l, n in lista]
 	return {
 		'tinan': par(d['tinan']), 'status': par(d['status']), 'tribunal': par(d['tribunal']),
@@ -119,6 +119,7 @@ def reportChart(request):
 
 # ══════════════ LISTA (klik númeru iha dashboard) ══════════════
 
+# baze lista kazu (klik númeru iha dashboard): pájina 10 (server) + link "Excel kompletu"
 def _list(request, objects, legend, template='report/list.html'):
 	group = request.user.groups.all()[0].name
 	objects = objects.select_related('munisipiu', 'postu', 'suku', 'segimentu', 'created_by__pesoaluser__pesoal') \
@@ -134,24 +135,28 @@ def _list(request, objects, legend, template='report/list.html'):
 	return render(request, template, context)
 
 
+# lista kazu hotu (tuir filtru)
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rAllList(request):
 	return _list(request, report_queryset(request), _('Lista Kazu Hotu'))
 
 
+# lista kazu eviksaun aktivu (status seidauk remata)
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rAktivuList(request):
 	return _list(request, eviksaun_aktivu(report_queryset(request)), _('Lista Kazu Eviksaun Aktivu'))
 
 
+# lista kazu urjente (la'ós remata)
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rUrjenteList(request):
 	return _list(request, report_queryset(request).filter(urjente=True).exclude(status=COMPLETED), _('Lista Kazu Urjente'))
 
 
+# lista kazu tuir status ida
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rStatusList(request, status):
@@ -159,6 +164,7 @@ def rStatusList(request, status):
 	return _list(request, report_queryset(request).filter(status=status), _('Lista Kazu Status %(s)s') % {'s': label})
 
 
+# lista kazu tuir tipu konflitu
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rTipuList(request, pk):
@@ -166,6 +172,7 @@ def rTipuList(request, pk):
 	return _list(request, report_queryset(request).filter(tipu_konflitu=obj), _('Lista Kazu Tipu %(s)s') % {'s': obj.name})
 
 
+# lista kazu tuir munisípiu
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rMunisipiuList(request, pk):
@@ -173,12 +180,14 @@ def rMunisipiuList(request, pk):
 	return _list(request, report_queryset(request).filter(munisipiu=obj), _('Lista Kazu Munisípiu %(s)s') % {'s': obj.name})
 
 
+# lista kazu tuir tinan (data relatóriu)
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rTinanList(request, tinan):
 	return _list(request, report_queryset(request).filter(data_relatoriu__year=tinan), _('Lista Kazu Tinan %(s)s') % {'s': tinan})
 
 
+# lista kazu tuir investigadór (sira mak kria)
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rStaffList(request, pk):

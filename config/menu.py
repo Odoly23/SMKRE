@@ -46,6 +46,7 @@ MENU = [
 BOTTOM_NAV = ['home', 'kazu', 'kazu-add', 'sinkron', 'account']
 
 
+# filtra item menu tuir papél (role) no autorizasaun; hamoos item ho url_name ne'ebé seidauk iha
 def _items(group, user, entries):
 	items, ativu = [], None
 	for e in entries:
@@ -67,6 +68,7 @@ def _items(group, user, entries):
 	return items
 
 
+# lista grupu menu (navbar dropdown / sidebar) ba papél ida; grupu ho item ida de'it → link simples
 def menu_grupu_for(group, user=None):
 	grupu = []
 	for key, icon, label, entries in MENU:
@@ -77,11 +79,12 @@ def menu_grupu_for(group, user=None):
 	return grupu
 
 
+# lista menu simples (la iha grupu) ba papél ida — uza iha menu okos HP
 def menu_for(group, user=None):
-	# Lista simples (menu okos HP)
 	return [i for g in menu_grupu_for(group, user) for i in g['items']]
 
 
+# menu okos HP (máximu 5 item) ba papél ida; aumenta "Konta" nafatin
 def bottom_nav_for(group, user=None):
 	items = {i['page']: i for i in menu_for(group, user)}
 	items['account'] = {'page': 'account', 'url': reverse('user-account'), 'icon': 'fa-user', 'label': _('Konta')}

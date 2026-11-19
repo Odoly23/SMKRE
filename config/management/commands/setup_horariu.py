@@ -12,6 +12,7 @@ HORARIU = [
 class Command(BaseCommand):
 	help = "Rejista knaar automátiku (Celery Beat) kada loron. Seguru atu la'o dala barak."
 
+	# rejista knaar automátiku (Celery Beat) kada loron; seguru atu la'o dala barak
 	def handle(self, *args, **options):
 		for naran, knaar, oras, minutu in HORARIU:
 			crontab, _c = CrontabSchedule.objects.get_or_create(minute=str(minutu), hour=str(oras), day_of_week='*',

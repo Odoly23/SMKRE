@@ -47,8 +47,8 @@ ROLE_LEGAL_AUTORIZA = [SUPERADMIN, ADMIN]    # ativa input legál ba Ofisiál Le
 ROLE_INPUT_OFFLINE = [INVESTIGADOR, OFISIAL_LEGAL]       # autorizasaun input / app offline
 
 
+# papél (role) ne'ebé grupu ida bele fó: Superadmin → hotu; Admin → hotu exeptu Superadmin
 def roles_admin_can_assign(group):
-	# Superadmin bele kria role hotu; Admin bele kria role hotu exeptu superadmin
 	if group == SUPERADMIN:
 		return ROLE_CHOICES
 	if group == ADMIN:

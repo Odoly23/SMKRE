@@ -9,14 +9,14 @@ STATUS_AKTIVU = [SYNCED, VERIFIED, APPROVED, 'FOLLOWUP']
 TIPU_EVIKSAUN = ['GOV-RAI-ESTADU', 'GOV-RAI-ABANDONADU', 'DESLOKAMENTU']
 
 
+# Q ba kazu eviksaun: tipu eviksaun, "Eviksaun akontese ona = Sin" ka iha insidente eviksaun
 def filtru_eviksaun():
-	# Kazu eviksaun: tipu eviksaun, "Eviksaun akontese ona = Sin" ka iha insidente eviksaun
 	from django.db.models import Q
 	return Q(tipu_konflitu__code__in=TIPU_EVIKSAUN) | Q(eviksaun__eviksaun_akontese='SIN') | Q(insidente__isnull=False)
 
 
+# kazu ba relatóriu (tuir papél utilizador) + filtru GET: munisipiu, tipu, status, tinan
 def report_queryset(request):
-	# Kazu ba relatóriu + filtru GET: munisipiu, tipu, status, tinan
 	qs = kazu_queryset(request.user).exclude(status__in=[DRAFT, ONGOING, PENDING, CANCELED])
 	g = request.GET
 	if g.get('munisipiu'):
@@ -30,13 +30,13 @@ def report_queryset(request):
 	return qs.distinct()
 
 
+# kazu eviksaun aktivu: status seidauk remata
 def eviksaun_aktivu(qs):
-	# Kazu eviksaun aktivu: status seidauk remata
 	return qs.filter(status__in=STATUS_AKTIVU).filter(filtru_eviksaun()).distinct()
 
 
+# testu Highcharts iha lian utilizador (json_script → smkre_charts.js)
 def chart_lang():
-	# Testu Highcharts iha lian utilizador (json_script → smkre_charts.js)
 	from django.utils.translation import gettext as _
 	return {
 		'loading': _('Karrega…'), 'noData': _('La iha dadus'),
@@ -48,8 +48,8 @@ def chart_lang():
 	}
 
 
+# testu DataTables iha lian utilizador
 def dt_lang():
-	# Testu DataTables iha lian utilizador
 	from django.utils.translation import gettext as _
 	return {
 		'search': _('Buka:'), 'lengthMenu': _('Hatudu _MENU_'), 'info': _('_START_–_END_ husi _TOTAL_'),

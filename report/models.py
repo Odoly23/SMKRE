@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+# hash SHA-256 husi token (link Live rai hash de'it, la'ós token nu'udar testu)
 def token_hash(token):
 	return hashlib.sha256((token or '').encode()).hexdigest()
 
@@ -27,12 +28,14 @@ class LiveEkran(models.Model):
 	def __str__(self):
 		return self.naran
 
+	# kria ekran Live foun + token aleatóriu; retorna (objetu, token kompletu) — token hatudu dala ida de'it
 	@classmethod
 	def kria(cls, naran, user):
 		token = secrets.token_urlsafe(32)
 		obj = cls.objects.create(naran=naran, token_hash=token_hash(token), created_by=user)
 		return obj, token
 
+	# buka ekran Live ativu husi token (kompara ho hash); None se la iha ka la ativu
 	@classmethod
 	def husi_token(cls, token):
 		return cls.objects.filter(token_hash=token_hash(token), ativu=True).first()

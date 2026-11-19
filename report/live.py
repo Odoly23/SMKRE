@@ -11,13 +11,14 @@ CACHE_SEG = 20
 FULAN = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 
+# kazu ne'ebé haruka ona ba server (la'ós rascunho HP, la'ós kanseladu) — baze ba Live
 def _kazu():
 	from kazu.models import Kazu, DRAFT, ONGOING, PENDING, CANCELED
 	return Kazu.objects.exclude(status__in=[DRAFT, ONGOING, PENDING, CANCELED])
 
 
+# eventu ikus ba Live: kódigu + munisípiu + saida mak akontese (anónimu, la iha naran ka kontaktu)
 def _atividade(limit=14):
-	# Eventu ikus: kódigu + munisípiu + saida mak akontese (anónimu)
 	from kazu.models import KazuHistoria, STATUS_KAZU_CHOICES, DESIZAUN_RBR_CHOICES
 	from legal.models import SurveiLegal
 	testu = {
@@ -43,6 +44,7 @@ def _atividade(limit=14):
 	return [dict(e, tempu=timezone.localtime(e['tempu']).isoformat()) for e in ev[:limit]]
 
 
+# kalkula dadus hotu ba ekran Live (KPI, tendénsia fulan, mapa, atividade) — agregadu no anónimu
 def kalkula():
 	from custom.models import Munisipiu, TipuKonflitu
 	from kazu.models import UmaKainAfetada, DESIZAUN_RBR_CHOICES, SYNCED, VERIFIED, APPROVED, COMPLETED, ADVOKASIA
@@ -103,8 +105,8 @@ def kalkula():
 	}
 
 
+# painel eviksaun ba Live: kazu hetan eviksaun + konsultasaun / notifikasaun / forsa (regra hanesan Gráfiku)
 def _eviksaun(kazu):
-	# Painel vertikál: kazu hetan eviksaun + konsultasaun / notifikasaun / forsa (regra hanesan Gráfiku)
 	from kazu.models.opsaun import SIN_LAE_CHOICES
 	from report.advokasia import kazu_eviksaun, _konta, _soma_afetadu
 	evik = kazu_eviksaun(kazu)
@@ -113,6 +115,7 @@ def _eviksaun(kazu):
 		'konsultasaun': lista('konsultasaun_molok'), 'notifikasaun': lista('notifikasaun_klaru'), 'forsa': lista('uza_forsa')}
 
 
+# dadus Live ho cache (CACHE_SEG): ekran barak ka atualiza beibeik la rekalkula kada rekesta
 def dadus():
 	d = cache.get('report-live')
 	if d is None:
