@@ -22,11 +22,10 @@ class APIKazuMun(_ReportAPI):
 	def get(self, request, format=None):
 		label, obj = list(), list()
 		kazu = report_queryset(request)
-		muns = Munisipiu.active.all()
-		for m in muns:
-			k = kazu.filter(munisipiu=m).count()
+		n = dict(kazu.order_by().values_list('munisipiu').annotate(n=Count('pk', distinct=True)).values_list('munisipiu', 'n'))
+		for m in Munisipiu.active.all():
 			label.append(m.name)
-			obj.append(k)
+			obj.append(n.get(m.pk, 0))
 		data = {'label': label, 'obj': obj}
 		return Response(data)
 
@@ -35,9 +34,10 @@ class APIKazuTipu(_ReportAPI):
 	def get(self, request, format=None):
 		label, obj = list(), list()
 		kazu = report_queryset(request)
+		n = dict(kazu.order_by().values_list('tipu_konflitu').annotate(n=Count('pk', distinct=True)).values_list('tipu_konflitu', 'n'))
 		for t in TipuKonflitu.active.all():
 			label.append(t.name)
-			obj.append(kazu.filter(tipu_konflitu=t).count())
+			obj.append(n.get(t.pk, 0))
 		return Response({'label': label, 'obj': obj})
 
 
@@ -46,9 +46,10 @@ class APIKazuStatus(_ReportAPI):
 		label, obj = list(), list()
 		kazu = report_queryset(request)
 		status_label = dict(STATUS_CHOICES)
+		n = dict(kazu.order_by().values_list('status').annotate(n=Count('pk', distinct=True)).values_list('status', 'n'))
 		for s in STATUS_RELATORIU:
 			label.append(str(status_label[s]))
-			obj.append(kazu.filter(status=s).count())
+			obj.append(n.get(s, 0))
 		return Response({'label': label, 'obj': obj, 'code': STATUS_RELATORIU})
 
 

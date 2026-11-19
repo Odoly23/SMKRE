@@ -1,5 +1,7 @@
 from io import BytesIO
 from django.test import TestCase
+from django.test.utils import CaptureQueriesContext
+from django.db import connection
 from django.urls import reverse
 from django.utils import timezone
 from openpyxl import load_workbook
@@ -59,6 +61,24 @@ class DashTest(ReportBase):
 		self.client.force_login(self.analista)
 		r = self.client.get(reverse('report-dash'), {'munisipiu': self.liq.pk})
 		self.assertEqual(r.context['total'], 1)
+
+	def test_dashboard_query_count_konstante(self):
+		# Regresaun: grupu = GROUP BY ida (la'ós loop filter-count). Númeru query la tenke aumenta
+		# bainhira kazu aumenta — se la'ós, karik loop filter-count mak tama fali.
+		self.client.force_login(self.analista)
+		hoje = timezone.localdate()
+		with CaptureQueriesContext(connection) as c1:
+			self.client.get(reverse('report-dash'))
+		for i in range(40):
+			k = Kazu.objects.create(munisipiu=self.dil, status='VERIFIED', created_by=self.inv, kode=f'Q-{i}',
+				data_relatoriu=hoje, konsentimentu=True)
+			k.tipu_konflitu.set([self.tradisional])
+			UmaKainAfetada.objects.create(kazu=k, uma_kain=1, total_ema=2, mane=1, feto=1)
+		with CaptureQueriesContext(connection) as c2:
+			self.client.get(reverse('report-dash'))
+		# Toleránsia ki'ik (ex. prefetch pajina): query labele kresi tuir númeru kazu.
+		self.assertLessEqual(len(c2.captured_queries), len(c1.captured_queries) + 2,
+			f'query kresi: {len(c1.captured_queries)} → {len(c2.captured_queries)}')
 
 	def test_lista_klik_numeru(self):
 		self.client.force_login(self.analista)

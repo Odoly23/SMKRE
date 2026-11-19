@@ -1,6 +1,6 @@
 """Dadus ba ekran Live: agregadu no anónimu de'it (la iha naran, kontaktu ka testu nota).
 Cache segundu 20: ekran barak ka atualiza beibeik la todan server."""
-from datetime import timedelta
+from datetime import datetime, time, timedelta
 from django.core.cache import cache
 from django.db.models import Count, Sum, Q
 from django.db.models.functions import TruncMonth, TruncDate, Coalesce
@@ -56,6 +56,10 @@ def kalkula():
 	verifikadu = kazu.filter(status__in=[VERIFIED, APPROVED, COMPLETED, 'FOLLOWUP'])
 	afe = UmaKainAfetada.objects.filter(kazu__in=kazu).aggregate(uk=Sum('uma_kain'), ema=Sum('total_ema'))
 	semana = hoje - timedelta(days=hoje.weekday())
+	# Rentang datetime (la'ós created_at__date=…): la bungkus kolun ho fungsi → index bele uza
+	tz = timezone.get_current_timezone()
+	inisiu_semana = timezone.make_aware(datetime.combine(semana, time()), tz)
+	inisiu_kotuk = inisiu_semana - timedelta(days=7)
 	kpi = {
 		'total': kazu.count(),
 		'verifikadu': verifikadu.count(),
@@ -67,13 +71,13 @@ def kalkula():
 		'ema': afe['ema'] or 0,
 		'legal': kazu.filter(segimentu__desizaun_rbr=ADVOKASIA).count(),   # Desizaun RbR: Advokasia ativu
 		'survei_hein': SurveiLegal.objects.filter(status=SurveiLegal.HARUKA).count(),
-		'semana': kazu.filter(created_at__date__gte=semana).count(),
-		'semana_kotuk': kazu.filter(created_at__date__gte=semana - timedelta(days=7), created_at__date__lt=semana).count(),
+		'semana': kazu.filter(created_at__gte=inisiu_semana).count(),
+		'semana_kotuk': kazu.filter(created_at__gte=inisiu_kotuk, created_at__lt=inisiu_semana).count(),
 	}
 	# Tendénsia fulan 12 (data simu kazu; mamuk → data kria)
 	hahu = (hoje.replace(day=1) - timedelta(days=330)).replace(day=1)
 	data_kazu = kazu.annotate(d=Coalesce('data_relatoriu', TruncDate('created_at')))
-	por_fulan = dict(data_kazu.filter(d__gte=hahu).annotate(f=TruncMonth('d')).values('f').annotate(n=Count('pk')).values_list('f', 'n'))
+	por_fulan = dict(data_kazu.order_by().filter(d__gte=hahu).annotate(f=TruncMonth('d')).values('f').annotate(n=Count('pk')).values_list('f', 'n'))
 	por_fulan = {(k.year, k.month): v for k, v in por_fulan.items() if k}
 	fulan, y, m = [], hahu.year, hahu.month
 	for _i in range(12):
@@ -81,10 +85,10 @@ def kalkula():
 		m += 1
 		if m > 12:
 			y, m = y + 1, 1
-	mun_n = dict(kazu.values_list('munisipiu').annotate(n=Count('pk')).values_list('munisipiu', 'n'))
+	mun_n = dict(kazu.order_by().values_list('munisipiu').annotate(n=Count('pk')).values_list('munisipiu', 'n'))
 	mun = [{'code': mm.code, 'name': mm.name, 'n': mun_n.get(mm.pk, 0)} for mm in Munisipiu.active.all()]
 	tipu = [{'name': t.name, 'n': t.n} for t in TipuKonflitu.active.annotate(n=Count('kazu', filter=Q(kazu__in=kazu), distinct=True)).order_by('-n') if t.n]
-	sk_n = dict(kazu.values_list('segimentu__desizaun_rbr').annotate(n=Count('pk')).values_list('segimentu__desizaun_rbr', 'n'))
+	sk_n = dict(kazu.order_by().values_list('segimentu__desizaun_rbr').annotate(n=Count('pk')).values_list('segimentu__desizaun_rbr', 'n'))
 	status_kazu = [{'name': str(l), 'code': c, 'n': sk_n.get(c, 0)} for c, l in DESIZAUN_RBR_CHOICES]   # Desizaun RbR
 	# Mapa: kazu ho GPS (kódigu + munisípiu de'it); foun = loron 7 ikus
 	pontu = [{'lat': float(k.latitude), 'lng': float(k.longitude), 'kode': k.kode or '', 'fatin': k.munisipiu.name,

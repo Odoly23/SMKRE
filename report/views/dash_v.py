@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from config.paginasaun import pajina
 from django.contrib.auth.models import User
-from django.db.models import Sum
+from django.db.models import Sum, Count
+from django.db.models.functions import ExtractYear
 from django.shortcuts import render, get_object_or_404
 from django.utils.translation import gettext as _
 from config.decorators import allowed_users
@@ -24,33 +25,35 @@ def reportDash(request):
 	tot_uma_kain = afetadu.aggregate(t=Sum('uma_kain'))['t'] or 0
 	tot_remata = kazu.filter(status=COMPLETED).count()
 	tot_urjente = kazu.filter(urjente=True).exclude(status=COMPLETED).count()
+	# Kada grupu = QUERY IDA (GROUP BY), la'ós loop filter-count (evita query ×N).
+	# .order_by() mamuk: hamoos ordem default (Meta) atu la tama iha GROUP BY no fahe grupu.
 	status_label = dict(STATUS_CHOICES)
+	n_status = dict(kazu.order_by().values_list('status').annotate(n=Count('pk', distinct=True)).values_list('status', 'n'))
 	for s in STATUS_RELATORIU:
-		r1 = kazu.filter(status=s).count()
-		objects1.append([s, status_label[s], r1])
+		objects1.append([s, status_label[s], n_status.get(s, 0)])
+	n_tipu = dict(kazu.order_by().values_list('tipu_konflitu').annotate(n=Count('pk', distinct=True)).values_list('tipu_konflitu', 'n'))
 	tipus = TipuKonflitu.active.all()
 	for t in tipus:
-		r2 = kazu.filter(tipu_konflitu=t).count()
-		objects2.append([t, r2])
+		objects2.append([t, n_tipu.get(t.pk, 0)])
+	n_mun = dict(kazu.order_by().values_list('munisipiu').annotate(n=Count('pk', distinct=True)).values_list('munisipiu', 'n'))
 	muns = Munisipiu.active.all()
 	for m in muns:
-		r3 = kazu.filter(munisipiu=m).count()
-		objects3.append([m, r3])
-	tinan = sorted({d.year for d in kazu.exclude(data_relatoriu=None).values_list('data_relatoriu', flat=True)}, reverse=True)
-	for y in tinan:
-		r4 = kazu.filter(data_relatoriu__year=y).count()
-		objects4.append([y, r4])
+		objects3.append([m, n_mun.get(m.pk, 0)])
+	n_tinan = kazu.order_by().exclude(data_relatoriu=None).annotate(y=ExtractYear('data_relatoriu')).values_list('y').annotate(n=Count('pk', distinct=True))
+	for y, n in sorted(n_tinan, reverse=True):
+		objects4.append([y, n])
+	afe_mun = {r['kazu__munisipiu']: r for r in afetadu.order_by().values('kazu__munisipiu').annotate(
+		uma_kain=Sum('uma_kain'), total=Sum('total_ema'), mane=Sum('mane'), feto=Sum('feto'),
+		labarik=Sum('labarik'), katuas=Sum('katuas_ferik'), defisiensia=Sum('defisiensia'))}
 	for m in muns:
-		r5 = afetadu.filter(kazu__munisipiu=m).aggregate(
-			uma_kain=Sum('uma_kain'), total=Sum('total_ema'), mane=Sum('mane'), feto=Sum('feto'),
-			labarik=Sum('labarik'), katuas=Sum('katuas_ferik'), defisiensia=Sum('defisiensia'))
-		if any(r5.values()):
+		r5 = afe_mun.get(m.pk)
+		if r5 and any(v for k, v in r5.items() if k != 'kazu__munisipiu'):
 			objects5.append([m, r5])
+	n_staff = dict(kazu.order_by().values_list('created_by').annotate(n=Count('pk', distinct=True)).values_list('created_by', 'n'))
 	staff = User.objects.filter(groups__name=INVESTIGADOR).select_related('pesoaluser__pesoal')
 	for u in staff:
-		r6 = kazu.filter(created_by=u).count()
-		if r6:
-			objects6.append([u, r6])
+		if n_staff.get(u.pk):
+			objects6.append([u, n_staff[u.pk]])
 	context = {
 		'group': group, "page": "dashboard",
 		'total': total, 'tot_aktivu': tot_aktivu, 'tot_uma_kain': tot_uma_kain, 'tot_remata': tot_remata, 'tot_urjente': tot_urjente,
