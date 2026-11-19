@@ -1,6 +1,7 @@
 from io import BytesIO
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext
+from django.core.cache import cache
 from django.db import connection
 from django.urls import reverse
 from django.utils import timezone
@@ -13,6 +14,7 @@ from kazu.models import Kazu, UmaKainAfetada, InsidenteEviksaun
 
 class ReportBase(TestCase):
 	def setUp(self):
+		cache.clear()           # cache (LocMem) la rollback hanesan DB — hamoos atu teste la polui malu
 		setup_master()
 		self.inv = make_user(INVESTIGADOR)
 		self.analista = make_user(ANALISTA)
@@ -65,8 +67,10 @@ class DashTest(ReportBase):
 	def test_dashboard_query_count_konstante(self):
 		# Regresaun: grupu = GROUP BY ida (la'ós loop filter-count). Númeru query la tenke aumenta
 		# bainhira kazu aumenta — se la'ós, karik loop filter-count mak tama fali.
+		# cache.clear() molok kada medisaun: atu kalkula duni (la'ós simu rezultadu tuan iha cache).
 		self.client.force_login(self.analista)
 		hoje = timezone.localdate()
+		cache.clear()
 		with CaptureQueriesContext(connection) as c1:
 			self.client.get(reverse('report-dash'))
 		for i in range(40):
@@ -74,11 +78,21 @@ class DashTest(ReportBase):
 				data_relatoriu=hoje, konsentimentu=True)
 			k.tipu_konflitu.set([self.tradisional])
 			UmaKainAfetada.objects.create(kazu=k, uma_kain=1, total_ema=2, mane=1, feto=1)
+		cache.clear()
 		with CaptureQueriesContext(connection) as c2:
 			self.client.get(reverse('report-dash'))
 		# Toleránsia ki'ik (ex. prefetch pajina): query labele kresi tuir númeru kazu.
 		self.assertLessEqual(len(c2.captured_queries), len(c1.captured_queries) + 2,
 			f'query kresi: {len(c1.captured_queries)} → {len(c2.captured_queries)}')
+
+	def test_dashboard_cache_la_rekalkula(self):
+		# Rekesta daruak ho filtru hanesan: simu husi cache, la halo query kalkula.
+		self.client.force_login(self.analista)
+		cache.clear()
+		self.client.get(reverse('report-dash'))                  # prense cache
+		with CaptureQueriesContext(connection) as c:
+			self.client.get(reverse('report-dash'))              # simu husi cache
+		self.assertLess(len(c.captured_queries), 10, f'cache la uza: {len(c.captured_queries)} query')
 
 	def test_lista_klik_numeru(self):
 		self.client.force_login(self.analista)

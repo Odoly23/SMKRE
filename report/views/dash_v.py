@@ -1,6 +1,8 @@
+import hashlib
 from django.contrib.auth.decorators import login_required
 from config.paginasaun import pajina
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db.models import Sum, Count
 from django.db.models.functions import ExtractYear
 from django.shortcuts import render, get_object_or_404
@@ -12,11 +14,18 @@ from kazu.models import UmaKainAfetada, STATUS_CHOICES, COMPLETED
 from report import advokasia
 from report.utils import chart_lang, report_queryset, eviksaun_aktivu, STATUS_RELATORIU
 
+# Tempu cache ba dashboard/gráfiku (segundu): HP barak ka refresh beibeik la todan server.
+CACHE_SEG = 60
 
-@login_required
-@allowed_users(allowed_roles=ROLE_DASHBOARD)
-def reportDash(request):
-	group = request.user.groups.all()[0].name
+
+# chave cache tuir utilizador (kazu ne'ebé nia bele haree) no filtru GET
+def _chave_cache(prefix, request):
+	bruto = f'{request.user.pk}:{request.GET.urlencode()}'
+	return f'{prefix}:{hashlib.md5(bruto.encode()).hexdigest()}'
+
+
+# kalkula dadus todan dashboard (query GROUP BY) — rezultadu rai iha cache
+def _kalkula_dash(request):
 	objects1, objects2, objects3, objects4, objects5, objects6 = [], [], [], [], [], []
 	kazu = report_queryset(request)
 	total = kazu.count()
@@ -32,8 +41,7 @@ def reportDash(request):
 	for s in STATUS_RELATORIU:
 		objects1.append([s, status_label[s], n_status.get(s, 0)])
 	n_tipu = dict(kazu.order_by().values_list('tipu_konflitu').annotate(n=Count('pk', distinct=True)).values_list('tipu_konflitu', 'n'))
-	tipus = TipuKonflitu.active.all()
-	for t in tipus:
+	for t in TipuKonflitu.active.all():
 		objects2.append([t, n_tipu.get(t.pk, 0)])
 	n_mun = dict(kazu.order_by().values_list('munisipiu').annotate(n=Count('pk', distinct=True)).values_list('munisipiu', 'n'))
 	muns = Munisipiu.active.all()
@@ -54,14 +62,28 @@ def reportDash(request):
 	for u in staff:
 		if n_staff.get(u.pk):
 			objects6.append([u, n_staff[u.pk]])
-	context = {
-		'group': group, "page": "dashboard",
+	return {
 		'total': total, 'tot_aktivu': tot_aktivu, 'tot_uma_kain': tot_uma_kain, 'tot_remata': tot_remata, 'tot_urjente': tot_urjente,
 		'objects1': objects1, 'objects2': objects2, 'objects3': objects3,
 		'objects4': objects4, 'objects5': objects5, 'objects6': objects6,
-		'munisipiu_list': muns, 'tipu_list': tipus,
 		'adv': advokasia.advokasia(kazu), 't': advokasia.tabular(kazu),     # status kazu, tribunál, eviksaun, Governu foti rai + tabela munisípiu
-		'title': _('Dashboard Relatóriu'), 'legend': _('Dashboard Relatóriu')
+	}
+
+
+# hare dashboard relatóriu (totál, status, tipu, munisípiu, tinan, afetadu, staff)
+@login_required
+@allowed_users(allowed_roles=ROLE_DASHBOARD)
+def reportDash(request):
+	chave = _chave_cache('report-dash', request)
+	dados = cache.get(chave)
+	if dados is None:
+		dados = _kalkula_dash(request)
+		cache.set(chave, dados, CACHE_SEG)
+	context = {
+		'group': request.user.groups.all()[0].name, "page": "dashboard",
+		'munisipiu_list': Munisipiu.active.all(), 'tipu_list': TipuKonflitu.active.all(),
+		'title': _('Dashboard Relatóriu'), 'legend': _('Dashboard Relatóriu'),
+		**dados,
 	}
 	return render(request, 'report/dash.html', context)
 
@@ -77,15 +99,20 @@ def _graf_advokasia(d):
 	}
 
 
+# hare gráfiku no tendénsia (dadus advokasia iha cache)
 @login_required
 @allowed_users(allowed_roles=ROLE_DASHBOARD)
 def reportChart(request):
-	group = request.user.groups.all()[0].name
+	chave = _chave_cache('report-chart', request)
+	graf = cache.get(chave)
+	if graf is None:
+		graf = _graf_advokasia(advokasia.advokasia(report_queryset(request)))
+		cache.set(chave, graf, CACHE_SEG)
 	context = {
-		'group': group, "page": "grafiku",
+		'group': request.user.groups.all()[0].name, "page": "grafiku",
 		'munisipiu_list': Munisipiu.active.all(), 'tipu_list': TipuKonflitu.active.all(),
 		'title': _('Gráfiku'), 'legend': _('Gráfiku no Tendénsia'),
-		'chart_lang': chart_lang(), 'graf': _graf_advokasia(advokasia.advokasia(report_queryset(request))),
+		'chart_lang': chart_lang(), 'graf': graf,
 	}
 	return render(request, 'report/chart_dash.html', context)
 
