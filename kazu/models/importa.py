@@ -31,6 +31,7 @@ class KazuImport(models.Model):
 	def __str__(self):
 		return self.naran_file
 
+	# total liña ho erru (total menus liña ok)
 	@property
 	def total_erru(self):
 		return self.total - self.total_ok

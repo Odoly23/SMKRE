@@ -21,8 +21,8 @@ M2_HA = 10000
 
 
 # ── Rumus Turf.js ──
+# @turf/area ringArea: área esférika ba anel ida (m²)
 def _ring_area(coords):
-	# @turf/area ringArea: área esférika ba anel ida (m²)
 	n = len(coords) - 1
 	if n <= 2:
 		return 0.0
@@ -35,8 +35,8 @@ def _ring_area(coords):
 	return abs(total * EARTH_RADIUS * EARTH_RADIUS / 2)
 
 
+# luan Polygon ka MultiPolygon (shapely) → m²
 def area_m2(geom):
-	# Polygon ka MultiPolygon (shapely) → m²
 	polys = getattr(geom, 'geoms', [geom])
 	total = 0.0
 	for p in polys:
@@ -47,15 +47,15 @@ def area_m2(geom):
 	return total
 
 
+# distánsia metru entre pontu rua — @turf/distance (haversine)
 def distansia_m(a, b):
-	# @turf/distance (haversine)
 	dlat, dlon = math.radians(b[1] - a[1]), math.radians(b[0] - a[0])
 	h = math.sin(dlat / 2) ** 2 + math.cos(math.radians(a[1])) * math.cos(math.radians(b[1])) * math.sin(dlon / 2) ** 2
 	return 2 * EARTH_RADIUS * math.atan2(math.sqrt(h), math.sqrt(1 - h))
 
 
+# retángulu minimu (rotadu) iha metru lokál → naruk (sisi boot) no luan-badak (sisi ki'ik)
 def _naruk_luan(poly):
-	# Retángulu minimu (rotadu) iha metru lokál → naruk (sisi boot) no luan-badak (sisi kiik)
 	lon0, lat0 = poly.centroid.x, poly.centroid.y
 	kx = math.radians(1) * EARTH_RADIUS * math.cos(math.radians(lat0))
 	ky = math.radians(1) * EARTH_RADIUS
@@ -65,6 +65,7 @@ def _naruk_luan(poly):
 	return sisi[1], sisi[0]
 
 
+# metrika bidang ida: luan m², keliling, naruk, luan-badak
 def metrika(poly):
 	coords = list(poly.exterior.coords)
 	keliling = sum(distansia_m(coords[i], coords[i + 1]) for i in range(len(coords) - 1))
@@ -133,13 +134,13 @@ def kalkula(data):
 	return fc, total_luan, total_keliling
 
 
+# mapping() fó tuple → konverte ba JSON lista
 def _lista(geom):
-	# mapping() fó tuple → JSON lista
 	return {'type': geom['type'], 'coordinates': [[list(c) for c in ring] for ring in geom['coordinates']]}
 
 
+# rai nia luan otomátiku: < 1 ha → m², ≥ 1 ha → ha
 def luan_rai(m2):
-	# Rai nia luan otomátiku: < 1 ha → m², ≥ 1 ha → ha
 	m2 = Decimal(str(m2))
 	if m2 >= M2_HA:
 		return (m2 / M2_HA).quantize(Decimal('0.01')), 'HA'
@@ -155,6 +156,7 @@ def aplika(kazu, data):
 	return kazu
 
 
+# rai poligon ba kazu (save + istória); poligon mamuk → hamoos poligon
 @transaction.atomic
 def rai_poligon(kazu, user, data):
 	from kazu.models import KazuHistoria

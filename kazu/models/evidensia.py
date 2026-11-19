@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+# dalan rai file evidénsia: kazu/<id>/<uuid>.<ext> (naran aleatóriu, la fó sai naran orijinál)
 def evidensia_path(instance, filename):
 	ext = filename.rsplit('.', 1)[-1].lower()[:5]
 	return f'kazu/{instance.kazu_id}/{uuid.uuid4().hex}.{ext}'
@@ -35,6 +36,7 @@ class Evidensia(models.Model):
 		verbose_name = _("Evidénsia")
 		verbose_name_plural = _("Evidénsia")
 
+	# evidénsia ne'e imajen? (uza iha template atu hatudu preview)
 	@property
 	def is_image(self):
 		return self.file.name.lower().rsplit('.', 1)[-1] in ('jpg', 'jpeg', 'png', 'webp')

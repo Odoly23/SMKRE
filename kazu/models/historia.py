@@ -23,8 +23,10 @@ class KazuHistoria(models.Model):
 		verbose_name = _("Istória Kazu")
 		verbose_name_plural = _("Istória Kazu")
 
+	# label (naran) status molok muda
 	def status_antes_label(self):
 		return dict(STATUS_CHOICES + STATUS_KAZU_CHOICES + DESIZAUN_RBR_CHOICES).get(self.status_antes, self.status_antes)
 
+	# label (naran) status foun
 	def status_foun_label(self):
 		return dict(STATUS_CHOICES + STATUS_KAZU_CHOICES + DESIZAUN_RBR_CHOICES).get(self.status_foun, self.status_foun)

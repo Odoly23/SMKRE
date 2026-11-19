@@ -13,13 +13,14 @@ RAIU_M = 200
 _GRAU = 0.0025          # ~275 m: filtru lalais iha base de dadus antes kalkula distánsia loos
 
 
+# kódigu HP baze: HP-AAMMDD-XXXXXX (data kria oras Dili + karakter 6 husi UUID) — server kalkula hanesan HP
 def kode_hp_baze(kazu_id, kria_iha):
 	data = timezone.localtime(kria_iha).strftime('%y%m%d')
 	return f'HP-{data}-{kazu_id.hex[:6].upper()}'
 
 
+# atribui kódigu HP úniku ba kazu; raru tebes: kódigu hanesan ona → aumenta karakter UUID
 def atribui_kode_hp(kazu, kria_iha):
-	# Raru tebes: kódigu hanesan ona → aumenta karakter UUID
 	from kazu.models import Kazu
 	if kazu.kode_hp:
 		return kazu.kode_hp
@@ -31,6 +32,7 @@ def atribui_kode_hp(kazu, kria_iha):
 	return kode
 
 
+# distánsia metru entre pontu GPS rua (fórmula haversine)
 def distansia_m(lat1, lng1, lat2, lng2):
 	r = 6371000
 	p1, p2 = math.radians(lat1), math.radians(lat2)
@@ -63,6 +65,6 @@ def posivel_duplikadu(kazu, limite=5):
 	return lista[:limite]
 
 
+# testu badak ba notifikasaun / resposta API: "RbR-LIQ-2026-0003 (GPS besik: 40 m)"
 def duplikadu_testu(kazu):
-	# Testu badak ba notifikasaun / resposta API: "RbR-LIQ-2026-0003 (GPS besik: 40 m)"
 	return [f'{d["kazu"]} ({d["razaun"]})' for d in posivel_duplikadu(kazu)]

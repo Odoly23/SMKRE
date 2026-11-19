@@ -104,9 +104,11 @@ def _instala():
 				raise RuntimeError(f'Kampu {f.name} iha ona iha Kazu: naran kampu seksaun tenke úniku')
 			Kazu.KAMPU_SEKSAUN[f.name] = rel
 
+			# getter: lee kampu seksaun liu husi Kazu (ex. kazu.tribunal_rejistu)
 			def lee(self, _rel=rel, _f=f.name):
 				return getattr(self.seksaun(_rel), _f)
 
+			# setter: hakerek kampu seksaun no marka seksaun atu save()
 			def hakerek(self, valor, _rel=rel, _f=f.name):
 				setattr(self.seksaun(_rel), _f, valor)
 				self._marka(_rel)

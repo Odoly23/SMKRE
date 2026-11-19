@@ -35,13 +35,13 @@ ACTIONS = {
 }
 
 
+# aksaun ne'ebé utilizador ida bele halo agora (butaun ativu de'it)
 def available_actions(user, kazu):
-	# Aksaun ne'ebé utilizador ida bele halo agora (butaun ativu)
 	return [b['action'] for b in action_buttons(user, kazu) if b['ativu']]
 
 
+# tanba sá butaun ida xave — hatudu iha okos butaun (HP la iha tooltip)
 def _razaun_xave(action, status):
-	# Tanba sa butaun ida xave — hatudu iha okos butaun (HP la iha tooltip)
 	if status == CANCELED:
 		return _('Kazu kanseladu — final.')
 	if status == COMPLETED:
@@ -73,9 +73,9 @@ def _razaun_xave(action, status):
 	return ''
 
 
+# butaun hotu ba papel utilizador: [{'action','ativu','presiza_nota','razaun'}];
+# butaun la ativu sei hatudu (xave) ho razaun, atu utilizador hatene tanba sá
 def action_buttons(user, kazu):
-	# Butaun hotu ba papel utilizador nian: [{'action', 'ativu', 'presiza_nota', 'razaun'}]
-	# Butaun la ativu sei hatudu (xave) ho razaun, atu utilizador hatene tanba sa.
 	group = c_user_group(user)
 	buttons = []
 	for action, (orijen, _foun, roles, presiza_nota) in ACTIONS.items():
@@ -90,8 +90,8 @@ def action_buttons(user, kazu):
 FOKAL_ORGANIZASAUN = 'Rede ba Rai'
 
 
+# enxe Fokal Point RbR = Investigadór ne'ebé input kazu (ka simu follow-up); Admin bele muda iha Segimentu
 def enxe_fokal(kazu, user, force=False):
-	# Fokal Point RbR = Investigadór ne'ebé input kazu (ka simu follow-up). Admin bele muda iha Segimentu.
 	from django.conf import settings
 	from kazu.models import KazuSegimentu
 	seg, _c = KazuSegimentu.objects.get_or_create(kazu=kazu)
@@ -108,10 +108,12 @@ def enxe_fokal(kazu, user, force=False):
 	return seg
 
 
+# URL ba pájina detalla kazu
 def kazu_url(kazu):
 	return reverse('kazu-detail', args=[kazu.pk])
 
 
+# rejista rejistu istória kazu (se, bainhira, status antes→foun, razaun)
 def _historia(kazu, user, antes, foun, nota='', tipu=KazuHistoria.DADUS):
 	return KazuHistoria.objects.create(kazu=kazu, user=user, status_antes=antes, status_foun=foun, nota=nota, tipu=tipu)
 
@@ -131,8 +133,8 @@ def muda_portal(kazu, user, konsentimentu, publika, nota=''):
 	return True
 
 
+# jera kódigu ofisiál RbR-LIQ-2026-0012 — kontador xave (select_for_update) atu la iha kódigu duplikadu
 def generate_kode(kazu):
-	# RbR-LIQ-2026-0012 — kontador xave (select_for_update) atu la iha kódigu duplikadu
 	tinan = kazu.data_relatoriu.year if kazu.data_relatoriu else (kazu.tinan_simu or timezone.localdate().year)
 	seq, _c = KazuSequence.objects.select_for_update().get_or_create(munisipiu=kazu.munisipiu, tinan=tinan)
 	seq.last += 1
@@ -140,8 +142,8 @@ def generate_kode(kazu):
 	return f'RbR-{kazu.munisipiu.code}-{tinan}-{seq.last:04d}'
 
 
+# atualiza kampu automátiku: urjente = iha nesesidade; Rascunho → Iha Terrenu bainhira iha GPS + foto
 def refresh_auto_fields(kazu):
-	# Urjente = iha nesesidade urjente; Rascunho → Iha Terrenu bainhira iha GPS + foto dahuluk
 	urjente = kazu.nesesidade.exists()
 	fields = []
 	if kazu.urjente != urjente:
@@ -154,8 +156,8 @@ def refresh_auto_fields(kazu):
 		kazu.save(update_fields=fields)
 
 
+# kondisaun minimu antes haruka ba Admin (validasaun Anexu A.9); erru → ValidationError
 def validate_submit(kazu):
-	# Kondisaun minimu antes haruka ba Admin (validasaun Anexu A.9)
 	erru = []
 	if not kazu.konsentimentu:
 		erru.append(_('Konsentimentu obrigatóriu.'))
@@ -172,9 +174,9 @@ def validate_submit(kazu):
 		raise ValidationError(erru)
 
 
+# Investigadór haruka kazu → Hein Verifikasaun + notifikasaun ba Admin no Superadmin (+ avizu duplikadu)
 @transaction.atomic
 def submit_kazu(kazu, user):
-	# Investigadór haruka kazu → Hein Verifikasaun + notifikasaun ba Admin no Superadmin
 	kazu = Kazu.objects.select_for_update().get(pk=kazu.pk)
 	if user.id not in (kazu.created_by_id, kazu.followup_ba_id):
 		raise PermissionDenied
@@ -203,9 +205,9 @@ def submit_kazu(kazu, user):
 	return kazu
 
 
+# muda status kazu: Verifika / Aprova / Remata / Rejeita / Kansela (+ notifikasaun)
 @transaction.atomic
 def change_status(kazu, user, action, nota=''):
-	# Verifika / Aprova / Remata / Rejeita / Kansela
 	if action not in ACTIONS:
 		raise ValidationError(_('Aksaun la validu.'))
 	orijen, foun, roles, presiza_nota = ACTIONS[action]
@@ -276,21 +278,22 @@ def muda_desizaun(kazu, user, desizaun, nota=''):
 STATUS_FOLLOWUP_ORIJEN = (VERIFIED, APPROVED)
 
 
+# Investigadór ativu iha munisípiu kazu nian (bele simu follow-up)
 def investigador_followup(kazu):
-	# Investigadór ativu iha munisípiu kazu nian (bele simu follow-up)
 	from django.contrib.auth.models import User
 	from django.db.models import Q
 	return User.objects.filter(Q(pesoaluser__pesoal__munisipiu=kazu.munisipiu) | Q(pesoaluser__pesoal__munisipiu_2=kazu.munisipiu),
 		groups__name=INVESTIGADOR, is_active=True).select_related('pesoaluser__pesoal').distinct().order_by('pesoaluser__pesoal__name')
 
 
+# bele halo follow-up? (papél follow-up no status Verifikadu/Aprovadu)
 def can_followup(user, kazu):
 	return c_user_group(user) in ROLE_FOLLOWUP and kazu.status in STATUS_FOLLOWUP_ORIJEN
 
 
+# loke fali kazu → Investigadór tuun ba terrenu (survei foun), edita, haruka fali → Verifika → Aprova
 @transaction.atomic
 def followup_kazu(kazu, user, investigador, nota):
-	# Loke fali kazu → Investigadór tuun ba terrenu (survei foun), edita online ka offline, haruka fali → Verifika → Aprova
 	kazu = Kazu.objects.select_for_update().get(pk=kazu.pk)
 	if c_user_group(user) not in ROLE_FOLLOWUP:
 		raise PermissionDenied
@@ -315,9 +318,9 @@ def followup_kazu(kazu, user, investigador, nota):
 	return kazu
 
 
+# Admin/Superadmin konfirma kazu rua la'ós hanesan → avizu duplikadu la mosu tan ba par ne'e
 @transaction.atomic
 def marka_la_os_duplikadu(kazu, user, outro):
-	# Admin / Superadmin konfirma kazu rua la'ós hanesan → avizu la mosu tan ba par ne'e
 	from config.rbac import ROLE_DUPLIKADU
 	if c_user_group(user) not in ROLE_DUPLIKADU:
 		raise PermissionDenied

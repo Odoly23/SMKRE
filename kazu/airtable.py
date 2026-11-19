@@ -81,28 +81,31 @@ TIPU_KAZU = {
 SIN_LAE = {'IHA': 'SIN', 'SIN': 'SIN', 'LAIHA': 'LAE', 'LAE': 'LAE', 'LAHATENE': 'LAHATENE', 'LAHATENESTATUSATUAL': 'LAHATENE'}
 
 
+# normaliza testu ba komparasaun: la sensível ba aksentu, espasu, pontuasaun no letra boot/ki'ik
 def normal(t):
-	# Komparasaun la sensível ba aksentu, espasu, pontuasaun no letra boot/kiik
 	import unicodedata
 	t = unicodedata.normalize('NFKD', str(t or '')).encode('ascii', 'ignore').decode().upper()
 	return re.sub(r'[^A-Z0-9]', '', t)
 
 
+# file ne'e formatu Airtable? (iha kolun referénsia ka identifikasaun kazu)
 def e_airtable(kabesallu):
 	k = {normal(h) for h in kabesallu}
 	return normal(H_REF) in k or normal(H_ID) in k
 
 
+# liña ho dadus loos (la'ós rejistu mamuk ho ID automátiku de'it)
 def iha_dadus(row):
-	# Liña ho dadus loos (la'ós rejistu mamuk ho ID automátiku de'it)
 	auto = {normal(H_ID), normal(H_NUMERU), normal(H_REF), normal('Formatu update kazu'), normal('Created By'), normal('Rai nia luan (ha)')}
 	return any(_t(v) and _t(v) not in ('0', '0.0') for k, v in row.items() if normal(k) not in auto)
 
 
+# testu limpu husi valór (None → '', hamoos espasu iha sorin)
 def _t(v):
 	return '' if v is None else str(v).strip()
 
 
+# tipu kazu Airtable (testu) → kódigu SIBAR; la hetan → fila testu (importa.py buka tuir naran)
 def _tipu_kazu(v):
 	n = normal(v)
 	if n in TIPU_KAZU:
@@ -145,6 +148,7 @@ def data_testu(v, us_primeiru=False):
 	return None, t
 
 
+# numeru desimál husi testu (vírgula ka pontu); negativu ka la validu → None
 def _numeru(v):
 	t = _t(v).replace(' ', '')
 	if not t:
@@ -260,6 +264,7 @@ def lina_interna(row):
 
 
 # ══════════════ Export (kolun Airtable) ══════════════
+# valór kampu ida ba export: label (se choices), data formatadu, ka valór rasik
 def _label(obj, campo):
 	if obj is None:
 		return ''

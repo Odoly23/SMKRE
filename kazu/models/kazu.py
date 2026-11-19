@@ -111,9 +111,11 @@ class Kazu(models.Model):
 			cache[rel] = obj or model()
 		return cache[rel]
 
+	# marka seksaun (tabela ligada) ne'ebé muda, atu save() rai nia mós
 	def _marka(self, rel):
 		self.__dict__.setdefault('_sek_muda', set()).add(rel)
 
+	# save Kazu + seksaun ligada sira ne'ebé muda (kampu seksaun la tama iha update_fields Kazu)
 	def save(self, *args, **kwargs):
 		uf = kwargs.get('update_fields')
 		if uf is not None:
@@ -129,6 +131,7 @@ class Kazu(models.Model):
 			obj.save()
 		self.__dict__.pop('_sek_muda', None)
 
+	# refresh husi DB: hamoos cache seksaun atu lee foun
 	def refresh_from_db(self, *args, **kwargs):
 		self.__dict__.pop('_sek_cache', None)
 		self.__dict__.pop('_sek_muda', None)
@@ -146,6 +149,7 @@ class Kazu(models.Model):
 	def kode_display(self):
 		return str(self)
 
+	# kazu bele edita? (status Rascunho / Iha Terrenu / Hein Sinál / Rejeitadu)
 	@property
 	def is_editable(self):
 		return self.status in STATUS_EDITABLE
@@ -156,18 +160,19 @@ class Kazu(models.Model):
 		seg = getattr(self, 'segimentu', None)          # kazu ho segimentu seidauk → ''
 		return seg.desizaun_rbr if seg else ''
 
+	# label (naran) Desizaun RbR ba kazu ne'e
 	def get_desizaun_display(self):
 		from .opsaun import DESIZAUN_RBR_CHOICES
 		return str(dict(DESIZAUN_RBR_CHOICES).get(self.desizaun, ''))
 
+	# kazu mosu iha portal públiku? regra hanesan publiku.services.portal_queryset (aprovadu + konsentimentu + la marka "La publika")
 	@property
 	def iha_portal(self):
-		# Regra hanesan publiku.services.portal_queryset: aprovadu + konsentimentu + la marka "La publika"
 		return self.status in (APPROVED, COMPLETED) and self.konsentimentu and not self.la_publika
 
+	# tanba sá kazu la mosu iha portal (testu badak ba Admin)
 	@property
 	def portal_razaun(self):
-		# Tanba sá kazu la mosu iha portal (testu badak ba Admin)
 		from django.utils.translation import gettext as _t
 		if not self.konsentimentu:
 			return _t('Laiha konsentimentu')
@@ -177,18 +182,22 @@ class Kazu(models.Model):
 			return _t('Hein aprovasaun Superadmin')
 		return ''
 
+	# total ema afetadu (soma uma-kain afetada hotu)
 	@property
 	def total_afetadu(self):
 		return sum(a.total_ema or 0 for a in self.afetadu.all())
 
+	# total uma-kain afetadu
 	@property
 	def total_uma_kain(self):
 		return sum(a.uma_kain or 0 for a in self.afetadu.all())
 
+	# kuantidade foto evidénsia
 	def foto_count(self):
 		from .evidensia import Evidensia
 		return self.evidensia.filter(tipu=Evidensia.FOTO).count()
 
+	# kuantidade vídeo evidénsia
 	def video_count(self):
 		from .evidensia import Evidensia
 		return self.evidensia.filter(tipu=Evidensia.VIDEO).count()
