@@ -78,11 +78,11 @@
 	</section>
 
 	<div class="ld-grid" id="estatistika">
-		<!-- Kazu tuir tinan -->
+		<!-- Kazu tuir fulan (fulan 12 ikus) -->
 		<section class="pnl ld-trend">
-			<div class="pnl-h"><h2><i class="fa fa-line-chart"></i> {% trans "Kazu tuir tinan" %}</h2></div>
-			<div id="ch-tinan" class="ch"></div>
-			<p class="ch-vaziu" id="tinan-vaziu" hidden>{% trans "La iha dadus" %}</p>
+			<div class="pnl-h"><h2><i class="fa fa-line-chart"></i> {% trans "Kazu tuir fulan" %}</h2><span class="pnl-nota">{% trans "Fulan 12 ikus" %}</span></div>
+			<div id="ch-fulan" class="ch"></div>
+			<p class="ch-vaziu" id="fulan-vaziu" hidden>{% trans "La iha dadus" %}</p>
 		</section>
 
 		<!-- Tipu konflitu -->
@@ -99,7 +99,7 @@
 			<div class="evik-q"><h3>{% trans "Molok eviksaun halo konsultasaun ka lae?" %}</h3><div id="ch-ev-konsultasaun" class="ch-ev"></div></div>
 			<div class="evik-q"><h3>{% trans "Molok eviksaun iha notifikasaun ka lae?" %}</h3><div id="ch-ev-notifikasaun" class="ch-ev"></div></div>
 			<div class="evik-q"><h3>{% trans "Durante eviksaun uza forsa ka lae?" %}</h3><div id="ch-ev-forsa" class="ch-ev"></div></div>
-			<p class="ch-vaziu" id="evik-vaziu" hidden>{% trans "Dadus eviksaun seidauk to'o atu hatudu (privasidade)." %}</p>
+			<p class="evik-nota" id="evik-nota" hidden><i class="fa fa-lock"></i> {% trans "Kazu eviksaun ki'ik liu 3: númeru ida-idak la hatudu (privasidade)." %}</p>
 		</section>
 	</div>
 
@@ -120,7 +120,8 @@
 </div>
 
 {{ portal_lang|json_script:"portal-lang" }}
-<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}" data-mapbox="{{ MAPBOX_TOKEN }}"></div>
+<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}" data-mapbox="{{ MAPBOX_TOKEN }}"
+	data-pin="{% static 'main/mapa/marker-green.svg' %}" data-sombra="{% static 'main/mapa/marker-shadow.png' %}"></div>
 {% endblock %}
 
 {% block scripts %}

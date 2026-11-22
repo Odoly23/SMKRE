@@ -5843,3 +5843,60 @@ msgstr ""
 #: publiku/templates/publiku/portal.html
 msgid "Vizita website Rede ba Rai"
 msgstr "Visit the Rede ba Rai website"
+
+#: publiku/services.py
+msgid "Abr"
+msgstr "Apr"
+
+#: publiku/services.py
+msgid "Ago"
+msgstr "Aug"
+
+#: publiku/services.py
+msgid "Dez"
+msgstr "Dec"
+
+#: publiku/services.py
+msgid "Fev"
+msgstr "Feb"
+
+#: publiku/templates/publiku/portal.html
+msgid "Fulan 12 ikus"
+msgstr "Last 12 months"
+
+#: publiku/services.py
+msgid "Jan"
+msgstr "Jan"
+
+#: publiku/services.py
+msgid "Jul"
+msgstr "Jul"
+
+#: publiku/services.py
+msgid "Jun"
+msgstr "Jun"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu eviksaun ki'ik liu 3: númeru ida-idak la hatudu (privasidade)."
+msgstr ""
+"Fewer than 3 eviction cases: per-category numbers are not shown (privacy)."
+
+#: publiku/services.py
+msgid "Mai"
+msgstr "May"
+
+#: publiku/services.py
+msgid "Mar"
+msgstr "Mar"
+
+#: publiku/services.py
+msgid "Nov"
+msgstr "Nov"
+
+#: publiku/services.py
+msgid "Out"
+msgstr "Oct"
+
+#: publiku/services.py
+msgid "Set"
+msgstr "Sep"

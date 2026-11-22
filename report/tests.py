@@ -311,3 +311,16 @@ class DadusHanesanTest(AdvokasiaTest):
 		urls = [i['url'] for i in menu_for(ADMIN)]
 		self.assertIn(reverse('report-chart') + '#advokasia', urls)
 		self.assertIn(reverse('report-dash') + '#tabular', urls)
+
+
+class TipuTuanTest(ReportBase):
+	# tipu la ativu ona maibé kazu uza hela → konta iha dashboard, API gráfiku no Live (la'ós gráfiku mamuk)
+	def test_tipu_la_ativu_konta(self):
+		TipuKonflitu.objects.filter(pk=self.deslok.pk).update(is_active=False)
+		self.client.force_login(self.analista)
+		r = self.client.get(reverse('report-dash'))
+		self.assertEqual({t.pk: n for t, n in r.context['objects2']}[self.deslok.pk], 2)
+		d = self.client.get('/api/report/kazu/tipu/').json()
+		self.assertEqual(dict(zip(d['label'], d['obj']))[self.deslok.name], 2)
+		from report.live import kalkula
+		self.assertIn({'name': self.deslok.name, 'n': 2}, kalkula()['tipu'])

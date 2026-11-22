@@ -405,7 +405,8 @@ CONTENT_SECURITY_POLICY = {
 		'default-src': [SELF],
 		'script-src': [SELF, NONCE],
 		'style-src': [SELF, "'unsafe-inline'"],
-		'img-src': [SELF, 'data:', 'blob:', 'https://*.tile.openstreetmap.org', 'https://server.arcgisonline.com', 'https://api.mapbox.com'],
+		'img-src': [SELF, 'data:', 'blob:', 'https://*.tile.openstreetmap.org', 'https://server.arcgisonline.com', 'https://api.mapbox.com',
+			'https://mt0.google.com', 'https://mt1.google.com', 'https://mt2.google.com', 'https://mt3.google.com'],   # Google satélite (landing)
 		'font-src': [SELF],
 		'connect-src': [SELF],
 		'media-src': [SELF, 'blob:'],

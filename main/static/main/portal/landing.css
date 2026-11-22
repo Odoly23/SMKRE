@@ -107,6 +107,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .evik-q { border-top: 1px solid var(--linha2); padding-top: 6px; margin-top: 4px; }
 .evik-q h3 { margin: 0; font-size: .9rem; font-weight: 700; color: var(--ink2); }
 .ch-ev { height: 92px; }
+.evik-nota { margin: 6px 0 0; color: var(--mute); font-size: .82rem; }
 
 .ld-nota { margin: 0; color: var(--ink2); font-size: .85rem; background: var(--brand-lt); border-radius: 10px; padding: 10px 12px; }
 .ld-nota .fa { color: var(--green); }

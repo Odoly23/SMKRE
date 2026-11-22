@@ -174,7 +174,7 @@ class EviksaunPubliku(PortalBase):
 		ev = estatistika({})['eviksaun']
 		self.assertEqual(ev['total'], {'n': 3, 'label': '3'})
 		self.assertEqual(ev['uma_kain'], 15)
-		self.assertEqual([(x['code'], x['n']) for x in ev['konsultasaun']], [('LAE', 3)])
+		self.assertEqual([(x['code'], x['n']) for x in ev['konsultasaun']], [('LAE', 3), ('SIN', 0), ('LAHATENE', 0), ('LAIHA', 0)])
 		self.assertEqual(estatistika({})['kpi']['eviksaun'], ev['total'])
 
 	def test_eviksaun_ki_ik_la_hatudu_detalla(self):
@@ -182,7 +182,8 @@ class EviksaunPubliku(PortalBase):
 		ev = estatistika({})['eviksaun']
 		self.assertEqual(ev['total'], {'n': None, 'label': '< 3'})
 		self.assertIsNone(ev['uma_kain'])
-		self.assertEqual(ev['konsultasaun'], [])
+		self.assertEqual({x['label'] for x in ev['konsultasaun']}, {'–'})          # 1–2 kazu: la hatudu númeru
+		self.assertEqual(len(ev['konsultasaun']), 4)                                # gráfiku sempre iha kategoria
 
 	def test_api_publiku_la_iha_dadus_internu(self):
 		r = self.client.get(reverse('api-portal-estatistika'))
@@ -210,3 +211,15 @@ class TipuTuanTest(PortalBase):
 		tipu = {t['id']: t for t in estatistika({})['tipu']}
 		self.assertEqual(tipu[self.tipu.pk]['n'], 6)
 		self.assertNotIn(TipuKonflitu.objects.filter(is_active=False).exclude(pk=self.tipu.pk).values_list('pk', flat=True).first(), tipu)
+
+
+class FulanTest(PortalBase):
+	# kazu kada fulan (fulan 12 ikus) ho privasidade "< 3"
+	def test_fulan_12_ho_subar(self):
+		fulan = estatistika({})['fulan']
+		self.assertEqual(len(fulan), 12)
+		self.assertEqual(fulan[-1]['n'], 6)                       # kazu públiku 6 iha fulan ida ne'e
+		self.assertTrue(all(f['n'] == 0 for f in fulan[:-1]))
+		Kazu.objects.filter(munisipiu=self.dil).update(status='VERIFIED')    # restu 2 → "< 3"
+		cache.clear()                                             # API públiku iha cache minutu 10
+		self.assertEqual(estatistika({})['fulan'][-1]['label'], '< 3')

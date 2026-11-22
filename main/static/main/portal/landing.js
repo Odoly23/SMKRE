@@ -71,7 +71,11 @@
 	// ── Mapa luan tomak: Street / Satélite (token husi .env) + fronteira munisípiu + kluster fatin aproksimadu (~1 km) ──
 	var mapa = L.map('mapa', { zoomSnap: 0.25, scrollWheelZoom: false, maxZoom: 18 });
 	var baze = SMKREMapa.baze(CFG.mapbox);
+	// Google satélite + naran dalan (lyrs=s,h) — https (http bloku iha site https); la presiza API key
+	baze['Google Satélite'] = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+		{ maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], attribution: 'Google Maps' });
 	baze[Object.keys(baze)[0]].addTo(mapa);                 // Street; internet la iha → fronteira de'it
+	var PIN = L.icon({ iconUrl: CFG.pin, shadowUrl: CFG.sombra, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
 	var munLayer = null, labelLayer = L.layerGroup().addTo(mapa);
 	var kluster = L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45, spiderfyOnMaxZoom: true }).addTo(mapa);
 	var kontrolu = L.control.layers(baze, {}, { position: 'topright' }).addTo(mapa);
@@ -120,7 +124,7 @@
 	function pontuRender(lista) {
 		kluster.clearLayers();
 		kluster.addLayers(lista.map(function (p) {
-			return L.marker([p.lat, p.lng], { icon: L.divIcon({ className: 'mapa-pontu', iconSize: [14, 14] }), keyboard: false })
+			return L.marker([p.lat, p.lng], { icon: PIN, title: p.mun + ' · ' + p.label + ' ' + T.kazu, keyboard: false })
 				.bindPopup('<b>' + esc(p.mun) + '</b><br>' + esc(p.label) + ' ' + esc(T.kazu) + '<br><small>' + esc(T.aproks) + '</small>');
 		}));
 	}
@@ -167,15 +171,19 @@
 		$(id).hidden = mamuk;
 		$(id.replace('ch-', '') + '-vaziu').hidden = !mamuk;
 	}
-	function tinanRender(lista) {
-		vaziu('ch-tinan', !lista.length);
-		if (!lista.length) return;
-		var cat = lista.map(function (x) { return String(x.tinan); }), dadus = pontu(lista);
-		if (CH.tinan) { CH.tinan.xAxis[0].setCategories(cat, false); CH.tinan.series[0].setData(dadus, true); return; }
-		CH.tinan = Highcharts.chart('ch-tinan', {
-			chart: { type: 'column' },
-			xAxis: { categories: cat },
-			plotOptions: { column: { borderRadius: 4, borderWidth: 0, color: KOR.brand, dataLabels: dl, maxPointWidth: 60 } },
+	function fulanRender(lista) {
+		var iha = lista.some(function (x) { return x.n !== 0; });
+		vaziu('ch-fulan', !iha);
+		if (!iha) return;
+		var cat = lista.map(function (x) { return x.label_fulan; }), dadus = pontu(lista);
+		if (CH.fulan) { CH.fulan.xAxis[0].setCategories(cat, false); CH.fulan.series[0].setData(dadus, true); return; }
+		CH.fulan = Highcharts.chart('ch-fulan', {
+			chart: { type: 'area' },
+			xAxis: { categories: cat, labels: { rotation: -45, style: { fontSize: '11px' } } },
+			plotOptions: { area: { lineWidth: 2, color: KOR.brand, marker: { radius: 4, fillColor: KOR.brand, lineColor: '#fff', lineWidth: 2 },
+				fillColor: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [[0, 'rgba(14,138,104,.35)'], [1, 'rgba(14,138,104,0)']] },
+				dataLabels: { enabled: true, format: '{point.label}', style: { color: KOR.ink, fontSize: '11px', textOutline: 'none' },
+					filter: { property: 'y', operator: '>', value: 0 } } } },
 			tooltip: tipBarra,
 			series: [{ name: T.kazu, data: dadus }]
 		});
@@ -195,12 +203,9 @@
 		return function (x) { return x.code === aat ? KOR.earth : (x.code === diak ? KOR.brand : KOR.mute); };
 	}
 	function evikRender(ev) {
-		var iha = ev && ev.konsultasaun && ev.konsultasaun.length;
-		$('evik-vaziu').hidden = !!iha;
+		if (!ev || !ev.konsultasaun) return;
+		$('evik-nota').hidden = !(ev.total && ev.total.n == null);          // 1–2 kazu: númeru la hatudu
 		['konsultasaun', 'notifikasaun', 'forsa'].forEach(function (q) {
-			var box = $('ch-ev-' + q).parentNode;
-			box.hidden = !iha;
-			if (!iha) return;
 			if (CH['ev' + q]) CH['ev' + q].destroy();
 			CH['ev' + q] = barra('ch-ev-' + q, ev[q].map(function (x) { return x.name; }), pontu(ev[q], evKor(q)));
 		});
@@ -222,7 +227,7 @@
 			.then(function (d) {
 				S.d = d;
 				// painel ida-idak separadu: erru iha painel ida la para painel seluk
-				[function () { kpiRender(d); }, function () { mapaRender(d); }, function () { munListaRender(d); }, function () { tinanRender(d.tinan || []); },
+				[function () { kpiRender(d); }, function () { mapaRender(d); }, function () { munListaRender(d); }, function () { fulanRender(d.fulan || []); },
 				 function () { tipuRender(d.tipu || []); }, function () { evikRender(d.eviksaun); }
 				].forEach(function (f) { try { f(); } catch (e) { if (window.console) console.error(e); } });
 				estadu(true, d);

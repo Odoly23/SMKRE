@@ -149,7 +149,7 @@ def _kalkula(f):
 	return {
 		'filtru': f, 'kpi': kpi, 'munisipiu': munisipiu, 'tipu': tipu, 'tinan': tinan,
 		'afetadu': afetadu, 'suku': suku, 'lokasaun': _lokasaun(kazu, f, total), 'limite': limite(),
-		'eviksaun': evik, 'pontu': _pontu(kazu),
+		'eviksaun': evik, 'pontu': _pontu(kazu), 'fulan': _fulan(kazu),
 		'atualiza': timezone.localtime(atualiza).strftime('%d/%m/%Y') if atualiza else None,
 	}
 
@@ -190,13 +190,39 @@ def _eviksaun(kazu):
 	from report.advokasia import kazu_eviksaun, _konta
 	evik = kazu_eviksaun(kazu)
 	total = evik.count()
-	res = {'total': subar(total), 'uma_kain': None, 'konsultasaun': [], 'notifikasaun': [], 'forsa': []}
-	if total < limite():
-		return res
-	res['uma_kain'] = UmaKainAfetada.objects.filter(kazu__in=evik).aggregate(u=Sum('uma_kain'))['u'] or 0
+	ki_ik = 0 < total < limite()                       # 1–2 kazu: la hatudu númeru ida-idak
+	res = {'total': subar(total), 'uma_kain': None}
+	if total >= limite():
+		res['uma_kain'] = UmaKainAfetada.objects.filter(kazu__in=evik).aggregate(u=Sum('uma_kain'))['u'] or 0
+	# kategoria fixu (gráfiku sempre hatudu): Lae · Sin · La hatene · La iha dadus
+	kategoria = [(k, l) for k, l in SIN_LAE_CHOICES] + [('LAIHA', _('La iha dadus'))]
 	for chave, campo in (('konsultasaun', 'konsultasaun_molok'), ('notifikasaun', 'notifikasaun_klaru'), ('forsa', 'uza_forsa')):
-		res[chave] = [dict({'code': k or 'LAIHA', 'name': l}, **subar(n)) for k, l, n in _konta(evik, f'eviksaun__{campo}', SIN_LAE_CHOICES)]
+		n = {(k or 'LAIHA'): v for k, _l, v in _konta(evik, f'eviksaun__{campo}', SIN_LAE_CHOICES)} if total >= limite() else {}
+		res[chave] = [dict({'code': k, 'name': str(l)}, **({'n': None, 'label': '–'} if ki_ik else subar(n.get(k, 0))))
+			for k, l in sorted(kategoria, key=lambda x: ['LAE', 'SIN', 'LAHATENE', 'LAIHA'].index(x[0]))]
 	return res
+
+
+# kazu kada fulan (fulan 12 ikus): data simu kazu (data_relatoriu), mamuk → data aprova. 1–2 → "< 3"
+# naran fulan badak iha lian vizitante
+def _fulan_badak():
+	return [_('Jan'), _('Fev'), _('Mar'), _('Abr'), _('Mai'), _('Jun'), _('Jul'), _('Ago'), _('Set'), _('Out'), _('Nov'), _('Dez')]
+
+
+def _fulan(kazu):
+	hoje = timezone.localdate()
+	y, m, lista = hoje.year, hoje.month, []
+	for _i in range(12):
+		lista.append((y, m))
+		y, m = (y - 1, 12) if m == 1 else (y, m - 1)
+	lista.reverse()
+	konta = {}
+	for _pk, d, ap in kazu.order_by().values_list('pk', 'data_relatoriu', 'approved_at').distinct():
+		d = d or (timezone.localtime(ap).date() if ap else None)
+		if d:
+			konta[(d.year, d.month)] = konta.get((d.year, d.month), 0) + 1
+	naran = _fulan_badak()
+	return [dict({'label_fulan': f'{naran[m - 1]} {str(y)[2:]}'}, **subar(konta.get((y, m), 0))) for y, m in lista]
 
 
 # pontu aproksimadu (~1 km, desimál 2) ba mapa landing: munisípiu ho kazu ≥ limite de'it.

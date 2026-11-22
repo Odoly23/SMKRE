@@ -89,7 +89,9 @@ def kalkula():
 			y, m = y + 1, 1
 	mun_n = dict(kazu.order_by().values_list('munisipiu').annotate(n=Count('pk')).values_list('munisipiu', 'n'))
 	mun = [{'code': mm.code, 'name': mm.name, 'n': mun_n.get(mm.pk, 0)} for mm in Munisipiu.active.all()]
-	tipu = [{'name': t.name, 'n': t.n} for t in TipuKonflitu.active.annotate(n=Count('kazu', filter=Q(kazu__in=kazu), distinct=True)).order_by('-n') if t.n]
+	from report.utils import tipu_relatoriu
+	tipu_n = dict(kazu.order_by().values_list('tipu_konflitu').annotate(n=Count('pk', distinct=True)).values_list('tipu_konflitu', 'n'))
+	tipu = sorted(({'name': t.name, 'n': tipu_n.get(t.pk, 0)} for t in tipu_relatoriu(kazu) if tipu_n.get(t.pk)), key=lambda x: -x['n'])
 	sk_n = dict(kazu.order_by().values_list('segimentu__desizaun_rbr').annotate(n=Count('pk')).values_list('segimentu__desizaun_rbr', 'n'))
 	status_kazu = [{'name': str(l), 'code': c, 'n': sk_n.get(c, 0)} for c, l in DESIZAUN_RBR_CHOICES]   # Desizaun RbR
 	# Mapa: kazu ho GPS (kódigu + munisípiu de'it); foun = loron 7 ikus

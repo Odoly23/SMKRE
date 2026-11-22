@@ -56,3 +56,12 @@ def dt_lang():
 		'infoEmpty': _('La iha dadus'), 'infoFiltered': _('(filtra husi _MAX_)'), 'zeroRecords': _('La hetan dadus'),
 		'emptyTable': _('La iha dadus'), 'paginate': {'first': '«', 'last': '»', 'next': '›', 'previous': '‹'},
 	}
+
+
+# tipu konflitu ba gráfiku / kontador: tipu ativu + tipu tuan (la ativu ona) ne'ebé kazu sira uza hela
+# (la'ós ida ne'e → kazu ho tipu tuan la konta, gráfiku tipu mamuk)
+def tipu_relatoriu(kazu):
+	from django.db.models import Q
+	from custom.models import TipuKonflitu
+	uza = kazu.order_by().values_list('tipu_konflitu', flat=True).distinct()
+	return TipuKonflitu.objects.filter(Q(is_active=True) | Q(pk__in=uza)).distinct().order_by('-is_active', 'name')

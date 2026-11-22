@@ -5949,3 +5949,59 @@ msgstr ""
 #: publiku/templates/publiku/portal.html
 msgid "Vizita website Rede ba Rai"
 msgstr "Vizita website Rede ba Rai"
+
+#: publiku/services.py
+msgid "Abr"
+msgstr "Abr"
+
+#: publiku/services.py
+msgid "Ago"
+msgstr "Ago"
+
+#: publiku/services.py
+msgid "Dez"
+msgstr "Dez"
+
+#: publiku/services.py
+msgid "Fev"
+msgstr "Fev"
+
+#: publiku/templates/publiku/portal.html
+msgid "Fulan 12 ikus"
+msgstr "Fulan 12 ikus"
+
+#: publiku/services.py
+msgid "Jan"
+msgstr "Jan"
+
+#: publiku/services.py
+msgid "Jul"
+msgstr "Jul"
+
+#: publiku/services.py
+msgid "Jun"
+msgstr "Jun"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu eviksaun ki'ik liu 3: númeru ida-idak la hatudu (privasidade)."
+msgstr "Kazu eviksaun ki'ik liu 3: númeru ida-idak la hatudu (privasidade)."
+
+#: publiku/services.py
+msgid "Mai"
+msgstr "Mai"
+
+#: publiku/services.py
+msgid "Mar"
+msgstr "Mar"
+
+#: publiku/services.py
+msgid "Nov"
+msgstr "Nov"
+
+#: publiku/services.py
+msgid "Out"
+msgstr "Out"
+
+#: publiku/services.py
+msgid "Set"
+msgstr "Set"

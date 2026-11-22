@@ -12,7 +12,7 @@ from config.rbac import ROLE_DASHBOARD, ROLE_RELATORIU, INVESTIGADOR
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.models import UmaKainAfetada, STATUS_CHOICES, COMPLETED
 from report import advokasia
-from report.utils import chart_lang, report_queryset, eviksaun_aktivu, STATUS_RELATORIU
+from report.utils import chart_lang, report_queryset, eviksaun_aktivu, tipu_relatoriu, STATUS_RELATORIU
 
 # Tempu cache ba dashboard/gráfiku (segundu): HP barak ka refresh beibeik la todan server.
 CACHE_SEG = 60
@@ -41,7 +41,7 @@ def _kalkula_dash(request):
 	for s in STATUS_RELATORIU:
 		objects1.append([s, status_label[s], n_status.get(s, 0)])
 	n_tipu = dict(kazu.order_by().values_list('tipu_konflitu').annotate(n=Count('pk', distinct=True)).values_list('tipu_konflitu', 'n'))
-	for t in TipuKonflitu.active.all():
+	for t in tipu_relatoriu(kazu):
 		objects2.append([t, n_tipu.get(t.pk, 0)])
 	n_mun = dict(kazu.order_by().values_list('munisipiu').annotate(n=Count('pk', distinct=True)).values_list('munisipiu', 'n'))
 	muns = Munisipiu.active.all()

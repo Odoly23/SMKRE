@@ -10,7 +10,7 @@ from config.permissions import HasRole
 from config.rbac import ROLE_DASHBOARD
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.models import UmaKainAfetada, STATUS_CHOICES
-from report.utils import report_queryset, STATUS_RELATORIU, filtru_eviksaun
+from report.utils import report_queryset, STATUS_RELATORIU, filtru_eviksaun, tipu_relatoriu
 
 
 # baze API relatóriu: sesaun + papél (role) ROLE_DASHBOARD de'it
@@ -38,7 +38,7 @@ class APIKazuTipu(_ReportAPI):
 		label, obj = list(), list()
 		kazu = report_queryset(request)
 		n = dict(kazu.order_by().values_list('tipu_konflitu').annotate(n=Count('pk', distinct=True)).values_list('tipu_konflitu', 'n'))
-		for t in TipuKonflitu.active.all():
+		for t in tipu_relatoriu(kazu):
 			label.append(t.name)
 			obj.append(n.get(t.pk, 0))
 		return Response({'label': label, 'obj': obj})
