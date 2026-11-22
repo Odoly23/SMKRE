@@ -5610,3 +5610,125 @@ msgstr "Lihat semua"
 
 msgid "Follow-up hotu"
 msgstr "Semua follow-up"
+
+#: publiku/views/portal_v.py
+msgid "Abríl"
+msgstr "April"
+
+#: publiku/views/portal_v.py
+msgid "Agostu"
+msgstr "Agustus"
+
+#: publiku/templates/publiku/portal.html
+msgid "Dadus eviksaun seidauk to'o atu hatudu (privasidade)."
+msgstr "Data penggusuran belum cukup untuk ditampilkan (privasi)."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus husi kazu ne'ebé verifika no aprova ona, ho konsentimentu komunidade. "
+"La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\"."
+msgstr ""
+"Data dari kasus yang sudah diverifikasi dan disetujui, dengan persetujuan "
+"komunitas. Tanpa nama, foto, atau lokasi persis. Angka 1 dan 2 ditampilkan "
+"sebagai \"&lt; %(limite)s\"."
+
+#: publiku/views/portal_v.py
+msgid "Dadus ikus"
+msgstr "Data terakhir"
+
+#: kazu/models/seksaun.py
+msgid "Detalla Rai"
+msgstr "Detail Tanah"
+
+#: publiku/views/portal_v.py
+msgid "Dezembru"
+msgstr "Desember"
+
+#: publiku/views/portal_v.py
+msgid "Domingu"
+msgstr "Minggu"
+
+#: publiku/views/portal_v.py
+msgid "Fevereiru"
+msgstr "Februari"
+
+#: publiku/views/portal_v.py
+msgid "Janeiru"
+msgstr "Januari"
+
+#: publiku/views/portal_v.py
+msgid "Jullu"
+msgstr "Juli"
+
+#: publiku/views/portal_v.py
+msgid "Juñu"
+msgstr "Juni"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu hetan ona eviksaun"
+msgstr "Kasus yang sudah mengalami penggusuran"
+
+#: publiku/views/portal_v.py
+msgid "Kinta"
+msgstr "Kamis"
+
+#: publiku/views/portal_v.py
+msgid "Kuarta"
+msgstr "Rabu"
+
+#: publiku/views/portal_v.py
+msgid "Maiu"
+msgstr "Mei"
+
+#: publiku/views/portal_v.py
+msgid "Marsu"
+msgstr "Maret"
+
+#: publiku/templates/publiku/base.html
+msgid "Monitorizasaun kazu konflitu rai"
+msgstr "Pemantauan kasus konflik tanah"
+
+#: publiku/views/portal_v.py
+msgid "Novembru"
+msgstr "November"
+
+#: publiku/views/portal_v.py
+msgid "Outubru"
+msgstr "Oktober"
+
+#: publiku/templates/publiku/portal.html
+msgid "Públiku"
+msgstr "Publik"
+
+#: publiku/views/portal_v.py
+msgid "Segunda"
+msgstr "Senin"
+
+#: publiku/views/portal_v.py
+msgid "Sesta"
+msgstr "Jumat"
+
+#: publiku/views/portal_v.py
+msgid "Setembru"
+msgstr "September"
+
+#: publiku/views/portal_v.py
+msgid "Sábadu"
+msgstr "Sabtu"
+
+#: publiku/views/portal_v.py
+msgid "Tersa"
+msgstr "Selasa"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu barak liu"
+msgstr "Jenis konflik terbanyak"
+
+#: publiku/templates/publiku/portal.html
+msgid "Total kazu kada munisípiu"
+msgstr "Total kasus per munisipiu"
+
+#: publiku/templates/publiku/portal.html
+msgid "munisípiu ho kazu"
+msgstr "munisipiu dengan kasus"

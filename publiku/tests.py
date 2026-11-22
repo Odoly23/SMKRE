@@ -111,7 +111,10 @@ class PortalPajinaTest(PortalBase):
 		self.assertEqual(r.status_code, 200)
 		self.assertContains(r, 'tel:+67070000000')
 		self.assertContains(r, 'mailto:info@exemplu.tl')
-		self.assertContains(r, 'main/portal/portal.js')
+		self.assertContains(r, 'main/portal/landing.js')
+		self.assertContains(r, 'data-api="/api/portal/estatistika/"')     # dadus hotu husi API
+		self.assertNotContains(r, 'Tama-Lai')                              # la iha link login
+		self.assertNotContains(r, '/login')
 
 	def test_publikasaun_rascunho_subar(self):
 		pub = Publikasaun.objects.create(titulu='Draft', rezumu='x', data=timezone.localdate(),
@@ -159,10 +162,30 @@ class PublikasaunStafTest(TestCase):
 		self.assertEqual(self.client.get(reverse('publikasaun-list')).status_code, 403)
 
 
-class MapboxTokenTest(TestCase):
-	# Token Mapbox mai husi .env (settings.MAPBOX_TOKEN), la hakerek iha kódigu
-	def test_token_husi_settings(self):
-		with self.settings(MAPBOX_TOKEN='pk.teste123'):
-			self.assertContains(self.client.get(reverse('portal')), 'data-mapbox="pk.teste123"')
-		with self.settings(MAPBOX_TOKEN=''):
-			self.assertContains(self.client.get(reverse('portal')), 'data-mapbox=""')
+class EviksaunPubliku(PortalBase):
+	# marka kazu Dili sira hetan eviksaun (seksaun eviksaun liu husi property Kazu)
+	def marka(self, mun, n, konsulta='LAE'):
+		for k in Kazu.objects.filter(munisipiu=mun, status='APPROVED', konsentimentu=True, la_publika=False)[:n]:
+			k.eviksaun_akontese, k.konsultasaun_molok = 'SIN', konsulta
+			k.save()
+
+	def test_painel_eviksaun_agregadu(self):
+		self.marka(self.dil, 3)
+		ev = estatistika({})['eviksaun']
+		self.assertEqual(ev['total'], {'n': 3, 'label': '3'})
+		self.assertEqual(ev['uma_kain'], 15)
+		self.assertEqual([(x['code'], x['n']) for x in ev['konsultasaun']], [('LAE', 3)])
+		self.assertEqual(estatistika({})['kpi']['eviksaun'], ev['total'])
+
+	def test_eviksaun_ki_ik_la_hatudu_detalla(self):
+		self.marka(self.liq, 2)
+		ev = estatistika({})['eviksaun']
+		self.assertEqual(ev['total'], {'n': None, 'label': '< 3'})
+		self.assertIsNone(ev['uma_kain'])
+		self.assertEqual(ev['konsultasaun'], [])
+
+	def test_api_publiku_la_iha_dadus_internu(self):
+		r = self.client.get(reverse('api-portal-estatistika'))
+		self.assertEqual(r.status_code, 200)
+		for internu in (b'urjente', b'hein', b'verifikasaun', b'kode', b'latitude', b'survei'):
+			self.assertNotIn(internu, r.content.lower())

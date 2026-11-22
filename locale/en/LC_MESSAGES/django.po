@@ -5627,3 +5627,125 @@ msgstr "See all"
 
 msgid "Follow-up hotu"
 msgstr "All follow-ups"
+
+#: publiku/views/portal_v.py
+msgid "Abríl"
+msgstr "April"
+
+#: publiku/views/portal_v.py
+msgid "Agostu"
+msgstr "August"
+
+#: publiku/templates/publiku/portal.html
+msgid "Dadus eviksaun seidauk to'o atu hatudu (privasidade)."
+msgstr "Not enough eviction data to show yet (privacy)."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus husi kazu ne'ebé verifika no aprova ona, ho konsentimentu komunidade. "
+"La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\"."
+msgstr ""
+"Data from cases already verified and approved, with community consent. No "
+"names, photos or exact locations. Numbers 1 and 2 are shown as \"&lt; "
+"%(limite)s\"."
+
+#: publiku/views/portal_v.py
+msgid "Dadus ikus"
+msgstr "Latest data"
+
+#: kazu/models/seksaun.py
+msgid "Detalla Rai"
+msgstr "Land Details"
+
+#: publiku/views/portal_v.py
+msgid "Dezembru"
+msgstr "December"
+
+#: publiku/views/portal_v.py
+msgid "Domingu"
+msgstr "Sunday"
+
+#: publiku/views/portal_v.py
+msgid "Fevereiru"
+msgstr "February"
+
+#: publiku/views/portal_v.py
+msgid "Janeiru"
+msgstr "January"
+
+#: publiku/views/portal_v.py
+msgid "Jullu"
+msgstr "July"
+
+#: publiku/views/portal_v.py
+msgid "Juñu"
+msgstr "June"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu hetan ona eviksaun"
+msgstr "Cases already evicted"
+
+#: publiku/views/portal_v.py
+msgid "Kinta"
+msgstr "Thursday"
+
+#: publiku/views/portal_v.py
+msgid "Kuarta"
+msgstr "Wednesday"
+
+#: publiku/views/portal_v.py
+msgid "Maiu"
+msgstr "May"
+
+#: publiku/views/portal_v.py
+msgid "Marsu"
+msgstr "March"
+
+#: publiku/templates/publiku/base.html
+msgid "Monitorizasaun kazu konflitu rai"
+msgstr "Land conflict case monitoring"
+
+#: publiku/views/portal_v.py
+msgid "Novembru"
+msgstr "November"
+
+#: publiku/views/portal_v.py
+msgid "Outubru"
+msgstr "October"
+
+#: publiku/templates/publiku/portal.html
+msgid "Públiku"
+msgstr "Public"
+
+#: publiku/views/portal_v.py
+msgid "Segunda"
+msgstr "Monday"
+
+#: publiku/views/portal_v.py
+msgid "Sesta"
+msgstr "Friday"
+
+#: publiku/views/portal_v.py
+msgid "Setembru"
+msgstr "September"
+
+#: publiku/views/portal_v.py
+msgid "Sábadu"
+msgstr "Saturday"
+
+#: publiku/views/portal_v.py
+msgid "Tersa"
+msgstr "Tuesday"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu barak liu"
+msgstr "Most common conflict type"
+
+#: publiku/templates/publiku/portal.html
+msgid "Total kazu kada munisípiu"
+msgstr "Total cases per municipality"
+
+#: publiku/templates/publiku/portal.html
+msgid "munisípiu ho kazu"
+msgstr "municipalities with cases"

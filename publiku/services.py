@@ -140,10 +140,14 @@ def _kalkula(f):
 		for pk, n in sorted(por_suku.items(), key=lambda x: -x[1]):
 			suku.append(dict({'name': nomes.get(pk) or _('Suku seidauk rejista')}, **subar(n)))
 
+	evik = _eviksaun(kazu)
+	kpi['eviksaun'] = evik['total']
+
 	atualiza = portal_queryset().aggregate(d=Max('approved_at'))['d']
 	return {
 		'filtru': f, 'kpi': kpi, 'munisipiu': munisipiu, 'tipu': tipu, 'tinan': tinan,
 		'afetadu': afetadu, 'suku': suku, 'lokasaun': _lokasaun(kazu, f, total), 'limite': limite(),
+		'eviksaun': evik,
 		'atualiza': timezone.localtime(atualiza).strftime('%d/%m/%Y') if atualiza else None,
 	}
 
@@ -175,3 +179,19 @@ def _lokasaun(kazu, f, total):
 	for lat, lng in kazu.exclude(latitude=None).exclude(longitude=None).values_list('latitude', 'longitude'):
 		pontu.add((round(float(lat), DESIMAL_LOKASAUN), round(float(lng), DESIMAL_LOKASAUN)))
 	return sorted(pontu)
+
+
+# painel eviksaun públiku: kazu hetan eviksaun + konsultasaun / notifikasaun / forsa (agregadu de'it);
+# total < limite → la hatudu detalla; barra ida-idak ho númeru 1–2 → "< 3"
+def _eviksaun(kazu):
+	from kazu.models.opsaun import SIN_LAE_CHOICES
+	from report.advokasia import kazu_eviksaun, _konta
+	evik = kazu_eviksaun(kazu)
+	total = evik.count()
+	res = {'total': subar(total), 'uma_kain': None, 'konsultasaun': [], 'notifikasaun': [], 'forsa': []}
+	if total < limite():
+		return res
+	res['uma_kain'] = UmaKainAfetada.objects.filter(kazu__in=evik).aggregate(u=Sum('uma_kain'))['u'] or 0
+	for chave, campo in (('konsultasaun', 'konsultasaun_molok'), ('notifikasaun', 'notifikasaun_klaru'), ('forsa', 'uza_forsa')):
+		res[chave] = [dict({'code': k or 'LAIHA', 'name': l}, **subar(n)) for k, l, n in _konta(evik, f'eviksaun__{campo}', SIN_LAE_CHOICES)]
+	return res

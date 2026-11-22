@@ -2,6 +2,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -15,6 +16,7 @@ from users.validators import NotDefaultPasswordValidator
 
 class LoginTest(TestCase):
 	def setUp(self):
+		cache.clear()                 # limite login kada IP rai iha cache
 		setup_master()
 		self.user = make_user(ADMIN, email='joana@teste.tl')
 
@@ -37,6 +39,75 @@ class LoginTest(TestCase):
 	def test_pajina_login_redirect_se_login_ona(self):
 		self.client.force_login(self.user)
 		self.assertRedirects(self.client.get(reverse('login')), reverse('home'))
+
+
+class LoginSubarTest(TestCase):
+	# login iha /Tama-Lai/ de'it; URL ne'e la sai iha pájina públiku ka redirect
+	def setUp(self):
+		cache.clear()
+		setup_master()
+
+	def test_url_login(self):
+		self.assertEqual(reverse('login'), '/Tama-Lai/')
+		r = self.client.get('/Tama-Lai/')
+		self.assertEqual(r.status_code, 200)
+		self.assertEqual(r['X-Robots-Tag'], 'noindex, nofollow')
+		self.assertRedirects(self.client.get('/tama-lai/'), '/Tama-Lai/')
+		self.assertEqual(self.client.get('/login/').status_code, 404)
+
+	def test_pajina_privadu_la_fo_sai_url_login(self):
+		r = self.client.get('/kazu/')
+		self.assertEqual(r.status_code, 302)
+		self.assertTrue(r['Location'].startswith(reverse('portal')))
+		self.assertNotIn('Tama-Lai', r['Location'])
+
+
+class LoginSeguransaTest(TestCase):
+	def setUp(self):
+		cache.clear()
+		setup_master()
+		self.user = make_user(ADMIN, email='joana@teste.tl')
+
+	def post(self, username, password, **extra):
+		return self.client.post(reverse('login'), dict({'username': username, 'password': password}, **extra))
+
+	def test_sql_injection_la_tama(self):
+		payloads = ["' OR '1'='1", "joana@teste.tl' --", "joana@teste.tl'; DROP TABLE auth_user; --",
+			"' UNION SELECT username, password FROM auth_user --", "admin'/*@teste.tl", "x@y.tl\x00"]
+		for p in payloads:
+			for u, pw in ((p, p), ('joana@teste.tl', p), (p, PASSWORD)):
+				r = self.post(u, pw)
+				self.assertIn(r.status_code, (200, 429), p)          # 429 = axes / limite IP xave ona
+				self.assertFalse(r.wsgi_request.user.is_authenticated, p)
+		self.assertTrue(User.objects.filter(username='joana@teste.tl').exists())      # tabela la lakon
+
+	def test_honeypot_bloku_robot(self):
+		r = self.post('joana@teste.tl', PASSWORD, website='http://spam.example')
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(r.wsgi_request.user.is_authenticated)
+
+	def test_password_naruk_liu_rejeita(self):
+		r = self.post('joana@teste.tl', 'a' * 5000)
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(r.wsgi_request.user.is_authenticated)
+
+	@override_settings(AXES_FAILURE_LIMIT=1000)
+	def test_limite_kada_ip(self):
+		from users.views.account_v import LOGIN_IP_LIMITE
+		for i in range(LOGIN_IP_LIMITE):
+			self.post(f'ema{i}@teste.tl', 'sala')
+		r = self.post('joana@teste.tl', PASSWORD)
+		self.assertEqual(r.status_code, 429)
+		self.assertFalse(r.wsgi_request.user.is_authenticated)
+
+	def test_erru_jeral_la_fo_sai_email(self):
+		a = self.post('joana@teste.tl', 'sala').context['form'].non_field_errors()
+		b = self.post('la-iha@teste.tl', 'sala').context['form'].non_field_errors()
+		self.assertEqual(list(a), list(b))
+
+	def test_log_la_bele_injeta_liña(self):
+		from users.views.account_v import _log_seguru
+		self.assertNotIn('\n', _log_seguru('a@b.tl\nLogin: admin IP 1.2.3.4'))
 
 
 class ForceChangePasswordTest(TestCase):

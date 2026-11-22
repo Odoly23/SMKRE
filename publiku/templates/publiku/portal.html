@@ -2,155 +2,125 @@
 {% load static i18n %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
+<link rel="stylesheet" href="{% static 'main/portal/landing.css' %}">
 {% endblock %}
 {% block content %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<div class="ld">
 
-<!-- ══ Hero + KPI ══ -->
-<section class="p-hero">
-	<div class="container">
-		<span class="p-eyebrow"><i class="fa fa-shield"></i> {% trans "Dadus verifikadu no anónimu" %}</span>
-		<h1>{% trans "Sistema Monitorizasaun Kazu Rai" %}</h1>
-		<p class="p-org">Rede ba Rai (RbR)</p>
-		<p class="p-lead">{% trans "Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste. Klik iha mapa ka gráfiku atu filtra dadus." %}</p>
-		<div class="p-kpis" id="kpis" aria-live="polite">
-			<div class="p-kpi"><b data-kpi="total">–</b><span>{% trans "Kazu verifikadu" %}</span></div>
-			<div class="p-kpi"><b data-kpi="uma_kain">–</b><span>{% trans "Uma-kain afetadu" %}</span></div>
-			<div class="p-kpi"><b data-kpi="ema">–</b><span>{% trans "Ema afetadu" %}</span></div>
-			<div class="p-kpi"><b data-kpi="munisipiu">–</b><span>{% trans "Munisípiu ho kazu" %}</span></div>
-		</div>
-		<p class="p-atualiza"><i class="fa fa-clock-o"></i> {% trans "Atualiza ikus" %}: <span id="atualiza">–</span></p>
-	</div>
-</section>
-
-<!-- ══ Filtru (liña ida, leten husi mapa no gráfiku hotu) ══ -->
-<div class="p-filtru" id="filtru">
-	<div class="container">
-		<form class="p-filtru-form" id="form-filtru">
-			<label class="sr-only" for="f-munisipiu">{% trans "Munisípiu" %}</label>
-			<select id="f-munisipiu" name="munisipiu" class="custom-select">
-				<option value="">{% trans "Munisípiu hotu" %}</option>
-				{% for m in munisipiu_list %}<option value="{{ m.code }}" {% if filtru.munisipiu == m.code %}selected{% endif %}>{{ m.name }}</option>{% endfor %}
-			</select>
-			<label class="sr-only" for="f-tipu">{% trans "Tipu konflitu" %}</label>
-			<select id="f-tipu" name="tipu" class="custom-select">
-				<option value="">{% trans "Tipu konflitu hotu" %}</option>
-				{% for t in tipu_list %}<option value="{{ t.pk }}" {% if filtru.tipu == t.pk %}selected{% endif %}>{{ t.name }}</option>{% endfor %}
-			</select>
-			<label class="sr-only" for="f-tinan">{% trans "Tinan" %}</label>
-			<select id="f-tinan" name="tinan" class="custom-select">
-				<option value="">{% trans "Tinan hotu" %}</option>
-			</select>
-			<button type="button" class="btn btn-light" id="btn-reset"><i class="fa fa-times"></i> {% trans "Hamoos filtru" %}</button>
-		</form>
-		<div class="p-chips" id="chips" aria-live="polite"></div>
-	</div>
-</div>
-
-<!-- ══ Mapa ══ -->
-<section class="p-sec" id="mapa">
-	<div class="container">
-		<div class="p-sec-head">
-			<h2>{% trans "Mapa kazu tuir munisípiu" %}</h2>
-			<p>{% trans "Pin hatudu total kazu kada munisípiu. Klik pin → Haree Detalla atu zoom ba munisípiu, haree fatin kazu (aproksimadu) no gráfiku suku." %}</p>
-		</div>
-		<div class="row">
-			<div class="col-lg-8 mb-3">
-				<div class="p-card p-map-card">
-					<div id="p-mapa" role="region" aria-label="{% trans "Mapa kazu tuir munisípiu" %}"></div>
-				</div>
-			</div>
-			<div class="col-lg-4 mb-3">
-				<div class="p-card h-100" id="painel">
-					<h3 id="painel-titulu">Timor-Leste</h3>
-					<p class="text-muted small mb-2" id="painel-sub">{% trans "Klik munisípiu iha mapa ka gráfiku." %}</p>
-					<div id="chart-suku" class="p-chart-sm"></div>
-					<div class="p-legend-mapa" id="legend-mapa"></div>
-				</div>
+	<!-- ══ Kabesallu: marka · relójiu Dili · lian ══ -->
+	<header class="ld-top">
+		<div class="ld-brand">
+			<span class="ld-logo"><img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" width="56" height="56"></span>
+			<div>
+				<h1>SIBAR-RbR <span>{% trans "Públiku" %}</span></h1>
+				<p>{% trans "Monitorizasaun kazu konflitu rai" %} · Rede ba Rai</p>
 			</div>
 		</div>
-	</div>
-</section>
+		<div class="ld-relojiu" aria-hidden="true">
+			<svg class="analog" viewBox="0 0 100 100" id="relojiu-svg">
+				<circle class="face" cx="50" cy="50" r="47"/>
+				<g id="relojiu-tk"></g>
+				<line id="jarum-oras" class="jr-oras" x1="50" y1="54" x2="50" y2="28"/>
+				<line id="jarum-min" class="jr-min" x1="50" y1="56" x2="50" y2="15"/>
+				<line id="jarum-seg" class="jr-seg" x1="50" y1="60" x2="50" y2="10"/>
+				<circle class="pinu" cx="50" cy="50" r="3"/>
+			</svg>
+			<div class="relojiu-tx"><div id="loron">&nbsp;</div><div id="data">&nbsp;</div><div id="oras">--:--</div></div>
+		</div>
+		<div class="ld-estadu">
+			<div class="ld-lian">
+				{% for code, name in LANGUAGES %}
+				<form action="{% url 'set-language' %}" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="language" value="{{ code }}">
+					<input type="hidden" name="next" value="{{ request.get_full_path }}">
+					<button type="submit" class="{% if code == LANGUAGE_CODE %}active{% endif %}" title="{{ name }}" aria-label="{{ name }}"{% if code == LANGUAGE_CODE %} aria-current="true"{% endif %}>{{ code|upper }}</button>
+				</form>
+				{% endfor %}
+			</div>
+			<div class="ld-sub" id="estadu"><i class="fa fa-circle-o-notch fa-spin"></i> {% trans "Karrega dadus…" %}</div>
+		</div>
+	</header>
 
-<!-- ══ Gráfiku interativu ══ -->
-<section class="p-sec p-sec-alt" id="estatistika">
-	<div class="container">
-		<div class="p-sec-head">
-			<h2>{% trans "Estatístika" %}</h2>
-			<p>{% trans "Klik barra ida atu filtra gráfiku hotu. Klik fali atu hamoos filtru." %}</p>
-		</div>
-		<div class="row" id="charts">
-			<div class="col-lg-6 mb-4"><div class="p-card"><h3>{% trans "Kazu tuir munisípiu" %}</h3><div id="chart-munisipiu" class="p-chart-tall"></div></div></div>
-			<div class="col-lg-6 mb-4"><div class="p-card"><h3>{% trans "Kazu tuir tipu konflitu" %}</h3><div id="chart-tipu" class="p-chart"></div></div></div>
-			<div class="col-lg-6 mb-4"><div class="p-card"><h3>{% trans "Kazu tuir tinan" %}</h3><div id="chart-tinan" class="p-chart"></div></div></div>
-			<div class="col-lg-6 mb-4"><div class="p-card"><h3>{% trans "Populasaun afetada: mane no feto" %}</h3><div id="chart-afetadu" class="p-chart-tall"></div></div></div>
-		</div>
-		<p class="p-nota"><i class="fa fa-lock"></i> {% blocktrans %}Atu proteje privasidade komunidade, númeru 1 no 2 hatudu hanesan "&lt; {{ limite }}". Populasaun afetada hatudu deit ba munisípiu ho kazu {{ limite }} ka liu.{% endblocktrans %}</p>
-	</div>
-</section>
+	<!-- ══ KPI (dadus verifikadu + konsentimentu de'it) ══ -->
+	<section class="ld-kpi" aria-live="polite">
+		<div class="kpi"><div class="kpi-l"><i class="fa fa-folder-open"></i> {% trans "Kazu verifikadu" %}</div><div class="kpi-n" data-k="total">–</div><div class="kpi-s"><b data-k="munisipiu">–</b> {% trans "munisípiu ho kazu" %}</div></div>
+		<div class="kpi"><div class="kpi-l"><i class="fa fa-home"></i> {% trans "Uma-kain afetadu" %}</div><div class="kpi-n" data-k="uma_kain">–</div><div class="kpi-s"><b data-k="ema">–</b> {% trans "ema" %}</div></div>
+		<div class="kpi kpi-earth"><div class="kpi-l"><i class="fa fa-bullhorn"></i> {% trans "Kazu hetan ona eviksaun" %}</div><div class="kpi-n" data-k="eviksaun">–</div><div class="kpi-s"><b data-k="evik_uma">–</b> {% trans "uma-kain" %}</div></div>
+		<div class="kpi"><div class="kpi-l"><i class="fa fa-tags"></i> {% trans "Tipu konflitu barak liu" %}</div><div class="kpi-t" id="tipu-top">–</div><div class="kpi-s" id="tipu-top-n">&nbsp;</div></div>
+	</section>
 
-<!-- ══ Publikasaun ══ -->
-<section class="p-sec" id="publikasaun">
-	<div class="container">
-		<div class="p-sec-head">
-			<h2>{% trans "Publikasaun" %}</h2>
-			<p>{% trans "Policy brief no relatóriu husi Rede ba Rai." %}</p>
-		</div>
-		<div class="row">
+	<div class="ld-grid">
+		<!-- Mapa: total kazu kada munisípiu (la iha pontu kazu ida-idak) -->
+		<section class="pnl ld-mapa">
+			<div class="pnl-h"><h2><i class="fa fa-map"></i> {% trans "Mapa kazu" %}</h2><span class="pnl-nota">{% trans "Total kazu kada munisípiu" %}</span></div>
+			<div id="mapa" role="img" aria-label="{% trans "Mapa kazu tuir munisípiu" %}"></div>
+			<div class="mapa-eskala"><span>{% trans "Kazu kada munisípiu" %}</span><i class="esk"></i><span id="esk-max">0</span></div>
+			<ul class="mun-lista" id="mun-lista" aria-label="{% trans "Kazu tuir munisípiu" %}"></ul>
+		</section>
+
+		<!-- Kazu tuir tinan -->
+		<section class="pnl ld-trend">
+			<div class="pnl-h"><h2><i class="fa fa-line-chart"></i> {% trans "Kazu tuir tinan" %}</h2></div>
+			<div id="ch-tinan" class="ch"></div>
+		</section>
+
+		<!-- Tipu konflitu -->
+		<section class="pnl ld-tipu">
+			<div class="pnl-h"><h2><i class="fa fa-tags"></i> {% trans "Tipu konflitu" %}</h2></div>
+			<div id="ch-tipu" class="ch"></div>
+		</section>
+
+		<!-- Eviksaun -->
+		<section class="pnl ld-evik">
+			<div class="pnl-h"><h2><i class="fa fa-bullhorn"></i> {% trans "Eviksaun" %}</h2>
+				<div class="evik-kpi"><b data-k="eviksaun">–</b> {% trans "kazu hetan ona" %} · <b data-k="evik_uma">–</b> {% trans "uma-kain" %}</div></div>
+			<div class="evik-q"><h3>{% trans "Molok eviksaun halo konsultasaun ka lae?" %}</h3><div id="ch-ev-konsultasaun" class="ch-ev"></div></div>
+			<div class="evik-q"><h3>{% trans "Molok eviksaun iha notifikasaun ka lae?" %}</h3><div id="ch-ev-notifikasaun" class="ch-ev"></div></div>
+			<div class="evik-q"><h3>{% trans "Durante eviksaun uza forsa ka lae?" %}</h3><div id="ch-ev-forsa" class="ch-ev"></div></div>
+			<p class="evik-vaziu" id="evik-vaziu" hidden>{% trans "Dadus eviksaun seidauk to'o atu hatudu (privasidade)." %}</p>
+		</section>
+	</div>
+
+	<!-- ══ Privasidade ══ -->
+	<p class="ld-nota"><i class="fa fa-lock"></i> {% blocktrans %}Dadus husi kazu ne'ebé verifika no aprova ona, ho konsentimentu komunidade. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan "&lt; {{ limite }}".{% endblocktrans %}</p>
+
+	{% if publikasaun %}
+	<!-- ══ Publikasaun ══ -->
+	<section class="ld-pub" id="publikasaun">
+		<h2><i class="fa fa-file-text-o"></i> {% trans "Publikasaun" %}</h2>
+		<div class="pub-lista">
 			{% for p in publikasaun %}
-			<div class="col-md-6 col-lg-4 mb-4">
-				<article class="p-card p-pub">
-					<span class="p-pub-tipu">{{ p.get_tipu_display }} · {{ p.lian|upper }}</span>
-					<h3>{{ p.titulu }}</h3>
-					<p>{{ p.rezumu|truncatechars:220 }}</p>
-					<div class="p-pub-foot">
-						<small class="text-muted"><i class="fa fa-calendar"></i> {{ p.data|date:"d/m/Y" }}</small>
-						<a href="{% url 'portal-publikasaun' p.pk %}" class="btn btn-sm btn-portal" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> {% trans "Lee PDF" %}</a>
-					</div>
-				</article>
-			</div>
-			{% empty %}
-			<div class="col-12"><div class="p-card text-center text-muted">{% trans "Seidauk iha publikasaun." %}</div></div>
+			<a class="pub" href="{% url 'portal-publikasaun' p.pk %}" target="_blank" rel="noopener">
+				<span class="pub-tipu">{{ p.get_tipu_display }} · {{ p.lian|upper }} · {{ p.data|date:"d/m/Y" }}</span>
+				<b>{{ p.titulu }}</b>
+				<span class="pub-lee"><i class="fa fa-file-pdf-o"></i> {% trans "Lee PDF" %}</span>
+			</a>
 			{% endfor %}
 		</div>
-	</div>
-</section>
+	</section>
+	{% endif %}
 
-<!-- ══ Kona-ba dadus ══ -->
-<section class="p-sec p-sec-alt" id="kona-ba">
-	<div class="container">
-		<div class="p-sec-head"><h2>{% trans "Kona-ba dadus ne'e" %}</h2></div>
-		<div class="row">
-			<div class="col-md-4 mb-3"><div class="p-info"><i class="fa fa-map-marker"></i><h3>{% trans "Rekolla iha terrenu" %}</h3><p>{% trans "Investigadór Rede ba Rai rejista kazu iha fatin akontesimentu, ho GPS no konsentimentu husi ema afetada." %}</p></div></div>
-			<div class="col-md-4 mb-3"><div class="p-info"><i class="fa fa-check-circle"></i><h3>{% trans "Verifika dala rua" %}</h3><p>{% trans "Kada kazu verifika husi Admin no aprova husi Superadmin molok mosu iha portal ne'e." %}</p></div></div>
-			<div class="col-md-4 mb-3"><div class="p-info"><i class="fa fa-user-secret"></i><h3>{% trans "Privasidade" %}</h3><p>{% trans "Portal hatudu dadus agregadu deit. La iha naran, foto ka fatin ezatu. Komunidade bele husu atu kazu la mosu iha públiku." %}</p></div></div>
+	<!-- ══ Rodapé: kontaktu (la iha link login) ══ -->
+	<footer class="ld-footer">
+		<div class="ld-kontaktu">
+			{% if kontaktu.telefone %}<a href="tel:{{ kontaktu.telefone|cut:' ' }}"><i class="fa fa-phone"></i> {{ kontaktu.telefone }}</a>{% endif %}
+			{% if kontaktu.email %}<a href="mailto:{{ kontaktu.email }}"><i class="fa fa-envelope"></i> {{ kontaktu.email }}</a>{% endif %}
+			{% if kontaktu.enderesu %}<span><i class="fa fa-map-marker"></i> {{ kontaktu.enderesu }}</span>{% endif %}
+			<a href="https://redebarai.org" rel="noopener" target="_blank"><i class="fa fa-globe"></i> redebarai.org</a>
 		</div>
-	</div>
-</section>
-
-<!-- ══ Kontaktu (CTA) ══ -->
-<section class="p-cta">
-	<div class="container">
-		<div>
-			<h2>{% trans "Iha konflitu rai ka eviksaun iha ita-nia komunidade?" %}</h2>
-			<p>{% trans "Kontaktu Rede ba Rai liuhusi telefone ka email." %}</p>
-		</div>
-		<div class="p-cta-btn">
-			{% if kontaktu.telefone %}<a href="tel:{{ kontaktu.telefone|cut:' ' }}" class="btn btn-light btn-lg"><i class="fa fa-phone"></i> {{ kontaktu.telefone }}</a>{% endif %}
-			{% if kontaktu.email %}<a href="mailto:{{ kontaktu.email }}" class="btn btn-outline-light btn-lg"><i class="fa fa-envelope"></i> {% trans "Email" %}</a>{% endif %}
-		</div>
-	</div>
-</section>
+		<div class="ld-copy">© {% now "Y" %} Rede ba Rai · SIBAR-RbR · {% trans "Dezenvolve husi" %} Onosio, Ricardo, Olavio</div>
+	</footer>
+</div>
 
 {{ portal_lang|json_script:"portal-lang" }}
-<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}" data-mapbox="{{ MAPBOX_TOKEN }}" data-ikon-mean="{% static 'main/mapa/marker-red.svg' %}"></div>
+<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}"></div>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'main/leaflet/leaflet.js' %}"></script>
 <script src="{% static 'main/charts/js/highcharts.js' %}"></script>
-<script src="{% static 'main/charts/js/modules/exporting.js' %}"></script>
-<script src="{% static 'main/charts/js/modules/offline-exporting.js' %}"></script>
-<script src="{% static 'main/charts/js/modules/export-data.js' %}"></script>
-<script src="{% static 'main/charts/js/modules/accessibility.js' %}"></script>
-<script src="{% static 'main/portal/portal.js' %}"></script>
+<script src="{% static 'main/portal/landing.js' %}"></script>
 {% endblock %}

@@ -3,40 +3,28 @@ from django.http import FileResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
-from custom.models import Munisipiu, TipuKonflitu
 from publiku.models import Publikasaun
-from publiku.services import limpa_filtru
-from report.utils import chart_lang
 
 
+# testu ba landing.js (iha lian vizitante)
 def _portal_lang():
-	# Testu ba portal.js (iha lian vizitante)
 	return {
-		'highcharts': chart_lang(),
-		'kazu': _('kazu'), 'subar': _('Dadus subar ba privasidade'), 'klik': _('Klik atu filtra'),
-		'klik_hamoos': _('Klik fali atu hamoos filtru'), 'mane': _('Mane'), 'feto': _('Feto'), 'labarik': _('Labarik'),
-		'uma_kain': _('Uma-kain'), 'total': _('Total'), 'la_iha': _('La iha dadus'), 'suku': _('Kazu tuir suku'),
-		'suku_hili': _('Hili munisípiu ida atu haree kazu tuir suku.'), 'munisipiu': _('Munisípiu'),
-		'tipu': _('Tipu'), 'tinan': _('Tinan'), 'timor': 'Timor-Leste', 'legenda': _('Kazu kada munisípiu'),
-		'ema': _('ema'), 'offline': _('Mapa baze (offline)'),
-		'street': _('Street'), 'satelite': _('Satélite'), 'hotspot': _('Hotspot (total kazu)'),
-		'kor_munisipiu': _('Kór munisípiu'), 'klik_hotspot': _('Klik atu haree detalla'),
-		'total_kazu': _('Total kazu'), 'tipu_top': _('Tipu barak liu'), 'uma_afetadu': _('Uma-kain afetadu'),
-		'haree_detalla': _('Haree Detalla'), 'lokasaun': _('Fatin kazu (aproksimadu ~1 km)'),
+		'kazu': _('kazu'), 'atualiza': _('Atualiza'), 'dadus_ikus': _('Dadus ikus'), 'offline': _('Koneksaun lakon · dadus ikus'),
+		'la_iha': _('La iha dadus'), 'tinan': _('Tinan'),
+		'loron': [_('Domingu'), _('Segunda'), _('Tersa'), _('Kuarta'), _('Kinta'), _('Sesta'), _('Sábadu')],
+		'fulan': [_('Janeiru'), _('Fevereiru'), _('Marsu'), _('Abríl'), _('Maiu'), _('Juñu'), _('Jullu'), _('Agostu'),
+			_('Setembru'), _('Outubru'), _('Novembru'), _('Dezembru')],
 	}
 
 
+# landing públiku (la presiza login): KPI, mapa, tendénsia, tipu, eviksaun — dadus hotu husi API públiku
 def portalHome(request):
-	# Portal públiku (la presiza login): mapa, gráfiku interativu, publikasaun, kontaktu
 	context = {
 		"page": "portal",
-		'munisipiu_list': Munisipiu.active.all(), 'tipu_list': TipuKonflitu.active.all(),
-		'filtru': limpa_filtru(request.GET),
 		'publikasaun': Publikasaun.objects.filter(status=Publikasaun.PUBLIKADU)[:6],
 		'kontaktu': {'telefone': settings.PORTAL_TELEFONE, 'email': settings.PORTAL_EMAIL, 'enderesu': settings.PORTAL_ENDERESU},
 		'limite': settings.PORTAL_LIMITE_SUBAR,
 		'portal_lang': _portal_lang(),
-		'title': 'Sistema Monitorizasaun Kazu Rai',
 	}
 	return render(request, 'publiku/portal.html', context)
 

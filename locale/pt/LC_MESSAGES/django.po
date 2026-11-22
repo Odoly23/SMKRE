@@ -5646,3 +5646,125 @@ msgstr "Ver tudo"
 
 msgid "Follow-up hotu"
 msgstr "Todos os follow-up"
+
+#: publiku/views/portal_v.py
+msgid "Abríl"
+msgstr "Abril"
+
+#: publiku/views/portal_v.py
+msgid "Agostu"
+msgstr "Agosto"
+
+#: publiku/templates/publiku/portal.html
+msgid "Dadus eviksaun seidauk to'o atu hatudu (privasidade)."
+msgstr "Dados de despejo ainda insuficientes para mostrar (privacidade)."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus husi kazu ne'ebé verifika no aprova ona, ho konsentimentu komunidade. "
+"La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\"."
+msgstr ""
+"Dados de casos já verificados e aprovados, com consentimento da comunidade. "
+"Sem nomes, fotos ou localização exata. Os números 1 e 2 aparecem como \"&lt;"
+" %(limite)s\"."
+
+#: publiku/views/portal_v.py
+msgid "Dadus ikus"
+msgstr "Dados mais recentes"
+
+#: kazu/models/seksaun.py
+msgid "Detalla Rai"
+msgstr "Detalhe da Terra"
+
+#: publiku/views/portal_v.py
+msgid "Dezembru"
+msgstr "Dezembro"
+
+#: publiku/views/portal_v.py
+msgid "Domingu"
+msgstr "Domingo"
+
+#: publiku/views/portal_v.py
+msgid "Fevereiru"
+msgstr "Fevereiro"
+
+#: publiku/views/portal_v.py
+msgid "Janeiru"
+msgstr "Janeiro"
+
+#: publiku/views/portal_v.py
+msgid "Jullu"
+msgstr "Julho"
+
+#: publiku/views/portal_v.py
+msgid "Juñu"
+msgstr "Junho"
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu hetan ona eviksaun"
+msgstr "Casos que já sofreram despejo"
+
+#: publiku/views/portal_v.py
+msgid "Kinta"
+msgstr "Quinta-feira"
+
+#: publiku/views/portal_v.py
+msgid "Kuarta"
+msgstr "Quarta-feira"
+
+#: publiku/views/portal_v.py
+msgid "Maiu"
+msgstr "Maio"
+
+#: publiku/views/portal_v.py
+msgid "Marsu"
+msgstr "Março"
+
+#: publiku/templates/publiku/base.html
+msgid "Monitorizasaun kazu konflitu rai"
+msgstr "Monitorização de casos de conflito de terra"
+
+#: publiku/views/portal_v.py
+msgid "Novembru"
+msgstr "Novembro"
+
+#: publiku/views/portal_v.py
+msgid "Outubru"
+msgstr "Outubro"
+
+#: publiku/templates/publiku/portal.html
+msgid "Públiku"
+msgstr "Público"
+
+#: publiku/views/portal_v.py
+msgid "Segunda"
+msgstr "Segunda-feira"
+
+#: publiku/views/portal_v.py
+msgid "Sesta"
+msgstr "Sexta-feira"
+
+#: publiku/views/portal_v.py
+msgid "Setembru"
+msgstr "Setembro"
+
+#: publiku/views/portal_v.py
+msgid "Sábadu"
+msgstr "Sábado"
+
+#: publiku/views/portal_v.py
+msgid "Tersa"
+msgstr "Terça-feira"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu barak liu"
+msgstr "Tipo de conflito mais frequente"
+
+#: publiku/templates/publiku/portal.html
+msgid "Total kazu kada munisípiu"
+msgstr "Total de casos por município"
+
+#: publiku/templates/publiku/portal.html
+msgid "munisípiu ho kazu"
+msgstr "municípios com casos"

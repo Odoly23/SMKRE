@@ -11,13 +11,24 @@ from users.models import Pesoal, OfflinePermission
 BTN_RAI = """ <button class="btn btn-rbr" type="submit"><i class="fa fa-save"></i> {% load i18n %}{% trans "Rai" %}</button> """
 
 
+# formuláriu login (email + password) ho protesaun:
+# - email válidu de'it (máximu 254), password máximu 128 (evita hash testu naruk tebes / DoS)
+# - "website" = honeypot: subar ba ema, robot prense → rejeita ho erru jeral hanesan password sala
+# - Django ORM: pesquiza utilizador ho parámetru (la iha SQL hakerek liman) → la bele SQL injection
 class EmailLoginForm(AuthenticationForm):
-	username = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={'autofocus': True, 'autocomplete': 'email', 'placeholder': 'naran@redebarai.org'}))
-	password = forms.CharField(label=_("Password"), strip=False, widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}))
+	username = forms.EmailField(label=_("Email"), max_length=254, widget=forms.EmailInput(attrs={'autofocus': True, 'autocomplete': 'email', 'placeholder': 'naran@redebarai.org'}))
+	password = forms.CharField(label=_("Password"), strip=False, max_length=128, widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}))
+	website = forms.CharField(required=False, max_length=200, widget=forms.TextInput(attrs={'tabindex': '-1', 'autocomplete': 'off'}))
 
+	# email ki'ik no la iha espasu (konta rejista ho email ki'ik)
 	def clean_username(self):
 		return self.cleaned_data['username'].strip().lower()
 
+	# honeypot prense → robot: erru jeral (la fó sai razaun loos)
+	def clean(self):
+		if self.cleaned_data.get('website'):
+			raise self.get_invalid_login_error()
+		return super().clean()
 
 
 def _foto_seguru(form):

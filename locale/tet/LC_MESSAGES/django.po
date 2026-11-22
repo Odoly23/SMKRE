@@ -5597,3 +5597,261 @@ msgstr ""
 #: users
 msgid "Erru. Koko fali."
 msgstr "Erru. Koko fali."
+
+#: publiku/views/portal_v.py
+msgid "Abríl"
+msgstr "Abríl"
+
+#: publiku/views/portal_v.py
+msgid "Agostu"
+msgstr "Agostu"
+
+#: kazu/duplikadu.py
+msgid "Aldeia no tipu konflitu hanesan"
+msgstr "Aldeia no tipu konflitu hanesan"
+
+#: publiku/templates/publiku/portal.html
+msgid "Dadus eviksaun seidauk to'o atu hatudu (privasidade)."
+msgstr "Dadus eviksaun seidauk to'o atu hatudu (privasidade)."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus husi kazu ne'ebé verifika no aprova ona, ho konsentimentu komunidade. "
+"La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\"."
+msgstr ""
+"Dadus husi kazu ne'ebé verifika no aprova ona, ho konsentimentu komunidade. "
+"La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt; "
+"%(limite)s\"."
+
+#: publiku/views/portal_v.py
+msgid "Dadus ikus"
+msgstr "Dadus ikus"
+
+#: main/templates/main/_pajina.html
+msgid "Dahuluk"
+msgstr "Dahuluk"
+
+#: kazu/models/seksaun.py
+msgid "Detalla Rai"
+msgstr "Detalla Rai"
+
+#: publiku/views/portal_v.py
+msgid "Dezembru"
+msgstr "Dezembru"
+
+#: publiku/views/portal_v.py
+msgid "Domingu"
+msgstr "Domingu"
+
+#: publiku/views/portal_v.py
+msgid "Fevereiru"
+msgstr "Fevereiru"
+
+#: config/file_check.py
+msgid "File CSV la validu."
+msgstr "File CSV la validu."
+
+#: config/file_check.py
+msgid "File Office boot liu bainhira loke."
+msgstr "File Office boot liu bainhira loke."
+
+#: config/file_check.py
+msgid "File Office estraga."
+msgstr "File Office estraga."
+
+#: config/file_check.py
+msgid "File iha makro ka programa. Rai fali hanesan .%(ext)s simples."
+msgstr "File iha makro ka programa. Rai fali hanesan .%(ext)s simples."
+
+#: main/templates/home/home_investigador.html
+msgid "Follow-up hotu"
+msgstr "Follow-up hotu"
+
+#: kazu/duplikadu.py
+msgid "GPS besik: %(m)s m"
+msgstr "GPS besik: %(m)s m"
+
+#: main/templates/home/home.html
+msgid "Haree hotu"
+msgstr "Haree hotu"
+
+#: main/templates/main/_pajina.html
+msgid "Hatudu %(a)s–%(b)s husi %(t)s"
+msgstr "Hatudu %(a)s–%(b)s husi %(t)s"
+
+#: kazu/templates/kazu/detail.html
+msgid "ID HP"
+msgstr "ID HP"
+
+#: kazu/models/kazu.py
+msgid "ID HP (offline)"
+msgstr "ID HP (offline)"
+
+#: main/templates/main/_pajina.html
+msgid "Ikus"
+msgstr "Ikus"
+
+#: config/file_check.py
+msgid "Imajen iha kódigu subar. File la permite."
+msgstr "Imajen iha kódigu subar. File la permite."
+
+#: config/file_check.py
+msgid "Imajen la validu ka estraga."
+msgstr "Imajen la validu ka estraga."
+
+#: publiku/views/portal_v.py
+msgid "Janeiru"
+msgstr "Janeiru"
+
+#: publiku/views/portal_v.py
+msgid "Jullu"
+msgstr "Jullu"
+
+#: publiku/views/portal_v.py
+msgid "Juñu"
+msgstr "Juñu"
+
+#: kazu/services.py
+msgid "Kazu hanesan."
+msgstr "Kazu hanesan."
+
+#: publiku/templates/publiku/portal.html
+msgid "Kazu hetan ona eviksaun"
+msgstr "Kazu hetan ona eviksaun"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu seluk ho GPS besik (≤ 200 m) ka aldeia no tipu konflitu hanesan. "
+"Verifika antes aprova."
+msgstr ""
+"Kazu seluk ho GPS besik (≤ 200 m) ka aldeia no tipu konflitu hanesan. "
+"Verifika antes aprova."
+
+#: publiku/views/portal_v.py
+msgid "Kinta"
+msgstr "Kinta"
+
+#: config/file_check.py
+msgid ""
+"Konteúdu file la hanesan ho extensaun (%(naran)s). File bele estraga ka "
+"falsu."
+msgstr ""
+"Konteúdu file la hanesan ho extensaun (%(naran)s). File bele estraga ka "
+"falsu."
+
+#: main/templates/main/_pajina.html
+msgid "Kotuk"
+msgstr "Kotuk"
+
+#: publiku/views/portal_v.py
+msgid "Kuarta"
+msgstr "Kuarta"
+
+#: report/templates/report/list.html
+msgid "La iha kazu."
+msgstr "La iha kazu."
+
+#: kazu/templates/kazu/detail.html
+msgid "La'ós duplikadu"
+msgstr "La'ós duplikadu"
+
+#: kazu/models/kazu.py
+msgid "La'ós duplikadu ho"
+msgstr "La'ós duplikadu ho"
+
+#: kazu/services.py
+msgid "La'ós duplikadu ho %(kode)s"
+msgstr "La'ós duplikadu ho %(kode)s"
+
+#: publiku/views/portal_v.py
+msgid "Maiu"
+msgstr "Maiu"
+
+#: kazu/views/status_v.py
+msgid "Marka ona: %(a)s la'ós duplikadu ho %(b)s."
+msgstr "Marka ona: %(a)s la'ós duplikadu ho %(b)s."
+
+#: publiku/views/portal_v.py
+msgid "Marsu"
+msgstr "Marsu"
+
+#: publiku/templates/publiku/base.html
+msgid "Monitorizasaun kazu konflitu rai"
+msgstr "Monitorizasaun kazu konflitu rai"
+
+#: publiku/views/portal_v.py
+msgid "Novembru"
+msgstr "Novembru"
+
+#: main/templates/main/_pajina.html
+msgid "Oin"
+msgstr "Oin"
+
+#: publiku/views/portal_v.py
+msgid "Outubru"
+msgstr "Outubru"
+
+#: config/file_check.py
+msgid ""
+"PDF iha JavaScript ka file subar. Ba seguransa, rai fali hanesan PDF simples"
+" (Print → PDF)."
+msgstr ""
+"PDF iha JavaScript ka file subar. Ba seguransa, rai fali hanesan PDF simples"
+" (Print → PDF)."
+
+#: config/file_check.py
+msgid "PDF la kompletu ka estraga."
+msgstr "PDF la kompletu ka estraga."
+
+#: kazu/templates/kazu/detail.html
+msgid "Posivel duplikadu"
+msgstr "Posivel duplikadu"
+
+#: kazu/services.py
+msgid "Posivel duplikadu: %(lista)s"
+msgstr "Posivel duplikadu: %(lista)s"
+
+#: publiku/templates/publiku/portal.html
+msgid "Públiku"
+msgstr "Públiku"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Se duplikadu duni: Rejeita ka Kansela kazu ida ho nota (ex. «Duplikadu ho "
+"RbR-…»)."
+msgstr ""
+"Se duplikadu duni: Rejeita ka Kansela kazu ida ho nota (ex. «Duplikadu ho "
+"RbR-…»)."
+
+#: publiku/views/portal_v.py
+msgid "Segunda"
+msgstr "Segunda"
+
+#: publiku/views/portal_v.py
+msgid "Sesta"
+msgstr "Sesta"
+
+#: publiku/views/portal_v.py
+msgid "Setembru"
+msgstr "Setembru"
+
+#: publiku/views/portal_v.py
+msgid "Sábadu"
+msgstr "Sábadu"
+
+#: publiku/views/portal_v.py
+msgid "Tersa"
+msgstr "Tersa"
+
+#: publiku/templates/publiku/portal.html
+msgid "Tipu konflitu barak liu"
+msgstr "Tipu konflitu barak liu"
+
+#: publiku/templates/publiku/portal.html
+msgid "Total kazu kada munisípiu"
+msgstr "Total kazu kada munisípiu"
+
+#: publiku/templates/publiku/portal.html
+msgid "munisípiu ho kazu"
+msgstr "munisípiu ho kazu"

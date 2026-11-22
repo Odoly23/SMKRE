@@ -9,7 +9,7 @@ import polib
 
 BASE = Path(__file__).resolve().parent.parent
 LANGS = ['tet', 'pt', 'en', 'id']   # tet: testu fonte (bele edita Tetun iha tet/django.po)
-SKIP = ('locale', 'staticfiles', 'media', 'node_modules', '.git')
+SKIP = ('locale', 'staticfiles', 'media', 'node_modules', '.git', 'venv', '.venv', 'env', 'Env')   # la ekstrai testu husi library
 
 TPL_TRANS = re.compile(r'{%\s*trans(?:late)?\s+"((?:\\.|[^"\\])+)"')    # aseita \" laran testu
 TPL_TRANS1 = re.compile(r"{%\s*trans(?:late)?\s+'((?:\\.|[^'\\])+)'")

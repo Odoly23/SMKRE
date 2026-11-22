@@ -17,6 +17,10 @@
 				{% endif %}
 				{{ form.username|as_crispy_field }}
 				{{ form.password|as_crispy_field }}
+				{# honeypot: subar ba ema (la haree, la tab); robot prense → login rejeita #}
+				<div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden">
+					<label for="id_website">Website</label>{{ form.website }}
+				</div>
 				<input type="hidden" name="next" value="{{ next }}">
 				<button type="submit" class="btn btn-rbr btn-block btn-lg"><i class="fa fa-sign-in"></i> {% trans "Tama" %}</button>
 			</form>

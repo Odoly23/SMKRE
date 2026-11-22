@@ -1,0 +1,123 @@
+/* SIBAR-RbR landing públiku — layout hanesan ekran Live, tema naroman (kór Rede ba Rai). Mobile-first. */
+:root {
+	--bg: #FAF7F2; --pnl: #FFFFFF; --linha: #E7E1D6; --linha2: #F1ECE3;
+	--ink: #1C1917; --ink2: #44403C; --mute: #78716C;
+	--green: #1A4D2E; --brand: #0E8A68; --brand-lt: #DDEFE7;
+	--earth: #8B3A2B; --ochre: #C88A2E; --accent: #E67E22;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Lato', Arial, sans-serif; overflow-x: clip; }
+a { color: var(--brand); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.ld { max-width: 1680px; margin: 0 auto; padding: 14px 16px 24px; display: flex; flex-direction: column; gap: 14px; }
+
+/* ── Kabesallu ── */
+.ld-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.ld-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.ld-logo { background: #fff; border: 1px solid var(--linha); border-radius: 50%; width: 56px; height: 56px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.ld-logo img { width: 82%; height: auto; }
+.ld-brand h1 { margin: 0; font-family: 'Montserrat', 'Lato', sans-serif; font-size: clamp(1.25rem, 3.2vw, 2rem); font-weight: 800; color: var(--green); letter-spacing: .01em; }
+.ld-brand h1 span { color: var(--brand); }
+.ld-brand p { margin: 2px 0 0; color: var(--ink2); font-size: .92rem; }
+.ld-relojiu { display: none; align-items: center; gap: 12px; }
+.analog { width: 74px; height: 74px; }
+.analog .face { fill: #fff; stroke: var(--brand); stroke-width: 2.4; }
+.analog .tk { stroke: var(--mute); stroke-width: .9; }
+.analog .tk5 { stroke: var(--green); stroke-width: 2; }
+.jr-oras { stroke: var(--ink); stroke-width: 3.6; stroke-linecap: round; }
+.jr-min { stroke: var(--ink2); stroke-width: 2.4; stroke-linecap: round; }
+.jr-seg { stroke: var(--brand); stroke-width: 1.2; stroke-linecap: round; }
+.analog .pinu { fill: var(--brand); }
+.relojiu-tx #loron { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--green); }
+.relojiu-tx #data { color: var(--ink2); }
+.relojiu-tx #oras { color: var(--brand); font-weight: 700; font-size: 1.15rem; }
+.ld-estadu { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.ld-lian { display: flex; gap: 4px; }
+.ld-lian form { margin: 0; }
+.ld-lian button { min-width: 44px; min-height: 36px; border: 1px solid var(--linha); background: #fff; color: var(--ink2); border-radius: 8px; font-weight: 700; cursor: pointer; }
+.ld-lian button.active { background: var(--green); border-color: var(--green); color: #fff; }
+.ld-sub { color: var(--mute); font-size: .85rem; }
+.ld-sub .fa-circle { color: var(--brand); font-size: .7rem; }
+
+/* ── KPI ── */
+.ld-kpi { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.kpi { background: var(--pnl); border: 1px solid var(--linha); border-radius: 14px; padding: 12px 14px; min-width: 0; border-top: 4px solid var(--brand); }
+.kpi-earth { border-top-color: var(--earth); }
+.kpi-l { color: var(--ink2); font-weight: 700; font-size: .9rem; }
+.kpi-l .fa { color: var(--brand); }
+.kpi-earth .kpi-l .fa { color: var(--earth); }
+.kpi-n { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 6vw, 3.4rem); line-height: 1.1; color: var(--green); margin: 4px 0; }
+.kpi-earth .kpi-n { color: var(--earth); }
+.kpi-t { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.25; color: var(--green); margin: 8px 0 6px; }
+.kpi-s { color: var(--mute); font-size: .85rem; }
+.kpi-s b { color: var(--ink2); }
+
+/* ── Painel ── */
+.ld-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.pnl { background: var(--pnl); border: 1px solid var(--linha); border-radius: 14px; padding: 12px 14px; min-width: 0; display: flex; flex-direction: column; }
+.pnl-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px; margin-bottom: 6px; }
+.pnl-h h2 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--green); }
+.pnl-h h2 .fa { color: var(--brand); }
+.pnl-nota { color: var(--mute); font-size: .82rem; }
+.ch { height: 260px; }
+#mapa { height: 200px; background: transparent; border-radius: 10px; }
+.mun-lista { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mun-lista li { background: var(--brand-lt); color: var(--ink2); border-radius: 999px; padding: 4px 10px; font-size: .82rem; }
+.mun-lista li b { color: var(--green); }
+.mun-lista li.zero { background: var(--linha2); color: var(--mute); }
+.mapa-eskala { display: flex; align-items: center; gap: 8px; color: var(--mute); font-size: .8rem; margin-top: 6px; }
+.mapa-eskala .esk { flex: 0 0 140px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #E3EFE9, var(--brand)); }
+.mun-label { color: var(--ink); font-size: 11px; font-weight: 700; white-space: nowrap; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff; transform: translate(-50%, -50%); }
+.mun-label b { color: var(--green); }
+.leaflet-container { font-family: 'Lato', Arial, sans-serif; }
+
+/* Eviksaun */
+.evik-kpi { color: var(--ink2); font-size: .85rem; }
+.evik-kpi b { color: var(--earth); font-size: 1.1rem; }
+.evik-q { border-top: 1px solid var(--linha2); padding-top: 6px; margin-top: 4px; }
+.evik-q h3 { margin: 0; font-size: .9rem; font-weight: 700; color: var(--ink2); }
+.ch-ev { height: 140px; }
+.evik-vaziu { color: var(--mute); font-size: .9rem; margin: 8px 0 0; }
+
+.ld-nota { margin: 0; color: var(--ink2); font-size: .85rem; background: var(--brand-lt); border-radius: 10px; padding: 10px 12px; }
+.ld-nota .fa { color: var(--green); }
+
+/* Publikasaun */
+.ld-pub h2 { margin: 0 0 8px; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; color: var(--green); }
+.pub-lista { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.pub { display: flex; flex-direction: column; gap: 4px; background: var(--pnl); border: 1px solid var(--linha); border-radius: 12px; padding: 12px 14px; color: var(--ink); text-decoration: none; min-height: 48px; }
+.pub:hover { border-color: var(--brand); }
+.pub-tipu { color: var(--mute); font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+.pub-lee { color: var(--brand); font-weight: 700; font-size: .85rem; }
+
+/* Rodapé */
+.ld-footer { border-top: 1px solid var(--linha); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.ld-kontaktu { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .9rem; }
+.ld-kontaktu a, .ld-kontaktu span { color: var(--ink2); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; gap: 6px; }
+.ld-kontaktu .fa { color: var(--brand); }
+.ld-copy { color: var(--mute); font-size: .8rem; }
+
+/* ── Tablet ── */
+@media (min-width: 768px) {
+	.ld { padding: 18px 22px 28px; }
+	.ld-relojiu { display: flex; }
+	.pub-lista { grid-template-columns: repeat(2, 1fr); }
+	.ld-grid { grid-template-columns: repeat(2, 1fr); }
+	.ld-mapa { grid-column: 1 / -1; }
+	#mapa { height: 420px; }
+	.mun-lista { display: none; }
+}
+/* ── Desktop: hanesan layout Live ── */
+@media (min-width: 1200px) {
+	.ld-kpi { grid-template-columns: repeat(4, 1fr); }
+	.ld-grid { grid-template-columns: 6fr 3fr 3fr; grid-template-areas: "map tr ev" "map tp ev"; }
+	.ld-mapa { grid-area: map; grid-column: auto; }
+	.ld-trend { grid-area: tr; }
+	.ld-tipu { grid-area: tp; }
+	.ld-evik { grid-area: ev; }
+	#mapa { flex: 1; min-height: 520px; }
+	.pub-lista { grid-template-columns: repeat(3, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

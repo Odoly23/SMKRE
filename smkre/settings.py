@@ -234,7 +234,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 60 * 1024 * 1024
 # ══════════════════════════════════════════════
 # 7. SESSION & LOGIN
 # ══════════════════════════════════════════════
-LOGIN_URL = 'login'
+LOGIN_URL = 'portal'              # pájina ho login_required → landing (la fó sai URL login subar)
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'portal'
 
