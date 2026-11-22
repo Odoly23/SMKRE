@@ -306,6 +306,10 @@ EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.console.
 EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = env('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True, cast=bool)
+# SSL (port 465, padraun cPanel ex. mail.redebarai.org). Django la permite TLS no SSL hamutuk → SSL manán.
+EMAIL_USE_SSL = env('EMAIL_USE_SSL', default=False, cast=bool)
+if EMAIL_USE_SSL:
+	EMAIL_USE_TLS = False
 EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='SIBAR - RbR <noreply@localhost>')
