@@ -6005,3 +6005,19 @@ msgstr "Out"
 #: publiku/services.py
 msgid "Set"
 msgstr "Set"
+
+#: publiku/templates/publiku/portal.html
+msgid "Total kazu iha Rede ba Rai"
+msgstr "Total kazu iha Rede ba Rai"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Total kazu: kazu hotu ne'ebé rejista ona iha Rede ba Rai. Dadus seluk (uma-"
+"kain, eviksaun, mapa no gráfiku): kazu ne'ebé aprova ona ho konsentimentu "
+"komunidade de'it. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu "
+"hanesan \"&lt; %(limite)s\"."
+msgstr ""
+"Total kazu: kazu hotu ne'ebé rejista ona iha Rede ba Rai. Dadus seluk (uma-"
+"kain, eviksaun, mapa no gráfiku): kazu ne'ebé aprova ona ho konsentimentu "
+"komunidade de'it. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu "
+"hanesan \"&lt; %(limite)s\"."

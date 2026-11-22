@@ -5922,3 +5922,19 @@ msgstr "Out"
 #: publiku/services.py
 msgid "Set"
 msgstr "Set"
+
+#: publiku/templates/publiku/portal.html
+msgid "Total kazu iha Rede ba Rai"
+msgstr "Total de casos na Rede ba Rai"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Total kazu: kazu hotu ne'ebé rejista ona iha Rede ba Rai. Dadus seluk (uma-"
+"kain, eviksaun, mapa no gráfiku): kazu ne'ebé aprova ona ho konsentimentu "
+"komunidade de'it. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu "
+"hanesan \"&lt; %(limite)s\"."
+msgstr ""
+"Total de casos: todos os casos registados na Rede ba Rai. Outros dados "
+"(agregados, despejos, mapa e gráficos): apenas casos aprovados com "
+"consentimento da comunidade. Sem nomes, fotos ou localização exata. Os "
+"números 1 e 2 aparecem como \"&lt; %(limite)s\"."

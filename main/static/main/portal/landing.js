@@ -149,7 +149,7 @@
 	}
 	function kpiRender(d) {
 		var ev = d.eviksaun || {};
-		var kpi = { total: valor(d.kpi.total), munisipiu: valor(d.kpi.munisipiu), uma_kain: valor(d.kpi.uma_kain),
+		var kpi = { total_rbr: valor(d.kpi.total_rbr), munisipiu_rbr: valor(d.kpi.munisipiu_rbr), uma_kain: valor(d.kpi.uma_kain),
 			ema: valor(d.kpi.ema), eviksaun: valor(ev.total), evik_uma: valor(ev.uma_kain) };
 		document.querySelectorAll('[data-k]').forEach(function (el) {
 			var v = kpi[el.dataset.k];

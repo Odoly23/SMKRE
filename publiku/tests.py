@@ -223,3 +223,14 @@ class FulanTest(PortalBase):
 		Kazu.objects.filter(munisipiu=self.dil).update(status='VERIFIED')    # restu 2 → "< 3"
 		cache.clear()                                             # API públiku iha cache minutu 10
 		self.assertEqual(estatistika({})['fulan'][-1]['label'], '< 3')
+
+
+class TotalRbrTest(PortalBase):
+	# kartaun "Total kazu iha Rede ba Rai": kazu hotu (la'ós públiku de'it), exetu rascunho no kanseladu
+	def test_total_kazu_hotu(self):
+		self.kazu(self.liq, status='DRAFT')
+		self.kazu(self.liq, status='CANCELED')
+		kpi = estatistika({})['kpi']
+		self.assertEqual(kpi['total']['n'], 6)                  # públiku: aprovadu + konsentimentu
+		self.assertEqual(kpi['total_rbr']['n'], 9)              # + verifikadu, la publika, la iha konsentimentu
+		self.assertEqual(kpi['munisipiu_rbr'], 2)

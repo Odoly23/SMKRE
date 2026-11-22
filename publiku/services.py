@@ -15,7 +15,7 @@ from django.db.models import Count, Sum, Max, Q
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from custom.models import Munisipiu, Suku, TipuKonflitu
-from kazu.models import Kazu, UmaKainAfetada, APPROVED, COMPLETED
+from kazu.models import Kazu, UmaKainAfetada, APPROVED, COMPLETED, DRAFT, ONGOING, PENDING, CANCELED
 
 STATUS_PUBLIKU = [APPROVED, COMPLETED]
 DESIMAL_LOKASAUN = 2                 # 0.01° ≈ 1.1 km — fatin aproksimadu deit
@@ -101,6 +101,11 @@ def _kalkula(f):
 		'ema': (afe['ema'] or 0) if hatudu_afetadu else None,
 		'munisipiu': len([n for n in _konta(kazu, 'munisipiu_id').values() if n]),
 	}
+	# Total kazu iha Rede ba Rai: kazu HOTU ne'ebé haruka ona ba server (hanesan ekran Live; la'ós rascunho
+	# iha HP ka kanseladu) — númeru agregadu de'it, la depende ba aprovasaun / konsentimentu
+	rbr = _aplika(Kazu.objects.exclude(status__in=[DRAFT, ONGOING, PENDING, CANCELED]), f)
+	kpi['total_rbr'] = subar(rbr.count())
+	kpi['munisipiu_rbr'] = len([n for n in _konta(rbr, 'munisipiu_id').values() if n])
 
 	# Kada munisípiu (la aplika filtru munisípiu: hatudu hotu, ida hili mak destaka)
 	kazu_hotu_mun = _aplika(base, f, sein='munisipiu')
