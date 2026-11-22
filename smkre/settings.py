@@ -150,7 +150,14 @@ if env('DB_ENGINE', default='sqlite') == 'postgresql':
 		}
 	}
 elif env('DB_ENGINE', default='sqlite') == 'mysql':
-	# MySQL (ezemplu PythonAnywhere: DB_HOST=<username>.mysql.pythonanywhere-services.com, DB_NAME=<username>$smkre)
+	# MySQL / MariaDB (cPanel: DB_NAME=<cpaneluser>_sibar, DB_USER=<cpaneluser>_sibar, DB_HOST=localhost;
+	# PythonAnywhere: DB_HOST=<username>.mysql.pythonanywhere-services.com)
+	# mysqlclient presiza kompila (dala barak falla iha hosting partilhadu) → PyMySQL (Python puru) nu'udar substitutu
+	try:
+		import MySQLdb  # noqa: F401
+	except ImportError:
+		import pymysql
+		pymysql.install_as_MySQLdb()
 	DATABASES = {
 		'default': {
 			'ENGINE': 'django.db.backends.mysql',
@@ -335,6 +342,10 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 if env('USE_REDIS_CACHE', default=False, cast=bool):
 	CACHES = {'default': {'BACKEND': 'django.core.cache.backends.redis.RedisCache', 'LOCATION': REDIS_URL}}
+elif env('CACHE_DIR', default=''):
+	# cPanel / Passenger: prosesu barak → cache iha file (partilha entre prosesu: limite login kada IP, dashboard)
+	CACHES = {'default': {'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache', 'LOCATION': env('CACHE_DIR'),
+		'OPTIONS': {'MAX_ENTRIES': 5000}}}
 else:
 	CACHES = {'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}}
 

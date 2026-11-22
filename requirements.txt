@@ -18,6 +18,7 @@ polib>=1.2                  # compila tradusaun (.po → .mo) la presiza gettext
 
 # Production
 psycopg[binary]>=3.1        # PostgreSQL
+PyMySQL>=1.1                # MySQL / MariaDB (cPanel): Python puru, la presiza kompila
 gunicorn>=22.0
 openpyxl>=3.1                 # eksporta Excel
 shapely>=2.0                  # poligon rai: validasaun + uniaun bidang (luan kalkula ho rumus Turf.js)

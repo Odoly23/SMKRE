@@ -23,3 +23,6 @@ logs/*.log*
 .vscode/
 .idea/
 .DS_Store
+
+# Passenger (cPanel): restart.txt
+tmp/
