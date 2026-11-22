@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from custom.models import Munisipiu, PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, EstraguPatrimoniu, NesesidadeUrjente
-from .opsaun import STATUS_CHOICES, STATUS_KAZU_CHOICES, STATUS_EDITABLE, DRAFT, ABERTU, APPROVED, COMPLETED
+from .opsaun import STATUS_CHOICES, STATUS_KAZU_CHOICES, STATUS_EDITABLE, DRAFT, ONGOING, PENDING, CANCELED, ABERTU, APPROVED, COMPLETED
 
 
 class Kazu(models.Model):
@@ -168,21 +168,22 @@ class Kazu(models.Model):
 		from .opsaun import DESIZAUN_RBR_CHOICES
 		return str(dict(DESIZAUN_RBR_CHOICES).get(self.desizaun, ''))
 
-	# kazu mosu iha portal públiku? regra hanesan publiku.services.portal_queryset (aprovadu + konsentimentu + la marka "La publika")
+	# kazu konta iha portal públiku (agregadu)? regra hanesan publiku.services.portal_queryset
+	# (haruka ona ba server, la kanseladu, la marka "La publika")
 	@property
 	def iha_portal(self):
-		return self.status in (APPROVED, COMPLETED) and self.konsentimentu and not self.la_publika
+		return self.status not in (DRAFT, ONGOING, PENDING, CANCELED) and not self.la_publika
 
 	# tanba sá kazu la mosu iha portal (testu badak ba Admin)
 	@property
 	def portal_razaun(self):
 		from django.utils.translation import gettext as _t
-		if not self.konsentimentu:
-			return _t('Laiha konsentimentu')
 		if self.la_publika:
 			return _t('Marka "La publika"')
-		if self.status not in (APPROVED, COMPLETED):
-			return _t('Hein aprovasaun Superadmin')
+		if self.status == CANCELED:
+			return _t('Kazu kanseladu')
+		if self.status in (DRAFT, ONGOING, PENDING):
+			return _t('Seidauk haruka ba server')
 		return ''
 
 	# total ema afetadu (soma uma-kain afetada hotu)

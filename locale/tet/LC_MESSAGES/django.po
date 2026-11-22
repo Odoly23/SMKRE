@@ -6021,3 +6021,13 @@ msgstr ""
 "kain, eviksaun, mapa no gráfiku): kazu ne'ebé aprova ona ho konsentimentu "
 "komunidade de'it. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu "
 "hanesan \"&lt; %(limite)s\"."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus hotu (total, mapa no gráfiku) husi kazu ne'ebé rejista ona iha Rede ba"
+" Rai. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt;"
+" %(limite)s\"."
+msgstr ""
+"Dadus hotu (total, mapa no gráfiku) husi kazu ne'ebé rejista ona iha Rede ba"
+" Rai. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt;"
+" %(limite)s\"."

@@ -5901,3 +5901,13 @@ msgstr ""
 "tangga, penggusuran, peta dan grafik): hanya kasus yang telah disetujui "
 "dengan persetujuan komunitas. Tanpa nama, foto atau lokasi persis. Angka 1 "
 "dan 2 ditampilkan sebagai \"&lt; %(limite)s\"."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus hotu (total, mapa no gráfiku) husi kazu ne'ebé rejista ona iha Rede ba"
+" Rai. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt;"
+" %(limite)s\"."
+msgstr ""
+"Semua data (total, peta dan grafik) berasal dari kasus yang terdaftar di "
+"Rede ba Rai. Tanpa nama, foto atau lokasi persis. Angka 1 dan 2 ditampilkan "
+"sebagai \"&lt; %(limite)s\"."

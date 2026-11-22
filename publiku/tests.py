@@ -36,7 +36,7 @@ class PortalBase(TestCase):
 			self.kazu(self.dil)
 		for _i in range(2):
 			self.kazu(self.liq)
-		# La tama iha portal: seidauk aprova, la publika, la iha konsentimentu
+		# Dili mós: verifikadu + la iha konsentimentu (KONTA iha portal) · la publika (LA konta)
 		self.kazu(self.dil, status='VERIFIED')
 		self.kazu(self.dil, la_publika=True)
 		self.kazu(self.dil, konsentimentu=False)
@@ -53,15 +53,15 @@ class PortalBase(TestCase):
 
 
 class PrivasidadeTest(PortalBase):
-	def test_kazu_aprovadu_ho_konsentimentu_deit(self):
+	def test_kazu_hotu_exetu_la_publika(self):
 		d = estatistika({})
-		self.assertEqual(d['kpi']['total'], {'n': 6, 'label': '6'})
-		self.assertEqual(d['kpi']['ema'], 120)
+		self.assertEqual(d['kpi']['total'], {'n': 8, 'label': '8'})
+		self.assertEqual(d['kpi']['ema'], 160)
 
 	def test_numeru_ki_ik_subar(self):
 		d = estatistika({})
 		mun = {m['code']: m for m in d['munisipiu']}
-		self.assertEqual(mun['DIL']['n'], 4)
+		self.assertEqual(mun['DIL']['n'], 6)
 		self.assertEqual(mun['LIQ'], {'code': 'LIQ', 'name': self.liq.name, 'n': None, 'label': '< 3'})
 		self.assertEqual(mun['AIL']['n'], 0)                          # zero la subar
 		# Populasaun afetada: Liquiçá (2 kazu) la mosu
@@ -89,7 +89,7 @@ class PrivasidadeTest(PortalBase):
 class MapaPinTest(PortalBase):
 	def test_kartaun_munisipiu_boot_deit(self):
 		mun = {m['code']: m for m in estatistika({})['munisipiu']}
-		self.assertEqual(mun['DIL']['uma_kain'], 20)                   # 4 kazu × 5
+		self.assertEqual(mun['DIL']['uma_kain'], 30)                   # 6 kazu × 5
 		self.assertEqual(mun['DIL']['tipu_top'], self.tipu.name)
 		self.assertNotIn('uma_kain', mun['LIQ'])                       # "< 3": la iha detalla
 		self.assertNotIn('tipu_top', mun['LIQ'])
@@ -195,10 +195,10 @@ class EviksaunPubliku(PortalBase):
 class MapaPontuLandingTest(PortalBase):
 	# mapa landing: fatin aproksimadu (~1 km), munisípiu ho kazu ≥ 3 de'it, la iha koordenada loos
 	def test_pontu_aproksimadu_no_privasidade(self):
-		Kazu.objects.filter(munisipiu=self.dil).update(latitude='-8.556789', longitude='125.578912')   # 4 kazu GPS hanesan
+		Kazu.objects.filter(munisipiu=self.dil).update(latitude='-8.556789', longitude='125.578912')   # 6 kazu GPS hanesan (la publika la konta)
 		Kazu.objects.filter(munisipiu=self.liq).update(latitude='-8.612345', longitude='125.212345')   # 2 kazu → la hatudu
 		pontu = estatistika({})['pontu']
-		self.assertEqual(pontu, [{'lat': -8.56, 'lng': 125.58, 'mun': self.dil.name, 'n': 4, 'label': '4'}])   # kazu 4 konta hotu
+		self.assertEqual(pontu, [{'lat': -8.56, 'lng': 125.58, 'mun': self.dil.name, 'n': 6, 'label': '6'}])   # kazu 6 konta hotu
 		r = self.client.get(reverse('api-portal-estatistika'))
 		self.assertNotIn(b'578912', r.content)
 		self.assertNotIn(b'212345', r.content)
@@ -209,7 +209,7 @@ class TipuTuanTest(PortalBase):
 	def test_tipu_la_ativu_ne_ebe_uza_mosu(self):
 		TipuKonflitu.objects.filter(pk=self.tipu.pk).update(is_active=False)
 		tipu = {t['id']: t for t in estatistika({})['tipu']}
-		self.assertEqual(tipu[self.tipu.pk]['n'], 6)
+		self.assertEqual(tipu[self.tipu.pk]['n'], 8)
 		self.assertNotIn(TipuKonflitu.objects.filter(is_active=False).exclude(pk=self.tipu.pk).values_list('pk', flat=True).first(), tipu)
 
 
@@ -218,19 +218,21 @@ class FulanTest(PortalBase):
 	def test_fulan_12_ho_subar(self):
 		fulan = estatistika({})['fulan']
 		self.assertEqual(len(fulan), 12)
-		self.assertEqual(fulan[-1]['n'], 6)                       # kazu públiku 6 iha fulan ida ne'e
+		self.assertEqual(fulan[-1]['n'], 8)                       # kazu 8 iha fulan ida ne'e
 		self.assertTrue(all(f['n'] == 0 for f in fulan[:-1]))
-		Kazu.objects.filter(munisipiu=self.dil).update(status='VERIFIED')    # restu 2 → "< 3"
+		Kazu.objects.filter(munisipiu=self.dil).update(status='DRAFT')       # rascunho la konta: restu 2 → "< 3"
 		cache.clear()                                             # API públiku iha cache minutu 10
 		self.assertEqual(estatistika({})['fulan'][-1]['label'], '< 3')
 
 
-class TotalRbrTest(PortalBase):
-	# kartaun "Total kazu iha Rede ba Rai": kazu hotu (la'ós públiku de'it), exetu rascunho no kanseladu
-	def test_total_kazu_hotu(self):
+class BazeIdaTest(PortalBase):
+	# KPI, mapa no gráfiku uza baze IDA: kazu hotu haruka ona ba server, exetu "La publika" / rascunho / kanseladu
+	def test_total_hanesan_mapa_no_grafiku(self):
 		self.kazu(self.liq, status='DRAFT')
 		self.kazu(self.liq, status='CANCELED')
-		kpi = estatistika({})['kpi']
-		self.assertEqual(kpi['total']['n'], 6)                  # públiku: aprovadu + konsentimentu
-		self.assertEqual(kpi['total_rbr']['n'], 9)              # + verifikadu, la publika, la iha konsentimentu
-		self.assertEqual(kpi['munisipiu_rbr'], 2)
+		d = estatistika({})
+		self.assertEqual(d['kpi']['total']['n'], 8)              # 6 aprovadu + verifikadu + la iha konsentimentu
+		self.assertEqual(d['kpi']['munisipiu'], 2)
+		self.assertEqual(sum(m['n'] or 0 for m in d['munisipiu']) + 2, 8)   # LIQ (2) subar "< 3"
+		self.assertEqual(sum(t['n'] or 0 for t in d['tipu']), 8)
+		self.assertEqual(sum(x['n'] or 0 for x in d['fulan']), 8)

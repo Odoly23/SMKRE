@@ -5938,3 +5938,13 @@ msgstr ""
 "(agregados, despejos, mapa e gráficos): apenas casos aprovados com "
 "consentimento da comunidade. Sem nomes, fotos ou localização exata. Os "
 "números 1 e 2 aparecem como \"&lt; %(limite)s\"."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus hotu (total, mapa no gráfiku) husi kazu ne'ebé rejista ona iha Rede ba"
+" Rai. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt;"
+" %(limite)s\"."
+msgstr ""
+"Todos os dados (total, mapa e gráficos) vêm dos casos registados na Rede ba "
+"Rai. Sem nomes, fotos ou localização exata. Os números 1 e 2 aparecem como "
+"\"&lt; %(limite)s\"."

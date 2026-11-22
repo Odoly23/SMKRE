@@ -5916,3 +5916,13 @@ msgstr ""
 "evictions, map and charts): only approved cases with community consent. No "
 "names, photos or exact locations. Numbers 1 and 2 are shown as \"&lt; "
 "%(limite)s\"."
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Dadus hotu (total, mapa no gráfiku) husi kazu ne'ebé rejista ona iha Rede ba"
+" Rai. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt;"
+" %(limite)s\"."
+msgstr ""
+"All data (total, map and charts) comes from cases registered in Rede ba Rai."
+" No names, photos or exact locations. Numbers 1 and 2 are shown as \"&lt; "
+"%(limite)s\"."

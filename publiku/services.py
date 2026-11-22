@@ -1,8 +1,9 @@
 """
 Dadus portal públiku (fatin IDA deit). Regra privasidade:
 
-	1. Kazu aprovadu ona (Superadmin) deit: APPROVED / COMPLETED
-	2. Ho konsentimentu, no la marka "La publika iha portal públiku"
+	1. Kazu hotu ne'ebé haruka ona ba server (hanesan ekran Live: la'ós rascunho HP ka kanseladu)
+	2. Exetu kazu ne'ebé Admin marka "La publika iha portal públiku"
+	   (KPI, mapa no gráfiku hotu uza baze IDA ne'e → númeru hotu hanesan)
 	3. Agregadu deit — la iha naran, foto, kódigu ka detalla kazu ida-idak
 	   Lokasaun kazu: hatudu deit bainhira hili munisípiu ho kazu ≥ 3, arredonda ba ~1 km (la haree uma)
 	4. Númeru 1–2 → "< 3" (la haruka númeru loos ba browser)
@@ -15,9 +16,9 @@ from django.db.models import Count, Sum, Max, Q
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from custom.models import Munisipiu, Suku, TipuKonflitu
-from kazu.models import Kazu, UmaKainAfetada, APPROVED, COMPLETED, DRAFT, ONGOING, PENDING, CANCELED
+from kazu.models import Kazu, UmaKainAfetada, DRAFT, ONGOING, PENDING, CANCELED
 
-STATUS_PUBLIKU = [APPROVED, COMPLETED]
+STATUS_LA_HARUKA = [DRAFT, ONGOING, PENDING, CANCELED]     # la tama (hanesan report.live._kazu)
 DESIMAL_LOKASAUN = 2                 # 0.01° ≈ 1.1 km — fatin aproksimadu deit
 CACHE_SEGUNDU = 600                  # production: minutu 10 (DEBUG: la iha cache, atu teste lokál haree kedas)
 
@@ -27,7 +28,7 @@ def limite():
 
 
 def portal_queryset():
-	return Kazu.objects.filter(status__in=STATUS_PUBLIKU, konsentimentu=True, la_publika=False)
+	return Kazu.objects.exclude(status__in=STATUS_LA_HARUKA).filter(la_publika=False)
 
 
 def subar(n):
@@ -101,11 +102,6 @@ def _kalkula(f):
 		'ema': (afe['ema'] or 0) if hatudu_afetadu else None,
 		'munisipiu': len([n for n in _konta(kazu, 'munisipiu_id').values() if n]),
 	}
-	# Total kazu iha Rede ba Rai: kazu HOTU ne'ebé haruka ona ba server (hanesan ekran Live; la'ós rascunho
-	# iha HP ka kanseladu) — númeru agregadu de'it, la depende ba aprovasaun / konsentimentu
-	rbr = _aplika(Kazu.objects.exclude(status__in=[DRAFT, ONGOING, PENDING, CANCELED]), f)
-	kpi['total_rbr'] = subar(rbr.count())
-	kpi['munisipiu_rbr'] = len([n for n in _konta(rbr, 'munisipiu_id').values() if n])
 
 	# Kada munisípiu (la aplika filtru munisípiu: hatudu hotu, ida hili mak destaka)
 	kazu_hotu_mun = _aplika(base, f, sein='munisipiu')
@@ -150,7 +146,7 @@ def _kalkula(f):
 	evik = _eviksaun(kazu)
 	kpi['eviksaun'] = evik['total']
 
-	atualiza = portal_queryset().aggregate(d=Max('approved_at'))['d']
+	atualiza = portal_queryset().aggregate(d=Max('updated_at'))['d']
 	return {
 		'filtru': f, 'kpi': kpi, 'munisipiu': munisipiu, 'tipu': tipu, 'tinan': tinan,
 		'afetadu': afetadu, 'suku': suku, 'lokasaun': _lokasaun(kazu, f, total), 'limite': limite(),
@@ -208,7 +204,7 @@ def _eviksaun(kazu):
 	return res
 
 
-# kazu kada fulan (fulan 12 ikus): data simu kazu (data_relatoriu), mamuk → data aprova. 1–2 → "< 3"
+# kazu kada fulan (fulan 12 ikus): data simu kazu (data_relatoriu), mamuk → data kria. 1–2 → "< 3"
 # naran fulan badak iha lian vizitante
 def _fulan_badak():
 	return [_('Jan'), _('Fev'), _('Mar'), _('Abr'), _('Mai'), _('Jun'), _('Jul'), _('Ago'), _('Set'), _('Out'), _('Nov'), _('Dez')]
@@ -222,8 +218,8 @@ def _fulan(kazu):
 		y, m = (y - 1, 12) if m == 1 else (y, m - 1)
 	lista.reverse()
 	konta = {}
-	for _pk, d, ap in kazu.order_by().values_list('pk', 'data_relatoriu', 'approved_at').distinct():
-		d = d or (timezone.localtime(ap).date() if ap else None)
+	for _pk, d, kr in kazu.order_by().values_list('pk', 'data_relatoriu', 'created_at').distinct():
+		d = d or (timezone.localtime(kr).date() if kr else None)
 		if d:
 			konta[(d.year, d.month)] = konta.get((d.year, d.month), 0) + 1
 	naran = _fulan_badak()
