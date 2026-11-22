@@ -16,11 +16,10 @@ def _portal_lang():
 	}
 
 
-# landing públiku (la presiza login): KPI, mapa, tendénsia, tipu, eviksaun — dadus hotu husi API públiku
+# landing públiku (la presiza login): KPI, mapa, tinan, tipu, eviksaun — dadus hotu husi API públiku; link ba redebarai.org
 def portalHome(request):
 	context = {
 		"page": "portal",
-		'publikasaun': Publikasaun.objects.filter(status=Publikasaun.PUBLIKADU)[:6],
 		'kontaktu': {'telefone': settings.PORTAL_TELEFONE, 'email': settings.PORTAL_EMAIL, 'enderesu': settings.PORTAL_ENDERESU},
 		'limite': settings.PORTAL_LIMITE_SUBAR,
 		'portal_lang': _portal_lang(),

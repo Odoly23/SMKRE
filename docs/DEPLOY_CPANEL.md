@@ -3,8 +3,7 @@
 Hasil: SIBAR-RbR online di **https://sibar.redebarai.org** (disarankan subdomain, supaya situs utama
 redebarai.org tidak terganggu), dengan email sistem dari **noreply@redebarai.org**.
 
-Keuntungan dibanding PythonAnywhere gratis: aplikasi dan server email ada di hosting yang sama, jadi
-**SMTP tidak diblokir**, dan tidak ada batasan akses internet keluar.
+Aplikasi dan server email ada di hosting yang sama, jadi **SMTP tidak diblokir**.
 
 > Ganti `<cpaneluser>` dengan username cPanel Anda di semua langkah.
 
@@ -37,9 +36,10 @@ Pengaturan SMTP (dari *Connect Devices*): server `mail.redebarai.org`, port **46
 *Advanced → Terminal*:
 ```bash
 cd ~
-git clone https://github.com/Odoly23/SMKRE.git sibar
+git clone --depth 1 https://github.com/Odoly23/SMKRE.git sibar
 ```
 Kode ada di `/home/<cpaneluser>/sibar` (di luar `public_html`, jadi file `.env` tidak bisa dibuka dari web).
+`--depth 1` hanya mengunduh versi terbaru (tanpa riwayat lama) → jauh lebih ringan; `git pull` tetap jalan normal.
 
 ## 5. Setup Python App
 *Software → Setup Python App → Create Application*:

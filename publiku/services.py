@@ -11,7 +11,7 @@ Dadus portal públiku (fatin IDA deit). Regra privasidade:
 from datetime import date
 from django.conf import settings
 from django.core.cache import cache
-from django.db.models import Count, Sum, Max
+from django.db.models import Count, Sum, Max, Q
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from custom.models import Munisipiu, Suku, TipuKonflitu
@@ -111,7 +111,9 @@ def _kalkula(f):
 
 	# Kada tipu konflitu
 	por_tipu = _konta(_aplika(base, f, sein='tipu'), 'tipu_konflitu__id')
-	tipu = [dict({'id': t.pk, 'name': t.name}, **subar(por_tipu.get(t.pk, 0))) for t in TipuKonflitu.active.all()]
+	# tipu ativu + tipu tuan (la ativu ona) ne'ebé kazu públiku sira uza hela (atu gráfiku la mamuk)
+	tipus = TipuKonflitu.objects.filter(Q(is_active=True) | Q(pk__in=[k for k, n in por_tipu.items() if k and n])).order_by('-is_active', 'name')
+	tipu = [dict({'id': t.pk, 'name': t.name}, **subar(por_tipu.get(t.pk, 0))) for t in tipus]
 
 	# Kada tinan (data relatóriu)
 	por_tinan = {}

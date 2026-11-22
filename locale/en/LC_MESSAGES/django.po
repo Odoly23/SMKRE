@@ -5839,3 +5839,7 @@ msgid ""
 "Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste."
 msgstr ""
 "See how land conflicts and evictions affect communities in Timor-Leste."
+
+#: publiku/templates/publiku/portal.html
+msgid "Vizita website Rede ba Rai"
+msgstr "Visit the Rede ba Rai website"

@@ -150,8 +150,7 @@ if env('DB_ENGINE', default='sqlite') == 'postgresql':
 		}
 	}
 elif env('DB_ENGINE', default='sqlite') == 'mysql':
-	# MySQL / MariaDB (cPanel: DB_NAME=<cpaneluser>_sibar, DB_USER=<cpaneluser>_sibar, DB_HOST=localhost;
-	# PythonAnywhere: DB_HOST=<username>.mysql.pythonanywhere-services.com)
+	# MySQL / MariaDB (cPanel: DB_NAME=<cpaneluser>_sibar, DB_USER=<cpaneluser>_sibar, DB_HOST=localhost)
 	# mysqlclient presiza kompila (dala barak falla iha hosting partilhadu) → PyMySQL (Python puru) nu'udar substitutu
 	try:
 		import MySQLdb  # noqa: F401
@@ -321,7 +320,7 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='SIBAR - RbR <noreply@localhost>')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
-# Reply-To (opsionál): haruka husi Gmail maibé resposta ba email RbR (ex. info@redebarai.org)
+# Reply-To (opsionál): email haruka husi noreply, resposta ba email RbR (ex. info@redebarai.org)
 EMAIL_REPLY_TO = env('EMAIL_REPLY_TO', default='')
 EMAIL_TIMEOUT = 20
 SITE_URL = env('SITE_URL', default='http://127.0.0.1:8000')

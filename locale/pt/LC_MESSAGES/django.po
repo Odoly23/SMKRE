@@ -5860,3 +5860,7 @@ msgid ""
 msgstr ""
 "Veja como os conflitos de terra e os despejos afetam as comunidades em "
 "Timor-Leste."
+
+#: publiku/templates/publiku/portal.html
+msgid "Vizita website Rede ba Rai"
+msgstr "Visite o site da Rede ba Rai"

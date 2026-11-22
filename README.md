@@ -31,10 +31,10 @@ kazu/           # kazu: formuláriu, status, verifikasaun (Admin) + aprovasaun (
 report/         # dashboard, gráfiku (templates/chart/*.js), mapa (templates/maps/), lista, eksporta Excel — api/ + views/
 sinkron/        # app offline Investigadór (/sinkron/) + API sinkron JWT (api/) — regra iha services.py
 legal/          # Document Vault, nota/prazu legál, dossier imprime — regra iha services.py
-publiku/        # portal públiku /portal/ (mapa + gráfiku interativu, publikasaun) — regra privasidade iha services.py
+publiku/        # landing públiku /portal/ (KPI, mapa, gráfiku; dadus husi API públiku) — regra privasidade iha services.py
 locale/         # tradusaun: tet, pt, en, id
 tools/          # extract_lian.py (ekstrai testu tradusaun)
-docs/           # SPESIFIKASAUN.md, DEPLOY.md, manuál formasaun
+docs/           # DEPLOY_CPANEL.md (deploy iha cPanel redebarai.org)
 logs/           # error.log, sinkron.log, seguransa.log (la tama git)
 templates/      # override template third-party (crispy)
 ```
@@ -119,7 +119,7 @@ def PesoalList(request):
 | Sinkron susesu | Dadus privadu hamoos husi HP; kódigu kazu deit mak hela |
 | Koneksaun kotu | Koko fali la kria duplikadu (ID UUID husi HP) |
 
-> **Teste lokál:** online → [`docs/TESTE_ONLINE.md`](docs/TESTE_ONLINE.md) (`teste_online` + `cek_kazu`) · offline/HP → [`docs/TESTE_OFFLINE.md`](docs/TESTE_OFFLINE.md) (`teste_offline` + `cek_sinkron`).
+> **Teste lokál:** online → `python manage.py teste_online` + `cek_kazu` · offline/HP → `teste_offline` + `cek_sinkron`.
 >
 > **Teste iha HP durante dev:** kámera, GPS no WebCrypto presiza **HTTPS** (ka `localhost`). `http://192.168.x.x` sei la servisu.
 
@@ -168,9 +168,8 @@ Konfigurasaun hotu iha `smkre/settings.py`, fahe ba seksaun **1–12** ho naran.
 
 ## 📦 Production
 
-> Uji coba online gratis: [`docs/DEPLOY_PYTHONANYWHERE.md`](docs/DEPLOY_PYTHONANYWHERE.md) · Server rasik: `docs/DEPLOY.md`
-
-Haree **[docs/DEPLOY.md](docs/DEPLOY.md)** (PostgreSQL, Gunicorn, Nginx, Celery, Redis, HTTPS).
+Deploy iha cPanel (redebarai.org): haree **[docs/DEPLOY_CPANEL.md](docs/DEPLOY_CPANEL.md)**
+(Setup Python App / Passenger, MySQL, email noreply@redebarai.org, Cron, backup).
 
 ## 🗺️ Faze dezenvolvimentu
 

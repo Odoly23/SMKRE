@@ -5823,3 +5823,7 @@ msgid ""
 msgstr ""
 "Lihat bagaimana konflik tanah dan penggusuran memengaruhi komunitas di "
 "Timor-Leste."
+
+#: publiku/templates/publiku/portal.html
+msgid "Vizita website Rede ba Rai"
+msgstr "Kunjungi situs Rede ba Rai"

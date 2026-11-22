@@ -124,7 +124,7 @@ class PortalPajinaTest(PortalBase):
 		pub.status = Publikasaun.PUBLIKADU
 		pub.save()
 		self.assertEqual(self.client.get(reverse('portal-publikasaun', args=[pub.pk])).status_code, 200)
-		self.assertContains(self.client.get(reverse('portal')), 'Draft')
+		self.assertNotContains(self.client.get(reverse('portal')), 'Draft')     # policy brief la mosu tan iha landing
 
 
 @override_settings(MEDIA_ROOT=MEDIA)
@@ -201,3 +201,12 @@ class MapaPontuLandingTest(PortalBase):
 		r = self.client.get(reverse('api-portal-estatistika'))
 		self.assertNotIn(b'578912', r.content)
 		self.assertNotIn(b'212345', r.content)
+
+
+class TipuTuanTest(PortalBase):
+	# kazu ho tipu tuan (la ativu ona) tenke mosu iha gráfiku tipu (la'ós 0 hotu)
+	def test_tipu_la_ativu_ne_ebe_uza_mosu(self):
+		TipuKonflitu.objects.filter(pk=self.tipu.pk).update(is_active=False)
+		tipu = {t['id']: t for t in estatistika({})['tipu']}
+		self.assertEqual(tipu[self.tipu.pk]['n'], 6)
+		self.assertNotIn(TipuKonflitu.objects.filter(is_active=False).exclude(pk=self.tipu.pk).values_list('pk', flat=True).first(), tipu)

@@ -43,8 +43,8 @@
 			<li><a href="#mapa-kazu">{% trans "Mapa" %}</a></li>
 			<li><a href="#estatistika">{% trans "Estatístika" %}</a></li>
 			<li><a href="#eviksaun">{% trans "Eviksaun" %}</a></li>
-			{% if publikasaun %}<li><a href="#publikasaun">{% trans "Publikasaun" %}</a></li>{% endif %}
 			<li><a href="#kontaktu">{% trans "Kontaktu" %}</a></li>
+			<li><a href="https://redebarai.org" class="ld-link-rbr" target="_blank" rel="noopener"><i class="fa fa-globe"></i> redebarai.org <i class="fa fa-external-link"></i></a></li>
 		</ul>
 	</div>
 </nav>
@@ -56,6 +56,7 @@
 		<h1>{% trans "Sistema Monitorizasaun Kazu Rai" %}</h1>
 		<p class="ld-org">Rede ba Rai (RbR)</p>
 		<p class="ld-lead">{% trans "Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste." %}</p>
+		<p class="ld-hero-btn"><a href="https://redebarai.org" class="ld-btn-rbr" target="_blank" rel="noopener"><i class="fa fa-globe"></i> {% trans "Vizita website Rede ba Rai" %} <i class="fa fa-external-link"></i></a></p>
 		<div class="ld-kpi" aria-live="polite">
 			<div class="kpi"><div class="kpi-l"><i class="fa fa-folder-open"></i> {% trans "Kazu verifikadu" %}</div><div class="kpi-n" data-k="total">–</div><div class="kpi-s"><b data-k="munisipiu">–</b> {% trans "munisípiu ho kazu" %}</div></div>
 			<div class="kpi"><div class="kpi-l"><i class="fa fa-home"></i> {% trans "Uma-kain afetadu" %}</div><div class="kpi-n" data-k="uma_kain">–</div><div class="kpi-s"><b data-k="ema">–</b> {% trans "ema" %}</div></div>
@@ -81,12 +82,14 @@
 		<section class="pnl ld-trend">
 			<div class="pnl-h"><h2><i class="fa fa-line-chart"></i> {% trans "Kazu tuir tinan" %}</h2></div>
 			<div id="ch-tinan" class="ch"></div>
+			<p class="ch-vaziu" id="tinan-vaziu" hidden>{% trans "La iha dadus" %}</p>
 		</section>
 
 		<!-- Tipu konflitu -->
 		<section class="pnl ld-tipu">
 			<div class="pnl-h"><h2><i class="fa fa-tags"></i> {% trans "Tipu konflitu" %}</h2></div>
 			<div id="ch-tipu" class="ch"></div>
+			<p class="ch-vaziu" id="tipu-vaziu" hidden>{% trans "La iha dadus" %}</p>
 		</section>
 
 		<!-- Eviksaun -->
@@ -96,28 +99,13 @@
 			<div class="evik-q"><h3>{% trans "Molok eviksaun halo konsultasaun ka lae?" %}</h3><div id="ch-ev-konsultasaun" class="ch-ev"></div></div>
 			<div class="evik-q"><h3>{% trans "Molok eviksaun iha notifikasaun ka lae?" %}</h3><div id="ch-ev-notifikasaun" class="ch-ev"></div></div>
 			<div class="evik-q"><h3>{% trans "Durante eviksaun uza forsa ka lae?" %}</h3><div id="ch-ev-forsa" class="ch-ev"></div></div>
-			<p class="evik-vaziu" id="evik-vaziu" hidden>{% trans "Dadus eviksaun seidauk to'o atu hatudu (privasidade)." %}</p>
+			<p class="ch-vaziu" id="evik-vaziu" hidden>{% trans "Dadus eviksaun seidauk to'o atu hatudu (privasidade)." %}</p>
 		</section>
 	</div>
 
 	<!-- ══ Privasidade ══ -->
 	<p class="ld-nota"><i class="fa fa-lock"></i> {% blocktrans %}Dadus husi kazu ne'ebé verifika no aprova ona, ho konsentimentu komunidade. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan "&lt; {{ limite }}".{% endblocktrans %}</p>
 
-	{% if publikasaun %}
-	<!-- ══ Publikasaun ══ -->
-	<section class="ld-pub" id="publikasaun">
-		<h2><i class="fa fa-file-text-o"></i> {% trans "Publikasaun" %}</h2>
-		<div class="pub-lista">
-			{% for p in publikasaun %}
-			<a class="pub" href="{% url 'portal-publikasaun' p.pk %}" target="_blank" rel="noopener">
-				<span class="pub-tipu">{{ p.get_tipu_display }} · {{ p.lian|upper }} · {{ p.data|date:"d/m/Y" }}</span>
-				<b>{{ p.titulu }}</b>
-				<span class="pub-lee"><i class="fa fa-file-pdf-o"></i> {% trans "Lee PDF" %}</span>
-			</a>
-			{% endfor %}
-		</div>
-	</section>
-	{% endif %}
 
 	<!-- ══ Rodapé: kontaktu (la iha link login) ══ -->
 	<footer class="ld-footer" id="kontaktu">

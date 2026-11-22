@@ -5945,3 +5945,7 @@ msgid ""
 "Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste."
 msgstr ""
 "Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste."
+
+#: publiku/templates/publiku/portal.html
+msgid "Vizita website Rede ba Rai"
+msgstr "Vizita website Rede ba Rai"

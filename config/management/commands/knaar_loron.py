@@ -6,7 +6,7 @@ from kazu.tasks import limpeza_automatiku
 
 class Command(BaseCommand):
 	help = ("Halo knaar kada loron (la presiza Celery / Redis): hamate autorizasaun offline remata + lembrete, "
-		"lembrete prazu legál no limpeza kazu loron 30. Uza iha hosting sein Celery Beat (ex. PythonAnywhere → Tasks).")
+		"lembrete prazu legál no limpeza kazu loron 30. Uza iha hosting sein Celery Beat (ex. cPanel → Cron Jobs).")
 
 	# halo knaar loron (hosting sein Celery): autorizasaun offline, lembrete prazu legál, limpeza kazu loron 30
 	def handle(self, *args, **options):

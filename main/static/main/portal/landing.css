@@ -62,6 +62,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .ld-org { font-size: 18px; font-weight: 700; opacity: .92; margin: 0 0 8px; }
 .ld-lead { font-size: 17px; max-width: 680px; color: #E4F1E8; margin: 0 0 22px; }
 .ld-atualiza { font-size: 13px; color: #D5EADB; margin: 14px 0 0; }
+.ld-hero-btn { margin: -8px 0 22px; }
+.ld-btn-rbr { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 10px 18px; border-radius: 10px; background: #fff; color: var(--green); font-weight: 800; text-decoration: none; }
+.ld-btn-rbr:hover { background: #F3C77A; color: var(--ink); }
+.ld-links a.ld-link-rbr { color: var(--brand); }
 .ld-atualiza .fa-circle { color: #9BE3B8; font-size: .7rem; }
 
 /* KPI (kartaun vidru iha hero) */
@@ -81,7 +85,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .pnl-h h2 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--green); }
 .pnl-h h2 .fa { color: var(--brand); }
 .pnl-nota { color: var(--mute); font-size: .82rem; }
-.ch { height: 260px; }
+.ch { height: 320px; }
+/* la iha dadus: mensajen iha klaran painel (painel hotu aas hanesan) */
+.ch-vaziu { height: 320px; margin: 0; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--mute); font-size: .95rem; background: var(--linha2); border-radius: 10px; padding: 12px; }
 #mapa { height: 300px; background: #E8EFEA; border-radius: 10px; }
 .mapa-pontu { background: var(--earth); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.4); }
 .leaflet-popup-content { font-family: 'Lato', Arial, sans-serif; font-size: .9rem; }
@@ -100,8 +106,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .evik-kpi b { color: var(--earth); font-size: 1.1rem; }
 .evik-q { border-top: 1px solid var(--linha2); padding-top: 6px; margin-top: 4px; }
 .evik-q h3 { margin: 0; font-size: .9rem; font-weight: 700; color: var(--ink2); }
-.ch-ev { height: 140px; }
-.evik-vaziu { color: var(--mute); font-size: .9rem; margin: 8px 0 0; }
+.ch-ev { height: 92px; }
 
 .ld-nota { margin: 0; color: var(--ink2); font-size: .85rem; background: var(--brand-lt); border-radius: 10px; padding: 10px 12px; }
 .ld-nota .fa { color: var(--green); }

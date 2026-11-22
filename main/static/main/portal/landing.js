@@ -62,7 +62,7 @@
 			chart: { type: 'bar', height: h || null },
 			xAxis: { categories: cat, labels: { x: -6, style: { color: KOR.ink2, fontSize: '12px', width: larg + 'px', textOverflow: 'ellipsis', lineClamp: 2 } } },
 			yAxis: { visible: false },
-			plotOptions: { bar: { borderRadius: 4, borderWidth: 0, pointPadding: 0.1, groupPadding: 0.05, dataLabels: dl } },
+			plotOptions: { bar: { borderRadius: 4, borderWidth: 0, pointPadding: 0.1, groupPadding: 0.05, maxPointWidth: 34, dataLabels: dl } },
 			tooltip: tipBarra,
 			series: [{ name: T.kazu, data: dadus }]
 		});
@@ -162,21 +162,33 @@
 
 	// ── Gráfiku ──
 	var CH = {};
+	// gráfiku mamuk → subar gráfiku, hatudu "La iha dadus" (painel aas hanesan)
+	function vaziu(id, mamuk) {
+		$(id).hidden = mamuk;
+		$(id.replace('ch-', '') + '-vaziu').hidden = !mamuk;
+	}
 	function tinanRender(lista) {
+		vaziu('ch-tinan', !lista.length);
+		if (!lista.length) return;
 		var cat = lista.map(function (x) { return String(x.tinan); }), dadus = pontu(lista);
 		if (CH.tinan) { CH.tinan.xAxis[0].setCategories(cat, false); CH.tinan.series[0].setData(dadus, true); return; }
 		CH.tinan = Highcharts.chart('ch-tinan', {
 			chart: { type: 'column' },
 			xAxis: { categories: cat },
-			plotOptions: { column: { borderRadius: 4, borderWidth: 0, color: KOR.brand, dataLabels: dl } },
+			plotOptions: { column: { borderRadius: 4, borderWidth: 0, color: KOR.brand, dataLabels: dl, maxPointWidth: 60 } },
 			tooltip: tipBarra,
 			series: [{ name: T.kazu, data: dadus }]
 		});
 	}
 	function tipuRender(lista) {
 		var l = lista.filter(function (t) { return t.n !== 0; }).sort(function (a, b) { return (b.n || 0) - (a.n || 0); });
-		if (CH.tipu) CH.tipu.destroy();
-		CH.tipu = barra('ch-tipu', l.map(function (t) { return t.name; }), pontu(l));
+		vaziu('ch-tipu', !l.length);
+		if (CH.tipu) { CH.tipu.destroy(); CH.tipu = null; }
+		if (l.length) CH.tipu = barra('ch-tipu', l.map(function (t) { return t.name; }), pontu(l));
+	}
+	// painel muda aas → gráfiku sukat fali tuir painel
+	function reflowHotu() {
+		Object.keys(CH).forEach(function (k) { if (CH[k]) try { CH[k].reflow(); } catch (e) { /* gráfiku subar */ } });
 	}
 	function evKor(q) {
 		var aat = q === 'forsa' ? 'SIN' : 'LAE', diak = q === 'forsa' ? 'LAE' : 'SIN';
@@ -192,6 +204,7 @@
 			if (CH['ev' + q]) CH['ev' + q].destroy();
 			CH['ev' + q] = barra('ch-ev-' + q, ev[q].map(function (x) { return x.name; }), pontu(ev[q], evKor(q)));
 		});
+		setTimeout(reflowHotu, 50);
 	}
 
 	// ── Karrega dadus husi API ──
