@@ -120,12 +120,11 @@ html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 .pub-tipu { color: var(--mute); font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
 .pub-lee { color: var(--brand); font-weight: 700; font-size: .85rem; }
 
-/* Rodapé */
-.ld-footer { border-top: 1px solid var(--linha); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; }
-.ld-kontaktu { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .9rem; }
-.ld-kontaktu a, .ld-kontaktu span { color: var(--ink2); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; gap: 6px; }
-.ld-kontaktu .fa { color: var(--brand); }
-.ld-copy { color: var(--mute); font-size: .8rem; }
+/* Footer (luan tomak, metan) */
+.ld-footer { background: #404446; color: #fff; margin-top: 8px; }
+.ld-footer-in { max-width: 1680px; margin: 0 auto; padding: 16px; text-align: center; font-size: .9rem; }
+.ld-footer a { color: #9BE3B8; }
+.ld-footer p { margin: 4px 0 0; color: #D6D8D9; }
 
 /* ── Tablet ── */
 @media (min-width: 768px) {
