@@ -28,7 +28,7 @@ class Command(BaseCommand):
 		ssl_ = getattr(s, 'EMAIL_USE_SSL', False)
 		self.stdout.write(f'Backend: {s.EMAIL_BACKEND}\nHost: {host}  Port: {port}  SSL: {ssl_}  TLS: {s.EMAIL_USE_TLS}\n'
 			f'User: {s.EMAIL_HOST_USER or "(mamuk)"}  Password: {"iha" if s.EMAIL_HOST_PASSWORD else "(MAMUK)"}\n'
-			f'Husi: {s.DEFAULT_FROM_EMAIL}\n')
+			f'Husi: {s.DEFAULT_FROM_EMAIL}  Reply-To: {getattr(s, "EMAIL_REPLY_TO", "") or "-"}\n')
 
 		# 1. konfigurasaun
 		if 'smtp' not in s.EMAIL_BACKEND:
@@ -87,8 +87,11 @@ class Command(BaseCommand):
 
 		# 6. haruka email teste
 		try:
-			send_mail('SIBAR-RbR: teste email', 'Email teste husi SIBAR-RbR. Se simu ida ne\'e, konfigurasaun email di\'ak.',
-				s.DEFAULT_FROM_EMAIL, [opt['ba']], fail_silently=False)
+			from config.utils import send_html_email
+			ok = send_html_email('SIBAR-RbR: teste email', 'notification/email/notif.html',
+				{'message': "Email teste husi SIBAR-RbR. Se simu ida ne'e, konfigurasaun email di'ak.", 'url': ''}, [opt['ba']])
+			if not ok:
+				raise RuntimeError('haree logs/error.log')
 		except Exception as e:
 			return self.pasu(6, 'Haruka', False, f'{type(e).__name__}: {e}. DEFAULT_FROM_EMAIL tenke hanesan EMAIL_HOST_USER ({s.EMAIL_HOST_USER}).')
 		self.pasu(6, f'Haruka ba {opt["ba"]}', True, 'Haree inbox (no folder Spam).')

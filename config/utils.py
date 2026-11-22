@@ -11,7 +11,8 @@ logger = logging.getLogger('smkre')
 def send_html_email(subject, template, context, to):
 	ctx = {'site_url': settings.SITE_URL, **context}
 	html = render_to_string(template, ctx)
-	msg = EmailMultiAlternatives(subject, strip_tags(html), settings.DEFAULT_FROM_EMAIL, to)
+	reply_to = [settings.EMAIL_REPLY_TO] if getattr(settings, 'EMAIL_REPLY_TO', '') else None   # resposta ba email RbR
+	msg = EmailMultiAlternatives(subject, strip_tags(html), settings.DEFAULT_FROM_EMAIL, to, reply_to=reply_to)
 	msg.attach_alternative(html, 'text/html')
 	try:
 		msg.send()

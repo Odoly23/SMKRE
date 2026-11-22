@@ -314,6 +314,8 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='SIBAR - RbR <noreply@localhost>')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+# Reply-To (opsionál): haruka husi Gmail maibé resposta ba email RbR (ex. info@redebarai.org)
+EMAIL_REPLY_TO = env('EMAIL_REPLY_TO', default='')
 EMAIL_TIMEOUT = 20
 SITE_URL = env('SITE_URL', default='http://127.0.0.1:8000')
 
