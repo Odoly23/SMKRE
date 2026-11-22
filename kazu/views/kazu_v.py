@@ -8,11 +8,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
-from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, ROLE_DUPLIKADU, INVESTIGADOR
+from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, ROLE_DUPLIKADU, INVESTIGADOR, ROLE_REJEITA
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, AkompanamentuForm, SegimentuKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
 from kazu.fatin import avizu_munisipiu
+from kazu.limpeza import data_hamoos
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.duplikadu import posivel_duplikadu
 from kazu.importa import pode_muda_lokasaun
@@ -115,6 +116,8 @@ def KazuDetail(request, uuid):
 		'duplikadu': _duplikadu(request.user, objects),
 		'can_duplikadu': group in ROLE_DUPLIKADU,
 		'avizu_fatin': avizu_munisipiu(objects.latitude, objects.longitude, objects.munisipiu),   # GPS la tuir munisípiu
+		'data_hamoos': data_hamoos(objects),                         # kansela automátiku → data hamoos permanente
+		'can_restaura': group in ROLE_REJEITA,
 		**desizaun_ctx(),
 		'title': str(objects), 'legend': _('Detalla Kazu')
 	}

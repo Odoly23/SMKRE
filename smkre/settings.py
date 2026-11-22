@@ -269,6 +269,10 @@ PORTAL_ENDERESU = env('PORTAL_ENDERESU', default='Dili, Timor-Leste')
 # Mamuk → mapa uza OpenStreetMap + Esri deit.
 MAPBOX_TOKEN = env('MAPBOX_TOKEN', default='')
 
+# Limpeza automátiku kazu (kazu/limpeza.py): kazu loron 30 la verifika / la aprova → kansela; loron 30 tan → hamoos.
+# Konta hahú husi data ne'e (kazu tuan hetan loron 30 hafoin ativa, la kansela kedas iha loron deploy).
+LIMPEZA_HAHU = env('LIMPEZA_HAHU', default='2026-11-22')
+LIMPEZA_ATIVU = env('LIMPEZA_ATIVU', default=True, cast=bool)
 PORTAL_LIMITE_SUBAR = 3              # númeru 1–2 hatudu "< 3" (privasidade)
 
 

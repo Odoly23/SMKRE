@@ -13,6 +13,17 @@
 		<div>{% include 'kazu/badge_status.html' %} {% include 'kazu/badge_status_kazu.html' %}</div>
 		{% if obj.titulu %}<p class="text-muted mb-0 mt-1">{{ obj.titulu }}</p>{% endif %}
 	</div>
+	{% if data_hamoos %}
+	<!-- Kansela automátiku (loron 30 la verifika / la aprova): sei hamoos permanente -->
+	<div class="alert alert-danger d-flex flex-wrap align-items-center justify-content-between">
+		<div class="mr-2"><i class="fa fa-trash"></i> {% blocktrans with d=data_hamoos|date:"d/m/Y" %}Kazu ne'e kansela automátiku. Sei hamoos permanente husi base de dadus (inklui foto no file) iha {{ d }}.{% endblocktrans %}</div>
+		{% if can_restaura %}
+		<form method="post" action="{% url 'kazu-restaura' obj.pk %}" class="mt-1">{% csrf_token %}
+			<button type="submit" class="btn btn-sm btn-light"><i class="fa fa-undo"></i> {% trans "Restaura kazu" %}</button>
+		</form>
+		{% endif %}
+	</div>
+	{% endif %}
 
 	<div class="row">
 		<div class="col-lg-8">
@@ -188,7 +199,7 @@
 				<ul class="timeline">
 					{% for h in historia %}
 					<li class="{% if h.status_foun == 'REJECTED' or h.status_foun == 'CANCELED' %}bad{% endif %}">
-						<small class="text-muted">{{ h.created_at|date:"d/m/Y H:i" }} · {{ h.user.pesoaluser.pesoal|default:h.user.username|default:"-" }}</small><br>
+						<small class="text-muted">{{ h.created_at|date:"d/m/Y H:i" }} · {% if h.user %}{{ h.user.pesoaluser.pesoal|default:h.user.username }}{% else %}<i class="fa fa-cog"></i> {% trans "Sistema" %}{% endif %}</small><br>
 						{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% elif h.nota == 'SINKRON' %}<i class="fa fa-mobile"></i> {% trans "Sinkron husi HP" %}{% elif h.nota and h.nota != 'EDITA' %}<span class="pre-line">{{ h.nota }}</span>{% else %}{% trans "Edita" %}{% endif %}{% else %}<b>{{ h.status_antes_label }} → {{ h.status_foun_label }}</b>{% if h.nota %}<br><span class="pre-line">{{ h.nota }}</span>{% endif %}{% endif %}
 					</li>
 					{% empty %}<li class="text-muted">-</li>{% endfor %}

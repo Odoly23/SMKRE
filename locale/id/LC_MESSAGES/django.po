@@ -5740,3 +5740,63 @@ msgid ""
 msgstr ""
 "Koordinat GPS berada di %(gps)s, tetapi kasus terdaftar di %(mun)s. Mohon "
 "periksa munisipiu atau GPS."
+
+#: kazu/models/kazu.py
+msgid "Kansela automátiku iha"
+msgstr "Dibatalkan otomatis pada"
+
+#: kazu/limpeza.py
+msgid ""
+"Kansela automátiku: loron %(n)s %(r)s. Sei hamoos permanente hafoin loron "
+"%(n)s se la restaura."
+msgstr ""
+"Dibatalkan otomatis: %(n)s hari %(r)s. Akan dihapus permanen setelah %(n)s "
+"hari jika tidak dipulihkan."
+
+#: kazu/limpeza.py
+msgid "Kazu %(k)s kansela automátiku: loron %(n)s %(r)s."
+msgstr "Kasus %(k)s dibatalkan otomatis: %(n)s hari %(r)s."
+
+#: kazu/limpeza.py
+msgid "Kazu %(n)s %(r)s seidauk: sei kansela automátiku iha loron %(d)s."
+msgstr "%(n)s kasus masih %(r)s: akan dibatalkan otomatis dalam %(d)s hari."
+
+#: kazu/limpeza.py
+msgid ""
+"Kazu %(n)s kansela automátiku sei hamoos permanente iha loron %(d)s. "
+"Restaura se presiza."
+msgstr ""
+"%(n)s kasus yang dibatalkan otomatis akan dihapus permanen dalam %(d)s hari."
+" Pulihkan jika perlu."
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu ne'e kansela automátiku. Sei hamoos permanente husi base de dadus "
+"(inklui foto no file) iha %(d)s."
+msgstr ""
+"Kasus ini dibatalkan otomatis. Akan dihapus permanen dari database (termasuk"
+" foto dan file) pada %(d)s."
+
+#: kazu/limpeza.py
+msgid "Kazu ne'e la kansela automátiku."
+msgstr "Kasus ini tidak dibatalkan otomatis."
+
+#: kazu/views/status_v.py
+msgid "Kazu restaura ona. Konta loron 30 hahú fali ohin."
+msgstr "Kasus dipulihkan. Hitungan 30 hari dimulai lagi hari ini."
+
+#: kazu/limpeza.py
+msgid "Restaura husi kansela automátiku."
+msgstr "Dipulihkan dari pembatalan otomatis."
+
+#: kazu/templates/kazu/detail.html
+msgid "Restaura kazu"
+msgstr "Pulihkan kasus"
+
+#: kazu/limpeza.py
+msgid "la aprova"
+msgstr "belum disetujui"
+
+#: kazu/limpeza.py
+msgid "la verifika"
+msgstr "belum diverifikasi"

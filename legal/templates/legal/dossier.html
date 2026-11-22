@@ -85,7 +85,7 @@
 
 	<h2>8. {% trans "Istória" %}</h2>
 	<table class="tab">
-		{% for h in historia %}<tr><td class="nw">{{ h.created_at|date:"d/m/Y H:i" }}</td><td>{{ h.user.pesoaluser.pesoal|default:h.user.username|default:"-" }}</td>
+		{% for h in historia %}<tr><td class="nw">{{ h.created_at|date:"d/m/Y H:i" }}</td><td>{% if h.user %}{{ h.user.pesoaluser.pesoal|default:h.user.username }}{% else %}{% trans "Sistema" %}{% endif %}</td>
 		<td>{% if h.tipu == 'EDITA' %}{% if h.nota == 'KRIA' %}{% trans "Kria" %}{% elif h.nota == 'SINKRON' %}{% trans "Sinkron husi HP" %}{% else %}{% trans "Edita" %}{% endif %}{% else %}{{ h.status_antes_label }} → {{ h.status_foun_label }}{% if h.nota %} · {{ h.nota }}{% endif %}{% endif %}</td></tr>{% endfor %}
 	</table>
 

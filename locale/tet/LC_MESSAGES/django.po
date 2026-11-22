@@ -5863,3 +5863,63 @@ msgid ""
 msgstr ""
 "Koordenada GPS iha %(gps)s, maibé kazu rejista iha %(mun)s. Favor verifika "
 "munisípiu ka GPS."
+
+#: kazu/models/kazu.py
+msgid "Kansela automátiku iha"
+msgstr "Kansela automátiku iha"
+
+#: kazu/limpeza.py
+msgid ""
+"Kansela automátiku: loron %(n)s %(r)s. Sei hamoos permanente hafoin loron "
+"%(n)s se la restaura."
+msgstr ""
+"Kansela automátiku: loron %(n)s %(r)s. Sei hamoos permanente hafoin loron "
+"%(n)s se la restaura."
+
+#: kazu/limpeza.py
+msgid "Kazu %(k)s kansela automátiku: loron %(n)s %(r)s."
+msgstr "Kazu %(k)s kansela automátiku: loron %(n)s %(r)s."
+
+#: kazu/limpeza.py
+msgid "Kazu %(n)s %(r)s seidauk: sei kansela automátiku iha loron %(d)s."
+msgstr "Kazu %(n)s %(r)s seidauk: sei kansela automátiku iha loron %(d)s."
+
+#: kazu/limpeza.py
+msgid ""
+"Kazu %(n)s kansela automátiku sei hamoos permanente iha loron %(d)s. "
+"Restaura se presiza."
+msgstr ""
+"Kazu %(n)s kansela automátiku sei hamoos permanente iha loron %(d)s. "
+"Restaura se presiza."
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu ne'e kansela automátiku. Sei hamoos permanente husi base de dadus "
+"(inklui foto no file) iha %(d)s."
+msgstr ""
+"Kazu ne'e kansela automátiku. Sei hamoos permanente husi base de dadus "
+"(inklui foto no file) iha %(d)s."
+
+#: kazu/limpeza.py
+msgid "Kazu ne'e la kansela automátiku."
+msgstr "Kazu ne'e la kansela automátiku."
+
+#: kazu/views/status_v.py
+msgid "Kazu restaura ona. Konta loron 30 hahú fali ohin."
+msgstr "Kazu restaura ona. Konta loron 30 hahú fali ohin."
+
+#: kazu/limpeza.py
+msgid "Restaura husi kansela automátiku."
+msgstr "Restaura husi kansela automátiku."
+
+#: kazu/templates/kazu/detail.html
+msgid "Restaura kazu"
+msgstr "Restaura kazu"
+
+#: kazu/limpeza.py
+msgid "la aprova"
+msgstr "la aprova"
+
+#: kazu/limpeza.py
+msgid "la verifika"
+msgstr "la verifika"

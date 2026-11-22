@@ -6,6 +6,7 @@ from django_celery_beat.models import CrontabSchedule, PeriodicTask
 HORARIU = [
 	('SIBAR-RbR: autorizasaun offline', 'users.tasks.check_offline_permission', 6, 0),
 	('SIBAR-RbR: lembrete prazu legál', 'legal.tasks.lembra_prazu', 7, 0),
+	('SIBAR-RbR: limpeza kazu loron 30', 'kazu.tasks.limpeza_automatiku', 5, 0),
 ]
 
 

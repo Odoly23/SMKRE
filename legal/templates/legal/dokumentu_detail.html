@@ -55,7 +55,7 @@
 				<h3 class="h-line">{% trans "Rejistu Asesu" %}</h3>
 				<ul class="list-unstyled small mb-0">
 				{% for a in asesu %}
-					<li class="mb-1"><b>{{ a.get_aksaun_display }}</b> · {{ a.at|date:"d/m/Y H:i" }}<br><span class="text-muted">{{ a.user.pesoaluser.pesoal|default:a.user.username|default:"-" }}{% if a.ip %} · {{ a.ip }}{% endif %}</span></li>
+					<li class="mb-1"><b>{{ a.get_aksaun_display }}</b> · {{ a.at|date:"d/m/Y H:i" }}<br><span class="text-muted">{% if a.user %}{{ a.user.pesoaluser.pesoal|default:a.user.username }}{% else %}{% trans "Sistema" %}{% endif %}{% if a.ip %} · {{ a.ip }}{% endif %}</span></li>
 				{% empty %}<li class="text-muted">-</li>{% endfor %}
 				</ul>
 			</div></div>

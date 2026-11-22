@@ -5776,3 +5776,64 @@ msgid ""
 msgstr ""
 "As coordenadas GPS estão em %(gps)s, mas o caso está registado em %(mun)s. "
 "Verifique o município ou o GPS."
+
+#: kazu/models/kazu.py
+msgid "Kansela automátiku iha"
+msgstr "Cancelado automaticamente em"
+
+#: kazu/limpeza.py
+msgid ""
+"Kansela automátiku: loron %(n)s %(r)s. Sei hamoos permanente hafoin loron "
+"%(n)s se la restaura."
+msgstr ""
+"Cancelado automaticamente: %(n)s dias %(r)s. Será eliminado definitivamente "
+"após %(n)s dias se não for restaurado."
+
+#: kazu/limpeza.py
+msgid "Kazu %(k)s kansela automátiku: loron %(n)s %(r)s."
+msgstr "Caso %(k)s cancelado automaticamente: %(n)s dias %(r)s."
+
+#: kazu/limpeza.py
+msgid "Kazu %(n)s %(r)s seidauk: sei kansela automátiku iha loron %(d)s."
+msgstr ""
+"%(n)s casos ainda %(r)s: serão cancelados automaticamente em %(d)s dias."
+
+#: kazu/limpeza.py
+msgid ""
+"Kazu %(n)s kansela automátiku sei hamoos permanente iha loron %(d)s. "
+"Restaura se presiza."
+msgstr ""
+"%(n)s casos cancelados automaticamente serão eliminados definitivamente em "
+"%(d)s dias. Restaure se necessário."
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu ne'e kansela automátiku. Sei hamoos permanente husi base de dadus "
+"(inklui foto no file) iha %(d)s."
+msgstr ""
+"Este caso foi cancelado automaticamente. Será eliminado definitivamente da "
+"base de dados (incluindo fotos e ficheiros) em %(d)s."
+
+#: kazu/limpeza.py
+msgid "Kazu ne'e la kansela automátiku."
+msgstr "Este caso não foi cancelado automaticamente."
+
+#: kazu/views/status_v.py
+msgid "Kazu restaura ona. Konta loron 30 hahú fali ohin."
+msgstr "Caso restaurado. A contagem de 30 dias recomeça hoje."
+
+#: kazu/limpeza.py
+msgid "Restaura husi kansela automátiku."
+msgstr "Restaurado do cancelamento automático."
+
+#: kazu/templates/kazu/detail.html
+msgid "Restaura kazu"
+msgstr "Restaurar caso"
+
+#: kazu/limpeza.py
+msgid "la aprova"
+msgstr "sem aprovação"
+
+#: kazu/limpeza.py
+msgid "la verifika"
+msgstr "sem verificação"

@@ -72,6 +72,9 @@ class Kazu(models.Model):
 	# Follow-up: Investigadór ne'ebé tenke tuun fali ba terrenu (bele la'ós ida ne'ebé kria kazu)
 	followup_ba = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='kazu_followup', verbose_name=_("Follow-up ba"))
 	followup_at = models.DateTimeField(null=True, blank=True)
+	# Kansela automátiku (kazu/limpeza.py): bainhira + status molok kansela (Admin bele restaura to'o loron 30)
+	kansela_auto_iha = models.DateTimeField(null=True, blank=True, db_index=True, verbose_name=_("Kansela automátiku iha"))
+	kansela_auto_antes = models.CharField(max_length=15, blank=True, editable=False)
 	# Admin konfirma "la'ós duplikadu" (par kazu la hatudu tan iha avizu duplikadu)
 	duplikadu_la_os = models.ManyToManyField('self', blank=True, verbose_name=_("La'ós duplikadu ho"))
 

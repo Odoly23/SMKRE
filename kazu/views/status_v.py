@@ -6,7 +6,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_FOLLOWUP, ROLE_PORTAL, ROLE_DUPLIKADU
+from config.rbac import ROLE_ALL, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_FOLLOWUP, ROLE_PORTAL, ROLE_DUPLIKADU, ROLE_REJEITA
 from kazu.models import Kazu
 from kazu.permissions import can_view, is_responsavel
 from kazu.services import muda_portal, submit_kazu, change_status, muda_desizaun, followup_kazu, marka_la_os_duplikadu, STATUS_LABEL
@@ -107,6 +107,23 @@ def KazuLaOsDuplikadu(request, uuid, outro):
 	try:
 		marka_la_os_duplikadu(objects, request.user, outro_obj)
 		messages.success(request, _("Marka ona: %(a)s la'ós duplikadu ho %(b)s.") % {'a': objects, 'b': outro_obj})
+	except PermissionDenied:
+		return render(request, 'home/403.html', status=403)
+	except ValidationError as e:
+		messages.error(request, ' '.join(e.messages))
+	return redirect('kazu-detail', uuid=uuid)
+
+
+# Admin / Superadmin: restaura kazu kansela automátiku (loron 30 la verifika / la aprova) → status uluk
+@login_required
+@allowed_users(allowed_roles=ROLE_REJEITA)
+@require_POST
+def KazuRestaura(request, uuid):
+	from kazu.limpeza import restaura
+	objects = get_object_or_404(Kazu, pk=uuid)
+	try:
+		restaura(objects, request.user)
+		messages.success(request, _('Kazu restaura ona. Konta loron 30 hahú fali ohin.'))
 	except PermissionDenied:
 		return render(request, 'home/403.html', status=403)
 	except ValidationError as e:

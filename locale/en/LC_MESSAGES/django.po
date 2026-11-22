@@ -5757,3 +5757,63 @@ msgid ""
 msgstr ""
 "GPS coordinates are in %(gps)s, but the case is registered in %(mun)s. "
 "Please check the municipality or GPS."
+
+#: kazu/models/kazu.py
+msgid "Kansela automátiku iha"
+msgstr "Auto-cancelled at"
+
+#: kazu/limpeza.py
+msgid ""
+"Kansela automátiku: loron %(n)s %(r)s. Sei hamoos permanente hafoin loron "
+"%(n)s se la restaura."
+msgstr ""
+"Auto-cancelled: %(n)s days %(r)s. Will be permanently deleted after %(n)s "
+"days if not restored."
+
+#: kazu/limpeza.py
+msgid "Kazu %(k)s kansela automátiku: loron %(n)s %(r)s."
+msgstr "Case %(k)s auto-cancelled: %(n)s days %(r)s."
+
+#: kazu/limpeza.py
+msgid "Kazu %(n)s %(r)s seidauk: sei kansela automátiku iha loron %(d)s."
+msgstr "%(n)s cases still %(r)s: will be auto-cancelled in %(d)s days."
+
+#: kazu/limpeza.py
+msgid ""
+"Kazu %(n)s kansela automátiku sei hamoos permanente iha loron %(d)s. "
+"Restaura se presiza."
+msgstr ""
+"%(n)s auto-cancelled cases will be permanently deleted in %(d)s days. "
+"Restore if needed."
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Kazu ne'e kansela automátiku. Sei hamoos permanente husi base de dadus "
+"(inklui foto no file) iha %(d)s."
+msgstr ""
+"This case was auto-cancelled. It will be permanently deleted from the "
+"database (including photos and files) on %(d)s."
+
+#: kazu/limpeza.py
+msgid "Kazu ne'e la kansela automátiku."
+msgstr "This case was not auto-cancelled."
+
+#: kazu/views/status_v.py
+msgid "Kazu restaura ona. Konta loron 30 hahú fali ohin."
+msgstr "Case restored. The 30-day count restarts today."
+
+#: kazu/limpeza.py
+msgid "Restaura husi kansela automátiku."
+msgstr "Restored from auto-cancellation."
+
+#: kazu/templates/kazu/detail.html
+msgid "Restaura kazu"
+msgstr "Restore case"
+
+#: kazu/limpeza.py
+msgid "la aprova"
+msgstr "not approved"
+
+#: kazu/limpeza.py
+msgid "la verifika"
+msgstr "not verified"
