@@ -12,6 +12,7 @@ from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU,
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, AkompanamentuForm, SegimentuKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
+from kazu.fatin import avizu_munisipiu
 from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.duplikadu import posivel_duplikadu
 from kazu.importa import pode_muda_lokasaun
@@ -113,6 +114,7 @@ def KazuDetail(request, uuid):
 		'action_form': ActionForm(),
 		'duplikadu': _duplikadu(request.user, objects),
 		'can_duplikadu': group in ROLE_DUPLIKADU,
+		'avizu_fatin': avizu_munisipiu(objects.latitude, objects.longitude, objects.munisipiu),   # GPS la tuir munisípiu
 		**desizaun_ctx(),
 		'title': str(objects), 'legend': _('Detalla Kazu')
 	}

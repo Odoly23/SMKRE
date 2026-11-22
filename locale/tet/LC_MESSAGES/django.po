@@ -5855,3 +5855,11 @@ msgstr "Total kazu kada munisípiu"
 #: publiku/templates/publiku/portal.html
 msgid "munisípiu ho kazu"
 msgstr "munisípiu ho kazu"
+
+#: kazu/fatin.py
+msgid ""
+"Koordenada GPS iha %(gps)s, maibé kazu rejista iha %(mun)s. Favor verifika "
+"munisípiu ka GPS."
+msgstr ""
+"Koordenada GPS iha %(gps)s, maibé kazu rejista iha %(mun)s. Favor verifika "
+"munisípiu ka GPS."

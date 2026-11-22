@@ -19,6 +19,7 @@ from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, STATUS_EDITABLE, REJ
 from kazu.services import submit_kazu
 from sinkron.services import sync_kazu, sync_evidensia, kazu_ba_hp
 from kazu.duplikadu import duplikadu_testu
+from kazu.fatin import avizu_munisipiu
 from users.auth_utils import c_user_pesoal
 
 
@@ -100,7 +101,8 @@ class APIKazuLista(_SinkronAPI):
 			return Response(_erru(e), status=400)
 		# Avizu duplikadu: kódigu no razaun de'it (Investigadór la haree detalla kazu ema seluk)
 		return Response({'id': str(kazu.pk), 'kode': kazu.kode, 'kode_hp': kazu.kode_hp, 'status': kazu.status,
-			'foto': kazu.foto_count(), 'video': kazu.video_count(), 'duplikadu': duplikadu_testu(kazu)}, status=201 if foun else 200)
+			'foto': kazu.foto_count(), 'video': kazu.video_count(), 'duplikadu': duplikadu_testu(kazu),
+			'avizu_fatin': avizu_munisipiu(kazu.latitude, kazu.longitude, kazu.munisipiu)}, status=201 if foun else 200)
 
 
 class APIEvidensia(_SinkronAPI):

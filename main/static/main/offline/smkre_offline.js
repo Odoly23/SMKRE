@@ -526,6 +526,7 @@
 		enxePostu();
 		enxeSuku(); enxeAldeia();
 		hatuduGPS();
+		karregaFronteira();                // fronteira munisípiu (cache offline) → avizu GPS
 		$('f-data_akontesimentu').value = k.data_akontesimentu || '';
 		$('f-data_akontesimentu').max = hoje();
 		// Tipu konflitu tuan (la ativu ona) → hasai, Investigadór hili fali tipu foun
@@ -586,7 +587,7 @@
 		opsaunSelect($('f-postu'), S.opsaun.postu.filter(function (p) { return p.munisipiu_id == null || String(p.munisipiu_id) === mun; }), S.kazu.postu);
 		enxeSuku(); enxeAldeia();
 	}
-	$('f-munisipiu').addEventListener('change', function () { S.kazu.munisipiu = this.value; S.kazu.postu = S.kazu.suku = S.kazu.aldeia = ''; enxePostu(); });
+	$('f-munisipiu').addEventListener('change', function () { S.kazu.munisipiu = this.value; S.kazu.postu = S.kazu.suku = S.kazu.aldeia = ''; enxePostu(); hatuduGPS(); });
 	function enxeSuku() {
 		var postu = $('f-postu').value;
 		opsaunSelect($('f-suku'), S.opsaun.suku.filter(function (s) { return String(s.postu_id) === postu; }), S.kazu.suku);
@@ -779,6 +780,7 @@
 		$('rezumu').innerHTML = '<div class="sub-box"><b>Rezumu</b><br>' +
 			'Fatin: ' + esc(naranSuku(k.suku)) + ', ' + esc(munNaran(k.munisipiu)) + '<br>' +
 			'GPS: ' + (k.latitude != null ? k.latitude.toFixed(5) + ', ' + k.longitude.toFixed(5) + (k.gps_akurasia == null ? '' : ' (±' + k.gps_akurasia + ' m)') : '-') + '<br>' +
+			(avizuFatin(k) ? '<span class="text-warning"><i class="fa fa-exclamation-triangle"></i> ' + esc(avizuFatin(k)) + '</span><br>' : '') +
 			'Uma-kain: ' + (afe.uma_kain == null ? '-' : afe.uma_kain) + ' · Ema: ' + (afe.total_ema == null ? '-' : afe.total_ema) + '<br>' +
 			'Foto: ' + foto + '/' + MAX_FOTO + ' · Vídeo: ' + video + '/' + MAX_VIDEO +
 			(k.nesesidade.length ? '<br><span class="badge badge-urjente">URJENTE</span>' : '') + '</div>';
@@ -904,6 +906,47 @@
 		if (k.latitude == null) { info.className = 'small mt-1 text-muted'; info.textContent = 'Tenke iha fatin akontesimentu. Akurasia tenke ≤ 50 m.'; return; }
 		info.className = 'small mt-1 ' + (k.gps_akurasia == null || k.gps_akurasia <= GPS_MAX ? 'text-success' : 'text-danger');
 		info.innerHTML = '<i class="fa fa-check"></i> ' + k.latitude.toFixed(6) + ', ' + k.longitude.toFixed(6) + (k.gps_akurasia == null ? '' : ' · akurasia ±' + k.gps_akurasia + ' m');
+		var avizu = avizuFatin(k);
+		if (avizu) info.innerHTML += '<div class="alert alert-warning py-1 px-2 mt-1 mb-0"><i class="fa fa-exclamation-triangle"></i> ' + esc(avizu) + '</div>';
+	}
+
+	// ── GPS vs fronteira munisípiu: avizu de'it (la bloku). Regra hanesan server (kazu/fatin.py) ──
+	// Fronteira simplifika: tasi-ibun bele sala km 2–3 → avizu de'it se GPS iha laran munisípiu SELUK,
+	// ka li'ur fronteira hotu no dook liu km 3 husi munisípiu ne'ebé hili.
+	var FRONTEIRA = null, FATIN_LIMITE_M = 3000;
+	function karregaFronteira() {
+		if (FRONTEIRA || !B.geojson || !window.turf) return Promise.resolve();
+		return fetch(B.geojson).then(function (r) { return r.json(); })
+			.then(function (g) { FRONTEIRA = g.features || []; if (S.kazu) hatuduGPS(); })
+			.catch(function () { /* la iha fronteira (offline seidauk cache): la avizu */ });
+	}
+	// distánsia metru husi pontu ba liña fronteira munisípiu ida
+	function distFronteira(f, pt) {
+		var g = f.geometry, poli = g.type === 'MultiPolygon' ? g.coordinates : [g.coordinates], min = Infinity;
+		poli.forEach(function (aneis) {
+			aneis.forEach(function (anel) { min = Math.min(min, turf.pointToLineDistance(pt, turf.lineString(anel), { units: 'meters' })); });
+		});
+		return min;
+	}
+	// testu avizu se GPS la tuir munisípiu kazu nian ('' = di'ak ka la bele verifika)
+	function avizuFatin(k) {
+		if (!FRONTEIRA || !FRONTEIRA.length || k.latitude == null || k.longitude == null || !k.munisipiu) return '';
+		try {
+			var m = munLista().filter(function (x) { return String(x.id) === String(k.munisipiu); })[0];
+			var hili = m && FRONTEIRA.filter(function (f) { return f.properties.code === m.code; })[0];
+			if (!hili) return '';
+			var pt = turf.point([k.longitude, k.latitude]), gps;
+			var laran = FRONTEIRA.filter(function (f) { return turf.booleanPointInPolygon(pt, f); })[0];
+			if (laran) {
+				if (laran.properties.code === m.code) return '';
+				gps = laran;
+			} else {
+				if (distFronteira(hili, pt) <= FATIN_LIMITE_M) return '';
+				gps = FRONTEIRA.reduce(function (a, f) { var d = distFronteira(f, pt); return !a || d < a.d ? { f: f, d: d } : a; }, null).f;
+				if (gps.properties.code === m.code) return '';
+			}
+			return 'Koordenada GPS iha ' + gps.properties.name + ', maibé kazu rejista iha ' + m.name + '. Favor verifika munisípiu ka GPS.';
+		} catch (e) { return ''; }
 	}
 
 	function paraGPS() {
@@ -1106,6 +1149,8 @@
 			if (res.data.kode_hp) k.kode_hp = res.data.kode_hp;
 			if (res.data.duplikadu && res.data.duplikadu.length && S.dupAvizu)
 				S.dupAvizu.push('⚠ ' + (k.kode_hp || 'Kazu') + ' bele duplikadu ho: ' + res.data.duplikadu.join(', ') + '. Admin sei verifika.');
+			if (res.data.avizu_fatin && S.dupAvizu)
+				S.dupAvizu.push('⚠ ' + (k.kode_hp || 'Kazu') + ': ' + res.data.avizu_fatin);
 			return DB.mediaKazu(k.id).then(function (media) {
 				return media.reduce(function (p, m) {
 					return p.then(function (ok) {

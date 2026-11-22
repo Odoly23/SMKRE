@@ -5732,3 +5732,11 @@ msgstr "Total kasus per munisipiu"
 #: publiku/templates/publiku/portal.html
 msgid "munisípiu ho kazu"
 msgstr "munisipiu dengan kasus"
+
+#: kazu/fatin.py
+msgid ""
+"Koordenada GPS iha %(gps)s, maibé kazu rejista iha %(mun)s. Favor verifika "
+"munisípiu ka GPS."
+msgstr ""
+"Koordinat GPS berada di %(gps)s, tetapi kasus terdaftar di %(mun)s. Mohon "
+"periksa munisipiu atau GPS."

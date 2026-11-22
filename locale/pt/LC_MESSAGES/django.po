@@ -5768,3 +5768,11 @@ msgstr "Total de casos por município"
 #: publiku/templates/publiku/portal.html
 msgid "munisípiu ho kazu"
 msgstr "municípios com casos"
+
+#: kazu/fatin.py
+msgid ""
+"Koordenada GPS iha %(gps)s, maibé kazu rejista iha %(mun)s. Favor verifika "
+"munisípiu ka GPS."
+msgstr ""
+"As coordenadas GPS estão em %(gps)s, mas o caso está registado em %(mun)s. "
+"Verifique o município ou o GPS."
