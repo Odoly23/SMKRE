@@ -23,47 +23,56 @@ a { color: var(--brand); }
 .ld-topbar .ld-lian button { display: inline-flex; align-items: center; gap: 4px; min-width: 0; min-height: 32px; padding: 0 8px; background: transparent; border-color: rgba(255,255,255,.25); color: #E8F0EA; }
 .ld-topbar .ld-lian button.active { background: #fff; border-color: #fff; color: var(--green); }
 .ld-topbar .ld-lian img { border-radius: 2px; }
+@media (max-width: 767.98px) {
+	/* HP: ikon de'it ba kontaktu (klik = telefone / email), bandeira sempre haree */
+	.ld-tb-kontaktu a > span, .ld-tb-kontaktu > span > span { display: none; }
+	.ld-tb-kontaktu .fa { font-size: 18px; }
+	.ld-topbar .ld-lian button span { display: none; }
+	.ld-topbar-in { flex-wrap: nowrap; }
+}
 
-/* ── Kabesallu ── */
-.ld-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.ld-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.ld-logo { background: #fff; border: 1px solid var(--linha); border-radius: 50%; width: 56px; height: 56px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
-.ld-logo img { width: 82%; height: auto; }
-.ld-brand h1 { margin: 0; font-family: 'Montserrat', 'Lato', sans-serif; font-size: clamp(1.25rem, 3.2vw, 2rem); font-weight: 800; color: var(--green); letter-spacing: .01em; }
-.ld-brand h1 span { color: var(--brand); }
-.ld-brand p { margin: 2px 0 0; color: var(--ink2); font-size: .92rem; }
-.ld-relojiu { display: none; align-items: center; gap: 12px; }
-.analog { width: 74px; height: 74px; }
-.analog .face { fill: #fff; stroke: var(--brand); stroke-width: 2.4; }
-.analog .tk { stroke: var(--mute); stroke-width: .9; }
-.analog .tk5 { stroke: var(--green); stroke-width: 2; }
-.jr-oras { stroke: var(--ink); stroke-width: 3.6; stroke-linecap: round; }
-.jr-min { stroke: var(--ink2); stroke-width: 2.4; stroke-linecap: round; }
-.jr-seg { stroke: var(--brand); stroke-width: 1.2; stroke-linecap: round; }
-.analog .pinu { fill: var(--brand); }
-.relojiu-tx #loron { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--green); }
-.relojiu-tx #data { color: var(--ink2); }
-.relojiu-tx #oras { color: var(--brand); font-weight: 700; font-size: 1.15rem; }
-.ld-estadu { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .ld-lian { display: flex; gap: 4px; }
 .ld-lian form { margin: 0; }
-.ld-lian button { min-width: 44px; min-height: 36px; border: 1px solid var(--linha); background: #fff; color: var(--ink2); border-radius: 8px; font-weight: 700; cursor: pointer; }
-.ld-lian button.active { background: var(--green); border-color: var(--green); color: #fff; }
-.ld-sub { color: var(--mute); font-size: .85rem; }
-.ld-sub .fa-circle { color: var(--brand); font-size: .7rem; }
+.ld-lian button { border: 1px solid transparent; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-/* ── KPI ── */
+/* ── Navbar (sticky) ── */
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+.ld-nav { position: sticky; top: 0; z-index: 1100; background: rgba(255,255,255,.96); backdrop-filter: saturate(1.4) blur(6px); border-bottom: 1px solid var(--linha); }
+.ld-nav-in { max-width: 1680px; margin: 0 auto; padding: 0 16px; min-height: 64px; display: flex; align-items: center; justify-content: space-between; position: relative; }
+.ld-brand { display: flex; align-items: center; gap: 10px; min-width: 0; color: var(--ink); text-decoration: none; }
+.ld-logo { background: #fff; border: 1px solid var(--linha); border-radius: 50%; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.ld-logo img { width: 84%; height: auto; }
+.ld-brand-tx { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+.ld-brand-tx b { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 17px; color: var(--green); }
+.ld-brand-tx small { color: var(--ink2); font-size: 12px; }
+.ld-ham { background: none; border: 0; font-size: 24px; color: var(--green); width: 48px; height: 48px; cursor: pointer; }
+.ld-links { list-style: none; margin: 0; padding: 8px 16px 12px; display: none; position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; background: #fff; border-bottom: 1px solid var(--linha); box-shadow: 0 8px 16px rgba(0,0,0,.06); }
+.ld-links.open { display: flex; }
+.ld-links a { display: block; padding: 12px; color: var(--ink2); font-weight: 700; font-size: 15px; border-radius: 8px; text-decoration: none; min-height: 48px; }
+.ld-links a:hover { color: var(--green); background: var(--brand-lt); }
+
+/* ── Hero (slide uluk) + KPI ── */
+.ld-hero { position: relative; overflow: hidden; color: #fff; padding: 36px 0 30px;
+	background: radial-gradient(1200px 400px at 85% -10%, rgba(200,138,46,.28), transparent 60%),
+		linear-gradient(135deg, #0F2E1B 0%, var(--green) 55%, var(--brand) 100%); }
+.ld-hero::after { content: ''; position: absolute; right: -120px; bottom: -160px; width: 420px; height: 420px; border-radius: 50%; border: 60px solid rgba(255,255,255,.06); pointer-events: none; }
+.ld-hero-in { position: relative; z-index: 1; max-width: 1680px; margin: 0 auto; padding: 0 16px; }
+.ld-eyebrow { display: inline-flex; gap: 6px; align-items: center; background: rgba(255,255,255,.14); padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+.ld-hero h1 { font-family: 'Montserrat', 'Lato', sans-serif; font-weight: 800; font-size: clamp(1.7rem, 5vw, 2.9rem); line-height: 1.15; margin: 14px 0 4px; max-width: 820px; }
+.ld-org { font-size: 18px; font-weight: 700; opacity: .92; margin: 0 0 8px; }
+.ld-lead { font-size: 17px; max-width: 680px; color: #E4F1E8; margin: 0 0 22px; }
+.ld-atualiza { font-size: 13px; color: #D5EADB; margin: 14px 0 0; }
+.ld-atualiza .fa-circle { color: #9BE3B8; font-size: .7rem; }
+
+/* KPI (kartaun vidru iha hero) */
 .ld-kpi { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.kpi { background: var(--pnl); border: 1px solid var(--linha); border-radius: 14px; padding: 12px 14px; min-width: 0; border-top: 4px solid var(--brand); }
-.kpi-earth { border-top-color: var(--earth); }
-.kpi-l { color: var(--ink2); font-weight: 700; font-size: .9rem; }
-.kpi-l .fa { color: var(--brand); }
-.kpi-earth .kpi-l .fa { color: var(--earth); }
-.kpi-n { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 6vw, 3.4rem); line-height: 1.1; color: var(--green); margin: 4px 0; }
-.kpi-earth .kpi-n { color: var(--earth); }
-.kpi-t { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.25; color: var(--green); margin: 8px 0 6px; }
-.kpi-s { color: var(--mute); font-size: .85rem; }
-.kpi-s b { color: var(--ink2); }
+.kpi { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 14px; padding: 12px 14px; min-width: 0; }
+.kpi-l { color: #E4F1E8; font-weight: 700; font-size: .9rem; }
+.kpi-l .fa { color: #F3C77A; }
+.kpi-n { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 6vw, 3.2rem); line-height: 1.1; color: #fff; margin: 4px 0; }
+.kpi-t { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.25; color: #fff; margin: 8px 0 6px; }
+.kpi-s { color: #D5EADB; font-size: .85rem; }
+.kpi-s b { color: #fff; }
 
 /* ── Painel ── */
 .ld-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
@@ -115,7 +124,9 @@ a { color: var(--brand); }
 /* ── Tablet ── */
 @media (min-width: 768px) {
 	.ld { padding: 18px 22px 28px; }
-	.ld-relojiu { display: flex; }
+	.ld-hero { padding: 64px 0 48px; }
+	.ld-hero-in, .ld-nav-in, .ld-topbar-in { padding-left: 22px; padding-right: 22px; }
+	.ld-kpi { gap: 16px; }
 	.pub-lista { grid-template-columns: repeat(2, 1fr); }
 	.ld-grid { grid-template-columns: repeat(2, 1fr); }
 	.ld-evik { grid-column: 1 / -1; }
@@ -123,6 +134,11 @@ a { color: var(--brand); }
 	.mun-lista { display: none; }
 }
 /* ── Desktop: hanesan layout Live ── */
+@media (min-width: 992px) {
+	.ld-ham { display: none; }
+	.ld-links { display: flex; position: static; flex-direction: row; padding: 0; gap: 4px; background: none; border: 0; box-shadow: none; }
+	.ld-links a { padding: 10px 14px; font-size: 14px; min-height: 0; }
+}
 @media (min-width: 1200px) {
 	.ld-kpi { grid-template-columns: repeat(4, 1fr); }
 	.ld-grid { grid-template-columns: repeat(3, 1fr); }

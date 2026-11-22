@@ -5833,3 +5833,9 @@ msgstr "Case locations"
 #: publiku/views/portal_v.py
 msgid "Naran munisípiu"
 msgstr "Municipality names"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste."
+msgstr ""
+"See how land conflicts and evictions affect communities in Timor-Leste."

@@ -1,5 +1,5 @@
 /* SIBAR-RbR landing públiku: dadus hotu husi API públiku (/api/portal/estatistika/) — agregadu no anónimu.
-   Layout hanesan ekran Live, tema naroman. Atualiza kada minutu 5. */
+   Navbar + hero (slide uluk) + mapa luan tomak, tema naroman. Atualiza kada minutu 5. */
 (function () {
 	'use strict';
 	var CFG = document.getElementById('portal-cfg').dataset;
@@ -18,39 +18,25 @@
 		return { n: v, label: num(v) };
 	}
 
-	// ── Relójiu (oras Dili) ──
-	(function () {
-		var g = $('relojiu-tk');
-		if (g) {
-			var h = '';
-			for (var i = 0; i < 60; i++) {
-				var boot = i % 5 === 0;
-				h += '<line class="tk' + (boot ? ' tk5' : '') + '" x1="50" y1="' + (boot ? 5 : 6) + '" x2="50" y2="' + (boot ? 13 : 9) + '" transform="rotate(' + (i * 6) + ' 50 50)"/>';
-			}
-			g.innerHTML = h;
-		}
-	})();
+	// oras Dili (UTC+9) ba testu "Atualiza HH:MM"
 	function dili() {
-		var p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dili', year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+		var p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Dili', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
 		var o = {}; p.forEach(function (x) { o[x.type] = x.value; });
-		var wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(o.weekday);
-		return { loron: (T.loron || [])[wd] || '', data: parseInt(o.day, 10) + ' ' + ((T.fulan || [])[parseInt(o.month, 10) - 1] || '') + ' ' + o.year, oras: o.hour + ':' + o.minute };
+		return { oras: o.hour + ':' + o.minute };
 	}
-	function relojiu() {
-		var d = dili();
-		$('loron').textContent = d.loron; $('data').textContent = d.data; $('oras').textContent = d.oras;
-	}
-	var JR = { o: $('jarum-oras'), m: $('jarum-min'), s: $('jarum-seg') };
-	function jarum() {
-		var t = new Date(Date.now() + 9 * 3600000);
-		var s = t.getUTCSeconds() + t.getUTCMilliseconds() / 1000, m = t.getUTCMinutes() + s / 60, h = (t.getUTCHours() % 12) + m / 60;
-		JR.s.setAttribute('transform', 'rotate(' + (s * 6) + ' 50 50)');
-		JR.m.setAttribute('transform', 'rotate(' + (m * 6) + ' 50 50)');
-		JR.o.setAttribute('transform', 'rotate(' + (h * 30) + ' 50 50)');
-		requestAnimationFrame(jarum);
-	}
-	if ($('loron')) { relojiu(); setInterval(relojiu, 1000); }
-	if (JR.s && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) requestAnimationFrame(jarum);
+
+	// ── Menu HP (hamburger): loke / taka; klik link → taka ──
+	(function () {
+		var ham = $('ld-ham'), links = $('ld-links');
+		if (!ham || !links) return;
+		ham.addEventListener('click', function () {
+			var loke = links.classList.toggle('open');
+			ham.setAttribute('aria-expanded', loke ? 'true' : 'false');
+		});
+		links.addEventListener('click', function (e) {
+			if (e.target.tagName === 'A') { links.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); }
+		});
+	})();
 
 	// ── Highcharts tema naroman ──
 	Highcharts.setOptions({

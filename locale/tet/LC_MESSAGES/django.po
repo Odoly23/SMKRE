@@ -5939,3 +5939,9 @@ msgstr "Fatin kazu"
 #: publiku/views/portal_v.py
 msgid "Naran munisípiu"
 msgstr "Naran munisípiu"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste."
+msgstr ""
+"Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste."

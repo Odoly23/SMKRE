@@ -31,43 +31,44 @@
 		</div>
 	</div>
 </div>
+<!-- ══ Navbar (sticky) — la iha link login ══ -->
+<nav class="ld-nav" aria-label="{% trans "Menu" %}">
+	<div class="ld-nav-in">
+		<a class="ld-brand" href="{% url 'portal' %}">
+			<span class="ld-logo"><img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" width="44" height="44"></span>
+			<span class="ld-brand-tx"><b>Rede ba Rai (RbR)</b><small>{% trans "Sistema Monitorizasaun Kazu Rai" %}</small></span>
+		</a>
+		<button class="ld-ham" type="button" id="ld-ham" aria-label="{% trans "Menu" %}" aria-expanded="false" aria-controls="ld-links"><i class="fa fa-bars"></i></button>
+		<ul class="ld-links" id="ld-links">
+			<li><a href="#mapa-kazu">{% trans "Mapa" %}</a></li>
+			<li><a href="#estatistika">{% trans "Estatístika" %}</a></li>
+			<li><a href="#eviksaun">{% trans "Eviksaun" %}</a></li>
+			{% if publikasaun %}<li><a href="#publikasaun">{% trans "Publikasaun" %}</a></li>{% endif %}
+			<li><a href="#kontaktu">{% trans "Kontaktu" %}</a></li>
+		</ul>
+	</div>
+</nav>
+
+<!-- ══ Hero (slide uluk) + KPI: dadus verifikadu + konsentimentu de'it ══ -->
+<section class="ld-hero">
+	<div class="ld-hero-in">
+		<span class="ld-eyebrow"><i class="fa fa-shield"></i> {% trans "Dadus verifikadu no anónimu" %}</span>
+		<h1>{% trans "Sistema Monitorizasaun Kazu Rai" %}</h1>
+		<p class="ld-org">Rede ba Rai (RbR)</p>
+		<p class="ld-lead">{% trans "Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste." %}</p>
+		<div class="ld-kpi" aria-live="polite">
+			<div class="kpi"><div class="kpi-l"><i class="fa fa-folder-open"></i> {% trans "Kazu verifikadu" %}</div><div class="kpi-n" data-k="total">–</div><div class="kpi-s"><b data-k="munisipiu">–</b> {% trans "munisípiu ho kazu" %}</div></div>
+			<div class="kpi"><div class="kpi-l"><i class="fa fa-home"></i> {% trans "Uma-kain afetadu" %}</div><div class="kpi-n" data-k="uma_kain">–</div><div class="kpi-s"><b data-k="ema">–</b> {% trans "ema" %}</div></div>
+			<div class="kpi"><div class="kpi-l"><i class="fa fa-bullhorn"></i> {% trans "Kazu hetan ona eviksaun" %}</div><div class="kpi-n" data-k="eviksaun">–</div><div class="kpi-s"><b data-k="evik_uma">–</b> {% trans "uma-kain" %}</div></div>
+			<div class="kpi"><div class="kpi-l"><i class="fa fa-tags"></i> {% trans "Tipu konflitu barak liu" %}</div><div class="kpi-t" id="tipu-top">–</div><div class="kpi-s" id="tipu-top-n">&nbsp;</div></div>
+		</div>
+		<p class="ld-atualiza" id="estadu"><i class="fa fa-circle-o-notch fa-spin"></i> {% trans "Karrega dadus…" %}</p>
+	</div>
+</section>
+
 <div class="ld">
-
-	<!-- ══ Kabesallu: marka · relójiu Dili · lian ══ -->
-	<header class="ld-top">
-		<div class="ld-brand">
-			<span class="ld-logo"><img src="{% static 'main/images/logo.png' %}" alt="Rede ba Rai" width="56" height="56"></span>
-			<div>
-				<h1>SIBAR-RbR <span>{% trans "Públiku" %}</span></h1>
-				<p>{% trans "Monitorizasaun kazu konflitu rai" %} · Rede ba Rai</p>
-			</div>
-		</div>
-		<div class="ld-relojiu" aria-hidden="true">
-			<svg class="analog" viewBox="0 0 100 100" id="relojiu-svg">
-				<circle class="face" cx="50" cy="50" r="47"/>
-				<g id="relojiu-tk"></g>
-				<line id="jarum-oras" class="jr-oras" x1="50" y1="54" x2="50" y2="28"/>
-				<line id="jarum-min" class="jr-min" x1="50" y1="56" x2="50" y2="15"/>
-				<line id="jarum-seg" class="jr-seg" x1="50" y1="60" x2="50" y2="10"/>
-				<circle class="pinu" cx="50" cy="50" r="3"/>
-			</svg>
-			<div class="relojiu-tx"><div id="loron">&nbsp;</div><div id="data">&nbsp;</div><div id="oras">--:--</div></div>
-		</div>
-		<div class="ld-estadu">
-			<div class="ld-sub" id="estadu"><i class="fa fa-circle-o-notch fa-spin"></i> {% trans "Karrega dadus…" %}</div>
-		</div>
-	</header>
-
-	<!-- ══ KPI (dadus verifikadu + konsentimentu de'it) ══ -->
-	<section class="ld-kpi" aria-live="polite">
-		<div class="kpi"><div class="kpi-l"><i class="fa fa-folder-open"></i> {% trans "Kazu verifikadu" %}</div><div class="kpi-n" data-k="total">–</div><div class="kpi-s"><b data-k="munisipiu">–</b> {% trans "munisípiu ho kazu" %}</div></div>
-		<div class="kpi"><div class="kpi-l"><i class="fa fa-home"></i> {% trans "Uma-kain afetadu" %}</div><div class="kpi-n" data-k="uma_kain">–</div><div class="kpi-s"><b data-k="ema">–</b> {% trans "ema" %}</div></div>
-		<div class="kpi kpi-earth"><div class="kpi-l"><i class="fa fa-bullhorn"></i> {% trans "Kazu hetan ona eviksaun" %}</div><div class="kpi-n" data-k="eviksaun">–</div><div class="kpi-s"><b data-k="evik_uma">–</b> {% trans "uma-kain" %}</div></div>
-		<div class="kpi"><div class="kpi-l"><i class="fa fa-tags"></i> {% trans "Tipu konflitu barak liu" %}</div><div class="kpi-t" id="tipu-top">–</div><div class="kpi-s" id="tipu-top-n">&nbsp;</div></div>
-	</section>
-
 	<!-- ══ Mapa (luan tomak): Street / Satélite + kluster fatin aproksimadu (~1 km) ══ -->
-	<section class="pnl ld-mapa">
+	<section class="pnl ld-mapa" id="mapa-kazu">
 		<div class="pnl-h"><h2><i class="fa fa-map"></i> {% trans "Mapa kazu" %}</h2>
 			<span class="pnl-nota"><i class="fa fa-lock"></i> {% trans "Fatin aproksimadu (~1 km) · munisípiu ho kazu 3 ka liu" %}</span></div>
 		<div id="mapa" aria-label="{% trans "Mapa kazu tuir munisípiu" %}" data-l-fullscreen="{% trans "Ekran tomak" %}"></div>
@@ -75,7 +76,7 @@
 		<ul class="mun-lista" id="mun-lista" aria-label="{% trans "Kazu tuir munisípiu" %}"></ul>
 	</section>
 
-	<div class="ld-grid">
+	<div class="ld-grid" id="estatistika">
 		<!-- Kazu tuir tinan -->
 		<section class="pnl ld-trend">
 			<div class="pnl-h"><h2><i class="fa fa-line-chart"></i> {% trans "Kazu tuir tinan" %}</h2></div>
@@ -89,7 +90,7 @@
 		</section>
 
 		<!-- Eviksaun -->
-		<section class="pnl ld-evik">
+		<section class="pnl ld-evik" id="eviksaun">
 			<div class="pnl-h"><h2><i class="fa fa-bullhorn"></i> {% trans "Eviksaun" %}</h2>
 				<div class="evik-kpi"><b data-k="eviksaun">–</b> {% trans "kazu hetan ona" %} · <b data-k="evik_uma">–</b> {% trans "uma-kain" %}</div></div>
 			<div class="evik-q"><h3>{% trans "Molok eviksaun halo konsultasaun ka lae?" %}</h3><div id="ch-ev-konsultasaun" class="ch-ev"></div></div>
@@ -119,7 +120,7 @@
 	{% endif %}
 
 	<!-- ══ Rodapé: kontaktu (la iha link login) ══ -->
-	<footer class="ld-footer">
+	<footer class="ld-footer" id="kontaktu">
 		<div class="ld-kontaktu">
 			{% if kontaktu.telefone %}<a href="tel:{{ kontaktu.telefone|cut:' ' }}"><i class="fa fa-phone"></i> {{ kontaktu.telefone }}</a>{% endif %}
 			{% if kontaktu.email %}<a href="mailto:{{ kontaktu.email }}"><i class="fa fa-envelope"></i> {{ kontaktu.email }}</a>{% endif %}

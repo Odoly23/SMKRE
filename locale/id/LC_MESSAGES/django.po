@@ -5816,3 +5816,10 @@ msgstr "Lokasi kasus"
 #: publiku/views/portal_v.py
 msgid "Naran munisípiu"
 msgstr "Nama munisipiu"
+
+#: publiku/templates/publiku/portal.html
+msgid ""
+"Haree oinsá konflitu rai no eviksaun afeta komunidade sira iha Timor-Leste."
+msgstr ""
+"Lihat bagaimana konflik tanah dan penggusuran memengaruhi komunitas di "
+"Timor-Leste."
