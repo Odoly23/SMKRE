@@ -5923,3 +5923,19 @@ msgstr "la aprova"
 #: kazu/limpeza.py
 msgid "la verifika"
 msgstr "la verifika"
+
+#: publiku/views/portal_v.py
+msgid "Fatin aproksimadu (~1 km)"
+msgstr "Fatin aproksimadu (~1 km)"
+
+#: publiku/templates/publiku/portal.html
+msgid "Fatin aproksimadu (~1 km) · munisípiu ho kazu 3 ka liu"
+msgstr "Fatin aproksimadu (~1 km) · munisípiu ho kazu 3 ka liu"
+
+#: publiku/views/portal_v.py
+msgid "Fatin kazu"
+msgstr "Fatin kazu"
+
+#: publiku/views/portal_v.py
+msgid "Naran munisípiu"
+msgstr "Naran munisípiu"

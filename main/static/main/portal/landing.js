@@ -82,16 +82,26 @@
 		});
 	}
 
-	// ── Mapa (fronteira munisípiu, la presiza tile internet; la iha pontu kazu) ──
-	var mapa = L.map('mapa', { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false,
-		doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: false, tap: false, zoomSnap: 0.1 });
+	// ── Mapa luan tomak: Street / Satélite (token husi .env) + fronteira munisípiu + kluster fatin aproksimadu (~1 km) ──
+	var mapa = L.map('mapa', { zoomSnap: 0.25, scrollWheelZoom: false, maxZoom: 18 });
+	var baze = SMKREMapa.baze(CFG.mapbox);
+	baze[Object.keys(baze)[0]].addTo(mapa);                 // Street; internet la iha → fronteira de'it
 	var munLayer = null, labelLayer = L.layerGroup().addTo(mapa);
+	var kluster = L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45, spiderfyOnMaxZoom: true }).addTo(mapa);
+	var kontrolu = L.control.layers(baze, {}, { position: 'topright' }).addTo(mapa);
+	kontrolu.addOverlay(kluster, esc(T.fatin_kazu));
+	kontrolu.addOverlay(labelLayer, esc(T.naran_mun));
+	SMKREMapa.fullscreen(mapa);
+	mapa.on('click', function () { mapa.scrollWheelZoom.enable(); });      // scroll zoom hafoin klik (la trava scroll pájina)
+	mapa.on('mouseout', function () { mapa.scrollWheelZoom.disable(); });
 	fetch(CFG.geojson).then(function (r) { return r.json(); }).then(function (g) {
-		munLayer = L.geoJSON(g, { style: function () { return { color: '#B8C9BF', weight: 1, fillColor: '#F1F5F2', fillOpacity: 1 }; } }).addTo(mapa);
+		munLayer = L.geoJSON(g, { style: function () { return { color: '#1A4D2E', weight: 1.2, fillColor: '#F1F5F2', fillOpacity: 0.45 }; } }).addTo(mapa);
+		munLayer.bringToBack();
+		kontrolu.addOverlay(munLayer, esc(T.munisipiu));
 		mapaHadia();
 		window.addEventListener('resize', mapaHadia);
 		if (S.d) mapaRender(S.d);
-	}).catch(function () { /* mapa la karrega: painel seluk la'o nafatin */ });
+	}).catch(function () { mapa.setView([-8.83, 125.9], 8); });
 	function mapaHadia() {
 		var el = $('mapa');
 		if (!munLayer || !el.clientWidth || !el.clientHeight) return;
@@ -103,6 +113,7 @@
 		return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(',') + ')';
 	}
 	function mapaRender(d) {
+		pontuRender(d.pontu || []);
 		if (!munLayer) return;
 		var por = {}, max = 1;
 		d.munisipiu.forEach(function (m) { por[m.code] = m; if (m.n) max = Math.max(max, m.n); });
@@ -118,6 +129,14 @@
 			var c = l.getBounds().getCenter();
 			L.marker(c, { interactive: false, icon: L.divIcon({ className: 'mun-label', html: esc(m.name || p.name) + ' <b>' + esc(m.label) + '</b>', iconSize: null }) }).addTo(labelLayer);
 		});
+	}
+	// kluster: área ~1 km ida = pontu ida (la iha kódigu, naran ka data kazu)
+	function pontuRender(lista) {
+		kluster.clearLayers();
+		kluster.addLayers(lista.map(function (p) {
+			return L.marker([p.lat, p.lng], { icon: L.divIcon({ className: 'mapa-pontu', iconSize: [14, 14] }), keyboard: false })
+				.bindPopup('<b>' + esc(p.mun) + '</b><br>' + esc(p.label) + ' ' + esc(T.kazu) + '<br><small>' + esc(T.aproks) + '</small>');
+		}));
 	}
 
 	// lista munisípiu (HP): boot → ki'ik

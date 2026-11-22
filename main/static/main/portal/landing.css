@@ -13,6 +13,17 @@ a { color: var(--brand); }
 
 .ld { max-width: 1680px; margin: 0 auto; padding: 14px 16px 24px; display: flex; flex-direction: column; gap: 14px; }
 
+/* ── Topbar: kontaktu · lian ── */
+.ld-topbar { background: var(--green); color: #E8F0EA; font-size: .85rem; }
+.ld-topbar-in { max-width: 1680px; margin: 0 auto; padding: 4px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; }
+.ld-tb-kontaktu { display: flex; flex-wrap: wrap; gap: 2px 16px; min-width: 0; }
+.ld-tb-kontaktu a, .ld-tb-kontaktu > span { color: #E8F0EA; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; }
+.ld-tb-kontaktu a:hover { color: #fff; text-decoration: underline; }
+.ld-tb-kontaktu .fa { color: var(--ochre); }
+.ld-topbar .ld-lian button { display: inline-flex; align-items: center; gap: 4px; min-width: 0; min-height: 32px; padding: 0 8px; background: transparent; border-color: rgba(255,255,255,.25); color: #E8F0EA; }
+.ld-topbar .ld-lian button.active { background: #fff; border-color: #fff; color: var(--green); }
+.ld-topbar .ld-lian img { border-radius: 2px; }
+
 /* ── Kabesallu ── */
 .ld-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .ld-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
@@ -62,7 +73,9 @@ a { color: var(--brand); }
 .pnl-h h2 .fa { color: var(--brand); }
 .pnl-nota { color: var(--mute); font-size: .82rem; }
 .ch { height: 260px; }
-#mapa { height: 200px; background: transparent; border-radius: 10px; }
+#mapa { height: 300px; background: #E8EFEA; border-radius: 10px; }
+.mapa-pontu { background: var(--earth); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.4); }
+.leaflet-popup-content { font-family: 'Lato', Arial, sans-serif; font-size: .9rem; }
 .mun-lista { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .mun-lista li { background: var(--brand-lt); color: var(--ink2); border-radius: 999px; padding: 4px 10px; font-size: .82rem; }
 .mun-lista li b { color: var(--green); }
@@ -105,19 +118,16 @@ a { color: var(--brand); }
 	.ld-relojiu { display: flex; }
 	.pub-lista { grid-template-columns: repeat(2, 1fr); }
 	.ld-grid { grid-template-columns: repeat(2, 1fr); }
-	.ld-mapa { grid-column: 1 / -1; }
-	#mapa { height: 420px; }
+	.ld-evik { grid-column: 1 / -1; }
+	#mapa { height: 460px; }
 	.mun-lista { display: none; }
 }
 /* ── Desktop: hanesan layout Live ── */
 @media (min-width: 1200px) {
 	.ld-kpi { grid-template-columns: repeat(4, 1fr); }
-	.ld-grid { grid-template-columns: 6fr 3fr 3fr; grid-template-areas: "map tr ev" "map tp ev"; }
-	.ld-mapa { grid-area: map; grid-column: auto; }
-	.ld-trend { grid-area: tr; }
-	.ld-tipu { grid-area: tp; }
-	.ld-evik { grid-area: ev; }
-	#mapa { flex: 1; min-height: 520px; }
+	.ld-grid { grid-template-columns: repeat(3, 1fr); }
+	.ld-evik { grid-column: auto; }
+	#mapa { height: 560px; }
 	.pub-lista { grid-template-columns: repeat(3, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

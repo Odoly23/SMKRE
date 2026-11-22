@@ -5837,3 +5837,19 @@ msgstr "sem aprovação"
 #: kazu/limpeza.py
 msgid "la verifika"
 msgstr "sem verificação"
+
+#: publiku/views/portal_v.py
+msgid "Fatin aproksimadu (~1 km)"
+msgstr "Localização aproximada (~1 km)"
+
+#: publiku/templates/publiku/portal.html
+msgid "Fatin aproksimadu (~1 km) · munisípiu ho kazu 3 ka liu"
+msgstr "Localização aproximada (~1 km) · municípios com 3 ou mais casos"
+
+#: publiku/views/portal_v.py
+msgid "Fatin kazu"
+msgstr "Localização dos casos"
+
+#: publiku/views/portal_v.py
+msgid "Naran munisípiu"
+msgstr "Nome do município"

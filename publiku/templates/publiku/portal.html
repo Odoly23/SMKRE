@@ -2,11 +2,35 @@
 {% load static i18n %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">
+<link rel="stylesheet" href="{% static 'main/leaflet/MarkerCluster.css' %}">
+<link rel="stylesheet" href="{% static 'main/leaflet/MarkerCluster.Default.css' %}">
 <link rel="stylesheet" href="{% static 'main/portal/landing.css' %}">
 {% endblock %}
 {% block content %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
+<!-- ══ Topbar: kontaktu (karuk) · lian (los) ══ -->
+<div class="ld-topbar">
+	<div class="ld-topbar-in">
+		<div class="ld-tb-kontaktu">
+			{% if kontaktu.telefone %}<a href="tel:{{ kontaktu.telefone|cut:' ' }}" title="{% trans "Telefone" %}"><i class="fa fa-phone"></i><span>{{ kontaktu.telefone }}</span></a>{% endif %}
+			{% if kontaktu.enderesu %}<span title="{% trans "Fatin" %}"><i class="fa fa-map-marker"></i><span>{{ kontaktu.enderesu }}</span></span>{% endif %}
+			{% if kontaktu.email %}<a href="mailto:{{ kontaktu.email }}" title="{% trans "Email" %}"><i class="fa fa-envelope"></i><span>{{ kontaktu.email }}</span></a>{% endif %}
+		</div>
+		<div class="ld-lian">
+			{% for code, name in LANGUAGES %}
+			<form action="{% url 'set-language' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="language" value="{{ code }}">
+				<input type="hidden" name="next" value="{{ request.get_full_path }}">
+				<button type="submit" class="{% if code == LANGUAGE_CODE %}active{% endif %}" title="{{ name }}" aria-label="{{ name }}"{% if code == LANGUAGE_CODE %} aria-current="true"{% endif %}>
+					<img src="{% static 'main/images/flags/' %}{% if code == 'tet' %}tl{% elif code == 'en' %}gb{% else %}{{ code }}{% endif %}.svg" alt="" width="20" height="14"><span>{{ code|upper }}</span>
+				</button>
+			</form>
+			{% endfor %}
+		</div>
+	</div>
+</div>
 <div class="ld">
 
 	<!-- ══ Kabesallu: marka · relójiu Dili · lian ══ -->
@@ -30,16 +54,6 @@
 			<div class="relojiu-tx"><div id="loron">&nbsp;</div><div id="data">&nbsp;</div><div id="oras">--:--</div></div>
 		</div>
 		<div class="ld-estadu">
-			<div class="ld-lian">
-				{% for code, name in LANGUAGES %}
-				<form action="{% url 'set-language' %}" method="post">
-					{% csrf_token %}
-					<input type="hidden" name="language" value="{{ code }}">
-					<input type="hidden" name="next" value="{{ request.get_full_path }}">
-					<button type="submit" class="{% if code == LANGUAGE_CODE %}active{% endif %}" title="{{ name }}" aria-label="{{ name }}"{% if code == LANGUAGE_CODE %} aria-current="true"{% endif %}>{{ code|upper }}</button>
-				</form>
-				{% endfor %}
-			</div>
 			<div class="ld-sub" id="estadu"><i class="fa fa-circle-o-notch fa-spin"></i> {% trans "Karrega dadus…" %}</div>
 		</div>
 	</header>
@@ -52,15 +66,16 @@
 		<div class="kpi"><div class="kpi-l"><i class="fa fa-tags"></i> {% trans "Tipu konflitu barak liu" %}</div><div class="kpi-t" id="tipu-top">–</div><div class="kpi-s" id="tipu-top-n">&nbsp;</div></div>
 	</section>
 
-	<div class="ld-grid">
-		<!-- Mapa: total kazu kada munisípiu (la iha pontu kazu ida-idak) -->
-		<section class="pnl ld-mapa">
-			<div class="pnl-h"><h2><i class="fa fa-map"></i> {% trans "Mapa kazu" %}</h2><span class="pnl-nota">{% trans "Total kazu kada munisípiu" %}</span></div>
-			<div id="mapa" role="img" aria-label="{% trans "Mapa kazu tuir munisípiu" %}"></div>
-			<div class="mapa-eskala"><span>{% trans "Kazu kada munisípiu" %}</span><i class="esk"></i><span id="esk-max">0</span></div>
-			<ul class="mun-lista" id="mun-lista" aria-label="{% trans "Kazu tuir munisípiu" %}"></ul>
-		</section>
+	<!-- ══ Mapa (luan tomak): Street / Satélite + kluster fatin aproksimadu (~1 km) ══ -->
+	<section class="pnl ld-mapa">
+		<div class="pnl-h"><h2><i class="fa fa-map"></i> {% trans "Mapa kazu" %}</h2>
+			<span class="pnl-nota"><i class="fa fa-lock"></i> {% trans "Fatin aproksimadu (~1 km) · munisípiu ho kazu 3 ka liu" %}</span></div>
+		<div id="mapa" aria-label="{% trans "Mapa kazu tuir munisípiu" %}" data-l-fullscreen="{% trans "Ekran tomak" %}"></div>
+		<div class="mapa-eskala"><span>{% trans "Kazu kada munisípiu" %}</span><i class="esk"></i><span id="esk-max">0</span></div>
+		<ul class="mun-lista" id="mun-lista" aria-label="{% trans "Kazu tuir munisípiu" %}"></ul>
+	</section>
 
+	<div class="ld-grid">
 		<!-- Kazu tuir tinan -->
 		<section class="pnl ld-trend">
 			<div class="pnl-h"><h2><i class="fa fa-line-chart"></i> {% trans "Kazu tuir tinan" %}</h2></div>
@@ -116,11 +131,13 @@
 </div>
 
 {{ portal_lang|json_script:"portal-lang" }}
-<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}"></div>
+<div id="portal-cfg" hidden data-api="{% url 'api-portal-estatistika' %}" data-geojson="{% static 'main/geojson/timor_munisipiu.json' %}" data-mapbox="{{ MAPBOX_TOKEN }}"></div>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script src="{% static 'main/leaflet/leaflet.markercluster.js' %}"></script>
+<script src="{% static 'main/mapa/smkre_mapa.js' %}"></script>
 <script src="{% static 'main/charts/js/highcharts.js' %}"></script>
 <script src="{% static 'main/portal/landing.js' %}"></script>
 {% endblock %}

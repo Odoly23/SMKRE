@@ -11,6 +11,8 @@ def _portal_lang():
 	return {
 		'kazu': _('kazu'), 'atualiza': _('Atualiza'), 'dadus_ikus': _('Dadus ikus'), 'offline': _('Koneksaun lakon · dadus ikus'),
 		'la_iha': _('La iha dadus'), 'tinan': _('Tinan'),
+		'fatin_kazu': _('Fatin kazu'), 'naran_mun': _('Naran munisípiu'), 'munisipiu': _('Munisípiu'),
+		'aproks': _('Fatin aproksimadu (~1 km)'),
 		'loron': [_('Domingu'), _('Segunda'), _('Tersa'), _('Kuarta'), _('Kinta'), _('Sesta'), _('Sábadu')],
 		'fulan': [_('Janeiru'), _('Fevereiru'), _('Marsu'), _('Abríl'), _('Maiu'), _('Juñu'), _('Jullu'), _('Agostu'),
 			_('Setembru'), _('Outubru'), _('Novembru'), _('Dezembru')],

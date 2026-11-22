@@ -147,7 +147,7 @@ def _kalkula(f):
 	return {
 		'filtru': f, 'kpi': kpi, 'munisipiu': munisipiu, 'tipu': tipu, 'tinan': tinan,
 		'afetadu': afetadu, 'suku': suku, 'lokasaun': _lokasaun(kazu, f, total), 'limite': limite(),
-		'eviksaun': evik,
+		'eviksaun': evik, 'pontu': _pontu(kazu),
 		'atualiza': timezone.localtime(atualiza).strftime('%d/%m/%Y') if atualiza else None,
 	}
 
@@ -195,3 +195,16 @@ def _eviksaun(kazu):
 	for chave, campo in (('konsultasaun', 'konsultasaun_molok'), ('notifikasaun', 'notifikasaun_klaru'), ('forsa', 'uza_forsa')):
 		res[chave] = [dict({'code': k or 'LAIHA', 'name': l}, **subar(n)) for k, l, n in _konta(evik, f'eviksaun__{campo}', SIN_LAE_CHOICES)]
 	return res
+
+
+# pontu aproksimadu (~1 km, desimál 2) ba mapa landing: munisípiu ho kazu ≥ limite de'it.
+# Kazu iha kuadradu ~1 km hanesan hamutuk pontu ida ho totál (1–2 → "< 3"); la iha kódigu, data ka ID.
+def _pontu(kazu):
+	boot = {pk for pk, n in _konta(kazu, 'munisipiu_id').items() if n >= limite()}
+	selula = {}
+	for _pk, lat, lng, mun in kazu.filter(munisipiu_id__in=boot).exclude(latitude=None).exclude(longitude=None) \
+			.values_list('pk', 'latitude', 'longitude', 'munisipiu__name'):      # pk: kazu rua iha GPS hanesan konta rua
+		chave = (round(float(lat), DESIMAL_LOKASAUN), round(float(lng), DESIMAL_LOKASAUN))
+		n, _m = selula.get(chave, (0, mun))
+		selula[chave] = (n + 1, mun)
+	return [dict({'lat': la, 'lng': lo, 'mun': mun}, **subar(n)) for (la, lo), (n, mun) in sorted(selula.items())]

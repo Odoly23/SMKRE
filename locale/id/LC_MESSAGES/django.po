@@ -5800,3 +5800,19 @@ msgstr "belum disetujui"
 #: kazu/limpeza.py
 msgid "la verifika"
 msgstr "belum diverifikasi"
+
+#: publiku/views/portal_v.py
+msgid "Fatin aproksimadu (~1 km)"
+msgstr "Lokasi perkiraan (~1 km)"
+
+#: publiku/templates/publiku/portal.html
+msgid "Fatin aproksimadu (~1 km) · munisípiu ho kazu 3 ka liu"
+msgstr "Lokasi perkiraan (~1 km) · munisipiu dengan 3 kasus atau lebih"
+
+#: publiku/views/portal_v.py
+msgid "Fatin kazu"
+msgstr "Lokasi kasus"
+
+#: publiku/views/portal_v.py
+msgid "Naran munisípiu"
+msgstr "Nama munisipiu"

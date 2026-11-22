@@ -189,3 +189,15 @@ class EviksaunPubliku(PortalBase):
 		self.assertEqual(r.status_code, 200)
 		for internu in (b'urjente', b'hein', b'verifikasaun', b'kode', b'latitude', b'survei'):
 			self.assertNotIn(internu, r.content.lower())
+
+
+class MapaPontuLandingTest(PortalBase):
+	# mapa landing: fatin aproksimadu (~1 km), munisípiu ho kazu ≥ 3 de'it, la iha koordenada loos
+	def test_pontu_aproksimadu_no_privasidade(self):
+		Kazu.objects.filter(munisipiu=self.dil).update(latitude='-8.556789', longitude='125.578912')   # 4 kazu GPS hanesan
+		Kazu.objects.filter(munisipiu=self.liq).update(latitude='-8.612345', longitude='125.212345')   # 2 kazu → la hatudu
+		pontu = estatistika({})['pontu']
+		self.assertEqual(pontu, [{'lat': -8.56, 'lng': 125.58, 'mun': self.dil.name, 'n': 4, 'label': '4'}])   # kazu 4 konta hotu
+		r = self.client.get(reverse('api-portal-estatistika'))
+		self.assertNotIn(b'578912', r.content)
+		self.assertNotIn(b'212345', r.content)
