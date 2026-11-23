@@ -5994,3 +5994,66 @@ msgstr ""
 #: report/templates/report/dash.html
 msgid "Rezumu Advokasia"
 msgstr "Resumo da Advocacia"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Evidénsia, istória, nota no dokumentu legál kazu ne'e mós sei hamoos. Survei"
+" legál hela (la liga ona ba kazu)."
+msgstr ""
+"Evidências, histórico, notas e documentos legais deste caso também serão "
+"eliminados. Os inquéritos legais permanecem (sem ligação ao caso)."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid ""
+"HAMOOS PERMANENTE %(n)s? Dadus no file sira sei lakon no labele fila fali."
+msgstr ""
+"ELIMINAR PERMANENTEMENTE %(n)s? Os dados e ficheiros serão perdidos e não "
+"podem ser recuperados."
+
+#: users/templates/users/detail.html
+msgid ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Labele fila fali."
+msgstr ""
+"ELIMINAR PERMANENTEMENTE o utilizador %(n)s? A conta, dados pessoais e "
+"autorizações serão perdidos. Não pode ser revertido."
+
+#: users/templates/users/detail.html
+msgid "Hamoos Utilizador"
+msgstr "Eliminar Utilizador"
+
+#: main/views_hamoos.py
+msgid "Hamoos ona: %(n)s"
+msgstr "Eliminado: %(n)s"
+
+#: main/hamoos.py
+msgid "Labele hamoos Superadmin ikus."
+msgstr "Não pode eliminar o último Superadmin."
+
+#: main/hamoos.py
+msgid "Labele hamoos ita-nia konta rasik."
+msgstr "Não pode eliminar a sua própria conta."
+
+#: main/templates/main/_hamoos.html
+msgid "Superadmin: hamoos permanente (labele fila fali)."
+msgstr "Superadmin: eliminar permanentemente (não pode ser revertido)."
+
+#: main/hamoos.py
+msgid ""
+"Utilizador ne'e kria ona %(l)s. Labele hamoos (dadus sei lakon autór) — "
+"HAPARA konta deit."
+msgstr ""
+"Este utilizador já criou %(l)s. Não pode ser eliminado (os dados perderiam o"
+" autor) — DESATIVE apenas a conta."
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Versaun hotu dokumentu ne'e sei hamoos."
+msgstr "Todas as versões deste documento serão eliminadas."
+
+#: main/hamoos.py
+msgid "import Excel"
+msgstr "importações Excel"
+
+#: main/hamoos.py
+msgid "survei legál"
+msgstr "inquéritos legais"

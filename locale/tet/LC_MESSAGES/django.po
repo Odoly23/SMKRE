@@ -6075,3 +6075,65 @@ msgstr "Klik iha mapa atu hili fatin kazu. Bele dada marka atu hadia."
 #: report/templates/report/dash.html
 msgid "Rezumu Advokasia"
 msgstr "Rezumu Advokasia"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Evidénsia, istória, nota no dokumentu legál kazu ne'e mós sei hamoos. Survei"
+" legál hela (la liga ona ba kazu)."
+msgstr ""
+"Evidénsia, istória, nota no dokumentu legál kazu ne'e mós sei hamoos. Survei"
+" legál hela (la liga ona ba kazu)."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid ""
+"HAMOOS PERMANENTE %(n)s? Dadus no file sira sei lakon no labele fila fali."
+msgstr ""
+"HAMOOS PERMANENTE %(n)s? Dadus no file sira sei lakon no labele fila fali."
+
+#: users/templates/users/detail.html
+msgid ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Labele fila fali."
+msgstr ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Labele fila fali."
+
+#: users/templates/users/detail.html
+msgid "Hamoos Utilizador"
+msgstr "Hamoos Utilizador"
+
+#: main/views_hamoos.py
+msgid "Hamoos ona: %(n)s"
+msgstr "Hamoos ona: %(n)s"
+
+#: main/hamoos.py
+msgid "Labele hamoos Superadmin ikus."
+msgstr "Labele hamoos Superadmin ikus."
+
+#: main/hamoos.py
+msgid "Labele hamoos ita-nia konta rasik."
+msgstr "Labele hamoos ita-nia konta rasik."
+
+#: main/templates/main/_hamoos.html
+msgid "Superadmin: hamoos permanente (labele fila fali)."
+msgstr "Superadmin: hamoos permanente (labele fila fali)."
+
+#: main/hamoos.py
+msgid ""
+"Utilizador ne'e kria ona %(l)s. Labele hamoos (dadus sei lakon autór) — "
+"HAPARA konta deit."
+msgstr ""
+"Utilizador ne'e kria ona %(l)s. Labele hamoos (dadus sei lakon autór) — "
+"HAPARA konta deit."
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Versaun hotu dokumentu ne'e sei hamoos."
+msgstr "Versaun hotu dokumentu ne'e sei hamoos."
+
+#: main/hamoos.py
+msgid "import Excel"
+msgstr "import Excel"
+
+#: main/hamoos.py
+msgid "survei legál"
+msgstr "survei legál"

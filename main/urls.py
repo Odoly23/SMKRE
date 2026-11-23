@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import RedirectView
 from users.views import account_v
-from . import views
+from . import views, views_hamoos
 
 urlpatterns = [
 	path('', views.home, name='home'),
@@ -14,4 +14,5 @@ urlpatterns = [
 	path('sw.js', views.service_worker, name='service-worker'),
 	path('offline/', views.offline_page, name='offline-page'),
 	path('media/<path:path>', views.protected_media, name='protected-media'),
+	path('hamoos/<str:tipu>/<uuid:pk>/', views_hamoos.hamoos, name='hamoos'),     # Superadmin de'it
 ]

@@ -46,6 +46,7 @@ ROLE_SURVEI_INPUT = [OFISIAL_LEGAL, SEKRETARIADU]          # Survei legál (ho a
 ROLE_SURVEI_HAREE = [SUPERADMIN, ADMIN, SEKRETARIADU, OFISIAL_LEGAL]   # dadus pesoál parte → la ba Analista
 ROLE_SURVEI_VERIFIKA = [SUPERADMIN, ADMIN]
 ROLE_LEGAL_AUTORIZA = [SUPERADMIN, ADMIN]    # ativa input legál ba Ofisiál Legál (tab iha modulu Legál)
+ROLE_HAMOOS       = [SUPERADMIN]             # hamoos dadus permanente (utilizador, kazu, survei, dokumentu, publikasaun)
 ROLE_INPUT_OFFLINE = [INVESTIGADOR, SEKRETARIADU, OFISIAL_LEGAL]   # autorizasaun input / app offline
 
 

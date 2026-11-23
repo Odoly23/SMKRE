@@ -439,3 +439,5 @@ body.smkre-map-full-body { overflow: hidden; }
 .tbl-dash .tbl-n { width: 90px; }
 .tbl-dash td a { font-weight: 700; }
 @media (max-width: 575.98px) { .tbl-dash { font-size: .82rem; } .dash-stat h4 { font-size: 1.2rem; } }
+/* Zona hamoos (Superadmin) */
+.hamoos-zona { border: 1px dashed #dc3545; border-radius: 12px; background: #fff7f7; }

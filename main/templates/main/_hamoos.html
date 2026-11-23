@@ -1,0 +1,12 @@
+{% load i18n %}{% comment %}
+Butaun "Hamoos permanente" (Superadmin de'it). Uza: {% include 'main/_hamoos.html' with tipu='kazu' pk=obj.pk naran=obj testu=... %}
+{% endcomment %}{% if can_hamoos %}
+<div class="card hamoos-zona mb-3"><div class="card-body py-2">
+	<form method="post" action="{% url 'hamoos' tipu pk %}" class="js-confirm d-flex justify-content-between align-items-center flex-wrap"
+		data-confirm="{% blocktrans with n=naran %}HAMOOS PERMANENTE {{ n }}? Dadus no file sira sei lakon no labele fila fali.{% endblocktrans %}{% if testu %} {{ testu }}{% endif %}">
+		{% csrf_token %}
+		<small class="text-danger mb-1 mr-2"><i class="fa fa-exclamation-triangle"></i> {% trans "Superadmin: hamoos permanente (labele fila fali)." %}</small>
+		<button type="submit" class="btn btn-sm btn-danger mb-1"><i class="fa fa-trash"></i> {% trans "Hamoos" %}</button>
+	</form>
+</div></div>
+{% endif %}

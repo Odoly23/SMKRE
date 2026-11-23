@@ -331,5 +331,7 @@
 		</div>
 	</div>
 	{% endif %}{% endfor %}
+	{% trans "Evidénsia, istória, nota no dokumentu legál kazu ne'e mós sei hamoos. Survei legál hela (la liga ona ba kazu)." as t_kazu %}
+	{% include 'main/_hamoos.html' with tipu='kazu' pk=obj.pk naran=obj testu=t_kazu %}
 	{% endwith %}
 {% endblock %}

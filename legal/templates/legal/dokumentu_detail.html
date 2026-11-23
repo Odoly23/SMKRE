@@ -61,5 +61,7 @@
 			</div></div>
 		</div>
 	</div>
+	{% trans "Versaun hotu dokumentu ne'e sei hamoos." as t_dok %}
+	{% include 'main/_hamoos.html' with tipu='dokumentu' pk=d.pk naran=d testu=t_dok %}
 	{% endwith %}
 {% endblock %}

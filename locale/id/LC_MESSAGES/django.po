@@ -5957,3 +5957,65 @@ msgstr ""
 #: report/templates/report/dash.html
 msgid "Rezumu Advokasia"
 msgstr "Ringkasan Advokasi"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Evidénsia, istória, nota no dokumentu legál kazu ne'e mós sei hamoos. Survei"
+" legál hela (la liga ona ba kazu)."
+msgstr ""
+"Bukti, riwayat, catatan dan dokumen legal kasus ini juga akan dihapus. "
+"Survei legal tetap ada (tidak terhubung lagi ke kasus)."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid ""
+"HAMOOS PERMANENTE %(n)s? Dadus no file sira sei lakon no labele fila fali."
+msgstr ""
+"HAPUS PERMANEN %(n)s? Data dan file akan hilang dan tidak bisa dikembalikan."
+
+#: users/templates/users/detail.html
+msgid ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Labele fila fali."
+msgstr ""
+"HAPUS PERMANEN pengguna %(n)s? Akun, data pribadi dan izin akan hilang. "
+"Tidak bisa dikembalikan."
+
+#: users/templates/users/detail.html
+msgid "Hamoos Utilizador"
+msgstr "Hapus Pengguna"
+
+#: main/views_hamoos.py
+msgid "Hamoos ona: %(n)s"
+msgstr "Sudah dihapus: %(n)s"
+
+#: main/hamoos.py
+msgid "Labele hamoos Superadmin ikus."
+msgstr "Tidak bisa menghapus Superadmin terakhir."
+
+#: main/hamoos.py
+msgid "Labele hamoos ita-nia konta rasik."
+msgstr "Tidak bisa menghapus akun sendiri."
+
+#: main/templates/main/_hamoos.html
+msgid "Superadmin: hamoos permanente (labele fila fali)."
+msgstr "Superadmin: hapus permanen (tidak bisa dikembalikan)."
+
+#: main/hamoos.py
+msgid ""
+"Utilizador ne'e kria ona %(l)s. Labele hamoos (dadus sei lakon autór) — "
+"HAPARA konta deit."
+msgstr ""
+"Pengguna ini sudah membuat %(l)s. Tidak bisa dihapus (data akan kehilangan "
+"pembuatnya) — NONAKTIFKAN akun saja."
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Versaun hotu dokumentu ne'e sei hamoos."
+msgstr "Semua versi dokumen ini akan dihapus."
+
+#: main/hamoos.py
+msgid "import Excel"
+msgstr "impor Excel"
+
+#: main/hamoos.py
+msgid "survei legál"
+msgstr "survei legal"

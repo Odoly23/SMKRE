@@ -5970,3 +5970,66 @@ msgstr "Click the map to choose the case location. Drag the marker to adjust."
 #: report/templates/report/dash.html
 msgid "Rezumu Advokasia"
 msgstr "Advocacy Summary"
+
+#: kazu/templates/kazu/detail.html
+msgid ""
+"Evidénsia, istória, nota no dokumentu legál kazu ne'e mós sei hamoos. Survei"
+" legál hela (la liga ona ba kazu)."
+msgstr ""
+"Evidence, history, notes and legal documents of this case will also be "
+"deleted. Legal surveys remain (unlinked from the case)."
+
+#: publiku/templates/publiku/publikasaun_list.html
+msgid ""
+"HAMOOS PERMANENTE %(n)s? Dadus no file sira sei lakon no labele fila fali."
+msgstr ""
+"PERMANENTLY DELETE %(n)s? Data and files will be lost and cannot be "
+"recovered."
+
+#: users/templates/users/detail.html
+msgid ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Labele fila fali."
+msgstr ""
+"PERMANENTLY DELETE user %(n)s? Account, personal data and permissions will "
+"be lost. Cannot be undone."
+
+#: users/templates/users/detail.html
+msgid "Hamoos Utilizador"
+msgstr "Delete User"
+
+#: main/views_hamoos.py
+msgid "Hamoos ona: %(n)s"
+msgstr "Deleted: %(n)s"
+
+#: main/hamoos.py
+msgid "Labele hamoos Superadmin ikus."
+msgstr "You cannot delete the last Superadmin."
+
+#: main/hamoos.py
+msgid "Labele hamoos ita-nia konta rasik."
+msgstr "You cannot delete your own account."
+
+#: main/templates/main/_hamoos.html
+msgid "Superadmin: hamoos permanente (labele fila fali)."
+msgstr "Superadmin: delete permanently (cannot be undone)."
+
+#: main/hamoos.py
+msgid ""
+"Utilizador ne'e kria ona %(l)s. Labele hamoos (dadus sei lakon autór) — "
+"HAPARA konta deit."
+msgstr ""
+"This user has created %(l)s. Cannot delete (data would lose its author) — "
+"DEACTIVATE the account instead."
+
+#: legal/templates/legal/dokumentu_detail.html
+msgid "Versaun hotu dokumentu ne'e sei hamoos."
+msgstr "All versions of this document will be deleted."
+
+#: main/hamoos.py
+msgid "import Excel"
+msgstr "Excel imports"
+
+#: main/hamoos.py
+msgid "survei legál"
+msgstr "legal surveys"
