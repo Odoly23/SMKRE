@@ -5926,3 +5926,35 @@ msgstr ""
 "All data (total, map and charts) comes from cases registered in Rede ba Rai."
 " No names, photos or exact locations. Numbers 1 and 2 are shown as \"&lt; "
 "%(limite)s\"."
+
+#: main/templates/home/home.html
+msgid "Ha'u-nia rascunho"
+msgstr "My drafts"
+
+#: main/templates/home/home.html
+msgid "Haree"
+msgstr "View"
+
+#: users/forms.py
+msgid "Investigadór / Sekretariadu tenke iha munisípiu knaar."
+msgstr "Investigator / Secretariat must have an assigned municipality."
+
+#: main/views.py
+msgid "Kazu foun ikus"
+msgstr "Latest cases"
+
+#: main/templates/home/home.html
+msgid "La iha kazu ne'ebé hein."
+msgstr "No pending cases."
+
+#: kazu/services.py
+msgid "Labele aprova kazu ne'ebé ita rasik input."
+msgstr "You cannot approve a case you entered yourself."
+
+#: users/forms.py
+msgid "Sekretariadu"
+msgstr "Secretariat"
+
+#: main/templates/home/home.html
+msgid "Tipu Konflitu"
+msgstr "Conflict Type"

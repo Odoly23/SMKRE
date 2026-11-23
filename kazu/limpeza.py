@@ -21,7 +21,7 @@ from django.db.models import ProtectedError
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from config.rbac import ADMIN, SUPERADMIN, ROLE_REJEITA
+from config.rbac import ADMIN, SUPERADMIN, SEKRETARIADU, ROLE_REJEITA
 from kazu.models import Kazu, KazuHistoria, SYNCED, VERIFIED, CANCELED
 from notification.utils import kirim_notif, kirim_notif_role
 from users.auth_utils import c_user_group
@@ -34,7 +34,7 @@ LEMBRA_HAMOOS = 23              # lembrete antes hamoos (loron 7 tan)
 # status → (kampu data hahú konta, papél ne'ebé tenke hala'o)
 REGRA = {
 	SYNCED: ('synced_at', [ADMIN]),
-	VERIFIED: ('verified_at', [SUPERADMIN]),
+	VERIFIED: ('verified_at', [SUPERADMIN, SEKRETARIADU]),
 }
 
 

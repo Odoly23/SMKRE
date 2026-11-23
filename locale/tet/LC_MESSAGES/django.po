@@ -6031,3 +6031,35 @@ msgstr ""
 "Dadus hotu (total, mapa no gráfiku) husi kazu ne'ebé rejista ona iha Rede ba"
 " Rai. La iha naran, foto ka fatin ezatu. Númeru 1 no 2 hatudu hanesan \"&lt;"
 " %(limite)s\"."
+
+#: main/templates/home/home.html
+msgid "Ha'u-nia rascunho"
+msgstr "Ha'u-nia rascunho"
+
+#: main/templates/home/home.html
+msgid "Haree"
+msgstr "Haree"
+
+#: users/forms.py
+msgid "Investigadór / Sekretariadu tenke iha munisípiu knaar."
+msgstr "Investigadór / Sekretariadu tenke iha munisípiu knaar."
+
+#: main/views.py
+msgid "Kazu foun ikus"
+msgstr "Kazu foun ikus"
+
+#: main/templates/home/home.html
+msgid "La iha kazu ne'ebé hein."
+msgstr "La iha kazu ne'ebé hein."
+
+#: kazu/services.py
+msgid "Labele aprova kazu ne'ebé ita rasik input."
+msgstr "Labele aprova kazu ne'ebé ita rasik input."
+
+#: users/forms.py
+msgid "Sekretariadu"
+msgstr "Sekretariadu"
+
+#: main/templates/home/home.html
+msgid "Tipu Konflitu"
+msgstr "Tipu Konflitu"

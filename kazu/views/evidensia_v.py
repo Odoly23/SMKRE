@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import INVESTIGADOR
+from config.rbac import ROLE_INPUT_KAZU
 from config.upload_utils import compress_image
 from kazu.forms import EvidensiaForm
 from kazu.models import Kazu, Evidensia
@@ -13,7 +13,7 @@ from kazu.services import refresh_auto_fields
 
 
 @login_required
-@allowed_users(allowed_roles=[INVESTIGADOR])
+@allowed_users(allowed_roles=ROLE_INPUT_KAZU)
 def EvidensiaAdd(request, uuid):
 	group = request.user.groups.all()[0].name
 	kazu = get_object_or_404(Kazu, pk=uuid)
@@ -49,7 +49,7 @@ def EvidensiaAdd(request, uuid):
 
 
 @login_required
-@allowed_users(allowed_roles=[INVESTIGADOR])
+@allowed_users(allowed_roles=ROLE_INPUT_KAZU)
 @require_POST
 def EvidensiaDelete(request, uuid, pk):
 	kazu = get_object_or_404(Kazu, pk=uuid)

@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from config.permissions import HasRole
-from config.rbac import INVESTIGADOR, OFISIAL_LEGAL
+from config.rbac import INVESTIGADOR, OFISIAL_LEGAL, ROLE_INPUT_KAZU
 from custom.data.opsaun import TIPU_ENTIDADE
 from custom.models import PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, TipuEviksaun, \
 	TipuAtor, EstraguPatrimoniu, NesesidadeUrjente
@@ -31,9 +31,9 @@ def _erru(e):
 
 
 class _SinkronAPI(APIView):
-	# Token JWT (app offline) + Investigadór deit. Mensajen iha Tetun (app offline iha Tetun).
+	# Token JWT (app offline) + Investigadór / Sekretariadu deit. Mensajen iha Tetun (app offline iha Tetun).
 	authentication_classes = [JWTAuthentication]
-	permission_classes = [IsAuthenticated, HasRole(INVESTIGADOR)]
+	permission_classes = [IsAuthenticated, HasRole(*ROLE_INPUT_KAZU)]
 
 	def dispatch(self, request, *args, **kwargs):
 		with translation.override('tet'):

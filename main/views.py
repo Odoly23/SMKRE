@@ -10,7 +10,8 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
-from config.rbac import INVESTIGADOR, ROLE_USER_MANAGE
+from config.paginasaun import pajina
+from config.rbac import INVESTIGADOR, SEKRETARIADU, ROLE_USER_MANAGE, ROLE_INPUT_KAZU
 from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline
 from users.models import OfflinePermission, Pesoal
 
@@ -42,15 +43,24 @@ def home(request):
 	context['tot_verified'] = qs.filter(status=VERIFIED).count()
 	context['tot_approved'] = qs.filter(status=APPROVED).count()
 	context['tot_urjente'] = qs.filter(urjente=True, status__in=[SYNCED, VERIFIED, APPROVED]).count()
-	# Kazu ne'ebé hein ita-nia aksaun
+	# Kartaun naruk: kazu ne'ebé hein ita-nia aksaun (Admin: verifika · Superadmin / Sekretariadu: aprova);
+	# papél seluk: kazu foun ikus. Pájina 10, foun liu iha leten, númeru kontinua.
 	hein = None
 	if group == 'admin':
 		hein, context['hein_url'] = qs.filter(status=SYNCED), '?status=' + SYNCED
 	elif group == 'superadmin':
 		hein, context['hein_url'] = qs.filter(status__in=[SYNCED, VERIFIED]), '?status=' + VERIFIED
+	elif group == SEKRETARIADU:                       # aprova bainhira Superadmin la iha (la'ós kazu rasik)
+		hein, context['hein_url'] = qs.filter(status=VERIFIED).exclude(created_by=request.user), '?status=' + VERIFIED
 	if hein is not None:
-		hein = hein.order_by(F('synced_at').desc(nulls_last=True), '-created_at')         # foun liu = númeru 1
-		context['hein'], context['tot_hein'] = hein[:VARANDA_MAX], hein.count()
+		lista = hein.order_by(F('synced_at').desc(nulls_last=True), '-created_at', '-pk')
+		context['lista_titulu'], context['tot_hein'] = _('Hein ita-nia aksaun'), hein.count()
+	else:
+		lista = qs.exclude(status__in=[DRAFT, ONGOING, PENDING]).order_by('-created_at', '-pk')
+		context['lista_titulu'] = _('Kazu foun ikus')
+	context['objects'] = pajina(request, lista.prefetch_related('tipu_konflitu'))
+	if group in ROLE_INPUT_KAZU:                      # Sekretariadu: kazu rasik seidauk haruka
+		context['tot_rascunho'] = qs.filter(created_by=request.user, status__in=[DRAFT, ONGOING, PENDING, REJECTED]).count()
 	if group in ROLE_USER_MANAGE:
 		context['tot_user'] = Pesoal.objects.count()
 		context['tot_offline'] = OfflinePermission.objects.valid().count()

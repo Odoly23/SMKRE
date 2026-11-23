@@ -17,96 +17,90 @@
 	</div>
 	{% include 'report/_filter.html' %}
 
-	<div class="stat-row mb-3">
-		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="stat" style="background:#0E8A68"><b>{{ total|intcomma }}</b><span>{% trans "Total Kazu" %}</span></a>
-		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="stat" style="background:#16B78A"><b>{{ tot_uma_kain|intcomma }}</b><span>{% trans "Uma-Kain Afetadu" %}</span></a>
-		<a href="{% url 'report-status-list' 'COMPLETED' %}?{{ request.GET.urlencode }}" class="stat" style="background:#343a40"><b>{{ tot_remata|intcomma }}</b><span>{% trans "Kazu Remata" %}</span></a>
-		<a href="{% url 'report-list-urjente' %}?{{ request.GET.urlencode }}" class="stat" style="background:#c0392b"><b>{{ tot_urjente|intcomma }}</b><span>{% trans "Urjente" %}</span></a>
+	<div class="var-stat mb-3">
+		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="var-kpi" style="--k:#0E8A68"><i class="fa fa-folder-open"></i><b>{{ total|intcomma }}</b><span>{% trans "Total Kazu" %}</span></a>
+		<a href="{% url 'report-list' %}?{{ request.GET.urlencode }}" class="var-kpi" style="--k:#16B78A"><i class="fa fa-home"></i><b>{{ tot_uma_kain|intcomma }}</b><span>{% trans "Uma-Kain Afetadu" %}</span></a>
+		<a href="{% url 'report-status-list' 'COMPLETED' %}?{{ request.GET.urlencode }}" class="var-kpi" style="--k:#343a40"><i class="fa fa-flag-checkered"></i><b>{{ tot_remata|intcomma }}</b><span>{% trans "Kazu Remata" %}</span></a>
+		<a href="{% url 'report-list-urjente' %}?{{ request.GET.urlencode }}" class="var-kpi" style="--k:#c0392b"><i class="fa fa-exclamation-triangle"></i><b>{{ tot_urjente|intcomma }}</b><span>{% trans "Urjente" %}</span></a>
 	</div>
 
 	<div class="card card-rbr mb-3">
-		<div class="card-body">
-			<div class="row">
+		<div class="card-body py-2">
+			<div class="rep-status">
 				{% for obj1 in objects1 %}
-				<div class="col-6 col-md">
-					<div class="text-center mb-2 mt-1">
-						<span class="text-muted small">{{ obj1.1 }}</span>
-						<h4 class="mb-0"><a href="{% url 'report-status-list' obj1.0 %}?{{ request.GET.urlencode }}">{{ obj1.2 }}</a></h4>
-					</div>
-				</div>
+				<a href="{% url 'report-status-list' obj1.0 %}?{{ request.GET.urlencode }}" class="rep-status-i"><span>{{ obj1.1 }}</span><b>{{ obj1.2 }}</b></a>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-md-6 col-xl-4 mb-3">
-			<div class="card card-rbr h-100">
-				<div class="card-header card-header-rbr">{% trans "Kazu tuir Tipu Konflitu" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Tipu" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for obj2 in objects2 %}
-						<tr><td>{{ obj2.0.name }}</td><td><a href="{% url 'report-tipu-list' obj2.0.id %}?{{ request.GET.urlencode }}">{{ obj2.1 }}</a></td></tr>
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6 col-xl-4 mb-3">
-			<div class="card card-rbr h-100">
-				<div class="card-header card-header-rbr bg-maroon">{% trans "Kazu tuir Munisípiu" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Munisípiu" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for obj3 in objects3 %}
-						<tr><td>{{ obj3.0.name }}</td><td><a href="{% url 'report-mun-list' obj3.0.id %}?{{ request.GET.urlencode }}">{{ obj3.1 }}</a></td></tr>
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6 col-xl-4 mb-3">
-			<div class="card card-rbr">
-				<div class="card-header card-header-rbr bg-dark2">{% trans "Kazu tuir Tinan" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Tinan" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for obj4 in objects4 %}
-						<tr><td>{{ obj4.0 }}</td><td><a href="{% url 'report-tinan-list' obj4.0 %}">{{ obj4.1 }}</a></td></tr>
-						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="card card-rbr mt-3">
-				<div class="card-header card-header-rbr">{% trans "Kazu tuir Investigadór" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Investigadór" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for obj6 in objects6 %}
-						<tr><td>{{ obj6.0.pesoaluser.pesoal|default:obj6.0.username }}</td><td><a href="{% url 'report-staff-list' obj6.0.id %}?{{ request.GET.urlencode }}">{{ obj6.1 }}</a></td></tr>
-						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr">{% trans "Kazu tuir Tipu Konflitu" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Tipu" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for obj2 in objects2 %}
+					<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ obj2.0.name }}</td><td><a href="{% url 'report-tipu-list' obj2.0.id %}?{{ request.GET.urlencode }}">{{ obj2.1 }}</a></td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr bg-maroon">{% trans "Kazu tuir Munisípiu" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Munisípiu" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for obj3 in objects3 %}
+					<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ obj3.0.name }}</td><td><a href="{% url 'report-mun-list' obj3.0.id %}?{{ request.GET.urlencode }}">{{ obj3.1 }}</a></td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr bg-dark2">{% trans "Kazu tuir Tinan" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Tinan" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for obj4 in objects4 %}
+					<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ obj4.0 }}</td><td><a href="{% url 'report-tinan-list' obj4.0 %}">{{ obj4.1 }}</a></td></tr>
+					{% empty %}<tr><td colspan="3" class="text-muted">-</td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr">{% trans "Kazu tuir Investigadór" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Investigadór" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for obj6 in objects6 %}
+					<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ obj6.0.pesoaluser.pesoal|default:obj6.0.username }}</td><td><a href="{% url 'report-staff-list' obj6.0.id %}?{{ request.GET.urlencode }}">{{ obj6.1 }}</a></td></tr>
+					{% empty %}<tr><td colspan="3" class="text-muted">-</td></tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 	<div class="card card-rbr mb-3">
 		<div class="card-header card-header-rbr">{% trans "Populasaun Afetada tuir Munisípiu" %}</div>
 		<div class="card-body">
 			<div class="table-responsive">
-				<table class="table table-sm table-hover mb-0" id="tbl-afetadu">
+				<table class="table table-sm table-hover rep-tabela mb-0" id="tbl-afetadu" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
 					<thead><tr>
 						<th>{% trans "Munisípiu" %}</th><th class="text-right">{% trans "Uma-Kain" %}</th><th class="text-right">{% trans "Total Ema" %}</th>
 						<th class="text-right">{% trans "Mane" %}</th><th class="text-right">{% trans "Feto" %}</th><th class="text-right">{% trans "Labarik" %}</th>
@@ -129,93 +123,91 @@
 		</div>
 	</div>
 	<!-- Status kazu, tribunál, Governu foti rai no eviksaun (númeru) -->
-	<div class="stat-row mb-3">
-		<a href="{% url 'report-tabular-list' 0 'rez' 'seidauk' %}?{{ request.GET.urlencode }}" class="stat" style="background:#0B4F3C"><b>{{ adv.n_seidauk|intcomma }}</b><span>{% trans "Kazu seidauk rezolve" %}</span></a>
-		<a href="{% url 'report-tabular-list' 0 'trib' 'rejistu' %}?{{ request.GET.urlencode }}" class="stat" style="background:#2F6AA6"><b>{{ adv.n_tribunal|intcomma }}</b><span>{% trans "Rejistu iha tribunál (inklui rejistu hela)" %}</span></a>
-		<a href="{% url 'report-tabular-list' 0 'evik' 'sin' %}?{{ request.GET.urlencode }}" class="stat" style="background:#E8772E"><b>{{ adv.evik_total|intcomma }}</b><span>{% trans "Kazu hetan eviksaun" %}</span></a>
-		<div class="stat" style="background:#C99A06"><b>{{ adv.evik_af.uma_kain|intcomma }}</b><span>{% trans "Uma-kain hetan eviksaun" %}</span></div>
-		<div class="stat" style="background:#6B1E23"><b>{{ adv.gov_total|intcomma }}</b><span>{% trans "Kazu Governu foti rai" %}</span></div>
+	<div class="var-stat mb-3">
+		<a href="{% url 'report-tabular-list' 0 'rez' 'seidauk' %}?{{ request.GET.urlencode }}" class="var-kpi" style="--k:#0B4F3C"><i class="fa fa-hourglass-half"></i><b>{{ adv.n_seidauk|intcomma }}</b><span>{% trans "Kazu seidauk rezolve" %}</span></a>
+		<a href="{% url 'report-tabular-list' 0 'trib' 'rejistu' %}?{{ request.GET.urlencode }}" class="var-kpi" style="--k:#2F6AA6"><i class="fa fa-gavel"></i><b>{{ adv.n_tribunal|intcomma }}</b><span>{% trans "Rejistu iha tribunál (inklui rejistu hela)" %}</span></a>
+		<a href="{% url 'report-tabular-list' 0 'evik' 'sin' %}?{{ request.GET.urlencode }}" class="var-kpi" style="--k:#E8772E"><i class="fa fa-home"></i><b>{{ adv.evik_total|intcomma }}</b><span>{% trans "Kazu hetan eviksaun" %}</span></a>
+		<div class="var-kpi" style="--k:#C99A06"><i class="fa fa-users"></i><b>{{ adv.evik_af.uma_kain|intcomma }}</b><span>{% trans "Uma-kain hetan eviksaun" %}</span></div>
+		<div class="var-kpi" style="--k:#6B1E23"><i class="fa fa-university"></i><b>{{ adv.gov_total|intcomma }}</b><span>{% trans "Kazu Governu foti rai" %}</span></div>
 	</div>
 
-	<div class="row">
-		<div class="col-md-6 col-xl-4 mb-3">
-			<div class="card card-rbr h-100">
-				<div class="card-header card-header-rbr">{% trans "Status Kazu (rezolusaun)" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Status" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for k, l, n in adv.status %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
-						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6 col-xl-4 mb-3">
-			<div class="card card-rbr h-100">
-				<div class="card-header card-header-rbr bg-maroon">{% trans "Rejistu iha Tribunál" %}</div>
-				<div class="card-body">
-					<p class="small text-muted mb-1">{% trans "Kazu ne'ebé seidauk rezolve de'it" %}</p>
-					<table class="table table-sm table-num mb-2">
-						<thead><tr><th>{% trans "Rejistu iha tribunál?" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for k, l, n in adv.tribunal %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
-						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
-						</tbody>
-					</table>
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Tipu kazu seidauk rejistu iha tribunál" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for k, l, n in adv.tipu_la_trib %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
-						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-12 col-xl-4 mb-3">
-			<div class="card card-rbr h-100">
-				<div class="card-header card-header-rbr bg-dark2">{% trans "Eviksaun" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Pergunta" %}</th><th>{% trans "Sin" %}</th><th>{% trans "Lae" %}</th><th>{% trans "La hatene" %}</th></tr></thead>
-						<tbody>
-						{% for naran, sin, lae, seluk in adv.ev_tabela %}<tr><td>{{ naran }}</td><td>{{ sin }}</td><td>{{ lae }}</td><td>{{ seluk }}</td></tr>{% endfor %}
-						</tbody>
-					</table>
-				</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr">{% trans "Status Kazu (rezolusaun)" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Status" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for k, l, n in adv.status %}<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ l }}</td><td>{{ n }}</td></tr>
+					{% empty %}<tr><td colspan="3" class="text-muted">-</td></tr>{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-
-	<div class="row">
-		<div class="col-md-6 mb-3">
-			<div class="card card-rbr h-100">
-				<div class="card-header card-header-rbr">{% trans "Governu foti komunidade nia rai: populasaun afetada" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Kazu" %}</th><th>{% trans "Uma-Kain" %}</th><th>{% trans "Mane" %}</th><th>{% trans "Feto" %}</th><th>{% trans "Labarik" %}</th></tr></thead>
-						<tbody><tr><td>{{ adv.gov_total|intcomma }}</td><td>{{ adv.gov_af.uma_kain|intcomma }}</td><td>{{ adv.gov_af.mane|intcomma }}</td><td>{{ adv.gov_af.feto|intcomma }}</td><td>{{ adv.gov_af.labarik|intcomma }}</td></tr></tbody>
-					</table>
-				</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr bg-maroon">{% trans "Rejistu iha Tribunál" %}</div>
+		<div class="card-body">
+			<p class="small text-muted mb-1">{% trans "Kazu ne'ebé seidauk rezolve de'it" %}</p>
+			<div class="table-responsive">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Rejistu iha tribunál?" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for k, l, n in adv.tribunal %}<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ l }}</td><td>{{ n }}</td></tr>
+					{% empty %}<tr><td colspan="3" class="text-muted">-</td></tr>{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="table-responsive mt-3">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Tipu kazu seidauk rejistu iha tribunál" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for k, l, n in adv.tipu_la_trib %}<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ l }}</td><td>{{ n }}</td></tr>
+					{% empty %}<tr><td colspan="3" class="text-muted">-</td></tr>{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
-		<div class="col-md-6 mb-3">
-			<div class="card card-rbr h-100">
-				<div class="card-header card-header-rbr bg-maroon">{% trans "Entidade ne'ebé hetan benefísiu husi Governu foti rai" %}</div>
-				<div class="card-body">
-					<table class="table table-sm table-num mb-0">
-						<thead><tr><th>{% trans "Entidade" %}</th><th>{% trans "Total" %}</th></tr></thead>
-						<tbody>
-						{% for k, l, n in adv.entidade %}<tr><td>{{ l }}</td><td>{{ n }}</td></tr>
-						{% empty %}<tr><td colspan="2" class="text-muted">-</td></tr>{% endfor %}
-						</tbody>
-					</table>
-				</div>
+	</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr bg-dark2">{% trans "Eviksaun" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-num rep-tabela mb-0">
+					<thead><tr><th>{% trans "Pergunta" %}</th><th>{% trans "Sin" %}</th><th>{% trans "Lae" %}</th><th>{% trans "La hatene" %}</th></tr></thead>
+					<tbody>
+					{% for naran, sin, lae, seluk in adv.ev_tabela %}<tr><td>{{ naran }}</td><td>{{ sin }}</td><td>{{ lae }}</td><td>{{ seluk }}</td></tr>{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr">{% trans "Governu foti komunidade nia rai: populasaun afetada" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-num rep-tabela mb-0">
+					<thead><tr><th>{% trans "Kazu" %}</th><th>{% trans "Uma-Kain" %}</th><th>{% trans "Mane" %}</th><th>{% trans "Feto" %}</th><th>{% trans "Labarik" %}</th></tr></thead>
+					<tbody><tr><td>{{ adv.gov_total|intcomma }}</td><td>{{ adv.gov_af.uma_kain|intcomma }}</td><td>{{ adv.gov_af.mane|intcomma }}</td><td>{{ adv.gov_af.feto|intcomma }}</td><td>{{ adv.gov_af.labarik|intcomma }}</td></tr></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="card card-rbr mb-3">
+		<div class="card-header card-header-rbr bg-maroon">{% trans "Entidade ne'ebé hetan benefísiu husi Governu foti rai" %}</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-hover table-num rep-tabela mb-0" data-pajina="10" data-hatudu="{% blocktrans with a="{a}" b="{b}" t="{t}" %}Hatudu {{ a }}–{{ b }} husi {{ t }}{% endblocktrans %}">
+					<thead><tr><th class="rep-nu">#</th><th>{% trans "Entidade" %}</th><th>{% trans "Total" %}</th></tr></thead>
+					<tbody>
+					{% for k, l, n in adv.entidade %}<tr><td class="rep-nu">{{ forloop.counter }}</td><td>{{ l }}</td><td>{{ n }}</td></tr>
+					{% empty %}<tr><td colspan="3" class="text-muted">-</td></tr>{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
 
 	{% include 'report/_tabular.html' %}
 {% endblock %}
+{% block scripts %}<script src="{% static 'main/js/tabela_pajina.js' %}"></script>{% endblock %}

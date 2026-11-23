@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div class="col-lg-4 mb-3">
-			{% if u_group == 'investigador' %}
+			{% if u_group == 'investigador' or u_group == 'sekretariadu' %}
 			<div class="card card-rbr mb-3 {% if offline %}card-left-teal{% else %}card-left-maroon{% endif %}">
 				<div class="card-body">
 					<h3 class="h-line">{% trans "Autorizasaun Offline" %}</h3>

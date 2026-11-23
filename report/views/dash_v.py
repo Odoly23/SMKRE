@@ -8,7 +8,7 @@ from django.db.models.functions import ExtractYear
 from django.shortcuts import render, get_object_or_404
 from django.utils.translation import gettext as _
 from config.decorators import allowed_users
-from config.rbac import ROLE_DASHBOARD, ROLE_RELATORIU, INVESTIGADOR
+from config.rbac import ROLE_DASHBOARD, ROLE_RELATORIU, ROLE_INPUT_KAZU
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.models import UmaKainAfetada, STATUS_CHOICES, COMPLETED
 from report import advokasia
@@ -58,7 +58,7 @@ def _kalkula_dash(request):
 		if r5 and any(v for k, v in r5.items() if k != 'kazu__munisipiu'):
 			objects5.append([m, r5])
 	n_staff = dict(kazu.order_by().values_list('created_by').annotate(n=Count('pk', distinct=True)).values_list('created_by', 'n'))
-	staff = User.objects.filter(groups__name=INVESTIGADOR).select_related('pesoaluser__pesoal')
+	staff = User.objects.filter(groups__name__in=ROLE_INPUT_KAZU).distinct().select_related('pesoaluser__pesoal')
 	for u in staff:
 		if n_staff.get(u.pk):
 			objects6.append([u, n_staff[u.pk]])
@@ -191,6 +191,6 @@ def rTinanList(request, tinan):
 @login_required
 @allowed_users(allowed_roles=ROLE_RELATORIU)
 def rStaffList(request, pk):
-	obj = get_object_or_404(User, pk=pk, groups__name=INVESTIGADOR)
+	obj = get_object_or_404(User.objects.filter(groups__name__in=ROLE_INPUT_KAZU).distinct(), pk=pk)
 	naran = getattr(getattr(obj, 'pesoaluser', None), 'pesoal', None) or obj.username
 	return _list(request, report_queryset(request).filter(created_by=obj), _('Lista Kazu Investigadór %(s)s') % {'s': naran})

@@ -4,7 +4,7 @@
 	{% include 'main/page_header.html' %}
 	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
 		<h2 class="mb-2">{{ legend }}</h2>
-		{% if is_investigador %}<a href="{% url 'kazu-add' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Rejista Kazu Foun" %}</a>{% endif %}
+		{% if can_input_kazu %}<a href="{% url 'kazu-add' %}" class="btn btn-rbr mb-2"><i class="fa fa-plus"></i> {% trans "Rejista Kazu Foun" %}</a>{% endif %}
 	</div>
 
 	<form method="get" class="card card-rbr mb-3">

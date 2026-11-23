@@ -129,11 +129,11 @@ class VarandaListaTest(TestCase):
 		self.assertContains(r, 'Haree hotu')
 		self.assertContains(r, '(8)')
 
-	def test_admin_hein_5_foun_liu(self):
+	def test_admin_hein_pajina_10_foun_liu(self):
 		self.client.force_login(self.admin)
 		r = self.client.get(reverse('home'))
-		hein = list(r.context['hein'])
-		self.assertEqual(len(hein), 5)
+		hein = list(r.context['objects'])                 # kartaun naruk: 10 kada pájina
+		self.assertEqual(len(hein), 8)
 		self.assertEqual(hein[0].titulu, 'Kazu 7')
 		self.assertEqual(r.context['tot_hein'], 8)
 		self.assertContains(r, '?status=SYNCED')

@@ -5911,3 +5911,35 @@ msgstr ""
 "Semua data (total, peta dan grafik) berasal dari kasus yang terdaftar di "
 "Rede ba Rai. Tanpa nama, foto atau lokasi persis. Angka 1 dan 2 ditampilkan "
 "sebagai \"&lt; %(limite)s\"."
+
+#: main/templates/home/home.html
+msgid "Ha'u-nia rascunho"
+msgstr "Draf saya"
+
+#: main/templates/home/home.html
+msgid "Haree"
+msgstr "Lihat"
+
+#: users/forms.py
+msgid "Investigadór / Sekretariadu tenke iha munisípiu knaar."
+msgstr "Investigador / Sekretariat harus memiliki munisípiu tugas."
+
+#: main/views.py
+msgid "Kazu foun ikus"
+msgstr "Kasus terbaru"
+
+#: main/templates/home/home.html
+msgid "La iha kazu ne'ebé hein."
+msgstr "Tidak ada kasus yang menunggu."
+
+#: kazu/services.py
+msgid "Labele aprova kazu ne'ebé ita rasik input."
+msgstr "Tidak bisa menyetujui kasus yang Anda input sendiri."
+
+#: users/forms.py
+msgid "Sekretariadu"
+msgstr "Sekretariat"
+
+#: main/templates/home/home.html
+msgid "Tipu Konflitu"
+msgstr "Jenis Konflik"

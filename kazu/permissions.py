@@ -1,6 +1,6 @@
 """Regra asesu ba kazu ida (haree / edita). Uza iha view, media no API."""
 from django.db.models import Q
-from config.rbac import INVESTIGADOR, ROLE_DASHBOARD, ROLE_POLIGON
+from config.rbac import INVESTIGADOR, ROLE_DASHBOARD, ROLE_POLIGON, ROLE_INPUT_KAZU
 from kazu.models import Kazu, STATUS_EDITABLE, CANCELED, COMPLETED
 from users.auth_utils import c_user_group
 
@@ -29,9 +29,9 @@ def can_view(user, kazu):
 	return group in ROLE_DASHBOARD
 
 
-# bele edita kazu? Investigadór nia kazu rasik, status Rascunho / Iha Terrenu / Hein Sinál / Rejeitadu de'it
+# bele edita kazu? Investigadór / Sekretariadu: kazu rasik, status Rascunho / Iha Terrenu / Hein Sinál / Rejeitadu de'it
 def can_edit(user, kazu):
-	return (c_user_group(user) == INVESTIGADOR and is_responsavel(user, kazu)
+	return (c_user_group(user) in ROLE_INPUT_KAZU and is_responsavel(user, kazu)
 		and kazu.status in STATUS_EDITABLE)
 
 

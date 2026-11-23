@@ -216,7 +216,7 @@ def KazuAdd(request):
 
 
 @login_required
-@allowed_users(allowed_roles=[INVESTIGADOR])
+@allowed_users(allowed_roles=ROLE_INPUT_KAZU)
 def KazuUpdate(request, uuid):
 	objects = get_object_or_404(Kazu, pk=uuid)
 	if not can_edit(request.user, objects):

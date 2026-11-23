@@ -25,6 +25,7 @@ def smkre(request):
 		'bottom_nav': bnav,
 		'lang_flags': LANG_FLAGS,
 		'is_investigador': group == rbac.INVESTIGADOR,
+		'can_input_kazu': group in rbac.ROLE_INPUT_KAZU,          # Investigadór + Sekretariadu
 		'can_manage_user': group in rbac.ROLE_USER_MANAGE,
 		'can_give_offline': group in rbac.ROLE_OFFLINE_FO,
 		'MAPBOX_TOKEN': settings.MAPBOX_TOKEN,            # mapa Leaflet (portal + admin)
