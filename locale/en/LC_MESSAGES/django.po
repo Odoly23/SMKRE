@@ -5958,3 +5958,15 @@ msgstr "Secretariat"
 #: main/templates/home/home.html
 msgid "Tipu Konflitu"
 msgstr "Conflict Type"
+
+#: kazu/templates/kazu/form.html
+msgid "Fatin hili ona iha mapa"
+msgstr "Location chosen on the map"
+
+#: kazu/templates/kazu/form.html
+msgid "Klik iha mapa atu hili fatin kazu. Bele dada marka atu hadia."
+msgstr "Click the map to choose the case location. Drag the marker to adjust."
+
+#: report/templates/report/dash.html
+msgid "Rezumu Advokasia"
+msgstr "Advocacy Summary"

@@ -5943,3 +5943,17 @@ msgstr "Sekretariat"
 #: main/templates/home/home.html
 msgid "Tipu Konflitu"
 msgstr "Jenis Konflik"
+
+#: kazu/templates/kazu/form.html
+msgid "Fatin hili ona iha mapa"
+msgstr "Lokasi dipilih di peta"
+
+#: kazu/templates/kazu/form.html
+msgid "Klik iha mapa atu hili fatin kazu. Bele dada marka atu hadia."
+msgstr ""
+"Klik di peta untuk memilih lokasi kasus. Penanda bisa digeser untuk "
+"memperbaiki."
+
+#: report/templates/report/dash.html
+msgid "Rezumu Advokasia"
+msgstr "Ringkasan Advokasi"

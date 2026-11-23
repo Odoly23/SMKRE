@@ -6063,3 +6063,15 @@ msgstr "Sekretariadu"
 #: main/templates/home/home.html
 msgid "Tipu Konflitu"
 msgstr "Tipu Konflitu"
+
+#: kazu/templates/kazu/form.html
+msgid "Fatin hili ona iha mapa"
+msgstr "Fatin hili ona iha mapa"
+
+#: kazu/templates/kazu/form.html
+msgid "Klik iha mapa atu hili fatin kazu. Bele dada marka atu hadia."
+msgstr "Klik iha mapa atu hili fatin kazu. Bele dada marka atu hadia."
+
+#: report/templates/report/dash.html
+msgid "Rezumu Advokasia"
+msgstr "Rezumu Advokasia"

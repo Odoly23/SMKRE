@@ -55,8 +55,21 @@
 			</form>
 		</div> <!--end col-->
 	</div> <!--end row-->
+	{% if gps_mapa %}
+	{# Sekretariadu: hili fatin kazu iha mapa (GPS la automátiku) #}
+	<div id="gps-mapa-cfg" hidden data-mapbox="{{ MAPBOX_TOKEN }}"
+		data-l-hili="{% trans "Klik iha mapa atu hili fatin kazu. Bele dada marka atu hadia." %}"
+		data-l-ok="{% trans "Fatin hili ona iha mapa" %}" data-l-fullscreen="{% trans "Ekran tomak" %}"></div>
+	{{ mun_pontu|json_script:"mun-pontu" }}
+	{% endif %}
 {% endblock %}
+{% block styles %}{% if gps_mapa %}<link rel="stylesheet" href="{% static 'main/leaflet/leaflet.css' %}">{% endif %}{% endblock %}
 {% block scripts %}
+{% if gps_mapa %}
+<script src="{% static 'main/leaflet/leaflet.js' %}"></script>
+<script src="{% static 'main/mapa/smkre_mapa.js' %}"></script>
+<script src="{% static 'main/mapa/gps_hili.js' %}"></script>
+{% endif %}
 <script nonce="{{ request.csp_nonce }}">
 	// Tinan Simu Kazu iha RbR: automátiku husi Data Simu (hakerek manuál de'it se data la hatene)
 	(function () {

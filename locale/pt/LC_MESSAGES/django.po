@@ -5980,3 +5980,17 @@ msgstr "Secretariado"
 #: main/templates/home/home.html
 msgid "Tipu Konflitu"
 msgstr "Tipo de Conflito"
+
+#: kazu/templates/kazu/form.html
+msgid "Fatin hili ona iha mapa"
+msgstr "Local escolhido no mapa"
+
+#: kazu/templates/kazu/form.html
+msgid "Klik iha mapa atu hili fatin kazu. Bele dada marka atu hadia."
+msgstr ""
+"Clique no mapa para escolher o local do caso. Pode arrastar o marcador para "
+"corrigir."
+
+#: report/templates/report/dash.html
+msgid "Rezumu Advokasia"
+msgstr "Resumo da Advocacia"

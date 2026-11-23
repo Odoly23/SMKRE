@@ -420,3 +420,22 @@ body.smkre-map-full-body { overflow: hidden; }
 .rep-status-i:hover { background: #eefaf5; }
 .rep-status-i span { font-size: .8rem; color: #6c757d; }
 .rep-status-i b { font-size: 1.4rem; color: var(--rbr-teal-dk); font-family: 'Montserrat', sans-serif; }
+/* Mapa hili GPS (Sekretariadu online) */
+.gps-mapa { height: 340px; border-radius: 10px; border: 1px solid var(--border); }
+@media (max-width: 575.98px) { .gps-mapa { height: 280px; } }
+/* ═══ DASHBOARD RELATÓRIU ═══ títulu + rezumu + tabela bordered (responsive) */
+.dash-butaun { gap: 6px; }
+.dash-titulu .card-header { background: var(--rbr-teal-dk); color: #fff; font-weight: 700; letter-spacing: .04em; border-radius: 12px; }
+.dash-titulu { border: 0; border-radius: 12px; }
+.dash-card { border-radius: 12px; border: 1px solid var(--border); }
+.dash-card > .card-header { background: #f4f6f5; font-weight: 700; color: var(--rbr-dark); border-bottom: 1px solid var(--border); }
+.dash-stat { text-align: center; margin: 4px 0 8px; }
+.dash-stat span { display: block; font-size: .82rem; line-height: 1.25; min-height: 2.1em; }
+.dash-stat h4 { margin: 2px 0 0; font-family: 'Montserrat', sans-serif; font-weight: 700; }
+.dash-stat-sm h4 { font-size: 1.25rem; }
+.tbl-dash { text-align: center; font-size: .9rem; }
+.tbl-dash thead th { background: #e3e6e5; color: #000; vertical-align: middle; font-weight: 700; }
+.tbl-dash td { vertical-align: middle; }
+.tbl-dash .tbl-n { width: 90px; }
+.tbl-dash td a { font-weight: 700; }
+@media (max-width: 575.98px) { .tbl-dash { font-size: .82rem; } .dash-stat h4 { font-size: 1.2rem; } }

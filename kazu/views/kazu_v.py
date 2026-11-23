@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext as _, gettext_lazy as _l
 from config.decorators import allowed_users
-from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, ROLE_DUPLIKADU, INVESTIGADOR, ROLE_REJEITA
+from config.rbac import ROLE_PORTAL, ROLE_ALL, ROLE_DASHBOARD, ROLE_IMPORT_KAZU, ROLE_SEGIMENTU, ROLE_INPUT_KAZU, ROLE_STATUS_KAZU, ROLE_LEGAL, ROLE_DUPLIKADU, INVESTIGADOR, SEKRETARIADU, ROLE_REJEITA
 from custom.models import Munisipiu, TipuKonflitu
 from kazu.forms import KazuForm, AfetaduFormSet, InsidenteFormSet, ActionForm, AkompanamentuForm, SegimentuKazuForm
 from kazu.models import Kazu, KazuHistoria, STATUS_CHOICES, CANCELED, KazuAkompanamentu, SEKSAUN_REL
@@ -200,8 +200,12 @@ def _form_view(request, instance=None):
 		formsets = [AfetaduFormSet(instance=instance or Kazu(), prefix='afetadu'),
 			InsidenteFormSet(instance=instance or Kazu(), prefix='insidente')]
 	legend = _('Edita Kazu') if instance else _('Rejista Kazu Foun')
+	# Sekretariadu online: GPS hili iha mapa (la automátiku); Investigadór: GPS husi HP
+	gps_mapa = group == SEKRETARIADU
+	mun_pontu = {m.pk: [float(m.latitude), float(m.longitude)] for m in Munisipiu.active.exclude(latitude=None).exclude(longitude=None)} if gps_mapa else {}
 	context = {
 		'group': group, "page": "kazu-add" if instance is None else "kazu",
+		'gps_mapa': gps_mapa, 'mun_pontu': mun_pontu,
 		'form': form, 'seg_form': seg_form, 'afetadu_fs': formsets[0], 'insidente_fs': formsets[1],
 		'objects': instance,
 		'title': legend, 'legend': legend

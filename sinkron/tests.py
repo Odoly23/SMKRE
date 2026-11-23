@@ -587,3 +587,24 @@ class OfflineLegalTest(SinkronBase):
 		self.assertTrue(tok)
 		r = self.client.get(reverse('api-sinkron-legal-opsaun'), HTTP_AUTHORIZATION=f'Bearer {tok}')
 		self.assertEqual(r.status_code, 200)
+
+
+class SekretariaduSinkronTest(SinkronBase):
+	# Sekretariadu (munisípiu hotu): input offline → rai iha HP → sinkron → haruka ba server
+	def setUp(self):
+		super().setUp()
+		from config.rbac import SEKRETARIADU
+		self.sek = make_user(SEKRETARIADU, email='sek@teste.tl', munisipiu_code='XXX')
+		OfflinePermission.objects.create(user=self.sek, given_by=self.admin)
+		self.token = self.login('sek@teste.tl')
+
+	def test_rai_no_haruka(self):
+		data = self.payload(munisipiu=self.liq.pk)              # hili munisípiu (la iha knaar)
+		r = self.send(data)
+		self.assertEqual(r.status_code, 201, r.content)
+		kazu = Kazu.objects.get(pk=data['id'])
+		self.assertEqual((kazu.status, kazu.munisipiu, kazu.created_by), ('PENDING', self.liq, self.sek))
+		r = self.haruka(kazu.pk)
+		self.assertEqual(r.status_code, 200, r.content)
+		kazu.refresh_from_db()
+		self.assertEqual(kazu.status, 'SYNCED')

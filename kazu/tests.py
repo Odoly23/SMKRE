@@ -973,3 +973,23 @@ class MigrasaunDesizaunTest(KazuBase):
 		mig.ba_desizaun(apps, None)
 		d = {k: Kazu.objects.get(pk=k.pk).desizaun for k in (k1, k2, k3)}
 		self.assertEqual((d[k1], d[k2], d[k3]), ('ADVOKASIA', 'ARKIVU', 'ADVOKASIA'))
+
+
+class SekretariaduMapaGpsTest(KazuBase):
+	# Sekretariadu online: fatin hili iha mapa (la iha akurasia GPS) → rai no manda ba server
+	def test_fatin_husi_mapa_manda_ba_server(self):
+		from config.rbac import SEKRETARIADU
+		sek = make_user(SEKRETARIADU, email='sek@teste.tl', munisipiu_code='XXX')
+		self.client.force_login(sek)
+		r = self.client.get(reverse('kazu-add'))
+		self.assertTrue(r.context['gps_mapa'])
+		self.assertContains(r, 'gps_hili.js')
+		self.post(reverse('kazu-add'), self.form_data('haruka', gps_akurasia=''))
+		kazu = Kazu.objects.latest('created_at')
+		self.assertEqual((kazu.status, kazu.munisipiu, kazu.gps_akurasia), ('SYNCED', self.liq, None))
+
+	def test_investigador_gps_automatiku(self):
+		self.client.force_login(self.inv)
+		r = self.client.get(reverse('kazu-add'))
+		self.assertFalse(r.context['gps_mapa'])
+		self.assertNotContains(r, 'gps_hili.js')
