@@ -23,3 +23,15 @@ def c_user_group(user):
 def c_user_offline(user):
 	# Autorizasaun offline ne'ebé validu agora (ka None)
 	return OfflinePermission.objects.valid().filter(user=user).order_by('-end_date').first()
+
+
+# munisípiu ne'ebé utilizador bele input kazu:
+#   [] = munisípiu HOTU (Sekretariadu, la presiza hili knaar) · lista = knaar Investigadór (1–2) · None = seidauk iha knaar
+def munisipiu_input(user):
+	from config.rbac import SEKRETARIADU
+	if c_user_group(user) == SEKRETARIADU:
+		return []
+	pesoal = c_user_pesoal(user)
+	if not pesoal or not pesoal.munisipiu:
+		return None
+	return pesoal.munisipiu_lista

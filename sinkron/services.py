@@ -25,7 +25,7 @@ from kazu.models import Kazu, Evidensia, KazuHistoria, KazuSegimentu, KazuAkompa
 from kazu.poligon import kalkula as kalkula_poligon, aplika as aplika_poligon
 from kazu.services import refresh_auto_fields, enxe_fokal
 from kazu.duplikadu import atribui_kode_hp
-from users.auth_utils import c_user_pesoal
+from users.auth_utils import c_user_pesoal, munisipiu_input
 from users.models import OfflinePermission
 
 logger = logging.getLogger('smkre.sinkron')
@@ -86,8 +86,8 @@ def _form_data(data):
 @transaction.atomic
 def sync_kazu(user, data):
 	# Simu kazu husi HP. Retorna (kazu, foun_ka_lae). Kazu haruka ona → retorna de'it (la muda).
-	pesoal = c_user_pesoal(user)
-	if not pesoal or not pesoal.munisipiu:
+	knaar = munisipiu_input(user)                    # Sekretariadu: [] = munisípiu hotu
+	if knaar is None:
 		raise ValidationError(_('Ita seidauk iha munisípiu knaar. Kontaktu Admin.'))
 	kazu_id = parse_uuid(data.get('id'))
 	kria_iha = parse_datetime(str(data.get('kria_iha') or ''))
@@ -106,7 +106,7 @@ def sync_kazu(user, data):
 		check_permission_window(user, kria_iha)
 
 	# Validasaun hanesan formuláriu web (GPS iha TL, akurasia ≤ 50 m, lokalizasaun, konsentimentu...)
-	form = KazuForm(data=_form_data(data), instance=instance, munisipiu_knaar=pesoal.munisipiu_lista, submit=True)
+	form = KazuForm(data=_form_data(data), instance=instance, munisipiu_knaar=knaar, submit=True)
 	erru = {} if form.is_valid() else {k: list(v) for k, v in form.errors.items()}
 	lista = []
 	for xave, Form, maximu in KAZU_LISTA:

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, HTML
-from config.rbac import INVESTIGADOR, SEKRETARIADU, ROLE_INPUT_KAZU, ROLE_INPUT_OFFLINE, roles_admin_can_assign
+from config.rbac import INVESTIGADOR, SEKRETARIADU, ROLE_INPUT_OFFLINE, roles_admin_can_assign
 from custom.models import Munisipiu, Pozisaun
 from users.models import Pesoal, OfflinePermission
 
@@ -100,8 +100,8 @@ class PesoalForm(forms.ModelForm):
 
 	def clean(self):
 		cleaned = super().clean()
-		if cleaned.get('role') in ROLE_INPUT_KAZU and not cleaned.get('munisipiu'):
-			self.add_error('munisipiu', _("Investigadór / Sekretariadu tenke iha munisípiu knaar."))
+		if cleaned.get('role') == INVESTIGADOR and not cleaned.get('munisipiu'):       # Sekretariadu: munisípiu hotu
+			self.add_error('munisipiu', _("Investigadór tenke iha munisípiu knaar."))
 		m2 = cleaned.get('munisipiu_2')
 		if m2 and not cleaned.get('munisipiu'):
 			cleaned['munisipiu'], cleaned['munisipiu_2'] = m2, None

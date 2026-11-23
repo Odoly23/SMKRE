@@ -20,7 +20,7 @@ from kazu.services import submit_kazu
 from sinkron.services import sync_kazu, sync_evidensia, kazu_ba_hp
 from kazu.duplikadu import duplikadu_testu
 from kazu.fatin import avizu_munisipiu
-from users.auth_utils import c_user_pesoal
+from users.auth_utils import c_user_pesoal, munisipiu_input
 
 
 def _erru(e):
@@ -47,8 +47,10 @@ def _lista(qs, *extra):
 class APIOpsaun(_SinkronAPI):
 	# Dadus master ba formuláriu offline: munisípiu knaar + postu/suku/aldeia + opsaun padronizadu
 	def get(self, request, format=None):
-		pesoal = c_user_pesoal(request.user)
-		lista = pesoal.munisipiu_lista if pesoal else []
+		from custom.models import Munisipiu
+		lista = munisipiu_input(request.user)
+		if lista == []:                                  # Sekretariadu: munisípiu hotu
+			lista = list(Munisipiu.active.all())
 		if not lista:
 			return Response({'erru': {'__all__': [_('Ita seidauk iha munisípiu knaar. Kontaktu Admin.')]}}, status=400)
 		mun = lista[0]

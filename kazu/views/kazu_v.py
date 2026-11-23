@@ -18,7 +18,7 @@ from kazu.permissions import kazu_queryset, can_view, can_edit, can_poligon
 from kazu.duplikadu import posivel_duplikadu
 from kazu.importa import pode_muda_lokasaun
 from kazu.services import action_buttons, refresh_auto_fields, submit_kazu, enxe_fokal, can_followup, investigador_followup
-from users.auth_utils import c_user_pesoal
+from users.auth_utils import c_user_pesoal, munisipiu_input
 
 
 @login_required
@@ -172,13 +172,13 @@ def _segimentu(kazu):
 
 def _form_view(request, instance=None):
 	group = request.user.groups.all()[0].name
-	pesoal = c_user_pesoal(request.user)
-	if not pesoal or not pesoal.munisipiu:
+	knaar = munisipiu_input(request.user)            # Sekretariadu: [] = munisípiu hotu
+	if knaar is None:
 		messages.error(request, _('Ita seidauk iha munisípiu knaar. Kontaktu Admin.'))
 		return redirect('kazu-list')
 	submit = request.POST.get('aksaun') == 'haruka'
 	if request.method == 'POST':
-		form = KazuForm(request.POST, instance=instance, munisipiu_knaar=pesoal.munisipiu_lista, submit=submit)
+		form = KazuForm(request.POST, instance=instance, munisipiu_knaar=knaar, submit=submit)
 		seg_form = SegimentuKazuForm(request.POST, instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(request.POST, instance=instance or Kazu(), prefix='afetadu'),
 			InsidenteFormSet(request.POST, instance=instance or Kazu(), prefix='insidente')]
@@ -195,7 +195,7 @@ def _form_view(request, instance=None):
 			return redirect('kazu-detail', uuid=obj.pk)
 		messages.error(request, _('Favor hadia erru iha formuláriu.'))
 	else:
-		form = KazuForm(instance=instance, munisipiu_knaar=pesoal.munisipiu_lista)
+		form = KazuForm(instance=instance, munisipiu_knaar=knaar)
 		seg_form = SegimentuKazuForm(instance=_segimentu(instance), prefix='seg')
 		formsets = [AfetaduFormSet(instance=instance or Kazu(), prefix='afetadu'),
 			InsidenteFormSet(instance=instance or Kazu(), prefix='insidente')]

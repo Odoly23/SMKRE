@@ -77,3 +77,28 @@ class SekretariaduTest(TestCase):
 		OfflinePermission.objects.create(user=self.sek, start_date=timezone.now() - timedelta(hours=1),
 			end_date=timezone.now() + timedelta(days=5), given_by=self.adm)
 		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)
+
+
+class SekretariaduMunisipiuHotuTest(TestCase):
+	# Sekretariadu la iha munisípiu knaar: input ba munisípiu HOTU (Investigadór de'it mak hili knaar)
+	def setUp(self):
+		cache.clear()
+		setup_master()
+		self.sek = make_user(SEKRETARIADU, munisipiu_code='XXX')       # la iha munisípiu
+
+	def test_formulariu_web_munisipiu_hotu(self):
+		self.client.force_login(self.sek)
+		r = self.client.get(reverse('kazu-add'))
+		self.assertEqual(r.status_code, 200)
+		self.assertEqual(r.context['form'].fields['munisipiu'].queryset.count(), Munisipiu.active.count())
+
+	def test_app_offline_munisipiu_hotu(self):
+		token = str(RefreshToken.for_user(self.sek).access_token)
+		r = self.client.get(reverse('api-sinkron-opsaun'), HTTP_AUTHORIZATION=f'Bearer {token}')
+		self.assertEqual(r.status_code, 200)
+		self.assertEqual(len(r.json()['munisipiu_lista']), Munisipiu.active.count())
+
+	def test_investigador_sein_munisipiu_labele(self):
+		inv = make_user(INVESTIGADOR, email='inv2@teste.tl', munisipiu_code='XXX')
+		self.client.force_login(inv)
+		self.assertRedirects(self.client.get(reverse('kazu-add')), reverse('kazu-list'), fetch_redirect_response=False)
