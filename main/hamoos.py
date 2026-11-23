@@ -94,41 +94,41 @@ def hamoos_publikasaun(pub, user):
 	return naran
 
 
-# dadus ne'ebé utilizador ida kria (PROTECT): la bele hamoos utilizador se iha
-def dadus_utilizador(u):
-	from kazu.models import Kazu
-	from kazu.models.importa import KazuImport
-	from legal.models import SurveiLegal
-	return {
-		_('kazu'): Kazu.objects.filter(created_by=u).count(),
-		_('survei legál'): SurveiLegal.objects.filter(created_by=u).count(),
-		_('import Excel'): KazuImport.objects.filter(created_by=u).count(),
-	}
-
-
-# Utilizador: hamoos konta (User) + dadus pesoál (Pesoal, foto). Labele: an rasik, Superadmin ikus,
-# ka utilizador ne'ebé kria ona kazu / survei / import (dadus sei lakon autór) → hapara konta deit.
+# Utilizador: hamoos konta (User) + dadus pesoál (Pesoal, foto). Labele: an rasik ka Superadmin ikus.
+# Kazu / survei legál / import ne'ebé nia kria MUDA ba Superadmin ne'ebé hamoos (dadus la lakon),
+# ho nota iha istória kazu.
 @transaction.atomic
 def hamoos_utilizador(pesoal, user):
 	from django.core.exceptions import ValidationError
 	from config.rbac import SUPERADMIN
 	from django.contrib.auth.models import User
+	from kazu.models import Kazu, KazuHistoria
+	from kazu.models.importa import KazuImport
+	from legal.models import SurveiLegal
 	alvu = getattr(getattr(pesoal, 'pesoaluser', None), 'user', None)
 	if alvu and alvu.pk == user.pk:
 		raise ValidationError(_('Labele hamoos ita-nia konta rasik.'))
 	if alvu and alvu.groups.filter(name=SUPERADMIN).exists() and \
 			User.objects.filter(groups__name=SUPERADMIN, is_active=True).exclude(pk=alvu.pk).count() == 0:
 		raise ValidationError(_('Labele hamoos Superadmin ikus.'))
-	if alvu:
-		iha = {k: n for k, n in dadus_utilizador(alvu).items() if n}
-		if iha:
-			lista = ', '.join(f'{n} {k}' for k, n in iha.items())
-			raise ValidationError(_('Utilizador ne\'e kria ona %(l)s. Labele hamoos (dadus sei lakon autór) — HAPARA konta deit.') % {'l': lista})
 	naran = str(pesoal)
+	muda = {}
+	if alvu:
+		kazu = Kazu.objects.filter(created_by=alvu)
+		nota = _('Utilizador %(u)s hamoos ona: kazu muda ba %(s)s.') % {'u': naran, 's': user.username}
+		KazuHistoria.objects.bulk_create([KazuHistoria(kazu_id=pk, user=user, status_antes=st, status_foun=st, nota=nota)
+			for pk, st in kazu.values_list('pk', 'status')])
+		muda = {
+			_('kazu'): kazu.update(created_by=user),
+			_('follow-up'): Kazu.objects.filter(followup_ba=alvu).update(followup_ba=user),
+			_('survei legál'): SurveiLegal.objects.filter(created_by=alvu).update(created_by=user),
+			_('import Excel'): KazuImport.objects.filter(created_by=alvu).update(created_by=user),
+		}
 	files = [f for f in (getattr(pesoal, 'image', None),) if f]
 	if alvu:
 		alvu.delete()                                 # PesoalUser, autorizasaun offline, notifikasaun (CASCADE)
 	pesoal.delete()
 	_hamoos_file(files)
-	_log(user, f'utilizador {naran}')
-	return naran
+	lista = ', '.join(f'{n} {k}' for k, n in muda.items() if n)
+	_log(user, f'utilizador {naran}' + (f' (muda ba {user.username}: {lista})' if lista else ''))
+	return naran + (' — ' + _('muda ba ita: %(l)s') % {'l': lista} if lista else '')

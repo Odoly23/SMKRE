@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from openpyxl import Workbook
+from openpyxl.cell import WriteOnlyCell
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
 from config.decorators import allowed_users
@@ -32,20 +33,28 @@ def exportExcel(request):
 	subar = set() if group in (ADMIN, SUPERADMIN) else SUBAR_EXPORT
 	objects = report_queryset(request).select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai', 'created_by__pesoaluser__pesoal', 'segimentu', *SEKSAUN_REL) \
 		.prefetch_related('tipu_konflitu', 'estragu', 'nesesidade', 'afetadu', 'insidente__tipu_eviksaun').order_by('referensia_rbr', 'kode')
-	wb = Workbook()
-	ws = wb.active
-	ws.title = 'Kazu Hotu'
+	# write_only: rai liña direta (memória kiik, lalais ba kazu rihun-rihun)
+	wb = Workbook(write_only=True)
+	ws = wb.create_sheet('Kazu Hotu')
 	# Kolun SIBAR: naran la hanesan kolun Airtable (import fali la sala)
 	extra = [_('ID Kazu') + ' (SIBAR)', _('Latitude'), _('Longitude'), _('GPS aproksimadu'), _('Status Dadus') + ' (SIBAR)',
 		_('Data Akontesimentu'), _('Tipu Rai'), _('Luan poligon (m²)'), _('Urjente'), _('Investigadór')]
 	head = KABESALLU + [str(h) for h in extra]
-	ws.append(head)
+	for i in range(1, len(head) + 1):
+		ws.column_dimensions[get_column_letter(i)].width = 20
+	ws.freeze_panes = 'B2'
 	verde, azul = PatternFill('solid', fgColor='0E8A68'), PatternFill('solid', fgColor='1F5F8B')
-	for i, c in enumerate(ws[1]):
-		c.font = Font(bold=True, color='FFFFFF')
+	fonte, alin = Font(bold=True, color='FFFFFF'), Alignment(vertical='center', wrap_text=True)
+	kab = []
+	for i, h in enumerate(head):
+		c = WriteOnlyCell(ws, value=h)
+		c.font, c.alignment = fonte, alin
 		c.fill = verde if i < len(KABESALLU) else azul             # azul = kolun SIBAR
-		c.alignment = Alignment(vertical='center', wrap_text=True)
-	for k in objects:
+		kab.append(c)
+	ws.append(kab)
+	n = 0
+	for k in objects.iterator(chunk_size=1000):
+		n += 1
 		ws.append(lina_seguru(lina_export(k, subar) + [
 			k.kode or '', float(k.latitude) if k.latitude is not None else None, float(k.longitude) if k.longitude is not None else None,
 			_('Sin') if k.gps_aproksimadu else _('Lae'), str(k.get_status_display()),
@@ -53,14 +62,10 @@ def exportExcel(request):
 			float(k.poligon_luan_m2) if k.poligon_luan_m2 is not None else None, _('Sin') if k.urjente else _('Lae'),
 			str(getattr(getattr(k.created_by, 'pesoaluser', None), 'pesoal', '') or k.created_by.username),
 		]))
-	for i, _h in enumerate(head, start=1):
-		ws.column_dimensions[get_column_letter(i)].width = 20
-	ws.row_dimensions[1].height = 45
-	ws.freeze_panes = 'B2'
-	ws.auto_filter.ref = ws.dimensions
+	ws.auto_filter.ref = f'A1:{get_column_letter(len(head))}{n + 1}'
 	buf = BytesIO()
 	wb.save(buf)
-	logger.info(f'Eksporta Excel: {objects.count()} kazu husi {request.user.username}')
+	logger.info(f'Eksporta Excel: {n} kazu husi {request.user.username}')
 	response = HttpResponse(buf.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 	response['Content-Disposition'] = f'attachment; filename="SIBAR-RbR-kazu-{timezone.localdate():%Y%m%d}.xlsx"'
 	return response

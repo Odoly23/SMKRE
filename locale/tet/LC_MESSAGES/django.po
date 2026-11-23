@@ -6137,3 +6137,25 @@ msgstr "import Excel"
 #: main/hamoos.py
 msgid "survei legál"
 msgstr "survei legál"
+
+#: users/templates/users/detail.html
+msgid ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Kazu no survei ne'ebé nia kria muda ba ita (Superadmin). Labele fila "
+"fali."
+msgstr ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Kazu no survei ne'ebé nia kria muda ba ita (Superadmin). Labele fila "
+"fali."
+
+#: main/hamoos.py
+msgid "Utilizador %(u)s hamoos ona: kazu muda ba %(s)s."
+msgstr "Utilizador %(u)s hamoos ona: kazu muda ba %(s)s."
+
+#: main/hamoos.py
+msgid "follow-up"
+msgstr "follow-up"
+
+#: main/hamoos.py
+msgid "muda ba ita: %(l)s"
+msgstr "muda ba ita: %(l)s"

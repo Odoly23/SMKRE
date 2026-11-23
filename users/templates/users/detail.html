@@ -63,7 +63,7 @@
 						{% endif %}
 					</form>
 					{% if can_hamoos %}
-					<form method="post" action="{% url 'hamoos' 'utilizador' objects.uuid %}" class="js-confirm mt-2" data-confirm="{% blocktrans with n=objects %}HAMOOS PERMANENTE utilizador {{ n }}? Konta, dadus pesoál no autorizasaun sei lakon. Labele fila fali.{% endblocktrans %}">
+					<form method="post" action="{% url 'hamoos' 'utilizador' objects.uuid %}" class="js-confirm mt-2" data-confirm="{% blocktrans with n=objects %}HAMOOS PERMANENTE utilizador {{ n }}? Konta, dadus pesoál no autorizasaun sei lakon. Kazu no survei ne'ebé nia kria muda ba ita (Superadmin). Labele fila fali.{% endblocktrans %}">
 						{% csrf_token %}
 						<button type="submit" class="btn btn-block btn-danger"><i class="fa fa-trash"></i> {% trans "Hamoos Utilizador" %}</button>
 					</form>

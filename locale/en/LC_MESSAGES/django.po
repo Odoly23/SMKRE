@@ -6033,3 +6033,25 @@ msgstr "Excel imports"
 #: main/hamoos.py
 msgid "survei legál"
 msgstr "legal surveys"
+
+#: users/templates/users/detail.html
+msgid ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Kazu no survei ne'ebé nia kria muda ba ita (Superadmin). Labele fila "
+"fali."
+msgstr ""
+"PERMANENTLY DELETE user %(n)s? Account, personal data and permissions will "
+"be lost. Cases and surveys they created move to you (Superadmin). Cannot be "
+"undone."
+
+#: main/hamoos.py
+msgid "Utilizador %(u)s hamoos ona: kazu muda ba %(s)s."
+msgstr "User %(u)s deleted: case moved to %(s)s."
+
+#: main/hamoos.py
+msgid "follow-up"
+msgstr "follow-up"
+
+#: main/hamoos.py
+msgid "muda ba ita: %(l)s"
+msgstr "moved to you: %(l)s"

@@ -6019,3 +6019,25 @@ msgstr "impor Excel"
 #: main/hamoos.py
 msgid "survei legál"
 msgstr "survei legal"
+
+#: users/templates/users/detail.html
+msgid ""
+"HAMOOS PERMANENTE utilizador %(n)s? Konta, dadus pesoál no autorizasaun sei "
+"lakon. Kazu no survei ne'ebé nia kria muda ba ita (Superadmin). Labele fila "
+"fali."
+msgstr ""
+"HAPUS PERMANEN pengguna %(n)s? Akun, data pribadi dan izin akan hilang. "
+"Kasus dan survei yang dia buat dipindahkan ke Anda (Superadmin). Tidak bisa "
+"dikembalikan."
+
+#: main/hamoos.py
+msgid "Utilizador %(u)s hamoos ona: kazu muda ba %(s)s."
+msgstr "Pengguna %(u)s sudah dihapus: kasus dipindahkan ke %(s)s."
+
+#: main/hamoos.py
+msgid "follow-up"
+msgstr "follow-up"
+
+#: main/hamoos.py
+msgid "muda ba ita: %(l)s"
+msgstr "dipindahkan ke Anda: %(l)s"

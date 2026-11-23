@@ -56,13 +56,15 @@ class HamoosTest(TestCase):
 		self.assertFalse(User.objects.filter(pk=adm2.pk).exists())
 		self.assertFalse(Pesoal.objects.filter(pk=p.pk).exists())
 
-	def test_utilizador_ho_kazu_labele_hamoos(self):
-		self.kazu()
+	def test_utilizador_ho_kazu_muda_ba_superadmin(self):
+		k = self.kazu()
 		p = self.inv.pesoaluser.pesoal
 		self.client.force_login(self.sa)
-		r = self.client.post(self.url('utilizador', p.uuid), follow=True)
-		self.assertTrue(User.objects.filter(pk=self.inv.pk).exists())
-		self.assertContains(r, 'HAPARA')
+		self.client.post(self.url('utilizador', p.uuid))
+		self.assertFalse(User.objects.filter(pk=self.inv.pk).exists())
+		k.refresh_from_db()
+		self.assertEqual(k.created_by, self.sa)                      # kazu la lakon: muda ba Superadmin
+		self.assertTrue(k.historia.filter(nota__contains='hamoos').exists())
 
 	def test_labele_hamoos_an_rasik(self):
 		self.client.force_login(self.sa)
