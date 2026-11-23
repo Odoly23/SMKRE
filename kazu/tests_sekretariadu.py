@@ -1,6 +1,5 @@
 """Teste papél Sekretariadu: input kazu (online + offline) + aprova bainhira Superadmin la iha."""
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -31,11 +30,12 @@ class SekretariaduTest(TestCase):
 		k.refresh_from_db()
 		self.assertEqual((k.status, k.approved_by), ('APPROVED', self.sek))
 
-	def test_labele_aprova_kazu_rasik(self):
+	def test_bele_aprova_kazu_rasik(self):
 		k = self.kazu(self.sek)
-		self.assertNotIn('aprova', available_actions(self.sek, k))
-		with self.assertRaises(ValidationError):
-			change_status(k, self.sek, 'aprova')
+		self.assertIn('aprova', available_actions(self.sek, k))
+		change_status(k, self.sek, 'aprova')
+		k.refresh_from_db()
+		self.assertEqual(k.status, 'APPROVED')
 
 	def test_labele_verifika(self):
 		k = self.kazu(self.inv, status='SYNCED')
@@ -55,11 +55,25 @@ class SekretariaduTest(TestCase):
 	def test_varanda_hein_aprova_pajina_10(self):
 		for i in range(12):
 			self.kazu(self.inv, kode=f'V-{i:02d}')
-		self.kazu(self.sek, kode='RASIK')                       # kazu rasik la tama iha "hein"
+		self.kazu(self.sek, kode='RASIK')                       # kazu rasik mós tama iha "hein"
 		self.client.force_login(self.sek)
 		r = self.client.get(reverse('home'))
-		self.assertEqual(r.context['tot_hein'], 12)
+		self.assertEqual(r.context['tot_hein'], 13)
 		self.assertEqual(len(r.context['objects']), 10)
 		r2 = self.client.get(reverse('home') + '?page=2')
-		self.assertEqual(len(r2.context['objects']), 2)
-		self.assertNotContains(r2, 'RASIK')
+		self.assertEqual(len(r2.context['objects']), 3)
+
+	def test_api_legal_offline_permite(self):
+		token = str(RefreshToken.for_user(self.sek).access_token)
+		r = self.client.get(reverse('api-sinkron-legal-opsaun'), HTTP_AUTHORIZATION=f'Bearer {token}')
+		self.assertEqual(r.status_code, 200)
+		self.assertTrue(r.json()['legal'])
+
+	def test_input_legal_online_ho_autorizasaun(self):
+		from datetime import timedelta
+		from users.models import OfflinePermission
+		self.client.force_login(self.sek)
+		self.assertNotEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)   # la iha autorizasaun
+		OfflinePermission.objects.create(user=self.sek, start_date=timezone.now() - timedelta(hours=1),
+			end_date=timezone.now() + timedelta(days=5), given_by=self.adm)
+		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)

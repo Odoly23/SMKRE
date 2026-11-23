@@ -7,6 +7,8 @@ var SmkreLegal = (function () {
 	var A = window.SmkreApp, K = SmkreKripto, DB = SmkreDB, KAM = SmkreKamera, B = document.body.dataset;
 	if (!A) return null;
 	var S = A.S, $ = A.$, esc = A.esc, msg = A.msg;
+	// opsaun legál: Sekretariadu iha opsaun rua (kazu + legál); Ofisiál Legál iha legál de'it
+	function OP() { return S.opsaunLegal || S.opsaun; }
 	var PASU_TOTAL = 5, MAX_FILE = 10;
 	var LISTA = ['dok_identifikasaun', 'dok_relevante', 'fotografia'];
 	// Grupu → kampu (hanesan server legal/forms.py SURVEI_GRUPU)
@@ -46,13 +48,13 @@ var SmkreLegal = (function () {
 	// ── Opsaun ──
 	function opsaunKazu(valor) {
 		var buka = ($('l-kazu-buka').value || '').trim().toLowerCase();
-		var lista = (S.opsaun.kazu || []).filter(function (k) {
+		var lista = (OP().kazu || []).filter(function (k) {
 			return String(k.id) === String(valor) || !buka || (k.kode + ' ' + k.titulu).toLowerCase().indexOf(buka) >= 0;
 		}).slice(0, 200);
 		A.opsaunSelect($('l-kazu'), lista.map(function (k) { return { id: k.id, name: (k.kode || '?') + (k.titulu ? ' · ' + k.titulu : '') }; }), valor, '— Kazu legál foun (fatin rasik) —');
 	}
 	function enxeFatin(s) {
-		var o = S.opsaun;
+		var o = OP();
 		A.opsaunSelect($('l-munisipiu'), o.munisipiu_lista || [], s.munisipiu);
 		A.opsaunSelect($('l-postu'), o.postu.filter(function (p) { return String(p.munisipiu_id) === String(s.munisipiu); }), s.postu);
 		A.opsaunSelect($('l-suku'), o.suku.filter(function (x) { return String(x.postu_id) === String(s.postu); }), s.suku);
@@ -130,8 +132,8 @@ var SmkreLegal = (function () {
 		window.scrollTo(0, 0);
 	}
 	function rezumu() {
-		var s = S.legal, k = (S.opsaun.kazu || []).filter(function (x) { return x.id === s.kazu; })[0];
-		var mun = (S.opsaun.munisipiu_lista || []).filter(function (m) { return String(m.id) === String(s.munisipiu); })[0];
+		var s = S.legal, k = (OP().kazu || []).filter(function (x) { return x.id === s.kazu; })[0];
+		var mun = (OP().munisipiu_lista || []).filter(function (m) { return String(m.id) === String(s.munisipiu); })[0];
 		var meius = { SOSA: 'Sosa', FOO: 'Foó / Doasaun', ERANSA: 'Eransa', POSSE: 'Posse / Okupa' }[s.meius] || '-';
 		$('l-rezumu').innerHTML = '<div class="sub-box"><b>Rezumu</b><br>' +
 			'Kazu: ' + esc(k ? k.kode : 'Kazu legál foun' + (mun ? ' · ' + mun.name : '')) + '<br>' +

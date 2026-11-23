@@ -73,11 +73,6 @@ def _razaun_xave(action, status):
 	return ''
 
 
-# Sekretariadu input no aprova: labele aprova kazu ne'ebé nia rasik input (ema rua tenke haree)
-def _aprova_rasik(user, action, kazu):
-	return action == 'aprova' and c_user_group(user) == SEKRETARIADU and kazu.created_by_id == user.id
-
-
 # butaun hotu ba papel utilizador: [{'action','ativu','presiza_nota','razaun'}];
 # butaun la ativu sei hatudu (xave) ho razaun, atu utilizador hatene tanba sá
 def action_buttons(user, kazu):
@@ -87,10 +82,6 @@ def action_buttons(user, kazu):
 		if group not in roles:
 			continue
 		ativu = kazu.status in orijen
-		if ativu and _aprova_rasik(user, action, kazu):
-			buttons.append({'action': action, 'ativu': False, 'presiza_nota': presiza_nota,
-				'razaun': _('Labele aprova kazu ne\'ebé ita rasik input.')})
-			continue
 		buttons.append({'action': action, 'ativu': ativu, 'presiza_nota': presiza_nota,
 			'razaun': '' if ativu else _razaun_xave(action, kazu.status)})
 	return buttons
@@ -223,8 +214,6 @@ def change_status(kazu, user, action, nota=''):
 	kazu = Kazu.objects.select_for_update().get(pk=kazu.pk)
 	if c_user_group(user) not in roles:
 		raise PermissionDenied
-	if _aprova_rasik(user, action, kazu):
-		raise ValidationError(_('Labele aprova kazu ne\'ebé ita rasik input.'))
 	if kazu.status not in orijen:
 		raise ValidationError(_('Aksaun ne\'e la permite ba status %(status)s.') % {'status': STATUS_LABEL[kazu.status]})
 	nota = (nota or '').strip()

@@ -16,6 +16,12 @@
 	function $(id) { return document.getElementById(id); }
 	// Ofisiál Legál: app hanesan, maibé input survei legál (smkre_legal.js) duké kazu
 	function ehLegal() { return !!(S.auth && S.auth.me && S.auth.me.role === 'ofisial_legal'); }
+	// Sekretariadu: input kazu NO survei legál (opsaun rua: S.opsaun = kazu, S.opsaunLegal = legál)
+	function ehDupla() { return !!(S.auth && S.auth.me && S.auth.me.role === 'sekretariadu'); }
+	function kargaLegal() {
+		if (!ehDupla()) { S.opsaunLegal = null; return Promise.resolve(); }
+		return apiJSON(B.apiOpsaunLegal).then(function (r) { if (r.ok) S.opsaunLegal = r.data; }).catch(function () {});
+	}
 	function LEGAL() { return window.SmkreLegal; }
 	function urlOpsaun() { return ehLegal() ? B.apiOpsaunLegal : B.apiOpsaun; }
 	function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
@@ -152,7 +158,11 @@
 
 	// ══════════════ Rai / lee dadus enkriptadu ══════════════
 	function raiAuth() { return K.encryptJSON(S.xavi, S.auth).then(function (box) { return DB.metaSet('auth', box); }); }
-	function raiOpsaun() { return K.encryptJSON(S.xavi, S.opsaun).then(function (box) { return DB.metaSet('opsaun', box); }); }
+	function raiOpsaun() {
+		var p = K.encryptJSON(S.xavi, S.opsaun).then(function (box) { return DB.metaSet('opsaun', box); });
+		if (!S.opsaunLegal) return p;
+		return Promise.all([p, K.encryptJSON(S.xavi, S.opsaunLegal).then(function (box) { return DB.metaSet('opsaun_legal', box); })]);
+	}
 
 	// ══════════════ 1. LOGIN ══════════════
 	$('form-login').addEventListener('submit', function (ev) {
@@ -175,7 +185,7 @@
 			return apiJSON(B.apiMe).then(function (me) {
 				if (S.relogin && S.meEmail && me.data.email !== S.meEmail) throw new Error('HP ne\'e iha dadus husi utilizador seluk. Sinkron uluk ka hamoos dadus.');
 				auth.me = me.data;
-				return apiJSON(urlOpsaun());
+				return apiJSON(urlOpsaun()).then(function (op) { return kargaLegal().then(function () { return op; }); });
 			}).then(function (op) {
 				if (!op.ok) throw new Error(erruLista(op.data).join(' '));
 				S.opsaun = op.data;
@@ -229,11 +239,11 @@
 		}).then(function (testu) {
 			if (testu !== VERIFIKA_TESTU) throw new Error('pin');
 			S.xavi = xavi;
-			return DB.metaSet('pin_sala', 0).then(function () { return Promise.all([DB.metaGet('auth'), DB.metaGet('opsaun')]); });
+			return DB.metaSet('pin_sala', 0).then(function () { return Promise.all([DB.metaGet('auth'), DB.metaGet('opsaun'), DB.metaGet('opsaun_legal')]); });
 		}).then(function (r) {
-			return Promise.all([K.decryptJSON(S.xavi, r[0]), K.decryptJSON(S.xavi, r[1])]);
+			return Promise.all([K.decryptJSON(S.xavi, r[0]), K.decryptJSON(S.xavi, r[1]), r[2] ? K.decryptJSON(S.xavi, r[2]) : null]);
 		}).then(function (r) {
-			S.auth = r[0]; S.opsaun = r[1];
+			S.auth = r[0]; S.opsaun = r[1]; S.opsaunLegal = r[2];
 			$('pin').value = '';
 			msg(null);
 			baVaranda();
@@ -260,7 +270,7 @@
 
 	// Xavi app: hamoos xavi no dadus husi memória
 	function xavi() {
-		S.xavi = null; S.auth = null; S.opsaun = null; S.kazu = null; S.legal = null;
+		S.xavi = null; S.auth = null; S.opsaun = null; S.opsaunLegal = null; S.kazu = null; S.legal = null;
 		limpaUrls();
 	}
 	$('btn-lock').addEventListener('click', function () { xavi(); msg(null); hatudu('scr-pin'); });
@@ -299,11 +309,11 @@
 			box.innerHTML = '<i class="fa fa-ban"></i> Autorizasaun offline remata. Ita bele <b>sinkron</b> kazu uluk deit. Kontaktu Admin atu hetan autorizasaun foun.';
 			$('btn-foun').disabled = true;
 		}
-		var legal = ehLegal();
+		var legal = ehLegal(), dupla = ehDupla();
 		$('btn-foun').hidden = legal;
-		$('btn-legal').hidden = !legal;
+		$('btn-legal').hidden = !(legal || (dupla && S.opsaunLegal));
 		$('btn-legal').disabled = !permValidu();
-		$('lbl-lokal').textContent = legal ? 'Survei legál iha HP' : 'Kazu iha HP';
+		$('lbl-lokal').textContent = legal ? 'Survei legál iha HP' : dupla ? 'Kazu no survei legál iha HP' : 'Kazu iha HP';
 		if (legal) box.innerHTML = box.innerHTML.replace('kazu uluk', 'survei uluk').replace('Autorizasaun offline', 'Autorizasaun input legál');
 		hatudu('scr-home');
 		listaLokal();
@@ -394,7 +404,11 @@
 	});
 
 	function atualizaOpsaun() {
-		apiJSON(urlOpsaun()).then(function (r) { if (r.ok) { S.opsaun = r.data; raiOpsaun(); } }).catch(function () {});
+		apiJSON(urlOpsaun()).then(function (r) {
+			if (!r.ok) return;
+			S.opsaun = r.data;
+			return kargaLegal().then(raiOpsaun);
+		}).catch(function () {});
 	}
 
 	// Online: lee fali papél no autorizasaun husi server. Admin muda papél (ex. Investigadór → Ofisiál Legál)
@@ -413,7 +427,7 @@
 				return apiJSON(urlOpsaun()).then(function (op) {
 					if (!op.ok) return;
 					S.opsaun = op.data;
-					return raiOpsaun();
+					return kargaLegal().then(raiOpsaun);
 				});
 			}).then(function () {
 				var home = !$('scr-home').hidden;

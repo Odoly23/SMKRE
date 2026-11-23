@@ -20,7 +20,7 @@
 					{% for obj in objects %}
 					<tr><td class="col-no text-muted" data-label="#">{{ objects|numeru:forloop.counter0 }}</td>
 						<td data-label="{% trans "Utilizador" %}"><b>{{ obj.user.pesoaluser.pesoal|default:obj.user.username }}</b></td>
-						<td data-label="{% trans "Papél" %}">{% for g in obj.user.groups.all %}{% if g.name == 'ofisial_legal' %}<span class="badge badge-info">{% trans "Ofisiál Legál" %}</span>{% else %}<span class="badge badge-light">{% trans "Investigadór" %}</span>{% endif %}{% endfor %}</td>
+						<td data-label="{% trans "Papél" %}">{% for g in obj.user.groups.all %}{% if g.name == 'ofisial_legal' %}<span class="badge badge-info">{% trans "Ofisiál Legál" %}</span>{% elif g.name == 'sekretariadu' %}<span class="badge badge-primary">{% trans "Sekretariadu" %}</span>{% else %}<span class="badge badge-light">{% trans "Investigadór" %}</span>{% endif %}{% endfor %}</td>
 						<td data-label="{% trans "Munisípiu" %}">{{ obj.user.pesoaluser.pesoal.munisipiu_lista|join:" / "|default:"-" }}</td>
 						<td data-label="{% trans "Hahú" %}">{{ obj.start_date|date:"d/m/Y H:i" }}</td>
 						<td data-label="{% trans "Remata" %}">{{ obj.end_date|date:"d/m/Y H:i" }}</td>

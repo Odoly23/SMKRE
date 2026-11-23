@@ -50,8 +50,8 @@ def home(request):
 		hein, context['hein_url'] = qs.filter(status=SYNCED), '?status=' + SYNCED
 	elif group == 'superadmin':
 		hein, context['hein_url'] = qs.filter(status__in=[SYNCED, VERIFIED]), '?status=' + VERIFIED
-	elif group == SEKRETARIADU:                       # aprova bainhira Superadmin la iha (la'ós kazu rasik)
-		hein, context['hein_url'] = qs.filter(status=VERIFIED).exclude(created_by=request.user), '?status=' + VERIFIED
+	elif group == SEKRETARIADU:                       # aprova (hanesan Superadmin)
+		hein, context['hein_url'] = qs.filter(status=VERIFIED), '?status=' + VERIFIED
 	if hein is not None:
 		lista = hein.order_by(F('synced_at').desc(nulls_last=True), '-created_at', '-pk')
 		context['lista_titulu'], context['tot_hein'] = _('Hein ita-nia aksaun'), hein.count()

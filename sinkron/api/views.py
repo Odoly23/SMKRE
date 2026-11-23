@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from config.permissions import HasRole
-from config.rbac import INVESTIGADOR, OFISIAL_LEGAL, ROLE_INPUT_KAZU
+from config.rbac import OFISIAL_LEGAL, SEKRETARIADU, ROLE_INPUT_KAZU
 from custom.data.opsaun import TIPU_ENTIDADE
 from custom.models import PostuAdministrativu, Suku, Aldeia, TipuKonflitu, TipuRai, TipuEviksaun, \
 	TipuAtor, EstraguPatrimoniu, NesesidadeUrjente
@@ -147,9 +147,9 @@ class APIFollowup(_SinkronAPI):
 		return Response(kazu_ba_hp(kazu))
 
 
-# ══ Survei legál (Ofisiál Legál) ══
+# ══ Survei legál (Ofisiál Legál + Sekretariadu) ══
 class _LegalAPI(_SinkronAPI):
-	permission_classes = [IsAuthenticated, HasRole(OFISIAL_LEGAL)]
+	permission_classes = [IsAuthenticated, HasRole(OFISIAL_LEGAL, SEKRETARIADU)]
 
 
 class APIOpsaunLegal(_LegalAPI):

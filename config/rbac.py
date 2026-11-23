@@ -10,7 +10,7 @@ ADMIN         = 'admin'
 ANALISTA      = 'analista'        # Advocacy Coordinator
 OFISIAL_LEGAL = 'ofisial_legal'   # Legal Advisor
 INVESTIGADOR  = 'investigador'    # Staff terrenu
-SEKRETARIADU  = 'sekretariadu'    # Sekretariadu: input kazu (online + offline) + aprova bainhira Superadmin la iha
+SEKRETARIADU  = 'sekretariadu'    # Sekretariadu: input kazu + survei legál (online + offline) + aprova (kazu rasik mós)
 
 ROLE_CHOICES = [
 	(SUPERADMIN, _('Superadmin')),
@@ -24,12 +24,12 @@ ROLE_ALL = [r[0] for r in ROLE_CHOICES]
 
 ROLE_DASHBOARD    = [SUPERADMIN, ADMIN, SEKRETARIADU, ANALISTA, OFISIAL_LEGAL]
 ROLE_VERIFIKA     = [ADMIN]                  # Admin: Verifika (nivel 1)
-ROLE_APROVA       = [SUPERADMIN, SEKRETARIADU]   # Aprova (nivel 2): Superadmin; Sekretariadu substitui (la'ós kazu ne'ebé nia rasik input)
+ROLE_APROVA       = [SUPERADMIN, SEKRETARIADU]   # Aprova (nivel 2): Superadmin ka Sekretariadu (kazu rasik mós)
 ROLE_REJEITA      = [SUPERADMIN, ADMIN]      # Rejeita / Kansela (ho razaun)
 ROLE_REMATA       = [SUPERADMIN, ADMIN]      # Remata (kompensasaun selu ona)
 ROLE_INPUT_KAZU   = [INVESTIGADOR, SEKRETARIADU]   # input kazu (online + app offline)
 ROLE_STATUS_KAZU  = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]
-ROLE_LEGAL        = [SUPERADMIN, ADMIN, ANALISTA, OFISIAL_LEGAL]
+ROLE_LEGAL        = [SUPERADMIN, ADMIN, SEKRETARIADU, ANALISTA, OFISIAL_LEGAL]
 ROLE_LEGAL_EDIT   = [SUPERADMIN, OFISIAL_LEGAL]  # upload dokumentu, nota, haree konfidensiál
 ROLE_RELATORIU    = [SUPERADMIN, ADMIN, SEKRETARIADU, ANALISTA, OFISIAL_LEGAL]
 ROLE_POLICY_KRIA  = [SUPERADMIN, ADMIN, ANALISTA]
@@ -42,8 +42,8 @@ ROLE_PORTAL       = [SUPERADMIN, ADMIN]      # Konsentimentu + hatudu kazu iha p
 ROLE_DUPLIKADU    = [SUPERADMIN, ADMIN]      # Konfirma "la'ós duplikadu"
 ROLE_FOLLOWUP     = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Follow-up: haruka kazu fali ba Investigadór (survei foun iha terrenu)
 ROLE_POLIGON      = [SUPERADMIN, ADMIN]      # Edita poligon rai kualkér tempu (Investigadór: kazu rasik ne'ebé bele edita)
-ROLE_SURVEI_INPUT = [OFISIAL_LEGAL]          # Survei legál (ho autorizasaun input ativu husi Admin)
-ROLE_SURVEI_HAREE = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # dadus pesoál parte → la ba Analista
+ROLE_SURVEI_INPUT = [OFISIAL_LEGAL, SEKRETARIADU]          # Survei legál (ho autorizasaun input ativu husi Admin)
+ROLE_SURVEI_HAREE = [SUPERADMIN, ADMIN, SEKRETARIADU, OFISIAL_LEGAL]   # dadus pesoál parte → la ba Analista
 ROLE_SURVEI_VERIFIKA = [SUPERADMIN, ADMIN]
 ROLE_LEGAL_AUTORIZA = [SUPERADMIN, ADMIN]    # ativa input legál ba Ofisiál Legál (tab iha modulu Legál)
 ROLE_INPUT_OFFLINE = [INVESTIGADOR, SEKRETARIADU, OFISIAL_LEGAL]   # autorizasaun input / app offline

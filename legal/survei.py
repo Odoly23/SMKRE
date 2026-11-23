@@ -5,7 +5,7 @@ from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from config.rbac import ROLE_SURVEI_INPUT, ROLE_SURVEI_HAREE, ROLE_SURVEI_VERIFIKA, ADMIN, SUPERADMIN, OFISIAL_LEGAL
+from config.rbac import ROLE_SURVEI_INPUT, ROLE_SURVEI_HAREE, ROLE_SURVEI_VERIFIKA, ADMIN, SUPERADMIN, OFISIAL_LEGAL, SEKRETARIADU
 from legal.models import SurveiLegal, SurveiSequence
 from notification.utils import kirim_notif, kirim_notif_role
 from users.auth_utils import c_user_group, c_user_offline, c_user_pesoal
@@ -23,6 +23,9 @@ def survei_queryset(user):
 	group = c_user_group(user)
 	if group == OFISIAL_LEGAL:
 		return qs                                   # Ofisiál Legál haree survei hotu (servisu hamutuk)
+	if group == SEKRETARIADU:                       # survei haruka ona + rascunho rasik
+		from django.db.models import Q
+		return qs.filter(~Q(status=SurveiLegal.RASCUNHO) | Q(created_by=user))
 	if group in ROLE_SURVEI_HAREE:
 		return qs.exclude(status=SurveiLegal.RASCUNHO)
 	return qs.none()
