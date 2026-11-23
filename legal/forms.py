@@ -309,9 +309,10 @@ class AutorizasaunLegalForm(forms.Form):
 
 	def __init__(self, *args, **kwargs):
 		from django.contrib.auth.models import User
-		from config.rbac import OFISIAL_LEGAL
+		from config.rbac import OFISIAL_LEGAL, SEKRETARIADU
 		super().__init__(*args, **kwargs)
-		self.fields['users'].queryset = User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=True).select_related('pesoaluser__pesoal__munisipiu').distinct().order_by('username')
+		# Ofisiál Legál + Sekretariadu (input legál munisípiu hotu)
+		self.fields['users'].queryset = User.objects.filter(groups__name__in=[OFISIAL_LEGAL, SEKRETARIADU], is_active=True).select_related('pesoaluser__pesoal__munisipiu').distinct().order_by('username')
 		self.fields['data_hahu'].initial = timezone.localdate()
 		def _naran(u):
 			p = getattr(getattr(u, 'pesoaluser', None), 'pesoal', None)

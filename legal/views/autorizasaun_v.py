@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from config.decorators import allowed_users
-from config.rbac import ROLE_LEGAL_AUTORIZA, OFISIAL_LEGAL
+from config.rbac import ROLE_LEGAL_AUTORIZA, OFISIAL_LEGAL, SEKRETARIADU
 from legal.forms import AutorizasaunLegalForm
 from users.auth_utils import c_user_pesoal
 from users.emails import kirim_email_offline
@@ -16,7 +16,7 @@ from users.services import give_offline, cancel_offline
 
 
 def _perm_legal():
-	return OfflinePermission.objects.filter(user__groups__name=OFISIAL_LEGAL)
+	return OfflinePermission.objects.filter(user__groups__name__in=[OFISIAL_LEGAL, SEKRETARIADU]).distinct()
 
 
 @login_required
@@ -35,7 +35,7 @@ def AutorizasaunLegal(request):
 	context = {
 		"page": "legal-autoriza", 'form': form,
 		'n_legal': form.fields['users'].queryset.count(),
-		'n_legal_la_ativu': User.objects.filter(groups__name=OFISIAL_LEGAL, is_active=False).count(),
+		'n_legal_la_ativu': User.objects.filter(groups__name__in=[OFISIAL_LEGAL, SEKRETARIADU], is_active=False).count(),
 		'objects': pajina(request, _perm_legal().select_related('user__pesoaluser__pesoal', 'given_by__pesoaluser__pesoal').order_by('-start_date', '-pk')),
 		'title': _('Ativa Input Legál'), 'legend': _('Ativa Input Legál')
 	}

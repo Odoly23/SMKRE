@@ -102,3 +102,19 @@ class SekretariaduMunisipiuHotuTest(TestCase):
 		inv = make_user(INVESTIGADOR, email='inv2@teste.tl', munisipiu_code='XXX')
 		self.client.force_login(inv)
 		self.assertRedirects(self.client.get(reverse('kazu-add')), reverse('kazu-list'), fetch_redirect_response=False)
+
+	def test_input_legal_munisipiu_hotu(self):
+		from legal.forms import SurveiLegalForm
+		self.assertEqual(SurveiLegalForm().fields['munisipiu'].queryset.count(), Munisipiu.active.count())
+		token = str(RefreshToken.for_user(self.sek).access_token)
+		r = self.client.get(reverse('api-sinkron-legal-opsaun'), HTTP_AUTHORIZATION=f'Bearer {token}')
+		self.assertEqual(len(r.json()['munisipiu_lista']), Munisipiu.active.count())
+
+
+class EmailFallaTest(TestCase):
+	# SMTP falla iha modu eager → pájina la sai erru 500 (Retry), email rejista de'it iha log
+	def test_email_falla_la_halo_erru(self):
+		from unittest import mock
+		from config.tasks import send_email_task
+		with mock.patch('config.tasks.send_html_email', return_value=False):
+			self.assertFalse(send_email_task.delay('S', 'x.html', {}, ['a@b.tl']).get())
