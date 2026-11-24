@@ -2,6 +2,13 @@
 # Formatu: (code, name) ka (code, name, presiza_esplika)
 
 POZISAUN = [
+	# Estrutura ekipa Rede ba Rai
+	('NATIONAL-COORDINATOR', 'National Coordinator'),
+	('LEGAL-COORDINATOR', 'Legal Coordinator'),
+	('CASE-COORDINATOR', 'Case Coordinator'),
+	('ADMIN-FINANCE-COORDINATOR', 'Coordinator of Admin & Finance'),
+	('MEDIA-OFFICER', 'Media Officer'),
+	# Pozisaun jerál (staf terrenu no seluk)
 	('KOORDENADOR', 'Koordenadór'),
 	('INVESTIGADOR', 'Investigadór / Pontu Fokál'),
 	('ANALISTA', 'Analista / Advocacy Coordinator'),
