@@ -16,7 +16,7 @@ from .opsaun import (DRAFT, ONGOING, PENDING, SYNCED, VERIFIED, APPROVED, COMPLE
 	STATUS_CHOICES, SIN, LAE, LAHATENE, SIN_LAE_CHOICES, ENTIDADE_CHOICES, RAI_UNIDADE_CHOICES, STATUS_EDITABLE,
 	STATUS_SUBMITTED, ABERTU, INVESTIGASAUN, AKSAUN_LEGAL, TAKA, STATUS_KAZU_CHOICES,
 	ARKIVU, MONITORIZASAUN, ADVOKASIA, DESIZAUN_RBR_CHOICES, DESIZAUN_AJUDA)
-from .kazu import Kazu, KazuSequence
+from .kazu import Kazu, KazuSequence, KazuKontador
 from .seksaun import KazuFatin, KazuEntidade, KazuPopulasaun, KazuEviksaun, KazuPortavos, SEKSAUN, SEKSAUN_REL
 from .afetadu import UmaKainAfetada, InsidenteEviksaun, AtorEnvolvidu
 from .evidensia import Evidensia, evidensia_path
@@ -25,7 +25,7 @@ from .importa import KazuImport
 from .historia import KazuHistoria
 
 __all__ = [
-	'Kazu', 'KazuSequence', 'KazuFatin', 'KazuEntidade', 'KazuPopulasaun', 'KazuEviksaun', 'KazuPortavos', 'SEKSAUN', 'SEKSAUN_REL',
+	'Kazu', 'KazuSequence', 'KazuKontador', 'KazuFatin', 'KazuEntidade', 'KazuPopulasaun', 'KazuEviksaun', 'KazuPortavos', 'SEKSAUN', 'SEKSAUN_REL',
 	'UmaKainAfetada', 'InsidenteEviksaun', 'AtorEnvolvidu', 'Evidensia', 'evidensia_path', 'KazuSegimentu', 'KazuAkompanamentu',
 	'KazuImport', 'KazuHistoria',
 	'DRAFT', 'ONGOING', 'PENDING', 'SYNCED', 'VERIFIED', 'APPROVED', 'COMPLETED', 'REJECTED', 'CANCELED', 'FOLLOWUP',

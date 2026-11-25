@@ -12,12 +12,13 @@ Fluxu status kazu (fatin IDA deit). View web no API sinkron (faze 4) uza funsaun
 import logging
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
+from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from config.rbac import ROLE_PORTAL, ROLE_VERIFIKA, ROLE_APROVA, ROLE_REJEITA, ROLE_REMATA, ROLE_STATUS_KAZU, ROLE_FOLLOWUP, \
 	ADMIN, SUPERADMIN, INVESTIGADOR, SEKRETARIADU
-from kazu.models import Kazu, KazuHistoria, KazuSequence, STATUS_EDITABLE, STATUS_KAZU_CHOICES, \
+from kazu.models import Kazu, KazuHistoria, STATUS_EDITABLE, STATUS_KAZU_CHOICES, \
 	ONGOING, DRAFT, SYNCED, VERIFIED, APPROVED, COMPLETED, REJECTED, CANCELED, FOLLOWUP, STATUS_CHOICES
 from notification.utils import kirim_notif, kirim_notif_role
 from users.auth_utils import c_user_group, c_user_pesoal
@@ -133,13 +134,28 @@ def muda_portal(kazu, user, konsentimentu, publika, nota=''):
 	return True
 
 
-# jera kódigu ofisiál RbR-LIQ-2026-0012 — kontador xave (select_for_update) atu la iha kódigu duplikadu
+# jera ID Kazu: RbR-<númeru>-<Munisípiu>-<Postu>-<Suku>-<Aldeia> (kazu/kode.py).
+# Númeru: "Numeru kazu" RBR/n (pasta fíziku) se iha no seidauk uza; la'ós → kontador global (xave, la iha duplikadu)
 def generate_kode(kazu):
-	tinan = kazu.data_relatoriu.year if kazu.data_relatoriu else (kazu.tinan_simu or timezone.localdate().year)
-	seq, _c = KazuSequence.objects.select_for_update().get_or_create(munisipiu=kazu.munisipiu, tinan=tinan)
-	seq.last += 1
-	seq.save(update_fields=['last'])
-	return f'RbR-{kazu.munisipiu.code}-{tinan}-{seq.last:04d}'
+	from kazu import kode as K
+	from kazu.models import KazuKontador
+	kont = KazuKontador.objects.select_for_update().filter(naran='kazu').first()
+	if kont is None:
+		maks = K.numeru_maks(Kazu.objects.exclude(referensia_rbr=None).values_list('referensia_rbr', flat=True),
+			Kazu.objects.filter(kode__istartswith='RbR-').values_list('kode', flat=True))
+		kont, _c = KazuKontador.objects.get_or_create(naran='kazu', defaults={'last': maks})
+		kont = KazuKontador.objects.select_for_update().get(pk=kont.pk)
+	uza = lambda n: Kazu.objects.filter(Q(kode__istartswith=K.prefiksu(n)) | Q(referensia_rbr__iexact=f'RBR/{n}')) \
+		.exclude(pk=kazu.pk).exists()
+	n = K.numeru_ref(kazu.referensia_rbr)
+	if n is None or uza(n):
+		n = kont.last + 1
+		while uza(n):
+			n += 1
+	kont.last = max(kont.last, n)
+	kont.save(update_fields=['last'])
+	nome = lambda o: o.name if o else None
+	return K.formatu(n, nome(kazu.munisipiu), nome(kazu.postu), nome(kazu.suku), nome(kazu.aldeia))
 
 
 # atualiza kampu automátiku: urjente = iha nesesidade; Rascunho → Iha Terrenu bainhira iha GPS + foto

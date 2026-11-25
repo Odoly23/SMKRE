@@ -100,7 +100,7 @@ class FluxuSinkronTest(SinkronBase):
 		self.assertEqual(r.status_code, 200)
 		kazu.refresh_from_db()
 		self.assertEqual(kazu.status, 'SYNCED')
-		self.assertTrue(kazu.kode.startswith('RbR-LIQ-'))
+		self.assertRegex(kazu.kode, r'^RbR-\d{2,}-Liquiçá-')
 		self.assertEqual(r.json()['kode'], kazu.kode)
 		self.assertTrue(Notification.objects.filter(recipient=self.admin).exists())
 
@@ -292,7 +292,7 @@ class KodeHpDuplikaduTest(SinkronBase):
 		self.assertEqual(self.send(data).json()['kode_hp'], esperadu)  # koko fali → hanesan
 		self.haruka(kazu.pk)
 		kazu.refresh_from_db()
-		self.assertTrue(str(kazu).startswith('RbR-LIQ-'))             # ID ofisiál, ID HP hela
+		self.assertTrue(str(kazu).startswith('RbR-'))             # ID ofisiál, ID HP hela
 		self.assertEqual(kazu.kode_hp, esperadu)
 		lista = self.client.get(reverse('api-sinkron-kazu'), **self.auth()).json()['kazu']
 		self.assertEqual(lista[0]['kode_hp'], esperadu)

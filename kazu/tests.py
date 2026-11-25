@@ -123,7 +123,7 @@ class WorkflowTest(KazuBase):
 	def test_fluxu_kompletu_verifika_admin_aprova_superadmin(self):
 		kazu = self.create_kazu('haruka')
 		self.assertEqual(kazu.status, 'SYNCED')
-		self.assertTrue(kazu.kode.startswith(f'RbR-LIQ-{timezone.localdate().year}-'))
+		self.assertRegex(kazu.kode, r'^RbR-\d{2,}-Liquiçá-')                 # RbR-<n>-<Munisípiu>-<Postu>-<Suku>
 		# Notifikasaun + email ba Admin no Superadmin (urjente)
 		self.assertEqual(Notification.objects.filter(tipu='KAZU_FOUN').count(), 2)
 		self.assertTrue(Notification.objects.filter(recipient=self.admin, is_urgent=True).exists())
@@ -316,7 +316,7 @@ class WorkflowTest(KazuBase):
 		k1 = self.create_kazu('haruka')
 		k2 = self.create_kazu('haruka')
 		self.assertNotEqual(k1.kode, k2.kode)
-		self.assertTrue(k2.kode.endswith('-0002'))
+		self.assertTrue(k1.kode.startswith('RbR-01-') and k2.kode.startswith('RbR-02-'))
 
 	def test_desizaun_rbr_ofisial_legal(self):
 		# Desizaun RbR troka Status Kazu: kazu tenke verifika uluk; rejista iha istória
@@ -512,7 +512,7 @@ class ImportExcelTest(KazuBase):
 		self.post(reverse('kazu-import-konfirma', args=[imp.pk]))
 		kazu = Kazu.objects.filter(importasaun=imp)
 		self.assertEqual(kazu.count(), 4)
-		self.assertTrue(all(k.status == 'SYNCED' and k.kode.startswith('RbR-LIQ-') for k in kazu))
+		self.assertTrue(all(k.status == 'SYNCED' and k.kode.startswith('RbR-') and '-Liquiçá' in k.kode for k in kazu))
 		self.assertEqual(kazu.filter(gps_aproksimadu=True).count(), 3)
 		loos = kazu.get(gps_aproksimadu=False)
 		self.assertEqual(str(loos.latitude), '-8.612100')
@@ -1009,3 +1009,32 @@ class ImportIdExcelTest(AirtableImportTest):
 	def test_id_la_bele_muda_iha_formulariu(self):
 		from kazu.forms import KazuForm
 		self.assertNotIn('kode', KazuForm().fields)
+
+
+class KodeFormatuTest(TestCase):
+	# ID Kazu: RbR-<númeru global>-<Munisípiu>-<Postu>-<Suku>-<Aldeia>; RBR/n (pasta) uza n
+	def setUp(self):
+		setup_master()
+		self.inv = make_user(INVESTIGADOR)
+		self.liq = Munisipiu.objects.get(code='LIQ')
+		self.postu = PostuAdministrativu.objects.get(code='LIQ-03')
+		self.suku = Suku.objects.create(code='LIQ-03-09', name='Vatuvou', postu=self.postu)
+
+	def kazu(self, **extra):
+		from kazu.services import generate_kode
+		from django.db import transaction
+		k = Kazu.objects.create(munisipiu=self.liq, postu=self.postu, suku=self.suku, created_by=self.inv, **extra)
+		with transaction.atomic():
+			k.kode = generate_kode(k)
+		k.save()
+		return k
+
+	def test_formatu_no_kontador(self):
+		a, b = self.kazu(), self.kazu()
+		self.assertEqual(a.kode, f'RbR-01-Liquiçá-{self.postu.name}-Vatuvou')
+		self.assertTrue(b.kode.startswith('RbR-02-'))
+
+	def test_numeru_pasta_rbr(self):
+		k = self.kazu(referensia_rbr='RBR/153')
+		self.assertTrue(k.kode.startswith('RbR-153-Liquiçá-'))
+		self.assertTrue(self.kazu().kode.startswith('RbR-154-'))      # kontador kontinua husi 153

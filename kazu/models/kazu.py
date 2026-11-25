@@ -207,8 +207,17 @@ class Kazu(models.Model):
 		return self.evidensia.filter(tipu=Evidensia.VIDEO).count()
 
 
+# Kontador global ID Kazu (formatu RbR-<númeru>-<Munisípiu>-<Postu>-<Suku>-<Aldeia>, haree kazu/kode.py)
+class KazuKontador(models.Model):
+	naran = models.CharField(max_length=20, unique=True)
+	last = models.PositiveIntegerField(default=0)
+
+	def __str__(self):
+		return f'{self.naran}: {self.last}'
+
+
 class KazuSequence(models.Model):
-	# Kontador ba kódigu kazu: RbR-<MUN>-<TINAN>-<NÚMERU>
+	# Kontador tuan (formatu RbR-<MUN>-<TINAN>-<NÚMERU>) — la uza ona, hela ba istória
 	munisipiu = models.ForeignKey(Munisipiu, on_delete=models.CASCADE)
 	tinan = models.PositiveSmallIntegerField()
 	last = models.PositiveIntegerField(default=0)

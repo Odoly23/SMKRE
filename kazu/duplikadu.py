@@ -65,6 +65,6 @@ def posivel_duplikadu(kazu, limite=5):
 	return lista[:limite]
 
 
-# testu badak ba notifikasaun / resposta API: "RbR-LIQ-2026-0003 (GPS besik: 40 m)"
+# testu badak ba notifikasaun / resposta API: "RbR-03-Liquiçá-Maubara-Vatuvou (GPS besik: 40 m)"
 def duplikadu_testu(kazu):
 	return [f'{d["kazu"]} ({d["razaun"]})' for d in posivel_duplikadu(kazu)]
