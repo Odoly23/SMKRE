@@ -6041,3 +6041,87 @@ msgstr "follow-up"
 #: main/hamoos.py
 msgid "muda ba ita: %(l)s"
 msgstr "dipindahkan ke Anda: %(l)s"
+
+#: report/views/imprime_v.py
+msgid "Buka: \"%(n)s\""
+msgstr "Cari: \"%(n)s\""
+
+#: report/templates/report/imprime.html
+msgid "Data simu"
+msgstr "Tanggal diterima"
+
+#: report/templates/report/imprime.html
+msgid "Deskrisaun badak"
+msgstr "Deskripsi singkat"
+
+#: report/templates/report/imprime.html
+msgid ""
+"Dokumentu interna Rede ba Rai — ba advokasia. Labele fahe ho públiku la ho "
+"autorizasaun."
+msgstr ""
+"Dokumen internal Rede ba Rai — untuk advokasi. Tidak boleh dibagikan ke "
+"publik tanpa izin."
+
+#: report/templates/report/imprime.html
+msgid "Filtru"
+msgstr "Filter"
+
+#: report/templates/report/imprime.html
+msgid ""
+"Hatudu kazu %(n)s dahuluk de'it. Uza filtru (munisípiu / tinan) ka Excel ba "
+"lista kompletu."
+msgstr ""
+"Hanya %(n)s kasus pertama yang ditampilkan. Gunakan filter (munisípiu / "
+"tahun) atau Excel untuk daftar lengkap."
+
+#: report/templates/report/imprime.html
+msgid "Hetan eviksaun"
+msgstr "Mengalami penggusuran"
+
+#: report/templates/report/list.html
+msgid "Imprime lista"
+msgstr "Cetak daftar"
+
+#: report/views/imprime_v.py
+msgid "Kazu hotu"
+msgstr "Semua kasus"
+
+#: report/templates/report/imprime.html
+msgid "Konsellu: hili paizagem (landscape), papél A4."
+msgstr "Saran: pilih landscape, kertas A4."
+
+#: report/templates/report/imprime.html
+msgid "La iha kazu ba filtru ne'e."
+msgstr "Tidak ada kasus untuk filter ini."
+
+#: report/templates/report/imprime.html
+msgid "Lista Kazu ba Advokasia"
+msgstr "Daftar Kasus untuk Advokasi"
+
+#: report/views/imprime_v.py
+msgid "Munisípiu: %(n)s"
+msgstr "Munisípiu: %(n)s"
+
+#: report/templates/report/imprime.html
+msgid "Rede ba Rai — Timor-Leste"
+msgstr "Rede ba Rai — Timor-Leste"
+
+#: report/templates/report/imprime.html
+msgid "Rezolusaun"
+msgstr "Resolusi"
+
+#: report/views/imprime_v.py
+msgid "Status: %(n)s"
+msgstr "Status: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Tinan: %(n)s"
+msgstr "Tahun: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Tipu: %(n)s"
+msgstr "Jenis: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Urjente de'it"
+msgstr "Hanya mendesak"

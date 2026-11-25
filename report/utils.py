@@ -15,7 +15,7 @@ def filtru_eviksaun():
 	return Q(tipu_konflitu__code__in=TIPU_EVIKSAUN) | Q(eviksaun__eviksaun_akontese='SIN') | Q(insidente__isnull=False)
 
 
-# kazu ba relatóriu (tuir papél utilizador) + filtru GET: munisipiu, tipu, status, tinan
+# kazu ba relatóriu (tuir papél utilizador) + filtru GET: munisipiu, tipu, status, tinan, urjente, q (buka)
 def report_queryset(request):
 	qs = kazu_queryset(request.user).exclude(status__in=[DRAFT, ONGOING, PENDING, CANCELED])
 	g = request.GET
@@ -27,6 +27,12 @@ def report_queryset(request):
 		qs = qs.filter(status=g.get('status'))
 	if g.get('tinan'):
 		qs = qs.filter(data_relatoriu__year=g.get('tinan'))
+	if g.get('urjente'):
+		qs = qs.filter(urjente=True)
+	q = (g.get('q') or '').strip()[:100]
+	if q:
+		from django.db.models import Q
+		qs = qs.filter(Q(kode__icontains=q) | Q(kode_hp__icontains=q) | Q(titulu__icontains=q) | Q(suku__name__icontains=q) | Q(aldeia__name__icontains=q))
 	return qs.distinct()
 
 

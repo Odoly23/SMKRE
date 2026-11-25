@@ -8,7 +8,10 @@
 	</ol>
 	<div class="page-head d-flex justify-content-between align-items-center flex-wrap">
 		<h2 class="mb-2">{{ legend }} <small class="text-muted">({{ objects.paginator.count }})</small></h2>
-		<a href="{% url 'report-export-excel' %}?{{ export_query }}" class="btn btn-rbr mb-2 no-print"><i class="fa fa-file-excel-o"></i> {% trans "Excel kompletu" %}</a>
+		<div class="no-print">
+			<a href="{% url 'report-imprime' %}?{{ export_query }}" class="btn btn-outline-rbr mb-2" target="_blank" rel="noopener"><i class="fa fa-print"></i> {% trans "Imprime lista" %}</a>
+			<a href="{% url 'report-export-excel' %}?{{ export_query }}" class="btn btn-rbr mb-2"><i class="fa fa-file-excel-o"></i> {% trans "Excel kompletu" %}</a>
+		</div>
 	</div>
 	<div class="card card-rbr">
 		<div class="card-body">

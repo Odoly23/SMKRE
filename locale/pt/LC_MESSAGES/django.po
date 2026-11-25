@@ -6079,3 +6079,87 @@ msgstr "follow-up"
 #: main/hamoos.py
 msgid "muda ba ita: %(l)s"
 msgstr "transferido para si: %(l)s"
+
+#: report/views/imprime_v.py
+msgid "Buka: \"%(n)s\""
+msgstr "Pesquisa: \"%(n)s\""
+
+#: report/templates/report/imprime.html
+msgid "Data simu"
+msgstr "Data de receção"
+
+#: report/templates/report/imprime.html
+msgid "Deskrisaun badak"
+msgstr "Descrição breve"
+
+#: report/templates/report/imprime.html
+msgid ""
+"Dokumentu interna Rede ba Rai — ba advokasia. Labele fahe ho públiku la ho "
+"autorizasaun."
+msgstr ""
+"Documento interno da Rede ba Rai — para advocacia. Não divulgar ao público "
+"sem autorização."
+
+#: report/templates/report/imprime.html
+msgid "Filtru"
+msgstr "Filtro"
+
+#: report/templates/report/imprime.html
+msgid ""
+"Hatudu kazu %(n)s dahuluk de'it. Uza filtru (munisípiu / tinan) ka Excel ba "
+"lista kompletu."
+msgstr ""
+"Mostra apenas os primeiros %(n)s casos. Use filtros (município / ano) ou "
+"Excel para a lista completa."
+
+#: report/templates/report/imprime.html
+msgid "Hetan eviksaun"
+msgstr "Sofreram despejo"
+
+#: report/templates/report/list.html
+msgid "Imprime lista"
+msgstr "Imprimir lista"
+
+#: report/views/imprime_v.py
+msgid "Kazu hotu"
+msgstr "Todos os casos"
+
+#: report/templates/report/imprime.html
+msgid "Konsellu: hili paizagem (landscape), papél A4."
+msgstr "Dica: escolha paisagem, papel A4."
+
+#: report/templates/report/imprime.html
+msgid "La iha kazu ba filtru ne'e."
+msgstr "Não há casos para este filtro."
+
+#: report/templates/report/imprime.html
+msgid "Lista Kazu ba Advokasia"
+msgstr "Lista de Casos para Advocacia"
+
+#: report/views/imprime_v.py
+msgid "Munisípiu: %(n)s"
+msgstr "Município: %(n)s"
+
+#: report/templates/report/imprime.html
+msgid "Rede ba Rai — Timor-Leste"
+msgstr "Rede ba Rai — Timor-Leste"
+
+#: report/templates/report/imprime.html
+msgid "Rezolusaun"
+msgstr "Resolução"
+
+#: report/views/imprime_v.py
+msgid "Status: %(n)s"
+msgstr "Estado: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Tinan: %(n)s"
+msgstr "Ano: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Tipu: %(n)s"
+msgstr "Tipo: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Urjente de'it"
+msgstr "Apenas urgentes"

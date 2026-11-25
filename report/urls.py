@@ -1,5 +1,5 @@
 from django.urls import path
-from report.views import dash_v, mapa_v, export_v, live_v, advokasia_v
+from report.views import dash_v, mapa_v, export_v, live_v, advokasia_v, imprime_v
 
 urlpatterns = [
 	path('dash/', dash_v.reportDash, name='report-dash'),
@@ -24,4 +24,5 @@ urlpatterns = [
 
 	# Eksporta
 	path('eksporta/excel/', export_v.exportExcel, name='report-export-excel'),
+	path('imprime/', imprime_v.kazuImprime, name='report-imprime'),
 ]

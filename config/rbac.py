@@ -37,7 +37,7 @@ ROLE_POLICY_PUBLIKA = [SUPERADMIN, ADMIN]
 ROLE_USER_MANAGE  = [SUPERADMIN, ADMIN]
 ROLE_OFFLINE_FO   = [SUPERADMIN, ADMIN]       # fó autorizasaun offline (Investigadór + Ofisiál Legál)
 ROLE_SEGIMENTU    = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Segimentu kazu: tribunál, notifikasaun, status rezolusaun
-ROLE_IMPORT_KAZU  = [ADMIN]                  # Import Excel + hadia lokasaun iha mapa
+ROLE_IMPORT_KAZU  = [ADMIN, SEKRETARIADU]    # Import Excel + hadia lokasaun iha mapa
 ROLE_PORTAL       = [SUPERADMIN, ADMIN]      # Konsentimentu + hatudu kazu iha portal públiku
 ROLE_DUPLIKADU    = [SUPERADMIN, ADMIN]      # Konfirma "la'ós duplikadu"
 ROLE_FOLLOWUP     = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Follow-up: haruka kazu fali ba Investigadór (survei foun iha terrenu)
@@ -46,6 +46,7 @@ ROLE_SURVEI_INPUT = [OFISIAL_LEGAL, SEKRETARIADU]          # Survei legál (ho a
 ROLE_SURVEI_HAREE = [SUPERADMIN, ADMIN, SEKRETARIADU, OFISIAL_LEGAL]   # dadus pesoál parte → la ba Analista
 ROLE_SURVEI_VERIFIKA = [SUPERADMIN, ADMIN]
 ROLE_LEGAL_AUTORIZA = [SUPERADMIN, ADMIN]    # ativa input legál ba Ofisiál Legál (tab iha modulu Legál)
+ROLE_EXPORT_KOMPLETU = [SUPERADMIN, ADMIN, SEKRETARIADU]   # Excel ho kontaktu pesoál
 ROLE_HAMOOS       = [SUPERADMIN]             # hamoos dadus permanente (utilizador, kazu, survei, dokumentu, publikasaun)
 ROLE_INPUT_OFFLINE = [INVESTIGADOR, SEKRETARIADU, OFISIAL_LEGAL]   # autorizasaun input / app offline
 

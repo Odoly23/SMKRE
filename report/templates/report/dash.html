@@ -9,6 +9,7 @@
 		<a href="{% url 'report-chart' %}?{{ request.GET.urlencode }}" class="btn btn-sm btn-outline-rbr"><i class="fa fa-bar-chart"></i> {% trans "Gráfiku" %}</a>
 		<a href="{% url 'report-mapa' %}" class="btn btn-sm btn-outline-rbr"><i class="fa fa-map"></i> {% trans "Mapa" %}</a>
 		<a href="{% url 'report-export-excel' %}?{{ request.GET.urlencode }}" class="btn btn-sm btn-rbr"><i class="fa fa-file-excel-o"></i> Excel</a>
+		<a href="{% url 'report-imprime' %}?{{ request.GET.urlencode }}" class="btn btn-sm btn-outline-rbr" target="_blank" rel="noopener"><i class="fa fa-print"></i> {% trans "Imprime" %}</a>
 		<a href="{% url 'report-live' %}" target="_blank" rel="noopener" class="btn btn-sm btn-dark"><i class="fa fa-television"></i> Live</a>
 		{% if can_manage_user %}<a href="{% url 'report-live-ekran' %}" class="btn btn-sm btn-outline-secondary" title="{% trans "Link ekran live" %}"><i class="fa fa-link"></i> {% trans "Ekran Live" %}</a>{% endif %}
 	</div>

@@ -27,7 +27,9 @@ def smkre(request):
 		'is_investigador': group == rbac.INVESTIGADOR,
 		'can_input_kazu': group in rbac.ROLE_INPUT_KAZU,          # Investigadór + Sekretariadu
 		'can_manage_user': group in rbac.ROLE_USER_MANAGE,
-		'can_hamoos': group in rbac.ROLE_HAMOOS,              # butaun Hamoos (Superadmin)
+		'can_hamoos': group in rbac.ROLE_HAMOOS,
+		'can_relatoriu': group in rbac.ROLE_RELATORIU,        # Excel + imprime lista kazu
+		'can_import': group in rbac.ROLE_IMPORT_KAZU,         # Import Excel kazu              # butaun Hamoos (Superadmin)
 		'can_give_offline': group in rbac.ROLE_OFFLINE_FO,
 		'MAPBOX_TOKEN': settings.MAPBOX_TOKEN,            # mapa Leaflet (portal + admin)
 	}

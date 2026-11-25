@@ -1,0 +1,75 @@
+{% load static i18n humanize %}<!doctype html>
+<html lang="{{ LANGUAGE_CODE|default:'tet' }}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{% trans "Lista Kazu ba Advokasia" %} — SIBAR-RbR</title>
+<link rel="stylesheet" href="{% static 'main/css/imprime.css' %}">
+</head>
+<body>
+<div class="butaun no-print">
+	<button type="button" id="btn-imprime">🖨 {% trans "Imprime / Rai PDF" %}</button>
+	<a href="{% url 'kazu-list' %}{% if fila_query %}?{{ fila_query }}{% endif %}">← {% trans "Fila" %}</a>
+	<span>{% trans "Konsellu: hili paizagem (landscape), papél A4." %}</span>
+</div>
+
+<header class="kop">
+	<img src="{% static 'main/images/logo_kop.jpg' %}" alt="Rede ba Rai">
+	<div>
+		<div class="kop-naran">REDE BA RAI</div>
+		<div class="kop-txt">{% trans "Rede ba Rai — Timor-Leste" %} · redebarai.org</div>
+	</div>
+</header>
+
+<h1>{% trans "Lista Kazu ba Advokasia" %}</h1>
+<p class="meta"><b>{% trans "Filtru" %}:</b> {{ filtru }} · <b>{% trans "Total kazu" %}:</b> {{ total|intcomma }}
+	· <b>{% trans "Imprime" %}:</b> {{ agora|date:"d/m/Y H:i" }} {% trans "husi" %} {{ husi }}</p>
+
+<div class="rezumu">
+	<div><b>{{ total|intcomma }}</b><span>{% trans "Kazu" %}</span></div>
+	<div><b>{{ tot_uma|intcomma }}</b><span>{% trans "Uma-kain afetadu" %}</span></div>
+	<div><b>{{ tot_ema|intcomma }}</b><span>{% trans "Ema afetadu" %}</span></div>
+	<div><b>{{ tot_evik|intcomma }}</b><span>{% trans "Hetan eviksaun" %}</span></div>
+</div>
+{% if korta %}<p class="avizu no-print">{% blocktrans with n=limite %}Hatudu kazu {{ n }} dahuluk de'it. Uza filtru (munisípiu / tinan) ka Excel ba lista kompletu.{% endblocktrans %}</p>{% endif %}
+
+<table>
+	<thead><tr>
+		<th class="nu">#</th><th>{% trans "ID Kazu" %}</th><th>{% trans "Munisípiu / Suku" %}</th><th>{% trans "Tipu Kazu" %}</th>
+		<th>{% trans "Data simu" %}</th><th class="n">{% trans "Uma-kain" %}</th><th class="n">{% trans "Ema" %}</th>
+		<th>{% trans "Eviksaun" %}</th><th>{% trans "Tribunál" %}</th><th>{% trans "Rezolusaun" %}</th><th>{% trans "Desizaun RbR" %}</th>
+		<th class="desk">{% trans "Deskrisaun badak" %}</th>
+	</tr></thead>
+	<tbody>
+	{% for x in linha %}
+	<tr>
+		<td class="nu">{{ forloop.counter }}</td>
+		<td><b>{{ x.k.kode|default:x.k.kode_hp|default:"-" }}</b>{% if x.k.urjente %} <span class="urj">{% trans "URJENTE" %}</span>{% endif %}{% if x.k.titulu %}<br><small>{{ x.k.titulu|truncatechars:60 }}</small>{% endif %}</td>
+		<td>{{ x.k.munisipiu }}{% if x.k.suku %}<br><small>{{ x.k.suku }}</small>{% endif %}</td>
+		<td>{{ x.tipu|default:"-" }}</td>
+		<td class="nw">{{ x.k.data_relatoriu|date:"d/m/Y"|default:"-" }}</td>
+		<td class="n">{{ x.uma|default:"0" }}</td>
+		<td class="n">{{ x.ema|default:"0" }}</td>
+		<td>{% if x.evik %}{% trans "Sin" %}{% else %}-{% endif %}</td>
+		<td>{{ x.tribunal|default:"-" }}</td>
+		<td>{{ x.rezolusaun|default:"-" }}</td>
+		<td>{{ x.desizaun|default:"-" }}</td>
+		<td class="desk">{{ x.k.deskrisaun|default:""|truncatechars:180 }}</td>
+	</tr>
+	{% empty %}
+	<tr><td colspan="12" class="mamuk">{% trans "La iha kazu ba filtru ne'e." %}</td></tr>
+	{% endfor %}
+	</tbody>
+	{% if linha %}<tfoot><tr>
+		<td colspan="5">{% trans "TOTAL" %}</td><td class="n">{{ tot_uma|intcomma }}</td><td class="n">{{ tot_ema|intcomma }}</td>
+		<td>{{ tot_evik }}</td><td colspan="4"></td>
+	</tr></tfoot>{% endif %}
+</table>
+
+<footer class="rodape">
+	{% trans "Dokumentu interna Rede ba Rai — ba advokasia. Labele fahe ho públiku la ho autorizasaun." %}
+	· SIBAR-RbR · {{ agora|date:"d/m/Y" }}
+</footer>
+<script src="{% static 'main/js/imprime.js' %}"></script>
+</body>
+</html>

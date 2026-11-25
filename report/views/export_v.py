@@ -9,7 +9,7 @@ from openpyxl.cell import WriteOnlyCell
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
 from config.decorators import allowed_users
-from config.rbac import ROLE_RELATORIU, ADMIN, SUPERADMIN
+from config.rbac import ROLE_RELATORIU, ROLE_EXPORT_KOMPLETU
 from kazu.models import SEKSAUN_REL
 from report.utils import report_queryset
 from users.auth_utils import c_user_group
@@ -17,7 +17,7 @@ from users.auth_utils import c_user_group
 logger = logging.getLogger('smkre.seguransa')
 
 
-# Kontaktu pesoál: sai mamuk ba Analista / Ofisiál Legál (Admin no Superadmin haree hotu)
+# Kontaktu pesoál: sai mamuk ba Analista / Ofisiál Legál (Superadmin, Admin, Sekretariadu haree hotu)
 SUBAR_EXPORT = {'portavos_naran', 'portavos_kontaktu', 'portavos_observasaun', 'fokal_naran', 'fokal_telemovel',
 	'org_seluk_naran', 'org_seluk_kontaktu', 'advogadu_kontaktu'}
 
@@ -30,7 +30,7 @@ def exportExcel(request):
 	from kazu.airtable import KABESALLU, lina_export
 	from config.excel_seguru import lina_seguru
 	group = c_user_group(request.user)
-	subar = set() if group in (ADMIN, SUPERADMIN) else SUBAR_EXPORT
+	subar = set() if group in ROLE_EXPORT_KOMPLETU else SUBAR_EXPORT
 	objects = report_queryset(request).select_related('munisipiu', 'postu', 'suku', 'aldeia', 'tipu_rai', 'created_by__pesoaluser__pesoal', 'segimentu', *SEKSAUN_REL) \
 		.prefetch_related('tipu_konflitu', 'estragu', 'nesesidade', 'afetadu', 'insidente__tipu_eviksaun').order_by('referensia_rbr', 'kode')
 	# write_only: rai liña direta (memória kiik, lalais ba kazu rihun-rihun)

@@ -1,0 +1,40 @@
+/* SIBAR-RbR — lista kazu ba imprime (A4 paizagem) */
+@page { size: A4 landscape; margin: 12mm 10mm 14mm; }
+* { box-sizing: border-box; }
+body { font-family: Arial, "Helvetica Neue", sans-serif; font-size: 9.5pt; color: #111; margin: 16px; background: #fff; }
+.butaun { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; padding: 10px; background: #eef7f3; border-radius: 8px; }
+.butaun button { background: #0e8a68; color: #fff; border: 0; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 10.5pt; }
+.butaun a { color: #0b6e53; font-weight: bold; text-decoration: none; }
+.butaun span { color: #555; font-size: 9pt; }
+.kop { display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #000; padding-bottom: 6px; margin-bottom: 8px; }
+.kop img { height: 62px; }
+.kop-naran { font-family: "Times New Roman", serif; font-weight: bold; font-size: 20pt; line-height: 1; }
+.kop-txt { font-family: "Times New Roman", serif; font-size: 10pt; margin-top: 3px; }
+h1 { font-size: 14pt; margin: 6px 0 2px; color: #0b6e53; }
+.meta { margin: 0 0 8px; color: #333; font-size: 8.8pt; }
+.rezumu { display: flex; gap: 8px; margin: 0 0 8px; }
+.rezumu div { flex: 1; border: 1px solid #bbb; border-radius: 6px; padding: 5px 8px; text-align: center; }
+.rezumu b { display: block; font-size: 13pt; color: #0b6e53; }
+.rezumu span { font-size: 8pt; color: #444; }
+.avizu { background: #fff3cd; padding: 6px 10px; border-radius: 6px; }
+table { width: 100%; border-collapse: collapse; }
+thead { display: table-header-group; }      /* kabesallu repete kada pájina */
+tfoot { display: table-row-group; }
+tr { page-break-inside: avoid; }
+th, td { border: 1px solid #999; padding: 3px 5px; vertical-align: top; text-align: left; }
+th { background: #dfe8e4; font-size: 8.3pt; }
+tbody tr:nth-child(even) td { background: #f6f8f7; }
+td small { color: #444; }
+.nu { width: 26px; text-align: center; color: #555; }
+.n { text-align: right; white-space: nowrap; }
+.nw { white-space: nowrap; }
+.desk { width: 24%; font-size: 8.3pt; }
+.urj { background: #6b1e23; color: #fff; font-size: 7pt; padding: 0 4px; border-radius: 3px; }
+tfoot td { font-weight: bold; background: #eaf5ef; }
+.mamuk { text-align: center; color: #666; padding: 14px; }
+.rodape { margin-top: 10px; font-size: 7.8pt; color: #555; border-top: 1px solid #ccc; padding-top: 4px; }
+@media print {
+	body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+	.no-print { display: none !important; }
+}
+@media (max-width: 700px) { table { font-size: 8pt; } .rezumu { flex-wrap: wrap; } .rezumu div { flex: 1 1 45%; } }

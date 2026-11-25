@@ -6159,3 +6159,87 @@ msgstr "follow-up"
 #: main/hamoos.py
 msgid "muda ba ita: %(l)s"
 msgstr "muda ba ita: %(l)s"
+
+#: report/views/imprime_v.py
+msgid "Buka: \"%(n)s\""
+msgstr "Buka: \"%(n)s\""
+
+#: report/templates/report/imprime.html
+msgid "Data simu"
+msgstr "Data simu"
+
+#: report/templates/report/imprime.html
+msgid "Deskrisaun badak"
+msgstr "Deskrisaun badak"
+
+#: report/templates/report/imprime.html
+msgid ""
+"Dokumentu interna Rede ba Rai — ba advokasia. Labele fahe ho públiku la ho "
+"autorizasaun."
+msgstr ""
+"Dokumentu interna Rede ba Rai — ba advokasia. Labele fahe ho públiku la ho "
+"autorizasaun."
+
+#: report/templates/report/imprime.html
+msgid "Filtru"
+msgstr "Filtru"
+
+#: report/templates/report/imprime.html
+msgid ""
+"Hatudu kazu %(n)s dahuluk de'it. Uza filtru (munisípiu / tinan) ka Excel ba "
+"lista kompletu."
+msgstr ""
+"Hatudu kazu %(n)s dahuluk de'it. Uza filtru (munisípiu / tinan) ka Excel ba "
+"lista kompletu."
+
+#: report/templates/report/imprime.html
+msgid "Hetan eviksaun"
+msgstr "Hetan eviksaun"
+
+#: report/templates/report/list.html
+msgid "Imprime lista"
+msgstr "Imprime lista"
+
+#: report/views/imprime_v.py
+msgid "Kazu hotu"
+msgstr "Kazu hotu"
+
+#: report/templates/report/imprime.html
+msgid "Konsellu: hili paizagem (landscape), papél A4."
+msgstr "Konsellu: hili paizagem (landscape), papél A4."
+
+#: report/templates/report/imprime.html
+msgid "La iha kazu ba filtru ne'e."
+msgstr "La iha kazu ba filtru ne'e."
+
+#: report/templates/report/imprime.html
+msgid "Lista Kazu ba Advokasia"
+msgstr "Lista Kazu ba Advokasia"
+
+#: report/views/imprime_v.py
+msgid "Munisípiu: %(n)s"
+msgstr "Munisípiu: %(n)s"
+
+#: report/templates/report/imprime.html
+msgid "Rede ba Rai — Timor-Leste"
+msgstr "Rede ba Rai — Timor-Leste"
+
+#: report/templates/report/imprime.html
+msgid "Rezolusaun"
+msgstr "Rezolusaun"
+
+#: report/views/imprime_v.py
+msgid "Status: %(n)s"
+msgstr "Status: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Tinan: %(n)s"
+msgstr "Tinan: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Tipu: %(n)s"
+msgstr "Tipu: %(n)s"
+
+#: report/views/imprime_v.py
+msgid "Urjente de'it"
+msgstr "Urjente de'it"
