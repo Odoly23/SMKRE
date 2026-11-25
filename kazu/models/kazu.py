@@ -22,7 +22,7 @@ from .opsaun import STATUS_CHOICES, STATUS_KAZU_CHOICES, STATUS_EDITABLE, DRAFT,
 class Kazu(models.Model):
 	# UUID: bele kria iha HP (offline) la iha risku ID bentrok
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-	kode = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("ID Kazu"))
+	kode = models.CharField(max_length=120, unique=True, null=True, blank=True, verbose_name=_("ID Kazu"))   # import Excel: ID husi file (la muda)
 	# ID HP: kria automátiku iha HP bainhira kazu foun offline (HP-AAMMDD-XXXXXX), hanesan iha server
 	kode_hp = models.CharField(max_length=48, unique=True, null=True, blank=True, verbose_name=_("ID HP (offline)"))
 	referensia_rbr = models.CharField(max_length=30, unique=True, null=True, blank=True, verbose_name=_("Referénsia RbR (Airtable)"))

@@ -6175,3 +6175,15 @@ msgid ""
 msgstr ""
 "Publicar → avaliar → confirmar. Casos \"Verified\" entram como Verificados; "
 "os outros como \"Aguarda Verificação\"."
+
+#: kazu/importa.py
+msgid "ID Kazu \"%(k)s\" iha sistema ona ka repete iha file."
+msgstr "O ID do caso \"%(k)s\" já existe no sistema ou repete-se no ficheiro."
+
+#: kazu/importa.py
+msgid "Identifikasaun kazu mamuk — ID Kazu tenke iha Excel."
+msgstr "Identificação do caso vazia — o ID do caso tem de estar no Excel."
+
+#: kazu/importa.py
+msgid "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."
+msgstr "Identificação do caso demasiado longa (máximo %(n)s caracteres)."

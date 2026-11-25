@@ -253,6 +253,7 @@ def lina_interna(row):
 	d['titulu'] = d.get('titulu') or _t(g(H_ID))
 	d['observasaun'] = '\n'.join(nota)
 	d['_referensia'] = _t(g(H_REF))[:30] or None
+	d['_id_excel'] = ' '.join(_t(g(H_ID)).split())      # ID kazu husi Excel: sai ID Kazu iha SIBAR (la muda)
 	d['_verifikadu'] = normal(g('Verified')) in ('CHECKED', 'TRUE', 'SIN', '1', 'YES')
 	# Konsentimentu / La publika: mamuk = LAE (Admin bele marka iha pratinjau)
 	for h, c in ((H_KONSENTIMENTU, 'konsentimentu'), (H_LA_PUBLIKA, 'la_publika')):
@@ -289,7 +290,8 @@ def lina_export(k, subar=()):
 	ref = k.referensia_rbr or k.kode or ''
 	tipu = list(k.tipu_konflitu.all())
 	val = {
-		H_ID: k.titulu or ref, H_NUMERU: ref.split('/')[-1] if k.referensia_rbr else '', H_REF: ref,
+		H_ID: k.kode or k.titulu or ref,              # ID Kazu SIBAR → import fali mantein ID hanesan
+		H_NUMERU: ref.split('/')[-1] if k.referensia_rbr else '', H_REF: ref,
 		'Tinan Kazu Hahu': k.tinan_disputa_hahu or '', 'Data Simu Kazu iha RBR': _label(k, 'data_relatoriu'),
 		'Tinan Simu Kazu iha RBR': k.data_relatoriu.year if k.data_relatoriu else '', 'Kazu': k.titulu,
 		'Tipu Kazu': '; '.join(t.name for t in tipu), 'Verified': 'checked' if k.status in ('VERIFIED', 'APPROVED', 'COMPLETED') else '',

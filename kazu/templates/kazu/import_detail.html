@@ -75,7 +75,7 @@
 						<tr class="{% if not r.ok %}table-danger{% elif r.avizu %}table-warning{% endif %}">
 							<td>{{ r.lina }}</td>
 							<td>{% if r.ok %}<span class="badge badge-success">{% trans "Válidu" %}</span>{% else %}<span class="badge badge-danger">{% trans "Erru" %}</span>{% endif %}</td>
-							<td>{{ r.rezumu.munisipiu }}{% if r.rezumu.suku %} / {{ r.rezumu.suku }}{% endif %}<br><span class="text-muted">{{ r.rezumu.deskrisaun }}</span></td>
+							<td>{% if r.rezumu.id_kazu %}<b>{{ r.rezumu.id_kazu }}</b><br>{% endif %}{{ r.rezumu.munisipiu }}{% if r.rezumu.suku %} / {{ r.rezumu.suku }}{% endif %}<br><span class="text-muted">{{ r.rezumu.deskrisaun }}</span></td>
 							<td>{{ r.rezumu.tipu }}</td>
 							{% if objects.status == 'RASCUNHO' %}
 							<td class="text-center">{% if r.ok %}<input type="checkbox" form="form-konfirma-import" name="konsentimentu" value="{{ r.lina }}" {% if r.dadus.konsentimentu %}checked{% endif %} aria-label="{% trans "Konsentimentu" %} {{ r.lina }}">{% endif %}</td>

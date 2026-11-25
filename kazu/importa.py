@@ -25,6 +25,8 @@ from kazu import airtable
 from kazu.forms import TL_LAT, TL_LON
 from kazu.models import Kazu, KazuHistoria, KazuImport, KazuSegimentu, UmaKainAfetada, SYNCED, VERIFIED
 from kazu.services import generate_kode, _historia
+
+KODE_MAX = 120            # ID Kazu husi Excel (kampu Kazu.kode)
 from notification.utils import kirim_notif_role
 
 MAX_LINA = 500
@@ -346,6 +348,7 @@ def valida(lina):
 	hoje = timezone.localdate()
 	haree = set()
 	ref_iha = set(Kazu.objects.exclude(referensia_rbr=None).values_list('referensia_rbr', flat=True))
+	id_iha = {k.upper() for k in Kazu.objects.exclude(kode=None).values_list('kode', flat=True)}   # ID Kazu iha sistema
 	rezultadu = []
 	for d in lina:
 		erru, avizu, out = [], list(d.get('_avizu', [])), {}
@@ -467,6 +470,18 @@ def valida(lina):
 			erru.append(_('Referénsia %(r)s iha sistema ona (import ona).') % {'r': ref})
 		if ref:
 			ref_iha.add(ref)
+		# ID Kazu husi Excel ("Identifikasaun kazu"): obrigatóriu, úniku, máximu karakter KODE_MAX
+		kode_excel = None
+		if at:
+			kode_excel = d.get('_id_excel') or ''
+			if not kode_excel:
+				erru.append(_('Identifikasaun kazu mamuk — ID Kazu tenke iha Excel.'))
+			elif len(kode_excel) > KODE_MAX:
+				erru.append(_('Identifikasaun kazu naruk liu (máximu karakter %(n)s).') % {'n': KODE_MAX})
+			elif kode_excel.upper() in id_iha:
+				erru.append(_('ID Kazu "%(k)s" iha sistema ona ka repete iha file.') % {'k': kode_excel})
+			if kode_excel:
+				id_iha.add(kode_excel.upper())
 		chave = (mun.pk if mun else None, out['data_relatoriu'], deskrisaun[:80].upper(), ref)
 		if chave in haree:
 			avizu.append(_('Liña hanesan iha file ne\'e (duplikadu?).'))
@@ -491,13 +506,13 @@ def valida(lina):
 				**pop,
 				'rbr': _kampu_extra(Kazu, KAMPU_KAZU_RBR, d, erru, avizu if at else None),
 				'segimentu': _kampu_extra(KazuSegimentu, KAMPU_SEGIMENTU, d, erru, avizu if at else None),
-				'referensia_rbr': ref, 'verifikadu': bool(d.get('_verifikadu')),
+				'referensia_rbr': ref, 'verifikadu': bool(d.get('_verifikadu')), 'kode_excel': kode_excel or None,
 			},
 			'rezumu': {
 				'munisipiu': mun.name if mun else _testu(d.get('munisipiu')),
 				'suku': suku.name if suku else '',
 				'tipu': ', '.join(t.name for t in tipu),
-				'deskrisaun': deskrisaun[:90], 'referensia': ref or '',
+				'deskrisaun': deskrisaun[:90], 'referensia': ref or '', 'id_kazu': kode_excel or '',
 			},
 		})
 		rezultadu[-1]['ok'] = not erru                   # kampu RbR mós bele hatama erru
@@ -542,7 +557,10 @@ def konfirma(imp, user, pilih=None):
 			created_by=user, importasaun=imp)
 		for campo, v in d.get('rbr', {}).items():           # pergunta formuláriu RbR
 			setattr(kazu, campo, Kazu.kampu(campo).to_python(v))
-		kazu.kode = generate_kode(kazu)
+		# ID Kazu: tuir Excel (formatu Airtable) — la muda; file la iha ID → ID automátiku SIBAR
+		kazu.kode = d.get('kode_excel') or generate_kode(kazu)
+		if Kazu.objects.filter(kode__iexact=kazu.kode).exists():      # kria tiha entre pratinjau no konfirma
+			continue
 		kazu.save()
 		kazu.tipu_konflitu.set(d['tipu_konflitu'])
 		if any(d.get(c) is not None for c in ('uma_kain', 'mane', 'feto', 'labarik', 'total_ema', 'katuas_ferik', 'defisiensia')):

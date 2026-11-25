@@ -6255,3 +6255,15 @@ msgid ""
 msgstr ""
 "Publika → avalia → konfirma. Kazu \"Verified\" tama hanesan Verifikadu; "
 "seluk \"Hein Verifikasaun\"."
+
+#: kazu/importa.py
+msgid "ID Kazu \"%(k)s\" iha sistema ona ka repete iha file."
+msgstr "ID Kazu \"%(k)s\" iha sistema ona ka repete iha file."
+
+#: kazu/importa.py
+msgid "Identifikasaun kazu mamuk — ID Kazu tenke iha Excel."
+msgstr "Identifikasaun kazu mamuk — ID Kazu tenke iha Excel."
+
+#: kazu/importa.py
+msgid "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."
+msgstr "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."

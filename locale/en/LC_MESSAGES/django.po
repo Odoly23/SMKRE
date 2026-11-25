@@ -6151,3 +6151,16 @@ msgid ""
 msgstr ""
 "Upload → review → confirm. \"Verified\" cases come in as Verified; others as"
 " \"Awaiting Verification\"."
+
+#: kazu/importa.py
+msgid "ID Kazu \"%(k)s\" iha sistema ona ka repete iha file."
+msgstr ""
+"Case ID \"%(k)s\" already exists in the system or is repeated in the file."
+
+#: kazu/importa.py
+msgid "Identifikasaun kazu mamuk — ID Kazu tenke iha Excel."
+msgstr "Case identification empty — the Case ID must be in the Excel file."
+
+#: kazu/importa.py
+msgid "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."
+msgstr "Case identification too long (maximum %(n)s characters)."

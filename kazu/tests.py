@@ -796,7 +796,7 @@ class AirtableImportTest(KazuBase):
 		self.assertEqual((imp.total, imp.total_ok), (1, 1))                 # liña mamuk (ID automátiku de'it) la tama
 		self.assertEqual(konfirma(imp, self.admin), 1)
 		k = Kazu.objects.get(referensia_rbr='RBR/7')
-		self.assertEqual((k.status, k.verified_by, k.titulu, k.kode[:13]), ('VERIFIED', self.admin, 'Vatuvou', 'RbR-LIQ-2016-'))
+		self.assertEqual((k.status, k.verified_by, k.titulu, k.kode), ('VERIFIED', self.admin, 'Vatuvou', 'RBR/7_2015_Vatuvou'))   # ID husi Excel
 		self.assertEqual((str(k.data_relatoriu), k.tinan_disputa_hahu, k.suku, k.gps_aproksimadu), ('2016-09-22', 2015, self.suku, True))
 		self.assertEqual(list(k.tipu_konflitu.values_list('code', flat=True)), ['GOV-RAI-ABANDONADU'])
 		self.assertEqual((str(k.rai_luan), k.rai_luan_unidade, k.entidade_kategoria, k.iha_dadus_uma_kain, k.eviksaun_akontese), ('17000.00', 'M2', 'GOVERNU', 'SIN', 'SIN'))
@@ -810,7 +810,7 @@ class AirtableImportTest(KazuBase):
 		# Import fali → referénsia iha ona (la duplika)
 		imp2 = self.upload(self.csv([self.LINA]))
 		self.assertEqual(imp2.total_ok, 0)
-		self.assertIn('RBR/7', imp2.dadus[0]['erru'][0])
+		self.assertIn('RBR/7', ' '.join(imp2.dadus[0]['erru']))
 
 	def test_export_import_fali(self):
 		# Export SIBAR (kolun Airtable) → import iha sistema seluk: dadus hanesan
@@ -824,7 +824,7 @@ class AirtableImportTest(KazuBase):
 		xlsx = self.client.get(reverse('report-export-excel')).content
 		ws = load_workbook(io.BytesIO(xlsx)).active
 		self.assertEqual(ws['A1'].value, 'Identifikasaun kazu')
-		Kazu.objects.all().update(referensia_rbr=None)
+		Kazu.objects.all().update(referensia_rbr=None, kode=None)      # sistema seluk: ID seidauk iha
 		_n, _s, lina = lee_excel(SimpleUploadedFile('export.xlsx', xlsx))
 		r = valida(lina)[0]
 		self.assertTrue(r['ok'], r['erru'])
@@ -993,3 +993,19 @@ class SekretariaduMapaGpsTest(KazuBase):
 		r = self.client.get(reverse('kazu-add'))
 		self.assertFalse(r.context['gps_mapa'])
 		self.assertNotContains(r, 'gps_hili.js')
+
+
+class ImportIdExcelTest(AirtableImportTest):
+	# ID Kazu tuir "Identifikasaun kazu" husi Excel: obrigatóriu, la repete, la muda
+	def test_id_mamuk_no_repete(self):
+		lina_mamuk = dict(self.LINA, **{'Identifikasaun kazu': '', 'Numero Referensia Kazu (auto)': 'RBR/31'})
+		lina_rep = dict(self.LINA, **{'Numero Referensia Kazu (auto)': 'RBR/32'})
+		imp = self.upload(self.csv([self.LINA, lina_mamuk, lina_rep]))
+		erru = [' '.join(r['erru']) for r in imp.dadus]
+		self.assertEqual(erru[0], '')
+		self.assertIn('mamuk', erru[1])
+		self.assertIn('RBR/7_2015_Vatuvou', erru[2])          # ID repete iha file
+
+	def test_id_la_bele_muda_iha_formulariu(self):
+		from kazu.forms import KazuForm
+		self.assertNotIn('kode', KazuForm().fields)
