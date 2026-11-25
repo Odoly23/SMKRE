@@ -6175,7 +6175,7 @@ msgstr "Case ID already set — cannot be changed."
 
 #: kazu/forms.py
 msgid "Identifikasaun kazu"
-msgstr ""
+msgstr "Case identification"
 
 #: kazu/forms.py
 msgid ""

@@ -6160,7 +6160,7 @@ msgstr "ID Kasus sudah ada — tidak bisa diubah."
 
 #: kazu/forms.py
 msgid "Identifikasaun kazu"
-msgstr ""
+msgstr "Identifikasi kasus"
 
 #: kazu/forms.py
 msgid ""
