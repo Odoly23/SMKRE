@@ -6125,3 +6125,15 @@ msgstr "Jenis: %(n)s"
 #: report/views/imprime_v.py
 msgid "Urjente de'it"
 msgstr "Hanya mendesak"
+
+#: kazu/forms.py
+msgid "Publika no avalia"
+msgstr "Unggah dan periksa"
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Publika → avalia → konfirma. Kazu \"Verified\" tama hanesan Verifikadu; "
+"seluk \"Hein Verifikasaun\"."
+msgstr ""
+"Unggah → periksa → konfirmasi. Kasus \"Verified\" masuk sebagai "
+"Terverifikasi; lainnya \"Menunggu Verifikasi\"."

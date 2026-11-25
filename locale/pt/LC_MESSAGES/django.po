@@ -6163,3 +6163,15 @@ msgstr "Tipo: %(n)s"
 #: report/views/imprime_v.py
 msgid "Urjente de'it"
 msgstr "Apenas urgentes"
+
+#: kazu/forms.py
+msgid "Publika no avalia"
+msgstr "Publicar e avaliar"
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Publika → avalia → konfirma. Kazu \"Verified\" tama hanesan Verifikadu; "
+"seluk \"Hein Verifikasaun\"."
+msgstr ""
+"Publicar → avaliar → confirmar. Casos \"Verified\" entram como Verificados; "
+"os outros como \"Aguarda Verificação\"."

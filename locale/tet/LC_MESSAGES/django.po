@@ -6243,3 +6243,15 @@ msgstr "Tipu: %(n)s"
 #: report/views/imprime_v.py
 msgid "Urjente de'it"
 msgstr "Urjente de'it"
+
+#: kazu/forms.py
+msgid "Publika no avalia"
+msgstr "Publika no avalia"
+
+#: kazu/templates/kazu/import_list.html
+msgid ""
+"Publika → avalia → konfirma. Kazu \"Verified\" tama hanesan Verifikadu; "
+"seluk \"Hein Verifikasaun\"."
+msgstr ""
+"Publika → avalia → konfirma. Kazu \"Verified\" tama hanesan Verifikadu; "
+"seluk \"Hein Verifikasaun\"."

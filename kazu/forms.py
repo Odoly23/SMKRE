@@ -625,7 +625,7 @@ class ImportForm(forms.Form):
 		self.helper.disable_csrf = True
 		self.helper.layout = Layout(
 			'file',
-			HTML(""" <button class="btn btn-rbr" type="submit"><i class="fa fa-upload"></i> {% load i18n %}{% trans "Upload no haree pratinjau" %}</button> """)
+			HTML(""" <button class="btn btn-rbr" type="submit"><i class="fa fa-upload"></i> {% load i18n %}{% trans "Publika no avalia" %}</button> """)
 		)
 
 	def clean_file(self):
