@@ -17,13 +17,13 @@ from users.services import give_offline, cancel_offline
 
 
 @login_required
-@allowed_users(allowed_roles=ROLE_USER_MANAGE)
+@allowed_users(allowed_roles=ROLE_OFFLINE_FO)
 def OfflineList(request):
 	group = request.user.groups.all()[0].name
 	objects = OfflinePermission.objects.filter(user__groups__name__in=ROLE_INPUT_OFFLINE).distinct().select_related('user__pesoaluser__pesoal__munisipiu', 'given_by').prefetch_related('user__groups').order_by('-start_date', '-pk')
 	context = {
 		'group': group, "page": "offline",
-		'objects': pajina(request, objects), 'can_haree_pin': group in ROLE_USER_MANAGE,
+		'objects': pajina(request, objects), 'can_haree_pin': group in ROLE_OFFLINE_FO,
 		'title': _('Autorizasaun Offline'), 'legend': _('Autorizasaun Offline'),
 	}
 	return render(request, 'users/offline_list.html', context)
@@ -80,10 +80,10 @@ def OfflineCancel(request, pk):
 
 
 @login_required
-@allowed_users(allowed_roles=ROLE_USER_MANAGE)
+@allowed_users(allowed_roles=ROLE_OFFLINE_FO)
 @require_POST
 def OfflinePin(request, pk):
-	# Admin / Superadmin haree PIN app offline (utilizador haluha PIN iha terrenu → telefone Admin). Rejista iha log seguransa.
+	# Admin / Superadmin / Sekretariadu haree PIN app offline (utilizador haluha PIN iha terrenu → telefone Admin). Rejista iha log seguransa.
 	obj = get_object_or_404(OfflinePermission.objects.select_related('user'), pk=pk)
 	pin = lee_pin(obj.user)
 	logging.getLogger('smkre.seguransa').warning(f'PIN offline haree: {obj.user.username} husi {request.user.username}'

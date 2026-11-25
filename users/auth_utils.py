@@ -25,6 +25,12 @@ def c_user_offline(user):
 	return OfflinePermission.objects.valid().filter(user=user).order_by('-end_date').first()
 
 
+# papél ne'ebé la presiza autorizasaun offline (Sekretariadu): input kazu / legál bainhira de'it
+def sem_autorizasaun(user):
+	from config.rbac import ROLE_SEM_AUTORIZASAUN
+	return c_user_group(user) in ROLE_SEM_AUTORIZASAUN
+
+
 # munisípiu ne'ebé utilizador bele input kazu:
 #   [] = munisípiu HOTU (Sekretariadu, la presiza hili knaar) · lista = knaar Investigadór (1–2) · None = seidauk iha knaar
 def munisipiu_input(user):

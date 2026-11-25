@@ -8,7 +8,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, Toke
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from config.rbac import ROLE_INPUT_OFFLINE
-from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline
+from users.auth_utils import c_user_group, c_user_pesoal, c_user_offline, sem_autorizasaun
 from users.models import OfflinePermission
 from users.pin import iha_pin, pin_xave, verifika_pin, PIN_SALA_MAX
 
@@ -20,11 +20,15 @@ def _check_offline(user):
 	# Autorizasaun remata → token nafatin (bele sinkron), maibé app labele kria kazu foun (offline_ativu = False).
 	if c_user_group(user) not in ROLE_INPUT_OFFLINE:
 		raise serializers.ValidationError(_('Token sinkron ba Investigadór no Ofisiál Legál deit.'))
-	if not OfflinePermission.objects.filter(user=user).exists():
+	if not sem_autorizasaun(user) and not OfflinePermission.objects.filter(user=user).exists():
 		raise serializers.ValidationError(_('Autorizasaun offline la ativu. Kontaktu Admin.'))
 
 
 def _offline_info(user):
+	if sem_autorizasaun(user):                       # Sekretariadu: sempre ativu (validade tinan ida, renova kada login)
+		from datetime import timedelta
+		from django.utils import timezone
+		return {'offline_ativu': True, 'offline_until': (timezone.now() + timedelta(days=365)).isoformat()}
 	perm = c_user_offline(user)
 	return {'offline_ativu': bool(perm), 'offline_until': perm.end_date.isoformat() if perm else None}
 

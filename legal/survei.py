@@ -15,7 +15,8 @@ logger = logging.getLogger('smkre.sinkron')
 
 def input_ativu(user):
 	# Butaun "Input Legál" mosu de'it bainhira Admin fó autorizasaun input (data hahú–remata) ne'ebé validu
-	return c_user_group(user) in ROLE_SURVEI_INPUT and bool(c_user_offline(user))
+	from users.auth_utils import sem_autorizasaun
+	return c_user_group(user) in ROLE_SURVEI_INPUT and (sem_autorizasaun(user) or bool(c_user_offline(user)))
 
 
 def survei_queryset(user):
@@ -71,7 +72,7 @@ def haruka(s, user):
 	url = reverse('legal-survei-detail', args=[s.pk])
 	msg = lambda: _('Survei legál foun %(kode)s husi %(naran)s · %(mun)s') % {
 		'kode': s.kode, 'naran': pesoal.name if pesoal else user.username, 'mun': s.munisipiu.name}
-	transaction.on_commit(lambda: kirim_notif_role([ADMIN, SUPERADMIN], 'KAZU_FOUN', msg, url=url, actor=user, email=True))
+	transaction.on_commit(lambda: kirim_notif_role([ADMIN, SUPERADMIN, SEKRETARIADU], 'KAZU_FOUN', msg, url=url, actor=user, email=True))
 	logger.info(f'Survei legál haruka: {s.kode} husi {user.username}')
 	return s
 

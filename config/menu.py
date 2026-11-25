@@ -37,7 +37,7 @@ MENU = [
 	]),
 	('admin', 'fa-cogs', _('Administrasaun'), [
 		('user', 'pesoal-list', 'fa-users', _('Utilizador'), rbac.ROLE_USER_MANAGE),
-		('offline', 'offline-list', 'fa-mobile', _('Autorizasaun Offline'), rbac.ROLE_USER_MANAGE),
+		('offline', 'offline-list', 'fa-mobile', _('Autorizasaun Offline'), rbac.ROLE_OFFLINE_FO),
 		('live-ekran', 'report-live-ekran', 'fa-link', _('Ekran Live'), rbac.ROLE_USER_MANAGE),
 	]),
 ]

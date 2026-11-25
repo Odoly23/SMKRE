@@ -33,7 +33,7 @@ LEMBRA = (21, 28)               # lembrete antes kansela
 LEMBRA_HAMOOS = 23              # lembrete antes hamoos (loron 7 tan)
 # status → (kampu data hahú konta, papél ne'ebé tenke hala'o)
 REGRA = {
-	SYNCED: ('synced_at', [ADMIN]),
+	SYNCED: ('synced_at', [ADMIN, SEKRETARIADU]),
 	VERIFIED: ('verified_at', [SUPERADMIN, SEKRETARIADU]),
 }
 

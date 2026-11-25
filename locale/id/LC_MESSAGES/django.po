@@ -6169,3 +6169,7 @@ msgid ""
 msgstr ""
 "Opsional: salin ID dari Airtable (mis. RBR/166_2023_Bidau Santana). Kosong →"
 " sistem membuat ID otomatis. Setelah disimpan, ID tidak bisa diubah."
+
+#: kazu/views/kazu_v.py
+msgid "Dadus kazu %(kode)s atualiza ona."
+msgstr "Data kasus %(kode)s sudah diperbarui."

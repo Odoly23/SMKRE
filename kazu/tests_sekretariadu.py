@@ -37,9 +37,9 @@ class SekretariaduTest(TestCase):
 		k.refresh_from_db()
 		self.assertEqual(k.status, 'APPROVED')
 
-	def test_labele_verifika(self):
+	def test_bele_verifika(self):
 		k = self.kazu(self.inv, status='SYNCED')
-		self.assertNotIn('verifika', available_actions(self.sek, k))
+		self.assertIn('verifika', available_actions(self.sek, k))
 
 	def test_input_online_no_haree_kazu_hotu(self):
 		self.client.force_login(self.sek)
@@ -73,7 +73,7 @@ class SekretariaduTest(TestCase):
 		from datetime import timedelta
 		from users.models import OfflinePermission
 		self.client.force_login(self.sek)
-		self.assertNotEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)   # la iha autorizasaun
+		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)      # Sekretariadu: la presiza autorizasaun
 		OfflinePermission.objects.create(user=self.sek, start_date=timezone.now() - timedelta(hours=1),
 			end_date=timezone.now() + timedelta(days=5), given_by=self.adm)
 		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)
@@ -118,3 +118,46 @@ class EmailFallaTest(TestCase):
 		from config.tasks import send_email_task
 		with mock.patch('config.tasks.send_html_email', return_value=False):
 			self.assertFalse(send_email_task.delay('S', 'x.html', {}, ['a@b.tl']).get())
+
+
+class SekretariaduHotuTest(TestCase):
+	# Sekretariadu: verifika, fó autorizasaun offline, input legál la ho autorizasaun, edita kazu hotu
+	def setUp(self):
+		cache.clear()
+		setup_master()
+		self.sek = make_user(SEKRETARIADU, munisipiu_code='XXX')
+		self.inv = make_user(INVESTIGADOR)
+		self.liq = Munisipiu.objects.get(code='LIQ')
+
+	def test_verifika_no_aprova(self):
+		k = Kazu.objects.create(munisipiu=self.liq, status='SYNCED', created_by=self.inv, kode='H-1', synced_at=timezone.now())
+		change_status(k, self.sek, 'verifika')
+		change_status(k, self.sek, 'aprova')
+		k.refresh_from_db()
+		self.assertEqual(k.status, 'APPROVED')
+
+	def test_fo_autorizasaun_offline(self):
+		self.client.force_login(self.sek)
+		self.assertEqual(self.client.get(reverse('offline-list')).status_code, 200)
+		self.assertEqual(self.client.get(reverse('legal-autorizasaun')).status_code, 200)
+
+	def test_input_legal_la_ho_autorizasaun(self):
+		from legal.survei import input_ativu
+		self.assertTrue(input_ativu(self.sek))
+		self.client.force_login(self.sek)
+		self.assertEqual(self.client.get(reverse('legal-survei-add')).status_code, 200)
+
+	def test_app_offline_la_ho_autorizasaun(self):
+		from users.api.views import _offline_info
+		self.assertTrue(_offline_info(self.sek)['offline_ativu'])
+
+	def test_edita_kazu_ema_seluk(self):
+		from kazu.permissions import can_edit
+		k = Kazu.objects.create(munisipiu=self.liq, status='VERIFIED', created_by=self.inv, kode='H-2')
+		self.assertTrue(can_edit(self.sek, k))
+		self.client.force_login(self.sek)
+		r = self.client.get(reverse('kazu-update', args=[k.pk]))
+		self.assertEqual(r.status_code, 200)
+		self.assertFalse(r.context['pode_haruka'])            # la'ós kazu rasik: rai de'it, status la muda
+		k.status = 'CANCELED'; k.save()
+		self.assertFalse(can_edit(self.sek, k))

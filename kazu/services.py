@@ -215,7 +215,7 @@ def submit_kazu(kazu, user):
 		text = _('Kazu foun %(kode)s husi %(naran)s · %(mun)s') % {
 			'kode': kazu.kode, 'naran': pesoal.name if pesoal else user.username, 'mun': kazu.munisipiu.name}
 		return text + (' · ⚠ ' + _('Posivel duplikadu: %(lista)s') % {'lista': ', '.join(dup[:2])} if dup else '')[:255]
-	transaction.on_commit(lambda: kirim_notif_role([ADMIN, SUPERADMIN], 'KAZU_FOUN', msg, url=kazu_url(kazu),
+	transaction.on_commit(lambda: kirim_notif_role([ADMIN, SUPERADMIN, SEKRETARIADU], 'KAZU_FOUN', msg, url=kazu_url(kazu),
 		actor=user, urgent=kazu.urjente, email=True))
 	logger.info(f'Kazu haruka: {kazu.kode} husi {user.username}')
 	return kazu

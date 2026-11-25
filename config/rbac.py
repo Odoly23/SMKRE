@@ -23,7 +23,7 @@ ROLE_CHOICES = [
 ROLE_ALL = [r[0] for r in ROLE_CHOICES]
 
 ROLE_DASHBOARD    = [SUPERADMIN, ADMIN, SEKRETARIADU, ANALISTA, OFISIAL_LEGAL]
-ROLE_VERIFIKA     = [ADMIN]                  # Admin: Verifika (nivel 1)
+ROLE_VERIFIKA     = [ADMIN, SEKRETARIADU]    # Verifika (nivel 1): Admin ka Sekretariadu
 ROLE_APROVA       = [SUPERADMIN, SEKRETARIADU]   # Aprova (nivel 2): Superadmin ka Sekretariadu (kazu rasik mós)
 ROLE_REJEITA      = [SUPERADMIN, ADMIN]      # Rejeita / Kansela (ho razaun)
 ROLE_REMATA       = [SUPERADMIN, ADMIN]      # Remata (kompensasaun selu ona)
@@ -35,7 +35,7 @@ ROLE_RELATORIU    = [SUPERADMIN, ADMIN, SEKRETARIADU, ANALISTA, OFISIAL_LEGAL]
 ROLE_POLICY_KRIA  = [SUPERADMIN, ADMIN, ANALISTA]
 ROLE_POLICY_PUBLIKA = [SUPERADMIN, ADMIN]
 ROLE_USER_MANAGE  = [SUPERADMIN, ADMIN]
-ROLE_OFFLINE_FO   = [SUPERADMIN, ADMIN]       # fó autorizasaun offline (Investigadór + Ofisiál Legál)
+ROLE_OFFLINE_FO   = [SUPERADMIN, ADMIN, SEKRETARIADU]   # fó autorizasaun offline (Investigadór + Ofisiál Legál)
 ROLE_SEGIMENTU    = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Segimentu kazu: tribunál, notifikasaun, status rezolusaun
 ROLE_IMPORT_KAZU  = [ADMIN, SEKRETARIADU]    # Import Excel + hadia lokasaun iha mapa
 ROLE_PORTAL       = [SUPERADMIN, ADMIN]      # Konsentimentu + hatudu kazu iha portal públiku
@@ -44,10 +44,12 @@ ROLE_FOLLOWUP     = [SUPERADMIN, ADMIN, OFISIAL_LEGAL]   # Follow-up: haruka kaz
 ROLE_POLIGON      = [SUPERADMIN, ADMIN]      # Edita poligon rai kualkér tempu (Investigadór: kazu rasik ne'ebé bele edita)
 ROLE_SURVEI_INPUT = [OFISIAL_LEGAL, SEKRETARIADU]          # Survei legál (ho autorizasaun input ativu husi Admin)
 ROLE_SURVEI_HAREE = [SUPERADMIN, ADMIN, SEKRETARIADU, OFISIAL_LEGAL]   # dadus pesoál parte → la ba Analista
-ROLE_SURVEI_VERIFIKA = [SUPERADMIN, ADMIN]
-ROLE_LEGAL_AUTORIZA = [SUPERADMIN, ADMIN]    # ativa input legál ba Ofisiál Legál (tab iha modulu Legál)
+ROLE_SURVEI_VERIFIKA = [SUPERADMIN, ADMIN, SEKRETARIADU]
+ROLE_LEGAL_AUTORIZA = [SUPERADMIN, ADMIN, SEKRETARIADU]   # ativa input legál ba Ofisiál Legál (tab iha modulu Legál)
 ROLE_EXPORT_KOMPLETU = [SUPERADMIN, ADMIN, SEKRETARIADU]   # Excel ho kontaktu pesoál
-ROLE_HAMOOS       = [SUPERADMIN]             # hamoos dadus permanente (utilizador, kazu, survei, dokumentu, publikasaun)
+ROLE_HAMOOS       = [SUPERADMIN]
+ROLE_SEM_AUTORIZASAUN = [SEKRETARIADU]       # input kazu / legál (online + offline) la presiza autorizasaun offline
+ROLE_EDITA_HOTU   = [SEKRETARIADU]           # edita kazu hotu (kompleta dadus) — exetu kanseladu             # hamoos dadus permanente (utilizador, kazu, survei, dokumentu, publikasaun)
 ROLE_INPUT_OFFLINE = [INVESTIGADOR, SEKRETARIADU, OFISIAL_LEGAL]   # autorizasaun input / app offline
 
 

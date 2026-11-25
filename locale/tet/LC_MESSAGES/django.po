@@ -6287,3 +6287,7 @@ msgid ""
 msgstr ""
 "Opsionál: kopia ID husi Airtable (ex. RBR/166_2023_Bidau Santana). Mamuk → "
 "sistema kria ID automátiku. Hafoin rai, ID labele muda."
+
+#: kazu/views/kazu_v.py
+msgid "Dadus kazu %(kode)s atualiza ona."
+msgstr "Dadus kazu %(kode)s atualiza ona."

@@ -176,7 +176,11 @@ def _form_view(request, instance=None):
 	if knaar is None:
 		messages.error(request, _('Ita seidauk iha munisípiu knaar. Kontaktu Admin.'))
 		return redirect('kazu-list')
-	submit = request.POST.get('aksaun') == 'haruka'
+	# "Manda ba Server" de'it ba kazu rasik ne'ebé seidauk haruka; Sekretariadu edita kazu ema seluk → rai de'it
+	from kazu.models import STATUS_EDITABLE
+	from kazu.permissions import is_responsavel
+	pode_haruka = instance is None or (instance.status in STATUS_EDITABLE and is_responsavel(request.user, instance))
+	submit = request.POST.get('aksaun') == 'haruka' and pode_haruka
 	if request.method == 'POST':
 		form = KazuForm(request.POST, instance=instance, munisipiu_knaar=knaar, submit=submit)
 		seg_form = SegimentuKazuForm(request.POST, instance=_segimentu(instance), prefix='seg')
@@ -190,8 +194,10 @@ def _form_view(request, instance=None):
 					messages.success(request, _('Kazu %(kode)s haruka ona. Admin sei simu notifikasaun.') % {'kode': obj.kode})
 				except ValidationError as e:
 					messages.warning(request, _('Kazu rai ona maibé seidauk bele haruka: %(erru)s') % {'erru': ' '.join(e.messages)})
-			else:
+			elif obj.status in STATUS_EDITABLE:
 				messages.success(request, _('Kazu rai ona hanesan rascunho.'))
+			else:
+				messages.success(request, _('Dadus kazu %(kode)s atualiza ona.') % {'kode': obj.kode or obj})
 			return redirect('kazu-detail', uuid=obj.pk)
 		messages.error(request, _('Favor hadia erru iha formuláriu.'))
 	else:
@@ -205,7 +211,7 @@ def _form_view(request, instance=None):
 	mun_pontu = {m.pk: [float(m.latitude), float(m.longitude)] for m in Munisipiu.active.exclude(latitude=None).exclude(longitude=None)} if gps_mapa else {}
 	context = {
 		'group': group, "page": "kazu-add" if instance is None else "kazu",
-		'gps_mapa': gps_mapa, 'mun_pontu': mun_pontu,
+		'gps_mapa': gps_mapa, 'mun_pontu': mun_pontu, 'pode_haruka': pode_haruka,
 		'form': form, 'seg_form': seg_form, 'afetadu_fs': formsets[0], 'insidente_fs': formsets[1],
 		'objects': instance,
 		'title': legend, 'legend': legend

@@ -6208,3 +6208,7 @@ msgstr ""
 "Opcional: copie o ID do Airtable (ex. RBR/166_2023_Bidau Santana). Vazio → o"
 " sistema cria o ID automaticamente. Depois de guardar, o ID não pode ser "
 "alterado."
+
+#: kazu/views/kazu_v.py
+msgid "Dadus kazu %(kode)s atualiza ona."
+msgstr "Os dados do caso %(kode)s foram atualizados."

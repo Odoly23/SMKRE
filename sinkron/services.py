@@ -60,6 +60,9 @@ def check_permission_window(user, kria_iha):
 	# Kazu tenke kria iha HP durante autorizasaun offline (inklui ida ne'ebé remata ka kansela depois)
 	if kria_iha > timezone.now() + TOLERANSIA_RELOJIU:
 		raise ValidationError(_('Data kria kazu iha futuru. Favor haree data no oras iha HP.'))
+	from users.auth_utils import sem_autorizasaun
+	if sem_autorizasaun(user):                       # Sekretariadu: la presiza autorizasaun offline
+		return
 	ok = OfflinePermission.objects.filter(user=user, start_date__lte=kria_iha + TOLERANSIA_RELOJIU, end_date__gte=kria_iha) \
 		.filter(Q(is_active=True) | Q(cancelled_at__gt=kria_iha)).exists()
 	if not ok:
