@@ -6149,3 +6149,23 @@ msgstr "Identifikasaun kazu kosong — ID Kasus harus ada di Excel."
 #: kazu/importa.py
 msgid "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."
 msgstr "Identifikasaun kazu terlalu panjang (maksimal %(n)s karakter)."
+
+#: kazu/forms.py
+msgid "ID Kazu \"%(k)s\" iha sistema ona."
+msgstr "ID Kasus \"%(k)s\" sudah ada di sistem."
+
+#: kazu/forms.py
+msgid "ID Kazu iha ona — labele muda."
+msgstr "ID Kasus sudah ada — tidak bisa diubah."
+
+#: kazu/forms.py
+msgid "Identifikasaun kazu"
+msgstr ""
+
+#: kazu/forms.py
+msgid ""
+"Opsionál: kopia ID husi Airtable (ex. RBR/166_2023_Bidau Santana). Mamuk → "
+"sistema kria ID automátiku. Hafoin rai, ID labele muda."
+msgstr ""
+"Opsional: salin ID dari Airtable (mis. RBR/166_2023_Bidau Santana). Kosong →"
+" sistem membuat ID otomatis. Setelah disimpan, ID tidak bisa diubah."

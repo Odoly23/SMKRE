@@ -77,6 +77,10 @@ LABEL_DOCX = {
 
 
 class KazuForm(forms.ModelForm):
+	# ID Kazu hakerek direta (kopia husi Airtable, ex. "RBR/166_2023_Bidau Santana"). Mamuk → ID automátiku
+	# RbR-<n>-<Munisípiu>-… bainhira haruka. Hafoin iha ID → la bele muda.
+	id_kazu = forms.CharField(label=_('Identifikasaun kazu'), required=False, max_length=120,
+		help_text=_("Opsionál: kopia ID husi Airtable (ex. RBR/166_2023_Bidau Santana). Mamuk → sistema kria ID automátiku. Hafoin rai, ID labele muda."))
 	numeru_rbr = forms.IntegerField(label=_('Numeru kazu'), required=False, min_value=1,
 		help_text=_("Bele hetan numero husi versaun hard copy (file). Hakerek numero deit, lalika hakerek 'RBR'"))
 	data_relatoriu = forms.DateField(label=_("Data Simu Kazu iha RbR"), widget=DateInput(), required=False, initial=timezone.localdate)
@@ -122,6 +126,10 @@ class KazuForm(forms.ModelForm):
 		self.fields['estragu'].queryset = EstraguPatrimoniu.active.all()
 		self.fields['nesesidade'].queryset = NesesidadeUrjente.active.all()
 		self.estragu_seluk_ids = ','.join(str(pk) for pk in EstraguPatrimoniu.objects.filter(code='SELUK').values_list('pk', flat=True))
+		if self.instance.pk and self.instance.kode:           # ID iha ona → la bele muda
+			self.fields['id_kazu'].initial = self.instance.kode
+			self.fields['id_kazu'].disabled = True
+			self.fields['id_kazu'].help_text = _('ID Kazu iha ona — labele muda.')
 		ref = (self.instance.referensia_rbr or '') if self.instance.pk else ''
 		if ref.upper().startswith('RBR/') and ref[4:].isdigit():
 			self.fields['numeru_rbr'].initial = int(ref[4:])
@@ -190,6 +198,7 @@ class KazuForm(forms.ModelForm):
 		col = lambda c, w: Column(c, css_class=f'form-group col-md-{w} mb-0')
 		self.helper_a = _helper(        # 1. Identifikasaun kazu (pergunta 1–10)
 			section(1, 'Identifikasaun Kazu'),
+			'id_kazu',
 			Row(col('numeru_rbr', 3), col('data_relatoriu', 3), col('tinan_simu', 3), col('tinan_disputa_hahu', 3), css_class='form-row'),
 			'titulu',
 			Row(col('tipu_konflitu', 6), Column(grupu('seluk', 'tipu_seluk'), css_class='col-md-6'), css_class='form-row'),   # "Seluk" → esplika
@@ -249,6 +258,14 @@ class KazuForm(forms.ModelForm):
 	def clean_munisipiu(self):
 		# Campo disabled: uza munisípiu knaar (labele manipula husi browser)
 		return self.munisipiu_knaar or self.cleaned_data.get('munisipiu')     # rua: queryset limita ba knaar
+
+	def clean_id_kazu(self):
+		if self.fields['id_kazu'].disabled:
+			return self.instance.kode
+		v = ' '.join((self.cleaned_data.get('id_kazu') or '').split())
+		if v and Kazu.objects.filter(kode__iexact=v).exclude(pk=self.instance.pk).exists():
+			raise forms.ValidationError(_('ID Kazu "%(k)s" iha sistema ona.') % {'k': v})
+		return v or None
 
 	def clean_numeru_rbr(self):
 		n = self.cleaned_data.get('numeru_rbr')
@@ -328,7 +345,15 @@ class KazuForm(forms.ModelForm):
 		for c in KAMPU_SEKSAUN_FORM:                   # Kazu.save() rai seksaun sira
 			if c in self.cleaned_data:
 				setattr(obj, c, self.cleaned_data[c])
+		id_kazu = self.cleaned_data.get('id_kazu')
+		if id_kazu and not obj.kode:                     # ID hakerek husi Airtable (ID la muda hafoin ne'e)
+			obj.kode = id_kazu
 		n = self.cleaned_data.get('numeru_rbr')
+		if not n and id_kazu and not obj.referensia_rbr:  # "RBR/166_…" → Numeru kazu 166 (se seidauk uza)
+			import re
+			m = re.match(r'^\s*RBR\s*/\s*(\d+)', id_kazu, re.I)
+			if m and not Kazu.objects.filter(referensia_rbr__iexact=f'RBR/{m[1]}').exclude(pk=obj.pk).exists():
+				obj.referensia_rbr = f'RBR/{m[1]}'
 		if n:
 			obj.referensia_rbr = f'RBR/{n}'
 		elif 'numeru_rbr' in self.changed_data and (obj.referensia_rbr or '').upper().startswith('RBR/'):

@@ -6164,3 +6164,24 @@ msgstr "Case identification empty — the Case ID must be in the Excel file."
 #: kazu/importa.py
 msgid "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."
 msgstr "Case identification too long (maximum %(n)s characters)."
+
+#: kazu/forms.py
+msgid "ID Kazu \"%(k)s\" iha sistema ona."
+msgstr "Case ID \"%(k)s\" already exists in the system."
+
+#: kazu/forms.py
+msgid "ID Kazu iha ona — labele muda."
+msgstr "Case ID already set — cannot be changed."
+
+#: kazu/forms.py
+msgid "Identifikasaun kazu"
+msgstr ""
+
+#: kazu/forms.py
+msgid ""
+"Opsionál: kopia ID husi Airtable (ex. RBR/166_2023_Bidau Santana). Mamuk → "
+"sistema kria ID automátiku. Hafoin rai, ID labele muda."
+msgstr ""
+"Optional: copy the ID from Airtable (e.g. RBR/166_2023_Bidau Santana). Empty"
+" → the system creates an ID automatically. Once saved, the ID cannot be "
+"changed."

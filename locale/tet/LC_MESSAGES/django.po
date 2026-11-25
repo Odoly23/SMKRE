@@ -6267,3 +6267,23 @@ msgstr "Identifikasaun kazu mamuk — ID Kazu tenke iha Excel."
 #: kazu/importa.py
 msgid "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."
 msgstr "Identifikasaun kazu naruk liu (máximu karakter %(n)s)."
+
+#: kazu/forms.py
+msgid "ID Kazu \"%(k)s\" iha sistema ona."
+msgstr "ID Kazu \"%(k)s\" iha sistema ona."
+
+#: kazu/forms.py
+msgid "ID Kazu iha ona — labele muda."
+msgstr "ID Kazu iha ona — labele muda."
+
+#: kazu/forms.py
+msgid "Identifikasaun kazu"
+msgstr "Identifikasaun kazu"
+
+#: kazu/forms.py
+msgid ""
+"Opsionál: kopia ID husi Airtable (ex. RBR/166_2023_Bidau Santana). Mamuk → "
+"sistema kria ID automátiku. Hafoin rai, ID labele muda."
+msgstr ""
+"Opsionál: kopia ID husi Airtable (ex. RBR/166_2023_Bidau Santana). Mamuk → "
+"sistema kria ID automátiku. Hafoin rai, ID labele muda."

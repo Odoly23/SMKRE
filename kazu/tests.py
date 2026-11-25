@@ -1038,3 +1038,22 @@ class KodeFormatuTest(TestCase):
 		k = self.kazu(referensia_rbr='RBR/153')
 		self.assertTrue(k.kode.startswith('RbR-153-Liquiçá-'))
 		self.assertTrue(self.kazu().kode.startswith('RbR-154-'))      # kontador kontinua husi 153
+
+
+class IdKazuHakerekTest(KazuBase):
+	# ID Kazu hakerek direta husi Airtable iha formuláriu: tama hanesan, haruka la muda, depois la bele edita
+	def test_id_husi_airtable(self):
+		k = self.create_kazu('haruka', id_kazu='RBR/166_2023_Bidau Santana')
+		self.assertEqual((k.kode, k.referensia_rbr, k.status), ('RBR/166_2023_Bidau Santana', 'RBR/166', 'SYNCED'))
+
+	def test_id_la_bele_muda_no_la_repete(self):
+		from kazu.forms import KazuForm
+		k = self.create_kazu('rai', id_kazu='RBR/155__')
+		f = KazuForm(instance=k, munisipiu_knaar=[self.liq])
+		self.assertTrue(f.fields['id_kazu'].disabled)
+		self.client.post(reverse('kazu-add'), self.form_data('rai', id_kazu='RBR/155__'))
+		self.assertEqual(Kazu.objects.filter(kode='RBR/155__').count(), 1)     # duplikadu la tama
+
+	def test_mamuk_id_automatiku(self):
+		k = self.create_kazu('haruka')
+		self.assertTrue(k.kode.startswith('RbR-'))
