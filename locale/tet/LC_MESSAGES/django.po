@@ -6365,3 +6365,19 @@ msgid ""
 msgstr ""
 "Konta ne'e login hela iha dispozitivu seluk (%(d)s, IP %(ip)s, ativu ikus "
 "%(t)s). Logout uluk iha dispozitivu ne'e, ka kontaktu Admin atu taka sesaun."
+
+#: main/templates/home/csrf.html
+msgid "Fila no refresh"
+msgstr "Fila no refresh"
+
+#: main/templates/home/csrf.html
+msgid ""
+"Formuláriu ne'e loke molok sesaun troka (ex. login fali iha tab seluk). "
+"Dadus la rai. Favor fila, refresh pájina (F5) no koko fali."
+msgstr ""
+"Formuláriu ne'e loke molok sesaun troka (ex. login fali iha tab seluk). "
+"Dadus la rai. Favor fila, refresh pájina (F5) no koko fali."
+
+#: main/templates/home/csrf.html
+msgid "Pájina ne'e tuan ona"
+msgstr "Pájina ne'e tuan ona"

@@ -252,6 +252,7 @@ SESAUN_IDLE_MINUTU = env('SESAUN_IDLE_MINUTU', default=30, cast=int)
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_FAILURE_VIEW = 'main.views.csrf_falla'          # pájina amigável (formuláriu tuan → refresh)
 PASSWORD_RESET_TIMEOUT = 60 * 60                 # link reset validu oras 1
 
 # Limite login sala (django-axes)

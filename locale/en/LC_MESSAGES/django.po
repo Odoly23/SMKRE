@@ -6264,3 +6264,20 @@ msgid ""
 msgstr ""
 "This account is logged in on another device (%(d)s, IP %(ip)s, last active "
 "%(t)s). Log out there first, or ask an Admin to close the session."
+
+#: main/templates/home/csrf.html
+msgid "Fila no refresh"
+msgstr "Go back and refresh"
+
+#: main/templates/home/csrf.html
+msgid ""
+"Formuláriu ne'e loke molok sesaun troka (ex. login fali iha tab seluk). "
+"Dadus la rai. Favor fila, refresh pájina (F5) no koko fali."
+msgstr ""
+"This form was opened before the session changed (e.g. logging in again in "
+"another tab). Nothing was saved. Go back, refresh the page (F5) and try "
+"again."
+
+#: main/templates/home/csrf.html
+msgid "Pájina ne'e tuan ona"
+msgstr "This page has expired"

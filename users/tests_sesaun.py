@@ -59,3 +59,29 @@ class SesaunUnikuTest(TestCase):
 		self.assertEqual(r.status_code, 302)                       # browser hanesan: la bloka
 		self.assertIn('_tab=', r['Location'])
 		self.assertEqual(len(self.a.session['tab_ids']), 2)
+
+
+class TabCsrfTest(TestCase):
+	# login fali iha tab foun la troka token CSRF → formuláriu iha tab tuan la falla
+	def setUp(self):
+		setup_master()
+		self.u = make_user(ADMIN, email='adm@teste.tl')
+
+	def test_tab_tuan_la_falla_csrf(self):
+		c = Client(enforce_csrf_checks=True)
+		r = c.get(reverse('login'))
+		tok = r.cookies['csrftoken'].value if 'csrftoken' in r.cookies else c.cookies['csrftoken'].value
+		c.post(reverse('login'), {'username': 'adm@teste.tl', 'password': PASSWORD, 'csrfmiddlewaretoken': tok})
+		tok_tab1 = c.cookies['csrftoken'].value                     # token iha pájina tab tuan
+		c.get(reverse('login') + '?tab=1')
+		r = c.post(reverse('login'), {'username': 'adm@teste.tl', 'password': PASSWORD, 'tab': '1', 'csrfmiddlewaretoken': tok_tab1})
+		self.assertEqual(r.status_code, 302)
+		self.assertEqual(c.cookies['csrftoken'].value, tok_tab1)     # token la troka
+		r = c.post(reverse('logout'), {'csrfmiddlewaretoken': tok_tab1})   # tab tuan: logout
+		self.assertEqual(r.status_code, 302)
+
+	def test_pajina_csrf_amigavel(self):
+		c = Client(enforce_csrf_checks=True)
+		r = c.post(reverse('login'), {'username': 'x@teste.tl', 'password': 'x'})
+		self.assertEqual(r.status_code, 403)
+		self.assertContains(r, 'RbR-CSRF', status_code=403)

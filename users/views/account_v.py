@@ -87,9 +87,16 @@ class UserLoginView(auth_views.LoginView):
 	def form_valid(self, form):
 		from users import sesaun
 		user = form.get_user()
-		if self.modu_tab() and user.pk != self.request.user.pk:
-			form.add_error(None, _('Tab ne\'e iha sesaun husi utilizador seluk. Logout uluk.'))
-			return self.form_invalid(form)
+		if self.modu_tab():
+			if user.pk != self.request.user.pk:
+				form.add_error(None, _('Tab ne\'e iha sesaun husi utilizador seluk. Logout uluk.'))
+				return self.form_invalid(form)
+			# tab foun, utilizador hanesan: password loos → ID tab foun de'it. LA login() fali:
+			# login() troka token CSRF → formuláriu iha tab tuan sei falla (403 CSRF).
+			from django.http import HttpResponseRedirect
+			self._tab = sesaun.tab_foun(self.request)
+			logger.info(f'Tab foun: {user.username} IP {get_client_ip(self.request)}')
+			return HttpResponseRedirect(self.get_success_url())
 		rec = sesaun.sesaun_seluk(user, self.request)
 		if rec:                                      # login ida de'it: dispozitivu seluk sei ativu
 			logger.warning(f'Login bloka (sesaun ativu iha dispozitivu seluk): {user.username} IP {get_client_ip(self.request)}')

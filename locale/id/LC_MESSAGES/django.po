@@ -6247,3 +6247,19 @@ msgid ""
 msgstr ""
 "Akun ini sedang login di perangkat lain (%(d)s, IP %(ip)s, terakhir aktif "
 "%(t)s). Logout dulu di perangkat itu, atau hubungi Admin untuk menutup sesi."
+
+#: main/templates/home/csrf.html
+msgid "Fila no refresh"
+msgstr "Kembali dan refresh"
+
+#: main/templates/home/csrf.html
+msgid ""
+"Formuláriu ne'e loke molok sesaun troka (ex. login fali iha tab seluk). "
+"Dadus la rai. Favor fila, refresh pájina (F5) no koko fali."
+msgstr ""
+"Formulir ini dibuka sebelum sesi berganti (mis. login ulang di tab lain). "
+"Data tidak tersimpan. Silakan kembali, refresh halaman (F5) dan coba lagi."
+
+#: main/templates/home/csrf.html
+msgid "Pájina ne'e tuan ona"
+msgstr "Halaman ini sudah kedaluwarsa"

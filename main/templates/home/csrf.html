@@ -1,0 +1,8 @@
+{% extends "home/error_base.html" %}
+{% load i18n %}
+{% block code %}403{% endblock %}
+{% block heading %}{% trans "Pájina ne'e tuan ona" %}{% endblock %}
+{% block text %}{% trans "Formuláriu ne'e loke molok sesaun troka (ex. login fali iha tab seluk). Dadus la rai. Favor fila, refresh pájina (F5) no koko fali." %}{% endblock %}
+{% block botaun %}<a href="{{ fila }}" class="btn btn-rbr"><i class="fa fa-refresh"></i> {% trans "Fila no refresh" %}</a>
+	<a href="{% url 'home' %}" class="btn btn-outline-rbr"><i class="fa fa-home"></i> {% trans "Fila ba Varanda" %}</a>{% endblock %}
+{% block ref %}RbR-CSRF{% endblock %}

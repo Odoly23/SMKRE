@@ -182,3 +182,15 @@ def error_404(request, exception=None):
 
 def error_500(request):
 	return render(request, 'home/500.html', status=500)
+
+
+
+# CSRF falla (ex. formuláriu tuan hafoin login fali / sesaun remata): pájina amigável, la'ós erru teknika
+def csrf_falla(request, reason=''):
+	import logging
+	from config.utils import get_client_ip
+	logging.getLogger('smkre.seguransa').warning(f'CSRF falla: {request.path} IP {get_client_ip(request)} ({reason[:60]})')
+	fila = request.META.get('HTTP_REFERER', '')
+	if not url_has_allowed_host_and_scheme(fila, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+		fila = ''
+	return render(request, 'home/csrf.html', {'fila': fila or '/'}, status=403)

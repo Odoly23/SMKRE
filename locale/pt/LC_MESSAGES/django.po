@@ -6290,3 +6290,20 @@ msgstr ""
 "Esta conta está ligada noutro dispositivo (%(d)s, IP %(ip)s, última "
 "atividade %(t)s). Saia primeiro nesse dispositivo ou contacte o Admin para "
 "fechar a sessão."
+
+#: main/templates/home/csrf.html
+msgid "Fila no refresh"
+msgstr "Voltar e atualizar"
+
+#: main/templates/home/csrf.html
+msgid ""
+"Formuláriu ne'e loke molok sesaun troka (ex. login fali iha tab seluk). "
+"Dadus la rai. Favor fila, refresh pájina (F5) no koko fali."
+msgstr ""
+"Este formulário foi aberto antes de a sessão mudar (ex. novo login noutro "
+"separador). Os dados não foram guardados. Volte, atualize a página (F5) e "
+"tente de novo."
+
+#: main/templates/home/csrf.html
+msgid "Pájina ne'e tuan ona"
+msgstr "Esta página expirou"
