@@ -50,6 +50,7 @@ def PesoalDetail(request, uuid):
 		'group': group, "page": "user",
 		'objects': objects, 'u_group': c_user_group(user), 'offline': c_user_offline(user),
 		'can_edit': _can_edit(request, objects),
+		'sesaun': getattr(user, 'sesaun_ativu', None) if user else None,
 		'title': _('Detalla Utilizador'), 'legend': _('Detalla Utilizador')
 	}
 	return render(request, 'users/detail.html', context)
@@ -150,4 +151,19 @@ def UserActivate(request, uuid):
 	else:
 		messages.success(request, _('Utilizador %(user)s ativu fali.') % {'user': user.username})
 	logger.info(f'Utilizador {"ativu" if user.is_active else "hapara"}: {user.username} husi {request.user.username}')
+	return redirect('pesoal-detail', uuid=uuid)
+
+
+
+# Admin / Superadmin taka sesaun ativu utilizador (ex. haluha logout iha komputador seluk) → nia bele login fali
+@login_required
+@allowed_users(allowed_roles=ROLE_USER_MANAGE)
+@require_POST
+def UserTakaSesaun(request, uuid):
+	from users.sesaun import hamoos
+	objects = get_object_or_404(Pesoal.objects.select_related('pesoaluser__user'), uuid=uuid)
+	user = objects.pesoaluser.user
+	hamoos(user)
+	logging.getLogger('smkre.seguransa').warning(f'Sesaun taka: {user.username} husi {request.user.username}')
+	messages.success(request, _('Sesaun ativu %(u)s taka ona. Nia bele login fali.') % {'u': user.username})
 	return redirect('pesoal-detail', uuid=uuid)

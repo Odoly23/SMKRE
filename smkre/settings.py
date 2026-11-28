@@ -93,6 +93,7 @@ MIDDLEWARE = [
 	'smkre.middleware.PreviousURLMiddleware',
 	'smkre.middleware.NoBackAfterLogout',
 	'smkre.middleware.ForceChangePasswordMiddleware',
+	'smkre.middleware.SesaunUnikuMiddleware',               # login ida de'it kada utilizador
 ]
 
 ROOT_URLCONF = 'smkre.urls'
@@ -246,6 +247,8 @@ LOGOUT_REDIRECT_URL = 'portal'
 
 SESSION_COOKIE_AGE = 60 * 60 * 8                 # oras 8 (loron servisu ida)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# minutu la ativu → sesaun iha dispozitivu seluk la bloka login foun (taka browser la logout)
+SESAUN_IDLE_MINUTU = env('SESAUN_IDLE_MINUTU', default=30, cast=int)
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'

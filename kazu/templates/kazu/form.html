@@ -187,6 +187,24 @@
 	  });
 
 	});
+	// ID Kazu: verifika kedas bainhira hakerek; iha ona → hatudu ID / númeru livre ho butaun "Uza"
+	(function () {
+	  var inp = $("#id_id_kazu");
+	  if (!inp.length || inp.prop("disabled")) return;
+	  var box = $('<div class="small mt-1" id="id-kazu-info"></div>').insertAfter(inp);
+	  inp.on("change blur", function () {
+		var v = $.trim(inp.val());
+		box.empty().removeClass("text-danger text-rbr");
+		if (!v) return;
+		$.getJSON("{% url 'kazu-id-livre' %}", { id: v }, function (d) {
+		  if (d.livre) { box.addClass("text-rbr").html('<i class="fa fa-check-circle"></i> ' + "{% trans "ID livre — bele uza." %}"); return; }
+		  box.addClass("text-danger").text("{% trans "ID ne'e iha sistema ona. Ita bele uza:" %} " + d.sujere + " · {% trans "ka Numeru kazu" %} " + d.numeru + " ");
+		  $('<button type="button" class="btn btn-sm btn-outline-rbr ml-1"></button>').text("{% trans "Uza ID ne'e" %}").on("click", function () {
+			inp.val(d.sujere); $("#id_numeru_rbr").val(d.numeru); inp.trigger("change");
+		  }).appendTo(box);
+		});
+	  });
+	})();
 	// GPS automátiku husi HP (presiza HTTPS; localhost OK)
 	$("#btn-gps").click(function () {
 	  var msg = $("#gps-msg");

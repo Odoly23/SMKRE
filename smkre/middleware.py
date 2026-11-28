@@ -34,7 +34,8 @@ class NoBackAfterLogout(MiddlewareMixin):
 	def process_view(self, request, view_func, view_args, view_kwargs):
 		# Se login ona, labele fila ba pájina login
 		if request.user.is_authenticated:
-			if request.path in [reverse('login')]:
+			tab = request.GET.get('tab') or request.POST.get('tab')      # tab foun: husu password fali
+			if request.path in [reverse('login')] and not tab:
 				return redirect('home')
 		return None
 
@@ -62,3 +63,34 @@ class ForceChangePasswordMiddleware(MiddlewareMixin):
 				return None
 			return redirect('user-change-password')
 		return None
+
+
+
+# Sesaun web ida de'it kada utilizador: sesaun ne'ebé la'ós ativu ona (dispozitivu seluk tama / Admin hamoos) → sai.
+# Atualiza "last_seen" (máximu dala ida kada minutu) atu sesaun la ativu bele troka.
+class SesaunUnikuMiddleware:
+	def __init__(self, get_response):
+		self.get_response = get_response
+
+	def __call__(self, request):
+		user = getattr(request, 'user', None)
+		sk = request.session.session_key if hasattr(request, 'session') else None
+		if user is not None and user.is_authenticated and sk:
+			from django.contrib import messages
+			from django.contrib.auth import logout
+			from django.utils import timezone
+			from django.utils.translation import gettext as _
+			from users.models import SesaunAtivu
+			from users.sesaun import rejista, TOKEN
+			rec = SesaunAtivu.objects.filter(user=user).first()
+			token = request.session.get(TOKEN)
+			agora = timezone.now()
+			if rec is None or token is None:             # sesaun uluk deploy (la iha token): rejista
+				rejista(user, request)
+			elif rec.token != token:                     # dispozitivu seluk tama / Admin taka sesaun
+				logout(request)
+				messages.warning(request, _('Sesaun remata: konta ne\'e login iha dispozitivu seluk ka Admin taka sesaun.'))
+				return redirect('login')
+			elif rec.session_key != sk or (agora - rec.last_seen).total_seconds() > 60:
+				SesaunAtivu.objects.filter(pk=rec.pk).update(last_seen=agora, session_key=sk)   # troka password → session_key foun
+		return self.get_response(request)

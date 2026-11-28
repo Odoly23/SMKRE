@@ -4,6 +4,7 @@ from kazu.views import kazu_v, status_v, evidensia_v, import_v, segimentu_v, pol
 urlpatterns = [
 	path('', kazu_v.KazuList, name="kazu-list"),
 	path('foun/', kazu_v.KazuAdd, name="kazu-add"),
+	path('id-livre/', kazu_v.KazuIdLivre, name="kazu-id-livre"),
 	path('<uuid:uuid>/', kazu_v.KazuDetail, name="kazu-detail"),
 	path('<uuid:uuid>/edita/', kazu_v.KazuUpdate, name="kazu-update"),
 	path('<uuid:uuid>/evidensia/', evidensia_v.EvidensiaAdd, name="kazu-evidensia"),

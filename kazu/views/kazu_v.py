@@ -233,3 +233,19 @@ def KazuUpdate(request, uuid):
 		messages.error(request, _('Kazu ne\'e xave ona. Labele edita.'))
 		return redirect('kazu-detail', uuid=uuid) if can_view(request.user, objects) else render(request, 'home/403.html', status=403)
 	return _form_view(request, objects)
+
+
+
+# verifika ID Kazu bainhira hakerek (formuláriu): {livre, sujere, numeru}
+@login_required
+@allowed_users(allowed_roles=ROLE_INPUT_KAZU)
+def KazuIdLivre(request):
+	from django.http import JsonResponse
+	from kazu.kode import sujere_id
+	v = ' '.join((request.GET.get('id') or '').split())[:120]
+	if not v:
+		return JsonResponse({'livre': True})
+	if not Kazu.objects.filter(kode__iexact=v).exists():
+		return JsonResponse({'livre': True})
+	sujere, n = sujere_id(v)
+	return JsonResponse({'livre': False, 'sujere': sujere, 'numeru': n})

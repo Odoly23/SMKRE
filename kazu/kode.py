@@ -35,3 +35,39 @@ def formatu(n, *fatin):
 def numeru_maks(referensia, kodes):
 	ns = [numeru_ref(r) for r in referensia] + [numeru_kode(k) for k in kodes]
 	return max([n for n in ns if n] or [0])
+
+
+# ── Sujestaun bainhira ID hakerek iha ona (formuláriu + verifikasaun direta) ──
+RE_ID_RBR = re.compile(r'^(\s*RBR\s*/\s*)(\d+)(.*)$', re.I)
+
+
+def numeru_livre():
+	"""Númeru kazu tuir mai ne'ebé seidauk uza (referénsia RBR/n, ID RbR-n-…, ID Excel RBR/n_…, kontador)."""
+	from kazu.models import Kazu, KazuKontador
+	ns = [0]
+	for r in Kazu.objects.exclude(referensia_rbr=None).values_list('referensia_rbr', flat=True):
+		ns.append(numeru_ref(r) or 0)
+	for k in Kazu.objects.exclude(kode=None).values_list('kode', flat=True):
+		m = RE_ID_RBR.match(k)
+		ns.append(numeru_kode(k) or (int(m[2]) if m else 0))
+	kont = KazuKontador.objects.filter(naran='kazu').first()
+	ns.append(kont.last if kont else 0)
+	return max(ns) + 1
+
+
+def sujere_id(id_kazu):
+	"""ID livre parese ho ID ne'ebé hakerek: RBR/155__ → RBR/<númeru livre>__ ; seluk → <ID>-2, -3…"""
+	from kazu.models import Kazu
+	iha = lambda v: Kazu.objects.filter(kode__iexact=v).exists()
+	n = numeru_livre()
+	m = RE_ID_RBR.match(id_kazu or '')
+	if m:
+		v = f'{m[1].strip()}{n}{m[3]}'
+		while iha(v):
+			n += 1
+			v = f'{m[1].strip()}{n}{m[3]}'
+		return v, n
+	k = 2
+	while iha(f'{id_kazu}-{k}'):
+		k += 1
+	return f'{id_kazu}-{k}', n

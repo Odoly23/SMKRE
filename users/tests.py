@@ -22,7 +22,8 @@ class LoginTest(TestCase):
 
 	def test_login_ho_email_la_haree_letra_boot(self):
 		r = self.client.post(reverse('login'), {'username': 'JOANA@teste.tl', 'password': PASSWORD})
-		self.assertRedirects(r, reverse('home'))
+		self.assertEqual(r.status_code, 302)
+		self.assertTrue(r['Location'].startswith(reverse('home') + '?_tab='))   # ID tab foun
 
 	def test_login_sala_hatudu_erru(self):
 		r = self.client.post(reverse('login'), {'username': 'joana@teste.tl', 'password': 'sala'})

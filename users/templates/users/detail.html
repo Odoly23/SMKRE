@@ -62,6 +62,16 @@
 						<button type="submit" class="btn btn-block btn-outline-success"><i class="fa fa-check"></i> {% trans "Ativa Fali" %}</button>
 						{% endif %}
 					</form>
+					{% if can_manage_user %}
+					<div class="border rounded p-2 mt-2 small">
+						<b><i class="fa fa-desktop"></i> {% trans "Sesaun ativu" %}:</b>
+						{% if sesaun %}{{ sesaun.dispozitivu }} · IP {{ sesaun.ip|default:"-" }} · {% trans "ativu ikus" %} {{ sesaun.last_seen|date:"d/m/Y H:i" }}
+						<form method="post" action="{% url 'user-taka-sesaun' objects.uuid %}" class="js-confirm mt-1" data-confirm="{% trans "Taka sesaun ativu utilizador ne'e? Nia sai husi SIBAR iha dispozitivu ne'e no bele login fali." %}">
+							{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger btn-block"><i class="fa fa-sign-out"></i> {% trans "Taka sesaun" %}</button>
+						</form>
+						{% else %}<span class="text-muted">{% trans "La iha (la login)" %}</span>{% endif %}
+					</div>
+					{% endif %}
 					{% if can_hamoos %}
 					<form method="post" action="{% url 'hamoos' 'utilizador' objects.uuid %}" class="js-confirm mt-2" data-confirm="{% blocktrans with n=objects %}HAMOOS PERMANENTE utilizador {{ n }}? Konta, dadus pesoál no autorizasaun sei lakon. Kazu no survei ne'ebé nia kria muda ba ita (Superadmin). Labele fila fali.{% endblocktrans %}">
 						{% csrf_token %}

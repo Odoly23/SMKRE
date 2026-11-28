@@ -264,7 +264,10 @@ class KazuForm(forms.ModelForm):
 			return self.instance.kode
 		v = ' '.join((self.cleaned_data.get('id_kazu') or '').split())
 		if v and Kazu.objects.filter(kode__iexact=v).exclude(pk=self.instance.pk).exists():
-			raise forms.ValidationError(_('ID Kazu "%(k)s" iha sistema ona.') % {'k': v})
+			from kazu.kode import sujere_id
+			sujere, n = sujere_id(v)
+			raise forms.ValidationError(_('ID Kazu "%(k)s" iha sistema ona. Ita bele uza ID ida ne\'e: "%(s)s", ka Numeru kazu %(n)s.') % {
+				'k': v, 's': sujere, 'n': n})
 		return v or None
 
 	def clean_numeru_rbr(self):

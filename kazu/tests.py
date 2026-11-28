@@ -1057,3 +1057,16 @@ class IdKazuHakerekTest(KazuBase):
 	def test_mamuk_id_automatiku(self):
 		k = self.create_kazu('haruka')
 		self.assertTrue(k.kode.startswith('RbR-'))
+
+
+class IdSujestaunTest(KazuBase):
+	# ID hakerek iha ona → mensajen ho ID / númeru livre
+	def test_sujestaun(self):
+		from kazu.kode import sujere_id
+		self.create_kazu('rai', id_kazu='RBR/155__')
+		r = self.client.post(reverse('kazu-add'), self.form_data('rai', id_kazu='RBR/155__'))
+		self.assertContains(r, 'RBR/156__')
+		self.assertEqual(sujere_id('RBR/155__'), ('RBR/156__', 156))
+		j = self.client.get(reverse('kazu-id-livre'), {'id': 'RBR/155__'}).json()
+		self.assertEqual((j['livre'], j['sujere'], j['numeru']), (False, 'RBR/156__', 156))
+		self.assertTrue(self.client.get(reverse('kazu-id-livre'), {'id': 'RBR/999_X'}).json()['livre'])

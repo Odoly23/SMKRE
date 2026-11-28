@@ -6212,3 +6212,81 @@ msgstr ""
 #: kazu/views/kazu_v.py
 msgid "Dadus kazu %(kode)s atualiza ona."
 msgstr "Os dados do caso %(kode)s foram atualizados."
+
+#: kazu/forms.py
+msgid ""
+"ID Kazu \"%(k)s\" iha sistema ona. Ita bele uza ID ida ne'e: \"%(s)s\", ka "
+"Numeru kazu %(n)s."
+msgstr ""
+"O ID do caso \"%(k)s\" já existe no sistema. Pode usar este ID: \"%(s)s\", "
+"ou o número de caso %(n)s."
+
+#: kazu/templates/kazu/form.html
+msgid "ID livre — bele uza."
+msgstr "ID livre — pode usar."
+
+#: kazu/templates/kazu/form.html
+msgid "ID ne'e iha sistema ona. Ita bele uza:"
+msgstr "Este ID já existe. Pode usar:"
+
+#: users/templates/users/detail.html
+msgid "La iha (la login)"
+msgstr "Nenhuma (sem sessão)"
+
+#: users/models.py
+msgid "Sesaun ativu"
+msgstr "Sessão ativa"
+
+#: users/views/user_v.py
+msgid "Sesaun ativu %(u)s taka ona. Nia bele login fali."
+msgstr "A sessão ativa de %(u)s foi fechada. Pode entrar de novo."
+
+#: smkre/middleware.py
+msgid ""
+"Sesaun remata: konta ne'e login iha dispozitivu seluk ka Admin taka sesaun."
+msgstr ""
+"Sessão terminada: esta conta entrou noutro dispositivo ou o Admin fechou a "
+"sessão."
+
+#: users/templates/auth/login.html
+msgid "Tab foun: hatama fali password atu loke SIBAR iha tab ne'e."
+msgstr ""
+"Novo separador: introduza de novo a palavra-passe para abrir o SIBAR neste "
+"separador."
+
+#: users/views/account_v.py
+msgid "Tab ne'e iha sesaun husi utilizador seluk. Logout uluk."
+msgstr "Este separador tem a sessão de outro utilizador. Saia primeiro."
+
+#: users/templates/users/detail.html
+msgid "Taka sesaun"
+msgstr "Fechar sessão"
+
+#: users/templates/users/detail.html
+msgid ""
+"Taka sesaun ativu utilizador ne'e? Nia sai husi SIBAR iha dispozitivu ne'e "
+"no bele login fali."
+msgstr ""
+"Fechar a sessão ativa deste utilizador? Sai do SIBAR nesse dispositivo e "
+"pode entrar de novo."
+
+#: kazu/templates/kazu/form.html
+msgid "Uza ID ne'e"
+msgstr "Usar este ID"
+
+#: users/templates/users/detail.html
+msgid "ativu ikus"
+msgstr "última atividade"
+
+#: kazu/templates/kazu/form.html
+msgid "ka Numeru kazu"
+msgstr "ou número de caso"
+
+#: users/views/account_v.py
+msgid ""
+"Konta ne'e login hela iha dispozitivu seluk (%(d)s, IP %(ip)s, ativu ikus "
+"%(t)s). Logout uluk iha dispozitivu ne'e, ka kontaktu Admin atu taka sesaun."
+msgstr ""
+"Esta conta está ligada noutro dispositivo (%(d)s, IP %(ip)s, última "
+"atividade %(t)s). Saia primeiro nesse dispositivo ou contacte o Admin para "
+"fechar a sessão."

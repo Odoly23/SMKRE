@@ -6,7 +6,7 @@
 		<h2 class="mb-2">{{ legend }}</h2>
 		<div class="d-flex flex-wrap" style="gap:6px">
 			{% if can_relatoriu %}
-			<a href="{% url 'report-imprime' %}?{{ request.GET.urlencode }}" class="btn btn-outline-rbr mb-2" target="_blank" rel="noopener"><i class="fa fa-print"></i> {% trans "Imprime lista" %}</a>
+			<a href="{% url 'report-imprime' %}?{{ request.GET.urlencode }}" class="btn btn-outline-rbr mb-2"><i class="fa fa-print"></i> {% trans "Imprime lista" %}</a>
 			<a href="{% url 'report-export-excel' %}?{{ request.GET.urlencode }}" class="btn btn-outline-rbr mb-2"><i class="fa fa-file-excel-o"></i> Excel</a>
 			{% endif %}
 			{% if can_import %}<a href="{% url 'kazu-import' %}" class="btn btn-outline-rbr mb-2"><i class="fa fa-upload"></i> {% trans "Import Excel" %}</a>{% endif %}

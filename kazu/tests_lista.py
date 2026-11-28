@@ -52,6 +52,7 @@ class ListaPajinaTest(TestCase):
 
 	def test_query_konstante(self):
 		# Kódigu kmaan: númeru query la sa'e tuir kazu barak (la iha N+1)
+		self.client.get(reverse('kazu-list'))                  # dala uluk: rejista sesaun ativu
 		with CaptureQueriesContext(connection) as c10:
 			self.client.get(reverse('kazu-list'))
 		Kazu.objects.create(munisipiu=self.liq, created_by=self.inv, titulu='Foun', status=VERIFIED)

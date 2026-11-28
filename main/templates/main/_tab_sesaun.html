@@ -1,0 +1,2 @@
+{% load static %}{% url 'login' as url_login %}{% if user.is_authenticated and request.path != url_login %}<meta name="sibar-tab" content="{{ request.session.tab_ids|join:',' }}" data-login="{{ url_login }}">
+<script src="{% static 'main/js/tab_sesaun.js' %}"></script>{% endif %}

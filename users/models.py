@@ -117,3 +117,31 @@ class OfflinePermission(models.Model):
 		if not self.is_valid:
 			return 0
 		return max(0, (self.end_date - timezone.now()).days)
+
+
+# Sesaun web ativu ida de'it kada utilizador (login iha dispozitivu ida). Haree users/sesaun.py
+class SesaunAtivu(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='sesaun_ativu')
+	session_key = models.CharField(max_length=40, db_index=True)
+	token = models.CharField(max_length=40, db_index=True)        # rai mós iha sesaun (la muda bainhira Django troka session_key)
+	ip = models.GenericIPAddressField(null=True, blank=True)
+	user_agent = models.CharField(max_length=255, blank=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+	last_seen = models.DateTimeField(db_index=True)
+
+	class Meta:
+		verbose_name = _("Sesaun ativu")
+		verbose_name_plural = _("Sesaun ativu")
+
+	def __str__(self):
+		return f'{self.user.username} · {self.ip or "-"}'
+
+	# testu badak dispozitivu (husi user agent)
+	@property
+	def dispozitivu(self):
+		ua = self.user_agent or ''
+		so = next((n for k, n in (('Android', 'Android'), ('iPhone', 'iPhone'), ('iPad', 'iPad'), ('Windows', 'Windows'),
+			('Mac OS', 'Mac'), ('Linux', 'Linux')) if k in ua), '')
+		br = next((n for k, n in (('Edg/', 'Edge'), ('OPR/', 'Opera'), ('Brave', 'Brave'), ('Chrome/', 'Chrome'),
+			('Firefox/', 'Firefox'), ('Safari/', 'Safari')) if k in ua), '')
+		return ' · '.join(x for x in (br, so) if x) or '-'

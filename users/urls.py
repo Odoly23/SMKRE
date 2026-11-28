@@ -10,6 +10,7 @@ urlpatterns = [
 	path('<uuid:uuid>/edita/', user_v.PesoalUpdate, name="pesoal-update"),
 	path('<uuid:uuid>/reset-password/', user_v.UserResetPassword, name="user-reset-password"),
 	path('<uuid:uuid>/ativu/', user_v.UserActivate, name="user-activate"),
+	path('<uuid:uuid>/taka-sesaun/', user_v.UserTakaSesaun, name="user-taka-sesaun"),
 
 	# Autorizasaun offline
 	path('offline/', permission_v.OfflineList, name="offline-list"),
